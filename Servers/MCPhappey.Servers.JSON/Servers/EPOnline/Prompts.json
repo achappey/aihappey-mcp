@@ -1,0 +1,63 @@
+{
+  "prompts": [
+    {
+      "prompt": "Download het meest recente EP-Online energielabel mutatiebestand in het formaat {fileType}. Geef een directe downloadlink.",
+      "template": {
+        "name": "download-mutatiebestand-energielabel",
+        "title": "Download energielabel mutatiebestand",
+        "description": "Genereert een downloadlink voor het laatste energielabel mutatiebestand in het opgegeven formaat (csv, xlsx of xml).",
+        "arguments": [
+          {
+            "name": "fileType",
+            "description": "Bestandsformaat voor de download (csv, xlsx of xml).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Haal het energielabel op voor het pand met postcode {postcode} en huisnummer {huisnummer}. Toon de belangrijkste gegevens van het label.",
+      "template": {
+        "name": "zoek-energielabel-op-adres",
+        "title": "Zoek energielabel op adres",
+        "description": "Zoekt het energielabel van een pand op basis van postcode en huisnummer.",
+        "arguments": [
+          {
+            "name": "postcode",
+            "description": "Nederlandse postcode (bijv. 1234AB).",
+            "required": true
+          },
+          {
+            "name": "huisnummer",
+            "description": "Huisnummer.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Toon de volledige energielabeldetails voor adresseerbaar object ID {adresseerbaarObjectId}. Vermeld het gebouwtype, labelklasse en registratiedatum.",
+      "template": {
+        "name": "energielabel-op-objectid",
+        "title": "Energielabel op object ID",
+        "description": "Geeft de energielabelgegevens voor een specifiek adresseerbaar object ID.",
+        "arguments": [
+          {
+            "name": "adresseerbaarObjectId",
+            "description": "Uniek adresseerbaar object ID (12 cijfers).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Welke downloadformaten zijn beschikbaar voor het EP-Online mutatiebestand? Geef een voorbeeld downloadlink voor elk formaat.",
+      "template": {
+        "name": "lijst-mutatiebestand-formaten",
+        "title": "Lijst mutatiebestand-formaten",
+        "description": "Lijst van alle beschikbare bestandsformaten voor het downloaden van het mutatiebestand, inclusief voorbeeldlinks.",
+        "arguments": []
+      }
+    }
+  ]
+}

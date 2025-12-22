@@ -1,0 +1,15 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/ai-answers.html",
+      "name": "ai-answers-widget",
+      "description": "AI answers widget that displays answers from the different AI models.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

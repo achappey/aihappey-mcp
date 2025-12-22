@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://official-joke-api.appspot.com/jokes/random/{anyInteger}",
+      "name": "multiple-random-jokes",
+      "title": "Multiple random jokes",
+      "description": "Returns a specified number of random jokes. Replace anyInteger with any integer.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://official-joke-api.appspot.com/jokes/{jokeId}",
+      "name": "joke-by-id",
+      "title": "Joke by ID",
+      "description": "Fetches a specific joke by its unique ID. Replace jokeId with any valid joke ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

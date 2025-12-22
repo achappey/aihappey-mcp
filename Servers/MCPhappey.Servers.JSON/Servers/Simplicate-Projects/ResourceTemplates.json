@@ -1,0 +1,108 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/project/project:{projectId}?select=project_manager.,project_status.,hours_rate_type,abnormal_address,abnormal_person_id,abnormal_organization_id,organization.,person.,separate_invoice_recipient.,contact.,my_organization_profile.,divergent_payment_term.,abnormal_contact_id,created_at,updated_at,simplicate_url,is_reverse_billing,is_invoice_approval,name,billable,can_register_mileage,project_number,note,start_date,end_date,invoice_reference,employees.,budget.",
+      "name": "projectdetails",
+      "title": "Projectdetails",
+      "description": "Haalt een enkel project op via zijn ID. Let op: Het project ID is een ander veld dan projectnummer.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/project?q[name]=*{nameFilter}*&q[teams.name]=*{teamName}*&q[my_organization_profile.organization.name]=*{myOrganizationName}*&q[employees.name]=*{employeeNameFilter}*&q[project_status.id]=projectstatus:{statusIdFilter}*&q[project_manager.name]=*{managerNameFilter}*&q[organization.name]=*{orgNameFilter}*&q[start_date][ge]={startDateGE}&q[end_date][le]={endDateLE}&offset={offset}&limit={limit}&sort={sortColumn}&select=project_manager.,project_status.,hours_rate_type,abnormal_address,abnormal_person_id,abnormal_organization_id,organization.,person.,separate_invoice_recipient.,contact.,my_organization_profile.,divergent_payment_term.,abnormal_contact_id,created_at,updated_at,simplicate_url,is_reverse_billing,is_invoice_approval,name,billable,can_register_mileage,project_number,note,start_date,end_date,invoice_reference,employees.,budget.&metadata=count",
+      "name": "projecten-gefilterd",
+      "title": "Projecten (gefilterd)",
+      "description": "Haalt projecten op met filters voor naam, status, team, medewerker, projectleider, organisatie en datumbereiken.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/assignment/assignment:{assignmentId}",
+      "name": "details-projecttoewijzing",
+      "title": "Details projecttoewijzing",
+      "description": "Haalt een enkele projecttoewijzing op via zijn ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/assignment?q[project.id]=project:{projectIdFilter}*&q[status.id]=assignmentstatus:{statusIdFilter}*&q[name]=*{nameFilter}*&q[employees.name]=*{employeeNameFilter}*&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "projecttoewijzingen-gefilterd",
+      "title": "Projecttoewijzingen (gefilterd)",
+      "description": "Haalt projecttoewijzingen op met filters voor project, status, naam en toegewezen medewerkers.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/document/document:{documentId}",
+      "name": "projectdocument",
+      "title": "Projectdocument",
+      "description": "Haalt een enkel document op dat aan een project is gekoppeld via zijn ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/document?q[project.id]=project:{projectIdFilter}*&q[title]=*{titleFilter}*&q[document_type.id]=documenttype:{docTypeIdFilter}*&offset={offset}&limit={limit}&sort={sortColumn}&metadata=count",
+      "name": "projectdocumenten-gefilterd",
+      "title": "Projectdocumenten (gefilterd)",
+      "description": "Haalt documenten op die aan projecten zijn gekoppeld, met filters voor project, titel en documenttype. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/service/service:{serviceId}",
+      "name": "details-projectdienst",
+      "title": "Details projectdienst",
+      "description": "Haalt een enkele projectdienst op via zijn ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/service?q[project_id]=project:{projectIdFilter}&q[name]=*{nameFilter}*&q[invoice_method]={invoiceMethodFilter}*&offset={offset}&limit={limit}&sort={sortColumn}&select=hour_types.,invoice_date,id,start_date,end_date,name,budget,service_number",
+      "name": "projectdiensten-gefilterd",
+      "title": "Projectdiensten (gefilterd)",
+      "description": "Haalt Projectdiensten op met filters voor project, naam en facturatiemethode (bijv. 'Uren', 'Vaste prijs', 'Abonnement').",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/purchase/purchase:{purchaseId}",
+      "name": "project-inkoopregistratie",
+      "title": "Project inkoopregistratie",
+      "description": "Haalt een enkele projectinkoopregistratie op via zijn ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/purchase?q[project.id]=project:{projectIdFilter}*&q[type]={typeFilter}*&q[invoice_number]=*{invoiceNumberFilter}*&offset={offset}&limit={limit}",
+      "name": "projectinkopen-gefilterd",
+      "title": "Projectinkopen (gefilterd)",
+      "description": "Haalt projectinkoopregistraties op met filters voor project, type (bijv. 'inkoop', 'kosten/uitgaven') en factuurnummer.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/reverseinvoice/reverseinvoice:{reverseInvoiceId}",
+      "name": "project-creditfactuur",
+      "title": "Project creditfactuur",
+      "description": "Haalt een enkele projectcreditfactuur op via zijn ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/reverseinvoice?q[project.id]=project:{projectIdFilter}*&q[status]={statusFilter}*&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "project-creditfacturen-gefilterd",
+      "title": "Project creditfacturen (gefilterd)",
+      "description": "Haalt projectcreditfacturen op met filters voor project en status (bijv. 'open', 'concept', 'gefactureerd').",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/assignmentbudget?q[range_start]={rangeStart}&q[employee_id]=employee:{employeeId}&q[assignment_id]=assignment:{assignmentId}&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "details-budget-projecttoewijzing",
+      "title": "Details budget projecttoewijzing",
+      "description": "Haal budgetinformatie op (gepland bedrag, besteed bedrag etc.) van een toewijzing voor een specifieke medewerker binnen een bepaald datumbereik. 'rangeStart' moet JJJJ-MM-DD zijn.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

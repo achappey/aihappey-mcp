@@ -1,0 +1,108 @@
+{
+  "prompts": [
+    {
+      "prompt": "Maak een overzichtstabel van alle downloads op NRVT met kolommen: categorie, titel, id, bestands- of pagina-URL en indicatie of het een PDF is. Gebruik eerst ReadResourceTemplate met 'downloads-list' (optioneel met query {q}) om de lijst op te halen. Extraheer voor elke link het numerieke id uit /downloads/{id}. Voeg voor elk item een directe ReadResourceTemplate-call toe (download-by-id) om de PDF te kunnen ophalen, maar voer daadwerkelijke downloads pas uit op verzoek.",
+      "template": {
+        "name": "downloads-overzicht-lijst",
+        "title": "Downloads: volledige lijst met IDs",
+        "description": "Bouwt een tabel met alle downloads vanaf de NRVT downloadspagina, inclusief id's en links. Optioneel filter via query.",
+        "arguments": [
+          {
+            "name": "q",
+            "description": "Zoekterm om downloads te filteren (optioneel)."
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Download het NRVT-document met id {id} en geef: titel, ruwe tekstextract (indien mogelijk), en een directe verwijzing (URL). Gebruik ReadResourceTemplate met 'download-by-id'.",
+      "template": {
+        "name": "download-op-id",
+        "title": "Download document via id",
+        "description": "Haalt een specifiek document op via het /downloads/{id}-eindpunt.",
+        "arguments": [
+          {
+            "name": "id",
+            "description": "Numeriek document-id zoals zichtbaar in /downloads/{id}.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Zoek in NRVT nieuws/publicaties naar '{query}' en geef een lijst met titel, datum, type (publicatie/nieuwsbrief/nieuws) en URL. Gebruik ReadResourceTemplate met 'nieuws-list' en de parameters: pagina={pagina}, limiet={limiet}, q={query}, filters[article_type][0]={articleType}. Voeg onderaan de bron-URL(s) toe.",
+      "template": {
+        "name": "nieuws-en-publicaties-zoeken",
+        "title": "Zoek in nieuws/publicaties",
+        "description": "Doorzoekt nieuws en publicaties met parameters pagina, limiet, query en articleType.",
+        "arguments": [
+          {
+            "name": "query",
+            "description": "Zoekterm.",
+            "required": true
+          },
+          {
+            "name": "articleType",
+            "description": "Filter: 'publications' of 'newsletter' (optioneel)."
+          },
+          {
+            "name": "pagina",
+            "description": "Paginanummer (default 1)."
+          },
+          {
+            "name": "limiet",
+            "description": "Aantal per pagina (default 10)."
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef een gestructureerde lijst van alle Reglementen, Praktijkhandreikingen, Toelichtingen en Internationale regelgeving (IVS/EVS) zoals vermeld op de pagina Reglementen en praktijkhandreikingen. Gebruik ReadResourceTemplate 'regelgeving-reglementen-en-praktijkhandreikingen'. Neem per item op: categorie, titel, URL of download-id (indien aanwezig) en korte samenvatting (2-3 zinnen).",
+      "template": {
+        "name": "regelgeving-overzicht",
+        "title": "Reglementen en praktijkhandreikingen (overzicht)",
+        "description": "Maakt een overzicht met indeling per categorie inclusief links en korte samenvatting.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Inventariseer de documenten bij het Model Taxatierapport Woonruimte ({versie}) en som op: Opdrachtvoorwaarden, Modelrapport, Bouwkundige opnamestaat (+ toelichting), Energetische opnamestaat (+ toelichting), en eventuele aanvullende documenten. Gebruik ReadResourceTemplate 'regelgeving-model-taxatierapporten' en filter de sectie voor {versie} (bijv. 2025 of 2024).",
+      "template": {
+        "name": "model-taxatierapport-woonruimte-bijlagen",
+        "title": "Model Taxatierapport Woonruimte documenten",
+        "description": "Lijst van alle bijbehorende documenten per versie (2024/2025).",
+        "arguments": [
+          {
+            "name": "versie",
+            "description": "Jaar/versie aanduiding, bijv. '2025' of '2024'.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef de tuchtreglementen met hun 'Vastgesteld op'-datum en link. Gebruik ReadResourceTemplate 'tucht-reglementen'. Maak een tabel met kolommen: Titel, Vastgesteld op, URL. Voeg onderaan de bron-URL toe.",
+      "template": {
+        "name": "tuchtreglementen-met-datum",
+        "title": "Tuchtreglementen (met vaststellingsdatum)",
+        "description": "Extraheert titel, vaststellingsdatum en link van de tuchtreglementen.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Voer een sitesearch uit op nrvt.nl naar '{q}' en retourneer relevante pagina's en/of PDF-links met een korte beschrijving. Gebruik ReadResourceTemplate 'site-search'.",
+      "template": {
+        "name": "nrvt-sitesearch",
+        "title": "Zoeken op nrvt.nl",
+        "description": "Algemene sitesearch over nrvt.nl voor onderzoek.",
+        "arguments": [
+          {
+            "name": "q",
+            "description": "Zoekterm.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

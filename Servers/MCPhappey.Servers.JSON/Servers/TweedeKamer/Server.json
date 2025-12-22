@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "TweedeKamer",
+    "title": "Tweede Kamer der Staten-Generaal",
+    "version": "1.0.0",
+    "websiteUrl": "https://gegevensmagazijn.tweedekamer.nl",
+    "description": "Informatie en documenten van de Tweede Kamer, openbaar beschikbaar.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNFweh5EWE1Szut4pCdHfkLVYLTAcT7mFRqw&s"
+      }
+    ]
+  },
+  "instructions": "Verken wanneer nodig alle openbare gegevens van de Tweede Kamer, niet alleen de genoemde resources. Gebruik filters om resultaten te beperken en datasets klein te houden."
+}

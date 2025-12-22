@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Uren per medewerker</title>
+
+    <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+    <script src="%HOST_URL%/widget-base.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js"></script>
+    <script src="%HOST_URL%/chatapp-header.js" defer></script>
+    <script src="%HOST_URL%/chatapp-chart.js" defer></script>
+    <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .body {
+            flex: 1;
+            padding: 8px;
+            display: flex;
+            height: 100%;
+        }
+
+        chart-js {
+            width: 100%;
+        }
+    </style>
+
+    <script>
+        window.paretoHoursByEmployee = function () {
+            return {
+                data: window.openai?.toolOutput || null,
+                input: window.openai?.toolInput || null,
+                init() {
+                    widgetBase.syncOpenAI(this);
+                    const ui = Alpine.store('ui');
+                    if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+                    this.$nextTick(() => this.load());
+                },
+                load() {
+                    this.$nextTick(() => {
+                        const arr = Array.isArray(this.data?.results)
+                            ? this.data.results
+                            : [];
+                        const el = this.$refs.chart;
+                        if (!el || !arr.length) return;
+
+                        // 🧮 Aggregate totals per employee
+                        const employees = arr
+                            .map(e => ({
+                                name: e.label || "(unknown)",
+                                hours: Number(e.totals?.totalHours || 0),
+                                amount: Number(e.totals?.totalAmount || 0)
+                            }))
+                            .filter(e => e.amount > 0)
+                            .sort((a, b) => b.amount - a.amount);
+
+                        const labels = employees.map(e => e.name);
+                        const hours = employees.map(e => e.amount);
+                        const total = hours.reduce((a, b) => a + b, 0);
+
+                        // 📈 Compute cumulative %
+                        let running = 0;
+                        const cumulative = hours.map(v => {
+                            running += v;
+                            return (running / total * 100).toFixed(1);
+                        });
+
+                        const data = {
+                            labels,
+                            datasets: [
+                                {
+                                    label: "Totaal bedrag",
+                                    data: hours,
+                                    backgroundColor: "rgba(54,162,235,0.7)",
+                                    borderRadius: 3,
+                                    yAxisID: "y"
+                                },
+                                {
+                                    label: "Cumulatief %",
+                                    data: cumulative,
+                                    type: "line",
+                                    yAxisID: "y1",
+                                    borderColor: "#e15759",
+                                    borderWidth: 2,
+                                    tension: 0.3
+                                }
+                            ]
+                        };
+
+                        const options = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: { duration: 0 },
+                            scales: {
+                                x: {
+                                    ticks: { display: false },
+                                    title: {
+                                        display: true,
+                                        text: "Medewerkers (gesorteerd op totaal aantal bedrag)",
+                                        font: { size: 11 }
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    title: { display: true, text: "Totaal bedrag" },
+                                    grid: { color: "rgba(0,0,0,0.05)" }
+                                },
+                                y1: {
+                                    beginAtZero: true,
+                                    position: "right",
+                                    grid: { drawOnChartArea: false },
+                                    title: { display: true, text: "Cumulatief %" },
+                                    ticks: { callback: val => val + "%" }
+                                }
+                            },
+                            plugins: {
+                                legend: { position: "bottom" },
+                                tooltip: {
+                                    mode: "index",
+                                    intersect: false,
+                                    callbacks: {
+                                        title: (ctx) => labels[ctx[0].dataIndex],
+                                        label: (ctx) => {
+                                            const lbl = ctx.dataset.label;
+                                            const val = ctx.parsed.y;
+                                            return lbl.includes("%")
+                                                ? `${lbl}: ${val}%`
+                                                : `${lbl}: ${val.toLocaleString("nl-NL", { minimumFractionDigits: 0 })}`;
+                                        }
+                                    }
+                                }
+                            }
+                        };
+
+                        el.update({ type: "bar", data, options, height: 280 });
+                    });
+                }
+            };
+        };
+    </script>
+</head>
+
+<body>
+    <div x-data="paretoHoursByEmployee()" x-init="init()" style="display:flex; flex-direction:column; height:100%;">
+        <chatapp-header text="Uren per medewerker" no-fullscreen></chatapp-header>
+        <div class="body">
+            <chatapp-chart x-ref="chart"></chatapp-chart>
+        </div>
+    </div>
+
+    <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

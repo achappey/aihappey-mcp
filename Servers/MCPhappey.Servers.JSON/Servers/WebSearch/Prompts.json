@@ -1,0 +1,34 @@
+{
+  "prompts": [
+    {
+      "prompt": "You are an expert AI with live web access. Answer the following user question by searching the web for the most accurate and up-to-date information. Cite your main sources or URLs if available. Be concise but include relevant details.\n\nQuestion:\n###\n{query}\n###\n",
+      "template": {
+        "name": "ai-websearch-answer",
+        "title": "Websearch answer",
+        "description": "Use AI web access to answer a user query",
+        "arguments": [
+          {
+            "name": "query",
+            "description": "Search query",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are an academic research assistant with access to peer-reviewed journals, scholarly databases, and academic search engines. Answer the following user question by searching for the most credible, up-to-date academic sources. Provide a concise summary, highlight key findings, and always cite your primary sources (e.g., DOI, journal name, author, year, or a direct URL to the publication).\n\nQuestion:\n###\n{query}\n###\n",
+      "template": {
+        "name": "ai-academic-research-answer",
+        "title": "Academic research answer",
+        "description": "Use academic sources to answer a user query with citations to peer-reviewed literature.",
+        "arguments": [
+          {
+            "name": "query",
+            "description": "Academic research question or search query",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

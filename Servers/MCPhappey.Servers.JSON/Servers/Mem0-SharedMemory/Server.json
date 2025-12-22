@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Mem0-SharedMemory",
+    "title": "Mem0 Shared Memory",
+    "version": "1.0.0",
+    "websiteUrl": "https://mem0.ai",
+    "description": "Shares useful knowledge across users so teams stay aligned without repeating information.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/137054526?v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Mem0.Mem0SharedService, MCPhappey.Tools",
+    "MCPhappey.Tools.Mem0.Mem0FeedbackService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "resourceTemplates": [
+    {
+      "name": "nieuws-artikel",
+      "title": "Nieuwsartikel detail",
+      "uriTemplate": "https://www.capitalvalue.nl/nieuws/{slug}/",
+      "description": "Individuele nieuwsartikelen.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "insights-artikel",
+      "title": "Insights artikel detail",
+      "uriTemplate": "https://www.capitalvalue.nl/insights/{slug}/",
+      "description": "Individuele insights/analyses.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "blog-artikel",
+      "title": "Blogartikel detail",
+      "uriTemplate": "https://www.capitalvalue.nl/blogs/{slug}/",
+      "description": "Individuele blogs.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "event-detail",
+      "title": "Event detailpagina",
+      "uriTemplate": "https://www.capitalvalue.nl/events/{slug}/",
+      "description": "Event detailpagina’s (Shared Value, PROVADA, etc.).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "case-detail",
+      "title": "Case detailpagina",
+      "uriTemplate": "https://www.capitalvalue.nl/cases/{slug}/",
+      "description": "Individuele casepagina’s.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "team-profiel",
+      "title": "Teamprofiel detail",
+      "uriTemplate": "https://www.capitalvalue.nl/human-capital/team/{slug}/",
+      "description": "Profielpagina’s van medewerkers.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "woningvastgoed-subpage",
+      "title": "Subpagina Woningvastgoed",
+      "uriTemplate": "https://www.capitalvalue.nl/woningvastgoed/{slug}/",
+      "description": "Subpagina’s binnen Woningvastgoed (o.a. transacties, taxaties, consultancy-producten).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "zorgvastgoed-subpage",
+      "title": "Subpagina Zorgvastgoed",
+      "uriTemplate": "https://www.capitalvalue.nl/zorgvastgoed/{slug}/",
+      "description": "Subpagina’s binnen Zorgvastgoed (o.a. transacties, taxaties, consultancy-producten).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "consultancy-woning-subpage",
+      "title": "Consultancy subpagina Woningvastgoed",
+      "uriTemplate": "https://www.capitalvalue.nl/woningvastgoed/consultancy/{slug}/",
+      "description": "Consultancy-producten/onderzoek (woningvastgoed).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "consultancy-zorg-subpage",
+      "title": "Consultancy subpagina Zorgvastgoed",
+      "uriTemplate": "https://www.capitalvalue.nl/zorgvastgoed/consultancy/{slug}/",
+      "description": "Consultancy-producten/onderzoek (zorgvastgoed).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "en-news-article",
+      "title": "EN News article detail",
+      "uriTemplate": "https://www.capitalvalue.nl/en/news/{slug}/",
+      "description": "EN: individuele nieuwsartikelen.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "en-insights-article",
+      "title": "EN Insights article detail",
+      "uriTemplate": "https://www.capitalvalue.nl/en/insights/{slug}/",
+      "description": "EN: individuele insights/analyses.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "en-events-detail",
+      "title": "EN Event detailpagina",
+      "uriTemplate": "https://www.capitalvalue.nl/en/events/{slug}/",
+      "description": "EN: event detailpagina’s.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "en-residential-subpage",
+      "title": "EN Residential subpage",
+      "uriTemplate": "https://www.capitalvalue.nl/en/residential-real-estate/{slug}/",
+      "description": "EN: subpagina’s Residential (transactions, valuations, consultancy, research).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "en-healthcare-subpage",
+      "title": "EN Healthcare subpage",
+      "uriTemplate": "https://www.capitalvalue.nl/en/healthcare-real-estate/{slug}/",
+      "description": "EN: subpagina’s Healthcare (transactions, valuations, consultancy, research).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "site-search",
+      "title": "Site zoekfunctie",
+      "uriTemplate": "https://www.capitalvalue.nl/?s={q}",
+      "description": "Zoekfunctie over de hele site (WordPress search).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "media-bestand",
+      "title": "Mediabestand toegang",
+      "uriTemplate": "https://www.capitalvalue.nl/wp-content/uploads/{path}",
+      "description": "Directe toegang tot mediabestanden (afbeeldingen, pdf’s, figuren).",
+      "mimeType": "application/octet-stream",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

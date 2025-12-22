@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "TenderNed",
+    "title": "TenderNed",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.tenderned.nl",
+    "description": "Zoek en analyseer NL-aanbestedingen, publicaties en gunningen voor marktverkenning en inschrijvingen.",
+    "icons": [
+      {
+        "src": "https://www.detirrel.nl/wp-content/uploads/2019/01/logo-tenderned.png"
+      }
+    ]
+  }
+}

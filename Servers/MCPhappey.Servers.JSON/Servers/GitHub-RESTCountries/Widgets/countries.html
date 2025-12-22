@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Countries</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-carousel.js" defer></script>
+  <script src="%HOST_URL%/chatapp-card.js" defer></script>
+
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+  <script>
+    window.countriesWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        countries: [],
+        count: 0,
+        requestDisplayMode: window.openai?.requestDisplayMode,
+        maxHeight: window.openai?.maxHeight,
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          //   document.querySelector("chat-header").addEventListener("modechange", e => {
+          //    window.openai?.requestDisplayMode?.({ mode: e.detail.mode });
+          // });
+
+          this.load();
+        },
+        load() {
+          const arr = this.data?.countries ?? [];
+          this.countries = Array.isArray(arr) ? arr : [];   // <- fill
+          this.count = this.countries.length;
+        },
+        listLanguages(langs) {
+          return Object.values(langs || {}).join(', ');
+        },
+        listCurrencies(curr) {
+          return Object.values(curr || {}).map(c => c.name).join(', ');
+        }
+      };
+    };
+  </script>
+
+  <style>
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 10px;
+      font-size: 0.85rem;
+    }
+
+    .info-grid div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-weight: 500;
+      color: var(--card-color, #111);
+    }
+  </style>
+</head>
+
+<body>
+  <div x-data="countriesWidget()" x-init="init()"
+    style="display:flex; flex-direction:column; height:100%; overflow: hidden;">
+    <chatapp-header text="Countries" no-fullscreen></chatapp-header>
+    <chatapp-carousel style="flex:1; min-height:0;">
+      <template x-for="c in countries" :key="c.cca3">
+        <chatapp-card :image="c.flags?.png || ''" :title="c.name?.official" :description="c.region || ''">
+          <div slot="content">
+            <div class="info-grid">
+              <div>
+                <span class="info-label">Capital</span>
+                <span x-text="(c.capital && c.capital[0]) || '—'"></span>
+              </div>
+              <div>
+                <span class="info-label">Timezone</span>
+                <span x-text="(c.timezones && c.timezones[0]) || '—'"></span>
+              </div>
+              <div>
+                <span class="info-label">Currency</span>
+                <span x-text="listCurrencies(c.currencies) || '—'"></span>
+              </div>
+              <div>
+                <span class="info-label">Languages</span>
+                <span x-text="listLanguages(c.languages) || '—'"></span>
+              </div>
+              <div>
+                <span class="info-label">Driving Side</span>
+                <span x-text="c.car?.side || '—'"></span>
+              </div>
+              <div>
+                <span class="info-label">Start of Week</span>
+                <span x-text="c.startOfWeek || '—'"></span>
+              </div>
+            </div>
+          </div>
+          <button slot="actions" x-show="c.maps?.googleMaps" @click.prevent="window.open(c.maps?.googleMaps, '_blank')">
+            Google Maps
+          </button>
+          <button slot="actions" x-show="c.maps?.openStreetMaps"
+            @click.prevent="window.open(c.maps?.openStreetMaps, '_blank')">
+            OpenStreetMap
+          </button>
+        </chatapp-card>
+      </template>
+    </chatapp-carousel>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Microsoft365-Me",
+    "title": "Microsoft 365 Me",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.office.com",
+    "description": "Access your Microsoft 365 profile, files and people to enable personal and connected workflows.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Microsoft_365_%282022%29.svg/1862px-Microsoft_365_%282022%29.svg.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All https://graph.microsoft.com/People.Read.All"
+  }
+}

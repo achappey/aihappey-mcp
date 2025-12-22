@@ -1,0 +1,27 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Licensing",
+    "title": "Microsoft Licensing",
+    "version": "1.0.0",
+    "description": "View and manage Microsoft 365 licenses for users and groups.",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Licensing.GraphLicensing, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/LicenseAssignment.ReadWrite.All"
+  },
+  "tools": {
+    "graph_users_get_user_skus_per_department": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/department_user_skus.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

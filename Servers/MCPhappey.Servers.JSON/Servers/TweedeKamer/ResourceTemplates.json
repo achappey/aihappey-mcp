@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Persoon?$filter=Verwijderd eq false and (Functie eq '{functie}')&$select=Id,Achternaam,Roepnaam,FractieZetelPersoon",
+      "name": "personen",
+      "title": "Zoek personen",
+      "description": "Zoekt personen op functie of rol binnen de Tweede Kamer.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Zaak?$filter=Verwijderd eq false and Soort eq '{soort}'&$orderby=Datum desc&$top={top}",
+      "name": "zaken",
+      "title": "Zoek zaken of moties",
+      "description": "Geeft recente zaken of moties op type en aantal resultaten.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Document?$filter=Verwijderd eq false and contains(Onderwerp,'{onderwerp}')&$top={top}&$select=Id,Titel,Datum",
+      "name": "documenten",
+      "title": "Zoek documenten",
+      "description": "Zoekt Kamerstukken met een onderwerp of trefwoord.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Stemming?$filter=Verwijderd eq false and Onderwerp ne null&$orderby=DatumStemming {volgorde}&$top={top}",
+      "name": "stemmingen",
+      "title": "Bekijk stemmingen",
+      "description": "Geeft stemmingsuitslagen op, gesorteerd en beperkt in aantal.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Commissie?$filter=Verwijderd eq false&$select=NaamNL,Afkorting&$orderby=NaamNL {volgorde}",
+      "name": "commissies",
+      "title": "Bekijk commissies",
+      "description": "Toont commissies, alfabetisch of op andere volgorde.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

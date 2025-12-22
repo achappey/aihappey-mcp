@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "GitHub-GEmojiSharp",
+    "title": "GitHub GEmojiSharp",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/hlaueriksson/GEmojiSharp",
+    "description": "Convert emoji codes like :tada: to real emoji and find emoji by keyword or tone.",
+    "icons": [
+      {
+        "src": "https://api.nuget.org/v3-flatcontainer/gemojisharp/4.0.0/icon"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.GEmojiSharp.GEmojiSharpService, MCPhappey.Tools"
+  ]
+}

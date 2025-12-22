@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "DocumentHighlighter",
+    "title": "Document Highlighter",
+    "version": "1.0.0",
+    "description": "Highlights key sentences and essential points so you see what matters without reading the full document."
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.DocumentHighlighter, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

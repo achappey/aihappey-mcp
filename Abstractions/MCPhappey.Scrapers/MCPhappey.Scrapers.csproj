@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\MCPhappey.Common\MCPhappey.Common.csproj" PrivateAssets="All" />
+    <ProjectReference Include="..\MCPhappey.Auth\MCPhappey.Auth.csproj" PrivateAssets="All" />
+  </ItemGroup>  
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Graph.Beta" Version="5.128.0-preview" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,172 @@
+{
+  "resources": [
+    {
+      "uri": "https://www.nvm.nl/",
+      "name": "nvm-home",
+      "title": "NVM homepage",
+      "description": "Startpunt voor alle secties (Wonen, Business, Agrarisch & Landelijk) en nieuws.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/wonen/marktinformatie/",
+      "name": "koopwoningmarkt-overview",
+      "title": "Marktinformatie koopwoningen",
+      "description": "Actuele kerncijfers, COROP-downloads en bijlagen (bestaande bouw en nieuwbouw).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/wonen/marktinformatie/nieuwbouw/",
+      "name": "nieuwbouw-marktinformatie",
+      "title": "Marktinformatie nieuwbouw",
+      "description": "Subsectie met focus op nieuwbouwcijfers en context.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/wonen/marktinformatie/huurmarkt/",
+      "name": "huurmarkt-marktinformatie",
+      "title": "Marktinformatie huurmarkt",
+      "description": "Subsectie met focus op huurmarktcijfers en context.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/business/",
+      "name": "nvm-business-landing",
+      "title": "NVM Business",
+      "description": "Landing voor commercieel vastgoed (kantoren, bedrijfsruimte, logistiek, winkels), kennisplatform en publicaties.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/media/yr1flv5v/ontwikkelingen-commercieel-vastgoed-q2-2025.pdf",
+      "name": "nvm-business-q2-2025",
+      "title": "Ontwikkelingen commercieel vastgoed - 2e kwartaal 2025",
+      "description": "Kwartaalrapport NVM Business over kantoren, bedrijfsruimte/logistiek, winkels, beleggingen en funda in business zoekverkeer.",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/media/eg3pnqyn/bijlage-1-analyse-woningmarkt-2e-kwartaal-2025.pdf",
+      "name": "bijlage-1-woningmarkt-q2-2025",
+      "title": "Bijlage 1 - Analyse woningmarkt Q2 2025",
+      "description": "NVM-analyse van de koopwoningmarkt (landelijk en methodiek).",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/media/dqchi2aq/bijlage-2-marktoverzicht-bestaande-bouw-nederland-2e-kwartaal-2025.pdf",
+      "name": "bijlage-2-bestaande-bouw-q2-2025",
+      "title": "Bijlage 2 - Marktoverzicht bestaande bouw Nederland Q2 2025",
+      "description": "Overzichtscijfers voor bestaande bouw (landelijk).",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/media/055pov2k/bijlage-3-marktoverzicht-nieuwbouw-nederland-2e-kwartaal-2025.pdf",
+      "name": "bijlage-3-nieuwbouw-q2-2025",
+      "title": "Bijlage 3 - Marktoverzicht nieuwbouw Nederland Q2 2025",
+      "description": "Overzichtscijfers voor nieuwbouw (landelijk).",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/media/2grfyllk/gebiedsindeling-corop-en-gemeenten.pdf",
+      "name": "corop-indeling",
+      "title": "Gebiedsindeling COROP en gemeenten",
+      "description": "Naslagdocument voor COROP-regio's en gemeentelijke indeling.",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/nieuws/",
+      "name": "news-overview",
+      "title": "Nieuws overzicht",
+      "description": "Overzicht van NVM-nieuws en persberichten (met jaarspecifieke artikel-URL's).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/rss",
+      "name": "news-rss",
+      "title": "NVM RSS-feed",
+      "description": "RSS-feed met de laatste NVM-berichten.",
+      "mimeType": "application/rss+xml",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/over-nvm/",
+      "name": "about-nvm",
+      "title": "Over NVM",
+      "description": "Informatie over de vereniging, NVM Holding, team en organisatie.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.nvm.nl/agrarisch-landelijk/",
+      "name": "agrarisch-landelijk",
+      "title": "Agrarisch & Landelijk",
+      "description": "Landing voor agrarisch en landelijk vastgoed (verkopen, taxeren, specialist vinden).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

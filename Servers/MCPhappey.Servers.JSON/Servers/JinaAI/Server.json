@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "JinaAI",
+    "title": "Jina AI",
+    "version": "1.0.0",
+    "websiteUrl": "https://jina.ai",
+    "description": "Reads, searches, and summarizes web content and research papers in clean text form.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/jina.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/jina.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "baseMcp": "mcp.jina.ai",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

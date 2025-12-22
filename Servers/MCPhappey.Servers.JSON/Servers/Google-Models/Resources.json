@@ -1,0 +1,56 @@
+{
+  "resources": [
+    {
+      "uri": "https://storage.googleapis.com/model-cards/documents/gemini-2.5-pro.pdf",
+      "name": "gemini-2-5-pro-model-card",
+      "title": "Gemini 2.5 Pro Model Card",
+      "description": "Official model card PDF for Gemini 2.5 Pro, describing model architecture, capabilities, safety, limitations, and benchmark results.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-2-5-Flash-Model-Card.pdf",
+      "name": "gemini-2-5-flash-model-card",
+      "title": "Gemini 2.5 Flash Model Card",
+      "description": "Official model card PDF for Gemini 2.5 Flash, covering the lighter, faster Gemini variant including model capabilities, use cases, and limitations.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://storage.googleapis.com/deepmind-media/Model-Cards/Imagen-4-Model-Card.pdf",
+      "name": "imagen-4-model-card",
+      "title": "Imagen 4 Model Card",
+      "description": "Official model card PDF for Imagen 4, DeepMind's advanced text-to-image diffusion model, covering model design, data, capabilities, and limitations.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-Robotics-On-Device-Model-Card.pdf",
+      "name": "deepmind-gemini-robotics-on-device-model-card",
+      "title": "DeepMind Gemini Robotics On-Device Model Card",
+      "description": "Official model card PDF for Gemini Robotics On-Device (DeepMind), detailing architecture, deployment, safety considerations, performance benchmarks, and use-case guidance for running robotics models on device.",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

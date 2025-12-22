@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Perplexity Search Results</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-carousel.js" defer></script>
+  <script src="%HOST_URL%/chatapp-card.js" defer></script>
+
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+  <script>
+    window.searchResultsWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        input: window.openai?.toolInput || null,
+        results: [],
+        count: 0,
+        requestDisplayMode: window.openai?.requestDisplayMode,
+        maxHeight: window.openai?.maxHeight,
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          //  document.querySelector("chat-header").addEventListener("modechange", e => {
+          //   window.openai?.requestDisplayMode?.({ mode: e.detail.mode });
+          //});
+
+          this.load();
+        },
+        getDomain(u) {
+          try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return ""; }
+        },
+        favicon(u) {
+          const d = this.getDomain(u);
+          return d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=64` : "";
+        },
+        getHeader() {
+          return `Perplexity: ${this.input?.query ?? ''} (${this.count})`;
+        },
+        load() {
+          const arr = this.data?.results ?? [];
+          this.results = Array.isArray(arr) ? arr : [];   // <- fill
+          this.count = this.results.length;
+        }
+      };
+    };
+  </script>
+
+  <style>
+    .info-label {
+      font-weight: 500;
+      color: var(--card-color, #111);
+    }
+
+    .snippet {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      font-size: small;
+      /* Limit to 4 lines */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      line-height: 1.4;
+      /* Adjust as needed */
+    }
+  </style>
+</head>
+
+<body>
+  <div x-data="searchResultsWidget()" x-init="init()"
+    style="display:flex; flex-direction:column; height:100%; overflow: hidden;">
+    <chatapp-header :text="getHeader()" no-fullscreen></chatapp-header>
+    <chatapp-carousel style="flex:1; min-height:0;">
+      <template x-for="c in results" :key="c.url">
+        <chatapp-card :image="favicon(c.url)" :title="c.title"
+          :description="(getDomain(c.url) && c.date) ? `${c.date} - ${getDomain(c.url)}` : '—'">
+          <div slot="content">
+            <div x-html="markdownToText(c.snippet || '')" class="snippet">
+            </div>
+          </div>
+          <button slot="actions" @click.prevent="window.open(c.url, '_blank')">
+            Open
+          </button>
+          <button slot="actions"
+            @click.prevent="window.askFollowup('Explore deeper insights based on this search result: ' + c.title + '. Summarize key points, find related topics or trends, and suggest one meaningful next question to ask.')">
+            Discover more
+          </button>
+        </chatapp-card>
+      </template>
+    </chatapp-carousel>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/windowsUpdateForBusinessConfigurations/{configurationId}",
+      "name": "get-wufb-configuration",
+      "title": "Get Windows Update for Business configuration",
+      "description": "Gets the details of a specific Windows Update for Business configuration by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/deviceCompliancePolicies/{policyId}",
+      "name": "get-device-compliance-policy",
+      "title": "Get device compliance policy",
+      "description": "Gets the details of a specific device compliance policy by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/deviceConfigurations/{configurationId}",
+      "name": "get-device-configuration",
+      "title": "Get device configuration",
+      "description": "Gets the details of a specific device configuration (including update settings) by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

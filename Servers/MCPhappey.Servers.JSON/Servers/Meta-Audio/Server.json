@@ -1,0 +1,29 @@
+{
+  "serverInfo": {
+    "name": "Meta-Audio",
+    "title": "Meta Audio",
+    "version": "1.0.0",
+    "description": "One interface for all audio: text-to-speech, speech-to-text and analysis across AI providers."
+  },
+  "plugins": [
+    "MCPhappey.Tools.Google.Audio.GoogleAudio, MCPhappey.Tools",
+    "MCPhappey.Tools.Together.Audio.TogetherAudio, MCPhappey.Tools",
+    "MCPhappey.Tools.OpenAI.Audio.OpenAIAudio, MCPhappey.Tools",
+    "MCPhappey.Tools.StabilityAI.StabilityAIAudioService, MCPhappey.Tools",
+    "MCPhappey.Tools.AsyncAI.AsyncAIService, MCPhappey.Tools",
+    "MCPhappey.Tools.Azure.Speech.AzureSpeechService, MCPhappey.Tools",
+    "MCPhappey.Tools.AI.AudioPlugin, MCPhappey.Tools",
+    "MCPhappey.Tools.Mistral.Audio.AudioPlugin, MCPhappey.Tools",
+    "MCPhappey.Tools.ElevenLabs.ElevenLabsAudio, MCPhappey.Tools",
+    "MCPhappey.Tools.Groq.Audio.GroqAudio, MCPhappey.Tools",
+    "MCPhappey.Tools.AIML.Music.AIMLMusic, MCPhappey.Tools",
+    "MCPhappey.Tools.Runway.Audio.RunwayAudio, MCPhappey.Tools",
+    "MCPhappey.Tools.AIML.Audio.AIMLAudio, MCPhappey.Tools",
+    "MCPhappey.Tools.Runware.Audio.RunwareAudio, MCPhappey.Tools",
+    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools",
+    "MCPhappey.Tools.EdenAI.Audio.EdenAIAudio, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

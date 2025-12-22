@@ -1,0 +1,44 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users?$filter={userFilter}&$top=100&$select=id,displayName,userPrincipalName,mail,givenName,surname,jobTitle,department,officeLocation,accountEnabled,createdDateTime",
+      "name": "filtered-users",
+      "title": "Filtered users",
+      "description": "Flexible user listing: filter by any supported property. Example filters: startswith(displayName,'Arthur'), department eq 'HR', accountEnabled eq true, etc. Replace {userFilter} as needed.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}",
+      "name": "user-details",
+      "title": "User details by ID",
+      "description": "Retrieve detailed info for a specific user by user ID or UPN.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/memberOf",
+      "name": "user-groups",
+      "title": "User's groups and roles",
+      "description": "Lists all groups and directory roles for a user.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/manager",
+      "name": "user-manager",
+      "title": "User's manager",
+      "description": "Gets the manager of a specific user.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/directReports",
+      "name": "user-direct-reports",
+      "title": "User's direct reports",
+      "description": "Lists all users who report directly to the specified user.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

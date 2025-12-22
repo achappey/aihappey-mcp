@@ -1,0 +1,103 @@
+{
+  "resources": [
+    {
+      "uri": "https://coelo.nl/page-sitemap.html",
+      "name": "alle-coelo-paginas",
+      "title": "Alle COELO pagina's",
+      "description": "Sitemap van alle COELO pagina's",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.7
+      }
+    },
+    {
+      "uri": "https://coelo.nl/post-sitemap.html",
+      "name": "sitemap-van-coelo-posts",
+      "title": "Sitemap van COELO posts",
+      "description": "Overzicht van alle COELO nieuwsberichten, etc.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.7
+      }
+    },
+    {
+      "uri": "https://coelo.nl/images/rapporten/Atlas2025_rapport.pdf",
+      "name": "atlas-lokale-lasten-2025",
+      "title": "Atlas lokale lasten 2025",
+      "description": "De Atlas van de lokale lasten is een jaarlijks overzicht van de heffingen van gemeenten, provincies en waterschappen.",
+      "mimeType": "text/plain",
+      "size": 251697,
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ],
+        "priority": 0.6
+      }
+    },
+    {
+      "uri": "https://coelo.nl/images/rapporten/Atlas2024_rapport.pdf",
+      "name": "atlas-lokale-lasten-2024",
+      "title": "Atlas lokale lasten 2024",
+      "description": "De Atlas van de lokale lasten is een jaarlijks overzicht van de heffingen van gemeenten, provincies en waterschappen.",
+      "mimeType": "text/plain",
+      "size": 249723,
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ],
+        "priority": 0.5
+      }
+    },
+    {
+      "uri": "https://www.coelo.nl/images/rapporten/Atlas_2023_rapport.pdf",
+      "name": "atlas-lokale-lasten-2023",
+      "title": "Atlas lokale lasten 2023",
+      "description": "De Atlas van de lokale lasten is een jaarlijks overzicht van de heffingen van gemeenten, provincies en waterschappen.",
+      "mimeType": "text/plain",
+      "size": 266790,
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ],
+        "priority": 0.4
+      }
+    },
+    {
+      "uri": "https://www.coelo.nl/images/rapporten/Coelo_Atlas_van_de_lokale_lasten_2022.pdf",
+      "name": "atlas-lokale-lasten-2022",
+      "title": "Atlas lokale lasten 2022",
+      "description": "De Atlas van de lokale lasten is een jaarlijks overzicht van de heffingen van gemeenten, provincies en waterschappen.",
+      "mimeType": "text/plain",
+      "size": 266792,
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ],
+        "priority": 0.3
+      }
+    },
+    {
+      "uri": "https://coelo.nl/woonlasten/Lokale-lasten-calculator-2025-a.php",
+      "name": "lokale-lasten-calculator-ids",
+      "title": "Lokale lasten calculator gemeente IDs",
+      "description": "COELO lokale lasten calculator. Gebruik deze pagina om de IDs van gemeentes op te zoeken. Haal hiervoor de raw html op. Gebruik deze css selector om te zoeken (let op de wildcard): [name='gem_id1'] *",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.8
+      }
+    }
+  ]
+}

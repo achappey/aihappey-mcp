@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Workbooks",
+    "title": "Microsoft Workbooks",
+    "version": "1.0.0",
+    "websiteUrl": "https://excel.cloud.microsoft",
+    "description": "Read and update Excel files: edit sheets, tables and charts through Microsoft 365.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Microsoft_Office_Excel_%282025%E2%80%93present%29.svg/1166px-Microsoft_Office_Excel_%282025%E2%80%93present%29.svg.png"
+      }
+    ]
+  },
+  "instructions": "Always use the ReadResource tool with Graph API urls to search and find information. Only use other tools when items need to be created, updated or deleted.",
+  "plugins": [
+    "MCPhappey.Tools.Graph.Workbooks.GraphWorkbooks, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Files.ReadWrite"
+  }
+}

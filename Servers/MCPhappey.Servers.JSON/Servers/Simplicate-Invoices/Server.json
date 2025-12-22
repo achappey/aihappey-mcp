@@ -1,0 +1,44 @@
+{
+  "serverInfo": {
+    "name": "Simplicate-Invoices",
+    "title": "Simplicate Facturen",
+    "version": "1.0.0",
+    "description": "Bekijk en volg verkoopfacturen, creditfacturen en betalingen in Simplicate.",
+    "icons": [
+      {
+        "src": "https://developer.simplicate.com/images/simplicate_icon.png"
+      }
+    ]
+  },
+  "instructions": "Payloads without select query string parameters are very large.\nRelated entities use a '.' behind the field name in select queries.\nBeware of the difference between invoice_id and invoice_number. Total item count is returned in list responses. Use limit=1 with filters to count totals of large datasets. There is NO need to include unused filter properties in resources. Resource templates are only supplied with all options to show all working options compact.",
+  "headers": {
+    "Authentication-Key": "Simplicate Api Key",
+    "Authentication-Secret": "Simplicate Api Secret"
+  },
+  "plugins": [
+    "MCPhappey.Simplicate.Invoices.SimplicateInvoices, MCPhappey.Simplicate"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "tools": {
+    "simplicate_invoices_get_with_days_open": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/invoices_days_open.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_invoices_get_expired_by_project_manager": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/invoices_projectmanagers.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_invoices_get_totals_by_my_organization": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/invoices_my_organization_profiles_total.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

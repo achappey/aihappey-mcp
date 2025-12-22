@@ -1,0 +1,12 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/directory/deletedItems/microsoft.graph.user",
+      "name": "deleted-users",
+      "title": "Deleted users",
+      "description": "Shows all deleted users currently in the Azure AD recycle bin.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

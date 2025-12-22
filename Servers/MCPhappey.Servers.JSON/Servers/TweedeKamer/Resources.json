@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/",
+      "name": "open-data-verkenner",
+      "title": "Open data verkenner",
+      "description": "Blader door alle openbare gegevens van de Tweede Kamer. Gebruik entiteitnamen en filters om specifieke informatie te vinden.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

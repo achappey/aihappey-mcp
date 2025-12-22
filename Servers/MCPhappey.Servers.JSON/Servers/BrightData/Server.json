@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "BrightData",
+    "title": "BrightData",
+    "version": "1.0.0",
+    "websiteUrl": "https://brightdata.com/",
+    "description": "Get info from any website or social app, clean and ready to read or reuse.",
+    "icons": [
+      {
+        "src": "https://www.nbn.org.il/jobboard/wp-content/uploads/2023/11/Bright-Data-Logo.jpeg"
+      }
+    ]
+  },
+  "baseMcp": "mcp.brightdata.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

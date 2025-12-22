@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Groq-Compound",
+    "title": "Groq Compound",
+    "version": "1.0.0",
+    "description": "Uses Groq AI with tools like web search, code, browser, and Wolfram Alpha for real tasks.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnze6t-thGVKlIKNKF9zeiTfaoxLdYdVzX0g&s"
+      }
+    ]
+  },
+  "instructions": "Groq Compound systems combine powerful language models with real-world tools for active problem solving. They support Web Search, Visit Website, Code Execution, Browser Automation, and Wolfram Alpha. The groq/compound model handles multiple tool calls per request while groq/compound-mini supports one faster call. Both use advanced models like GPT-OSS 120B and Llama 4 Scout for intelligent reasoning.",
+  "plugins": [
+    "MCPhappey.Tools.Groq.Compound.GroqCompound, MCPhappey.Tools"
+  ]
+}

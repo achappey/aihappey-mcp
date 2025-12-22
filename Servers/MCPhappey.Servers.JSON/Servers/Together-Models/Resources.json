@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.together.xyz/v1/models",
+      "name": "list-together-models",
+      "title": "List available Together AI models",
+      "description": "List all available Together AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

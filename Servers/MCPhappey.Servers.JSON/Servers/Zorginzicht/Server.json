@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Zorginzicht",
+    "title": "Zorginzicht",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.zorginzicht.nl",
+    "description": "Open data over kwaliteit, aanbieders en prestaties in de Nederlandse zorgsector.",
+    "icons": [
+      {
+        "src": "https://www.zorginzicht.nl/assets/favicon/touch-icon.png"
+      }
+    ]
+  }
+}

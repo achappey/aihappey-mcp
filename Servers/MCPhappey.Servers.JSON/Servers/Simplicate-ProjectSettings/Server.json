@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Simplicate-ProjectSettings",
+    "title": "Simplicate Projectinstellingen",
+    "version": "1.0.0",
+    "description": "Simplicate projectinstellingen: diensten, tarieven en eenheden voor configuratie.",
+    "icons": [
+      {
+        "src": "https://developer.simplicate.com/images/simplicate_icon.png"
+      }
+    ]
+  },
+  "instructions": "Payloads without select query string parameters are very large.\nRelated entities use a '.' behind the field name in select queries.",
+  "headers": {
+    "Authentication-Key": "Simplicate Api Key",
+    "Authentication-Secret": "Simplicate Api Secret"
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

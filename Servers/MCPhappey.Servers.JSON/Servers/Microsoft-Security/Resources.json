@@ -1,0 +1,244 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/security/alerts?$top=10&$select=id,title,severity,status,createdDateTime",
+      "name": "recent-security-alerts",
+      "title": "Recent security alerts",
+      "description": "Gets the 10 most recent alerts with title, severity, status and timestamp.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/security/secureScores?$top=7&$select=id,createdDateTime,currentScore,maxScore",
+      "name": "last-7-secure-scores",
+      "title": "Last 7 secure scores",
+      "description": "Fetches seven days of secure score snapshots for trend analysis.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/security/threatIndicators?$top=10&$select=id,indicatorType,displayName",
+      "name": "recent-threat-indicators",
+      "title": "Recent threat indicators",
+      "description": "Gets the latest 10 IoCs by type and name.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/security/secureScoreControlProfiles?$select=id,controlName,controlCategory,actionType,actionUrl",
+      "name": "all-secure-score-controls",
+      "title": "All secure score controls",
+      "description": "Retrieves all control profiles with their names, categories and action types.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/security/alerts_v2?$top=25&$select=id,title,severity,status,serviceSource,createdDateTime,alertWebUrl,incidentWebUrl",
+      "name": "security-alerts-v2",
+      "title": "Security alerts",
+      "description": "Latest alerts using the v2 schema. Use templates for filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/security/incidents?$top=20&$select=id,displayName,severity,status,createdDateTime,lastUpdateDateTime,incidentWebUrl",
+      "name": "security-incidents",
+      "title": "Security incidents",
+      "description": "Incident-level correlation of alerts. Use templates for filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/auditLogs/signIns?$top=200&$select=id,createdDateTime,userPrincipalName,ipAddress,appId,conditionalAccessStatus,status",
+      "name": "auditlogs-signins",
+      "title": "Sign-ins",
+      "description": "Recent sign-in telemetry. Use templates for date/CA filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/auditLogs/directoryAudits?$top=200&$select=id,activityDateTime,activityDisplayName,initiatedBy,result,category,targetResources",
+      "name": "auditlogs-directory-audits",
+      "title": "Directory audit events",
+      "description": "Recent directory changes. Use templates for user/time filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/auditLogs/provisioning?$top=200&$select=id,activityDateTime,action,sourceSystem,targetSystem,statusInfo",
+      "name": "auditlogs-provisioning",
+      "title": "Provisioning events",
+      "description": "Recent (de)provisioning events. Use templates for status/time filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/security/auditLog/queries?$top=50&$select=id,displayName,filter,status,createdDateTime,lastModifiedDateTime",
+      "name": "security-auditlog-queries",
+      "title": "Audit log queries",
+      "description": "Retrieve audit log queries from Microsoft Graph Security API. Supports filters and pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/identityProtection/riskyUsers?$top=50&$select=id,userPrincipalName,riskLevel,riskState,riskLastUpdatedDateTime",
+      "name": "identityprotection-risky-users",
+      "title": "Risky users",
+      "description": "Risky users summary. Use templates for level filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/identityProtection/riskDetections?$top=200&$select=id,detectedDateTime,riskLevel,riskEventType,ipAddress,location,userId",
+      "name": "identityprotection-risk-detections",
+      "title": "Risk detections",
+      "description": "Raw risk detections. Use templates for time/level filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/reports/authenticationMethods/userRegistrationDetails?$top=999&$select=userId,userDisplayName,userPrincipalName,isMfaRegistered,isMfaCapable,isSsprRegistered,isSsprEnabled,methodsRegistered,systemPreferredAuthenticationMethods",
+      "name": "authmethods-user-registration-details",
+      "title": "Auth methods user registration details",
+      "description": "Per-user MFA/SSPR registration. Use templates for MFA-only view.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/reports/authenticationMethods/usersRegisteredByMethod(includedUserTypes='all',includedUserRoles='all')",
+      "name": "authmethods-users-registered-by-method",
+      "title": "Auth methods users registered by method",
+      "description": "Tenant-level summary by method. Function parameters only; OData $filter is not supported on the function result.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/reports/authenticationMethods/usersRegisteredByFeature",
+      "name": "authmethods-users-registered-by-feature",
+      "title": "Auth methods users registered by feature",
+      "description": "Tenant-level capability summary. Limited OData options; prefer function parameters on other endpoints for filtering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$select=id,deviceName,operatingSystem,osVersion,complianceState,userPrincipalName,lastSyncDateTime",
+      "name": "intune-managed-devices",
+      "title": "Managed devices",
+      "description": "Device inventory posture. Use templates for OS/other filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/deviceManagement/deviceCompliancePolicies?$select=id,displayName,version",
+      "name": "intune-device-compliance-policies",
+      "title": "Device compliance policies",
+      "description": "Compliance policy list. Use templates for details-by-id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/roleManagement/directory/roleAssignments?$top=200&$select=id,principalId,roleDefinitionId,scopeId",
+      "name": "directory-role-assignments",
+      "title": "Directory role assignments",
+      "description": "Current role assignments. Use templates for principal/role filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/identityGovernance/roleManagementAlerts/alerts?$filter=scopeId eq '/' and scopeType eq 'DirectoryRole'&$expand=alertIncidents,alertDefinition",
+      "name": "pim-role-management-alerts",
+      "title": "PIM role management alerts",
+      "description": "PIM alerts for Entra roles. Use templates for scope/expand control. Some expansions cannot be combined with all $selects.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/security/attackSimulation/simulations?$top=50&$select=id,displayName,status,createdDateTime",
+      "name": "security-attack-simulations",
+      "title": "Attack simulations",
+      "description": "Security awareness simulations. Use templates for since-date filter.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

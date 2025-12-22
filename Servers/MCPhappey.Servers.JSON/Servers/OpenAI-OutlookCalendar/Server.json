@@ -1,0 +1,24 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-OutlookCalendar",
+    "title": "OpenAI Outlook Calendar",
+    "version": "1.0.0",
+    "description": "Read and analyze calendar events, suggest times, and generate agendas with secure Graph access.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.OutlookCalendar.OpenAIOutlookCalendar, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Calendars.Read"
+  }
+}

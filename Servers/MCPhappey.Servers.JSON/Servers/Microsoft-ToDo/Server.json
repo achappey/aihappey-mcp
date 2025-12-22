@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-ToDo",
+    "title": "Microsoft ToDo",
+    "version": "1.0.0",
+    "description": "Create and update tasks and lists in Microsoft To Do to track work and progress easily.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/6/67/Microsoft_To-Do_icon.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.ToDo.GraphToDo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/Tasks.ReadWrite https://graph.microsoft.com/Tasks.ReadWrite.Shared"
+  }
+}

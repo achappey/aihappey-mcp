@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Bedrijven per relatiesoort</title>
+
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js"></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-chart.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+  <style>
+    html {
+      overflow: hidden;
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .body {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      height: 100%;
+      min-height: 0;
+    }
+
+    chatapp-chart {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    chatapp-chart canvas {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+  </style>
+
+  <script>
+    window.relationTypeChartWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        input: window.openai?.toolInput || null,
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          this.$nextTick(() => this.load());
+        },
+        load() {
+          this.$nextTick(() => {
+            const relations = Array.isArray(this.data?.relation_types)
+              ? this.data.relation_types
+              : [];
+
+            const el = this.$refs.chart;
+            if (!el || !relations.length) return;
+
+            const labels = relations.map(r => r.name || "Onbekend");
+            const values = relations.map(r => r.count || 0);
+
+            const fallbackColor = "rgba(160,160,160,0.6)";
+            const colors = relations.map(r =>
+              r.color
+                ? (r.color.startsWith("#") ? r.color : `#${r.color}`)
+                : fallbackColor
+            );
+
+            const data = {
+              labels,
+              datasets: [
+                {
+                  data: values,
+                  backgroundColor: colors,
+                }
+              ]
+            };
+
+            const options = {
+              responsive: true,
+              maintainAspectRatio: false,
+              animation: { duration: 0 },
+              layout: {
+                padding: 8
+              },
+              plugins: {
+                legend: {
+                  position: "bottom",
+                  labels: {
+                    usePointStyle: true,
+                    boxWidth: 10
+                  }
+                },
+                tooltip: {
+                  callbacks: {
+                    label: (ctx) => `${ctx.label}: ${ctx.formattedValue} bedrijven`
+                  }
+                }
+              }
+            };
+
+            el.update({
+              type: "pie",
+              data,
+              options
+            });
+          });
+        }
+      };
+    };
+  </script>
+</head>
+
+<body>
+  <div x-data="relationTypeChartWidget()" x-init="init()" style="display:flex; flex-direction:column; height:100%;">
+    <chatapp-header text="Bedrijven per relatiesoort" no-fullscreen></chatapp-header>
+    <div class="body">
+      <chatapp-chart x-ref="chart"></chatapp-chart>
+    </div>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

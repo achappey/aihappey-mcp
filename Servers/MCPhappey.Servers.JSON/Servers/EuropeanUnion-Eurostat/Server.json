@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "EuropeanUnion-Eurostat",
+    "title": "European Union Eurostat",
+    "version": "1.0.0",
+    "websiteUrl": "https://ec.europa.eu/eurostat",
+    "description": "Official EU statistics: housing, labour, prices and population, filterable by country and time.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/en/2/27/EU_flag_square.PNG"
+      }
+    ]
+  }
+}

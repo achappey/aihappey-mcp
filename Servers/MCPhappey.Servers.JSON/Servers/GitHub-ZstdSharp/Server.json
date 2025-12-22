@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "GitHub-ZstdSharp",
+    "title": "GitHub ZstdSharp",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/oleg-st/ZstdSharp",
+    "description": "Quickly shrink or restore files to save space and speed up sharing.",
+    "icons": [
+      {
+        "src": "https://facebook.github.io/zstd/images/hhvm.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.ZstdSharp.ZstdSharpService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

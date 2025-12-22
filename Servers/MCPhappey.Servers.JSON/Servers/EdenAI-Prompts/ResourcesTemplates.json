@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.edenai.run/v2/prompts/?page={page}&page_size={page_size}",
+      "name": "edenai-prompts-list",
+      "title": "List Eden AI Prompts",
+      "description": "Retrieves a paginated list of all prompts saved in Eden AI.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.edenai.run/v2/prompts/{name}/",
+      "name": "edenai-prompts-get",
+      "title": "Get Eden AI Prompt",
+      "description": "Retrieves details of a specific prompt by name from Eden AI.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.edenai.run/v2/prompts/{name}/history/?page={page}&page_size={page_size}",
+      "name": "edenai-prompts-history-list",
+      "title": "List Eden AI Prompt History",
+      "description": "Retrieves the execution history of a specific prompt in Eden AI.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.edenai.run/v2/prompts/{name}/history/{id}/",
+      "name": "edenai-prompts-history-get",
+      "title": "Get Eden AI Prompt History Item",
+      "description": "Retrieves a specific execution record of a prompt by its history ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.edenai.run/v2/prompts/{name}/history/{id}/template-variables/",
+      "name": "edenai-prompts-template-variables",
+      "title": "Get Eden AI Prompt Template Variables",
+      "description": "Fetches the template variables used in a specific prompt execution.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "resources": [
+    {
+      "name": "calcasa-onderzoek-index",
+      "title": "Calcasa Onderzoekspagina",
+      "description": "Indexpagina met alle Calcasa-onderzoeken en kwartaalberichten.",
+      "uri": "https://calcasa.nl/onderzoek/",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "calcasa-wox-2025q1-page",
+      "title": "Calcasa WOX kwartaalbericht 2025 Q1 – Pagina",
+      "description": "Webpagina met toelichting en downloads van het Calcasa WOX kwartaalbericht Q1 2025.",
+      "uri": "https://calcasa.nl/onderzoek/2025-q1-wox-kwartaalbericht/",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "calcasa-wox-2025q2-nl",
+      "title": "Calcasa WOX kwartaalbericht 2025 Q2 (NL)",
+      "description": "Het Nederlandstalige WOX kwartaalbericht K2 2025 met kerncijfers en doorstroomanalyse.",
+      "uri": "https://calcasa.nl/files/Calcasa_WOX_2025K2.pdf",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "calcasa-wox-2025q2-en",
+      "title": "Calcasa WOX Quarterly Q2 2025 (EN)",
+      "description": "The English WOX Quarterly Q2 2025 with key figures and analysis.",
+      "uri": "https://calcasa.nl/files/Calcasa_WOX_2025Q2.pdf",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

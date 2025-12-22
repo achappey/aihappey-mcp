@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Monthly Totals Chart</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <!-- Optional: load Chart.js globally; the component will lazy-load if not present -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js"></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-chart.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+  <style>
+    html {
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .body {
+      flex: 1;
+      min-height: 250px;
+      padding: 8px;
+      display: flex;
+    }
+
+    chart-js {
+      width: 100%;
+    }
+  </style>
+  <script>
+    // Alpine controller: normalize toolOutput → build Chart.js config → feed <chart-js>
+    window.chartWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        input: window.openai?.toolInput || null,
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          this.$nextTick(() => this.load());
+        },
+        load() {
+          this.$nextTick(() => {
+            const items = Array.isArray(this.data?.data) ? this.data.data : [];
+            const el = this.$refs.chart;
+            if (!el || !items.length) return;
+
+            // You own the shape → you add datasets & axes here
+            const labels = items.map(d => {
+              const m = d.month;
+              const dt = m ? new Date(m) : null;
+              return dt && !isNaN(dt) ? dt.toLocaleDateString('nl-NL', { month: 'short', year: '2-digit' }) : (m ?? '');
+            });
+            const counts = items.map(d => Number((d.totals)?.count) || 0);
+            const amounts = items.map(d => Number((d.totals)?.amount) || 0);
+
+            const data = {
+              labels,
+              datasets: [
+                { label: "Aantal", data: counts },
+                { label: "Bedrag (€)", data: amounts, type: "line", yAxisID: "y1", tension: 0.3 }
+              ]
+            };
+            
+            const options = {
+              responsive: true, maintainAspectRatio: false,
+              animation: {
+                duration: 0,
+              },
+              responsiveAnimationDuration: 0,
+              scales: {
+                y: { beginAtZero: true, title: { display: true, text: "Aantal" } },
+                y1: { beginAtZero: true, position: "right", grid: { drawOnChartArea: false }, title: { display: true, text: "Bedrag (€)" } }
+              },
+              plugins: { legend: { position: "bottom" } }
+            };
+
+            el.update({ type: "bar", data, options, height: 280 });
+          });
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div x-data="chartWidget()" x-init="init()" style="display:flex; flex-direction:column; height:100%;">
+    <chatapp-header text="Totalen per maand" no-fullscreen></chatapp-header>
+    <div class="body">
+      <chatapp-chart x-ref="chart"></chatapp-chart>
+    </div>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+{
+  "prompts": [
+    {
+      "prompt": "Get all MCP servers. For each server, look up the names of all assigned security groups and check if the server's secured option is enabled. Show a table with the server name, assigned security group names, and whether the server is secured (true/false).",
+      "template": {
+        "name": "list-servers-securitygroups",
+        "title": "List servers and security groups",
+        "description": "Retrieves all MCP servers and displays for each server the assigned security groups and whether secured mode is enabled.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Get all MCP servers. For each server, look up the Entra display names of all owners (by user ID). Show a table listing each server and its owner names.",
+      "template": {
+        "name": "list-servers-owners",
+        "title": "List servers and owners",
+        "description": "Retrieves all MCP servers and displays the display names of all owners for each server.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Find the Entra user ID of user {userDisplayName}. When found, add the user as an owner to MCP server {server}.",
+      "template": {
+        "name": "add-server-owner",
+        "title": "Add server owner",
+        "description": "Adds a specific user as an owner to the selected MCP server.",
+        "arguments": [
+          {
+            "name": "server",
+            "description": "The name of the MCP server",
+            "required": true
+          },
+          {
+            "name": "userDisplayName",
+            "description": "The display name of the user to add as an owner",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Find the Entra user ID of user {userDisplayName}. When found, Remove the user as an owner to MCP server {server}.",
+      "template": {
+        "name": "remove-server-owner",
+        "title": "Remove server owner",
+        "description": "Removes a specific user from the list of owners on a MCP server.",
+        "arguments": [
+          {
+            "name": "server",
+            "description": "The name of the MCP server",
+            "required": true
+          },
+          {
+            "name": "userDisplayName",
+            "description": "The display name of the user to remove",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Find the Entra ID of security group {securityGroupName}. When found, add the security group to server {server}.",
+      "template": {
+        "name": "add-security-group",
+        "title": "Add security group",
+        "description": "Adds a security group to the specified MCP server for access control.",
+        "arguments": [
+          {
+            "name": "server",
+            "description": "The name of the MCP server",
+            "required": true
+          },
+          {
+            "name": "securityGroupName",
+            "description": "The name of the security group to add",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Find the Entra ID of security group {securityGroupName}. When found, remove the security group from server {server}.",
+      "template": {
+        "name": "remove-security-group",
+        "title": "Remove security group",
+        "description": "Removes an existing security group from the specified MCP server.",
+        "arguments": [
+          {
+            "name": "server",
+            "description": "The name of the MCP server",
+            "required": true
+          },
+          {
+            "name": "securityGroupName",
+            "description": "The name of the security group to remove",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Set server {server} to secured mode.",
+      "template": {
+        "name": "set-server-secured",
+        "title": "Set server secured mode",
+        "description": "Enables security enforcement on the selected MCP server.",
+        "arguments": [
+          {
+            "name": "server",
+            "description": "The name of the MCP server",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

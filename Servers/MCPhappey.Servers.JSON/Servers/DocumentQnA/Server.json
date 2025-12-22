@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "DocumentQnA",
+    "title": "Document QnA",
+    "version": "1.0.0",
+    "description": "Answer questions using only the content of a document, validated by multiple models."
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.DocumentQnA, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

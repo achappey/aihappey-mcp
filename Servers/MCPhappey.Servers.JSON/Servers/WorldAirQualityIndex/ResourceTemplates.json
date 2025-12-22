@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.waqi.info/feed/{city}/",
+      "name": "waqi-city-feed",
+      "title": "City Feed",
+      "description": "Get real-time air quality data for a specific city or station ID (e.g., beijing, @7397).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.waqi.info/feed/geo:{lat};{lng}/",
+      "name": "waqi-geo-feed",
+      "title": "Geolocalized Feed (lat/lng)",
+      "description": "Retrieve the nearest station and air quality data for given latitude and longitude coordinates.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.waqi.info/feed/here/",
+      "name": "waqi-geo-feed-ip",
+      "title": "Geolocalized Feed (IP-based)",
+      "description": "Get the nearest station and air quality information based on user IP geolocation.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.waqi.info/v2/map/bounds?latlng={lat1},{lng1},{lat2},{lng2}&networks={networks}",
+      "name": "waqi-map-bounds-template",
+      "title": "Map Bounds Query",
+      "description": "Retrieve air quality stations within defined latitude and longitude bounds, filtered by network type (all, official, citizen).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.waqi.info/search/?keyword={keyword}",
+      "name": "waqi-search-template",
+      "title": "Search Stations",
+      "description": "Search monitoring stations by city, country, or keyword (e.g., bangalore, beijing).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

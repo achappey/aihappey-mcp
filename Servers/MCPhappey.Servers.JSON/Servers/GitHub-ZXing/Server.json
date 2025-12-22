@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "GitHub-ZXing",
+    "title": "GitHub ZXing",
+    "version": "1.0.0",
+    "description": "Read and create barcodes or QR codes from any image or text.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Zxing-logo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.ZXing.ZXingService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

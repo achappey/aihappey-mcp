@@ -1,0 +1,136 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=sp:\"{species}\"",
+      "name": "xeno-canto-species",
+      "title": "Recordings by species",
+      "description": "Fetch all wildlife sound recordings for a specific species (scientific name).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=gen:{genus}+sp:{species}&per_page={per_page}&page={page}",
+      "name": "xeno-canto-genus-species",
+      "title": "Recordings by genus and species",
+      "description": "Get paged recordings filtered by genus and species name.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=fam:{family}",
+      "name": "xeno-canto-family",
+      "title": "Recordings by family",
+      "description": "Find all recordings for a specific animal family (e.g., laridae).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=en:\"{englishName}\"",
+      "name": "xeno-canto-english",
+      "title": "Recordings by English name",
+      "description": "Search recordings using the English name of a species.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=grp:{group}+cnt:{country}",
+      "name": "xeno-canto-group-country",
+      "title": "Recordings by group and country",
+      "description": "Filter recordings by group (birds, frogs, bats) and country name.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=lat:{latitude}+lon:{longitude}+grp:{group}",
+      "name": "xeno-canto-coordinates",
+      "title": "Recordings by coordinates",
+      "description": "Retrieve recordings recorded near a latitude/longitude point.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=box:{south},{west},{north},{east}+grp:{group}",
+      "name": "xeno-canto-bounding-box",
+      "title": "Recordings by bounding box",
+      "description": "List recordings within a defined geographic area using coordinates.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=year:\"{yearFilter}\"+grp:{group}",
+      "name": "xeno-canto-year",
+      "title": "Recordings by year",
+      "description": "Filter recordings by year and group type (e.g., birds, frogs).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=type:{soundType}+sex:{sex}+grp:{group}+area:{area}",
+      "name": "xeno-canto-sound-sex",
+      "title": "Recordings by sound and sex",
+      "description": "Search by sound type (e.g., song) and animal sex in a given area.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=q:{quality}+len:\"{lengthFilter}\"+grp:{group}",
+      "name": "xeno-canto-quality-length",
+      "title": "Recordings by quality and length",
+      "description": "Find recordings by quality rating and minimum sound length.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://xeno-canto.org/api/3/recordings?query=since:{daysAgo}+grp:{group}",
+      "name": "xeno-canto-recent",
+      "title": "Recently uploaded recordings",
+      "description": "Return new recordings uploaded within the past number of days.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

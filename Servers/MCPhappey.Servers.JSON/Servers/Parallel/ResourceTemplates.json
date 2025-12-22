@@ -1,0 +1,100 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.parallel.ai/v1/tasks/runs/{run_id}",
+      "name": "retrieve-task-run",
+      "title": "Retrieve task run",
+      "description": "Retrieves run status by run_id. Use /result for final output.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.parallel.ai/v1/tasks/runs/{run_id}/input",
+      "name": "retrieve-task-run-input",
+      "title": "Retrieve task run input",
+      "description": "Gets the input payload of a run by run_id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.parallel.ai/v1/tasks/runs/{run_id}/result?timeout={timeout}",
+      "name": "retrieve-task-run-result",
+      "title": "Retrieve task run result",
+      "description": "Blocks until completion and returns the run result by run_id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.parallel.ai/v1beta/tasks/runs/{run_id}/events",
+      "name": "stream-task-run-events",
+      "title": "Stream task run events",
+      "description": "Streams progress events and state updates for a run.",
+      "mimeType": "text/event-stream",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.parallel.ai/v1beta/tasks/groups/{taskgroup_id}",
+      "name": "retrieve-task-group",
+      "title": "Retrieve task group",
+      "description": "Retrieves aggregated status across all runs in a TaskGroup.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.parallel.ai/v1beta/tasks/groups/{taskgroup_id}/runs?last_event_id={last_event_id}&status={status}&include_input={include_input}&include_output={include_output}",
+      "name": "fetch-task-group-runs",
+      "title": "Fetch task group runs",
+      "description": "Retrieves task runs in a TaskGroup, optionally including inputs and outputs.",
+      "mimeType": "text/event-stream",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.parallel.ai/v1beta/tasks/groups/{taskgroup_id}/events?last_event_id={last_event_id}&timeout={timeout}",
+      "name": "stream-task-group-events",
+      "title": "Stream task group events",
+      "description": "Streams TaskGroup events such as status updates and run completions.",
+      "mimeType": "text/event-stream",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.parallel.ai/v1beta/tasks/groups/{taskgroup_id}/runs/{run_id}",
+      "name": "retrieve-task-group-run",
+      "title": "Retrieve task group run",
+      "description": "Retrieves run status within a TaskGroup by run_id. Equivalent to /tasks/runs/{run_id}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

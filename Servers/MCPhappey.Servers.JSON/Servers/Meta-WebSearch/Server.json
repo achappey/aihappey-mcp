@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Meta-WebSearch",
+    "title": "Meta Web Search",
+    "version": "1.0.0",
+    "description": "Meta web search: combine multiple AI search engines for quick and broad results."
+  },
+  "instructions": "Use Brave and Perplexity for quick lookups, use AI WebSearch for depth.",
+  "plugins": [
+    "MCPhappey.Tools.AI.WebSearch, MCPhappey.Tools",
+    "MCPhappey.Tools.Perplexity.PerplexityPlugin, MCPhappey.Tools",
+    "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

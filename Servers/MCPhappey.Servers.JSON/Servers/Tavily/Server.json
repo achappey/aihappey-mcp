@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Tavily",
+    "title": "Tavily",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.tavily.com",
+    "description": "Real-time web search with summaries and sources for fast, current answers.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/tavily-color.png"
+      }
+    ]
+  },
+  "baseMcp": "mcp.tavily.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

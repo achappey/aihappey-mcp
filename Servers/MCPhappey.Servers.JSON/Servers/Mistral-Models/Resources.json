@@ -1,0 +1,29 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.mistral.ai/v1/models",
+      "name": "list-mistral-models",
+      "title": "List available Mistral AI models",
+      "description": "List all available Mistral AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://docs.mistral.ai/getting-started/models/models_overview/",
+      "name": "docs-mistral-models",
+      "title": "Mistral model documetation",
+      "description": "Official Mistral model documetation",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

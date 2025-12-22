@@ -1,0 +1,28 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OutlookMail",
+    "title": "Microsoft Outlook Mail",
+    "version": "1.0.0",
+    "websiteUrl": "https://outlook.office.com/mail",
+    "description": "Manage email through Microsoft Outlook: read, search, send and organize messages securely with context.",
+    "icons": [
+      {
+        "src": "https://www.ek.co/wp-content/uploads/2025/04/outlooklogo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Outlook.GraphOutlookMail, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/Mail.Send.Shared https://graph.microsoft.com/Mail.ReadWrite.Shared"
+  },
+  "tools": {
+    "graph_outlook_mail_search": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/search-outlook.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

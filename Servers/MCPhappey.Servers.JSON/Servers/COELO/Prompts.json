@@ -1,0 +1,194 @@
+{
+  "prompts": [
+    {
+      "prompt": "Zoek alle COELO-pagina's waarin '{zoekwoord}' voorkomt. Toon voor elke pagina: titel, korte omschrijving en URL.",
+      "template": {
+        "name": "vind-coelo-paginas-op-zoekwoord",
+        "title": "Vind COELO-pagina's op zoekwoord",
+        "description": "Zoekt binnen alle COELO pagina's op een gegeven zoekwoord.",
+        "arguments": [
+          {
+            "name": "zoekwoord",
+            "description": "Een deel van een paginatitel, onderwerp of thema.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef een overzicht van de gemeentelijke belastingtarieven voor {jaar} voor gemeente {gemeentenaam}. Vermeld de belangrijkste heffingen en de totale verandering t.o.v. vorig jaar.",
+      "template": {
+        "name": "belastingen-per-gemeente-en-jaar",
+        "title": "Belastingen per gemeente en jaar",
+        "description": "Toont de belangrijkste gemeentelijke belastingtarieven en mutaties per jaar per gemeente.",
+        "arguments": [
+          {
+            "name": "jaar",
+            "description": "Het gewenste jaartal (bijv. 2024).",
+            "required": true
+          },
+          {
+            "name": "gemeentenaam",
+            "description": "De naam van de gemeente.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Vind het meest recente nieuwsbericht van COELO over het onderwerp: {onderwerp}. Toon de titel, publicatiedatum en een korte samenvatting.",
+      "template": {
+        "name": "nieuwsbericht-op-onderwerp",
+        "title": "Nieuwsbericht op onderwerp",
+        "description": "Zoekt in COELO nieuwsberichten naar het meest recente bericht op onderwerp.",
+        "arguments": [
+          {
+            "name": "onderwerp",
+            "description": "Het gewenste thema of zoekwoord.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Vergelijk de lokale lasten voor huishoudens tussen gemeente {gemeenteA} en gemeente {gemeenteB} op basis van:\n- Huishouden: {huishoudenPersonen} persoon/personen.\n- Eigen woning: {heeftEigenWoning}.\n  - WOZ-waarde: €{wozWaarde} (optioneel).\n  - Auto: {heeftAuto}.\n - Elektrisch: {isElektrisch}.\n   - Gewicht: {autoGewicht} kg.\n \nGeef per gemeente het totaalbedrag en splits uit naar OZB (indien eigen woning), rioolheffing, afvalstoffenheffing, en motorrijtuigenbelasting (indien auto). Benoem de grootste verschillen en leg kort uit waardoor deze ontstaan. Maak een overzichtelijke tabel met per gemeente de totale lasten en de onderliggende posten.",
+      "template": {
+        "name": "vergelijk-lokale-lasten-huishoudens",
+        "title": "Vergelijk lokale lasten huishoudens",
+        "description": "Vergelijkt de totale lokale lasten voor huishoudens tussen twee gemeenten, met opties voor woning (incl. WOZ), huishouden, en auto (incl. elektrisch + gewicht).",
+        "arguments": [
+          {
+            "name": "gemeenteA",
+            "description": "De eerste gemeente.",
+            "required": true
+          },
+          {
+            "name": "gemeenteB",
+            "description": "De tweede gemeente.",
+            "required": true
+          },
+          {
+            "name": "heeftEigenWoning",
+            "description": "Heeft u een eigen woning? (ja/nee).",
+            "required": true
+          },
+          {
+            "name": "wozWaarde",
+            "description": "WOZ-waarde van de woning in euro’s (alleen invullen als eigen woning, optioneel).",
+            "required": false
+          },
+          {
+            "name": "huishoudenPersonen",
+            "description": "Aantal personen in het huishouden: een, twee, drie of vier.",
+            "required": true
+          },
+          {
+            "name": "heeftAuto",
+            "description": "Heeft u een auto? (ja/nee).",
+            "required": true
+          },
+          {
+            "name": "isElektrisch",
+            "description": "Is de auto elektrisch? (ja/nee). Alleen relevant als heeftAuto = ja.",
+            "required": false
+          },
+          {
+            "name": "autoGewicht",
+            "description": "Leeggewicht van de auto in kilogram (optioneel). Indien leeg, gebruik 1150kg of 1800kg (elektrisch).",
+            "required": false
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef voor provincie {provincienaam} in {jaar} de belangrijkste provinciale belastingtarieven en hoeveel deze zijn veranderd t.o.v. het jaar ervoor.",
+      "template": {
+        "name": "provinciale-belastingen-per-jaar",
+        "title": "Provinciale belastingen per jaar",
+        "description": "Toont de belastingtarieven per provincie per jaar, inclusief mutaties.",
+        "arguments": [
+          {
+            "name": "provincienaam",
+            "description": "De naam van de provincie.",
+            "required": true
+          },
+          {
+            "name": "jaar",
+            "description": "Het gewenste jaartal.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Zoek in het rapport 'Atlas lokale lasten {jaar}' naar de drie opvallendste landelijke trends in lokale belastingen. Vat de bevindingen kort samen.",
+      "template": {
+        "name": "samenvatting-atlas-lokale-lasten-trends",
+        "title": "Samenvatting Atlas lokale lasten trends",
+        "description": "Vat de opvallendste landelijke trends uit de Atlas lokale lasten samen voor een gekozen jaar.",
+        "arguments": [
+          {
+            "name": "jaar",
+            "description": "Het gewenste jaartal (bijv. 2025).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef voor waterschap {waterschapsnaam} in {jaar} de belangrijkste waterschapsbelastingtarieven en licht toe hoe deze zijn veranderd t.o.v. het vorige jaar.",
+      "template": {
+        "name": "waterschapsbelasting-tarieven-wijziging",
+        "title": "Waterschapsbelasting tarieven wijziging",
+        "description": "Toont voor een waterschap de belastingtarieven en hun mutaties per jaar.",
+        "arguments": [
+          {
+            "name": "waterschapsnaam",
+            "description": "Naam van het waterschap.",
+            "required": true
+          },
+          {
+            "name": "jaar",
+            "description": "Het gewenste jaartal.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Toon voor {jaar} het totaalbedrag aan lokale lasten voor een standaard bedrijf in gemeente {gemeentenaam}. Geef aan welke heffingen het grootste aandeel hebben.",
+      "template": {
+        "name": "lokale-lasten-bedrijf-gemeente",
+        "title": "Lokale lasten bedrijf gemeente",
+        "description": "Geeft per gemeente het totaal en de verdeling van lokale lasten voor bedrijven.",
+        "arguments": [
+          {
+            "name": "jaar",
+            "description": "Het gewenste jaartal.",
+            "required": true
+          },
+          {
+            "name": "gemeentenaam",
+            "description": "Naam van de gemeente.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Zoek in alle COELO-rapporten naar het antwoord op deze vraag: {vraag}. Geef een korte, heldere samenvatting met bronvermelding.",
+      "template": {
+        "name": "antwoord-uit-coelo-rapporten",
+        "title": "Antwoord uit COELO-rapporten",
+        "description": "Zoekt in alle COELO-rapporten naar een antwoord op een specifieke vraag.",
+        "arguments": [
+          {
+            "name": "vraag",
+            "description": "Je vraag over lokale lasten, belastingen, trends of vergelijkingen.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

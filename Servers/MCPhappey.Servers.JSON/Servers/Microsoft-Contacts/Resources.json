@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/contacts",
+      "name": "my-contacts",
+      "title": "List my contacts",
+      "description": "Lists all contacts in the signed-in user's default contacts folder.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/contactFolders",
+      "name": "my-contact-folders",
+      "title": "List my contact folders",
+      "description": "Lists all contact folders for the signed-in user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

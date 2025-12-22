@@ -1,0 +1,12 @@
+{
+  "serverInfo": {
+    "name": "GitHub-Humanizer",
+    "title": "GitHub Humanizer",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/Humanizr/Humanizer",
+    "description": "Humanize values: friendly text, pluralization, numbers to words and natural time."
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.Humanizer.HumanizerService, MCPhappey.Tools"
+  ]
+}

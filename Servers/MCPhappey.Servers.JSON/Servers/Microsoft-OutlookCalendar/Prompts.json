@@ -1,0 +1,39 @@
+{
+  "prompts": [
+    {
+      "prompt": "Give a daily agenda overview for {date}: list my meetings, the time and location of each, and indicate if any important emails or flagged tasks are related to these meetings.",
+      "template": {
+        "name": "daily-agenda-with-context",
+        "title": "Daily agenda with context",
+        "description": "Provides a schedule for a given date, enriched with related emails and tasks to help prepare.",
+        "arguments": [
+          {
+            "name": "date",
+            "description": "The date for the agenda overview (format: YYYY-MM-DD).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Identify any upcoming calendar events in the next {days} days that involve the sender {emailAddress}, and summarize recent email threads with this person to prepare for the meetings.",
+      "template": {
+        "name": "meeting-prep-with-contact",
+        "title": "Meeting prep with contact",
+        "description": "Prepares user for meetings with a specific person by combining upcoming events and recent email context.",
+        "arguments": [
+          {
+            "name": "days",
+            "description": "Number of days to look ahead in the calendar.",
+            "required": true
+          },
+          {
+            "name": "emailAddress",
+            "description": "The email address of the contact.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

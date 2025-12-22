@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "OpenDeepResearch",
+    "title": "GitHub Open Deep Research",
+    "websiteUrl": "https://github.com/langchain-ai/open_deep_research",
+    "version": "1.0.0",
+    "description": "Deep Research Agent that plans, researches, and writes complete reports from any topic or sources.",
+    "icons": [
+      {
+        "src": "https://cdn2.futurepedia.io/a15fe51fbbf6409be327c36864e569e0fe0aed81-128x128.png?w=256"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.OpenDeepResearch, MCPhappey.Tools"
+  ]
+}

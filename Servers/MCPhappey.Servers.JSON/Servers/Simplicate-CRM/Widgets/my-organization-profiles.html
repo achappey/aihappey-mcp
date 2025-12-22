@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Organisatieprofielen</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-carousel.js" defer></script>
+  <script src="%HOST_URL%/chatapp-card.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+  <style>
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 10px;
+      font-size: .85rem;
+    }
+
+    .info-grid div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-weight: 500;
+      color: var(--card-color, #111);
+    }
+  </style>
+
+  <script>
+    window.orgProfilesWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        profiles: [],
+        count: 0,
+
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store?.('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          this.load();
+        },
+
+        load() {
+          const arr = (this.data?.data ?? this.data)?.results ?? (this.data?.data ?? this.data);
+          this.profiles = Array.isArray(arr) ? arr : [];
+          this.count = this.profiles.length;
+        },
+
+        getHeader() {
+          return `Simplicate CRM - Organisatieprofielen (${this.profiles?.length})`;
+        },
+
+        copy(v) { if (v) navigator.clipboard?.writeText(v).catch(() => { }); },
+      };
+    };
+  </script>
+</head>
+
+<body>
+  <div x-data="orgProfilesWidget()" x-init="init()"
+    style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+    <chatapp-header :text="getHeader()" no-fullscreen></chatapp-header>
+
+    <chatapp-carousel style="flex:1;min-height:0;">
+      <template x-for="p in profiles" :key="p.id || p.name">
+        <chatapp-card :title="p.name || '-'" :description="p.blocked ? 'Geblokkeerd' : 'Actief'">
+          <div slot="content">
+            <div class="info-grid">
+              <div><span class="info-label">KvK</span><span x-text="p.coc_code || '—'"></span></div>
+              <div><span class="info-label">BTW</span><span x-text="p.vat_number || '—'"></span></div>
+              <div><span class="info-label">Bank</span><span x-text="p.bank_account || '—'"></span></div>
+              <div><span class="info-label">Hoofdprofiel</span>
+                <span x-text="p.main_profile ? 'Ja' : 'Nee'"></span>
+              </div>
+            </div>
+          </div>
+          <button slot="actions" x-show="p.bank_account" @click.prevent="copy(p.bank_account)">Kopieer
+            bankrekening</button>
+          <button slot="actions" x-show="p.vat_number" @click.prevent="copy(p.vat_number)">Kopieer BTW-nummer</button>
+        </chatapp-card>
+      </template>
+    </chatapp-carousel>
+  </div>
+
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

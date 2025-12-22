@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://www.vektis.nl/uploads/Docs%20per%20pagina/Open%20Data%20Bestanden/{path}/Vektis%20Open%20Databestand%20Zorgverzekeringswet%20{year}%20-%20postcode3{suffix}.csv",
+      "name": "open-data-postcode3",
+      "title": "Open databestand per postcode3",
+      "description": "Download het open databestand met zorgkosten per postcode3-niveau. Parameters: year (2011–20XX), path (gebruik 'Oud' voor 2011–2016, anders het jaartal als map), en suffix (gebruik '_versie2' alleen voor 2020). Alle bestanden bevatten geaggregeerde zorgkosten per kostensoort, uitgesplitst naar geslacht en leeftijd.",
+      "mimeType": "text/csv",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.vektis.nl/uploads/Docs%20per%20pagina/Open%20Data%20Bestanden/{path}/Vektis%20Open%20Databestand%20Zorgverzekeringswet%20{year}%20-%20gemeente{suffix}.csv",
+      "name": "open-data-gemeente",
+      "title": "Open databestand per gemeente",
+      "description": "Download het open databestand met zorgkosten per gemeente. Parameters: year (2011–20XX), path (gebruik 'Gemeentebestanden 2011-2016' voor 2011–2016, anders het jaartal als map), en suffix (gebruik '_versie2' alleen voor 2020). Alle bestanden bevatten geaggregeerde zorgkosten per kostensoort, uitgesplitst naar geslacht en leeftijd.",
+      "mimeType": "text/csv",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

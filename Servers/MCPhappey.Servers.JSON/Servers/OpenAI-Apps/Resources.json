@@ -1,0 +1,103 @@
+{
+  "resources": [
+    {
+      "uri": "https://developers.openai.com/apps-sdk/build/mcp-server",
+      "name": "apps-sdk-mcp-server",
+      "title": "Building an MCP Server",
+      "description": "Guide for implementing a Model Context Protocol (MCP) server that exposes tools and data sources to AI apps using the OpenAI Apps SDK.",
+      "mimeType": "application/json",
+      "annotations": {
+        "priority": 0.5,
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://developers.openai.com/apps-sdk/build/custom-ux",
+      "name": "apps-sdk-custom-ux",
+      "title": "Building Custom UX for AI Apps",
+      "description": "Instructions for creating custom user experiences and interactive components within AI apps using the OpenAI Apps SDK.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "priority": 0.7,
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/random-companies.html",
+      "name": "random-companies-widget",
+      "description": "Renders an interactive UI showcasing the random companies returned by openai_app_creator_get_company_list.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "priority": 0.8,
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://mcp.fakton.com/chatapp-card.js",
+      "name": "chatapp-card-web-component",
+      "description": "Web Component that renders a card that can be used in apps/widgets.",
+      "mimeType": "text/javascript",
+      "annotations": {
+        "priority": 0.6,
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://mcp.fakton.com/chatapp-carousel.js",
+      "name": "chatapp-carousel-web-component",
+      "description": "Web Component that renders a carousel that can be used in apps/widgets.",
+      "mimeType": "text/javascript",
+      "annotations": {
+        "priority": 0.6,
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://mcp.fakton.com/chatapp-header.js",
+      "name": "chatapp-header-web-component",
+      "description": "Web Component that renders a header that can be used in apps/widgets.",
+      "mimeType": "text/javascript",
+      "annotations": {
+        "priority": 0.6,
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://mcp.fakton.com/widget-base.js",
+      "name": "widget-base-component",
+      "description": "Base component that does all the heavy lifting around Alpine and OpenAI host.",
+      "mimeType": "text/javascript",
+      "annotations": {
+        "priority": 0.6,
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://mcp.fakton.com/widget.css",
+      "name": "widget-css",
+      "description": "Base CSS with multi theme support.",
+      "mimeType": "text/css",
+      "annotations": {
+        "priority": 0.4,
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

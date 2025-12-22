@@ -1,0 +1,44 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/lists?$select=id,displayName,webUrl",
+      "name": "get-all-lists-in-site",
+      "title": "Get all lists in site",
+      "description": "Returns all Microsoft Lists in the site, including their name and web URL. Only key properties.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/lists/{listId}?$select=id,displayName,description,webUrl,createdDateTime,lastModifiedDateTime",
+      "name": "get-list-details",
+      "title": "Get list details",
+      "description": "Gets the most relevant details for a single Microsoft List.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/lists/{listId}/items?$expand=fields($select=Title,ID,Created,Modified,Author,Editor)&$select=id,createdDateTime,lastModifiedDateTime",
+      "name": "get-all-list-items",
+      "title": "Get all list items",
+      "description": "Returns all list items (rows) with just the core field values (Title, Created, etc.). No bloat.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/lists/{listId}/items/{itemId}?$expand=fields($select=Title,ID,Created,Modified,Author,Editor)&$select=id,createdDateTime,lastModifiedDateTime",
+      "name": "get-list-item-details",
+      "title": "Get list item details",
+      "description": "Fetches a single list item with just the essentials: main fields, timestamps, and author/editor.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/lists/{listId}/columns?$select=id,name,displayName,description,required,readOnly,type",
+      "name": "get-list-columns",
+      "title": "Get list columns",
+      "description": "Returns all column definitions for the list, showing only the relevant info.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

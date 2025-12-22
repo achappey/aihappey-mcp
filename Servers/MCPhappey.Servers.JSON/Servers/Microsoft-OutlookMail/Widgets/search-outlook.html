@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Mail Widget</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-carousel.js" defer></script>
+  <script src="%HOST_URL%/chatapp-card.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css">
+  <style>
+    .preview {
+      white-space: pre-wrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden
+    }
+
+    chatapp-card::part(description) {
+      color: var(--card-muted)
+    }
+  </style>
+  <script>
+    window.searchMailWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null, items: [],
+        init() { widgetBase.syncOpenAI(this); this.load(); },
+        load() {
+          const v = this.data?.value || this.data || [];
+          this.items = Array.isArray(v) ? v : [];
+        },
+        getHeader() {
+          return `Outlook: ${this.input?.query ?? ''} (${this.items?.length})`;
+        },
+        fromText(f, receivedDateTime) {
+          const e = f?.emailAddress;
+          const sender = e?.name || e?.address || '—';
+          const date = receivedDateTime
+            ? new Date(receivedDateTime).toLocaleString(undefined, {
+              dateStyle: 'medium',
+              timeStyle: 'short'
+            })
+            : '';
+          return date ? `${date} - ${sender}` : sender;
+        }
+      }
+    };
+  </script>
+</head>
+
+<body>
+  <div x-data="searchMailWidget()" x-init="init()"
+    style="display:flex; flex-direction:column; height:100%; overflow: hidden;">
+    <chatapp-header :text="getHeader()" no-fullscreen></chatapp-header>
+    <chatapp-carousel style="flex:1; min-height:0;">
+      <template x-for="m in items" :key="m.id || (m.subject + fromText(m.from))">
+        <chatapp-card :title="m.subject || '(No subject)'" :description="fromText(m.from)">
+          <div slot="content" class="preview" x-text="m.bodyPreview || '(no preview available)'"></div>
+          <button slot="actions" @click.prevent="window.open(m.webLink, '_blank')">
+            Open
+          </button>
+          <button slot="actions"
+            @click.prevent="window.askFollowup('Read and summarize the mail ' + m.subject + ' received on ' + m.receivedDateTime)">
+            Read
+          </button>
+        </chatapp-card>
+      </template>
+    </chatapp-carousel>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

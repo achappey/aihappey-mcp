@@ -1,0 +1,292 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/alerts?$top={top}&$filter=severity eq '{severity}'&$select=id,title,severity,status,createdDateTime,assignedTo,category,incidentId",
+      "name": "security-alerts-by-severity",
+      "title": "Security alerts by severity",
+      "description": "Lists recent security alerts filtered by severity, returning only essential fields.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/alerts/{alertId}?$select=id,title,description,severity,status,assignedTo,createdDateTime,lastUpdateDateTime,incidentId,alertWebUrl",
+      "name": "security-alert-details",
+      "title": "Security alert details",
+      "description": "Retrieves a specific alert with key details and related incident link.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/incidents?$top={top}&$filter=status eq '{status}'&$select=id,displayName,status,incidentWebUrl",
+      "name": "security-incidents-by-status",
+      "title": "Security incidents by status",
+      "description": "Lists incidents with their names, status, timestamps, and link.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/secureScores?$top={top}&$select=id,createdDateTime,currentScore,maxScore",
+      "name": "secure-scores",
+      "title": "Secure scores",
+      "description": "Lists secure score snapshots with date and score values.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/secureScoreControlProfiles?$filter=category eq '{category}'&$select=id,controlName,controlCategory,actionType,implementationCost,actionUrl",
+      "name": "secure-score-controls-by-category",
+      "title": "Secure score controls by category",
+      "description": "Retrieves controls filtered by category with name, cost, and action URL.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/threatIndicators?$top={top}&$filter=indicatorType eq '{type}'&$select=id,indicatorType,threatType,displayName,createdDateTime",
+      "name": "threat-indicators-by-type",
+      "title": "Threat indicators by type",
+      "description": "Lists threat indicators by type with minimal metadata.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/alerts_v2?$top={top}&$select={select}&$filter={filter}",
+      "name": "alerts-v2-list",
+      "title": "List alerts (v2) with filter",
+      "description": "Generic OData filter (e.g., severity eq 'high' and createdDateTime ge 2025-08-01T00:00:00Z). If no filter, pass 1 eq 1. Combine $filter terms as needed.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/alerts_v2/{alertId}?$select=id,title,description,severity,status,assignedTo,createdDateTime,lastUpdateDateTime,incidentId,alertWebUrl,incidentWebUrl",
+      "name": "alert-v2-details",
+      "title": "Alert details (v2, v1.0)",
+      "description": "Fetch a specific alert_v2 by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/incidents?$top={top}&$select={select}&$filter={filter}",
+      "name": "incidents-list",
+      "title": "List incidents with filter",
+      "description": "Use OData filter (e.g., status eq 'active'). If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/incidents/{incidentId}?$select=id,displayName,severity,status,classifications,determinations,createdDateTime,lastUpdateDateTime,incidentWebUrl",
+      "name": "incident-details",
+      "title": "Incident details",
+      "description": "Fetch a specific incident by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/auditLogs/signIns?$top={top}&$select={select}&$filter={filter}",
+      "name": "signins-list",
+      "title": "List sign-ins with filter",
+      "description": "Recommended to include a time window in $filter. Example: createdDateTime ge 2025-08-17T00:00:00Z and conditionalAccessStatus eq 'failure'. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/auditLogs/directoryAudits?$top={top}&$select={select}&$filter={filter}",
+      "name": "directory-audits-list",
+      "title": "List directory audit events with filter",
+      "description": "Example filters: activityDateTime ge <UTC> or initiatedBy/user/id eq '<objectId>'. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/auditLogs/provisioning?$top={top}&$select={select}&$filter={filter}",
+      "name": "provisioning-events-list",
+      "title": "List provisioning events with filter",
+      "description": "Example filters: activityDateTime ge <UTC>, statusInfo/status eq 'failure'. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityProtection/riskyUsers?$top={top}&$select={select}&$filter={filter}",
+      "name": "risky-users-list",
+      "title": "List risky users with filter",
+      "description": "Example filter: riskLevel eq 'high'. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityProtection/riskDetections?$top={top}&$select={select}&$filter={filter}",
+      "name": "risk-detections-list",
+      "title": "List risk detections with filter",
+      "description": "Example filter: detectedDateTime ge <UTC> and riskLevel eq 'high'. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/authenticationMethods/userRegistrationDetails?$top={top}&$select={select}&$filter={filter}",
+      "name": "user-registration-details-list",
+      "title": "List user registration details with filter",
+      "description": "Example filter: isMfaRegistered eq true. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/authenticationMethods/usersRegisteredByMethod(includedUserTypes='{includedUserTypes}',includedUserRoles='{includedUserRoles}')",
+      "name": "users-registered-by-method",
+      "title": "Users registered by method (function)",
+      "description": "Function parameters required (e.g., 'all','all'). OData $filter is not supported; $top/$skip may be limited.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/secureScores?$top={top}&$select={select}&$filter={filter}",
+      "name": "secure-scores-list",
+      "title": "List secure scores with filter",
+      "description": "Typical usage is just $top and $select. If no filter, pass 1 eq 1; filtering options are limited on this endpoint.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/secureScoreControlProfiles?$select={select}&$filter={filter}",
+      "name": "secure-score-controls-list",
+      "title": "List secure score control profiles with filter",
+      "description": "Example filter: controlCategory eq 'Identity'. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$top={top}&$select={select}&$filter={filter}",
+      "name": "managed-devices-list",
+      "title": "List managed devices with filter",
+      "description": "Example filter: operatingSystem eq 'Windows'. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/deviceCompliancePolicies/{policyId}",
+      "name": "device-compliance-policy-details",
+      "title": "Device compliance policy details",
+      "description": "Fetch policy details by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/roleManagement/directory/roleAssignments?$top={top}&$select={select}&$filter={filter}",
+      "name": "role-assignments-list",
+      "title": "List role assignments with filter",
+      "description": "Example filter: principalId eq '{objectId}' or roleDefinitionId eq '{roleId}'. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityGovernance/roleManagementAlerts/alerts?$top={top}&$filter={filter}&$expand={expand}",
+      "name": "pim-role-management-alerts-list",
+      "title": "List PIM role management alerts (beta)",
+      "description": "Common: $filter=scopeId eq '/' and scopeType eq 'DirectoryRole'. $expand=alertDefinition,alertIncidents. Some $expand combinations cannot be used with all $selects.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/security/attackSimulation/simulations?$top={top}&$select={select}&$filter={filter}",
+      "name": "attack-simulations-list",
+      "title": "List attack simulations with filter",
+      "description": "Example filter: createdDateTime ge <UTC>. If no filter, pass 1 eq 1.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

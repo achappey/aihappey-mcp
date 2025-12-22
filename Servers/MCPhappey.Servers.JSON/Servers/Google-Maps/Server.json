@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Google-Maps",
+    "title": "Google Maps",
+    "version": "1.0.0",
+    "description": "Use Google Maps data for distances, routing and location context in workflows.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Google_Maps_icon_%282015-2020%29.svg/2048px-Google_Maps_icon_%282015-2020%29.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Google.Maps.GoogleMapsService, MCPhappey.Tools"
+  ]
+}

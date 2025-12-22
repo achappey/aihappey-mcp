@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Rijksmuseum",
+    "title": "Rijksmuseum",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.rijksmuseum.nl",
+    "description": "Explore Rijksmuseum art data and search thousands of works freely online.",
+    "icons": [
+      {
+        "src": "https://itemsmagazine.com/media/uploads/images/Rijksmuseum_aug2012_logo_HR.jpg"
+      }
+    ]
+  }
+}

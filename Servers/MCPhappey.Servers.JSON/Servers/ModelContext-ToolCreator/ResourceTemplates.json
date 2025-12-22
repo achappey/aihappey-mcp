@@ -1,0 +1,23 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "mcp-editor://plugins/{pluginName}/tools",
+      "name": "mcp-plugin-tools",
+      "title": "MCP plugin tools",
+      "description": "Lists all tools available for the plugin specified by {pluginName}.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"], "priority": 0.5 }
+    },
+    {
+      "uriTemplate": "mcp-editor://decoders/{mimeType}",
+      "name": "mcp-editor-decoders-mimetype",
+      "title": "MCP Editor decoders by MIME type",
+      "description": "Lists all decoders in the MCP Editor that support the specified MIME type.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.7
+      }
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "prompts": [
+    {
+      "prompt": "Geef alle contactpersonen die het afgelopen jaar zijn toegevoegd met een specifiek e-mailadresdomein {emailDomein}. Toon maximaal 50 resultaten met naam, e-mail en gekoppelde bedrijf.",
+      "template": {
+        "name": "crm-contacten-op-emaildomein",
+        "title": "Contactpersonen met specifiek e-maildomein",
+        "description": "Overzicht van contactpersonen met een specifiek e-maildomein, maximaal 50 stuks.",
+        "arguments": [
+          {
+            "name": "emailDomein",
+            "description": "Het e-maildomein waar je op wilt filteren (bijvoorbeeld '@bedrijf.nl').",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Toon de tien laatst toegevoegde bedrijven in het CRM, met naam, branche, datum van toevoegen en hoofdcontactpersoon (indien bekend).",
+      "template": {
+        "name": "crm-laatst-toegevoegde-bedrijven",
+        "title": "Tien laatst toegevoegde bedrijven",
+        "description": "Geeft een overzicht van de tien meest recent aangemaakte bedrijven in Simplicate.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Geef van bedrijf {naamBedrijf} een kort profiel: toon de kerngegevens (naam, branche, relatiemanager, e-mail, telefoon, website) en maximaal vijf recente contactpersonen met hun functie.",
+      "template": {
+        "name": "crm-bedrijf-kort-profiel",
+        "title": "Kort profiel van bedrijf",
+        "description": "Toont een compact profiel van een bedrijf, plus een beknopte lijst van de belangrijkste contactpersonen.",
+        "arguments": [
+          {
+            "name": "naamBedrijf",
+            "description": "Naam van het bedrijf waarvan je het profiel wilt opvragen.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Zoek alle contactpersonen waarvan de functietitel {functie} bevat (ongeacht hoofdletters). Werkwijze: (1) filter contactpersonen op het veld functie met een case-insensitive contains-zoekopdracht; (2) haal per contactpersoon de naam, het bedrijf, de functietitel, het e-mailadres en telefoonnummer op; (3) negeer contactpersonen zonder functietitel of met lege/onbekende waarden; (4) presenteer de resultaten in een tabel {naam, bedrijf, functie, email, telefoon}. Als er geen resultaten zijn, toon de melding: 'Geen contactpersonen gevonden met functie {functie}'.",
+      "template": {
+        "name": "crm-contactpersonen-op-functie",
+        "title": "Contactpersonen op functie",
+        "description": "Zoekt contactpersonen waarvan de functietitel (deels) overeenkomt met de ingevoerde waarde. Resultaten worden getoond als tabel met naam, bedrijf, functie, email en telefoon.",
+        "arguments": [
+          {
+            "name": "functie",
+            "title": "Functie",
+            "description": "Zoekwaarde voor de functietitel",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Bekijk de contactpersonen van bedrijf {naamBedrijf} en geef inzicht: zijn er functiegroepen die sterk vertegenwoordigd zijn? Noem maximaal drie meest voorkomende functies en geef een korte uitleg bij het resultaat.",
+      "template": {
+        "name": "crm-functieverdeling-contactpersonen",
+        "title": "Functieverdeling contactpersonen binnen bedrijf",
+        "description": "Geeft een verdeling van de meest voorkomende functies onder contactpersonen binnen een bedrijf.",
+        "arguments": [
+          {
+            "name": "naamBedrijf",
+            "description": "Naam van het bedrijf waarvan je de functieverdeling wilt weten.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Analyseer de laatste 25 toegevoegde bedrijven binnen branche {brancheNaam}. Geef per bedrijf aan wie de relatiemanager is, en meld opvallende patronen, zoals meerdere bedrijven bij dezelfde relatiemanager of een plotselinge toename binnen deze branche.",
+      "template": {
+        "name": "crm-patroonanalyse-nieuwe-bedrijven",
+        "title": "Patronen in nieuwe bedrijven per branche",
+        "description": "Analyse van patronen in nieuwe bedrijven binnen een branche.",
+        "arguments": [
+          {
+            "name": "brancheNaam",
+            "description": "Naam van de branche waarin je wilt zoeken.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Voor branche {brancheNaam}: welke drie bedrijven hebben de meeste actieve contactpersonen? Geef per bedrijf het aantal actieve contacten, en beschrijf kort wat deze bedrijven typeert volgens hun profiel.",
+      "template": {
+        "name": "crm-top-bedrijven-op-actieve-contacten",
+        "title": "Bedrijven op actieve contactpersonen per branche",
+        "description": "Vindt de top 3 bedrijven per branche op basis van aantal actieve contactpersonen en beschrijft opvallende kenmerken.",
+        "arguments": [
+          {
+            "name": "brancheNaam",
+            "description": "Naam van de branche waarin je wilt zoeken.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef alle bedrijven waarvoor ik de relatiemanager ben. Toon per bedrijf: naam, branche, status, datum van toevoegen en het aantal gekoppelde contactpersonen. Gebruik mijn huidige gebruikerscontext en haal alle resultaten op met interne paginering.",
+      "template": {
+        "name": "crm-mijn-bedrijven",
+        "title": "Bedrijven onder mijn relatiebeheer",
+        "description": "Lijst van alle bedrijven waarbij de huidige gebruiker als relatiemanager staat ingesteld.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Geef alle actieve personen waarvoor ik als relatiemanager of eigenaar ben ingesteld. Toon per contact: naam, functie, e-mail, gekoppeld bedrijf en status. Gebruik mijn huidige gebruikerscontext en haal alle resultaten op met interne paginering.",
+      "template": {
+        "name": "crm-mijn-personen",
+        "title": "Personen onder mijn relatiebeheer",
+        "description": "Alle actieve personen gekoppeld aan de huidige gebruiker als relatiebeheerder.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Geef alle bedrijven die gekoppeld zijn aan team {teamNaam}. Toon per bedrijf: naam, branche, status, datum van toevoegen en het aantal gekoppelde contactpersonen. Gebruik interne paginering totdat de lijst compleet is.",
+      "template": {
+        "name": "crm-bedrijven-per-team",
+        "title": "Bedrijven per team",
+        "description": "Lijst van alle bedrijven die zijn gekoppeld aan een specifiek team via de team-property.",
+        "arguments": [
+          {
+            "name": "teamNaam",
+            "description": "Naam van het team waarop je wilt filteren.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef alle actieve personen die gekoppeld zijn aan team {teamNaam}. Toon per contact: naam, functie, e-mail, gekoppeld bedrijf en status. Gebruik interne paginering totdat de lijst compleet is.",
+      "template": {
+        "name": "crm-personen-per-team",
+        "title": "Personen per team",
+        "description": "Alle actieve personen die via de team-property gekoppeld zijn aan een specifiek team.",
+        "arguments": [
+          {
+            "name": "teamNaam",
+            "description": "Naam van het team waarop je wilt filteren.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Toon alle bedrijven waarvoor {medewerkerNaam} als relatiebeheerder geregistreerd staat. Werkwijze: (1) filter bedrijven op het veld relatiebeheerder met een case-insensitive match op {relatiebeheerder}; (2) haal per bedrijf de belangrijkste velden op zoals bedrijfsnaam, branche, plaats, status en eventueel e-mailadres/telefoon; (3) negeer bedrijven zonder relatiebeheerder of met lege/onbekende waarden; (4) presenteer de resultaten in een nette tabel {bedrijfsnaam, branche, plaats, status, email, telefoon}. Als er geen bedrijven zijn gevonden, toon de melding: 'Geen bedrijven gevonden voor relatiebeheerder {medewerkerNaam}'.",
+      "template": {
+        "name": "crm-bedrijven-per-relatiebeheerder",
+        "title": "Bedrijven per relatiebeheerder",
+        "description": "Geeft een tabel met bedrijven waarvoor een specifieke relatiebeheerder verantwoordelijk is, inclusief kerngegevens zoals bedrijfsnaam, branche, plaats, status en contactgegevens.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "title": "Relatiebeheerder",
+            "description": "Naam van de relatiebeheerder.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef een overzicht van alle bedrijven van team {teamNaam}. Werkwijze: (1) filter bedrijven op team (case-insensitive match op {teamNaam}); (2) gebruik de velden bedrijfsnaam, branche en relatiebeheerder; (3) groepeer resultaten per relatiebeheerder en tel het aantal bedrijven; (4) maak daarna ook een verdeling van de branches per relatiebeheerder.\n\nOutput:\n- Korte tekst: totaal aantal bedrijven, top 3 relatiebeheerders (met aantal bedrijven en belangrijkste branches).\n- Grafiek 1: staafdiagram met het aantal bedrijven per relatiebeheerder (sorteer aflopend).\n- Grafiek 2: donut/piechart met de totale verdeling van branches in het team.\n- Sluit af met 2–3 bullets ‘Key callouts’ (bijv. wie het grootste portfolio heeft, opvallende branch-concentratie, of ontbrekende branches).\n\nToon geen volledige lijst met alle bedrijven, alleen de samenvatting + de grafieken.",
+      "template": {
+        "name": "crm-team-analyse",
+        "title": "Relatiebeheerders en branches per team",
+        "description": "Toont een kort overzicht van bedrijven in één team met tekstuele samenvatting en twee duidelijke grafieken (bedrijven per relatiebeheerder en totale branchmix).",
+        "arguments": [
+          {
+            "name": "teamNaam",
+            "title": "Teamnaam",
+            "description": "Naam van het team.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Maak een piechart van het aantal bedrijven per branche, gefilterd op relatiebeheerder {medewerkerNaam}. Werkwijze: (1) tel eerst het totaal aantal bedrijven waar relatiebeheerder exact {medewerkerNaam} is (case-insensitive match op veld bedrijf.relatiebeheerder). (2) Als dit totaal ≤ 100: haal alle bedrijven in één keer op met select=branche, aggregeer zelf per branche, negeer lege/onbekende/null-waarden, en maak de dataset {label, count}. (3) Als dit totaal > 100: gebruik de fallback-methode → haal de volledige stamlijst branches op (id + label), negeer lege/onbekende/null-waarden, en tel per branche met limit=1&metadata=count en filter (brancheId eq '{brancheId}' AND tolower(relatiebeheerder) eq tolower('{medewerkerNaam}')). (4) Combineer resultaten tot een dataset {label, count}. (5) Visualiseer als piechart met duidelijke kleurverschillen tussen segmenten en zonder legend. (6) Sorteer segmenten aflopend op count. (7) Als er helemaal geen bedrijven zijn, toon een korte melding “Geen bedrijven gevonden voor relatiebeheerder {medewerkerNaam}”.",
+      "template": {
+        "name": "crm-chart-bedrijven-per-branche-relatiebeheerder",
+        "title": "Bedrijven per branche en relatiebeheerder",
+        "description": "Piechart van bedrijven per branche binnen een specifieke relatiebeheerder. Slimme optimalisatie: bij ≤100 bedrijven één query met select=branche, anders fallback met stamlijst+count. Segmenten hebben duidelijke kleuren, geen legend, en zijn aflopend gesorteerd.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "title": "Relatiebeheerder",
+            "description": "Naam van de relatiebeheerder.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Maak een piechart van het aantal bedrijven per branche, gefilterd op team {teamNaam}. Werkwijze: (1) haal de volledige stamlijst ‘branches’ op (id + label); (2) negeer lege/onbekende/null-waarden; (3) voor elke geldige branche tel je het aantal bedrijven BINNEN het opgegeven team {teamNaam} met limit=1&metadata=count en een filter die exact matcht op branche-id én team (case-insensitive exact match op het veld bedrijf.team). Voorbeeld filter: brancheId eq '{brancheId}' AND tolower(team) eq tolower('{teamNaam}'); (4) combineer resultaten tot een dataset {label, count}; (5) visualiseer als piechart met duidelijke kleurverschillen tussen segmenten en zonder legend; (6) sorteer segmenten aflopend op count; (7) als alle counts 0 zijn, toon een korte melding “Geen bedrijven gevonden voor team {teamNaam}”.",
+      "template": {
+        "name": "crm-chart-bedrijven-per-branche-team",
+        "title": "Bedrijven per branche en team",
+        "description": "Piechart van bedrijven per branche binnen een specifiek team. Lege waarden worden genegeerd. Segmenten hebben duidelijke kleuren, geen legend, en zijn aflopend gesorteerd.",
+        "arguments": [
+          {
+            "name": "teamNaam",
+            "title": "Teamnaam",
+            "description": "Exacte teamnaam.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Maak een piechart van het aantal bedrijven per branche. Werkwijze: (1) haal eerst de volledige stamlijst ‘branches’ op (id + label); (2) negeer lege/onbekende/null-waarden; (3) voor elke geldige branche voer een telling uit met limit=1&metadata=count en een filter query die exact op die branche-id matcht; (4) combineer resultaten tot een dataset {label, count}; (5) visualiseer als een piechart met duidelijke kleurverschillen tussen de segmenten en zonder legend; (6) sorteer segmenten aflopend op count.",
+      "template": {
+        "name": "crm-chart-bedrijven-per-branche",
+        "title": "Bedrijven per branche",
+        "description": "Maakt een piechart van bedrijven per branche, met stamlijst en count-queries. Lege waarden worden genegeerd. Segmenten hebben duidelijke kleuren en geen legend.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Maak een piechart van het aantal bedrijven per relatiesoort. Werkwijze: (1) haal eerst de stamlijst ‘relatiesoorten’ op (id + label); (2) negeer lege/onbekende/null-waarden; (3) voor elke geldige relatiesoort doe een telling met limit=1&metadata=count en een filter query die exact op die relatiesoort-id matcht; (4) combineer resultaten tot een dataset {label, count}; (5) visualiseer als piechart met duidelijke kleurverschillen per segment en zonder legend; (6) sorteer segmenten aflopend op count.",
+      "template": {
+        "name": "crm-chart-bedrijven-per-relatiesoort",
+        "title": "Bedrijven per relatiesoort",
+        "description": "Maakt een piechart van bedrijven per relatiesoort, met stamlijst en count-queries. Lege waarden worden genegeerd. Segmenten hebben duidelijke kleuren en geen legend.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Geef een overzicht met kerncijfers uit het CRM. Gebruik uitsluitend count-requests (limit=1&metadata=count) met filters. Haal de volgende waarden op: totaal aantal bedrijven, totaal aantal personen, totaal aantal contactpersonen, en het gemiddelde aantal contactpersonen per bedrijf (berekend uit de counts).",
+      "template": {
+        "name": "crm-totaaloverzicht",
+        "title": "CRM totaaloverzicht",
+        "description": "Toont kerncijfers: totaal aantal bedrijven, personen, contactpersonen en gemiddeld aantal contactpersonen per bedrijf. Alles gebaseerd op count-requests met filters.",
+        "arguments": []
+      }
+    }
+  ]
+}

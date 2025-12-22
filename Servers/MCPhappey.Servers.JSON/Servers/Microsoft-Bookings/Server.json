@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Bookings",
+    "title": "Microsoft Bookings",
+    "version": "1.0.0",
+    "description": "List Bookings businesses, appointments and services for scheduling insights.",
+    "websiteUrl": "https://outlook.office.com/bookings",
+    "icons": [
+      {
+        "src": "https://store-images.s-microsoft.com/image/apps.53739.9d34a54c-e776-490b-aa19-4ed98464d29e.3b1aa51c-88f6-49da-b578-51f701696daa.9885235c-592c-4112-84b1-0000b25c6588.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Bookings.ReadWrite.All https://graph.microsoft.com/Bookings.Manage.All"
+  }
+}

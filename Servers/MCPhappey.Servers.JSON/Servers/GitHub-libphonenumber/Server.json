@@ -1,0 +1,12 @@
+{
+  "serverInfo": {
+    "name": "GitHub-libphonenumber",
+    "title": "GitHub libphonenumber",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/jarroda/libphonenumber-dotnet",
+    "description": "Parse, validate and format phone numbers with correct country and type detection."
+  },
+  "plugins": [
+    "MCPhappey.Tools.PhoneNumbers.PhoneNumberPlugin, MCPhappey.Tools"
+  ]
+}

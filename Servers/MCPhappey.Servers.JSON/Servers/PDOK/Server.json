@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "PDOK",
+    "title": "Publieke Dienstverlening op de Kaart",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.pdok.nl",
+    "description": "Open NL-geodata via PDOK: adressen, kaarten en datasets voor ruimtelijke analyses.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/7768379?s=280&v=4"
+      }
+    ]
+  }
+}

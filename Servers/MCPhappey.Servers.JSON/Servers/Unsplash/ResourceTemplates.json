@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.unsplash.com/search/photos?query={query}&page={page}&per_page={per_page}&order_by={order_by}&collections={collections}&content_filter={content_filter}&color={color}&orientation={orientation}&lang={lang}",
+      "name": "search-photos",
+      "title": "Search photos",
+      "description": "Searches Unsplash for photos matching the given query. Supports filtering by color, orientation, collections, and content safety, with pagination and language options. Valid color values are: black_and_white, black, white, yellow, orange, red, purple, magenta, green, teal, and blue. Valid order_by values are latest and relevant. Valid orientation values: landscape, portrait, squarish",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.unsplash.com/search/collections?query={query}&page={page}&per_page={per_page}",
+      "name": "search-collections",
+      "title": "Search collections",
+      "description": "Searches Unsplash for collections matching the given query. Returns a single page of results with pagination options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.unsplash.com/search/users?query={query}&page={page}&per_page={per_page}",
+      "name": "search-users",
+      "title": "Search users",
+      "description": "Searches Unsplash for users matching the given query. Returns a single page of results with pagination options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.unsplash.com/topics/{id_or_slug}",
+      "name": "get-topic",
+      "title": "Get a topic",
+      "description": "Retrieves details for a single topic by its ID or slug.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.unsplash.com/topics/{id_or_slug}/photos?page={page}&per_page={per_page}&orientation={orientation}&order_by={order_by}",
+      "name": "get-topic-photos",
+      "title": "Get a topic’s photos",
+      "description": "Retrieves a paginated list of photos from a specific topic, with optional orientation and sorting filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/followedSites?$select=id,displayName,webUrl",
+      "name": "list-followed-sharepoint-sites",
+      "title": "List followed SharePoint sites",
+      "description": "Get a list of all followed SharePoint sites",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/sharepoint-search-results.html",
+      "name": "sharepoint-search-results-widget",
+      "description": "Search results widget that displays SharePoint search results.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

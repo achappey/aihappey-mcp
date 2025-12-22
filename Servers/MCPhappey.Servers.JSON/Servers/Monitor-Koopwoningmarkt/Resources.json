@@ -1,0 +1,34 @@
+{
+  "resources": [
+    {
+      "name": "kwartaalrapportage-2025-1",
+      "title": "Kwartaalrapportage Monitor Koopwoningmarkt 2025-1",
+      "description": "PDF-rapportage Q1 2025",
+      "uri": "https://monitor-koopwoningmarkt.nl/wp-content/uploads/2025/05/Kwartaalrapportage-Monitor-Koopwoningmarkt-2025-1.pdf",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "name": "kwartaalrapportage-2025-2",
+      "title": "Kwartaalrapportage Monitor Koopwoningmarkt 2025-2",
+      "description": "PDF-rapportage Q2 2025",
+      "uri": "https://monitor-koopwoningmarkt.nl/wp-content/uploads/2025/08/Kwartaalrapportage-Monitor-Koopwoningmarkt-2025-2.pdf",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "name": "monitor-koopwoningmarkt-kwartaalrapportages-index",
+      "title": "Kwartaalrapportages - Monitor Koopwoningmarkt",
+      "description": "Indexpagina met alle kwartaalrapportages (links naar PDF’s) van Monitor Koopwoningmarkt",
+      "uri": "https://monitor-koopwoningmarkt.nl/publicaties/kwartaalrapportages/",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

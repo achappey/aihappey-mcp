@@ -1,0 +1,16 @@
+{
+  "resources": [
+     {
+      "uri": "https://graph.microsoft.com/beta/solutions/bookingBusinesses",
+      "name": "all-booking-businesses",
+      "title": "List booking businesses",
+      "description": "Lists all booking businesses the signed-in user has access to.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

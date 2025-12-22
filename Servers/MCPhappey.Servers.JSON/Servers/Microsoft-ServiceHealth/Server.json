@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-ServiceHealth",
+    "title": "Microsoft Service Health",
+    "version": "1.0.0",
+    "description": "Shows Microsoft 365 service status, issues and announcements with real-time health details.",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/ServiceHealth.Read.All"
+  }
+}

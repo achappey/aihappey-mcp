@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users?$filter={userFilter}&$top=100&$select=id,displayName,userPrincipalName,mail,givenName,surname,jobTitle,department,accountEnabled",
+      "name": "filtered-users",
+      "title": "Filtered users",
+      "description": "Flexible user listing: filter by any supported property. Example filters: startswith(displayName,'Arthur'), department eq '[departmentName]', accountEnabled eq true, etc. Replace {userFilter} as needed.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups?$filter={groupFilter}&$select=id,displayName,mail,description,securityEnabled,mailEnabled,groupTypes&$top=100",
+      "name": "filtered-security-groups",
+      "title": "Filtered security groups",
+      "description": "Search Microsoft 365 security groups using a flexible filter. Example filters: startswith(displayName,'AI'), securityEnabled eq true, mailEnabled eq false.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}/members?$select=id,displayName,mail,userPrincipalName&$top=100",
+      "name": "list-group-members",
+      "title": "List group members",
+      "description": "List all members of a Microsoft 365 group by providing the group ID. Use in combination with the 'Filtered security groups' template.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

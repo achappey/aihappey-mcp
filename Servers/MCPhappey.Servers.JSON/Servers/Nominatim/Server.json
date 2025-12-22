@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Nominatim",
+    "title": "Nominatim",
+    "version": "1.0.0",
+    "websiteUrl": "https://nominatim.org",
+    "description": "Worldwide geocoding: find places, convert coordinates and get address details using OSM.",
+    "icons": [
+      {
+        "src": "https://nlnet.nl/project/Nominatim-lib/openstreetmap.logo.svg"
+      }
+    ]
+  },
+  "instructions": "Always include visible credit “© OpenStreetMap contributors” with any publicly shown address or location results, and link it to https://www.openstreetmap.org/copyright when possible. Keep the attribution readable and near the displayed output. Do not hide, remove, or replace existing OSM credit. If redistributing or exporting derived data, preserve attribution and follow share-alike under the ODbL.",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

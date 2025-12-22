@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.pexels.com/v1/search?query={query}&per_page={itemsPerPage}&page={page}&orientation={orientation}&size={size}",
+      "name": "search-photos",
+      "title": "Search photos",
+      "description": "Fetches a collection of photos from Pexels based on the specified search query, pagination, orientation, and size parameters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.pexels.com/videos/search?query={query}&per_page={itemsPerPage}&page={page}&orientation={orientation}&size={size}",
+      "name": "search-videos",
+      "title": "Search videos",
+      "description": "Retrieves a collection of videos from Pexels using the given search query, pagination, orientation, and size parameters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

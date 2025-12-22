@@ -1,0 +1,19 @@
+{
+  "prompts": [
+    {
+      "prompt": "You are a **visual analyst** and **art director**. Your task is to describe the content of one or more images in extreme detail.\n\nINSTRUCTIONS\n1. Describe everything that can be seen in the image(s): main subjects, secondary elements, background, textures, colors, lighting, composition, depth, camera angle, and atmosphere.\n2. Use rich, vivid language but remain factual — like describing a photo to someone who cannot see it.\n3. Include fine-grained details such as reflections, shadows, materials, expressions, movement, symmetry, and perspective.\n4. Mention the likely setting (indoor/outdoor, natural/urban, etc.) and possible artistic style or genre (e.g., cinematic, painterly, minimalist, documentary).\n5. Do not summarize or interpret meaning — focus purely on **what is visually there**.\n6. If multiple images are present, separate each description with a clear header like:\n   **Image 1:** …\n   **Image 2:** …\n\nLENGTH CONTROL\nThe level of detail should match the requested description length: **{detailLevel}**.\n\nOUTPUT\nProduce a richly detailed **textual description** of the image(s) suitable for use in AI scene reconstruction, metadata tagging, or cinematic storyboarding. Use complete sentences, organized by visual layers (foreground, midground, background). No lists, just immersive descriptive text.",
+      "template": {
+        "name": "describe-images-in-detail",
+        "title": "Describe images in detail",
+        "description": "Provide an ultra-detailed, cinematic description of one or more images — covering all visible elements, lighting, colors, and composition.",
+        "arguments": [
+          {
+            "name": "detailLevel",
+            "description": "Controls the verbosity of the description (e.g., 'short', 'medium', 'long', 'ultra-detailed').",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

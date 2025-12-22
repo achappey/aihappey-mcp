@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OneNote",
+    "title": "Microsoft OneNote",
+    "version": "1.0.0",
+    "description": "Expose OneNote notebooks, sections and pages.",
+    "websiteUrl": "https://m365.cloud.microsoft/launch/onenote",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_OneNote_Icon_%282025_-_present%29.svg/1166px-Microsoft_OneNote_Icon_%282025_-_present%29.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.OneNote.GraphOneNote, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All https://graph.microsoft.com/Notes.ReadWrite.All"
+  }
+}

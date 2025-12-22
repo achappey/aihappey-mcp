@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "WorldAirQualityIndex",
+    "title": "World Air Quality Index",
+    "version": "1.0.0",
+    "description": "Real-time and forecast air quality for any city or location, including station search.",
+    "websiteUrl": "https://aqicn.org",
+    "icons": [
+      {
+        "src": "https://aqicn.org/air/images/aqicnxl.png"
+      }
+    ]
+  }
+}

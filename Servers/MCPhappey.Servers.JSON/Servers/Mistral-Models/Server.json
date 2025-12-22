@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Mistral-Models",
+    "title": "Mistral Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://mistral.ai",
+    "description": "Browse Mistral AI models and resources to pick the right one for your tasks.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Mistral_AI_logo_%282025%E2%80%93%29.svg/1200px-Mistral_AI_logo_%282025%E2%80%93%29.svg.png"
+      }
+    ]
+  }
+}

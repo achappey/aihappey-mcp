@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "EuropeanCentralBank",
+    "title": "European Central Bank",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.ecb.europa.eu",
+    "description": "ECB data: euro area interest rates, exchange rates and monetary statistics for analysis.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Logo_European_Central_Bank.svg/1200px-Logo_European_Central_Bank.svg.png"
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Kroki",
+    "title": "Kroki",
+    "version": "1.0.0",
+    "websiteUrl": "https://kroki.io",
+    "description": "Turn text diagrams (PlantUML, Mermaid, etc.) into rendered images for docs and design.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/4894788?v=4"
+      }
+    ]
+  },
+  "instructions": "Invoke the Kroki tool to render the diagrams; do not output code or text in codeblocks, unless explicitly requested.",
+  "plugins": [
+    "MCPhappey.Tools.Kroki.KrokiDiagrams, MCPhappey.Tools"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OutlookCalendar",
+    "title": "Microsoft Outlook Calendar",
+    "version": "1.0.0",
+    "websiteUrl": "https://outlook.office.com/calendar",
+    "description": "Manage your Outlook calendar: view events, add meetings, check schedules, avoid conflicts.",
+    "icons": [
+      {
+        "src": "https://www.ek.co/wp-content/uploads/2025/04/outlooklogo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Outlook.GraphOutlookCalendar, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/Calendars.ReadWrite.Shared"
+  }
+}

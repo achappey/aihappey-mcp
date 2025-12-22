@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "GitHub-NAudio",
+    "title": "GitHub NAudio",
+    "version": "1.0.0",
+    "description": "Combine multiple MP3 audio clips into one single playable file.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/11003971?s=280&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.AudioPlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

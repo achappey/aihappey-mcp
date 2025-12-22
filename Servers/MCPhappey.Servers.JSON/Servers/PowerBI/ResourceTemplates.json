@@ -1,0 +1,95 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}",
+      "name": "get-dataset-by-id",
+      "title": "Get dataset by ID",
+      "description": "Retrieve a single dataset by its unique ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}/refreshes",
+      "name": "get-dataset-refresh-history",
+      "title": "Get dataset refresh history",
+      "description": "Retrieve refresh history for a specific dataset.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.powerbi.com/v1.0/myorg/groups/{groupId}/reports",
+      "name": "list-reports-in-workspace",
+      "title": "List reports in workspace",
+      "description": "List all reports within a specific workspace (group).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.powerbi.com/v1.0/myorg/groups/{groupId}/datasets",
+      "name": "list-datasets-in-workspace",
+      "title": "List datasets in workspace",
+      "description": "Retrieve all datasets in a specific workspace (group).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}/tables",
+      "name": "list-tables-in-streaming-dataset",
+      "title": "List tables in streaming dataset",
+      "description": "List all tables in a specific streaming dataset.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.powerbi.com/v1.0/myorg/datasets/{datasetId}/tables/{tableName}/columns",
+      "name": "list-columns-in-table",
+      "title": "List columns in table",
+      "description": "List all columns in a specific table of a dataset.",
+      "mimeType": "application/json"
+    },
+    {
+      "uriTemplate": "https://api.powerbi.com/v1.0/myorg/groups/{groupId}/dashboards",
+      "name": "list-dashboards-in-workspace",
+      "title": "List dashboards in workspace",
+      "description": "List all dashboards within a specific workspace (group).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.powerbi.com/v1.0/myorg/reports/{reportId}",
+      "name": "get-report-by-id",
+      "title": "Get report by ID",
+      "description": "Retrieve a report by its unique ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

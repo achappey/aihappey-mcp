@@ -1,0 +1,9 @@
+{
+  "serverInfo": {
+    "name": "WorldTimeAPI",
+    "title": "WorldTimeAPI",
+    "version": "1.0.0",
+    "websiteUrl": "https://worldtimeapi.org",
+    "description": "Get current time and timezone details worldwide for scheduling and logs."
+  }
+}

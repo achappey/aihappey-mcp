@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/onenote/pages/{page-id}/content",
+      "name": "onenote-page-content",
+      "title": "OneNote Page Content",
+      "description": "Gets the HTML content of a specific OneNote page.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/onenote/sections/{section-id}/pages",
+      "name": "onenote-pages-in-section",
+      "title": "List pages in a section",
+      "description": "List all pages in a specific section by section id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/onenote/pages/{page-id}/content",
+      "name": "onenote-page-html",
+      "title": "Get page HTML",
+      "description": "Fetch the HTML content for a OneNote page by id.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/todo/lists",
+      "name": "My To Do task lists",
+      "description": "Get a list of all To Do task lists",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

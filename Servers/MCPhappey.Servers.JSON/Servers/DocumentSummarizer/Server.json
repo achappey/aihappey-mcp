@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "DocumentSummarizer",
+    "title": "Document Summarizer",
+    "version": "1.0.0",
+    "description": "Creates a clear summary from long documents so you quickly grasp the main points without reading everything."
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.DocumentSummarizer, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

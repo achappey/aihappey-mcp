@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://opentdb.com/api.php?amount={amount}&category={categoryId}&difficulty={difficulty}&type={type}&encode={encode}&token={token}",
+      "name": "get-questions-advanced",
+      "title": "Get trivia questions with filters",
+      "description": "Retrieves trivia questions with optional filters for amount, category, difficulty, type, encoding, and session token.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opentdb.com/api_token.php?command=reset&token={token}",
+      "name": "reset-session-token",
+      "title": "Reset a session token",
+      "description": "Resets a session token so previously served questions can be reused.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opentdb.com/api_count.php?category={categoryId}",
+      "name": "category-question-count",
+      "title": "Get question counts for a category",
+      "description": "Returns the number of available questions in a specific category.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

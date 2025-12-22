@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Contacts",
+    "title": "Microsoft Contacts",
+    "version": "1.0.0",
+    "description": "Access and search your Outlook contacts and contact folders.",
+    "websiteUrl": "https://outlook.office.com/people",
+    "icons": [
+      {
+        "src": "https://www.ek.co/wp-content/uploads/2025/04/outlooklogo.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Contacts.ReadWrite.Shared"
+  }
+}

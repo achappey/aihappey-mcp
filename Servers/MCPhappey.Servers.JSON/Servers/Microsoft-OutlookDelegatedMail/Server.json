@@ -1,0 +1,28 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OutlookDelegatedMail",
+    "title": "Microsoft Outlook Delegated Mail",
+    "version": "1.0.0",
+    "websiteUrl": "https://outlook.office.com/mail",
+    "description": "Read and manage Outlook emails you're allowed to handle for someone else.",
+    "icons": [
+      {
+        "src": "https://www.ek.co/wp-content/uploads/2025/04/outlooklogo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Outlook.GraphOutlookDelegatedMail, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/Mail.ReadWrite.Shared https://graph.microsoft.com/Mail.Send.Shared"
+  },
+  "tools": {
+    "graph_outlook_mail_search": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/search-outlook.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

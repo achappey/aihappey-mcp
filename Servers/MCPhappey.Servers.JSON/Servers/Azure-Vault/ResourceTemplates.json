@@ -1,0 +1,103 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/secrets?api-version=7.4",
+      "name": "List secrets",
+      "description": "Retrieve a list of all secret metadata in the specified vault",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/secrets/{secretName}?api-version=7.4",
+      "name": "Get secret (latest)",
+      "description": "Retrieve the latest value and attributes of the specified secret",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/secrets/{secretName}/{secretVersion}?api-version=7.4",
+      "name": "Get secret version",
+      "description": "Retrieve a specific version of a secret",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/secrets/{secretName}/versions?api-version=7.4",
+      "name": "List secret versions",
+      "description": "List all versions of the specified secret",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/deletedsecrets?api-version=7.4",
+      "name": "List deleted secrets",
+      "description": "Enumerate soft-deleted secrets that are still within retention period",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/deletedsecrets/{secretName}?api-version=7.4",
+      "name": "Get deleted secret",
+      "description": "Retrieve details of a single soft-deleted secret",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/certificates?api-version=7.4",
+      "name": "List certificates",
+      "description": "Retrieve metadata for certificates stored in the vault",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/certificates/{certName}?api-version=7.4",
+      "name": "Get certificate",
+      "description": "Retrieve the full certificate bundle for the specified certificate",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/keys?api-version=7.4",
+      "name": "List keys",
+      "description": "Enumerate keys stored in the vault",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/keys/{keyName}?api-version=7.4",
+      "name": "Get key",
+      "description": "Retrieve the public portion and attributes of a key",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{vaultName}.vault.azure.net/keys/{keyName}/versions?api-version=7.4",
+      "name": "List key versions",
+      "description": "List all versions of a specified key",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

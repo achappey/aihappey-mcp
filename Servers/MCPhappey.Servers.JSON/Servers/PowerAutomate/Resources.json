@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://emea.api.flow.microsoft.com/providers/Microsoft.ProcessSimple/environments?api-version=2016-11-01",
+      "name": "environments",
+      "title": "List environments",
+      "description": "Retrieves all Power Platform environments accessible to the signed-in user, including their names, regions, and display names.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

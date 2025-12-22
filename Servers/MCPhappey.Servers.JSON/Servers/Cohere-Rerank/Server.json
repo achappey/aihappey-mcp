@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "Cohere-Rerank",
+    "title": "Cohere Rerank",
+    "version": "1.0.0",
+    "websiteUrl": "https://cohere.com",
+    "description": "Ranks documents by relevance to your query so the best matches appear first.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/cohere-color.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/cohere-color.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Cohere.CohereService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

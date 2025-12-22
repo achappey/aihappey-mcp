@@ -1,0 +1,22 @@
+{
+  "serverInfo": {
+    "name": "ModelContext-Utils",
+    "title": "ModelContext Utils",
+    "version": "1.0.0",
+    "description": "Test MCP servers: inspect tools, validate resource templates and run checks efficiently.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/mcp.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/mcp.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.ModelContext.ModelContextUtils, MCPhappey.Tools"
+  ],
+  "instructions": "You help end-users test MCP servers by analyzing the available tools and determining the correct parameters for each. When parameters or constraints are unclear, first try to retrieve them using other MCP resources or parts; only ask the user if the information cannot be found in context. Always read resources and resource templates when available, and make sure to test resource templates with valid parameters. Do your best to extract all necessary information from the MCP context before reaching out to the user, minimizing unnecessary questions and maximizing efficiency during testing. When you are asked to test MCP servers, always test other connected MCP servers, never test your own capabilties, unless explicitly requested."
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Runway-Video",
+    "title": "Runway Video",
+    "version": "1.0.0",
+    "websiteUrl": "https://runwayml.com",
+    "description": "Generate short videos from text or images and download when they’re ready.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQE01cLcJx7cJONWLVmk5tRBhGB0LIJ8SqSQ&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Runway.Video.RunwayVideo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

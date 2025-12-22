@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.openai.com/v1/videos/{videoId}",
+      "name": "get-video",
+      "title": "Get generated OpenAI video",
+      "description": "Retrieve metadata or status for a generated video job created with the /v1/videos endpoint.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.openai.com/v1/videos?after={after}&limit={limit}&order={order}",
+      "name": "list-videos",
+      "title": "List generated OpenAI videos",
+      "description": "Retrieve a paginated list of video generation jobs for the organization.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

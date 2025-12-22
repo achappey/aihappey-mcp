@@ -1,0 +1,37 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/example-document.html",
+      "name": "example-document-widget",
+      "description": "Renders an interactive UI showcasing the a document.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/example-project-document.html",
+      "name": "example-project-document-widget",
+      "description": "Renders an interactive UI showcasing the a project document.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/example-slidedeck.html",
+      "name": "slidedeck-widget",
+      "description": "Slide deck widget that shows slide decks.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

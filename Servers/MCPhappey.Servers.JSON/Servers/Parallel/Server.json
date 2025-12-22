@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Parallel",
+    "title": "Parallel",
+    "version": "1.0.0",
+    "websiteUrl": "https://parallel.ai",
+    "description": "Run AI tasks, search the web and extract content using Parallel AI.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQGXvJBt9J3NKg/company-logo_200_200/B56ZbvGWMYHUAQ-/0/1747768140820/parallel_web_logo?e=2147483647&v=beta&t=NS4V8dGByW1NDw80Vs4g6U3XxmAwXHosbWOi9jlaz2o"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "plugins": [
+    "MCPhappey.Tools.Parallel.ParallelService, MCPhappey.Tools"
+  ]
+}

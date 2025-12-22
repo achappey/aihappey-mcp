@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-SharePoint",
+    "title": "OpenAI SharePoint",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.openai.com",
+    "description": "Search and summarize SharePoint content with OpenAI while respecting permissions.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.SharePoint.OpenAISharePoint, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All https://graph.microsoft.com/Files.Read.All"
+  }
+}

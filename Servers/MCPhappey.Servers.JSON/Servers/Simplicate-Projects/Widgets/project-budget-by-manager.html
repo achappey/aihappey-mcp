@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Top 15 Projectmanagers – Budget Pareto</title>
+  <script>window.deferLoadingAlpine = (s) => window._startAlpine = s;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js"></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-chart.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+  <style>
+    html {
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .body {
+      flex: 1;
+      padding: 6px;
+      display: flex;
+      height: 100%;
+      min-height: 0;
+    }
+
+    chart-js {
+      width: 100%;
+    }
+  </style>
+
+  <script>
+    window.projectBudgetParetoWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        init() { widgetBase.syncOpenAI(this); this.$nextTick(() => this.load()) },
+        load() {
+          this.$nextTick(() => {
+            const pmList = Array.isArray(this.data?.project_managers) ? this.data.project_managers : [];
+            const el = this.$refs.chart; if (!el || !pmList.length) return;
+
+            // 🧮 aggregate & sort by total budget
+            const totals = pmList.map(p => ({
+              name: p.project_manager,
+              total: p.total_value_budget || 0
+            })).filter(p => p.total > 0).sort((a, b) => b.total - a.total).slice(0, 15);
+
+            const labels = totals.map(t => t.name);
+            const values = totals.map(t => t.total);
+            const grand = values.reduce((a, b) => a + b, 0);
+            let run = 0; const cumulative = values.map(v => (run += v, +(run / grand * 100).toFixed(1)));
+
+            const data = {
+              labels,
+              datasets: [
+                { label: "Totaal budget (€)", data: values, backgroundColor: "rgba(78,121,167,0.7)", yAxisID: "y" },
+                { label: "Cumulatief %", data: cumulative, type: "line", borderColor: "#e15759", borderWidth: 2, tension: .3, yAxisID: "y1" }
+              ]
+            };
+
+            const options = {
+              responsive: true, maintainAspectRatio: false, animation: { duration: 0 },
+              scales: {
+                x: { ticks: { display: false }, title: { display: true, text: "Top 15 projectmanagers" } },
+                y: { beginAtZero: true, title: { display: true, text: "Budget (€)" } },
+                y1: {
+                  beginAtZero: true, position: "right", grid: { drawOnChartArea: false },
+                  title: { display: true, text: "Cumulatief" }, ticks: { callback: v => v + "%" }
+                }
+              },
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: (ctx) => ctx.dataset.type === "line"
+                      ? `Cumulatief: ${ctx.formattedValue}%`
+                      : `Budget: €${Number(ctx.raw).toLocaleString("nl-NL", { maximumFractionDigits: 0 })}`
+                  }
+                }
+              }
+            };
+            el.update({ type: "bar", data, options, height: 250 });
+          });
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div x-data="projectBudgetParetoWidget()" x-init="init()" style="display:flex;flex-direction:column;height:100%;">
+    <chatapp-header text="Top 15 projectmanagers – budget Pareto" no-fullscreen></chatapp-header>
+    <div class="body"><chatapp-chart x-ref="chart"></chatapp-chart></div>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

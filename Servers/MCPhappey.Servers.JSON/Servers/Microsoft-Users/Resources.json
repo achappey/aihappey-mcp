@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/users?$top=100&$select=id,displayName,userPrincipalName,mail,preferredLanguage,employeeId,hireDate,mobilePhone,otherMails,givenName,surname,userType,aboutMe,jobTitle,companyName,department,officeLocation,accountEnabled,createdDateTime",
+      "name": "all-users",
+      "title": "All users (top 100)",
+      "description": "List of users with rich profile fields.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/users?$filter=accountEnabled eq false&$top=100&$select=id,displayName,userPrincipalName,mail,jobTitle,department,accountEnabled,createdDateTime",
+      "name": "disabled-users",
+      "title": "Disabled users (top 100)",
+      "description": "Quick list of disabled accounts.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Mem0-PersonalMemory",
+    "title": "Mem0 Personal Memory",
+    "version": "1.0.0",
+    "websiteUrl": "https://mem0.ai",
+    "description": "Remembers personal details from your chats so support becomes faster and more relevant to you.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/137054526?v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Mem0.Mem0PersonalService, MCPhappey.Tools",
+    "MCPhappey.Tools.Mem0.Mem0FeedbackService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

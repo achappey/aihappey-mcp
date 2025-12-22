@@ -1,0 +1,73 @@
+{
+    "prompts": [
+        {
+            "prompt": "Leg het schema van de eKlok-feed uit: welke velden er zijn, hun betekenis en hoe je ze gebruikt voor analyse en visualisatie.",
+            "template": {
+                "name": "verklaar-feed-schema",
+                "title": "Verklaar eKlok feed-schema",
+                "description": "Uitleg van de velden: date (ISO 8601, UTC), nlDateTime (NL-weergave), range (-100..100), color (hex) en past (boolean). Met tips voor gebruik.",
+                "arguments": []
+            }
+        },
+        {
+            "prompt": "Lees de eKlok feed (standaard resolutie) en geef een korte samenvatting van het huidige uur en de komende 3 uur. Benoem pieken/dalen op basis van 'range' en licht de kleurcodering toe.",
+            "template": {
+                "name": "samenvat-huidige-en-komende-uren",
+                "title": "Samenvatting huidige en komende uren",
+                "description": "Korte samenvatting en interpretatie op basis van de standaard feed, inclusief duiding van range en kleur.",
+                "arguments": []
+            }
+        },
+        {
+            "prompt": "Lees de geïnterpoleerde eKlok feed met {puntenPerUur} punten per uur en beschrijf de trend voor de komende 2 uur: minimum, maximum en gemiddelde 'range', plus eventuele opvallende veranderingen.",
+            "template": {
+                "name": "analyse-interpolated-feed",
+                "title": "Analyse geïnterpoleerde feed",
+                "description": "Trendbeschrijving op hogere resolutie. Handig voor visualisaties of alerts.",
+                "arguments": [
+                    {
+                        "name": "puntenPerUur",
+                        "description": "Aantal punten per uur (bijv. 10 ≈ elke ~6 minuten).",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "prompt": "Wanneer je waarden of visualisaties uit de eKlok feed presenteert, voeg bronvermelding toe: \"Data: eKLOK (eklok.nl)\" en link waar passend.",
+            "template": {
+                "name": "attributie-eklok",
+                "title": "Attributie (eKlok)",
+                "description": "Herinnering voor correcte bronvermelding bij gebruik van eKlok-data.",
+                "arguments": []
+            }
+        },
+        {
+            "prompt": "Haal de eKlok-feed op van https://api.eklok.nl/feed?interpolated=10. Parse de JSON-array met items { date, nlDateTime, range, color, past }. Filter op toekomstpunten (past == false). Genereer één Chart.js-configuratie als line chart met:\n- labels: nlDateTime in HH:MM\n- data: range (y)\n- styling: borderColor #0ea5e9, backgroundColor rgba(14,165,233,0.18), pointRadius 0, tension 0.25, fill true\n- assen: y.min = -100, y.max = 100; x-titel \"Tijd\", y-titel \"Range\"\n- titel: \"eKlok – trend (toekomst)\"\nOutput exact één codeblok met type ```chartjs en daarin een geldige JSON met \"type\", \"data\" en \"options\". Geen extra tekst buiten het codeblok. Voeg aan de config geen andere datasets toe dan de beschreven lijn.",
+            "template": {
+                "name": "trend-toekomst",
+                "title": "eKlok – Trend (toekomst)",
+                "description": "Line chart van alle toekomstpunten uit de eKlok-feed.",
+                "arguments": []
+            }
+        },
+        {
+            "prompt": "Haal de eKlok-feed op van https://api.eklok.nl/feed?interpolated=10. Parse de JSON-array met items { date, nlDateTime, range, color, past }. Selecteer alleen toekomstpunten (past == false) waarvan de lokale tijd (uit nlDateTime) tussen 05:00 en 08:59 ligt (inclusief randen). Genereer één Chart.js line chart met:\n- labels: nlDateTime in HH:MM\n- data (dataset \"Range ochtend\"): range\n- tweede dataset \"0-lijn\": array van nullen (zelfde lengte), borderColor #94a3b8, borderDash [6,6], pointRadius 0, fill false\n- hoofd-dataset styling: borderColor #ef4444, backgroundColor rgba(239,68,68,0.18), pointRadius 2, tension 0.25, fill true\n- assen: y.min = -100, y.max = 100; x-titel \"Tijd\", y-titel \"Range\"\n- titel: \"eKlok – zoom op ochtendpiek\"\nAls er geen punten in dit venster vallen, retourneer een geldige lege chart (lege arrays) met dezelfde options. Output exact één ```chartjs codeblok met een geldige JSON met \"type\", \"data\" en \"options\" en geen extra tekst.",
+            "template": {
+                "name": "ochtendpiek-zoom",
+                "title": "eKlok – Zoom op ochtendpiek",
+                "description": "Line chart ingezoomd op de ochtend (05:00–08:59) met 0-referentielijn.",
+                "arguments": []
+            }
+        },
+        {
+            "prompt": "Haal de eKlok-feed op van https://api.eklok.nl/feed?interpolated=10. Parse de JSON-array met items { date, nlDateTime, range, color, past }. Filter op toekomstpunten (past == false). Genereer één Chart.js bar chart als kleurstrip met:\n- labels: nlDateTime in HH:MM\n- data: voor elk punt de waarde 1, puur als vulwaarde\n- backgroundColor: gebruik exact de kleur uit het veld color per balk\n- styling: borderWidth 0; y-as display false; x-as grid uit; x-as titel \"Tijd\"\n- titel: \"eKlok – kleurstrip (hoe roder, hoe hoger)\"\nOutput exact één ```chartjs codeblok met een geldige JSON met \"type\", \"data\" en \"options\" en geen extra tekst.",
+            "template": {
+                "name": "kleurstrip-toekomst",
+                "title": "eKlok – Kleurstrip (toekomst)",
+                "description": "Bar chart die alleen de kleurcodering van de toekomstpunten toont.",
+                "arguments": []
+            }
+        }
+    ]
+}

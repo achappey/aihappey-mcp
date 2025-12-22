@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Organizations</title>
+    <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+    <script src="%HOST_URL%/widget-base.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+    <script src="%HOST_URL%/chatapp-header.js" defer></script>
+    <script src="%HOST_URL%/chatapp-carousel.js" defer></script>
+    <script src="%HOST_URL%/chatapp-card.js" defer></script>
+
+    <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+    <script>
+        window.organizationsWidget = function () {
+            return {
+                data: window.openai?.toolOutput || null,
+                orgs: [],
+                count: 0,
+                requestDisplayMode: window.openai?.requestDisplayMode,
+                maxHeight: window.openai?.maxHeight,
+
+                init() {
+                    widgetBase.syncOpenAI(this);
+                    const ui = Alpine.store('ui');
+                    if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+                    this.load();
+                },
+
+                load() {
+                    const arr = this.data?.data ?? this.data ?? [];
+                    this.orgs = Array.isArray(arr) ? arr : [];
+                    this.count = this.orgs.length;
+                },
+
+                getRootDomain(u) {
+                    try {
+                        if (!u) return "";
+                        if (u.includes("@")) u = "https://" + u.split("@")[1]; // ensure valid URL
+                        if (!u.startsWith("http")) u = "https://" + u;
+
+                        const hostname = new URL(u).hostname;
+                        const parts = hostname.split(".");
+                        // keep last two parts (domain + tld)
+                        return parts.length >= 2 ? parts.slice(-2).join(".") : hostname;
+                    } catch {
+                        return "";
+                    }
+                },
+                favicon(item) {
+                    const d = this.getRootDomain(item.url || item.email);
+                    return d ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(d)}&sz=64` : "";
+                },
+
+                openUrl(item) {
+                    const u = item.url || (item.email ? `mailto:${item.email}` : null);
+                    if (u) window.open(u, '_blank');
+                },
+
+                getHeader() {
+                    return `Bedrijven (${this.count})`;
+                }
+            };
+        };
+    </script>
+
+    <style>
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px 10px;
+            font-size: 0.85rem;
+        }
+
+        .info-grid div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: var(--card-color, #111);
+        }
+    </style>
+</head>
+
+<body>
+    <div x-data="organizationsWidget()" x-init="init()"
+        style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+        <chatapp-header :text="getHeader()" no-fullscreen></chatapp-header>
+
+        <chatapp-carousel style="flex:1; min-height:0;">
+            <template x-for="org in orgs" :key="org.id">
+                <chatapp-card :image="favicon(org)" :title="org.name"
+                    :description="org.industry?.name || org.relation_type?.label || '—'">
+
+                    <div slot="content">
+                        <div class="info-grid">
+                            <div>
+                                <span class="info-label">Telefoon</span>
+                                <span x-text="org.phone || '—'"></span>
+                            </div>
+                            <div>
+                                <span class="info-label">Email</span>
+                                <span x-text="org.email || '—'"></span>
+                            </div>
+                            <div>
+                                <span class="info-label">Branche</span>
+                                <span x-text="org.industry?.name || '—'"></span>
+                            </div>
+                            <div>
+                                <span class="info-label">Relatie soort</span>
+                                <span x-text="org.relation_type?.label || '—'"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button slot="actions" x-show="org.url || org.email" @click.prevent="openUrl(org)">
+                        Open
+                    </button>
+
+                    <button slot="actions" x-show="org.relation_manager?.name"
+                        @click.prevent="window.askFollowup('Toon meer bedrijven met relatiebeheerder ' + org.relation_manager?.name)">
+                        Meer van <span x-text="org.relation_manager?.name"></span>
+                    </button>
+
+                </chatapp-card>
+            </template>
+        </chatapp-carousel>
+    </div>
+
+    <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

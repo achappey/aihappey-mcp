@@ -1,0 +1,37 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/invoices_days_open.html",
+      "name": "invoices-days-open-widget",
+      "description": "Invoices days open widget that displays invoices with days open and organization.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/invoices_projectmanagers.html",
+      "name": "invoices-expired-project-manager-widget",
+      "description": "Invoices expired by project manager widget that displays invoices expired by project manager.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/invoices_my_organization_profiles_total.html",
+      "name": "my-organization-profiles-totals-widget",
+      "description": "Invoice totals by organization profile widget that displays invoice totals by organization profile.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

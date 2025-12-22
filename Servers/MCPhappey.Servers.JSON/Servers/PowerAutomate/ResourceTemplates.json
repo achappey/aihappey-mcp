@@ -1,0 +1,76 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://emea.api.flow.microsoft.com/providers/Microsoft.ProcessSimple/environments/{environmentId}/flows/{flowName}?api-version=2016-11-01",
+      "name": "flow-details",
+      "title": "Get flow details",
+      "description": "Returns configuration and metadata for a specific flow, including owner, trigger, and connections.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://emea.api.flow.microsoft.com/providers/Microsoft.ProcessSimple/environments/{environmentId}/flows/{flowName}/runs?api-version=2016-11-01",
+      "name": "flow-runs",
+      "title": "Get flow runs",
+      "description": "Retrieves recent execution history for a specific Power Automate flow, including start time, status, and duration.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://emea.api.flow.microsoft.com/providers/Microsoft.ProcessSimple/environments/{environmentId}/flows/{flowName}/connections?api-version=2016-11-01",
+      "name": "flow-connections",
+      "title": "Get flow connections",
+      "description": "Lists all connector references and connection statuses used by a specified Power Automate flow.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://emea.api.flow.microsoft.com/providers/Microsoft.ProcessSimple/environments/{environmentId}/approvals/{approvalId}?api-version=2016-11-01",
+      "name": "approval-details",
+      "title": "Get approval details",
+      "description": "Retrieves detailed information for a specific approval request, including approvers, responses, and timestamps.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://emea.api.flow.microsoft.com/providers/Microsoft.ProcessSimple/environments/{environmentId}/flows?api-version=2016-11-01",
+      "name": "flows-in-environment",
+      "title": "List flows in environment",
+      "description": "Lists all flows available within a specific Power Automate environment, including their IDs, names, and trigger types.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://emea.api.flow.microsoft.com/providers/Microsoft.ProcessSimple/environments/{environmentId}/approvals?api-version=2016-11-01",
+      "name": "approvals-in-environment",
+      "title": "List approvals",
+      "description": "Retrieves approval requests and their current status from a given Power Automate environment.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

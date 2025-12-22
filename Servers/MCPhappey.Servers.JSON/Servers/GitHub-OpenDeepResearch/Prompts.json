@@ -1,0 +1,44 @@
+{
+  "prompts": [
+    {
+      "prompt": "Here is the incoming research question from user asking for the report:\n<ResearchTopic>\n{researchTopic}\n</ResearchTopic>\n\nToday's date is {date}.\n\nAssess whether you need to ask a clarifying question, or if the user has already provided enough information for you to start research.\nOnly ask another question if ABSOLUTELY NECESSARY.\n\nIf there are acronyms, abbreviations, or unknown terms, ask the user to clarify.\nIf you need to ask a question, follow these guidelines:\n- Be concise while gathering all necessary information\n- Make sure to gather all the information needed to carry out the research task in a concise, well-structured manner.\n- Use bullet points or numbered lists if appropriate for clarity. Make sure that this uses markdown formatting and will be rendered correctly if the string output is passed to a markdown renderer.\n- Don't ask for unnecessary information, or information that the user has already provided. If you can see that the user has already provided the information, do not ask for it again.\n\nRespond in valid JSON format with these exact keys:\n\"need_clarification\": boolean,\n\"question\": \"<question to ask the user to clarify the report scope>\",\n\"verification\": \"<verification message that we will start research>\"\n\nIf you need to ask a clarifying question, return:\n\"need_clarification\": true,\n\"question\": \"<your clarifying question>\",\n\"verification\": \"\"\n\nIf you do not need to ask a clarifying question, return:\n\"need_clarification\": false,\n\"question\": \"\",\n\"verification\": \"<acknowledgement message that you will now start research based on the provided information>\"\n\nFor the verification message when no clarification is needed:\n- Acknowledge that you have sufficient information to proceed\n- Briefly summarize the key aspects of what you understand from their request\n- Confirm that you will now begin the research process\n- Keep the message concise and professional",
+      "template": {
+        "name": "clarify-with-user-instructions",
+        "title": "Clarify user request before research",
+        "description": "Analyzes conversation history and decides whether a clarifying question is needed before starting research.",
+        "arguments": [
+          {
+            "name": "researchTopic",
+            "description": "Detail research topic",
+            "required": true
+          },
+          {
+            "name": "date",
+            "description": "Today's date string for temporal context.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You will be given a research topic request from the user. \nYour job is to translate the research topic into a more detailed and concrete research question that will be used to guide the research.\n\nThe research question is:\n<ResearchTopic>\n{researchTopic}\n</ResearchTopic>\n\nToday's date is {date}.\n\nYou will return a single research question that will be used to guide the research.\n\nGuidelines:\n1. Maximize Specificity and Detail\n- Include all known user preferences and explicitly list key attributes or dimensions to consider.\n- It is important that all details from the user are included in the instructions.\n\n2. Fill in Unstated But Necessary Dimensions as Open-Ended\n- If certain attributes are essential for a meaningful output but the user has not provided them, explicitly state that they are open-ended or default to no specific constraint.\n\n3. Avoid Unwarranted Assumptions\n- If the user has not provided a particular detail, do not invent one.\n- Instead, state the lack of specification and guide the researcher to treat it as flexible or accept all possible options.\n\n4. Use the First Person\n- Phrase the request from the perspective of the user.\n\n5. Sources\n- If specific sources should be prioritized, specify them in the research question.\n- For product and travel research, prefer linking directly to official or primary websites (e.g., official brand sites, manufacturer pages, or reputable e-commerce platforms like Amazon for user reviews) rather than aggregator sites or SEO-heavy blogs.\n- For academic or scientific queries, prefer linking directly to the original paper or official journal publication rather than survey papers or secondary summaries.\n- For people, try linking directly to their LinkedIn profile, or their personal website if they have one.\n- If the query is in a specific language, prioritize sources published in that language.",
+      "template": {
+        "name": "transform-messages-into-research-topic",
+        "title": "Transform messages into structured research brief",
+        "description": "Converts chat history into a detailed, specific research question that will guide the research phase.",
+        "arguments": [
+          {
+            "name": "researchTopic",
+            "description": "Detail research topic.",
+            "required": true
+          },
+          {
+            "name": "date",
+            "description": "Today's date string for prompt context.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

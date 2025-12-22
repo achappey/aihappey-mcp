@@ -1,0 +1,76 @@
+{
+  "resources": [
+    {
+      "uri": "https://jsonplaceholder.typicode.com/posts",
+      "name": "posts",
+      "title": "Posts",
+      "description": "List of all posts. Each post has an id, title, body, and userId.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://jsonplaceholder.typicode.com/comments",
+      "name": "comments",
+      "title": "Comments",
+      "description": "All comments with postId references.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://jsonplaceholder.typicode.com/albums",
+      "name": "albums",
+      "title": "Albums",
+      "description": "List of albums, each belonging to a user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://jsonplaceholder.typicode.com/photos",
+      "name": "photos",
+      "title": "Photos",
+      "description": "Collection of photos belonging to albums, with URLs and thumbnails.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://jsonplaceholder.typicode.com/todos",
+      "name": "todos",
+      "title": "To-Dos",
+      "description": "Fake tasks with completion status.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://jsonplaceholder.typicode.com/users",
+      "name": "users",
+      "title": "Users",
+      "description": "List of users with names, usernames, emails, and addresses.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

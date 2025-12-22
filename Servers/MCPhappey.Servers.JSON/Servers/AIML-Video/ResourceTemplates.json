@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.aimlapi.com/v2/video/generations?generation_id={generation_id}",
+      "name": "video-retrieve",
+      "title": "Retrieve generated video",
+      "description": "Retrieves the generated video metadata and video file URL for a given generation ID. Returns the video URL, status, and any error messages.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aimlapi.com/v2/generate/video/pixverse/generation?generation_id={generation_id}",
+      "name": "pixverse-video-retrieve",
+      "title": "Retrieve generated PixVerse video",
+      "description": "Retrieves the generated PixVerse video metadata and PixVerse video file URL for a given generation ID. Returns the video URL, status, and any error messages.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "PowerBI",
+    "title": "Power BI",
+    "version": "1.0.0",
+    "websiteUrl": "https://app.powerbi.com",
+    "description": "View and refresh Power BI reports and data to quickly get updated insights.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/New_Power_BI_Logo.svg/1200px-New_Power_BI_Logo.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.PowerBI.PowerBI, MCPhappey.Tools"
+  ],
+  "obo": {
+    "api.powerbi.com": "https://analysis.windows.net/powerbi/api/Dataset.ReadWrite.All https://analysis.windows.net/powerbi/api/Report.Execute.All https://analysis.windows.net/powerbi/api/Report.ReadWrite.All https://analysis.windows.net/powerbi/api/Workspace.Read.All"
+  }
+}

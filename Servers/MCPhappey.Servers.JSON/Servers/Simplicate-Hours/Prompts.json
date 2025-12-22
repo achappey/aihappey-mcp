@@ -1,0 +1,231 @@
+{
+  "prompts": [
+    {
+      "prompt": "Maak een staafdiagram dat laat zien hoeveel uren medewerker {medewerkerNaam} per week heeft geschreven in de afgelopen maand. Toon per week het totaal aantal uren als een staaf. Zet onder de grafiek een overzicht met de weeknummers en het totaal aantal uren.",
+      "template": {
+        "name": "uren-per-week-medewerker-staafdiagram",
+        "title": "Uren per week (staafdiagram)",
+        "description": "Toont per week het totaal aantal geschreven uren van één medewerker in de afgelopen maand als staafdiagram.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Maak een cirkeldiagram dat laat zien hoe de uren van medewerker {medewerkerNaam} in de afgelopen maand verdeeld zijn over de verschillende urentypes (bijvoorbeeld werk, vakantie, ziekte). Toon per urentype het totaal aantal uren als een sector. Zet onder de grafiek ook een overzicht met per urentype het totaal aantal uren.",
+      "template": {
+        "name": "uren-verdeling-urentypes-medewerker-maand-cirkeldiagram",
+        "title": "Urenverdeling per urentype (cirkeldiagram)",
+        "description": "Toont voor één medewerker hoe de geschreven uren van de afgelopen maand verdeeld zijn over de verschillende urentypes, als cirkeldiagram.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Maak een cirkeldiagram dat laat zien hoe de uren van medewerker {medewerkerNaam} in de afgelopen maand verdeeld zijn over de verschillende projecten. Toon per project het totaal aantal geschreven uren als een sector in het diagram. Zet onder de grafiek ook een klein overzicht met per project het totaal aantal uren.",
+      "template": {
+        "name": "uren-verdeling-projecten-medewerker-maand",
+        "title": "Urenverdeling per project",
+        "description": "Toont voor één medewerker hoe de geschreven uren van de afgelopen maand verdeeld zijn over de verschillende projecten, als cirkeldiagram.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Zoek naar project met naam {projectNaam} in de projectlijst en selecteer de id. Zoek daarna naar projectdienst {projectdienstNaam} en selecteer de id. Zoek ook naar urentype {urenType} en selecteer de id. Gebruik ReadResource om te zoeken in de lijsten. Schrijf {uren} uur, gelijkmatig verdeeld over alle werkdagen van de **laatst volledig afgesloten week**. Schrijf het overzicht per dag en zorg dat het totaal exact {uren} uur is. Schrijf de uren direct nadat je alle gegevens gevonden hebt, je hoeft niet nogmaals om bevestiging te vragen. Gebruik als omschrijving: '{omschrijving}'",
+      "template": {
+        "name": "project-uren-verdelen-laatste-week",
+        "title": "Uren verdelen over laatste week",
+        "description": "Verdeelt het opgegeven aantal uren gelijkmatig over de werkdagen van de laatst afgesloten week en schrijft deze weg op het opgegeven project.",
+        "arguments": [
+          {
+            "name": "uren",
+            "description": "Het totaal aantal te schrijven uren.",
+            "required": true
+          },
+          {
+            "name": "projectNaam",
+            "description": "Naam van het project waarop uren geschreven moeten worden.",
+            "required": true
+          },
+          {
+            "name": "projectdienstNaam",
+            "description": "Naam van het projectdienst waarop uren geschreven moeten worden.",
+            "required": true
+          },
+          {
+            "name": "urenType",
+            "description": "Naam van de urentype.",
+            "required": true
+          },
+          {
+            "name": "omschrijving",
+            "description": "Omschrijving en/of notities."
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Zoek het project met naam {projectNaam} en selecteer de id. Zoek daarna de projectdienst {projectdienstNaam} en selecteer de id. Zoek ook het urentype {urenType} en selecteer de id. Gebruik ReadResource voor deze zoekacties. Schrijf {uren} uur op de opgegeven datum {datum}. Schrijf de uren direct nadat je alle gegevens gevonden hebt, je hoeft niet nogmaals om bevestiging te vragen. Gebruik als omschrijving: '{omschrijving}'.",
+      "template": {
+        "name": "project-uren-invullen-per-datum",
+        "title": "Uren invullen per datum",
+        "description": "Boekt het opgegeven aantal uren op de opgegeven datum, zonder verdeling over meerdere dagen.",
+        "arguments": [
+          {
+            "name": "uren",
+            "description": "Aantal te schrijven uren.",
+            "required": true
+          },
+          {
+            "name": "datum",
+            "description": "Datum waarop de uren geboekt moeten worden (YYYY-MM-DD).",
+            "required": true
+          },
+          {
+            "name": "projectNaam",
+            "description": "Naam van het project.",
+            "required": true
+          },
+          {
+            "name": "projectdienstNaam",
+            "description": "Naam van het projectdienst.",
+            "required": true
+          },
+          {
+            "name": "urenType",
+            "description": "Naam van het urentype.",
+            "required": true
+          },
+          {
+            "name": "omschrijving",
+            "description": "Omschrijving en/of notities."
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef per project het totaal aantal geregistreerde uren waarvan de goedkeuringsstatus gelijk is aan {approvalStatus}. Toon de projectnaam en het totaal aantal uur per project.",
+      "template": {
+        "name": "uren-per-project-goedkeuringsstatus",
+        "title": "Uren per project goedkeuringsstatus",
+        "description": "Overzicht van het totaal aantal uren per project met een specifieke goedkeuringsstatus.",
+        "arguments": [
+          {
+            "name": "approvalStatus",
+            "description": "De gewenste goedkeuringsstatus (bijvoorbeeld 'to_approved_project').",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef het totaal aantal geschreven uren per week van {medewerkerNamen} in de vorige maand. Gebruik voor iedere week de start- en einddatum van die week (niet alleen de eerste en laatste dag van de maand). Toon het totaal per medewerker per week en het weeknummer. Als de contracturen van een medewerker bekend zijn, geef dan per week met een groen of rood icoontje aan of het aantal geschreven uren minder is dan het aantal contracturen. Als contracturen niet bekend zijn, laat het icoontje dan weg.",
+      "template": {
+        "name": "uren-per-week-medewerkers-vorige-maand",
+        "title": "Uren per week vorige maand",
+        "description": "Toont het totaal aantal geregistreerde uren per week voor één of meerdere medewerkers in de vorige maand. Per week worden het weeknummer, het totaal per medewerker en eventueel een groen/rood icoontje getoond op basis van contracturen (indien beschikbaar).",
+        "arguments": [
+          {
+            "name": "medewerkerNamen",
+            "description": "Lijst met namen van de medewerkers, bijvoorbeeld ['Henk', 'Loes'].",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef een overzicht van de meest recente geregistreerde uren van medewerker {medewerkerNaam} op project {projectNaam}. Vermeld het aantal uren, de datum en de status.",
+      "template": {
+        "name": "uren-meest-recent-medewerker-project",
+        "title": "Meest recente uren per project",
+        "description": "Toont de meest recente urenregistraties van een specifieke medewerker op een specifiek project.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker.",
+            "required": true
+          },
+          {
+            "name": "projectNaam",
+            "description": "Naam van het project.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Wat zijn de beschikbare urentypes in het systeem? Geef van elk type de naam en beschrijving.",
+      "template": {
+        "name": "uren-typen-overzicht",
+        "title": "Beschikbare urentypes",
+        "description": "Toont een overzicht van alle beschikbare urentypes.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Geef een overzicht van de uren die medewerker {medewerkerNaam} deze week heeft geschreven, per dag opgesplitst. Vermeld per dag het aantal uren, de projectnaam en de status van de registratie.",
+      "template": {
+        "name": "uren-per-dag-deze-week-medewerker",
+        "title": "Uren per dag deze week",
+        "description": "Toont een dag-tot-dag overzicht van de uren die een medewerker in de huidige week heeft geschreven, inclusief projectnaam en status.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Welke uren van project {projectNaam} zijn in de afgelopen maand als 'afgekeurd' geregistreerd? Toon per registratie de datum, medewerkernaam en het aantal uren.",
+      "template": {
+        "name": "afgekeurde-uren-per-project-laatste-maand",
+        "title": "Afgekeurde uren per project (laatste maand)",
+        "description": "Geeft alle urenregistraties met de status 'afgekeurd' van een specifiek project in de afgelopen maand.",
+        "arguments": [
+          {
+            "name": "projectNaam",
+            "description": "Naam van het project.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef een overzicht van alle uren die medewerker {medewerkerNaam} afgelopen week heeft geschreven met urentype {urenTypeLabel}. Toon per registratie de datum, het aantal uren en de projectnaam.",
+      "template": {
+        "name": "uren-per-type-medewerker-week",
+        "title": "Uren per type (medewerker, week)",
+        "description": "Toont alle urenregistraties van een medewerker in de afgelopen week voor een specifiek urentype.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker.",
+            "required": true
+          },
+          {
+            "name": "urenTypeLabel",
+            "description": "Naam/label van het urentype.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

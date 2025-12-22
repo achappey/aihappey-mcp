@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-Outlook",
+    "title": "OpenAI Outlook",
+    "version": "1.0.0",
+    "description": "Search and summarize mail and meetings, extract actions and draft replies using Outlook context.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.OutlookMail.OpenAIOutlookMail, MCPhappey.Tools",
+    "MCPhappey.Tools.OpenAI.OutlookCalendar.OpenAIOutlookCalendar, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Calendars.Read"
+  }
+}

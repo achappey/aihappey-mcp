@@ -1,0 +1,84 @@
+{
+  "prompts": [
+    {
+      "prompt": "Find a selection of high-quality images for the topic: {topic}. For each image, return the direct URL, photographer's name, and a short description. Show a list of at least 6 options. If possible, ensure diversity in style or content.",
+      "template": {
+        "name": "find-photos-for-topic",
+        "title": "Find photos for topic",
+        "description": "Finds and lists a diverse set of high-quality Pexels photos for a specified topic.",
+        "arguments": [
+          {
+            "name": "topic",
+            "description": "The subject or theme to search for (e.g., 'urban skyline', 'wildlife', 'abstract').",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Find trending video footage for the theme: {theme}. List at least 4 videos with their preview thumbnail, direct video URL, and the creator's name. Optionally include video length and resolution if available.",
+      "template": {
+        "name": "find-trending-videos",
+        "title": "Find trending videos",
+        "description": "Returns a set of currently trending or popular Pexels videos based on a theme.",
+        "arguments": [
+          {
+            "name": "theme",
+            "description": "The subject, style, or mood for the videos (e.g., 'nature', 'sports', 'city timelapse').",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Compare the visual styles of two search terms: '{query1}' vs. '{query2}'. Fetch 3-5 example images or videos for each, and describe the differences in mood, color palette, and composition.",
+      "template": {
+        "name": "compare-visual-styles",
+        "title": "Compare visual styles",
+        "description": "Compares two visual search queries and describes key differences with image/video examples.",
+        "arguments": [
+          {
+            "name": "query1",
+            "description": "The first search term or concept (e.g., 'sunset beach').",
+            "required": true
+          },
+          {
+            "name": "query2",
+            "description": "The second search term or concept (e.g., 'mountain sunrise').",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Curate an inspiration board for the project theme: {projectTheme}. Search and combine a mix of photos and videos (at least 4 of each) that fit the mood and subject.",
+      "template": {
+        "name": "curate-inspiration-board",
+        "title": "Curate inspiration board",
+        "description": "Curates a project inspiration board with a balanced set of photos and videos fitting a given theme.",
+        "arguments": [
+          {
+            "name": "projectTheme",
+            "description": "The overarching theme or mood for the board (e.g., 'minimalism', 'street photography', 'summer travel').",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Given the mood '{mood}', suggest the best search terms and filters to use on Pexels for both photos and videos.",
+      "template": {
+        "name": "suggest-search-terms-for-mood",
+        "title": "Suggest search terms for mood",
+        "description": "Suggests effective search terms and filters for a desired mood, to maximize useful Pexels results.",
+        "arguments": [
+          {
+            "name": "mood",
+            "description": "The desired emotional tone or atmosphere (e.g., 'serene', 'adventurous', 'romantic').",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

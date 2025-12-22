@@ -1,0 +1,91 @@
+{
+  "prompts": [
+    {
+      "prompt": "Provide a concise overview of my Planner tasks due within the next 7 days. For each, show the plan, bucket, title, and whether the task is at risk of being overdue. Highlight which tasks need immediate attention.",
+      "template": {
+        "name": "upcoming-due-tasks",
+        "title": "Upcoming due tasks",
+        "description": "Overview of all personal Planner tasks with a due date within 7 days, sorted by urgency.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Analyze all open tasks in my most recent Planner plan. For each bucket, show the number of open tasks, completion percentage, and list the tasks that have been open the longest.",
+      "template": {
+        "name": "plan-bucket-analysis",
+        "title": "Plan bucket analysis",
+        "description": "Bucket analysis for the most recently used Planner plan, showing task distribution and possible bottlenecks.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show all my Planner tasks that do not have a due date. For each, include the plan, bucket, and title. Suggest quick actions to address these 'forgotten' tasks.",
+      "template": {
+        "name": "tasks-without-due-date",
+        "title": "Tasks without due date",
+        "description": "Displays all personal tasks without a deadline and offers quick tips for handling them.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "List the 10 most recently added tasks in my Planner. For each: plan, bucket, title, and due date if present. Flag any tasks that appear urgent or require extra attention.",
+      "template": {
+        "name": "recent-tasks-summary",
+        "title": "Recent tasks summary",
+        "description": "Overview of recently created Planner tasks and their urgency.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Display a ChartJS bar chart showing how my current open tasks are distributed across the different buckets of my most recently used Planner plan. Add a short analysis of where the workload is concentrated.",
+      "template": {
+        "name": "bucket-distribution-chart",
+        "title": "Bucket distribution chart",
+        "description": "Visualizes open tasks per bucket in a ChartJS bar chart, plus analysis.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Give me a weekly report: which tasks did I complete this week? Which new tasks were added? For each, provide a short summary grouped by plan.",
+      "template": {
+        "name": "weekly-progress-report",
+        "title": "Weekly progress report",
+        "description": "Weekly overview of completed and newly added tasks by plan.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Analyze all tasks in my most recent Planner plan that are missing a description. Show the titles and buckets, and suggest why these tasks may be unclear or need more detail.",
+      "template": {
+        "name": "tasks-missing-description",
+        "title": "Tasks missing description",
+        "description": "Flags tasks without a description and advises on how to improve clarity.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Summarize tasks per bucket for the specified Planner plan {plannerName}. For each bucket, show the total number of tasks and completion percentage in a compact overview.",
+      "template": {
+        "name": "plan-bucket-completion",
+        "title": "Plan bucket completion",
+        "description": "Compact summary of open/completed tasks per bucket for a given plan.",
+        "arguments": [
+          {
+            "name": "plannerName",
+            "description": "The name of the Planner plan.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Identify which of my current tasks are already overdue (past due date). Indicate how long each has been overdue, and suggest which should be tackled first.",
+      "template": {
+        "name": "overdue-tasks-analysis",
+        "title": "Overdue tasks analysis",
+        "description": "Flags personal overdue tasks and prioritizes follow-up.",
+        "arguments": []
+      }
+    }
+  ]
+}

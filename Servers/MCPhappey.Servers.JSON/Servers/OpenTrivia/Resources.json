@@ -1,0 +1,52 @@
+{
+  "resources": [
+    {
+      "uri": "https://opentdb.com/api.php?amount=10",
+      "name": "get-random-questions",
+      "title": "Get 10 trivia questions",
+      "description": "Retrieves 10 random trivia questions from the Open Trivia Database.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://opentdb.com/api_token.php?command=request",
+      "name": "request-session-token",
+      "title": "Request a session token",
+      "description": "Retrieves a new session token to avoid duplicate trivia questions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://opentdb.com/api_category.php",
+      "name": "list-categories",
+      "title": "List trivia categories",
+      "description": "Returns the entire list of available trivia categories and their IDs.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://opentdb.com/api_count_global.php",
+      "name": "global-question-count",
+      "title": "Get global question counts",
+      "description": "Returns the total number of questions across all categories (including pending, verified, rejected).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "prompts": [
+    {
+      "prompt": "###{subject}###\n\nIf possible, read the document and create an image around the subject. After that compose a new document from {inputFile} and pass in the image url in the instructions prompt. When image generation is not available, just compose the new document with the file url.",
+      "template": {
+        "name": "compose-document",
+        "title": "Compose new document",
+        "description": "Composes a new document from a input file.",
+        "arguments": [
+          {
+            "name": "inputFile",
+            "description": "Input file to use for document composition.",
+            "required": true
+          },
+          {
+            "name": "subject",
+            "description": "Background information around the subject.",
+            "required": false
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a rigorous JSON Schema extractor. Input is an Alpine/HTML template with bindings. Infer the COMPLETE and EXACT data structure it expects.\n\nRULES\n- Analyze all data paths in attributes and code (x-text, x-html, x-for, :title, :description, template loops, string interpolations, helper calls).\n- Normalize the root to the first consistent object path (e.g., `document` if paths look like `data?.document?...`). If ambiguous, use `document`.\n- Infer types from usage (string/number/boolean/array/object). For arrays, infer item type. Treat dates as string with format \"date\" or \"date-time\" when obvious. \n- Include `required` based on unconditional usage; else optional.\n- Output ONLY a valid JSON Schema (draft 2020-12) object with: `$schema`, `type`, `properties`, `required`, `additionalProperties:false`. No explanations, no markdown.\n\nINPUT TEMPLATE\n###\n{templateHtmlJs}\n###",
+      "template": {
+        "name": "extract-template-structure",
+        "title": "Extract template JSON structure",
+        "description": "Derive a strict JSON Schema from an Alpine/HTML template.",
+        "arguments": [
+          {
+            "name": "templateHtmlJs",
+            "description": "Full HTML/JS of the Alpine template",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a precise information extractor. Convert the input into JSON that STRICTLY conforms to the provided structure.\n\nRULES\n- The `jsonStructure` may be a JSON Schema or a plain example structure. Match keys and types EXACTLY. Do not add keys.\n- Missing/unknown values: use null. Missing arrays: use [].\n- Normalization: dates ISO 8601 (YYYY-MM-DD or RFC3339), numbers with dot decimal, trim strings, deduplicate arrays, lowercase tags.\n- Use `userHint` to resolve ambiguities (it overrides defaults but not the schema layout).\n- OUTPUT ONLY a single valid JSON object (no markdown, no comments, no prose).\n\nSTRUCTURE\n###\n{jsonStructure}\n###\n\nINPUT DOCUMENT\n###\n{inputText}\n###\n\nOPTIONAL HINT\n###\n{userHint}\n###",
+      "template": {
+        "name": "convert-to-structure",
+        "title": "Convert document to structured JSON",
+        "description": "Map unstructured input to the exact provided JSON structure.",
+        "arguments": [
+          {
+            "name": "inputText",
+            "description": "Extracted text/content of the input file",
+            "required": true
+          },
+          {
+            "name": "jsonStructure",
+            "description": "Target structure (JSON Schema or example object)",
+            "required": true
+          },
+          {
+            "name": "userHint",
+            "description": "Optional guidance (e.g., preferred mappings, overrides)",
+            "required": false
+          }
+        ]
+      }
+    }
+  ]
+}

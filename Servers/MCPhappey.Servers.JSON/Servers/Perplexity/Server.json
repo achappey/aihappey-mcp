@@ -1,0 +1,28 @@
+{
+  "serverInfo": {
+    "name": "Perplexity",
+    "title": "Perplexity",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.perplexity.ai",
+    "description": "Ranked and fresh web search results with filters and country options.",
+    "icons": [
+      {
+        "src": "https://brandlogos.net/wp-content/uploads/2025/05/perplexity_icon-logo_brandlogos.net_a9d3e-512x591.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Perplexity.PerplexityPlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "tools": {
+    "perplexity_search": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/perplexity-search-results.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

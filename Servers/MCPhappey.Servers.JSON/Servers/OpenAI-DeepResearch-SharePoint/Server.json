@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-DeepResearch-SharePoint",
+    "title": "OpenAI SharePoint DeepResearch",
+    "version": "1.0.0",
+    "description": "OpenAI Deep Research compatible SharePoint MCP",
+    "icons": [
+      {
+        "src": "https://cdn.worldvectorlogo.com/logos/microsoft-office-sharepoint-2018-present--1.svg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.SharePoint.SharePointDeepResearch, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All https://graph.microsoft.com/Contacts.Read https://graph.microsoft.com/Bookmark.Read.All https://graph.microsoft.com/Calendars.Read https://graph.microsoft.com/ChannelMessage.Read.All https://graph.microsoft.com/Chat.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Notes.ReadWrite.All https://graph.microsoft.com/People.Read"
+  }
+}

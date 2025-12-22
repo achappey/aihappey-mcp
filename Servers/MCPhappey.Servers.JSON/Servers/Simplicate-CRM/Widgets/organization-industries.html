@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Bedrijven per branche</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js"></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-chart.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+  <style>
+    html {
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .body {
+      flex: 1;
+      height: 100%;
+      min-height: 0;
+      padding: 8px;
+      display: flex;
+    }
+
+    chart-js {
+      width: 100%;
+    }
+  </style>
+
+  <script>
+    window.industryChartWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        input: window.openai?.toolInput || null,
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          this.$nextTick(() => this.load());
+        },
+        load() {
+          this.$nextTick(() => {
+            const industries = Array.isArray(this.data?.industries)
+              ? this.data.industries
+              : [];
+
+            const el = this.$refs.chart;
+            if (!el || !industries.length) return;
+
+            const labels = industries.map(i => i.name || "(onbekend)");
+            const totals = industries.map(i => i.count || 0);
+
+            // 🎨 Distinct color palette (Tableau-like)
+            const palette = [
+              "#4E79A7", "#F28E2B", "#E15759", "#76B7B2", "#59A14F", "#EDC948",
+              "#B07AA1", "#FF9DA7", "#9C755F", "#BAB0AC", "#8CD17D", "#B6992D"
+            ];
+            const colors = labels.map((_, i) => palette[i % palette.length]);
+
+            const data = {
+              labels,
+              datasets: [
+                {
+                  label: "Aantal bedrijven",
+                  data: totals,
+                  backgroundColor: colors,
+                }
+              ]
+            };
+
+            const options = {
+              responsive: true,
+              maintainAspectRatio: false,
+              animation: { duration: 0 },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: { display: true, text: "Aantal bedrijven" }
+                },
+                x: {
+                  ticks: { autoSkip: true, display: true }
+                }
+              },
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: (ctx) => `${ctx.formattedValue} bedrijven`
+                  }
+                }
+              }
+            };
+
+            el.update({
+              type: "bar",
+              data,
+              options,
+              height: 280
+            });
+          });
+        }
+      };
+    };
+  </script>
+</head>
+
+<body>
+  <div x-data="industryChartWidget()" x-init="init()" style="display:flex; flex-direction:column; height:100%;">
+    <chatapp-header text="Bedrijven per branche" no-fullscreen></chatapp-header>
+    <div class="body">
+      <chatapp-chart x-ref="chart"></chatapp-chart>
+    </div>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

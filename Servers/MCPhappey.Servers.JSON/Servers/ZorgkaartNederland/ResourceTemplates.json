@@ -1,0 +1,117 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/actueel?page=pagina{paginaNummer}",
+      "name": "actualiteiten-zorgkaart-nederland",
+      "description": "Haalt actualiteiten op van ZorgkaartNederland.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.4
+      }
+    },
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/{plaatsnaam}",
+      "name": "zorgkaart-nederland-plaatsnaam",
+      "description": "Alle zorginstellingen per plaatsnaam.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.7
+      }
+    },
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/?zoekterm={zoekterm}",
+      "name": "zorgkaart-nederland-doorzoeken",
+      "description": "Doorzoekt ZorgkaartNederland.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.7
+      }
+    },
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{plaatsnaam}/pagina{paginaNummer}",
+      "name": "organisaties-per-plaats-en-type",
+      "description": "Haalt organisaties op perplaatsnaam en organisatietype.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/pagina{paginaNummer}",
+      "name": "organisaties-per-type",
+      "description": "Haalt organisaties op per organisatietype.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}",
+      "name": "organisatie-overzicht",
+      "description": "Algemeent overzicht van een organisatie.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}/waardering/pagina{paginaNummer}",
+      "name": "organisatie-waarderingen",
+      "description": "Haalt waarderingen op van een organisatie.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}/wachttijden",
+      "name": "organisatie-wachttijden",
+      "description": "Haalt wachttijden op van een organisatie.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}/specialisten",
+      "name": "organisatie-specialisten",
+      "description": "Haalt specialisten op van een organisatie.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}/faciliteiten",
+      "name": "organisatie-faciliteiten",
+      "description": "Haalt faciliteiten op van een organisatie.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

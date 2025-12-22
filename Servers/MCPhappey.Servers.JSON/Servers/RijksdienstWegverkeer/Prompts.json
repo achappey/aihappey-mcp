@@ -1,0 +1,124 @@
+{
+  "prompts": [
+    {
+      "prompt": "Geef alle bekende voertuiggegevens van kenteken: {kenteken}. Toon merk, model, type, kleur, datum eerste toelating, en status van het voertuig.",
+      "template": {
+        "name": "find-full-vehicle-info-by-plate",
+        "title": "Alle voertuiginfo op kenteken",
+        "description": "Zoekt alle beschikbare voertuiggegevens op van een kenteken via de RDW Voertuiginformatie resource.",
+        "arguments": [
+          {
+            "name": "kenteken",
+            "description": "Het Nederlandse kenteken (zonder spaties of streepjes, hoofdletters).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Zoek uitgebreide voertuiggegevens op voor kenteken: {kenteken}. Toon merk, model, type, kleur, eerste toelating, en huidige status.",
+      "template": {
+        "name": "find-vehicle-details-by-plate",
+        "title": "Voertuigdetails op kenteken",
+        "description": "Haalt de belangrijkste voertuiggegevens op bij RDW voor een opgegeven kenteken.",
+        "arguments": [
+          {
+            "name": "kenteken",
+            "description": "Het Nederlandse kenteken, zonder spaties (bijvoorbeeld: '12AB34').",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Check de verzekeringsstatus van een voertuig met kenteken: {kenteken}. Geef aan of het voertuig verzekerd is en per wanneer.",
+      "template": {
+        "name": "check-insurance-status-by-plate",
+        "title": "Verzekeringsstatus op kenteken",
+        "description": "Controleert of een voertuig met het opgegeven kenteken verzekerd is volgens de RDW.",
+        "arguments": [
+          {
+            "name": "kenteken",
+            "description": "Het voertuigkenteken (NL formaat).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef de volledige tellerstandhistorie (kilometerstanden) voor kenteken: {kenteken}. Meld als er twijfelachtige of teruggedraaide standen zijn.",
+      "template": {
+        "name": "get-mileage-history-by-plate",
+        "title": "Tellerstandhistorie op kenteken",
+        "description": "Haalt geregistreerde kilometerstanden op en signaleert eventuele afwijkingen.",
+        "arguments": [
+          {
+            "name": "kenteken",
+            "description": "Voer het kenteken in (zonder spaties).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Hoeveel eigenaren heeft het voertuig met kenteken {kenteken} gehad? Geef apart weer hoeveel natuurlijke personen en bedrijven.",
+      "template": {
+        "name": "find-owners-history-by-plate",
+        "title": "Eigenarenhistorie op kenteken",
+        "description": "Zoekt het aantal vorige eigenaren van een voertuig, gesplitst per type eigenaar.",
+        "arguments": [
+          {
+            "name": "kenteken",
+            "description": "Het voertuigkenteken, zonder spaties.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Toon brandstofsoort(en) en milieuklasse van het voertuig met kenteken: {kenteken}.",
+      "template": {
+        "name": "get-fuel-and-emission-by-plate",
+        "title": "Brandstof & emissie op kenteken",
+        "description": "Geeft brandstofsoort(en) en milieuklasse op basis van RDW-data.",
+        "arguments": [
+          {
+            "name": "kenteken",
+            "description": "Het voertuigkenteken (NL).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef alle technische voertuigdetails voor kenteken: {kenteken}. Inclusief motorinhoud, massa, wielbasis en afmetingen.",
+      "template": {
+        "name": "get-technical-details-by-plate",
+        "title": "Technische details op kenteken",
+        "description": "Toont alle technische specificaties zoals bekend bij de RDW.",
+        "arguments": [
+          {
+            "name": "kenteken",
+            "description": "Het kenteken van het voertuig.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Doorzoek de RDW Open Data Catalogus op het onderwerp: {onderwerp}. Geef een korte lijst van datasets met titel en beschrijving.",
+      "template": {
+        "name": "search-datasets-by-topic",
+        "title": "Datasets zoeken op onderwerp",
+        "description": "Zoekt naar relevante RDW datasets op basis van een onderwerp of zoekterm.",
+        "arguments": [
+          {
+            "name": "onderwerp",
+            "description": "Onderwerp of zoekwoord (bijv. 'elektrisch', 'brandstof', 'motorfietsen').",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

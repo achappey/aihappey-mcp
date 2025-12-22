@@ -1,0 +1,88 @@
+{
+  "resources": [
+    {
+      "uri": "https://official-joke-api.appspot.com/random_joke",
+      "name": "random-joke-legacy",
+      "title": "Random joke (legacy endpoint)",
+      "description": "Fetches one random joke using the original /random_joke route.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://official-joke-api.appspot.com/jokes/random",
+      "name": "random-joke",
+      "title": "Random joke",
+      "description": "Fetches one random joke. Each joke includes type, setup, and punchline.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://official-joke-api.appspot.com/random_ten",
+      "name": "ten-random-jokes-legacy",
+      "title": "Ten random jokes (legacy endpoint)",
+      "description": "Fetches ten random jokes using the older /random_ten route.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://official-joke-api.appspot.com/jokes/ten",
+      "name": "ten-random-jokes",
+      "title": "Ten random jokes",
+      "description": "Returns an array of ten random jokes.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://official-joke-api.appspot.com/types",
+      "name": "available-joke-types",
+      "title": "Available joke types",
+      "description": "Lists all available joke categories (e.g., programming, general, knock-knock).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://official-joke-api.appspot.com/jokes/programming/random",
+      "name": "random-programming-joke",
+      "title": "Random programming joke",
+      "description": "Fetches a single random programming joke from the 'programming' type category.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://official-joke-api.appspot.com/jokes/programming/ten",
+      "name": "ten-programming-jokes",
+      "title": "Ten programming jokes",
+      "description": "Fetches ten random programming jokes for coding-related humor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

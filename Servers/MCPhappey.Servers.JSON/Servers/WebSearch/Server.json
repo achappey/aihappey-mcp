@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "WebSearch",
+    "title": "WebSearch",
+    "version": "1.0.0",
+    "description": "Find and summarize reliable online sources with cited answers for research and monitoring."
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.WebSearch, MCPhappey.Tools"
+  ],
+  "tools": {
+    "web_search_execute": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/websearch-results.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "prompts": [
+    {
+      "prompt": "List the most recent high severity security alerts. Show alert title, status, assigned analyst, and creation date.",
+      "template": {
+        "name": "list-high-severity-alerts",
+        "title": "List high severity alerts",
+        "description": "Lists recent security alerts with high severity, showing key triage details.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show details for the security alert with ID {alertId}. Include its title, description, status, incident link, and timestamps.",
+      "template": {
+        "name": "get-alert-details",
+        "title": "Get alert details",
+        "description": "Fetches detailed info for a given security alert by its ID.",
+        "arguments": [
+          {
+            "name": "alertId",
+            "description": "The unique identifier of the security alert.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List all security incidents that are currently active. For each incident, show its name, status, and when it was first and last active.",
+      "template": {
+        "name": "list-active-incidents",
+        "title": "List active incidents",
+        "description": "Shows currently active security incidents with their names, status, and activity timestamps.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show my organization's Secure Score over the last 7 days, including current and maximum score for each day.",
+      "template": {
+        "name": "show-secure-score-trend",
+        "title": "Show secure score trend",
+        "description": "Displays the Secure Score trend for the last 7 days, including score values and dates.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "List all Secure Score controls for the 'Identity' category, including control name, action type, and implementation cost.",
+      "template": {
+        "name": "list-identity-controls",
+        "title": "List identity controls",
+        "description": "Lists all Secure Score controls in the Identity category, showing control name, action type, and cost.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show the 10 most recent threat indicators of type 'ip'. Include each indicator's display name, threat type, and when it was created.",
+      "template": {
+        "name": "list-recent-ip-threat-indicators",
+        "title": "List recent IP threat indicators",
+        "description": "Shows the 10 latest threat indicators of type IP, with display name, threat type, and creation time.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "List all Secure Score controls where the recommended action type is 'Configuration'. Show the control name and action URL.",
+      "template": {
+        "name": "list-configuration-controls",
+        "title": "List configuration controls",
+        "description": "Lists all Secure Score controls where the action type is Configuration, showing name and direct action link.",
+        "arguments": []
+      }
+    }
+  ]
+}

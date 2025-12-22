@@ -1,0 +1,11 @@
+{
+  "serverInfo": {
+    "name": "AgentTools",
+    "title": "Agent Tools",
+    "version": "1.0.0",
+    "description": "Utility tools for agents: log internal thoughts or pause execution during workflows."
+  },
+  "plugins": [
+    "MCPhappey.Tools.Agent.AgentService, MCPhappey.Tools"
+  ]
+}

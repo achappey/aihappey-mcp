@@ -1,0 +1,49 @@
+{
+  "prompts": [
+    {
+      "prompt": "Show my current Microsoft 365 profile details, including name, email, mobile number, department, job title, hire date, and preferred language.",
+      "template": {
+        "name": "show-my-profile",
+        "title": "Show my profile",
+        "description": "Retrieves all key information from the signed-in user's Microsoft 365 profile.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "List the people most relevant to me right now, including their display name, email address, office location, and department.",
+      "template": {
+        "name": "list-relevant-people",
+        "title": "List relevant people",
+        "description": "Shows a list of people that are currently most relevant to the signed-in user, with key contact details.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show the top trending documents around me, with the document title and a short description for each.",
+      "template": {
+        "name": "list-trending-documents",
+        "title": "List trending documents",
+        "description": "Finds the documents that are currently trending around the signed-in user and provides a brief summary.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Which documents have I used or opened most recently? List the titles and types of my last 10 used documents.",
+      "template": {
+        "name": "list-recently-used-documents",
+        "title": "List recently used documents",
+        "description": "Shows the most recently or frequently used documents by the signed-in user.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show me all Microsoft 365 groups or teams I am a member of, including the group name and type.",
+      "template": {
+        "name": "list-joined-groups",
+        "title": "List joined groups",
+        "description": "Lists all Microsoft 365 and security groups that the signed-in user has joined, with their names and types.",
+        "arguments": []
+      }
+    }
+  ]
+}

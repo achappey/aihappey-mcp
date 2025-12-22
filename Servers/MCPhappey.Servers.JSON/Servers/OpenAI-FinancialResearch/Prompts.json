@@ -1,0 +1,129 @@
+{
+  "prompts": [
+    {
+      "prompt": "You are a financial research planner. Given a request for financial analysis, produce a set of web searches to gather the context needed. Aim for recent headlines, earnings calls or 10-K snippets, analyst commentary, and industry background. Output between 5 and 15 search terms to query for. Respond in the following JSON: { \"queries\": [ { \"query\":\"--The search term to use for the web search.--\", \"reason\":\"--Your reasoning for why this search is important to the query.--\" } ] }.\n\nQuery: {query}",
+      "template": {
+        "name": "financial-planner",
+        "title": "Financial search planner",
+        "description": "Create a financial research search plan given a topic",
+        "arguments": [
+          {
+            "name": "query",
+            "description": "Financial research topic",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a research assistant specializing in financial topics. Given a search term, use web search to retrieve up-to-date context and produce a concise financial summary of at most 300 words. Focus on key numbers, events, or quotes useful for financial analysis. Ignore fluff. No commentary beyond the summary itself.\n\nSearch term: {searchTerm}\nReason for searching: {searchReason}",
+      "template": {
+        "name": "financial-web-search",
+        "title": "Financial web research",
+        "description": "Summarize financial context from a web search",
+        "arguments": [
+          {
+            "name": "searchTerm",
+            "description": "Term to look up",
+            "required": true
+          },
+          {
+            "name": "searchReason",
+            "description": "Why this search is relevant",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a financial analyst focused on fundamentals such as revenue, profit, margins, cash flow, and growth trajectory. Given a set of background findings, produce a concise 2-paragraph analysis. Highlight key financial metrics, trends, or events that matter.\n\nQuery: {query}\nEvidence: {evidence}",
+      "template": {
+        "name": "fundamentals-analyzer",
+        "title": "Fundamentals analysis",
+        "description": "Identify key fundamentals and financial performance patterns",
+        "arguments": [
+          {
+            "name": "query",
+            "description": "Financial analysis topic",
+            "required": true
+          },
+          {
+            "name": "evidence",
+            "description": "Relevant search results text",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a risk analyst searching for potential red flags in a company's outlook. Consider competitive threats, regulatory pressures, supply chain challenges, financial stress, or slowing demand. Produce a short 2-paragraph risk analysis.\n\nQuery: {query}\nEvidence: {evidence}",
+      "template": {
+        "name": "risk-analyzer",
+        "title": "Risk analysis",
+        "description": "Identify risks and concerns based on available evidence",
+        "arguments": [
+          {
+            "name": "query",
+            "description": "Topic for risk assessment",
+            "required": true
+          },
+          {
+            "name": "evidence",
+            "description": "Background supporting context",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a senior financial analyst. Given the original query and raw search summaries, synthesize them into a structured long-form markdown report. Include a short executive summary and follow-up questions. Write in clear business-focused language.\n\nOriginal query: {query}\nSummarized search results:\n{searchResults}\n\nFundamentals summary:\n{fundamentalsSummary}\n\nRisk summary:\n{riskSummary}",
+      "template": {
+        "name": "financial-writer",
+        "title": "Financial report writer",
+        "description": "Write a structured financial analysis report",
+        "arguments": [
+          {
+            "name": "query",
+            "description": "Original research topic",
+            "required": true
+          },
+          {
+            "name": "searchResults",
+            "description": "Raw research summaries",
+            "required": true
+          },
+          {
+            "name": "fundamentalsSummary",
+            "description": "Pre-analysis summary of fundamentals",
+            "required": false
+          },
+          {
+            "name": "riskSummary",
+            "description": "Pre-analysis summary of risks",
+            "required": false
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a meticulous auditor. You have been handed a financial analysis report. Verify whether it is internally consistent, clearly sourced, and avoids unsupported claims. Indicate if it passes review and list any issues.\n\nReport:\n{report_markdown}\n\nOriginal query: {query}",
+      "template": {
+        "name": "financial-verifier",
+        "title": "Financial report verifier",
+        "description": "Check completeness and coherence of a financial report",
+        "arguments": [
+          {
+            "name": "report_markdown",
+            "description": "Full report content to audit",
+            "required": true
+          },
+          {
+            "name": "query",
+            "description": "Original question to confirm relevance",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

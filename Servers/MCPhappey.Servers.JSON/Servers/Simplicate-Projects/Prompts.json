@@ -1,0 +1,169 @@
+{
+  "prompts": [
+    {
+      "prompt": "Toon alle actieve projecten waarbij de huidige medewerker betrokken is. Geef per project de naam, de status, de projectmanager en de rol van de medewerker.",
+      "template": {
+        "name": "actieve-projecten-huidige-medewerker",
+        "title": "Actieve projecten huidige medewerker",
+        "description": "Toont alle actieve projecten waaraan de huidige medewerker deelneemt, inclusief kerngegevens.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Welke actieve projecten zijn over hun einddatum heen? Toon projectnaam, projectmanager, status en einddatum. Sorteer op einddatum oplopend (oudste overschrijding eerst).",
+      "template": {
+        "name": "projecten-over-deadline",
+        "title": "Actieve projecten over de deadline",
+        "description": "Vindt actieve projecten met een einddatum in het verleden.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Welke projecten starten in de komende 30 dagen? Toon projectnaam, startdatum, status en projectmanager. Sorteer op startdatum oplopend.",
+      "template": {
+        "name": "binnenkort-startende-projecten",
+        "title": "Binnenkort startende projecten",
+        "description": "Projecten met startdatum in de komende 30 dagen.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Welke actieve projecten hebben geen einddatum ingevuld? Toon projectnaam, projectmanager en status.",
+      "template": {
+        "name": "projecten-zonder-einddatum",
+        "title": "Projecten zonder einddatum",
+        "description": "Hygiënelijst van actieve projecten zonder einddatum.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Welke projecten missen een projectmanager? Toon projectnaam, status, start- en einddatum (indien bekend).",
+      "template": {
+        "name": "projecten-zonder-projectmanager",
+        "title": "Projecten zonder projectmanager",
+        "description": "Hygiënelijst van projecten zonder PM.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Welke actieve projecten lopen het langst? Toon projectnaam, startdatum, status en projectmanager. Sorteer op startdatum oplopend (oudst eerst).",
+      "template": {
+        "name": "langst-lopende-projecten-actief",
+        "title": "Langst lopende actieve projecten",
+        "description": "Snelle scan van ‘oude’ actieve projecten.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Geef een overzicht met een telling per projectstatus en het totaal aantal projecten.",
+      "template": {
+        "name": "projecten-per-status-samenvatting",
+        "title": "Samenvatting projecten per status",
+        "description": "Compacte status-telling met totaalsom.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Voor projectleider {medewerkerNaam}: geef alle actieve projecten met einddatum en status. Sorteer op einddatum oplopend.",
+      "template": {
+        "name": "actieve-projecten-projectleider",
+        "title": "Actieve projecten (projectleider)",
+        "description": "Focuslijst voor één projectleider.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de projectleider.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Voor team {teamNaam}: geef alle actieve projecten met projectmanager, status en einddatum. Sorteer op einddatum aflopend.",
+      "template": {
+        "name": "actieve-projecten-team",
+        "title": "Actieve projecten (team)",
+        "description": "Alle lopende projecten voor één team.",
+        "arguments": [
+          {
+            "name": "teamNaam",
+            "description": "Naam van het team.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Welke projecten zijn de afgelopen maand afgerond? Geef per project de naam, einddatum en projectmanager.",
+      "template": {
+        "name": "recent-afgeronde-projecten",
+        "title": "Recent afgeronde projecten",
+        "description": "Lijst van projecten die recent zijn afgerond met kerngegevens.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Welke drie projecten hebben momenteel het hoogste totale budget? Sorteer op budget.total.value_budget aflopend. Geef per project de naam, het budget, de status en de projectmanager.",
+      "template": {
+        "name": "top-projecten-budget",
+        "title": "Projecten met hoogste budget",
+        "description": "Toont de drie projecten met het grootste totale budget.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Geef voor project {projectNaam} een samenvatting van de status: wie is de projectmanager, wat is de huidige status, wat is het begindatum en einddatum? Voeg ook de teamleden toe, indien bekend.",
+      "template": {
+        "name": "project-samenvatting-status",
+        "title": "Projectstatus samenvatting",
+        "description": "Toont een overzicht van kerngegevens van een project met een snapshot van de projectorganisatie.",
+        "arguments": [
+          {
+            "name": "projectNaam",
+            "description": "Naam van het project.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef een overzicht van alle projectleiders en hun actieve projecten. Als een projectleider veel actieve projecten heeft geef je alleen het aantal projecten van de betreffende projectleider.",
+      "template": {
+        "name": "projecten-per-projectleider",
+        "title": "Projecten per projectleider",
+        "description": "Toont per projectleider een overzicht van alle projecten waarvan hij of zij projectleider is.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Geef een overzicht van alle projecten die we voor bedrijf {naamBedrijf} hebben uitgevoerd? Geef per project de naam, startdatum, status en projectmanager.",
+      "template": {
+        "name": "alle-projecten-bedrijf",
+        "title": "Alle projecten (bedrijf)",
+        "description": "Toont een overzicht van de alle projecten van een bedrijf.",
+        "arguments": [
+          {
+            "name": "naamBedrijf",
+            "description": "Naam van her bedrijf.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Voor team {teamNaam}: welke lopende projecten hebben een einddatum in de komende 30 dagen? Geef een lijst met projectnaam, status, projectmanager en einddatum.",
+      "template": {
+        "name": "lopende-projecten-team-aflopend",
+        "title": "Binnenkort aflopende teamprojecten",
+        "description": "Lijst van lopende teamprojecten die binnenkort aflopen.",
+        "arguments": [
+          {
+            "name": "teamNaam",
+            "description": "Naam van het team.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

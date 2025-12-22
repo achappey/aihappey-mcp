@@ -1,0 +1,59 @@
+{
+  "prompts": [
+    {
+      "prompt": "You are a senior researcher tasked with writing a cohesive report for a research query. You will be provided with the original query, and some initial research done by a research assistant.\nYou should first come up with an outline for the report that describes the structure and flow of the report. Then, generate the report and return that as your final output.\nThe final output should be in markdown format, and it should be lengthy and detailed. \n\nOriginal query: {query}\nSummarized search results: {searchResults}",
+      "template": {
+        "name": "write-report",
+        "title": "Write report",
+        "description": "Write a cohesive report for a research query",
+        "arguments": [
+          {
+            "name": "query",
+            "description": "Original query",
+            "required": true
+          },
+          {
+            "name": "searchResults",
+            "description": "Summarized search results",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a research assistant. Given a search term, you search the web for that term and produce a concise summary of the results. The summary must 2-3 paragraphs and less than 300 words. Capture the main points. Write succinctly, no need to have complete sentences or good grammar. This will be consumed by someone synthesizing a report, so it's vital you capture the essence and ignore any fluff. Do not include any additional commentary other than the summary itself.\n\nSearch term: {searchTerm}\nReason for searching: {searchReason}",
+      "template": {
+        "name": "web-research",
+        "title": "Web research",
+        "description": "Create a web search plan given a query",
+        "arguments": [
+          {
+            "name": "searchTerm",
+            "description": "Search term",
+            "required": true
+          },
+          {
+            "name": "searchReason",
+            "description": "Reason for this search",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a helpful research assistant. Given a query, come up with a set of web searches to perform to best answer the query. Output between 5 and 20 terms to query for. Add a reason to each query. Respond in the following JSON: { \"queries\": [ { \"query\":\"--The search term to use for the web search.--\", \"reason\":\"--Your reasoning for why this search is important to the query.--\" } ] }.\n\nQuery:{query}",
+      "template": {
+        "name": "web-search-planner",
+        "title": "Web search planner",
+        "description": "Create a web search plan given a query",
+        "arguments": [
+          {
+            "name": "query",
+            "description": "Research topic",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.dev.runwayml.com/v1/tasks/{id}",
+      "name": "runway-task-status",
+      "title": "Runway task status",
+      "description": "Fetch status and output details for a specific Runway text-to-video task using its id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

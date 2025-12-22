@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Runware-Audio",
+    "title": "Runware Audio",
+    "version": "1.0.0",
+    "websiteUrl": "https://runware.ai",
+    "description": "Turn written prompts into music, sounds, or speech in a few seconds.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4E0BAQFzsJTSfpkCbQ/company-logo_200_200/B4EZfR3QUwGcAQ-/0/1751572612962/runware_logo?e=2147483647&v=beta&t=HvfRm7Kk85KGMPVDzoiTBWuFN9v5bnyFSRvPuie2BBQ"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Runware.Audio.RunwareAudio, MCPhappey.Tools",
+    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "prompts": [
+    {
+      "prompt": "Analyseer de ALLERLAATSTE kwartaalrapportage van Monitor Koopwoningmarkt en lever actiegerichte inzichten voor consultants.\nWerkwijze en criteria:\n1) Data-acquisitie (altijd live):\n- Gebruik ReadResourceTemplate 'mkm-index-page' op https://monitor-koopwoningmarkt.nl/publicaties/kwartaalrapportages/ om de actuele indexpagina op te halen.\n- Extraheer alle downloadlinks naar PDF’s met het patroon “Kwartaalrapportage-Monitor-Koopwoningmarkt-YYYY-Q.pdf”.\n- Selecteer het meest recente kwartaal op basis van year/quarter in de bestandsnaam.\n- Haal de PDF-binary op met ReadResourceTemplate 'mkm-pdf-file' en voer tekstextractie uit (OCR indien nodig).\n2) Validatie & versiecontrole:\n- Rapporteer expliciet het kwartaal (bijv. “2025-2”) en publicatiemaand (indien in documentkop/metadata vermeld).\n- Indien meerdere PDF’s voor hetzelfde kwartaal bestaan, kies de meest recente/definitieve versie.\n3) Extracties (minimaal):\n- Landelijke kerncijfers: prijzen (niveau + mutaties), transacties, aanbod/voorraad (indien genoemd), doorlooptijd/verkooptijd, betaalbaarheid/financiering (indien beschikbaar), en overige kernindicatoren die expliciet in tabellen/figuren staan.\n- Methodische context: peildata, definities, bronverwijzingen en eventuele kanttekeningen.\n- Regionale signalen (indien aanwezig): afwijkingen/stedelijke vs. landelijke patronen.\n4) Analyse & synthese:\n- Bereken QoQ en YoY veranderingen (indien cijfers aanwezig).\n- Benoem drivers (rente, aanbod, beleid, macro) en risico’s (betaalbaarheid, nieuwbouwvertraging, regionale scheefgroei).\n- Vertaal bevindingen naar implicaties voor koopwoningmarkt-advies.\n5) Output (NL, beslisgericht):\n- Executive summary (5–10 bullets).\n- Tabel “Kerncijfers NL (laatste kwartaal)” met prijsniveau, prijs-QoQ, prijs-YoY, transacties, doorlooptijd, en overige relevante indicatoren uit het rapport.\n- Kansen & risico’s (3–6 bullets) en concrete aanbevelingen (4–8 bullets).\n- Datagaps/onzekerheden en exacte bronverwijzingen (documenttitel + paginanummer/sectie, plus PDF-URL).\n6) Kwaliteitsregels:\n- Geen hallucinaties; citeer kernstatistieken met documentreferentie.\n- Alleen de meest recente, live opgehaalde publicatie gebruiken.\n- Noteer download-/extractiefouten en ga verder met wat beschikbaar is.\n- Sluit af met UTC-tijdstempel en het geanalyseerde kwartaal.",
+      "template": {
+        "name": "mkm-laatste-kwartaal-volledige-analyse",
+        "title": "MKM – Laatste kwartaal: volledige analyse",
+        "description": "Haalt live de meest recente MKM-kwartaalrapportage op, extraheert kerncijfers en levert beslisgerichte inzichten.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "###{resourceA}###\n###{resourceB}###\nVergelijk twee opgegeven MKM-kwartaalrapportages en rapporteer verschillen.\nWerkwijze:\n1) Inlezen:\n- Voor beide resources (PDF’s) de tekst ophalen via ReadResourceTemplate 'mkm-pdf-file' (OCR indien nodig).\n2) Extracties (per document):\n- Prijsniveau, prijs-QoQ, prijs-YoY (indien beschikbaar), aantal transacties, doorlooptijd/verkooptijd, aanbod/voorraad (indien vermeld), en andere herhaalbare kernindicatoren.\n3) Delta & interpretatie:\n- Bereken verschillen (abs/%) tussen de twee kwartalen per indicator.\n- Geef duiding: versnelling/afvlakking, kantelpunten, segment- of regio-opmerkingen (alleen indien expliciet in de rapporten).\n4) Output (NL):\n- Tabel met A vs B per indicator + delta.\n- 5–8 bullets met belangrijkste veranderingen en implicaties.\n- Bronnen (documenttitels + pagina’s/secties + URL’s).\n5) Kwaliteit:\n- Citeer waarden met paginarefs; geen aannames buiten de tekst.",
+      "template": {
+        "name": "mkm-vergelijk-twee-kwartalen",
+        "title": "MKM – Vergelijk twee kwartalen",
+        "description": "Vergelijkt twee gekozen MKM-kwartaalrapportages op kernindicatoren en duidt de verschillen.",
+        "arguments": [
+          {
+            "name": "resourceA",
+            "description": "Eerste kwartaalrapportage (PDF-resource).",
+            "required": true
+          },
+          {
+            "name": "resourceB",
+            "description": "Tweede kwartaalrapportage (PDF-resource).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "###{resources}###\n\nMaak een kerncijfer-tabel over meerdere MKM-kwartalen (tijdreeks) voor snelle trendanalyse.\nWerkwijze:\n1) Voor alle opgegeven resources (PDF’s) tekst ophalen via ReadResourceTemplate 'mkm-pdf-file'.\n2) Per document extraheren: kwartaal-id (YYYY-Q), prijsniveau, prijs-QoQ/YoY (indien vermeld), transacties, doorlooptijd/verkooptijd, aanbod/voorraad (indien beschikbaar).\n3) Bouw een gestructureerde tijdreeks (JSON) en een compacte Markdown-tabel.\n4) Voeg korte trend-duiding toe (3–5 bullets).\n5) Citeer bronpagina’s/secties per datapunt (waar mogelijk).",
+      "template": {
+        "name": "mkm-kerncijfers-tijdreeks",
+        "title": "MKM – Kerncijfers tijdreeks",
+        "description": "Extraheert kernindicatoren uit meerdere MKM-rapporten en bouwt een tijdreeks + tabel met korte trendduiding.",
+        "arguments": [
+          {
+            "name": "resources",
+            "description": "Lijst van MKM-kwartaalrapportages (PDF-resources).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Resource: {resource}\n\nQuestion: {question}\nBeantwoord een specifieke vraag over één MKM-kwartaalrapportage (documentgerichte Q&A).\nWerkwijze:\n1) Haal de opgegeven PDF op via ReadResourceTemplate 'mkm-pdf-file' en voer tekstextractie uit.\n2) Zoek gericht naar secties/tabellen/figuren die de vraag beantwoorden; citeer documenttitel + pagina/sectie bij elk feit.\n3) Lever beknopt, exact antwoord in NL; als het niet expliciet staat, leg uit waarom niet en verwijs naar relevante passages.",
+      "template": {
+        "name": "mkm-document-vraag",
+        "title": "MKM – Documentgerichte Q&A",
+        "description": "Beantwoord een gerichte vraag over een geselecteerde MKM-kwartaalrapportage met exacte citaten/paginaverwijzingen.",
+        "arguments": [
+          {
+            "name": "resource",
+            "description": "De MKM-kwartaalrapportage (PDF-resource).",
+            "required": true
+          },
+          {
+            "name": "question",
+            "description": "De specifieke vraag over dit document.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Maak een management-briefing (1 pagina) voor het laatste MKM-kwartaal.\nWerkwijze:\n1) Vind het meest recente kwartaal via 'mkm-index-page' (zoals in de prompt “MKM – Laatste kwartaal: volledige analyse”).\n2) Extraheer uitsluitend de 6–8 meest beslisrelevante kernpunten (cijfers + duiding) met paginarefs.\n3) Output (NL): titel, context (kwartaal + datum), bullets (cijfer + implicatie), 3 actiestappen, bronnen met URL’s.",
+      "template": {
+        "name": "mkm-management-briefing",
+        "title": "MKM – Management-briefing (laatste kwartaal)",
+        "description": "1-pagina briefing met de belangrijkste cijfers en implicaties uit de meest recente MKM-kwartaalrapportage.",
+        "arguments": []
+      }
+    }
+  ]
+}

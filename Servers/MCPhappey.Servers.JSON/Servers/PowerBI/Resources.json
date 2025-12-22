@@ -1,0 +1,40 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.powerbi.com/v1.0/myorg/datasets",
+      "name": "datasets",
+      "title": "Datasets",
+      "description": "List all datasets available in your Power BI workspace.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.powerbi.com/v1.0/myorg/reports",
+      "name": "reports",
+      "title": "Reports",
+      "description": "Retrieve all reports in your Power BI workspace.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.powerbi.com/v1.0/myorg/groups",
+      "name": "groups-workspaces",
+      "title": "Groups (workspaces)",
+      "description": "List all Power BI workspaces (groups) you have access to.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

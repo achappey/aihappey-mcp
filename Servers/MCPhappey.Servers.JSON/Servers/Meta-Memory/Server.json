@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "Meta-Memory",
+    "title": "Meta Memory",
+    "version": "1.0.0",
+    "description": "Manage memories across services in one place: browse, create and update knowledge easily."
+  },
+  "plugins": [
+    "MCPhappey.Tools.Memory.OneDrive.OneDriveMemory, MCPhappey.Tools",
+    "MCPhappey.Tools.OpenMemory.OpenMemory, MCPhappey.Tools",
+    "MCPhappey.Tools.KernelMemory.KernelMemory, MCPhappey.Tools",
+    "MCPhappey.Tools.Mem0.Mem0SharedService, MCPhappey.Tools",
+    "MCPhappey.Tools.Mem0.Mem0PersonalService, MCPhappey.Tools",
+    "MCPhappey.Tools.Mem0.Mem0FeedbackService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

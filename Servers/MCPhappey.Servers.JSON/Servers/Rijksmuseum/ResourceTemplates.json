@@ -1,0 +1,77 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://data.rijksmuseum.nl/search/collection?title={title}",
+      "name": "rijksmuseum-search-by-title",
+      "title": "Search by title",
+      "description": "Find artworks by title or partial title (e.g., Night Watch).",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.rijksmuseum.nl/search/collection?creator={creator}",
+      "name": "rijksmuseum-search-by-creator",
+      "title": "Search by creator",
+      "description": "Search for works by a creator such as Rembrandt van Rijn.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.rijksmuseum.nl/search/collection?type={type}&material={material}",
+      "name": "rijksmuseum-search-by-type-and-material",
+      "title": "Search by type and material",
+      "description": "Combine filters like painting on oil paint or sculpture in marble.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.rijksmuseum.nl/search/collection?creationDate={creationDate}",
+      "name": "rijksmuseum-search-by-date",
+      "title": "Search by creation date",
+      "description": "Find artworks made in a specific year or century (e.g., 16??).",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.rijksmuseum.nl/search/collection?description={keyword}",
+      "name": "rijksmuseum-search-by-description",
+      "title": "Search by description keyword",
+      "description": "Search for objects containing specific keywords in their description.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+  
+    {
+      "uriTemplate": "https://data.rijksmuseum.nl/search/collection?pageToken={pageToken}",
+      "name": "rijksmuseum-pagination",
+      "title": "Paginate search results",
+      "description": "Retrieve subsequent pages of results using a page token.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Meta-Video",
+    "title": "Meta Video",
+    "version": "1.0.0",
+    "description": "One interface for all video: text-to-video, image-to-video, video-to-video across AI providers."
+  },
+  "plugins": [
+    "MCPhappey.Tools.Runway.Video.RunwayVideo, MCPhappey.Tools",
+    "MCPhappey.Tools.Together.Video.TogetherVideo, MCPhappey.Tools",
+    "MCPhappey.Tools.OpenAI.Video.OpenAIVideo, MCPhappey.Tools",
+    "MCPhappey.Tools.AIML.Video.AIMLVideo, MCPhappey.Tools",
+    "MCPhappey.Tools.Runware.Video.RunwareVideo, MCPhappey.Tools",
+    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools",
+    "MCPhappey.Tools.EdenAI.Video.EdenAIVideo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

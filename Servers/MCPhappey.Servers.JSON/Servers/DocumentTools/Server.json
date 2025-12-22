@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "DocumentTools",
+    "title": "Document Tools",
+    "version": "1.0.0",
+    "description": "Extracts key people, terms and tasks from documents so you quickly see who is involved and what matters."
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.DocumentTools, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

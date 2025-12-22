@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Vektis",
+    "title": "Vektis",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.vektis.nl",
+    "description": "Bekijk en vergelijk zorgkosten per regio in Nederland op basis van open Vektis-data.",
+    "icons": [
+      {
+        "src": "https://media.glassdoor.com/sqll/4762824/vektis-squarelogo-1644495778896.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.Containers.OpenAIContainers, MCPhappey.Tools",
+    "MCPhappey.Tools.OpenAI.CodeInterpreter.OpenAICodeInterpreter, MCPhappey.Tools",
+    "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+  ],
+  "instructions": "Laad grote Vektis-CSV’s eerst in een container via OpenAIContainers en bewerk of analyseer ze daarna met OpenAICodeInterpreter. Als het grote analyses betreft breek je de taak op in meerdere kleine taken en verstuur die apart naar code interpreter. Vraag de code interpreter alleen om cijfers, maak daarna zelf de grafieken vanuit die cijfers."
+}

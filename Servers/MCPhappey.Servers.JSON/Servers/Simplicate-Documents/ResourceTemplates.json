@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/storage/loadfile?filename={filename}",
+      "name": "simplicate-document",
+      "title": "Simplicate document",
+      "description": "Leest een Simplicate document via een bestandsnaam.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

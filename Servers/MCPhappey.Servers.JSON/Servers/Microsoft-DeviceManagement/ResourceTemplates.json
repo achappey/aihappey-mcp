@@ -1,0 +1,172 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter={deviceFilter}&$top=100&$select=id,deviceName,userDisplayName,userPrincipalName,operatingSystem,osVersion,manufacturer,model,serialNumber,imei,meid,managementAgent,complianceState,lastSyncDateTime,enrolledDateTime,azureADDeviceId",
+      "name": "filtered-devices",
+      "title": "Filtered devices",
+      "description": "Flexible device listing with custom filter. Examples: startswith(deviceName,'LAP-'), operatingSystem eq 'Windows', userPrincipalName eq 'user@contoso.com', serialNumber eq 'XYZ123', complianceState ne 'compliant'. Replace {deviceFilter}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices/{deviceId}?$select=id,deviceName,userDisplayName,userPrincipalName,operatingSystem,osVersion,manufacturer,model,serialNumber,imei,meid,enrolledDateTime,lastSyncDateTime,ethernetMacAddress,wiFiMacAddress,azureADDeviceId,udid,managementAgent,complianceState,jailBroken,physicalMemoryInBytes,freeStorageSpaceInBytes,totalStorageSpaceInBytes",
+      "name": "device-details",
+      "title": "Device details by ID",
+      "description": "Retrieve the full detail card of a managed device by Intune device ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/managedDevices?$top=100&$select=id,deviceName,operatingSystem,osVersion,serialNumber,model,managementAgent,complianceState,lastSyncDateTime",
+      "name": "user-managed-devices",
+      "title": "Devices per user",
+      "description": "All managed devices for a specific user (ID or UPN).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=serialNumber eq '{serialNumber}'&$select=id,deviceName,userPrincipalName,operatingSystem,osVersion,manufacturer,model,serialNumber,azureADDeviceId,complianceState,lastSyncDateTime",
+      "name": "device-by-serial",
+      "title": "Find device by serial",
+      "description": "Search a device by its serial number.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/windowsAutopilotDeviceIdentities?$filter=serialNumber eq '{serialNumber}'&$top=10&$select=id,azureAdDeviceId,serialNumber,groupTag,enrollmentState,manufacturer,model",
+      "name": "autopilot-by-serial",
+      "title": "Autopilot by serial",
+      "description": "Find Autopilot identity for a specific serial number.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=userPrincipalName eq '{upn}' and complianceState ne 'compliant'&$top=100&$select=id,deviceName,complianceState,lastSyncDateTime,operatingSystem,osVersion,serialNumber",
+      "name": "user-noncompliant-devices",
+      "title": "User’s non-compliant devices",
+      "description": "Quick triage: all non-compliant devices of a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=lastSyncDateTime le {isoDateTime}&$top=100&$select=id,deviceName,userPrincipalName,lastSyncDateTime,operatingSystem,serialNumber,model,complianceState",
+      "name": "stale-devices-since",
+      "title": "Devices not synced since {isoDateTime}",
+      "description": "Find stale devices that have not synced since an ISO 8601 datetime (e.g., 2025-08-01T00:00:00Z).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=operatingSystem eq '{os}' and startswith(osVersion,'{majorMinor}')&$top=100&$select=id,deviceName,userPrincipalName,operatingSystem,osVersion,model,serialNumber,complianceState",
+      "name": "devices-by-os-and-version",
+      "title": "Devices by OS and version",
+      "description": "Filter devices by OS and version, e.g., Windows/10, iOS/17, Android/14, macOS/14. Replace {os} and {majorMinor}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=managementAgent eq '{agent}'&$top=100&$select=id,deviceName,managementAgent,operatingSystem,osVersion,model,serialNumber,complianceState,lastSyncDateTime",
+      "name": "devices-by-management-agent",
+      "title": "Devices by management agent",
+      "description": "Segment devices by management agent (examples: microsoftSense, intuneClient, eas, mdm). Replace {agent}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/devices?$filter=startswith(displayName,'{prefix}')&$top=100&$select=id,displayName,deviceId,operatingSystem,operatingSystemVersion,approximateLastSignInDateTime,accountEnabled",
+      "name": "devices-by-name-prefix",
+      "title": "Devices by name prefix",
+      "description": "Find directory devices where the displayName starts with a given prefix (e.g., 'LAP-').",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/devices/{deviceId}?$select=id,displayName,deviceId,operatingSystem,operatingSystemVersion,trustType,profileType,accountEnabled,approximateLastSignInDateTime,extensionAttributes",
+      "name": "device-details",
+      "title": "Device details by ID",
+      "description": "Retrieve Entra ID device object details by object ID or deviceId.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/devices?$filter=deviceId eq '{azureAdDeviceId}'&$select=id,displayName,deviceId,operatingSystem,operatingSystemVersion,trustType,accountEnabled",
+      "name": "device-by-azuread-id",
+      "title": "Find device by Azure AD deviceId",
+      "description": "Locate a device in Entra ID using its Azure AD deviceId (GUID).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/devices?$filter=accountEnabled eq false&$top=100&$select=id,displayName,deviceId,operatingSystem,operatingSystemVersion,approximateLastSignInDateTime",
+      "name": "disabled-devices",
+      "title": "Disabled devices",
+      "description": "List all devices in Entra ID that are currently disabled.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/devices?$filter=approximateLastSignInDateTime le {isoDateTime}&$top=100&$select=id,displayName,deviceId,operatingSystem,operatingSystemVersion,approximateLastSignInDateTime",
+      "name": "stale-entra-devices",
+      "title": "Devices stale since {isoDateTime}",
+      "description": "Find Entra ID devices that haven’t signed in since the given ISO 8601 datetime.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

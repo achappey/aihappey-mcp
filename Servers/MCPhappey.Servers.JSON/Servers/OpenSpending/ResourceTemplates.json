@@ -1,0 +1,124 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://data.openspending.nl/bronnen/Gemeenten/{naamGemeente}",
+      "name": "bron-details-ophalen",
+      "title": "Bron details ophalen",
+      "description": "Geeft alle beschikbare informatie over een specifieke gemeente. Naam gemeente altijd lowercase.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.openspending.nl/bronnen/zoek/{query}",
+      "name": "bron-zoeken",
+      "title": "Bron zoeken",
+      "description": "Zoekt binnen alle bronnen op basis van een zoekterm of fragment van een naam. De {query} parameter is verplicht.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.openspending.nl/zoek?q={query}",
+      "name": "algemene-zoekopdracht",
+      "title": "Algemene zoekopdracht",
+      "description": "Doorzoekt alle datasets en onderwerpen op basis van de opgegeven zoekterm {q}. Deze parameter is verplicht.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.openspending.nl/datasets/{ID}",
+      "name": "dataset-ophalen-op-id",
+      "title": "Dataset ophalen op ID",
+      "description": "Geeft details van een specifieke dataset, zoals velden, metadata en beschrijving, op basis van een unieke {ID}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.openspending.nl/bronnen/{bron}/{slug}/{year}",
+      "name": "jaarcijfers-per-bron-en-slug",
+      "title": "Jaarcijfers per bron en slug",
+      "description": "Haalt alle uitgaven/opbrengsten op voor een bepaalde bron, slug en jaartal.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.openspending.nl/bronnen/{bron}/{slug}/{year}/{reportperiod}/per/categorie",
+      "name": "categorie-overzicht-per-bron-en-periode",
+      "title": "Categorie-overzicht per bron en periode",
+      "description": "Geeft alle uitgaven per categorie binnen een specifieke bron, slug, jaartal en verslagperiode.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.openspending.nl/bronnen/{slug}/trends",
+      "name": "trendgegevens-per-bron",
+      "title": "Trendgegevens per bron",
+      "description": "Geeft trends en historische ontwikkelingen van uitgaven/opbrengsten voor een specifieke bron (slug).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.openspending.nl/bronnen/{slug}/{verslagsoort}/trends",
+      "name": "trends-per-verslagsoort",
+      "title": "Trends per verslagsoort",
+      "description": "Geeft trends van een bepaalde verslagsoort voor een specifieke bron (slug).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.openspending.nl/bronnen/{bron}/{slug}/{year}/{reportperiod}/per/hoofdfunctie",
+      "name": "hoofdfunctie-overzicht-per-periode",
+      "title": "Hoofdfunctie-overzicht per periode",
+      "description": "Geeft een overzicht van uitgaven per hoofdfunctie voor de opgegeven bron, slug, jaartal en verslagperiode.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.openspending.nl/datasets/{ID}/{table}{categoryGroupID}",
+      "name": "dataset-details-per-table-en-category",
+      "title": "Dataset details per table en category",
+      "description": "Geeft een specifiek deel van een dataset op basis van dataset-ID, tabel en optionele categoriegroep-ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

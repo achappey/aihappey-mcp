@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-UserManagement",
+    "title": "Microsoft User Management",
+    "version": "1.0.0",
+    "description": "Manage Microsoft 365 users: update accounts, set permissions and organize teams.",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Users.GraphUserManagement, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Directory.ReadWrite.All https://graph.microsoft.com/User.ReadWrite.All"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sunrise-sunset.org/json?lat={latitude}&lng={longitude}",
+      "name": "get-sun-times-today",
+      "title": "Get today's sunrise and sunset",
+      "description": "Returns today's sunrise, sunset, and twilight times for a specific latitude and longitude (UTC).",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://api.sunrise-sunset.org/json?lat={latitude}&lng={longitude}&date={date}",
+      "name": "get-sun-times-for-date",
+      "title": "Get sunrise and sunset for specific date",
+      "description": "Returns sunrise, sunset, and twilight times for a given date at the specified coordinates (UTC). Use ISO date (yyyy-mm-dd) or 'today'.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://api.sunrise-sunset.org/json?lat={latitude}&lng={longitude}&date={date}&formatted=0",
+      "name": "get-sun-times-for-date-iso8601",
+      "title": "Get sun times in ISO8601 for date",
+      "description": "Same as above, but returns times in ISO8601 instead of AM/PM. Useful for parsing and calculations.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

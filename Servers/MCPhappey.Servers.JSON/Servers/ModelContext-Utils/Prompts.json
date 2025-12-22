@@ -1,0 +1,22 @@
+{
+  "prompts": [
+    {
+      "prompt": "Test all available tools, resources, and resource templates from the current MCP server context, except the ModelContext-Utils MCP. Only test other MCP servers. If no other MCP servers are connected, inform the user and ask to connect the MCP they would like to test. For each one, first try to discover all required parameters and constraints using context, related endpoints, or available metadata—ask me for missing information only if it cannot be found automatically. Attempt to execute or read each item with valid values. Mark each test result: use ✅ for success and ❌ for any failures or issues. For each, provide only a short summary with the status, error message (if any), and key insight—never include full raw data or all response content. At the end, provide a concise report summarizing the overall test status, major errors, and suggested next actions.",
+      "template": {
+        "name": "full-mcp-context-test",
+        "title": "Full MCP context test",
+        "description": "Performs a comprehensive test of all tools, resources, and resource templates available in the current MCP server context. Automatically attempts to resolve required parameters and constraints using available context, and only prompts the user for missing information if necessary.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Act as a digital knowledge investigator with unrestricted access to every digital system, database, and external source available to the current user—both within the organization and on the wider internet. Proactively scan, search, and collect all possible information about the user and their context: analyze emails, documents, chat logs, calendar items, contacts, collaboration platforms, project management tools, internal systems, public profiles, and any other accessible digital traces or open data. Aggregate and synthesize this information to build the most complete and up-to-date user profile possible, capturing not only obvious data (like role, recent projects, and expertise), but also hidden patterns, connections, and unique digital habits. Once you have created this user profile, identify and connect every relevant tool, resource, or integration—regardless of vendor, platform, or technology—that could enhance the user’s digital workspace. This includes internal systems, cloud services, knowledge bases, APIs, automation tools, web resources, open data, and any other asset that could help the user work smarter, learn faster, or collaborate more effectively. Build a Personal MCP server that functions as a true digital command center: a central place where all useful resources are surfaced and actionable, tailored specifically to the unique needs and digital footprint of this user. Present your output as a clear, actionable report. Begin with a summary of the user profile you have constructed, explicitly referencing the diverse data sources and systems you have examined. Then describe the proposed Personal MCP server—including the concrete resources, integrations, and tools you are connecting, and why. Finish with a set of targeted, practical example prompts or questions that show how the user can interact with their new workspace to solve real problems, get answers, automate tasks, and make better decisions. Your entire response should be sharply focused on discovery, synthesis, and immediate practical value—leaving no useful source unexplored and no opportunity for digital leverage unused.",
+      "template": {
+        "name": "user-digital-profile-mcp",
+        "title": "User digital profile and MCP server builder",
+        "description": "Discovers and synthesizes all possible information and digital traces about the current user from every available system, database, and external source. Builds a comprehensive user profile and then creates a Personal MCP server that connects and organizes the most relevant tools, integrations, and resources for that user. Output includes a user summary, recommended server structure, and actionable example prompts.",
+        "arguments": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Slide Deck</title>
+
+    <!-- Base + Alpine + Components -->
+    <script>window.deferLoadingAlpine = s => window._startAlpine = s;</script>
+    <script src="%HOST_URL%/widget-base.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+    <script src="%HOST_URL%/chatapp-header.js" defer></script>
+    <script src="%HOST_URL%/chatapp-slidedeck.js" defer></script>
+    <script src="%HOST_URL%/slide-default.js" defer></script>
+    <script src="%HOST_URL%/slide-image.js" defer></script>
+    <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+    <script>
+        window.slideDeckWidget = function () {
+            return {
+                data: window.openai?.toolOutput || { slides: [] },
+                input: window.openai?.toolInput || null,
+                init() { widgetBase.syncOpenAI(this); },
+                toggleMode(e) {
+                    const cur = Alpine.store('ui')?.displayMode || 'inline';
+                    const next = e?.detail?.mode || (cur === 'fullscreen' ? 'inline' : 'fullscreen');
+                    window.openai?.requestDisplayMode?.({ mode: next });
+                    if (!window.openai?.requestDisplayMode) Alpine.store('ui').displayMode = next;
+                }
+            }
+        }
+    </script>
+
+    <style>
+        chatapp-slidedeck {
+            height: 100%;
+            width: 100%;
+        }
+
+        .slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 2rem;
+        }
+
+        .slide h2 {
+            font-size: 1.6rem;
+            margin-bottom: .5rem;
+        }
+
+        .slide p {
+            max-width: 600px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+
+<body>
+    <div x-data="slideDeckWidget()" x-init="init()" style="display:flex;flex-direction:column;height:100%;">
+        <chatapp-header text="AI Slide Deck" x-show="$store.ui.displayMode === 'inline'"
+            @modechange="toggleMode"></chatapp-header>
+
+        <chatapp-carousel style="flex:1; min-height:0;" x-show="$store.ui.displayMode === 'inline'">
+            <template x-for="c in (data.slides || [])" :key="c.title">
+                <chatapp-card :title="c.title" :description="c.subtitle || ''">
+                    <div slot="content">
+                        <template x-if="c.html">
+                            <div x-html="c.html"></div>
+                        </template>
+                        <template x-if="!c.html">
+                            <p x-text="c.content || ''"></p>
+                        </template>
+                    </div>
+                </chatapp-card>
+            </template>
+        </chatapp-carousel>
+
+        <!-- FULLSCREEN MODE -->
+        <template x-if="$store.ui.displayMode === 'fullscreen'">
+            <div style="flex:1;">
+                <chatapp-slidedeck>
+                    <template x-for="(s, i) in (data.slides || [])" :key="i">
+                        <section class="slide">
+                            <h2 x-text="s.title || 'Untitled'"></h2>
+                            <h4 x-text="s.subtitle || ''"></h4>
+                            <template x-if="s.html">
+                                <div x-html="s.html"></div>
+                            </template>
+                            <template x-if="!s.html">
+                                <p x-text="s.content || ''"></p>
+                            </template>
+                        </section>
+                    </template>
+
+                </chatapp-slidedeck>
+            </div>
+        </template>
+    </div>
+
+    <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+{
+  "serverInfo": {
+    "name": "Simplicate-Hours",
+    "title": "Simplicate Uren",
+    "version": "1.0.0",
+    "description": "Simplicate uren: registraties en rapportages per maand, project of medewerker.",
+    "icons": [
+      {
+        "src": "https://developer.simplicate.com/images/simplicate_icon.png"
+      }
+    ]
+  },
+  "instructions": "Use the select parameter as a comma separated string to only include fields in the response you're interested in. If it's a nested property in the response, you may end the property name with a . (period) to include all its children.",
+  "headers": {
+    "Authentication-Key": "Simplicate Api Key",
+    "Authentication-Secret": "Simplicate Api Secret"
+  },
+  "plugins": [
+    "MCPhappey.Simplicate.Hours.SimplicateHours, MCPhappey.Simplicate",
+    "MCPhappey.Simplicate.SimplicateCurrentUser, MCPhappey.Simplicate"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "tools": {
+    "simplicate_hours_get_hour_totals_by_month": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/hours-per-month.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_hours_get_hour_totals_by_project": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/hours-per-project.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_hours_get_hour_totals_by_hour_employee": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/hours-per-employee.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_hours_get_hour_totals_by_hour_type": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/hours-per-hour-type.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.linkup.so/v1/credits/balance",
+      "name": "linkup-credits-balance",
+      "title": "Get Linkup credits balance",
+      "description": "Get Linkup credits balance details",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

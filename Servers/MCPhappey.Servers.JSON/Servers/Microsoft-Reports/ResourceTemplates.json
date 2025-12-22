@@ -1,0 +1,112 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/getOffice365ActiveUserCounts(period='{period}')",
+      "name": "office365-active-user-counts-period",
+      "title": "Office 365 active user counts by period",
+      "description": "Gets active user counts for Office 365 services over a specified period (D7, D30, D90, D180).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/getTeamsUserActivityCounts(period='{period}')",
+      "name": "teams-user-activity-counts-period",
+      "title": "Teams user activity counts by period",
+      "description": "Gets Teams user activity counts over a specified period (D7, D30, D90, D180).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/getTeamsUserActivityUserDetail(period='{period}')",
+      "name": "teams-user-activity-user-detail",
+      "title": "Teams user activity user detail",
+      "description": "Gets per-user detail of Teams user activity for a specified period.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/getSignIns",
+      "name": "aad-signins",
+      "title": "Azure AD sign-ins",
+      "description": "Lists recent sign-in events (requires appropriate permissions).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/getMailboxUsageDetail(period='{period}')",
+      "name": "mailbox-usage-detail",
+      "title": "Mailbox usage detail",
+      "description": "Gets per-user mailbox usage detail for a specified period.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/getOneDriveUsageAccountDetail(period='{period}')",
+      "name": "onedrive-usage-account-detail",
+      "title": "OneDrive usage account detail",
+      "description": "Gets per-user OneDrive usage account detail for a specified period.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/getSharePointSiteUsageDetail(period='{period}')",
+      "name": "sharepoint-site-usage-detail",
+      "title": "SharePoint site usage detail",
+      "description": "Gets usage detail for SharePoint sites for a specified period.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/getUserDetail(period='{period}')",
+      "name": "aad-user-detail",
+      "title": "Azure AD user detail",
+      "description": "Gets user sign-in and license detail for a specified period.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/getM365AppUserDetail(period='{period}')",
+      "name": "m365-app-user-detail",
+      "title": "Microsoft 365 app user detail",
+      "description": "Gets per-user Microsoft 365 app usage detail for a specified period.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

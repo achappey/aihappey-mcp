@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://jsonblob.com/api/jsonBlob/{blobId}",
+      "name": "json-blob",
+      "title": "JSON Blob by ID",
+      "description": "Fetch or update a JSON blob hosted on jsonblob.com using its blob ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

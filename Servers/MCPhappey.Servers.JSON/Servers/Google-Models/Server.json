@@ -1,0 +1,13 @@
+{
+  "serverInfo": {
+    "name": "Google-Models",
+    "title": "Google AI Models",
+    "version": "1.0.0",
+    "description": "Browse Google AI models for chat, multimodal and reasoning tasks.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Google-gemini-icon.svg/2048px-Google-gemini-icon.svg.png"
+      }
+    ]
+  }
+}

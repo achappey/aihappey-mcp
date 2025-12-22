@@ -1,0 +1,24 @@
+{
+  "serverInfo": {
+    "name": "Simplicate-Export",
+    "title": "Simplicate Export",
+    "version": "1.0.0",
+    "description": "Vraag Simplicate CSV-exports aan en ontvang een download-link voor grote datadumps.",
+    "icons": [
+      {
+        "src": "https://developer.simplicate.com/images/simplicate_icon.png"
+      }
+    ]
+  },
+  "headers": {
+    "Authentication-Key": "Simplicate Api Key",
+    "Authentication-Secret": "Simplicate Api Secret"
+  },
+  "plugins": [
+    "MCPhappey.Simplicate.Export.SimplicateExport, MCPhappey.Simplicate"
+  ],
+  "instructions": "Use the locale delimeter from user context when known. Always use the select query parameter for the fields needed. Only use the export tool when CSV export files are explicitly asked. Don't use Export tool to search/retrieve data, since it will only return the url to the csv file, not the content itself.",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hours/hourstype?q[label]=*{hourTypeName}*",
+      "name": "uren-types",
+      "title": "Uren types",
+      "description": "Haal alle uren types op",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hours/approvalstatus",
+      "name": "uren-goedkeuringsstatussen",
+      "title": "Uren goedkeuringsstatussen",
+      "description": "Haalt alle mogelijke goedkeuringsstatussen van uren op.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hours/hours?q[employee.name]=*{employeeName}*&q[project.name]=*{projectName}*&q[start_date][ge]={startDateGe}&q[start_date][le]={startDateLe}&q[type.label]=*{typeLabel}*&q[employee.name]=*{employeeName}*&q[approvalstatus.label]={approvalstatusLabel}&limit=50&offset=0&select=id,employee.,project.,projectservice.,invoice_status,tariff,created_at,updated_at,leave_status.,leave_id,status,hours,start_date,note,address.,approvalstatus.,type.",
+      "name": "uren-alle-filters",
+      "title": "Uren (alle filters)",
+      "description": "Haalt alle uren op met filters",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

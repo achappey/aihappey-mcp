@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://www.kadaster.nl/-/{slug}",
+      "name": "artikel-op-/-",
+      "title": "Algemene artikel-/onderzoeks-URL (/-/slug)",
+      "description": "Generieke template die de meeste nieuws-, onderzoek- en kwartaalbericht-artikelen dekt (incl. woningmarkt kwartaalberichten).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.kadaster.nl/zakelijk/vastgoedinformatie/{slug}/",
+      "name": "vastgoedinformatie-subpage",
+      "title": "Vastgoedinformatie subpagina",
+      "description": "Template voor subsecties onder Vastgoedinformatie (bijv. kwartaalberichten, WOZ+, datasets-context).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.kadaster.nl/zakelijk/{slug}/",
+      "name": "zakelijk-subpage",
+      "title": "Zakelijk sectie (1-level)",
+      "description": "Fallback voor veelvoorkomende secties in het Zakelijk-domein (breed inzetbaar voor eerste niveaus).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.kadaster.nl/zoeken?text={q}",
+      "name": "site-search",
+      "title": "Site search (Kadaster)",
+      "description": "Doorzoek kadaster.nl met vrije zoekterm; handig om snel relevante artikelen/onderzoeken te vinden.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://www.kadaster.nl/-/media/{path}",
+      "name": "media-bestand",
+      "title": "Media/PDF-bestand",
+      "description": "Directe template voor mediabestanden (bijv. ‘Open document’ bij figuren/tabellen).",
+      "mimeType": "application/octet-stream",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

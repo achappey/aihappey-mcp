@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "EuropeanUnion-VIES",
+    "title": "European Union VIES",
+    "version": "1.0.0",
+    "websiteUrl": "https://ec.europa.eu/taxation_customs/vies",
+    "description": "Check whether an EU VAT number is valid and registered for intra-EU transactions.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/en/2/27/EU_flag_square.PNG"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.EuropeanUnion.EuropeanUnionVIESService, MCPhappey.Tools"
+  ]
+}

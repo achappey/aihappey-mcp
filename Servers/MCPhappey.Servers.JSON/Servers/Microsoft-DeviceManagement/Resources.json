@@ -1,0 +1,64 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/devices?$top=100&$select=id,displayName,deviceId,operatingSystem,operatingSystemVersion,trustType,accountEnabled,approximateLastSignInDateTime",
+      "name": "all-devices",
+      "title": "All directory devices",
+      "description": "Retrieve the first 100 Entra ID devices with basic details like OS, trust type, enabled status and last sign-in.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$top=100&$select=id,deviceName,userDisplayName,userPrincipalName,operatingSystem,osVersion,manufacturer,model,serialNumber,managementAgent,complianceState,lastSyncDateTime,enrolledDateTime,azureADDeviceId",
+      "name": "managed-devices",
+      "title": "All managed devices (top 100)",
+      "description": "Snapshot of the most relevant device fields for quick triage.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=complianceState ne 'compliant'&$top=100&$select=id,deviceName,userPrincipalName,complianceState,lastSyncDateTime,osVersion,serialNumber,model",
+      "name": "noncompliant-devices",
+      "title": "Non-compliant devices",
+      "description": "List of devices that are not compliant (top 100) for immediate follow-up.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/deviceManagement/windowsAutopilotDeviceIdentities?$top=100&$select=id,azureAdDeviceId,serialNumber,groupTag,purchaseOrderIdentifier,productKey,manufacturer,model,enrollmentState",
+      "name": "autopilot-devices",
+      "title": "Windows Autopilot devices",
+      "description": "Overview of Autopilot device identities (top 100).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/deviceManagement/deviceCompliancePolicySettingStateSummaries?$top=100",
+      "name": "compliance-setting-summaries",
+      "title": "Compliance policy setting summaries",
+      "description": "Compact summaries per compliance setting for trend or hotspot analysis.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

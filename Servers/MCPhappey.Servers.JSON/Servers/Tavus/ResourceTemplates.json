@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://tavusapi.com/v2/personas?limit={limit}&page={page}&persona_type={persona_type}",
+      "name": "query-tavus-personas",
+      "title": "Query Tavus personas",
+      "description": "Retrieve a paginated and optionally filtered list of Tavus personas.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://tavusapi.com/v2/replicas?limit={limit}&page={page}&verbose={verbose}&replica_type={replica_type}&replica_ids={replica_ids}",
+      "name": "query-tavus-replicas",
+      "title": "Query Tavus replicas",
+      "description": "Retrieve a paginated and optionally filtered list of Tavus rReplicas with optional verbosity and replica ID filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

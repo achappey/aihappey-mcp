@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Firecrawl",
+    "title": "Firecrawl",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.firecrawl.dev",
+    "description": "Fetch clean, structured data from any website for AI search, summaries and automations.",
+    "icons": [
+      {
+        "src": "https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png"
+      }
+    ]
+  },
+  "baseMcp": "mcp.firecrawl.dev",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

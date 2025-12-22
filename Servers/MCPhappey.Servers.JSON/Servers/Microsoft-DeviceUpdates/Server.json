@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-DeviceUpdates",
+    "title": "Microsoft Device Updates",
+    "version": "1.0.0",
+    "description": "See which Windows updates are rolling out to your company’s devices.",
+    "icons": [
+      {
+        "src": "https://garvis.ca/wp-content/uploads/2023/03/image-1.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/WindowsUpdates.ReadWrite.All"
+  }
+}

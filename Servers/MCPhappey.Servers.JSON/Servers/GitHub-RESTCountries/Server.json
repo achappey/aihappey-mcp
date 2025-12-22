@@ -1,0 +1,31 @@
+{
+  "serverInfo": {
+    "name": "GitHub-RESTCountries",
+    "title": "GitHub RESTCountries.NET",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/apilayer/restcountries",
+    "description": "Country lookup: names, codes, flags, population, currencies and languages.",
+    "icons": [
+      {
+        "src": "https://api.nuget.org/v3-flatcontainer/restcountries.net/3.5.0/icon"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.RestCountries.CountryService, MCPhappey.Tools"
+  ],
+  "tools": {
+    "github_rest_countries_get_by_region": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/countries.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "github_rest_countries_get_detail": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/country-detail.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

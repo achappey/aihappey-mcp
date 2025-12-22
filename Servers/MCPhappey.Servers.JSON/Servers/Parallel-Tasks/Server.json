@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Parallel-Tasks",
+    "title": "Parallel Tasks",
+    "version": "1.0.0",
+    "websiteUrl": "https://parallel.ai",
+    "description": "Automated web research and reasoning for large-scale AI workflows.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQGXvJBt9J3NKg/company-logo_200_200/B56ZbvGWMYHUAQ-/0/1747768140820/parallel_web_logo?e=2147483647&v=beta&t=NS4V8dGByW1NDw80Vs4g6U3XxmAwXHosbWOi9jlaz2o"
+      }
+    ]
+  },
+  "baseMcp": "task-mcp.parallel.ai",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

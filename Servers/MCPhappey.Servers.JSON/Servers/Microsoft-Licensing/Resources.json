@@ -1,0 +1,75 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/subscribedSkus",
+      "name": "all-subscribed-skus",
+      "title": "All subscribed SKUs",
+      "description": "List all Microsoft 365/Azure AD subscribed SKUs (licenses) available to your tenant.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/users?$select=id,displayName,userPrincipalName,assignedLicenses",
+      "name": "all-users-with-assigned-licenses",
+      "title": "All users with assigned licenses",
+      "description": "List all users, including their assigned licenses, display name, and principal name.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/users?$filter=assignedLicenses/any()&$select=id,displayName,userPrincipalName,assignedLicenses",
+      "name": "users-with-any-assigned-license",
+      "title": "Users with any assigned license",
+      "description": "Get users who have at least one license assigned, including their license and profile details.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/users?$filter=assignedLicenses/any() eq false&$select=id,displayName,userPrincipalName",
+      "name": "unlicensed-users",
+      "title": "Unlicensed users",
+      "description": "List all users who currently have no licenses assigned.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/groups?$filter=groupTypes/any(c:c eq 'Unified')&$select=id,displayName,assignedLicenses",
+      "name": "microsoft-365-groups-with-licenses",
+      "title": "Microsoft 365 groups with licenses",
+      "description": "List all Microsoft 365 (Unified) Groups that have licenses assigned.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/department_user_skus.html",
+      "name": "users-skus-per-department-widget",
+      "description": "User SKUs per department widget that presents all tool call output.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

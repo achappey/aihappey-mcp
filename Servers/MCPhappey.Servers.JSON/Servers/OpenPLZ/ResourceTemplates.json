@@ -1,0 +1,112 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://openplzapi.org/at/FederalProvinces/{key}/Districts",
+      "name": "districts-by-province",
+      "title": "Districts by Federal Province",
+      "description": "Returns all districts (Bezirke) within a given federal province using its {key}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://openplzapi.org/at/Districts/{key}/Municipalities",
+      "name": "municipalities-by-district",
+      "title": "Municipalities by District",
+      "description": "Returns all municipalities (Gemeinden) within the district identified by {key}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://openplzapi.org/at/Districts/{key}/Localities",
+      "name": "localities-by-district",
+      "title": "Localities by District",
+      "description": "Returns all localities within the district identified by {key}. Supports optional pagination (page, pageSize).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://openplzapi.org/at/FederalProvinces/{key}/Localities",
+      "name": "localities-by-province",
+      "title": "Localities by Province",
+      "description": "Returns all localities within a federal province (Bundesland) using its {key}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://openplzapi.org/at/FederalProvinces/{key}/Municipalities",
+      "name": "municipalities-by-province",
+      "title": "Municipalities by Province",
+      "description": "Returns all municipalities within the given federal province identified by {key}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://openplzapi.org/at/FullTextSearch?searchText={query}",
+      "name": "fulltext-search",
+      "title": "Full Text Search",
+      "description": "Performs a full-text search for street names, postal codes or cities based on {query}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://openplzapi.org/de/FederalStates/{key}/Districts",
+      "name": "districts-by-german-state",
+      "title": "Districts by German Federal State",
+      "description": "Returns all districts within a German federal state identified by {key}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://openplzapi.org/ch/Cantons/{key}/Districts",
+      "name": "districts-by-swiss-canton",
+      "title": "Districts by Swiss Canton",
+      "description": "Returns all districts within a Swiss canton identified by {key}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://openplzapi.org/li/Communes/{key}/Localities",
+      "name": "localities-by-liechtenstein-commune",
+      "title": "Localities by Liechtenstein Commune",
+      "description": "Returns all localities within a Liechtenstein commune identified by {key}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

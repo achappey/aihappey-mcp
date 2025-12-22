@@ -1,0 +1,39 @@
+{
+  "prompts": [
+    {
+      "prompt": "Plan a detailed travel route based on the following parameters:\n\n- **Start location**: Latitude {startLatitude}, Longitude {startLongitude}\n- **Destination**: Latitude {endLatitude}, Longitude {endLongitude}\n- **Travel mode**: {travelMode}\n\nProvide the following details:\n1. **Estimated travel time**: Include total duration in hours and minutes.\n2. **Total distance**: Provide distance in kilometers.\n3. **Step-by-step directions**: List every step in the journey, including road names and turn-by-turn instructions.\n4. **Alternative routes**: If available, suggest up to 2 alternative routes with their respective travel times and distances.\n5. **Traffic impact**: Indicate if real-time traffic conditions impact the route and suggest adjustments if necessary.\n6. **Key landmarks**: Highlight notable landmarks or points of interest along the route (if applicable).\n\nPresent the information in a structured and user-friendly format, suitable for use in travel planning or business purposes.",
+      "template": {
+        "name": "detailed-travel-route-analysis",
+        "title": "Detailed travel route analysis",
+        "description": "Provides a comprehensive travel route analysis including directions, distance, travel time, and additional insights.",
+        "arguments": [
+          {
+            "name": "startLatitude",
+            "description": "Latitude of the starting location",
+            "required": true
+          },
+          {
+            "name": "startLongitude",
+            "description": "Longitude of the starting location",
+            "required": true
+          },
+          {
+            "name": "endLatitude",
+            "description": "Latitude of the destination",
+            "required": true
+          },
+          {
+            "name": "endLongitude",
+            "description": "Longitude of the destination",
+            "required": true
+          },
+          {
+            "name": "travelMode",
+            "description": "Mode of travel (e.g., car, pedestrian, bicycle)",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

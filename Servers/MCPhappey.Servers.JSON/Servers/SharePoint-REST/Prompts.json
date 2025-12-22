@@ -1,0 +1,19 @@
+{
+  "prompts": [
+    {
+      "prompt": "Given a SharePoint folder path: {folderPath}, list all items (files and folders) in the folder. For each item:\n\n1. Check if the item has unique role assignments (i.e., does not inherit permissions from its parent).\n2. If the item has unique permissions, retrieve:\n    - The title of the list (document library) the item belongs t0\n    - The id of the item the file belongs to\n    - Which users or groups have direct permissions, and what roles they have (only if this information can be verified)\n\nOutput a table with these columns:\n- Item name\n- Item type (file or folder)\n- Unique permissions (Yes/No)\n- List title (only for items with unique permissions)\n- Users/groups with direct permissions and their roles (only for items with unique permissions, and only if verified; otherwise, leave blank)\n\nAt the end, summarize:\n- The total number of items\n- The number of items with unique permissions (where details could be verified)\n- Note if any items had unique permissions but the specific users/roles could not be determined.",
+      "template": {
+        "name": "list-items-with-unique-permissions",
+        "title": "List items with unique permissions",
+        "description": "Lists all items in a folder, checks for unique permissions, and—only for items with unique permissions—retrieves the library title and who has those permissions if possible.",
+        "arguments": [
+          {
+            "name": "folderPath",
+            "description": "The path of the SharePoint folder to analyze.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

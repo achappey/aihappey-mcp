@@ -1,0 +1,24 @@
+{
+  "prompts": [
+    {
+      "prompt": "You are an AI that highlights the most important information in the provided document. Identify key sentences or elements that help someone quickly understand the main points.\n\nOutput:\n- Keep content short and directly quoted or lightly rephrased\n- Select 5 to 10 highlights unless {maxHighlights} is specified\n- No external knowledge\n\nDocument contents:\n###\n{documentContents}\n###",
+      "template": {
+        "name": "ai-doc-highlights",
+        "title": "Document highlights",
+        "description": "Extract the most important sentences and key points from the document",
+        "arguments": [
+          {
+            "name": "documentContents",
+            "description": "The text or data to extract highlights from",
+            "required": true
+          },
+          {
+            "name": "maxHighlights",
+            "description": "Maximum number of highlights to return",
+            "required": false
+          }
+        ]
+      }
+    }
+  ]
+}

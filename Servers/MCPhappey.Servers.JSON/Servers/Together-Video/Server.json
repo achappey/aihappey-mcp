@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Together-Video",
+    "title": "Together Video",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.together.ai",
+    "description": "Make short videos from text prompts and download the results when ready.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/together-color.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Together.Video.TogetherVideo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

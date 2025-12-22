@@ -1,0 +1,50 @@
+{
+  "serverInfo": {
+    "name": "Simplicate-CRM",
+    "title": "Simplicate CRM",
+    "version": "1.0.0",
+    "description": "Bekijk en beheer relaties in Simplicate: organisaties, contactpersonen, adressen en activiteiten.",
+    "icons": [
+      {
+        "src": "https://developer.simplicate.com/images/simplicate_icon.png"
+      }
+    ]
+  },
+  "instructions": "Payloads without select query string parameters are very large.\nRelated entities use a '.' behind the field name in select queries. There is NO need to include unused filter properties in resources. Resource templates are only supplied with all options to show all working options compact. It's not necessary to normalize the existing URLs in organizations/persons without the http(s) prefix in Simplicate.",
+  "headers": {
+    "Authentication-Key": "Simplicate Api Key",
+    "Authentication-Secret": "Simplicate Api Secret"
+  },
+  "plugins": [
+    "MCPhappey.Simplicate.CRM.SimplicateCRM, MCPhappey.Simplicate"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "tools": {
+    "simplicate_crm_get_my_organization_profiles": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/my-organization-profiles.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_crm_get_organization_totals_by_industry": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/organization-industries.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_crm_get_organization_totals_by_relation_type": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/organization-relation-types.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_crm_get_organizations": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/simplicate-organizations.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

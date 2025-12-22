@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "AIML-Music",
+    "title": "AI/ML Music",
+    "version": "1.0.0",
+    "websiteUrl": "https://aimlapi.com",
+    "description": "Generate music and sound with AI models like Lyria 2, ElevenLabs, MiniMax, and Stable Audio.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQFF5cVF9c_cOw/company-logo_200_200/company-logo_200_200/0/1709201452469/aimlapi_logo?e=2147483647&v=beta&t=l2fmaW9qdhOZ9wR3sukZpFYETyNGEA5jatU66ECxdFQ",
+        "theme": "dark"
+      },
+      {
+        "src": "https://cdn.prod.website-files.com/65b8f36fa600366bc7cf9a67/67600ef9b7e887578cc772f0_aimlapi_logo_square_vector.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AIML.Music.AIMLMusic, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

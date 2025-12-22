@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Rijksoverheid",
+    "title": "Rijksoverheid",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.rijksoverheid.nl",
+    "description": "Informatie en publicaties van de Nederlandse overheid voor beleid, wetten en nieuws.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Logo_Rijksoverheid_%28kleur%29.jpg"
+      }
+    ]
+  }
+}

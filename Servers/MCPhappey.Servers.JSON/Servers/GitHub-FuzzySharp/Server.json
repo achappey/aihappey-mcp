@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "GitHub-FuzzySharp",
+    "title": "GitHub FuzzySharp",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/Raffinert/FuzzySharp",
+    "description": "Fast fuzzy text matching for search, deduplication and intent detection.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/114025198?s=64&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.FuzzySharp.FuzzySharpService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

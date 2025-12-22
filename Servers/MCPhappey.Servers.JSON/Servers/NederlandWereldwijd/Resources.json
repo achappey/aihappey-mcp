@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://opendata.nederlandwereldwijd.nl/v2/sources/nederlandwereldwijd/openapi.json",
+      "name": "openapi-spec",
+      "title": "OpenAPI-specificatie",
+      "description": "Geeft de technische API-beschrijving in JSON-formaat.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

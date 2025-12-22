@@ -1,0 +1,13 @@
+{
+  "prompts": [
+    {
+      "prompt": "Charts baby",
+      "template": {
+        "name": "charts-baby",
+        "title": "Charts baby",
+        "description": "Charts baby.",
+        "arguments": []
+      }
+    }
+  ]
+}

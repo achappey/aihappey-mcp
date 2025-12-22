@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.aimlapi.com/v2/generate/audio?generation_id={generation_id}",
+      "name": "audio-retrieve",
+      "title": "Retrieve generated music",
+      "description": "Retrieves the generated music metadata and audio file URL for a given generation ID. Returns the audio URL, status, and any error messages.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

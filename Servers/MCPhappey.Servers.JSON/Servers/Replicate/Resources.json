@@ -1,0 +1,112 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.replicate.com/v1/models",
+      "name": "replicate-models",
+      "title": "Public models list",
+      "description": "Retrieve a paginated list of all public models on Replicate.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.replicate.com/v1/predictions",
+      "name": "replicate-predictions",
+      "title": "Predictions list",
+      "description": "List all predictions created by the authenticated user or organization.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.replicate.com/v1/deployments",
+      "name": "replicate-deployments",
+      "title": "Deployments list",
+      "description": "Retrieve all deployments belonging to the authenticated account.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.replicate.com/v1/trainings",
+      "name": "replicate-trainings",
+      "title": "Trainings list",
+      "description": "List all model training runs associated with the authenticated account.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.replicate.com/v1/files",
+      "name": "replicate-files",
+      "title": "Files list",
+      "description": "Retrieve metadata for all uploaded files associated with the authenticated account.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.replicate.com/v1/hardware",
+      "name": "replicate-hardware",
+      "title": "Available hardware list",
+      "description": "List all available compute hardware SKUs such as CPU, GPU-T4, and GPU-A40.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.replicate.com/v1/collections",
+      "name": "replicate-collections",
+      "title": "Collections list",
+      "description": "List all public model collections like super-resolution or image-restoration.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.replicate.com/v1/account",
+      "name": "replicate-account",
+      "title": "Authenticated account info",
+      "description": "Get information about the user or organization linked to the provided API token.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.replicate.com/v1/webhooks/default/secret",
+      "name": "replicate-webhook-secret",
+      "title": "Default webhook secret",
+      "description": "Retrieve the signing secret used to verify Replicate webhook requests.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

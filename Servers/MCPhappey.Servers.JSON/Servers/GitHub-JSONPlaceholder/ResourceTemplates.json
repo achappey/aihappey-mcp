@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://jsonplaceholder.typicode.com/posts/{id}",
+      "name": "post-by-id",
+      "title": "Get Post by ID",
+      "description": "Retrieve a single post by its ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://jsonplaceholder.typicode.com/comments?postId={postId}",
+      "name": "comments-by-post",
+      "title": "Comments by Post",
+      "description": "Get comments linked to a specific post.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://jsonplaceholder.typicode.com/albums/{id}/photos",
+      "name": "photos-by-album",
+      "title": "Photos by Album",
+      "description": "List photos belonging to an album.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://jsonplaceholder.typicode.com/users/{id}/todos",
+      "name": "todos-by-user",
+      "title": "To-Dos by User",
+      "description": "List to-dos assigned to a user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

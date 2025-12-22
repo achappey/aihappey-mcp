@@ -1,0 +1,76 @@
+{
+  "resources": [
+    {
+      "uri": "https://openplzapi.org/at/FederalProvinces",
+      "name": "austria-federal-provinces",
+      "title": "Austrian Federal Provinces",
+      "description": "List of all Austrian federal provinces (Bundesländer).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://openplzapi.org/at/Localities",
+      "name": "austria-localities",
+      "title": "Austrian Localities",
+      "description": "List of all localities in Austria that match a postal code or name pattern.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://openplzapi.org/at/Streets",
+      "name": "austria-streets",
+      "title": "Austrian Streets",
+      "description": "List of all Austrian streets matching name or postal code filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://openplzapi.org/de/FederalStates",
+      "name": "germany-federal-states",
+      "title": "German Federal States",
+      "description": "List of all German federal states (Bundesländer).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://openplzapi.org/ch/Cantons",
+      "name": "swiss-cantons",
+      "title": "Swiss Cantons",
+      "description": "List of all Swiss cantons (Kantone).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://openplzapi.org/li/Communes",
+      "name": "liechtenstein-communes",
+      "title": "Liechtenstein Communes",
+      "description": "List of all communes (Gemeinden) in Liechtenstein.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

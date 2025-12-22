@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "COELO",
+    "title": "Centrum Onderzoek Economie Lagere Overheden",
+    "version": "1.0.0",
+    "websiteUrl": "https://coelo.nl",
+    "description": "COELO data: lokale lasten per gemeente en jaarlijks onderzoek van lagere overheden.",
+    "icons": [
+      {
+        "src": "https://www.rug.nl/about-ug/practical-matters/huisstijl/logobank-new/socialemedia/twitter_icon_300px_rood.jpg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+  ],
+  "instructions": "Centrum voor Onderzoek van de Economie van de Lagere Overheden. De Excel bestanden zijn zeer groot. Gebruik de calculator om lokale lasten per gemeente op te zoeken."
+}

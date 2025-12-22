@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/calendar/calendarView?startDateTime={startDateTime}&endDateTime={endDateTime}&$select=subject,start,end,location,organizer,isOnlineMeeting",
+      "name": "events-in-date-range",
+      "title": "Events in date range",
+      "description": "Get all calendar events between a specific start and end date/time (e.g. 'today', 'next week').",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/calendar/calendarView?startDateTime={startDateTime}&endDateTime={endDateTime}&$select=subject,start,end,location,organizer,isOnlineMeeting",
+      "name": "events-in-date-range-other-user",
+      "title": "Events in date range (other user)",
+      "description": "Get all calendar events for another user between a start and end date/time. Requires delegate rights or access to shared mailbox.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/calendar/events?$top={top}&$select=subject,start,end,location,organizer&$orderby=start/dateTime",
+      "name": "upcoming-events",
+      "title": "Upcoming events",
+      "description": "Get the next {top} upcoming events from your default calendar.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

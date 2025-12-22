@@ -1,0 +1,12 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eklok.nl/feed?interpolated={puntenPerUur}",
+      "name": "Feed-interpolated",
+      "title": "Feed (interpolated={puntenPerUur})",
+      "description": "Geïnterpoleerde tijdreeks met hogere resolutie. Kies het aantal punten per uur (bijv. 10 ≈ elke ~6 min).",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

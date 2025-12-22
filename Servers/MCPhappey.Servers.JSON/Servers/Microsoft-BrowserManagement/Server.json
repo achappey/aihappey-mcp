@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-BrowserManagement",
+    "title": "Microsoft Browser Management",
+    "version": "1.0.0",
+    "description": "View browser site lists and settings to surface enterprise browser configurations.",
+    "icons": [
+      {
+        "src": "https://garvis.ca/wp-content/uploads/2023/03/image-1.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/BrowserSiteLists.ReadWrite.All"
+  }
+}

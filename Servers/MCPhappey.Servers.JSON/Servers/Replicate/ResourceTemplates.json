@@ -1,0 +1,124 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.replicate.com/v1/search?query={query}&limit={limit}",
+      "name": "replicate-search-query",
+      "title": "Search models and collections",
+      "description": "Searches public models, collections and documentation on Replicate based on the given query. The limit parameter defines the maximum number of results (1–50).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/models/{model_owner}/{model_name}",
+      "name": "replicate-model-details",
+      "title": "Model details",
+      "description": "Retrieves detailed information about a specific model owned by the given account, including input and output schemas for the latest version.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/models/{model_owner}/{model_name}/readme",
+      "name": "replicate-model-readme",
+      "title": "Model readme",
+      "description": "Returns the model’s README content in Markdown format, including usage notes and author information.",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/models/{model_owner}/{model_name}/examples",
+      "name": "replicate-model-examples",
+      "title": "Model examples",
+      "description": "Lists example predictions created by the model author to demonstrate the model’s capabilities.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/models/{model_owner}/{model_name}/versions",
+      "name": "replicate-model-versions",
+      "title": "Model versions",
+      "description": "Lists all available versions of the specified model, sorted by most recent first.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/models/{model_owner}/{model_name}/versions/{version_id}",
+      "name": "replicate-model-version-details",
+      "title": "Model version details",
+      "description": "Retrieves detailed metadata and OpenAPI schema for a specific model version.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/predictions/{prediction_id}",
+      "name": "replicate-prediction-details",
+      "title": "Prediction details",
+      "description": "Fetches the current status, logs, and output of a prediction by its unique ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/collections/{collection_slug}",
+      "name": "replicate-collection-details",
+      "title": "Collection details",
+      "description": "Retrieves metadata and a list of models within the specified collection, such as super-resolution or image-restoration.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/deployments/{deployment_owner}/{deployment_name}",
+      "name": "replicate-deployment-details",
+      "title": "Deployment details",
+      "description": "Fetches configuration and current release information for a given deployment owned by an organization or user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/trainings/{training_id}",
+      "name": "replicate-training-details",
+      "title": "Training details",
+      "description": "Retrieves the current state, logs, metrics, and outputs for a specific training run.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/files/{file_id}",
+      "name": "replicate-file-details",
+      "title": "File details",
+      "description": "Retrieves metadata and information about an uploaded file, including size and content type.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.replicate.com/v1/files/{file_id}/download?owner={owner}&expiry={expiry}&signature={signature}",
+      "name": "replicate-file-download",
+      "title": "File download link",
+      "description": "Downloads a file from Replicate using owner, expiry timestamp, and signed URL parameters.",
+      "mimeType": "application/octet-stream",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

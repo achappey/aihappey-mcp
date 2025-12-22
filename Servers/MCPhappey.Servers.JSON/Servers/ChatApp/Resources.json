@@ -1,0 +1,40 @@
+{
+  "resources": [
+    {
+      "uri": "http://localhost:3041/v0.1/servers",
+      "name": "default-mcp-server-registry",
+      "title": "Default MCP store",
+      "description": "List all MCP servers from the default MCP store",
+      "mimeType": "application/vnd.modelcontextprotocol-registry+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },   
+    {
+      "uri": "http://localhost:3036/v0.1/servers",
+      "name": "agent-mcp-server-registry",
+      "title": "Agent MCP store",
+      "description": "List all MCP servers from the Agent MCP store",
+      "mimeType": "application/vnd.modelcontextprotocol-registry+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://registry.modelcontextprotocol.io/v0.1/servers?limit=100&version=latest",
+      "name": "official-mcp-server-registry",
+      "title": "Official MCP store",
+      "description": "List first page of MCP servers from the official community maintained MCP store",
+      "mimeType": "application/vnd.modelcontextprotocol-registry+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

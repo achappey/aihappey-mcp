@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Pareto Project Managers</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js"></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-chart.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+  <style>
+    html {
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .body {
+      flex: 1;
+      padding: 8px;
+      display: flex;
+      height: 100%;
+    }
+
+    chart-js {
+      width: 100%;
+    }
+  </style>
+
+  <script>
+    window.paretoChartWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        input: window.openai?.toolInput || null,
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          this.$nextTick(() => this.load());
+        },
+        load() {
+          this.$nextTick(() => {
+            const pmList = Array.isArray(this.data?.project_managers)
+              ? this.data.project_managers
+              : [];
+            const el = this.$refs.chart;
+            if (!el || !pmList.length) return;
+
+            // 🧮 Aggregate totals per project manager
+            const totals = pmList.map(p => ({
+              name: p.project_manager,
+              total: p.invoices?.reduce((sum, inv) => sum + (inv.total_outstanding ?? 0), 0)
+            }))
+              .filter(p => p.total > 0)
+              .sort((a, b) => b.total - a.total);
+
+            const labels = totals.map(t => t.name);
+            const values = totals.map(t => t.total);
+            const grandTotal = values.reduce((a, b) => a + b, 0);
+
+            // 📈 Compute cumulative %
+            let running = 0;
+            const cumulative = values.map(v => {
+              running += v;
+              return (running / grandTotal * 100).toFixed(1);
+            });
+
+            const data = {
+              labels,
+              datasets: [
+                {
+                  label: "Totaal uitstaand (€)",
+                  data: values,
+                  backgroundColor: "rgba(78,121,167,0.7)",
+                  yAxisID: "y",
+                  borderRadius: 3,
+                },
+                {
+                  label: "Cumulatief  %",
+                  data: cumulative,
+                  type: "line",
+                  yAxisID: "y1",
+                  borderColor: "#e15759",
+                  borderWidth: 2,
+                  tension: 0.3,
+                }
+              ]
+            };
+
+            const options = {
+              responsive: true,
+              maintainAspectRatio: false,
+              animation: { duration: 0 },
+              responsiveAnimationDuration: 0,
+              scales: {
+                x: {
+                  ticks: {
+                    display: false // hide PM names, too many
+                  },
+                  title: {
+                    display: true,
+                    text: "Projectleidrs (gesorteerd op factuur bedrag)",
+                    font: { size: 11 }
+                  }
+                },
+                y: {
+                  beginAtZero: true,
+                  title: { display: true, text: "Totaal uitstaand (€)" },
+                  grid: { color: "rgba(0,0,0,0.05)" },
+                },
+                y1: {
+                  beginAtZero: true,
+                  position: "right",
+                  grid: { drawOnChartArea: false },
+                  title: { display: true, text: "Cumulatief" },
+                  ticks: { callback: val => val + "%" }
+                }
+              },
+              plugins: {
+                legend: { position: "bottom" },
+                tooltip: {
+                  mode: "index",
+                  intersect: false,
+                  callbacks: {
+                    label: (ctx) => {
+                      const lbl = ctx.dataset.label;
+                      const val = ctx.formattedValue;
+                      return lbl.includes("%")
+                        ? `${lbl}: ${val}%`
+                        : `${lbl}: €${Number(val).toLocaleString("nl-NL", { maximumFractionDigits: 0 })}`;
+                    }
+                  }
+                }
+              }
+            };
+
+            el.update({ type: "bar", data, options, height: 250 });
+          });
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div x-data="paretoChartWidget()" x-init="init()" style="display:flex; flex-direction:column; height:100%;">
+    <chatapp-header text="Pareto-analyse projectmanagers" no-fullscreen></chatapp-header>
+    <div class="body">
+      <chatapp-chart x-ref="chart"></chatapp-chart>
+    </div>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://generativelanguage.googleapis.com/v1beta/models?pageSize={pageSize}",
+      "name": "list-google-ai-models",
+      "title": "List available Google AI models",
+      "description": "List all available Google AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "OpenGraph",
+    "title": "OpenGraph.io",
+    "websiteUrl": "https://www.opengraph.io",
+    "version": "1.0.0",
+    "description": "Extract titles, images and metadata from any link for quick rich previews.",
+    "icons": [
+      {
+        "src": "https://rapidapi.com/hub/_next/image?url=https%3A%2F%2Frapidapi-prod-apis.s3.amazonaws.com%2Fea38ea47-cc4a-4f01-a317-16e9a9f6daaf.png&w=3840&q=75"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

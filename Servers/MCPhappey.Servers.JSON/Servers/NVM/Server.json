@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "NVM",
+        "title": "Nederlandse Vereniging van Makelaars",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.nvm.nl",
+        "description": "NVM marktinfo: nieuws, rapporten en regio-analyses over wonen, business en agrarisch vastgoed.",
+        "icons": [
+            {
+                "src": "https://roz.nl/wp-content/uploads/2016/11/nvm-logo.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+    ]
+}

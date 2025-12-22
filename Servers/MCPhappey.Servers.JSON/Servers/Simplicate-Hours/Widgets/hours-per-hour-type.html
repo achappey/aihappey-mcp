@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Uren per urentype</title>
+
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js"></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-chart.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+  <style>
+    html {
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .body {
+      flex: 1;
+      padding: 8px;
+      display: flex;
+      height: 100%;
+    }
+
+    chart-js {
+      width: 100%;
+    }
+  </style>
+
+  <script>
+    window.hoursByHourType = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        input: window.openai?.toolInput || null,
+
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          this.$nextTick(() => this.load());
+        },
+
+        load() {
+          this.$nextTick(() => {
+            const arr = Array.isArray(this.data?.results)
+              ? this.data.results
+              : [];
+            const el = this.$refs.chart;
+            if (!el || !arr.length) return;
+
+            // 📊 Extract data
+            const labels = arr.map(a => a.label || "(onbekend)");
+            const hours = arr.map(a => Number(a.totals?.totalHours || 0));
+            const amounts = arr.map(a => Number(a.totals?.totalAmount || 0));
+
+            const data = {
+              labels,
+              datasets: [
+                {
+                  label: "Totaal uren",
+                  data: hours,
+                  backgroundColor: "rgba(54,162,235,0.7)",
+                  borderColor: "rgba(54,162,235,1)",
+                  borderWidth: 1,
+                  borderRadius: 3,
+                  yAxisID: "y"
+                },
+                {
+                  label: "Totaal bedrag (€)",
+                  data: amounts,
+                  backgroundColor: "rgba(255,159,64,0.7)",
+                  borderColor: "rgba(255,159,64,1)",
+                  borderWidth: 1,
+                  borderRadius: 3,
+                  yAxisID: "y1"
+                }
+              ]
+            };
+
+            const options = {
+              responsive: true,
+              maintainAspectRatio: false,
+              animation: { duration: 0 },
+              scales: {
+                x: {
+                  title: { display: true, text: "Urentype" },
+                  ticks: { autoSkip: true, maxRotation: 40, minRotation: 0 }
+                },
+                y: {
+                  beginAtZero: true,
+                  title: { display: true, text: "Totaal uren" },
+                  grid: { color: "rgba(0,0,0,0.05)" }
+                },
+                y1: {
+                  beginAtZero: true,
+                  position: "right",
+                  grid: { drawOnChartArea: false },
+                  title: { display: true, text: "Totaal bedrag (€)" }
+                }
+              },
+              plugins: {
+                legend: { position: "bottom" },
+                tooltip: {
+                  mode: "index",
+                  intersect: false,
+                  callbacks: {
+                    title: (ctx) => labels[ctx[0].dataIndex],
+                    label: (ctx) => {
+                      const lbl = ctx.dataset.label;
+                      const val = ctx.parsed.y;
+                      return lbl.includes("€")
+                        ? `${lbl}: €${val.toLocaleString("nl-NL", { maximumFractionDigits: 0 })}`
+                        : `${lbl}: ${val.toFixed(1)}h`;
+                    }
+                  }
+                }
+              }
+            };
+
+            el.update({ type: "bar", data, options, height: 280 });
+          });
+        }
+      };
+    };
+  </script>
+</head>
+
+<body>
+  <div x-data="hoursByHourType()" x-init="init()" style="display:flex; flex-direction:column; height:100%;">
+    <chatapp-header text="Totaal uren per urentype" no-fullscreen></chatapp-header>
+    <div class="body">
+      <chatapp-chart x-ref="chart"></chatapp-chart>
+    </div>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

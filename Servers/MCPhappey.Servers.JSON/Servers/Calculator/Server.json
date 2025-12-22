@@ -1,0 +1,11 @@
+{
+  "serverInfo": {
+    "name": "Calculator",
+    "title": "Calculator",
+    "version": "1.0.0",
+    "description": "Perform simple math: add, subtract, multiply, divide and round with structured calls."
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.MathPlugin, MCPhappey.Tools"
+  ]
+}

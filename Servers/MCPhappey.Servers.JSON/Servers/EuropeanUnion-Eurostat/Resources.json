@@ -1,0 +1,40 @@
+{
+  "resources": [
+    {
+      "uri": "https://ec.europa.eu/eurostat/api/dissemination/catalogue/datasets?format=JSON",
+      "name": "eurostat-datasets-catalog",
+      "title": "Available datasets (catalogue JSON)",
+      "description": "Returns a list of datasets currently available in the Eurostat database.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/3.0/structure/dataflow/ESTAT?format=JSON",
+      "name": "eurostat-dataflows-sdmx3",
+      "title": "SDMX dataflows overview",
+      "description": "List of dataflows with structural metadata under SDMX 3.0.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/une_rt_m?geo=NL&sex=T&age=Y15-24&unit=PC&lastTimePeriod=6&format=JSON",
+      "name": "eurostat-unemployment-nl-last6",
+      "title": "Unemployment NL (last 6 months)",
+      "description": "Example: Dutch youth unemployment percentage limited to recent months for testing queries and charts.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

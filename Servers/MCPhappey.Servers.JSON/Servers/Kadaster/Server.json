@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Kadaster",
+        "title": "Het Kadaster",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.Kadaster.nl",
+        "description": "Kadaster info: woningmarkt, vastgoeddata, nieuws en rapporten voor NL.",
+        "icons": [
+            {
+                "src": "https://images.seeklogo.com/logo-png/44/2/kadaster-logo-png_seeklogo-448755.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+    ]
+}

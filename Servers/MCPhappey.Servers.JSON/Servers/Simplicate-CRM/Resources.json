@@ -1,0 +1,48 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/my-organization-profiles.html",
+      "name": "my-organization-profiles-widget",
+      "description": "My organization profiles widget that displays my organization profiles.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/organization-industries.html",
+      "name": "organization-industries-widget",
+      "description": "Organization industries widget that displays a bar chart with the output of simplicate_crm_get_organization_totals_by_industry tool.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/organization-relation-types.html",
+      "name": "organization-relation-types-widget",
+      "description": "Organization relation types widget that displays a pie chart with the output of simplicate_crm_get_organization_totals_by_relation_type tool.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/simplicate-organizations.html",
+      "name": "simplicate-organizations-widget",
+      "description": "Organizations widget that displays a carousel with cards with all organizations output of the simplicate_crm_get_organizations tool.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

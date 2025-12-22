@@ -1,0 +1,27 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-Microsoft",
+    "title": "OpenAI Microsoft",
+    "version": "1.0.0",
+    "description": "Use OpenAI with your Microsoft data to search, analyze and summarize mail, files and chats.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.OutlookMail.OpenAIOutlookMail, MCPhappey.Tools",
+    "MCPhappey.Tools.OpenAI.OutlookCalendar.OpenAIOutlookCalendar, MCPhappey.Tools",
+    "MCPhappey.Tools.OpenAI.SharePoint.OpenAISharePoint, MCPhappey.Tools",
+    "MCPhappey.Tools.OpenAI.MicrosoftTeams.OpenAITeams, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Calendars.Read https://graph.microsoft.com/Sites.Read.All https://graph.microsoft.com/Files.Read.All https://graph.microsoft.com/Chat.Read https://graph.microsoft.com/ChannelMessage.Read.All"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "EPOnline",
+    "title": "EP Online",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.ep-online.nl",
+    "description": "Energielabels van NL-gebouwen: zoek woningen en utiliteit met prestatie-informatie.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Logo_Rijksoverheid_%28kleur%29.jpg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "resources": [
+    {
+      "uri": "https://opendata.rdw.nl/data.json",
+      "name": "rdw-open-data-catalog",
+      "title": "RDW open data catalogus",
+      "description": "This is the data catalog index (in JSON format) for all publicly available datasets published by the Dutch Road Traffic Authority (RDW) on the Socrata platform.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

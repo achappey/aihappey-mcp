@@ -1,0 +1,76 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://opendata.nederlandwereldwijd.nl/v2/sources/nederlandwereldwijd/infotypes/countries?rows={rows}",
+      "name": "landen",
+      "title": "Landenoverzicht",
+      "description": "Haalt een lijst van landen op met basisinformatie en reisadvieslinks.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.nederlandwereldwijd.nl/v2/sources/nederlandwereldwijd/infotypes/countries/{land}",
+      "name": "land-informatie",
+      "title": "Landinformatie",
+      "description": "Toont gegevens van een specifiek land, zoals reisadvies en contactpunten.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.nederlandwereldwijd.nl/v2/sources/nederlandwereldwijd/infotypes/countries/{land}/traveladvice",
+      "name": "reisadvies",
+      "title": "Reisadvies per land",
+      "description": "Toont het actuele reisadvies voor een specifiek land.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.nederlandwereldwijd.nl/v2/sources/nederlandwereldwijd/infotypes/countries/{land}/nl-representation",
+      "name": "ambassades",
+      "title": "Ambassades en consulaten",
+      "description": "Geeft adressen van Nederlandse ambassades en consulaten in een land.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.nederlandwereldwijd.nl/v2/sources/nederlandwereldwijd/infotypes/hulp-bij-nood/{onderwerp}",
+      "name": "noodinformatie",
+      "title": "Noodinformatie",
+      "description": "Geeft informatie over wat te doen bij noodgevallen in het buitenland.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.nederlandwereldwijd.nl/v2/sources/nederlandwereldwijd/infotypes/traveladvice?modifiedSince={modifiedSince}",
+      "name": "gewijzigde-reisadviezen",
+      "title": "Gewijzigde reisadviezen",
+      "description": "Haalt reisadviezen op die sinds een bepaalde datum zijn gewijzigd.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

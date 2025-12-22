@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/events",
+      "name": "verkeersborden-events-blok-standaard",
+      "title": "Verkeersborden events (standaardblok)",
+      "description": "Ophaalpunt voor gepubliceerde verkeersborden events met standaard queryparameters. Resultaten gesorteerd op publicatie-timestamp, oudste eerst.",
+      "mimeType": "application/geo+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/current-state",
+      "name": "verkeersborden-actueel-beeld-standaard",
+      "title": "Verkeersborden actueel beeld (GeoJSON)",
+      "description": "Actueel beeld van verkeersborden met standaardinstellingen, levert GeoJSON.",
+      "mimeType": "application/geo+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

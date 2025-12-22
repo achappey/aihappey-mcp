@@ -1,0 +1,82 @@
+{
+  "prompts": [
+    {
+      "prompt": "List all users in the tenant, showing their display name, email, job title, and department.",
+      "template": {
+        "name": "list-all-users",
+        "title": "List all users",
+        "description": "Lists all users in the organization and shows basic details.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show all deleted users, including their display name, email, and deletion date.",
+      "template": {
+        "name": "list-deleted-users",
+        "title": "List deleted users",
+        "description": "Lists all deleted users currently in the Azure AD recycle bin.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Get all available details for user {userDisplayName}. Include display name, email, job title, department, office location, and account status.",
+      "template": {
+        "name": "get-user-details",
+        "title": "Get user details",
+        "description": "Fetches detailed user information by display name.",
+        "arguments": [
+          {
+            "name": "userDisplayName",
+            "description": "The user's display name (exact or partial match).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List all groups and directory roles for user {userDisplayName}. Show group/role name and type.",
+      "template": {
+        "name": "list-user-groups",
+        "title": "List user groups and roles",
+        "description": "Lists all groups and directory roles a user is member of, matched by display name.",
+        "arguments": [
+          {
+            "name": "userDisplayName",
+            "description": "The user's display name (exact or partial match).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Who is the manager of user {userDisplayName}? Show their name, email, and job title.",
+      "template": {
+        "name": "get-user-manager",
+        "title": "Get user's manager",
+        "description": "Shows the manager of a user matched by display name.",
+        "arguments": [
+          {
+            "name": "userDisplayName",
+            "description": "The user's display name (exact or partial match).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show all users who report directly to user {userDisplayName}. Include their display name, email, and job title.",
+      "template": {
+        "name": "list-direct-reports",
+        "title": "List user's direct reports",
+        "description": "Lists all users who directly report to the specified user matched by display name.",
+        "arguments": [
+          {
+            "name": "userDisplayName",
+            "description": "The user's display name (exact or partial match).",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

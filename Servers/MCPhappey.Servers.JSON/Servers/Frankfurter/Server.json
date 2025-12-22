@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Frankfurter",
+    "title": "Frankfurter",
+    "version": "1.0.0",
+    "websiteUrl": "https://frankfurter.dev",
+    "description": "Get up-to-date and historical currency exchange rates for quick conversions.",
+    "icons": [
+      {
+        "src": "https://frankfurter.dev/favicon.png?v=1757050344"
+      }
+    ]
+  }
+}

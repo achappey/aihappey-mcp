@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "SharePoint-REST",
+    "title": "SharePoint REST",
+    "version": "1.0.0",
+    "description": "Access SharePoint sites, lists, and files directly to find and retrieve specific content.",
+    "icons": [
+      {
+        "src": "https://icon-library.com/images/microsoft-sharepoint-icon/microsoft-sharepoint-icon-24.jpg"
+      }
+    ]
+  },
+  "obo": {
+    ".sharepoint.com": "https://{tenantName}.sharepoint.com/.default"
+  }
+}

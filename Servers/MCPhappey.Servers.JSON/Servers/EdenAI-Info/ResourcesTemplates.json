@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.edenai.run/v2/info/provider_subfeatures/?feature__name={feature__name}&subfeature__name={subfeature__name}&provider__name={provider__name}&language={language}&languages={languages}&gender={gender}&phase__name={phase__name}&is_working={is_working}",
+      "name": "edenai-provider-subfeatures-list",
+      "title": "List Eden AI Providers and Subfeatures",
+      "description": "Retrieve relations between providers and features with filters for language, phase, and gender.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me?$select=id,displayName,userPrincipalName,signInActivity",
+      "name": "my-profile-and-last-signin",
+      "title": "My profile & last sign-in",
+      "description": "Basic profile with last sign-in activity for the current user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/authentication/methods",
+      "name": "my-authentication-methods",
+      "title": "My authentication methods",
+      "description": "Lists the authentication methods registered for the current user (e.g., Authenticator, FIDO, phone).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/managedDevices?$select=id,deviceName,operatingSystem,osVersion,complianceState,lastSyncDateTime",
+      "name": "my-managed-devices",
+      "title": "My managed devices",
+      "description": "Intune-managed devices for the current user with OS, version, compliance, and last sync time.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/registeredDevices?$top=50&$select=id,displayName,deviceId,operatingSystem",
+      "name": "my-registered-devices",
+      "title": "My registered devices",
+      "description": "Directory-registered devices linked to the current user account.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

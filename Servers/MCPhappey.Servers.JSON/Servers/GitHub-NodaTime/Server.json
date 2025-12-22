@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "GitHub-NodaTime",
+    "title": "GitHub Noda Time",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/nodatime/nodatime",
+    "description": "Advanced timezone-aware date and time calculations using NodaTime.",
+    "icons": [
+      {
+        "src": "https://www.nuget.org/profiles/NodaTime/avatar?imageSize=512"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.NodaTime.NodaTimeService, MCPhappey.Tools"
+  ]
+}

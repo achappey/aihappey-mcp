@@ -1,0 +1,22 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-Files",
+    "title": "OpenAI Files",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.openai.com",
+    "description": "Upload, index and search files with OpenAI to support document-grounded workflows.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

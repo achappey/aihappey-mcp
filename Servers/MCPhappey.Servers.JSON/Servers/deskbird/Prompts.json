@@ -1,0 +1,63 @@
+{
+  "prompts": [
+    {
+      "prompt": "Create a detailed report on the booking activity of the user with ID '{userId}' over the period from {startDate} to {endDate}. Include:\n- Total number of bookings\n- Breakdown by booking statuses (e.g., running, completed, cancelled)\n- Most frequently booked office locations\n- Average booking duration\n- Any unusual booking patterns or trends\n\nProvide the results in a structured report, highlighting key insights and patterns in the user's booking activity.",
+      "template": {
+        "name": "user-booking-activity-report",
+        "title": "User booking activity report",
+        "description": "Generate a detailed activity report for a specific user's bookings.",
+        "arguments": [
+          {
+            "name": "userId",
+            "description": "The UUID of the user for whom the booking activity report will be generated.",
+            "required": true
+          },
+          {
+            "name": "startDate",
+            "description": "The start date of the period for the booking activity report (2024-01-01T23:00:00.000Z format).",
+            "required": true
+          },
+          {
+            "name": "endDate",
+            "description": "The end date of the period for the booking activity report (2024-01-01T23:00:00.000Z format).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Analyze the provided resources and bookings for zone {zoneId}. Calculate overall zone utilization: total booked hours vs total available hours. For each resource, report utilization percentage, booked vs available time, and identify the most and least used resources. Highlight peak and low occupancy periods, unused or underutilized resources, and any overlapping or conflicting bookings. Summarize all findings in a clear, actionable report for facility managers. Present results as a high-level summary, detailed per-resource utilization (in table or bullet points), and end with a section titled 'Action Points for Facility Manager' listing recommendations based on your analysis.",
+      "template": {
+        "name": "zone-utilization",
+        "title": "Zone utilization",
+        "description": "Generate a detailed utilization report for a specific zone.",
+        "arguments": [
+          {
+            "name": "zoneId",
+            "description": "The id of the zone.",
+            "required": true
+          },
+          {
+            "name": "startDate",
+            "description": "The start date of the period for the booking activity report (2024-01-01T23:00:00.000Z format).",
+            "required": true
+          },
+          {
+            "name": "endDate",
+            "description": "The end date of the period for the booking activity report (2024-01-01T23:00:00.000Z format).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Analyze the provided list of resources and generate a clear and concise overview of all available zones. For each zone, report: the total number of resources, a breakdown by resource type (e.g., flexDesk, meetingRoom, parking, other), total number of resources, the name and creation date of the most recently created resource, and a list of all unique resource names in the zone. If possible, include the average capacity per zone. Present the results in a user-friendly format such as a table or bullet points.",
+      "template": {
+        "name": "zone-overview",
+        "title": "Zone overview",
+        "description": "Generate a descriptive overview of all available zones based only on the provided resources.",
+        "arguments": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "prompts": [
+    {
+      "prompt": "###\n{documentContent}\n###\n\nRead the entire document. Use the comments below to understand the desired podcast tone, audience, length, and context. Create a clear, logical outline for the podcast: list the main topics, suggested order, key points for each section, and a brief summary of the narrative flow. Make sure this outline will be useful for generating a compelling podcast script for two speakers.\n\nComments:\n###\n{inputAroundPodcast}\n###",
+      "template": {
+        "name": "create-podcast-outline-from-document",
+        "title": "Create a podcast outline from a document",
+        "description": "Reads a document and generates a detailed outline or storyline, with main topics, structure, and narrative flow, based on extra podcast context.",
+        "arguments": [
+          {
+            "name": "documentContent",
+            "description": "The full text of the document to be used for the podcast.",
+            "required": true
+          },
+          {
+            "name": "inputAroundPodcast",
+            "description": "Extra context: target audience, tone, desired length, style, and other podcast-specific wishes. For example: 'Audience: internal staff, Tone: energetic and practical, Length: ~15 minutes.'",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "###\n{podcastOutline}\n###\n\nYou are given a podcast outline and extra podcast context. Use this to write a lively, natural-sounding podcast script for two speakers. Clearly indicate each speaker’s turn using '[SpeakerName]: text'. Alternate between the speakers, use transitions, and keep the conversation engaging and informative for listeners. Stay true to the structure and key points of the outline.\n\nContext:\n###\n{inputAroundPodcast}\n###\n\nSpeaker one name: {nameSpeakerOne}\nnSpeaker two name: {nameSpeakerTwo}.",
+      "template": {
+        "name": "create-podcast-script-from-outline",
+        "title": "Create a podcast script from an outline",
+        "description": "Takes a podcast outline and extra context to generate a full, engaging podcast script for two speakers.",
+        "arguments": [
+          {
+            "name": "podcastOutline",
+            "description": "The detailed podcast outline or storyline, with topics and structure.",
+            "required": true
+          },
+          {
+            "name": "inputAroundPodcast",
+            "description": "Extra context: target audience, tone, style, speaker names, etc. For example: 'Speaker 1: Arthur, Speaker 2: Twien, Tone: informal and playful.'",
+            "required": true
+          },
+          {
+            "name": "nameSpeakerOne",
+            "description": "Name of speaker one'",
+            "required": true
+          },
+          {
+            "name": "nameSpeakerTwo",
+            "description": "Name of speaker two",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

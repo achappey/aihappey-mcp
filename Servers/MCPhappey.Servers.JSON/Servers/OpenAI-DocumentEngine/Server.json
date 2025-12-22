@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-DocumentEngine",
+    "title": "OpenAI Document Engine",
+    "version": "1.0.0",
+    "description": "Auto-fill, check, and update documents from source files using consistent templates.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "instructions": "Do not use emdashes or ';' characters in your answers, unless explicitly otherwise requested.",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.DocumentEngine.OpenAIDocumentEngine, MCPhappey.Tools"
+  ]
+}

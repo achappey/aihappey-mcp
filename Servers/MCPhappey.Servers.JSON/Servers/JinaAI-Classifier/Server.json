@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "JinaAI-Classifier",
+    "title": "Jina AI Classifier",
+    "version": "1.0.0",
+    "websiteUrl": "https://jina.ai",
+    "description": "Classifies documents into custom categories using Jina AI’s multilingual models.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/jina.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/jina.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.JinaAI.Classifier.JinaAIClassifier, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

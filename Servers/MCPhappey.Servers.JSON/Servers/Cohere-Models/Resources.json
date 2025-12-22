@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://docs.cohere.com/docs/responsible-use",
+      "name": "cohere-responsible-use",
+      "title": "Cohere Responsible Use Guidelines",
+      "description": "Usage guidelines for Cohere models describing ethical and constructive use.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://cohere.com/research/papers/command-a-technical-report.pdf",
+      "name": "command-a-technical-report",
+      "title": "Command A: An Enterprise-Ready Large Language Model – Technical Report",
+      "description": "Technical report on Cohere’s Command A model, its architecture, performance, and enterprise-use considerations.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

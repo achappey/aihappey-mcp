@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "StabilityAI-3D",
+    "title": "StabilityAI 3D",
+    "version": "1.0.0",
+    "websiteUrl": "https://stability.ai",
+    "description": "Create 3D GLB models from single images using Stability AI’s 3D tools.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQGCth_DU2z1Fg/company-logo_200_200/B56Zh18sPOHMAU-/0/1754325501246/stability_ai_logo?e=2147483647&v=beta&t=K2vnKQAZRmg2Nqe0fJY7sYHDbLA752NOG1E45JbZC5s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.StabilityAI.StabilityAI3DService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

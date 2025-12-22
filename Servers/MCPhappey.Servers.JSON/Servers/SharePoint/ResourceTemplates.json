@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/Shared%20Documents",
+      "name": "shared-documents-sharepoint-site",
+      "title": "Shared documents on a SharePoint site",
+      "description": "Get a list of all documents (including subfolders) on a SharePoint Teams site",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/sites/{tenantName}.sharepoint.com:/sites/{siteName}:/lists/{docLibName}/contentTypes",
+      "name": "sharepoint-doclib-content-types",
+      "title": "Content types for SharePoint document library",
+      "description": "Get all content types (including Document Set content type IDs) from a SharePoint document library using Microsoft Graph.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

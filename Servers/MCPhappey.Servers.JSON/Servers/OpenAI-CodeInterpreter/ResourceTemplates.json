@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.openai.com/v1/containers/{containerId}/files",
+      "name": "list-container-files",
+      "title": "List files in a OpenAI container",
+      "description": "List all files in a OpenAI container",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

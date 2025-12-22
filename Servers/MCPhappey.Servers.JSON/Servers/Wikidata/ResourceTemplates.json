@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://query.wikidata.org/sparql?query={sparql}&format=json",
+      "name": "wikidata-sparql-json",
+      "title": "Wikidata SPARQL (JSON)",
+      "description": "Executes a SPARQL query against Wikidata and returns the results in JSON format.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://query.wikidata.org/sparql?query={sparql}&format=csv",
+      "name": "wikidata-sparql-csv",
+      "title": "Wikidata SPARQL (CSV)",
+      "description": "Executes a SPARQL query against Wikidata and returns the results in CSV format.",
+      "mimeType": "text/csv",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

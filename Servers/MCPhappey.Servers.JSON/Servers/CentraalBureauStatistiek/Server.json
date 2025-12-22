@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "CentraalBureauStatistiek",
+    "title": "Centraal Bureau voor de Statistiek (CBS)",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.cbs.nl",
+    "description": "CBS open data: zoek datasets en tabellen over NL-bevolking, economie, arbeid en gezondheid.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4E0BAQE_ZZXTkF55Cw/company-logo_200_200/company-logo_200_200/0/1730379746082/centraal_bureau_voor_de_statistiek_logo?e=2147483647&v=beta&t=bnlH9Shb1FZbT_ruxAp4_XlRgd6KD5fw2Wvp5bXRnZw"
+      }
+    ]
+  }
+}

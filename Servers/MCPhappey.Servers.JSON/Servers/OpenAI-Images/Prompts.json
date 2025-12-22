@@ -1,0 +1,169 @@
+{
+  "prompts": [
+    {
+      "prompt": "Input data:\n###\n{dataInput}\n###\n\nYou are a **data miner** for infographic creation. Analyze the input data provided below (which may be text, records, logs, or any kind of structured or unstructured information).\n\nTASK\n1. Identify all **facts and insights** that would be most relevant and visually appealing for an infographic. These can include key numbers, statistics, percentages, rankings, trends, correlations, timelines, categories, or yes/no flags.\n2. Summarize each insight in a short, catchy, and visually friendly way—each as a concise label with value and optional unit or context, suitable for a data card, chart, or icon in an infographic.\n3. Focus on 4–8 of the most impactful and interesting insights, so the output is visually rich but not crowded.\n4. Leave out anything too uncertain, verbose, or not visually useful.\n\nOUTPUT\nList the extracted facts and insights as **plain text bullets**, ready for use in an infographic. Use a clear, visually-oriented style (short label, value, unit/context if helpful) and no prose, paragraphs, or explanations.",
+      "template": {
+        "name": "extract-infographic-insights",
+        "title": "Extract infographic insights",
+        "description": "Extract the most infographic-ready facts and insights from any data as plain text bullets",
+        "arguments": [
+          {
+            "name": "dataInput",
+            "description": "Any data to analyse (text, table, records, logs, etc.)",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Data source ▼\n{insightData}\n\nROLE  Elite infographic designer\n\nOBJECTIVE  Craft one vibrant, magazine-style **infographic** that feels dynamic and engaging – not a rigid grid of identical cards.\n\nLAYOUT GUIDE\n1. **Headline band**\n   • Soft gradient background or subtle texture.\n   • Title ≤ 4 words, subtitle ≤ 6 words, both centred.\n   • Optional hero illustration or icon beside the headline for instant context.\n\n2. **Mixed-visual canvas** (arrange freely; no uniform blocks)\n   • **Primary KPI panel** – 1–2 biggest numbers in oversized font with supporting icon/illustration.\n   • **Chart zone** – choose the best chart per insight:\n       – Pie / donut for shares or weekday splits\n       – Horizontal bar or lollipop for rankings / top-N lists\n       – Column or area for time trends / peaks\n       – Gauge or ring for percentages / utilisation\n   • **Mini-cards & call-outs** – smaller icons with figure + 1–2-word label to fill gaps.\n   • Use varied sizes & aspect ratios; overlap elements slightly for depth.\n\n3. **Illustrative accents**\n   • Integrate line-style people/scenario illustrations (e.g. desks, meeting, parking) that relate to the data theme.\n   • Small arrows or annotations to highlight growth, peak, or comparison.\n\nSTYLE\n• Palette: one dominant brand colour + two complementary accents; keep backgrounds light for clarity.\n• Typography: modern geometric sans; main KPIs ≥ 64 pt, secondary ≥ 24 pt.\n• Rounded corners & soft shadows for cards/charts; thin stroke icons for cohesion.\n• White space between clusters; asymmetric grid for energy.\n\nTEXT RULES\n• Label/heading ≤ 3 words each.\n• Total on-canvas words ≤ 45 (title, subtitle, labels, footer).\n\nOUTPUT  Produce **one single image** of the infographic – no extra text, markdown, or JSON.",
+      "template": {
+        "name": "design-infographic",
+        "title": "Design infographic",
+        "description": "Generate a visually dynamic infographic from extracted insight data",
+        "arguments": [
+          {
+            "name": "insightData",
+            "description": "Structured insights to visualise",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Generate a stunning, high-resolution image in the style of {artStyle}, featuring {subject}. Use rich, vibrant colors and intricate details. The composition should feel {mood}, and the background should include {backgroundDetails}. Emphasize beauty, elegance, and visual impact.",
+      "template": {
+        "name": "create-artistic-style-image",
+        "title": "Create artistic style image",
+        "description": "Generate a beautiful image of any subject in any chosen art style and mood.",
+        "arguments": [
+          {
+            "name": "artStyle",
+            "description": "Desired art style (e.g., impressionist, cyberpunk, watercolor, renaissance)",
+            "required": true
+          },
+          {
+            "name": "subject",
+            "description": "Main subject of the image (e.g., futuristic city, majestic lion, serene lake)",
+            "required": true
+          },
+          {
+            "name": "mood",
+            "description": "Mood or atmosphere (e.g., dreamy, mysterious, vibrant, tranquil)",
+            "required": false
+          },
+          {
+            "name": "backgroundDetails",
+            "description": "Optional background elements or setting",
+            "required": false
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Create a visually breathtaking portrait of {characterDescription} in a {setting}. Use a {lightingStyle} lighting style and add artistic elements such as {artisticElements}. Focus on facial expression, emotion, and stunning composition. The overall image should evoke a sense of wonder.",
+      "template": {
+        "name": "create-dreamlike-portrait",
+        "title": "Create dreamlike portrait",
+        "description": "Generate an eye-catching, imaginative portrait with customizable features.",
+        "arguments": [
+          {
+            "name": "characterDescription",
+            "description": "Physical and stylistic description of the character",
+            "required": true
+          },
+          {
+            "name": "setting",
+            "description": "Type of environment or backdrop",
+            "required": true
+          },
+          {
+            "name": "lightingStyle",
+            "description": "Lighting style (e.g., soft golden hour, neon-lit, dramatic chiaroscuro)",
+            "required": false
+          },
+          {
+            "name": "artisticElements",
+            "description": "Extra creative details (e.g., floating petals, sparkles, cosmic aura)",
+            "required": false
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Produce an ultra-photorealistic image of {sceneDescription}, captured at {timeOfDay} with {weatherCondition}. The image should be visually striking and beautifully composed, with attention to natural light, textures, and depth of field.",
+      "template": {
+        "name": "create-photorealistic-scene",
+        "title": "Create photorealistic scene",
+        "description": "Create a hyper-realistic photo of any scene, time, and weather.",
+        "arguments": [
+          {
+            "name": "sceneDescription",
+            "description": "Main scene or subject (e.g., mountain landscape, city skyline, rainforest waterfall)",
+            "required": true
+          },
+          {
+            "name": "timeOfDay",
+            "description": "Time of day (e.g., sunrise, golden hour, midnight)",
+            "required": false
+          },
+          {
+            "name": "weatherCondition",
+            "description": "Weather (e.g., clear, foggy, stormy, snowy)",
+            "required": false
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Visualize a surreal, highly imaginative scene where {mainElement} interacts with {secondaryElement} in a {fantasySetting}. Use bold, beautiful colors and unexpected details. The image should feel otherworldly and visually mesmerizing.",
+      "template": {
+        "name": "create-surreal-image",
+        "title": "Create surreal image",
+        "description": "Generate a surreal, fantastical scene with imaginative elements.",
+        "arguments": [
+          {
+            "name": "mainElement",
+            "description": "Primary subject (e.g., giant clock, floating island, golden fish)",
+            "required": true
+          },
+          {
+            "name": "secondaryElement",
+            "description": "Secondary object or creature (e.g., tiny people, glowing butterflies)",
+            "required": true
+          },
+          {
+            "name": "fantasySetting",
+            "description": "Surreal or dreamlike setting (e.g., upside-down forest, cosmic ocean)",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Create a visually stunning, magazine-quality image of {productOrObject} set against a {backgroundStyle} background. The image should feel modern, clean, and eye-catching, suitable for high-end advertising. Add subtle creative touches like {specialEffects}.",
+      "template": {
+        "name": "create-product-visual",
+        "title": "Create product visual",
+        "description": "Generate a beautiful, professional image of any product or object with customizable backgrounds and effects.",
+        "arguments": [
+          {
+            "name": "productOrObject",
+            "description": "Product or object to showcase",
+            "required": true
+          },
+          {
+            "name": "backgroundStyle",
+            "description": "Type of background (e.g., gradient, soft shadows, natural scene, abstract)",
+            "required": false
+          },
+          {
+            "name": "specialEffects",
+            "description": "Optional visual effects (e.g., light leaks, soft glow, bokeh, reflections)",
+            "required": false
+          }
+        ]
+      }
+    }
+  ]
+}

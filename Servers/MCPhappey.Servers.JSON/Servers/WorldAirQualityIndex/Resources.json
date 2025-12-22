@@ -1,0 +1,40 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.waqi.info/feed/",
+      "name": "waqi-feeds",
+      "title": "City and Geolocated Feeds",
+      "description": "Collection of WAQI real-time air quality data feeds, including city-based, coordinate-based, and IP-based endpoints.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.waqi.info/v2/map/bounds",
+      "name": "waqi-map-bounds",
+      "title": "Map Queries",
+      "description": "Retrieve air quality monitoring stations within a given latitude/longitude bounding box.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.waqi.info/search/",
+      "name": "waqi-search",
+      "title": "Station Search",
+      "description": "Search for air quality monitoring stations by name or keyword.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

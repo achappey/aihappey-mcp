@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "DocumentComparer",
+    "title": "Document Comparer",
+    "version": "1.0.0",
+    "description": "Shows key differences between two document versions: additions, removals, and important wording changes."
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.DocumentComparer, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

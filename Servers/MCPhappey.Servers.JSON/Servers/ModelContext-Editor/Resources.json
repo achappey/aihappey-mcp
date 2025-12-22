@@ -1,0 +1,24 @@
+{
+  "resources": [
+    {
+      "uri": "mcp-editor://servers",
+      "name": "custom-mcp-servers",
+      "title": "Custom MCP servers",
+      "description": "List custom MCP-servers that the current user can edit",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "mcp-editor://plugins",
+      "name": "mcp-editor-plugins",
+      "title": "MCP Editor plugins",
+      "description": "Lists all plugins that are available in the MCP Editor environment.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

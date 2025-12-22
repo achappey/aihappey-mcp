@@ -1,0 +1,14 @@
+{
+  "resources": [
+    {
+      "uri": "mcp-editor://servers",
+      "name": "custom-mcp-servers",
+      "title": "Custom MCP servers",
+      "description": "List custom MCP-servers that the current user can edit",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

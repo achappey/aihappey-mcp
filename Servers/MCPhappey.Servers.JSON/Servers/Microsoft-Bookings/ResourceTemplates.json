@@ -1,0 +1,76 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/solutions/bookingBusinesses/{businessId}",
+      "name": "get-booking-business",
+      "title": "Get booking business",
+      "description": "Get details of a specific booking business.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/solutions/bookingBusinesses/{businessId}/appointments",
+      "name": "business-appointments",
+      "title": "List appointments for a business",
+      "description": "Lists all appointments for a specific booking business.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/solutions/bookingBusinesses/{businessId}/staffMembers",
+      "name": "business-staff",
+      "title": "List staff for a business",
+      "description": "Lists all staff members for a specific booking business.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/solutions/bookingBusinesses/{businessId}/services",
+      "name": "business-services",
+      "title": "List services for a business",
+      "description": "Lists all services for a specific booking business.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/solutions/bookingBusinesses/{businessId}/customers",
+      "name": "business-customers",
+      "title": "List customers for a business",
+      "description": "Lists all customers for a specific booking business.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/solutions/bookingBusinesses/{businessId}/appointments/{appointmentId}",
+      "name": "get-appointment",
+      "title": "Get appointment details",
+      "description": "Gets the details of a specific appointment in a booking business.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

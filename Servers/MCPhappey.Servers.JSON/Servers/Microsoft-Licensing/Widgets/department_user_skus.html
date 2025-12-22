@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User SKUs per Department</title>
+
+  <!-- Simple-DataTables -->
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 16px; }
+    .toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+    label { font-weight: 600; }
+    select, input[type="search"] { padding: 6px 8px; border: 1px solid #ddd; border-radius: 6px; }
+    #tableContainer { width: 100%; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <label for="deptFilter">Department:</label>
+    <select id="deptFilter"><option value="__ALL__">All</option></select>
+
+    <label for="searchBox">Search:</label>
+    <input id="searchBox" type="search" placeholder="Type to search…" />
+  </div>
+
+  <div id="tableContainer"></div>
+
+  <script>
+    (function () {
+      const ALL = "__ALL__";
+      const BLANK_KEY = "department_blank";
+
+      const esc = (s) => String(s ?? "").replace(/[&<>"']/g, m => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[m]));
+      const isObj = x => x && typeof x === "object" && !Array.isArray(x);
+
+      let dt = null; // DataTable instance
+
+      function getDepartments() {
+        const t = (window.openai && window.openai.toolOutput) || {};
+        if (Array.isArray(t.departments)) return t.departments;
+        if (isObj(t.value) && Array.isArray(t.value.departments)) return t.value.departments;
+        return [];
+      }
+
+      function renderDeptOptions(departments) {
+        const sel = document.getElementById("deptFilter");
+        const prev = sel.value || ALL;
+
+        const map = new Map();
+        for (const d of departments) {
+          if (!isObj(d)) continue;
+          const token = (!d.name || d.name === "" || d.name === BLANK_KEY) ? BLANK_KEY : String(d.name);
+          const label = token === BLANK_KEY ? "(Blank)" : token;
+          map.set(token, label);
+        }
+
+        const options = Array.from(map.entries())
+          .sort((a,b) => a[1].localeCompare(b[1]))
+          .map(([token,label]) => `<option value="${esc(token)}">${esc(label)}</option>`)
+          .join("");
+
+        sel.innerHTML = `<option value="${ALL}">All</option>${options}`;
+        sel.value = (map.has(prev) || prev === ALL) ? prev : ALL;
+      }
+
+      function buildRows(departments, selectedToken) {
+        const rows = [];
+        for (const d of departments) {
+          if (!isObj(d)) continue;
+          const token = (!d.name || d.name === "" || d.name === BLANK_KEY) ? BLANK_KEY : String(d.name);
+          if (selectedToken !== ALL && token !== selectedToken) continue;
+
+          const label = token === BLANK_KEY ? "(Blank)" : token;
+          const users = Array.isArray(d.users) ? d.users : [];
+          for (const u of users) {
+            const upn = u?.userId ?? "";
+            const skus = Array.isArray(u?.skus) ? u.skus : [];
+            rows.push([label, upn, skus.length ? skus.join(", ") : "-"]);
+          }
+        }
+        return rows;
+      }
+
+      function rebuildDataTable(rows) {
+        // replace the whole table node to avoid any internal state issues
+        const container = document.getElementById("tableContainer");
+        container.innerHTML = `
+          <table id="userSkuTable">
+            <thead>
+              <tr><th>Department</th><th>User (UPN)</th><th>SKUs</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        `;
+
+        // (re)create the table using the data API
+        if (dt && typeof dt.destroy === "function") {
+          dt.destroy();
+          dt = null;
+        }
+        dt = new simpleDatatables.DataTable("#userSkuTable", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 15,
+          data: {
+            headings: ["Department", "User (UPN)", "SKUs"],
+            data: rows
+          },
+          labels: {
+            placeholder: "Search…",
+            noRows: "No users found",
+            info: "Showing {start}–{end} of {rows}"
+          }
+        });
+
+        // wire external search
+        const searchBox = document.getElementById("searchBox");
+        searchBox.value = "";
+        searchBox.oninput = (e) => {
+          const v = e.target.value || "";
+          if (dt.input) dt.input.value = v;
+          if (typeof dt.search === "function") dt.search(v);
+        };
+      }
+
+      function render() {
+        const departments = getDepartments();
+        renderDeptOptions(departments);
+
+        const selected = document.getElementById("deptFilter").value || ALL;
+        const rows = buildRows(departments, selected);
+        rebuildDataTable(rows);
+      }
+
+      // initial render after the library is ready
+      window.addEventListener("load", render);
+
+      // dropdown change -> rerender
+      document.getElementById("deptFilter").addEventListener("change", render);
+
+      // host pushes new tool output -> rerender
+      window.addEventListener("message", (e) => {
+        if (e.data && e.data.type === "toolOutput") {
+          window.openai = window.openai || {};
+          window.openai.toolOutput = e.data.payload;
+          render();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

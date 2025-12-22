@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OneDrive",
+    "title": "Microsoft OneDrive",
+    "version": "1.0.0",
+    "description": "Search, read, and manage OneDrive/SharePoint files; list folders and share links.",
+    "icons": [
+      {
+        "src": "https://www.aaudxp-cms.aau.dk/media/3sglfyu0/onedrive.png?width=960"
+      }
+    ]
+  },
+  "instructions": "Can read all kind of SharePoint links, news pages, Graph API urls as resources.",
+  "plugins": [
+    "MCPhappey.Tools.Graph.OneDrive.GraphOneDrive, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

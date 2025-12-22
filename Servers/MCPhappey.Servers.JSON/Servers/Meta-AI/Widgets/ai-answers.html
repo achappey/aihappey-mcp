@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>AI results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Pause Alpine so it won't scan until we say so -->
+  <script>window.deferLoadingAlpine = (start) => { window._startAlpine = start; };</script>
+
+  <!-- Shared theme + SDKs (same as Perplexity widget) -->
+  <link rel="stylesheet" href="%HOST_URL%/widget-base.css" />
+  <script src="%HOST_URL%/widget-i18n.js"></script>
+  <script src="%HOST_URL%/widget-list.js"></script>
+
+  <!-- Tiny formatter that uses Alpine i18n store -->
+  <script>
+    window.t = function t(key, vars = {}) {
+      const S = window.Alpine?.store?.("i18n");
+      if (!S) return key;
+      const get = (o, p) => p.split(".").reduce((a, k) => (a && a[k] != null ? a[k] : undefined), o);
+      const fmt = (s, v) => String(s).replace(/\{(\w+)\}/g, (_, k) => (k in v ? v[k] : `{${k}}`));
+      const msg = get(S.messages[S.locale] || {}, key) ?? get(S.messages[S.fallback] || {}, key) ?? key;
+      return fmt(msg, vars);
+    };
+  </script>
+
+  <!-- i18n messages -->
+  <script>
+    window.initWidgetI18n({
+      locale: window.openai?.locale || "en",
+      fallback: "en",
+      messages: {
+        en: {
+          title: "Results ({count})",
+          model: "Model",
+          preview: "Preview",
+          text: "Text",
+          more: "Show more",
+          less: "Show less",
+          summariseAll: "Rank",
+          summariseAllPrompt: "Deeply analyze all different answers in relation to the original prompt. Rank each models'answer with a 3 decimal scrore and create a ranking based on your findings. Give it in a table: model, score, concise rationale (≤10 words).",
+          search: "Search…",
+          noRows: "No results",
+          tableInfo: "Showing {start}–{end} of {rows}"
+        },
+        nl: {
+          title: "Resultaten ({count})",
+          model: "Model",
+          preview: "Voorvertoning",
+          text: "Tekst",
+          more: "Meer tonen",
+          less: "Minder tonen",
+          summariseAll: "Beoordelen",
+          summariseAllPrompt: "Analyseer grondig alle verschillende antwoorden in relatie tot de oorspronkelijke prompt. Beoordeel elk modelantwoord met een score op drie decimalen en maak een ranglijst op basis van je bevindingen. Geef het weer in een tabel: model, score, korte onderbouwing (max. 10 woorden).",
+          search: "Zoeken…",
+          noRows: "Geen resultaten",
+          tableInfo: "Toont {start}–{end} van {rows}"
+        }
+      }
+    });
+  </script>
+
+  <!-- Ensure locale after Alpine init -->
+  <script>
+    document.addEventListener("alpine:init", () => {
+      const pick = () =>
+        (window.openai && window.openai.locale) ||
+        new URLSearchParams(location.search).get("locale") ||
+        window.navigator?.language?.slice(0, 2) ||
+        "en";
+      try {
+        const l = pick();
+        const S = window.Alpine?.store?.("i18n");
+        if (S) S.locale = l;
+      } catch { }
+    });
+  </script>
+
+  <!-- Component -->
+  <script>
+    // Helpers
+    function splitSentences(s) {
+      if (!s) return [];
+      // Basic sentence splitter (., !, ?)
+      const parts = String(s).split(/(?<=[\.!\?])\s+/).filter(Boolean);
+      return parts;
+    }
+    function firstFourSentences(s) {
+      const parts = splitSentences(s);
+      if (parts.length <= 4) return { preview: parts.join(" "), rest: "" };
+      return { preview: parts.slice(0, 4).join(" "), rest: parts.slice(4).join(" ") };
+    }
+
+    // Main widget
+    window.websearchWidget = function websearchWidget() {
+      return Object.assign(window.listWidget(), {
+        // Inputs
+        data: window.openai?.toolOutput || null, // { results: WebSearchResult[] }
+        results: [],
+        header: "Search results",
+
+        // Derived & UI state
+        expanded: new Set(), // track expanded rows by index/key
+
+        // Map raw tool output to displayable rows (only text content blocks)
+        normalize() {
+          const arr = Array.isArray(this.data?.results) ? this.data.results : [];
+          this.results = arr
+            .filter(r => r?.content?.type === "text" && typeof r?.content?.text === "string")
+            .map((r, i) => {
+              const full = r.content.text.trim();
+              const { preview, rest } = firstFourSentences(full);
+              return {
+                key: r.content.id || i,
+                model: r.model || "-",
+                duration: r._meta?.duration || "-",
+                full,
+                preview,
+                rest
+              };
+            });
+          this.items = this.results; // for listWidget() sizing helpers
+        },
+
+        computeHeader() {
+          const count = Array.isArray(this.results) ? this.results.length : 0;
+          this.header = t("title", { count });
+        },
+
+        toggleExpand(k) {
+          if (this.expanded.has(k)) this.expanded.delete(k);
+          else this.expanded.add(k);
+          // force Alpine re-render
+          this.expanded = new Set(this.expanded);
+        },
+
+        isExpanded(k) { return this.expanded.has(k); },
+
+        askSummariseAll() {
+          if (!this.results.length) return;
+          // Provide all full texts as a bullet list
+          const blobs = this.results.map(x => `- (${x.model}) ${x.full}`).join("\n");
+          const msg = t("summariseAllPrompt", { blobs });
+          window.openai?.sendFollowupTurn?.({ prompt: msg });
+        },
+        // Table rendering (fullscreen)
+        renderTable() {
+          const tbody = document.querySelector("#websearchTable tbody");
+          if (!tbody) return;
+
+          tbody.innerHTML = (this.results || []).map((r, idx) => {
+            const previewHTML = `
+              <div>
+                <span>${r.preview || "-"}</span>
+                ${r.rest ? `<span class="ellipsis">…</span>` : ""}
+              </div>
+            `;
+            return `
+              <tr data-index="${idx}">
+                <td>${r.model || "-"}</td>
+                <td>${previewHTML}</td>
+                <td>
+                  ${r.rest
+                ? `<button class="linklike" data-expand="${r.key}">${t("more")}</button>`
+                : `&nbsp;`}
+                </td>
+              </tr>`;
+          }).join("");
+
+          tbody.querySelectorAll("button[data-expand]").forEach(btn => {
+            btn.addEventListener("click", () => {
+              const key = btn.getAttribute("data-expand");
+              this.toggleExpand(key);
+              // Simple inline expander dialog
+              const row = btn.closest("tr");
+              if (!row) return;
+              let expander = row.nextElementSibling;
+              const html = `<tr class="expanded-row"><td colspan="3"><div class="expanded-text">${this.results.find(x => String(x.key) === String(key))?.full || ""}</div><div style="margin-top:8px;"><button class="linklike" data-collapse="${key}">${t("less")}</button></div></td></tr>`;
+              if (!(expander && expander.classList.contains("expanded-row"))) {
+                row.insertAdjacentHTML("afterend", html);
+                expander = row.nextElementSibling;
+                expander.querySelector('button[data-collapse]')?.addEventListener("click", () => {
+                  expander?.remove();
+                  this.toggleExpand(key);
+                });
+              }
+            });
+          });
+
+          if (window._websearchDataTable) { try { window._websearchDataTable.destroy(); } catch { } }
+          window._websearchDataTable = new simpleDatatables.DataTable("#websearchTable", {
+            searchable: true,
+            fixedHeight: false,
+            perPage: 20,
+            labels: {
+              placeholder: t("search"),
+              noRows: t("noRows"),
+              info: t("tableInfo")
+            }
+          });
+        },
+
+        load() {
+          this.normalize();
+          this.computeHeader();
+        },
+
+        init() {
+          this.load();
+          this.computeVertical();
+          this.setTheme(window.openai?.theme || "auto");
+
+          this.$nextTick(() => {
+            if (this.mode === "fullscreen") this.renderTable();
+            this.computeHeader();
+          });
+
+          window.addEventListener("message", (e) => {
+            if (e?.data?.type === "toolOutput") {
+              this.data = e.data.payload;
+              this.load();
+              if (this.mode === "fullscreen") this.$nextTick(() => this.renderTable());
+            }
+            if (e?.data?.type === "openai:set_globals" && e.data.globals) {
+              if (e.data.globals.displayMode) this.mode = e.data.globals.displayMode;
+              if (e.data.globals.locale) {
+                Alpine.store("i18n").locale = e.data.globals.locale;
+                this.computeHeader();
+              }
+            }
+          });
+
+          window.addEventListener("resize", () => this.computeVertical());
+          window.setLocale = (l) => { Alpine.store("i18n").locale = l; this.computeHeader(); }
+        }
+      });
+    };
+  </script>
+
+  <!-- Alpine (start after globals ready) -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer
+    onload="window._startAlpine && window._startAlpine();"></script>
+
+  <!-- Third-party (same as other widget) -->
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@7.1.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" defer></script>
+
+  <style>
+    /* Minor tweaks for expanded text + linklike buttons */
+    .linklike {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      text-decoration: underline;
+      font: inherit;
+    }
+
+    .expanded-text {
+      white-space: pre-wrap;
+    }
+
+    .ellipsis {
+      opacity: .7
+    }
+
+    .country-card .inline-grid .value {
+      white-space: unset;
+    }
+
+    .result-card .model {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      opacity: 0.9;
+    }
+
+    .result-card .preview {
+      white-space: normal;
+    }
+
+    .result-card .duration {
+      opacity: .8;
+      font-size: .9rem;
+      margin-bottom: 8px;
+    }
+
+    .line-4 {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      /* clamp to 4 lines */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" :class="{ 'inline-mode': mode !== 'fullscreen' }" x-data="websearchWidget()" x-init="init()">
+    <div class="card">
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <h1 class="title" x-text="header"></h1>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button @click="askSummariseAll" x-text="$t('summariseAll')"
+            x-show="!(mode === 'inline' && vertical)"></button>
+          <button @click="toggleMode" x-show="!(mode === 'inline' && vertical)">
+            <i class="fa-solid fa-expand"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="scroller">
+        <!-- Inline layout -->
+        <div class="inline" x-show="mode === 'inline'">
+          <div class="carousel-outer" style="position:relative;">
+            <div style="display:flex; justify-content:flex-end;">
+              <button class="nav-top" x-show="vertical" @click="scrollStrip(-1)">
+                <i class="fa-solid fa-arrow-up"></i>
+              </button>
+            </div>
+
+            <div class="carousel-strip" :class="vertical ? 'vertical' : ''" x-ref="strip">
+              <template x-for="r in results" :key="r.key">
+                <div class="result-card country-card vertical-content" :class="vertical ? 'vertical' : ''">
+                  <div class="model" x-text="r.model || '-'"></div>
+                  <div class="duration" x-text="r._meta?.duration"></div>
+                  <div class="preview line-4" x-text="r.preview || '-'"></div>
+                </div>
+              </template>
+            </div>
+
+            <div style="display:flex;">
+              <button class="nav-btn nav-left" x-show="!vertical" @click="scrollStrip(-1)">
+                <i class="fa-solid fa-arrow-left"></i>
+              </button>
+              <button class="nav-btn nav-right" style="margin-left:auto;" x-show="!vertical" @click="scrollStrip(1)">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fullscreen layout -->
+        <div class="fullscreen" x-show="mode === 'fullscreen'">
+          <div class="panel">
+            <table id="websearchTable" style="width:100%;">
+              <thead>
+                <tr>
+                  <th x-text="$t('model')"></th>
+                  <th x-text="$t('preview')"></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer actions (only inline + vertical) -->
+      <div class="footer-actions" x-show="mode === 'inline' && vertical">
+        <button @click="askSummariseAll" x-text="$t('summariseAll')"></button>
+        <div style="display:flex; gap: var(--gap); margin-left:auto;">
+          <button @click="toggleMode"><i class="fa-solid fa-expand"></i></button>
+          <button class="nav-bottom" x-show="vertical" @click="scrollStrip(1)">
+            <i class="fa-solid fa-arrow-down"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>

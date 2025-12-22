@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://date.nager.at/api/v3/PublicHolidays/{year}/{countryCode}",
+      "name": "public-holidays",
+      "title": "Public holidays",
+      "description": "Public holidays per country and year.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

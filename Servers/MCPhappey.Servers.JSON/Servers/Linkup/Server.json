@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Linkup",
+    "title": "Linkup",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.linkup.so",
+    "description": "AI web search for assistants. Fast, accurate answers from the internet for any topic.",
+    "icons": [
+      {
+        "src": "https://www.startuphub.ai/wp-content/uploads/linkup-logo-686e67acb5cb3.jpg"
+      }
+    ]
+  },
+  "baseMcp": "mcp.linkup.so",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

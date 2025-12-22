@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "AssemblyAI",
+    "title": "AssemblyAI",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.assemblyai.com",
+    "description": "Convert audio or video to text and detect speakers, topics and key content.",
+    "icons": [
+      {
+        "src": "https://yt3.googleusercontent.com/5z_-jPDKLrUlaxA0Ow7BRdIAwbh6YQYrqU3pd8Cm6okahuJ3BaawiEPpdWUhwE98v_j3ugUAbA=s900-c-k-c0x00ffffff-no-rj"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

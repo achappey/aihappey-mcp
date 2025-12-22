@@ -1,0 +1,54 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://connect.deskbird.com/bookings?statuses={statuses}&limit=100&offset=0",
+      "name": "bookings-by-status",
+      "title": "Bookings by status",
+      "description": "Retrieve bookings filtered by one or more statuses (e.g., running, cancelled, completed).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://connect.deskbird.com/bookings?userIds={userId}&limit=100&offset=0",
+      "name": "bookings-by-user",
+      "title": "Bookings by user",
+      "description": "Retrieve all bookings made by a specific user using their UUID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://connect.deskbird.com/bookings?startDate={startDate}&endDate={endDate}&limit=100&offset=0",
+      "name": "bookings-by-date-range",
+      "title": "Bookings by date range",
+      "description": "Retrieve bookings that occurred within a specific date range.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://connect.deskbird.com/bookings?startDate={startDate}&endDate={endDate}&zoneIds={zoneIds}&limit=100&offset=0",
+      "name": "bookings-by-date-range-and-zoneids",
+      "title": "Bookings by date range and zoneIds",
+      "description": "Retrieve bookings that occurred within a specific date range and filtered by zoneIds (comma seperated list).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://connect.deskbird.com/resources?zoneId={zoneId}",
+      "name": "resources-by-zone",
+      "title": "Resources by zone",
+      "description": "Retrieve a list of all resources by a single zoneId.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

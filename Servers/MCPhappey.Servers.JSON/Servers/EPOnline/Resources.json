@@ -1,0 +1,24 @@
+{
+  "resources": [
+    {
+      "uri": "https://public.ep-online.nl/api/v4/Mutatiebestand/DownloadInfo?fileType=csv",
+      "name": "ep-online-mutatiebestand-download-csv",
+      "title": "EP-Online energielabels mutatiebestand (csv)",
+      "description": "Maakt een nieuwe downloadlink van een EP-Online mutatiebestand energielabels in csv formaat",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://public.ep-online.nl/api/v4/Mutatiebestand/DownloadInfo?fileType=xlsx",
+      "name": "ep-online-mutatiebestand-download-xlsx",
+      "title": "EP-Online energielabels mutatiebestand (xlsx)",
+      "description": "Maakt een nieuwe downloadlink van een EP-Online mutatiebestand energielabels in xlsx formaat",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

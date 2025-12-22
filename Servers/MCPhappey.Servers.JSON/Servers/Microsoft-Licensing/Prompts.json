@@ -1,0 +1,46 @@
+{
+  "prompts": [
+    {
+      "prompt": "List all Microsoft 365 licenses (SKUs) available in our tenant, including their names and usage statistics.",
+      "template": {
+        "name": "list-all-licenses",
+        "title": "List all licenses",
+        "description": "Lists all available Microsoft 365 or Azure AD licenses (subscribed SKUs), showing SKU names and key usage statistics.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show all users with at least one assigned license, including their display name, username, and assigned license SKUs.",
+      "template": {
+        "name": "users-with-licenses",
+        "title": "Users with licenses",
+        "description": "Shows all users who have at least one Microsoft 365/Azure AD license assigned, including their display name and the SKUs.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "For the user with username {userName}, show all assigned licenses and which service plans are active.",
+      "template": {
+        "name": "user-license-details",
+        "title": "User license details",
+        "description": "Displays the full license and service plan details for a specific user.",
+        "arguments": [
+          {
+            "name": "userName",
+            "description": "The username or user principal name of the user.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List all users who currently have no Microsoft 365 or Azure AD licenses assigned.",
+      "template": {
+        "name": "list-unlicensed-users",
+        "title": "List unlicensed users",
+        "description": "Lists all users without any Microsoft 365 or Azure AD licenses assigned.",
+        "arguments": []
+      }
+    }
+  ]
+}

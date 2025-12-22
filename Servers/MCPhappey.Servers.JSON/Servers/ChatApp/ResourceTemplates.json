@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://registry.modelcontextprotocol.io/v0.1/servers?limit=100&version=latest&cursor={nextCursor}",
+      "name": "official-mcp-server-registry-next",
+      "title": "Official MCP store",
+      "description": "List MCP server next page by cursor from the official community maintained MCP store",
+      "mimeType": "application/vnd.modelcontextprotocol-registry+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://registry.modelcontextprotocol.io/v0.1/servers?limit={limit}&version=latest&search={search}",
+      "name": "search-official-mcp-server-registry",
+      "title": "Search official MCP store",
+      "description": "Search MCP servers by name",
+      "mimeType": "application/vnd.modelcontextprotocol-registry+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

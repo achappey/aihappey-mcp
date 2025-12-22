@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "CapitalValue-NL",
+        "title": "Capital Value",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.capitalvalue.nl",
+        "description": "Info over woning- en zorgvastgoed: nieuws, research en transacties via Capital Value.",
+        "icons": [
+            {
+                "src": "https://media.licdn.com/dms/image/v2/D4E0BAQH5DgNT3NJoxw/company-logo_200_200/company-logo_200_200/0/1719257402788/capital_value_b_v__logo?e=2147483647&v=beta&t=6RwkZ2q8UI1KDk6YnXPPXpgKhAah_s1uZbFGRM7zGRI"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+    ]
+}

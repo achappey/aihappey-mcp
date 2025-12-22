@@ -1,0 +1,112 @@
+{
+  "resources": [
+    {
+      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-geestelijke-gezondheidszorg",
+      "name": "open-data-geestelijke-gezondheidszorg",
+      "title": "Open data Geestelijke gezondheidszorg",
+      "description": "Publieke gegevens over aanbieders en prestaties in de geestelijke gezondheidszorg.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-geestelijke-gezondheidszorg-kwaliteitsstatuut",
+      "name": "open-data-ggz-kwaliteitsstatuut",
+      "title": "Open data GGZ Kwaliteitsstatuut",
+      "description": "Informatie over kwaliteitsstatuten binnen de geestelijke gezondheidszorg.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-gehandicaptenzorg",
+      "name": "open-data-gehandicaptenzorg",
+      "title": "Open data Gehandicaptenzorg",
+      "description": "Openbare gegevens over instellingen en kwaliteit in de gehandicaptenzorg.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-integrale-geboortezorg",
+      "name": "open-data-integrale-geboortezorg",
+      "title": "Open data Integrale geboortezorg",
+      "description": "Data over samenwerking en uitkomsten in de integrale geboortezorg.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-kraamzorg",
+      "name": "open-data-kraamzorg",
+      "title": "Open data Kraamzorg",
+      "description": "Publieke gegevens over organisaties en kwaliteit in de kraamzorgsector.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-medisch-specialistische-revalidatie-msr",
+      "name": "open-data-msr",
+      "title": "Open data Medisch-specialistische revalidatie (MSR)",
+      "description": "Open data over revalidatie-instellingen en uitkomsten binnen MSR.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-medisch-specialistische-zorg-msz-ziekenhuizen-en-zelfstandige-behandelcentra",
+      "name": "open-data-msz",
+      "title": "Open data Medisch-specialistische zorg (MSZ)",
+      "description": "Openbare data over ziekenhuizen en zelfstandige behandelcentra (MSZ).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-verpleeghuiszorg",
+      "name": "open-data-verpleeghuiszorg",
+      "title": "Open data Verpleeghuiszorg",
+      "description": "Data over kwaliteit en prestaties in de verpleeghuiszorg.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-wijkverpleging",
+      "name": "open-data-wijkverpleging",
+      "title": "Open data Wijkverpleging",
+      "description": "Publieke gegevens over aanbieders en prestaties in de wijkverpleging.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

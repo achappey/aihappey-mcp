@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "OpenMeteo",
+    "title": "Open-Meteo",
+    "version": "1.0.0",
+    "websiteUrl": "https://open-meteo.com",
+    "description": "Free weather and location data with real-time and historical forecasts.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/86407831?v=4"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

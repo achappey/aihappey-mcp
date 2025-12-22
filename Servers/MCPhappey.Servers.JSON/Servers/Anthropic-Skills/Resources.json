@@ -1,0 +1,40 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.anthropic.com/v1/skills",
+      "name": "list-anthropic-claude-skills",
+      "title": "List available Anthropic Claude skills",
+      "description": "List all available Anthropic Claude skills",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.anthropic.com/news/skills",
+      "name": "anthropic-agent-skills-overview",
+      "title": "Anthropic Agent Skills overview",
+      "description": "Announcement and overview of Agent Skills: what skills are, how they work, availability across products, and getting started resources.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills",
+      "name": "anthropic-agent-skills-engineering-article",
+      "title": "Equipping agents for the real world with Agent Skills",
+      "description": "Engineering deep-dive into Skills format, progressive disclosure, code execution, best practices for development and evaluation, and security considerations.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

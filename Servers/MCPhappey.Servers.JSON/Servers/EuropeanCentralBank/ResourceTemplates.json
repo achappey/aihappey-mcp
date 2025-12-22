@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://data-api.ecb.europa.eu/service/dataflow?format={format}",
+      "name": "ecb-dataflows",
+      "title": "ECB dataflows",
+      "description": "Lists all available dataflows in the ECB Data Portal (SDMX). Use this to discover FLOW_IDs (e.g., EXR, ICP, BSI).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data-api.ecb.europa.eu/service/data/{flowRef}/{seriesKey}?startPeriod={startPeriod}&endPeriod={endPeriod}&updatedAfter={updatedAfter}&firstNObservations={firstNObservations}&lastNObservations={lastNObservations}&detail={detail}&includeHistory={includeHistory}&format={format}",
+      "name": "ecb-data-query",
+      "title": "ECB data query",
+      "description": "Generic SDMX data query for any ECB dataflow. Provide flowRef (e.g., EXR or AGENCY,EXR,latest) and a SDMX seriesKey (e.g., D.USD.EUR.SP00.A). Supports date ranges, deltas, detail level, history, observation limits and output format.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data-api.ecb.europa.eu/service/data/EXR/{frequency}.{baseCurrency}.{quoteCurrency}.{rateType}.{seriesVariation}?lastNObservations={lastNObservations}&format={format}",
+      "name": "ecb-exr-spot-latest",
+      "title": "ECB EXR spot latest",
+      "description": "Convenience template for ECB exchange rates (EXR). Quickly fetch the latest N observations for a currency pair. Default example mimics the common daily ECB reference rate series.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

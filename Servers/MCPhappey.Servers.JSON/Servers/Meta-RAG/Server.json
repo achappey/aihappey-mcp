@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Meta-RAG",
+    "title": "Meta Retrieval Augmented Generation (RAG)",
+    "version": "1.0.0",
+    "description": "Search across vector, files and graphs at once; combines results into one clear answer."
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.VectorStores.OpenAIVectorStores, MCPhappey.Tools",
+    "MCPhappey.Tools.Mistral.Libraries.LibrariesPlugin, MCPhappey.Tools",
+    "MCPhappey.Tools.KernelMemory.KernelMemory, MCPhappey.Tools",
+    "MCPhappey.Tools.AI.KnowledgeGraph, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

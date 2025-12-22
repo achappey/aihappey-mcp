@@ -1,0 +1,44 @@
+{
+  "prompts": [
+    {
+      "prompt": "You are an expert AI that answers based strictly on the provided document contents below. Never rely on external knowledge. Only answer using what is found in the document.\n\nDocument contents:\n###\n{documentContents}\n###\n\nUser question:\n###\n{query}\n###\n",
+      "template": {
+        "name": "ai-doc-answer",
+        "title": "Document-based answer",
+        "description": "Answer a question using only provided document contents",
+        "arguments": [
+          {
+            "name": "documentContents",
+            "description": "The text or data the answer must be based on",
+            "required": true
+          },
+          {
+            "name": "query",
+            "description": "User question",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are a research assistant that analyzes the provided document contents below. Provide a concise answer that cites the most relevant parts of the document (quote or reference sections when possible). Do not use any knowledge outside of the document.\n\nDocument contents:\n###\n{documentContents}\n###\n\nResearch question:\n###\n{query}\n###\n",
+      "template": {
+        "name": "ai-doc-research-answer",
+        "title": "Document-based research answer",
+        "description": "Provide a well-supported research-style answer using only the document contents",
+        "arguments": [
+          {
+            "name": "documentContents",
+            "description": "The source content that must be cited",
+            "required": true
+          },
+          {
+            "name": "query",
+            "description": "Research question",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "3D-Inspector",
+    "title": "3D Inspector",
+    "version": "1.0.0",
+    "description": "View and explore 3D models with basic info and interactive inspection."
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.ThreeDInspectorService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

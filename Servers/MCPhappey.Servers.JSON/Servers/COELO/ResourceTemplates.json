@@ -1,0 +1,74 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://www.coelo.nl/images/Gemeentelijke_belastingen_{year}.xlsx",
+      "name": "belastingen-gemeente",
+      "title": "Belastingen gemeente",
+      "description": "Belastingen per gemeente. Beschikbaar vanaf 2016. In dit bestand worden de belangrijkste gemeentelijke tarieven en bedragen weergegeven en de verandering hiervan ten opzichte van vorig jaar. Ook wordt de ontwikkeling van de ozb-opbrengst per gemeente weergegeven.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ],
+        "priority": 0.5
+      }
+    },
+    {
+      "uriTemplate": "https://www.coelo.nl/images/Provinciale_opcenten_{year}.xlsx",
+      "name": "belastingen-provincie",
+      "title": "Belastingen provincie",
+      "description": "Belastingen per provincie. Beschikbaar vanaf 2016. In dit bestand worden de belangrijkste provinciale belastingtarieven en bedragen weergegeven en de verandering hiervan ten opzichte van vorig jaar.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ],
+        "priority": 0.5
+      }
+    },
+    {
+      "uriTemplate": "https://www.coelo.nl/images/Waterschapsbelastingen_{year}.xlsx",
+      "name": "belastingen-gemeente",
+      "title": "Belastingen gemeente",
+      "description": "Belastingen per gemeente. Beschikbaar vanaf 2016. In dit bestand worden de belangrijkste waterschapsbelastingtarieven en bedragen weergegeven en de verandering hiervan ten opzichte van vorig jaar.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ],
+        "priority": 0.5
+      }
+    },
+    {
+      "uriTemplate": "https://www.coelo.nl/images/Website_gegevens_standaardhuishoudens_en_bedrijven_{year}.xlsx",
+      "name": "bedragen-huishoudens-en-bedrijven",
+      "title": "Bedragen huishoudens en bedrijven",
+      "description": "Bedragen huishoudens en bedrijven. Beschikbaar vanaf 2014. Belastingplichtigen (huishoudens en bedrijven) betalen vaak meerdere belastingen en heffingen, niet alleen aan gemeenten, maar ook aan waterschappen en provincies. De ontwikkeling van de afzonderlijke heffingen geeft daarom maar een beperkt beeld van de totale decentrale lastenontwikkeling voor huishoudens en bedrijven.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ],
+        "priority": 0.5
+      }
+    },
+    {
+      "uriTemplate": "https://coelo.nl/woonlasten/b2025.php?gem_id1={idGemeente1}&gem_id2={idGemeente2}&woningeigenaar1={jaOfNee}&wozwaarde1={wozWaardeInEuros}&huishouden1={huishoudenAantalPersonen}&opcenten1={autoJaNee}&elektrisch1={elektrischJaOfNee}&gewicht1={gewichtAuto}",
+      "name": "lokale-lasten-calculator",
+      "title": "Lokale lasten calculator",
+      "description": "COELO lokale lasten calculator. Hiermee kan je de lokale lasten van 1 of 2 gemeentes opzoeken. id gemeente 1 en 2 kunnen hetzelde zijn. wozwaarde is niet nodig indien woningeigenaar is nee. Opties huishouden: een, twee, drie en vier.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ],
+        "priority": 0.8
+      }
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/sales/sales:{salesId}",
+      "name": "sales-details",
+      "title": "Sales details",
+      "description": "Haal alle details van een specifieke sales op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/sales?q[reason.name]={reasonName}&q[source.name]={sourceName}&q[or][source.name]={sourceName}&q[subject]=*{dealName}*&q[progress.label]={dealStageLabel}&q[teams.name]=*{teamName}*&q[status.label]={statusLabel}&q[or][status.label]={statusLabel}&q[responsible_employee.name]=*{responsibleEmployeeName}*&q[organization.name]=*{organisationName}*&q[person.full_name]={personName}&q[expected_revenue][ge]={expectedRevenueGE}&q[expected_revenue][le]={expectedRevenueLE}&q[chance_to_score][ge]={probabilityGE}&q[chance_to_score][le]={probabilityLE}&q[expected_closing_date][ge]={expectedClosingDateGE}&q[expected_closing_date][le]={expectedClosingDateLE}&q[created_at][ge]={createdAtGE}&q[created_at][le]={createdAtLE}&q[updated_at][ge]={updatedAtGE}&q[updated_at][le]={updatedAtLE}&limit={limit}&offset={offset}&sort={sortColumn}&select=subject,contact.,start_date,note,expected_closing_date,expected_revenue,chance_to_score,responsible_employee.,organization.,status.,source.,progress.,teams.&metadata=count",
+      "name": "sales-filters",
+      "title": "Sales (alle filters)",
+      "description": "Haal sales op, gefilterd op onderwerp, fase, status ('open', 'scored' of 'missed'), verantwoordelijke, organisatie, persoon, verwachte omzet/sluitingsdatum, kans, aanmaak-/wijzigingsdatum. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/quote/quote:{quoteId}",
+      "name": "offerte-details",
+      "title": "Offerte details",
+      "description": "Haal alle details van een specifieke offerte op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/quote?select=quote_number,quote_date,quotestatus.,send_type,download_url,created_at,updated_at,quote_subject,customer_reference,quotetemplate.&q[quote_subject]=*{quoteSubject}*&q[quote_number]=*{quoteNumber}*&q[quotestatus.label]={quotationStatusLabel}&q[responsible_employee.name]=*{responsibleEmployeeName}*&q[organization.name]={organisationName}&q[person.full_name]={personName}&q[total_excl_vat][ge]={totalExclVatGE}&q[total_excl_vat][le]={totalExclVatLE}&q[date][ge]={dateGE}&q[date][le]={dateLE}&q[created_at][ge]={createdAtGE}&q[created_at][le]={createdAtLE}&q[updated_at][ge]={updatedAtGE}&q[updated_at][le]={updatedAtLE}&q[custom_fields.{customFieldName}]={customFieldValue}&limit={limit}&offset={offset}&sort={sortColumn}",
+      "name": "offertes-filters",
+      "title": "Offertes (alle filters)",
+      "description": "Haal offertes op, gefilterd op onderwerp, status, verantwoordelijke, organisatie, persoon, totaalbedrag (excl. BTW), datum, aanmaak-/wijzigingsdatum. Ondersteunt paginering en sortering. Laat filters die je niet gebruikt weg uit de uri.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/document/document:{salesDocumentId}",
+      "name": "sales-document-details",
+      "title": "Sales document details",
+      "description": "Haal alle details van een specifiek sales document op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/document?q[title]={title}&q[description]={description}&q[document_type.label]={documentTypeLabel}&q[created_by.name]={createdByName}&q[linked_to.label]={linkedLabel}&q[linked_to.type]={linkedType}&q[created_at][ge]={createdAtGE}&q[created_at][le]={createdAtLE}&q[updated_at][ge]={updatedAtGE}&q[updated_at][le]={updatedAtLE}&limit={limit}&offset={offset}&sort={sortColumn}",
+      "name": "sales-documenten-filters",
+      "title": "Sales documenten (alle filters)",
+      "description": "Haal sales documenten op, gefilterd op titel, beschrijving, documenttype, gekoppeld item, maker, aanmaak-/wijzigingsdatum. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/salesprogress",
+      "name": "deal-fasen",
+      "title": "Deal fasen",
+      "description": "Haal alle mogelijke fasen van sales deals op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/quote?limit=25&sort=-created_at",
+      "name": "recente-offertes",
+      "title": "Recente offertes",
+      "description": "Haal een lijst op van de 25 meest recent aangemaakte offertes.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/quotestatus",
+      "name": "offerte-statussen",
+      "title": "Offerte statussen",
+      "description": "Haal alle mogelijke statussen van offertes op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/revenuegroup",
+      "name": "omzetgroepen",
+      "title": "Omzetgroepen",
+      "description": "Haal alle gedefinieerde omzetgroepen op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/sales/salescustomfields",
+      "name": "sales-custom-fields",
+      "title": "Sales aangepaste velden",
+      "description": "Haal alle aangepaste velden van de Sales module op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

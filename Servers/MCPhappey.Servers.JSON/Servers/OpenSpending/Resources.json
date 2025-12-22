@@ -1,0 +1,112 @@
+{
+  "resources": [
+    {
+      "uri": "https://data.openspending.nl/bronnen",
+      "name": "alle-bronnen",
+      "title": "Alle bronnen",
+      "description": "Lijst van alle beschikbare bronnen in OpenSpending.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.openspending.nl/bronnen/Gemeenten",
+      "name": "alle-gemeenten",
+      "title": "Alle gemeenten",
+      "description": "Lijst van alle beschikbare gemeenten in OpenSpending.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.openspending.nl/bronnen/Provincies",
+      "name": "alle-provincies",
+      "title": "Alle provincies",
+      "description": "Lijst van alle beschikbare provincies in OpenSpending.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.openspending.nl/bronnen/GemeenschappelijkeRegelingen",
+      "name": "alle-gemeenschappelijke-regelingen",
+      "title": "Alle gemeenschappelijke regelingen",
+      "description": "Lijst van alle gemeenschappelijke regelingen in OpenSpending.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.openspending.nl/bronnen/Waterschappen",
+      "name": "alle-waterschappen",
+      "title": "Alle waterschappen",
+      "description": "Lijst van alle waterschappen in OpenSpending.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.openspending.nl/bronnen/alles",
+      "name": "alle-data-uit-alle-bronnen",
+      "title": "Alle data uit alle bronnen",
+      "description": "Aggregatie van alle beschikbare data uit alle bronnen.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.openspending.nl/datasets",
+      "name": "datasets-overzicht",
+      "title": "Datasets overzicht",
+      "description": "Overzicht van alle datasets binnen OpenSpending.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.openspending.nl/utils",
+      "name": "utilities",
+      "title": "Utilities",
+      "description": "Algemene utilities en metadata van OpenSpending.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.openspending.nl/utils/bronnen",
+      "name": "lijst-van-bronnen-entiteiten",
+      "title": "Lijst van bronnen en entiteiten",
+      "description": "Geeft een volledige lijst van alle beschikbare gemeenten, waterschappen en regelingen die als bron in OpenSpending geregistreerd staan.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

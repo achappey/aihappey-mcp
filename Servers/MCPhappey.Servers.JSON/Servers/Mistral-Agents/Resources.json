@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.mistral.ai/v1/agents",
+      "name": "list-mistral-agents",
+      "title": "List available Mistral AI Agents",
+      "description": "List all available Mistral AI Agents",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

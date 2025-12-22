@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&hourly={hourly}&daily={daily}&timezone={timezone}",
+      "name": "open-meteo_forecast",
+      "title": "Open-Meteo Forecast",
+      "description": "Weather forecast (hourly/daily) for coordinates.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://geocoding-api.open-meteo.com/v1/search?name={query}&count={count}&language={language}&countrycode={countrycode}",
+      "name": "open-meteo_geocoding",
+      "title": "Open-Meteo Geocoding",
+      "description": "Search locations (name → lat/lon).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date={start_date}&end_date={end_date}&hourly={hourly}&timezone={timezone}",
+      "name": "open-meteo_historical",
+      "title": "Open-Meteo Historical",
+      "description": "Historical / archived hourly weather for coordinates.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "OneDrive-Memory",
+    "title": "OneDrive Memory",
+    "version": "1.0.0",
+    "description": "Store private notes and progress in your OneDrive so tasks can continue later.",
+    "icons": [
+      {
+        "src": "https://www.aaudxp-cms.aau.dk/media/3sglfyu0/onedrive.png?width=960"
+      }
+    ]
+  },
+  "instructions": "IMPORTANT: ALWAYS VIEW YOUR MEMORY DIRECTORY BEFORE DOING ANYTHING ELSE.\n MEMORY PROTOCOL:\n1. Use the `onedrive_memory_view` tool to check for earlier progress.\b2. ... (work on the task) ...\n- As you make progress, record status / progress / thoughts etc in your memory.\nASSUME INTERRUPTION: Your context window might be reset at any moment, so you risk losing any progress that is not recorded in your memory directory.",
+  "plugins": [
+    "MCPhappey.Tools.Memory.OneDrive.OneDriveMemory, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

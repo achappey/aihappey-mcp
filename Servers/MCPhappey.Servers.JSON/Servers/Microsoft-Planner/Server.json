@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Planner",
+    "title": "Microsoft Planner",
+    "version": "1.0.0",
+    "websiteUrl": "https://planner.cloud.microsoft",
+    "description": "Create and track team tasks and plans in Microsoft Planner directly from chat.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Microsoft_Planner_%282024%E2%80%93present%29.svg/1200px-Microsoft_Planner_%282024%E2%80%93present%29.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Planner.GraphPlanner, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Group.ReadWrite.All"
+  }
+}

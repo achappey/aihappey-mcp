@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "GitHub-Bogus",
+        "title": "GitHub Bogus",
+        "version": "1.0.0",
+        "websiteUrl": "https://github.com/bchavez/Bogus",
+        "description": "Generate realistic fake data for testing: names, companies, text and dates.",
+        "icons": [
+            {
+                "src": "https://api.nuget.org/v3-flatcontainer/bogus/35.6.4/icon"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.GitHub.Bogus.BogusService, MCPhappey.Tools"
+    ]
+}

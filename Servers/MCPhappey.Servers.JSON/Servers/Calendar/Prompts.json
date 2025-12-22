@@ -1,0 +1,13 @@
+{
+  "prompts": [
+    {
+      "prompt": "Provide an overview of all week numbers for the previous month, including the start and end date of each week.",
+      "template": {
+        "name": "weeks-overview-previous-month",
+        "title": "Weeks overview for previous month",
+        "description": "Displays, for the previous month, each week number along with its start and end date.",
+        "arguments": []
+      }
+    }
+  ]
+}

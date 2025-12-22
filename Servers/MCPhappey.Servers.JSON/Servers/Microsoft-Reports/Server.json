@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Reports",
+    "title": "Microsoft Reports",
+    "version": "1.0.0",
+    "description": "View Microsoft 365 usage and activity reports across apps and users.",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Reports.Read.All https://graph.microsoft.com/ReportSettings.ReadWrite.All"
+  }
+}

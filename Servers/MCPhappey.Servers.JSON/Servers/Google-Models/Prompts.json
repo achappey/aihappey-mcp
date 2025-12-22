@@ -1,0 +1,13 @@
+{
+  "prompts": [
+    {
+      "prompt": "Read all available system cards (model cards) in the resources. Summarize each model’s main features, strengths, and ideal use cases in clear, non-technical language. Create a comparison table with key differences such as speed, quality, and best use case. Add a short, clear summary paragraph for each model and a practical recommendation for end users choosing between the models. If information is missing in any system card, mention that. Only use information from the resources.",
+      "template": {
+        "name": "explain-model-cards-for-end-user",
+        "title": "Explain and compare model cards for end users",
+        "description": "Reads all available system cards and produces a simple, end-user-friendly comparison and explanation, including a table of differences, model summaries, and practical recommendations.",
+        "arguments": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "ElevenLabs",
+    "title": "ElevenLabs",
+    "version": "1.0.0",
+    "websiteUrl": "https://elevenlabs.io",
+    "description": "Generate speech from text or transcribe audio using ElevenLabs voices."
+  },
+  "plugins": [
+    "MCPhappey.Tools.ElevenLabs.ElevenLabsAudio, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

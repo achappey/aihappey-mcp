@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Groq-Audio",
+    "title": "Groq Audio",
+    "version": "1.0.0",
+    "websiteUrl": "https://groq.com",
+    "description": "Convert text to speech using Groq AI.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnze6t-thGVKlIKNKF9zeiTfaoxLdYdVzX0g&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Groq.Audio.GroqAudio, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

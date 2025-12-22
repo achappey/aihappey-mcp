@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/web/search?q={searchQuery}&count={count}&offset={offset}&country={country}&search_lang={searchLang}&safesearch={safeSearch}",
+      "name": "brave-web-search",
+      "title": "Brave web search",
+      "description": "Retrieve web search results from the Brave Search API with pagination, country, language, and safe-search options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/news/search?q={searchQuery}&count={count}&offset={offset}&country={country}&search_lang={searchLang}&safesearch={safeSearch}",
+      "name": "brave-news-search",
+      "title": "Brave news search",
+      "description": "Retrieve news articles from the Brave Search API with pagination, country, language, and safe-search options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.cohere.com/v1/models?page_size={page_size}&page_token={page_token}&endpoint={endpoint}&default_only={default_only}",
+      "name": "cohere-list-models",
+      "title": "List Cohere models",
+      "description": "Retrieve a paginated list of Cohere models. Supports optional filters for page size, page token and default-only.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

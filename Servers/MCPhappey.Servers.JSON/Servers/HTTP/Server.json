@@ -1,0 +1,11 @@
+{
+  "serverInfo": {
+    "name": "HTTP",
+    "title": "HTTP",
+    "version": "1.0.0",
+    "description": "Make simple HTTP requests in workflows to fetch sites, submit data, or download files."
+  },
+  "plugins": [
+    "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+  ]
+}

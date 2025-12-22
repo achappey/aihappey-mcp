@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "GitHub-PdfSharpCore",
+    "title": "GitHub PdfSharpCore",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/ststeiger/PdfSharpCore",
+    "description": "Create simple PDFs with your own text and images, ready to share or store."
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.PdfSharp.PdfSharpTools, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/project-budget-by-manager.html",
+      "name": "projects-budget-by-manager-widget",
+      "description": "Widget showing total budgeted, spent, and invoiced project values grouped by project manager.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": ["user"]
+      }
+    },
+    {
+      "uri": "ui://widget/project-budget-totals-by-cost-type.html",
+      "name": "projects-budget-totals-by-cost-type-widget",
+      "description": "Widget showing overall project portfolio totals split into hours, costs, and total categories for budget, spent, and invoiced values.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": ["user"]
+      }
+    },
+    {
+      "uri": "ui://widget/project-spent-vs-budget.html",
+      "name": "projects-spent-vs-budget-widget",
+      "description": "Widget showing per project how much of the budget has been spent, including percentage bars and over-budget highlighting.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": ["user"]
+      }
+    }
+  ]
+}

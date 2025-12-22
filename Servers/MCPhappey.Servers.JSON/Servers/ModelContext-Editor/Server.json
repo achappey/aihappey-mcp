@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "ModelContext-Editor",
+    "title": "ModelContext Editor",
+    "version": "1.0.0",
+    "description": "Admin tool to browse and edit MCP servers, resources and prompts for governance.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/mcp.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/mcp.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "instructions": "Always use the ReadResource tool to retrieve servers, resources, resourceTemplates and prompts. Only use other tools when items need to be created, updated or deleted.",
+  "plugins": [
+    "MCPhappey.Servers.SQL.Tools.ModelContextEditor, MCPhappey.Servers.SQL"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

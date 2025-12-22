@@ -1,0 +1,14 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://www.tenderned.nl/papi/tenderned-rs-tns/v2/publicaties?page={pageNumber}&size={pageSize}",
+      "name": "tenders",
+      "title": "Tenders van TenderNed",
+      "description": "Haal tenders op gepubliceerd via TenderNed. Max pagesize is 100.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

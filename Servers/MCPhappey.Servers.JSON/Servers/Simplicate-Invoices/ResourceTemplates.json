@@ -1,0 +1,74 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/invoices/invoice/invoice:{id}",
+      "name": "factuur-details-per-id",
+      "title": "Factuurdetails per id",
+      "description": "Haal alle details van een specifieke factuur op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/invoices/invoice?q[invoice_number]=*{invoiceNumber}*&q[status.label]=*{invoiceStatusLabel}*&q[organization.name]=*{debtorName}*&q[project.name]=*{projectName}*&q[total_excluding_vat][ge]={totalExclVatGE}&q[total_excluding_vat][le]={totalExclVatLE}&q[date][ge]={invoiceDateGE}&q[date][le]={invoiceDateLE}&q[due_date][ge]={dueDateGE}&q[due_date][le]={dueDateLE}&q[payment_date][ge]={paymentDateGE}&q[payment_date][le]={paymentDateLE}&q[created_at][ge]={createdAtGE}&q[created_at][le]={createdAtLE}&q[updated_at][ge]={updatedAtGE}&q[updated_at][le]={updatedAtLE}&limit={limit}&offset={offset}&sort={sortColumn}&select=payment_term.,invoice_lines.,organization.,person.,my_organization_profile.,subscription_cycle.,project.,projects.,reminder.,invoice_number,status,total_excluding_vat,total_vat,total_including_vat,total_outstanding,sending_method,created_at,updated_at,simplicate_url,composition_type,date,subject,reference,comments&metadata=count",
+      "name": "facturen-alle-filters",
+      "title": "Facturen (alle filters)",
+      "description": "Haal facturen op, gefilterd op factuurnummer, status (Payed, Sended, Expired Concept), debiteur, project, totaalbedrag (incl. BTW), factuur-/verval-/betaaldatum, aanmaak-/wijzigingsdatum. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+ {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/invoices/invoice?q[total_excluding_vat][le]=0&limit={limit}&offset={offset}&sort={sortColumn}&select=payment_term.,invoice_lines.,organization.,person.,my_organization_profile.,subscription_cycle.,project.,projects.,reminder.,invoice_number,status,total_excluding_vat,total_vat,total_including_vat,total_outstanding,sending_method,created_at,updated_at,simplicate_url,composition_type,date,subject,reference,comments&metadata=count",
+      "name": "credit-facturen",
+      "title": "Credit facturen",
+      "description": "Haal credit facturen op. Combineer eventueel met andere filters uit facturen-alle-filters indien nodig.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },    
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/invoices/payment?q[invoice_id]=invoice:{invoiceId}&q[date]={paymentDate}",
+      "name": "betalingen-per-factuur",
+      "title": "Betalingen per factuur",
+      "description": "Haal betalingen op voor een specifieke factuur. Let op dat je het invoice_id veld gebruikt, niet de invoice_number.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/invoices/invoicestatus",
+      "name": "factuur-statussen",
+      "title": "Factuurstatussen",
+      "description": "Haal alle mogelijke statussen van facturen op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/invoices/paymentterm",
+      "name": "betalingscondities",
+      "title": "Betalingscondities",
+      "description": "Haal alle gedefinieerde betalingscondities op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/invoices/vatclass",
+      "name": "btw-klassen",
+      "title": "BTW-klassen",
+      "description": "Haal alle gedefinieerde BTW-klassen op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Luchtmeetnet",
+    "title": "Luchtmeetnet",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.luchtmeetnet.nl",
+    "description": "Actuele luchtkwaliteit in NL: fijnstof, NO₂, ozon en stationsinformatie direct van de bron.",
+    "icons": [
+      {
+        "src": "https://www.luchtmeetnet.nl/_next/static/images/luchtmeetnet.png"
+      }
+    ]
+  }
+}

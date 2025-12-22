@@ -1,0 +1,244 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}?$select=id,displayName,userPrincipalName,mail,otherMails,preferredLanguage,employeeId,hireDate,mobilePhone,givenName,surname,userType,aboutMe,jobTitle,department,officeLocation,companyName,accountEnabled,createdDateTime,signInActivity,onPremisesExtensionAttributes&$expand=manager($select=id,displayName,userPrincipalName)",
+      "name": "user-details-by-id",
+      "title": "User details by ID (rich)",
+      "description": "Full profile + manager via $expand, including sign-in activity and on-prem extension attributes (beta).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}?$select=id,displayName,userPrincipalName,mail,otherMails,preferredLanguage,employeeId,hireDate,mobilePhone,givenName,surname,userType,aboutMe,jobTitle,department,officeLocation,companyName,accountEnabled,createdDateTime,signInActivity,onPremisesExtensionAttributes&$expand=manager($select=id,displayName,userPrincipalName)",
+      "name": "user-details-by-upn",
+      "title": "User details by UPN",
+      "description": "Same as details-by-id, addressed by UPN.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users?$filter=department eq '{departmentName}'&$top={top}&$select=id,displayName,userPrincipalName,mail,jobTitle,department,companyName,officeLocation,accountEnabled,createdDateTime",
+      "name": "users-by-department",
+      "title": "Users by department",
+      "description": "Filter users by exact department (case-sensitive match).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users?$filter=startswith(displayName,'{nameStartsWith}')&$top={top}&$select=id,displayName,userPrincipalName,mail,jobTitle,department,officeLocation,accountEnabled",
+      "name": "users-by-displayname-prefix",
+      "title": "Users by display name prefix",
+      "description": "Prefix search on displayName using startswith().",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users?$filter=accountEnabled eq {isEnabled}&$top={top}&$select=id,displayName,userPrincipalName,mail,jobTitle,department,accountEnabled,createdDateTime",
+      "name": "users-by-enabled-state",
+      "title": "Enabled/disabled users",
+      "description": "List users by accountEnabled true/false.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users?$filter=createdDateTime ge {createdSinceIso}&$top={top}&$select=id,displayName,userPrincipalName,mail,createdDateTime,department,jobTitle,accountEnabled",
+      "name": "users-created-since",
+      "title": "Recently created users",
+      "description": "Users created after a given ISO 8601 timestamp (e.g., 2025-07-01T00:00:00Z).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/manager?$select=id,displayName,userPrincipalName,mail,jobTitle,department",
+      "name": "user-manager",
+      "title": "User’s manager",
+      "description": "Get a user’s manager object.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/directReports?$select=id,displayName,userPrincipalName,mail,jobTitle,department",
+      "name": "user-direct-reports",
+      "title": "User’s direct reports",
+      "description": "List direct reports for a user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/memberOf?$select=id,displayName,description,mail,mailEnabled,securityEnabled",
+      "name": "user-member-of",
+      "title": "User’s memberships (groups/dirs)",
+      "description": "Immediate directory memberships.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/transitiveMemberOf?$select=id,displayName,description,mail,mailEnabled,securityEnabled",
+      "name": "user-transitive-member-of",
+      "title": "User’s transitive memberships",
+      "description": "All nested memberships (useful for effective access checks).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/licenseDetails",
+      "name": "user-license-details",
+      "title": "User license details",
+      "description": "Assigned SKUs and service plans per user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/appRoleAssignments?$select=id,principalDisplayName,resourceDisplayName,resourceId,appRoleId",
+      "name": "user-approle-assignments",
+      "title": "User app role assignments",
+      "description": "Enterprise app role assignments granted to the user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/registeredDevices?$select=id,displayName,deviceId,operatingSystem,operatingSystemVersion,trustType,approximateLastSignInDateTime",
+      "name": "user-registered-devices",
+      "title": "Registered devices",
+      "description": "Devices registered to the user (incl. last sign-in approx).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/ownedDevices?$select=id,displayName,deviceId,operatingSystem,operatingSystemVersion,trustType",
+      "name": "user-owned-devices",
+      "title": "Owned devices",
+      "description": "Devices owned by the user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/photo?$select=id,height,width",
+      "name": "user-photo-metadata",
+      "title": "User photo (metadata)",
+      "description": "Photo dimensions and id; use the $value endpoint for the binary.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/photos/48x48/$value",
+      "name": "user-photo-48",
+      "title": "User photo 48x48 (binary)",
+      "description": "Small user photo content stream.",
+      "mimeType": "application/octet-stream",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/presence",
+      "name": "user-presence",
+      "title": "User presence",
+      "description": "Current presence (availability/activity). Requires appropriate permissions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/mailboxSettings",
+      "name": "user-mailbox-settings",
+      "title": "Mailbox settings",
+      "description": "Time zone, language, automatic replies, etc.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/drive?$select=id,driveType,owner,quota",
+      "name": "user-onedrive",
+      "title": "User OneDrive",
+      "description": "OneDrive info including quota and owner.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/joinedTeams?$select=id,displayName,description,createdDateTime",
+      "name": "user-joined-teams",
+      "title": "Joined Teams",
+      "description": "Microsoft Teams a user is a member of.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

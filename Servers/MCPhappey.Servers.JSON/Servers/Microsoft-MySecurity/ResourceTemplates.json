@@ -1,0 +1,148 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/auditLogs/signIns?$top={top}&$select=id,createdDateTime,appDisplayName,ipAddress,location,deviceDetail,conditionalAccessStatus,status&$filter=userId eq '{userId}' and createdDateTime ge {since}",
+      "name": "my-recent-signins",
+      "title": "My recent sign-ins since date",
+      "description": "Lists the current user's sign-ins since a given UTC timestamp. Provide {userId} and {since} (e.g., 2025-08-01T00:00:00Z).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityProtection/riskDetections?$top={top}&$select=id,detectedDateTime,riskLevel,riskEventType,ipAddress,location,userId&$filter=userId eq '{userId}' and detectedDateTime ge {since}",
+      "name": "my-risk-detections",
+      "title": "My risk detections since date",
+      "description": "Shows identity protection risk detections for the current user since a given UTC timestamp.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityProtection/riskyUsers?$select=id,userPrincipalName,riskLevel,riskState,riskLastUpdatedDateTime&$filter=id eq '{userId}'",
+      "name": "my-risky-user-status",
+      "title": "My risky user status",
+      "description": "Gets the riskyUsers record for the current user (if any). Provide {userId} as the AAD object id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/reports/authenticationMethods/userRegistrationDetails?$top=1&$select=userId,userDisplayName,userPrincipalName,isMfaRegistered,isMfaCapable,isSsprRegistered,isSsprEnabled,methodsRegistered,systemPreferredAuthenticationMethods",
+      "name": "my-mfa-registration-summary",
+      "title": "My MFA/SSPR registration summary",
+      "description": "Fetches the authentication methods registration summary for the current user via the reports endpoint.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/methods/{methodId}",
+      "name": "my-auth-method-details",
+      "title": "My authentication method details",
+      "description": "Gets details for a specific authentication method by id from the user's registered methods.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/signInPreferences",
+      "name": "my-signin-preferences",
+      "title": "My sign-in preferences",
+      "description": "Retrieves the current user's sign-in preferences (authentication strengths, FIDO restrictions, etc.).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices/{managedDeviceId}?$select=id,deviceName,operatingSystem,osVersion,complianceState,serialNumber,manufacturer,model,azureADRegistered,lastSyncDateTime,deviceEnrollmentType,wiFiMacAddress,meid,imei",
+      "name": "my-managed-device-details",
+      "title": "My managed device details by id",
+      "description": "Retrieves rich details for one of the current user's managed devices by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices/{managedDeviceId}/deviceConfigurationStates?$top={top}&$select=id,displayName,state,settingCount",
+      "name": "my-device-configuration-states",
+      "title": "My device configuration states",
+      "description": "Lists configuration state results for a specific managed device owned by the current user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices/{managedDeviceId}/deviceCompliancePolicyStates?$top={top}&$select=id,displayName,state,version,settingCount",
+      "name": "my-device-compliance-states",
+      "title": "My device compliance policy states",
+      "description": "Lists compliance policy state results for a specific managed device owned by the current user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/ownedDevices?$top={top}&$select=id,displayName,deviceId,operatingSystem",
+      "name": "my-owned-devices",
+      "title": "My owned devices",
+      "description": "Lists devices owned by the current user from directory perspective (can differ from managed devices).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/auditLogs/directoryAudits?$top={top}&$select=id,activityDateTime,activityDisplayName,initiatedBy,result,category,targetResources&$filter=initiatedBy/user/id eq '{userId}' and activityDateTime ge {since}",
+      "name": "my-directory-audit-events",
+      "title": "My directory audit events since date",
+      "description": "Shows directory audit events initiated by the current user from a given UTC timestamp onward.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/oauth2PermissionGrants?$top={top}&$select=id,clientId,consentType,principalId,resourceId,scope&$filter=principalId eq '{userId}'",
+      "name": "my-oauth-consent-grants",
+      "title": "My app consent grants",
+      "description": "Lists OAuth2 permission grants (app consents) where the current user is the principal.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

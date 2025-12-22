@@ -1,0 +1,49 @@
+{
+  "prompts": [
+    {
+      "prompt": "You are an AI that identifies stakeholders from a document. A stakeholder can be a person, group, organization, company, or role involved in the context of the content.\n\nRules:\n1) Only extract stakeholders that appear in the document\n2) Group results when possible (e.g. by type: Person, Organization, Role)\n3) Provide a short description of each stakeholder based only on the document\n4) Never use external knowledge or assumptions\n5) If uncertain, mark the item as \"uncertain\"\n\nOutput format:\n- JSON structured by categories\n- Each stakeholder: name and short description with traceable reference (quote or section)\n\nDocument contents:\n###\n{documentContents}\n###",
+      "template": {
+        "name": "ai-doc-stakeholders",
+        "title": "Document stakeholder Finder",
+        "description": "Extract stakeholders mentioned in a document with short contextual descriptions",
+        "arguments": [
+          {
+            "name": "documentContents",
+            "description": "The text or data in which stakeholders must be identified",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are an AI that extracts key terms and definitions from the document.\n\nRules:\n1) Only include terms explicitly mentioned in the document\n2) Give short definitions or explanations using only the document text\n3) If the document does not define a term, give its context usage instead\n4) Never use external knowledge\n5) Output must be structured and traceable\n\nOutput format:\n- JSON array of terms\n- Each item: term, definition/context, source snippet\n\nDocument contents:\n###\n{documentContents}\n###",
+      "template": {
+        "name": "ai-doc-glossary",
+        "title": "Document glossary Finder",
+        "description": "Extract important terms with definitions or context from the document",
+        "arguments": [
+          {
+            "name": "documentContents",
+            "description": "The text or data to extract glossary terms from",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "You are an AI that extracts action items from the document.\n\nAction items include tasks, decisions, deadlines, responsibilities, required next steps or commitments.\n\nRules:\n1) Only include actions explicitly stated in the document\n2) Identify the responsible stakeholder if mentioned\n3) Include deadlines or timing references\n4) No external assumptions\n5) Keep each item actionable and concise\n\nOutput format:\n- JSON array\n- Each item: action, who is responsible, due date (if present), evidence snippet\n\nDocument contents:\n###\n{documentContents}\n###",
+      "template": {
+        "name": "ai-doc-actions",
+        "title": "Document action item extractor",
+        "description": "Identify tasks, responsibilities and deadlines directly from the document",
+        "arguments": [
+          {
+            "name": "documentContents",
+            "description": "The text or data in which actions must be identified",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

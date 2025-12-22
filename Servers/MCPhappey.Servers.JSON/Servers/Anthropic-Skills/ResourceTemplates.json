@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/skills/{skill_id}",
+      "name": "skill-detail",
+      "title": "Get skill detail",
+      "description": "Returns basic information about a specific skill, including name, source (custom or system), and the latest version ID. Useful to check whether a skill exists and when it was last updated.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/skills/{skill_id}/versions?limit={limit}&page={page}",
+      "name": "skill-versions-list",
+      "title": "List skill versions",
+      "description": "Lists all available versions of a given skill, ordered by creation date. Ideal for retrieving version history or checking when changes were made. Use `limit` to control batch size and `page` for pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/skills/{skill_id}/versions/{version}",
+      "name": "skill-version-detail",
+      "title": "Get skill version detail",
+      "description": "Returns detailed information about a specific skill version, including version ID, directory path, and description. Useful for inspecting metadata or reconstructing a specific release.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

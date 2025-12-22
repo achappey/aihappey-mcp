@@ -1,0 +1,79 @@
+{
+  "prompts": [
+    {
+      "prompt": "Extract all key entities (people, organizations, concepts, and locations) from the following text:\n###\n{documentContent}\n###\n\nReturn a JSON array where each item includes: name, type, and short description.",
+      "template": {
+        "name": "extract-entities",
+        "title": "Extract Entities",
+        "description": "Identifies and categorizes the key entities present in the provided document text.",
+        "arguments": [
+          {
+            "name": "documentContent",
+            "description": "The raw text content of the document to analyze.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Using the extracted entities below:\n\n###\n{entities}\n###\n\nand the source text:\n###\n{documentContent}\n###\n\nidentify all meaningful subject-predicate-object relations that describe interactions or dependencies. Return JSON array of relations with subject, predicate, object, and confidenceScore (0–1).",
+      "template": {
+        "name": "extract-relations",
+        "title": "Extract Relations",
+        "description": "Finds relationships between the previously detected entities based on the document text.",
+        "arguments": [
+          {
+            "name": "documentContent",
+            "description": "The document text used for context.",
+            "required": true
+          },
+          {
+            "name": "entities",
+            "description": "JSON array of extracted entities from the previous step.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Verify the consistency of the extracted entities and relations.\nEntities:\n{entities}\nRelations:\n{relations}\n\nRemove duplicates, fix inconsistent links, and flag questionable relations with 'rejected: true'. Return the verified entities and relations as JSON.",
+      "template": {
+        "name": "verify-graph-data",
+        "title": "Verify Graph Data",
+        "description": "Checks extracted entities and relations for accuracy, duplication, or conflict, and marks invalid data.",
+        "arguments": [
+          {
+            "name": "entities",
+            "description": "List of entities to verify.",
+            "required": true
+          },
+          {
+            "name": "relations",
+            "description": "List of relations to validate.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Summarize the verified entities and relations into a final structured graph representation.\nEntities:\n{verifiedEntities}\nRelations:\n{verifiedRelations}\n\nOutput a concise JSON object with two arrays: nodes[] and edges[], ready for visualization.",
+      "template": {
+        "name": "compose-final-graph",
+        "title": "Compose Final Graph",
+        "description": "Generates the clean, verified graph structure from the reviewed entities and relations.",
+        "arguments": [
+          {
+            "name": "verifiedEntities",
+            "description": "Validated entities from the verification step.",
+            "required": true
+          },
+          {
+            "name": "verifiedRelations",
+            "description": "Validated relations from the verification step.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

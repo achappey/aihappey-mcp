@@ -1,0 +1,13 @@
+{
+  "resources": [
+    {
+      "uri": "https://learn.microsoft.com/api/search?search=%22Azure%20Key%20Vault%20REST%20API%22&locale=en-us&$select=url,title",
+      "name": "Key Vault REST API documentation search",
+      "description": "Returns top documentation links for Azure Key Vault REST APIs from Microsoft Learn.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

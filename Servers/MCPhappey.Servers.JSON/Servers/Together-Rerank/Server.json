@@ -1,0 +1,40 @@
+{
+  "serverInfo": {
+    "name": "Together-Rerank",
+    "title": "Together Rerank",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.together.ai",
+    "description": "Ranks documents by relevance to your query so the best matches appear first.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/together-color.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Together.Rerank.TogetherRerank, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "tools": {
+    "together_rerank_sharepoint_folder": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/rerank-sharepoint-files.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "together_rerank_files": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/rerank-sharepoint-files.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "together_rerank_server_registry": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/rerank-mcp-servers.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-FinancialResearch",
+    "title": "OpenAI Financial Research",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/openai/openai-agents-python/tree/main/examples/financial_research_agent",
+    "description": "Plan and generate financial research with web evidence, risks and clear summaries.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.Research.OpenAIFinancialResearch, MCPhappey.Tools"
+  ]
+}

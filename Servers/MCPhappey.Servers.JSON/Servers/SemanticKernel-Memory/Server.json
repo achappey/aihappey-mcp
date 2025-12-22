@@ -1,0 +1,28 @@
+{
+  "serverInfo": {
+    "name": "SemanticKernel-Memory",
+    "title": "Semantic Kernel Memory",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/microsoft/kernel-memory",
+    "description": "Search your stored knowledge and get key facts with sources from Kernel Memory.",
+    "icons": [
+      {
+        "src": "https://devblogs.microsoft.com/semantic-kernel/wp-content/uploads/sites/78/2024/03/Large_SK_Logo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.KernelMemory.KernelMemory, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "tools": {
+    "kernel_memory_search": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/kernel-memory-search-results.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

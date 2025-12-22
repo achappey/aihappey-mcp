@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Mistral-DocumentAI",
+    "title": "Mistral DocumentAI",
+    "version": "1.0.0",
+    "websiteUrl": "https://docs.mistral.ai/capabilities/document_ai/document_ai_overview",
+    "description": "Extract and structure document content with Mistral for fast, accurate data retrieval.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Mistral_AI_logo_%282025%E2%80%93%29.svg/1200px-Mistral_AI_logo_%282025%E2%80%93%29.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Mistral.DocumentAI.MistralDocumentAIPlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

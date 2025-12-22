@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-Containers",
+    "title": "OpenAI Containers",
+    "version": "1.0.0",
+    "description": "Manage isolated Python containers to run code and share results safely in workflows.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "instructions": "A container is a temporary sandboxed Python runtime for the OpenAI Code Interpreter (the 'python tool'). Containers expire after about twenty minutes of inactivity and all data is permanently deleted when this happens. Treat containers as stateless beyond active memory and never rely on persistence or reuse after expiration. Any action such as listing, retrieving, deleting, or file I/O automatically refreshes the container’s active time.",
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.Containers.OpenAIContainers, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

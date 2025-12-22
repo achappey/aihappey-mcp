@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://gutendex.com/books?page={page}&search={search}&author_year_start={author_year_start}&author_year_end={author_year_end}&languages={languages}&topic={topic}&mime_type={mime_type}&copyright={copyright}&sort={sort}",
+      "name": "list-or-search-books",
+      "title": "List or search books",
+      "description": "General endpoint for a (filtered) list of books. Combine search term, language(s), topic, copyright status, year ranges, MIME type, etc. 32 results per page; use ‘page’ for pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://gutendex.com/books?ids={ids}",
+      "name": "get-multiple-books-by-id",
+      "title": "Get multiple books by ID",
+      "description": "Retrieve multiple Project Gutenberg IDs in a single call (comma-separated). Useful for fetching bulk details.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://gutendex.com/books/{id}",
+      "name": "get-single-book-by-id",
+      "title": "Get single book by ID",
+      "description": "All metadata + download URLs (EPUB, HTML, TXT, etc.) for a single book.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://gutendex.com/books?languages={languages}&sort=popular&page={page}",
+      "name": "popular-books-per-language",
+      "title": "Popular books per language",
+      "description": "Top downloads per language (or combination of languages) ranked by popularity – ideal for ‘trending’ lists.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://gutendex.com/books?topic={topic}&languages={languages}&page={page}",
+      "name": "books-by-topic",
+      "title": "Books by topic",
+      "description": "Filter by subject or ‘bookshelf’ (e.g., topic=children, mystery, philosophy). Combine with a language filter for more precise results.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://gutendex.com/books?mime_type={mime_type}&search={search}&page={page}",
+      "name": "books-by-mime-type",
+      "title": "Books by MIME type",
+      "description": "Search specifically for books offering a particular file type (e.g., text/plain, application/epub+zip, image/jpeg).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

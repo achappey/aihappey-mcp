@@ -1,0 +1,196 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web",
+      "name": "site-metadata",
+      "title": "Get site metadata",
+      "description": "Retrieves metadata and settings for the SharePoint site.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/lists",
+      "name": "lists-collection",
+      "title": "List all site lists",
+      "description": "Retrieves all lists in the current SharePoint site.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/lists/getbytitle('{listTitle}')/items",
+      "name": "list-items-by-title",
+      "title": "Get list items by title",
+      "description": "Retrieves all items from a specific list by list title.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/lists/getbytitle('{listTitle}')/fields",
+      "name": "list-fields-by-title",
+      "title": "Get list fields by title",
+      "description": "Retrieves all fields (columns) for a specific list by title.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/lists(guid'{listId}')/items",
+      "name": "list-items-by-guid",
+      "title": "Get list items by GUID",
+      "description": "Retrieves all items from a specific list using its GUID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/lists",
+      "name": "create-new-list",
+      "title": "Create new list",
+      "description": "Creates a new list in the current SharePoint site (use POST with payload).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/getfolderbyserverrelativeurl('{folderRelativeUrl}')/files",
+      "name": "files-in-folder",
+      "title": "List files in folder",
+      "description": "Retrieves all files in a specified SharePoint folder.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/getfilebyserverrelativeurl('{fileRelativeUrl}')/$value",
+      "name": "download-file",
+      "title": "Download file content",
+      "description": "Downloads the binary content of a file by its server-relative URL.",
+      "mimeType": "application/octet-stream",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/siteusers",
+      "name": "site-users",
+      "title": "List site users",
+      "description": "Retrieves all users for the current SharePoint site.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/sitegroups",
+      "name": "site-groups",
+      "title": "List site groups",
+      "description": "Retrieves all SharePoint groups for the site, including permission groups.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/HasUniqueRoleAssignments",
+      "name": "site-has-unique-permissions",
+      "title": "Check if site has unique permissions",
+      "description": "Indicates whether the site has unique (non-inherited) permissions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/roleassignments?$expand=Member,RoleDefinitionBindings",
+      "name": "site-role-assignments",
+      "title": "Get site role assignments",
+      "description": "Retrieves all role assignments (who has which permissions) for the site. Shows unique permissions if they exist.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/getfolderbyserverrelativeurl('/sites/{siteUrl}/{folderRelativeUrl}')/ListItemAllFields/HasUniqueRoleAssignments",
+      "name": "folder-has-unique-permissions",
+      "title": "Check folder unique permissions",
+      "description": "Indicates whether the folder has unique (non-inherited) permissions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/getfilebyserverrelativeurl('/sites/{siteUrl}/{fileRelativeUrl}')/ListItemAllFields/HasUniqueRoleAssignments",
+      "name": "file-has-unique-permissions",
+      "title": "Check file unique permissions",
+      "description": "Indicates whether the file has unique (non-inherited) permissions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/lists/getbytitle('{listTitle}')/items({listItemId})/roleassignments?$expand=Member,RoleDefinitionBindings",
+      "name": "item-role-assignments",
+      "title": "Get list item role assignments",
+      "description": "Retrieves all role assignments for a list item, showing unique permissions if present.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{tenantName}.sharepoint.com/sites/{siteUrl}/_api/web/getfilebyserverrelativeurl('/sites/{siteUrl}/{fileRelativeUrl}')/ListItemAllFields",
+      "name": "file-list-item",
+      "title": "Get file list item metadata",
+      "description": "Retrieves the ListItem object for a specific file in a SharePoint document library, enabling access to metadata and permission details associated with that file.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

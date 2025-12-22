@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.mistral.ai/v1/libraries",
+      "name": "list-mistral-libraries",
+      "title": "List available Mistral AI libraries",
+      "description": "List all available Mistral AI libraries",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

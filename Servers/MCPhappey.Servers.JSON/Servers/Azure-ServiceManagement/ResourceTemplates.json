@@ -1,0 +1,84 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups?api-version=2025-04-01",
+      "name": "list-resource-groups",
+      "title": "List resource groups",
+      "description": "Returns all resource groups in a subscription with basic properties.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}?api-version=2025-04-01",
+      "name": "get-resource-group-details",
+      "title": "Get resource group details",
+      "description": "Returns key details for a specific resource group.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments?api-version=2025-04-01",
+      "name": "list-deployments",
+      "title": "List deployments",
+      "description": "Lists all ARM deployments at subscription scope.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments?api-version=2025-04-01",
+      "name": "list-deployments-in-rg",
+      "title": "List deployments in resource group",
+      "description": "Lists all ARM deployments scoped to a specific resource group.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://management.azure.com/subscriptions/{subscriptionId}/providers/microsoft.authorization/roleAssignments?api-version=2022-04-01",
+      "name": "list-role-assignments",
+      "title": "List role assignments",
+      "description": "Lists all RBAC role assignments in the subscription.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://management.azure.com/subscriptions/{subscriptionId}/providers/microsoft.insights/eventtypes/management/values?api-version=2015-04-01",
+      "name": "list-activity-log",
+      "title": "List activity log",
+      "description": "Lists management activity log events (who did what) at subscription level.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments?api-version=2022-06-01",
+      "name": "list-policy-assignments",
+      "title": "List policy assignments",
+      "description": "Returns all policy assignments at subscription scope.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/resources?api-version=2025-04-01",
+      "name": "list-resources-in-rg",
+      "title": "List resources in resource group",
+      "description": "Lists all Azure resources in a specific resource group with basic info.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://www.markdownguide.org/basic-syntax",
+      "name": "markdown-basic-syntax",
+      "title": "Markdown Basic Syntax",
+      "description": "Reference guide that explains common Markdown formatting rules such as headings, lists, links, images and code blocks.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.luchtmeetnet.nl/open_api/stations?page={page}",
+      "name": "List stations",
+      "description": "Geeft een paginated lijst van alle officiële meetstations.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.luchtmeetnet.nl/open_api/stations/{number}",
+      "name": "Get station by number",
+      "description": "Haalt detailinformatie op voor één station (nummer = station_number).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.luchtmeetnet.nl/open_api/components?page={page}&order_by={order_by}",
+      "name": "List components",
+      "description": "Lijst met alle luchtcomponenten (NO2, PM10, O3 enz.).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.luchtmeetnet.nl/open_api/components/{formula}",
+      "name": "Get component by formula",
+      "description": "Detailinformatie over één component (formula = NO2, PM10, O3, LKI …).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.luchtmeetnet.nl/open_api/organisations?page={page}",
+      "name": "List organisations",
+      "description": "Overzicht van alle organisaties die meetstations beheren.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.luchtmeetnet.nl/open_api/stations/{station_number}/measurements?formula={formula}&start={start}&end={end}&page={page}&order_by={order_by}&order_direction={order_direction}",
+      "name": "Get measurements",
+      "description": "Uurgemiddelde metingen per station en component (max. 7-dagen bereik).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.luchtmeetnet.nl/open_api/stations/{station_number}/lki?start={start}&end={end}&page={page}&order_by={order_by}&order_direction={order_direction}",
+      "name": "Get LKI (station)",
+      "description": "Luchtkwaliteitsindex (LKI) per uur voor één station (zelfde 7-dagen limiet).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.luchtmeetnet.nl/open_api/concentrations?formula={formula}&latitude={latitude}&longitude={longitude}&start={start}&end={end}",
+      "name": "Get concentrations (lat/lon)",
+      "description": "Bere­kende concentraties (of LKI) op geo-punt; handig als er geen dicht station is.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

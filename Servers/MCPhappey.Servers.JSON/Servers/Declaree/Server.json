@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Declaree",
+    "title": "Declaree",
+    "version": "1.0.0",
+    "websiteUrl": "https://app.declaree.com/sso",
+    "description": "Automate expense claims: manage receipts, track approvals and export reimbursement data.",
+    "icons": [
+      {
+        "src": "https://appwiki.nl/uploads/media/5c0fbade0955d/declaree-logo.png"
+      }
+    ]
+  },
+  "headers": {
+    "Authorization": "Bearer [Declaree_API_key]"
+  }
+}

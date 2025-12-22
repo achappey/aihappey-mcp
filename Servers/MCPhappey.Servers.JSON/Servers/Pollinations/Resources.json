@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://text.pollinations.ai/models",
+      "name": "pollinations-text-models",
+      "title": "Pollinations text models",
+      "description": "List of text generation models available on Pollinations.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://image.pollinations.ai/models",
+      "name": "pollinations-image-models",
+      "title": "Pollinations image models",
+      "description": "List of image generation models available on Pollinations.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

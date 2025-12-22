@@ -1,0 +1,74 @@
+{
+  "prompts": [
+    {
+      "prompt": "Retrieve all overdue tasks from the specified task list. Highlight the most critical ones based on due dates and importance.",
+      "template": {
+        "name": "overdue-tasks",
+        "title": "Overdue tasks",
+        "description": "Fetches overdue tasks from a specific task list and prioritizes them based on urgency and importance.",
+        "arguments": [
+          {
+            "name": "taskListId",
+            "description": "The unique ID of the task list to retrieve overdue tasks from.",
+            "required": true
+          },
+          {
+            "name": "maxTasks",
+            "description": "The maximum number of overdue tasks to retrieve.",
+            "required": false
+          },
+          {
+            "name": "dueDateThreshold",
+            "description": "ISO 8601 formatted date-time (e.g., '2024-03-16T00:00:00Z'). Tasks with due dates before this will be considered overdue.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Create a weekly summary of my Microsoft To-Do tasks, including:\n- Total tasks completed this week\n- Total tasks still pending\n- Tasks categorized by priority (high, medium, low)\n- Tasks categorized by due date (overdue, due this week, due next week)\n- Recommendations for improving task management based on completion trends\n\nPresent the summary in a structured report format with actionable insights.",
+      "template": {
+        "name": "weekly-task-summary",
+        "title": "Weekly task summary",
+        "description": "Generates a weekly summary of tasks from Microsoft To-Do",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Analyze my Microsoft To-Do tasks and provide prioritization insights:\n- Identify tasks marked as 'Important' but not completed\n- Highlight overdue tasks that are still pending\n- Suggest tasks that can be delegated based on category or assigned user\n- Recommend a priority order for pending tasks based on due dates and importance\n\nPresent the output in a clear, actionable list with explanations for each recommendation.",
+      "template": {
+        "name": "task-prioritization-insights",
+        "title": "Task prioritization insights",
+        "description": "Provides prioritization insights for Microsoft To-Do tasks",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Analyze my task completion trends in Microsoft To-Do over the last month and generate a report that includes:\n- Total tasks completed each week\n- Average time taken to complete tasks (from creation to completion)\n- Categories or labels for the most frequently completed tasks\n- Days of the week with peak task completion activity\n- Recommendations for improving task completion efficiency\n\nProvide the insights in a structured format with graphs or tables where applicable.",
+      "template": {
+        "name": "task-completion-trends",
+        "title": "Task completion trends",
+        "description": "Analyzes task completion trends and provides actionable insights",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Identify all overdue tasks from my Microsoft To-Do lists and create a summary including:\n- Task titles and due dates\n- Tasks sorted by priority (high to low)\n- Any assigned collaborators for shared tasks\n- Recommendations for addressing overdue tasks\n\nSummarize the findings in a list format and include a suggested action plan.",
+      "template": {
+        "name": "overdue-task-notification",
+        "title": "Overdue task notification",
+        "description": "Generates a summary of all overdue tasks in Microsoft To-Do",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Create a task delegation report from my Microsoft To-Do lists that includes:\n- Tasks that are assigned to collaborators\n- Tasks that are suitable for delegation based on priority and due date\n- Tasks without assigned users\n- Suggestions for delegation based on workload and task type\n\nPresent the report in a structured format with actionable recommendations.",
+      "template": {
+        "name": "task-delegation-report",
+        "title": "Task delegation report",
+        "description": "Generates a report on task delegation and provides suggestions for improving workload distribution",
+        "arguments": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "serverInfo": {
+    "name": "Meta-ImageGeneration",
+    "title": "Meta Image Generation",
+    "version": "1.0.0",
+    "description": "Generate images from text using multiple AI providers for flexible creative output."
+  },
+  "plugins": [
+    "MCPhappey.Tools.Google.Image.GoogleNanoBanana, MCPhappey.Tools",
+    "MCPhappey.Tools.Google.Image.GoogleImagen, MCPhappey.Tools",
+    "MCPhappey.Tools.OpenAI.Image.OpenAIImages, MCPhappey.Tools",
+    "MCPhappey.Tools.xAI.GrokImageService, MCPhappey.Tools",
+    "MCPhappey.Tools.StabilityAI.StabilityAIImageService, MCPhappey.Tools",
+    "MCPhappey.Tools.StabilityAI.StabilityAIImageEditService, MCPhappey.Tools",
+    "MCPhappey.Tools.Together.Images.TogetherImages, MCPhappey.Tools",
+    "MCPhappey.Tools.Mistral.Images.MistralImages, MCPhappey.Tools",
+    "MCPhappey.Tools.AIML.Images.AIMLImages, MCPhappey.Tools",
+    "MCPhappey.Tools.Runway.Images.RunwayImages, MCPhappey.Tools",
+    "MCPhappey.Tools.Runware.Images.RunwareImages, MCPhappey.Tools",
+    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools",
+    "MCPhappey.Tools.EdenAI.Images.EdenAIImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

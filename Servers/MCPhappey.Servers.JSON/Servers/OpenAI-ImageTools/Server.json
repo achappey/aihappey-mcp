@@ -1,0 +1,24 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-ImageTools",
+    "title": "OpenAI Image Tools",
+    "version": "1.0.0",
+    "description": "OpenAI-powered image analysis and multi-image reasoning tools.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.Image.OpenAIImageTools, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

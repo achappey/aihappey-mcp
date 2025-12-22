@@ -1,0 +1,22 @@
+{
+  "serverInfo": {
+    "name": "Simplicate-Timeline",
+    "title": "Simplicate Tijdlijn",
+    "version": "1.0.0",
+    "description": "Simplicate tijdlijn.",
+    "icons": [
+      {
+        "src": "https://developer.simplicate.com/images/simplicate_icon.png"
+      }
+    ]
+  },
+  "instructions": "Payloads without select query string parameters are very large.\nRelated entities use a '.' behind the field name in select queries.",
+  "plugins": [],
+  "headers": {
+    "Authentication-Key": "Simplicate Api Key",
+    "Authentication-Secret": "Simplicate Api Secret"
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.openai.com/v1/vector_stores",
+      "name": "list-vector-stores",
+      "title": "List available OpenAI vector stores",
+      "description": "List all available OpenAI vector stores",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "OneDrive-Canvas",
+    "title": "OneDrive Canvas",
+    "version": "1.0.0",
+    "description": "Create and edit markdown files in OneDrive directly from chat workflows.",
+    "icons": [
+      {
+        "src": "https://www.aaudxp-cms.aau.dk/media/3sglfyu0/onedrive.png?width=960"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "instructions": "Canvas markdown files can be stored on any drive as long as the user has write permissions. After you made updates to the canvas, always read the resource result with read_resource tool, so the user sees the latest version.",
+  "plugins": [
+    "MCPhappey.Tools.AI.CanvasService, MCPhappey.Tools"
+  ]
+}

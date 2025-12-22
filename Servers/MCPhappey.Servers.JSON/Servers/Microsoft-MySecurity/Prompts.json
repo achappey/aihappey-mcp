@@ -1,0 +1,193 @@
+{
+  "prompts": [
+    {
+      "prompt": "Create a clear and compact personal security report for my recent activity (last 30 days). Keep it easy to read and avoid technical jargon. Include: (1) Profile: my name and UPN. (2) Last sign-in: date/time (UTC), app, result, location, and IP. (3) Sign-in summary: counts by result (success/failure/blocked) and top apps. (4) Risk detections: counts by level and the 3 most recent events (time, type, IP, location). (5) Devices: total devices, how many are not compliant, oldest sync date, and up to 3 main issues. (6) Authentication: show if MFA and self-service password reset are set up, plus a short list of my sign-in methods. (7) App consents: number of apps I approved and the main ones with their access. (8) Locations: top countries/cities for my sign-ins. End with a short 'Key callouts' (max 3 bullets) showing only unusual findings — no extra details or advice.",
+      "template": {
+        "name": "my-security-report",
+        "title": "My security (report)",
+        "description": "Generates a compact, easy-to-read report of sign-ins, risks, devices, authentication, app consents, and locations from the last 30 days, ending with only key anomalies.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Give me a clear personal security overview: my last sign-in time, any risky detections since {since}, number of failed sign-ins since {since}, count of my non-compliant devices, and whether I’m registered for MFA and SSPR. Keep it compact with bullet points and include the exact timestamps.",
+      "template": {
+        "name": "my-security-overview",
+        "title": "My security overview",
+        "description": "Summarizes key personal signals (last sign-in, risk detections, failed sign-ins, non-compliant devices, MFA/SSPR registration) since a given UTC timestamp.",
+        "arguments": [
+          {
+            "name": "since",
+            "description": "UTC timestamp to start from (e.g., 2025-08-01T00:00:00Z).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List my recent sign-ins since {since}. Show date/time (UTC), app, status (success/failure), Conditional Access result, IP, and location. Group obvious failures at the top.",
+      "template": {
+        "name": "my-recent-signins-detailed",
+        "title": "My recent sign-ins (detailed)",
+        "description": "Shows detailed personal sign-ins since a UTC timestamp, highlighting failures first.",
+        "arguments": [
+          {
+            "name": "since",
+            "description": "UTC timestamp lower bound for sign-ins.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Were there any risky sign-ins or detections for me in the last {days} days? Summarize risk level, event type, when, IP/location, and what likely triggered it.",
+      "template": {
+        "name": "my-risk-activity",
+        "title": "My risky sign-ins & detections",
+        "description": "Summarizes riskDetections for the current user and flags risky sign-ins within a recent window.",
+        "arguments": [
+          {
+            "name": "days",
+            "description": "How many days back to check (e.g., 7).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Am I properly set up for secure sign-in? Check if I’m MFA registered and capable, SSPR registered/enabled, and list my registered methods. Call out any recommended gaps.",
+      "template": {
+        "name": "my-auth-setup-health",
+        "title": "My MFA/SSPR setup health",
+        "description": "Assesses MFA/SSPR registration and lists registered auth methods with recommendations.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show my authentication methods with short labels (e.g., Authenticator app, FIDO2 key, phone). Include method IDs so I can reference a specific one later.",
+      "template": {
+        "name": "my-auth-methods",
+        "title": "My authentication methods",
+        "description": "Lists the current user's registered authentication methods and their IDs.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show details for my authentication method {methodId}. Explain what it is and any security considerations.",
+      "template": {
+        "name": "my-auth-method-details",
+        "title": "My authentication method details",
+        "description": "Fetches details for a specific auth method by ID and explains its security posture.",
+        "arguments": [
+          {
+            "name": "methodId",
+            "description": "The authentication method ID from my methods list.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List my devices from Intune/Endpoint Manager. Highlight non-compliant ones at the top with OS, version, last sync time, and a brief reason if available.",
+      "template": {
+        "name": "my-devices-summary",
+        "title": "My devices summary",
+        "description": "Shows owned/managed devices with compliance status and last sync time, prioritizing non-compliant.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show full details for my device {managedDeviceId}: OS/version, compliance state, last sync, model/serial, enrollment type, and Wi-Fi MAC/IMEI if present. Also list its latest compliance and configuration states.",
+      "template": {
+        "name": "my-device-full-details",
+        "title": "My device full details",
+        "description": "Retrieves deep device details plus compliance and configuration states for one managed device.",
+        "arguments": [
+          {
+            "name": "managedDeviceId",
+            "description": "Managed device ID from my device list.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Which of my devices haven’t synced in the last {days} days? List device name, OS, last sync time, and whether it’s compliant.",
+      "template": {
+        "name": "my-stale-devices",
+        "title": "My devices with stale sync",
+        "description": "Finds devices where lastSyncDateTime is older than a computed threshold.",
+        "arguments": [
+          {
+            "name": "days",
+            "description": "Consider a device stale if it hasn’t synced for this many days.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show my sign-in preferences (authentication strengths, passkey/FIDO policies, etc.) and explain what they mean for me.",
+      "template": {
+        "name": "my-signin-preferences",
+        "title": "My sign-in preferences",
+        "description": "Reads sign-in preferences and explains their effect on authentication.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "List apps I’ve granted access to via consent. For each app show name (if available), scopes, and when it was granted. Flag anything that looks overly broad.",
+      "template": {
+        "name": "my-app-consents",
+        "title": "My OAuth app consents",
+        "description": "Lists OAuth2 permission grants where I’m the principal and highlights risky scopes.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show directory audit events that I initiated since {since}. Summarize what changed, when, and the targets affected.",
+      "template": {
+        "name": "my-audit-trail",
+        "title": "My directory audit trail",
+        "description": "Surfaces directoryAudits where I’m the initiator from a given UTC timestamp.",
+        "arguments": [
+          {
+            "name": "since",
+            "description": "UTC timestamp lower bound (e.g., 2025-08-01T00:00:00Z).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Spot unusual sign-in locations for me since {since}. Group sign-ins by country/city, call out new or rare locations, and list the related IPs.",
+      "template": {
+        "name": "my-location-anomalies",
+        "title": "My sign-in location anomalies",
+        "description": "Analyzes recent sign-ins by location to flag unusual countries/cities.",
+        "arguments": [
+          {
+            "name": "since",
+            "description": "UTC timestamp lower bound for analysis.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show sign-ins blocked or failed due to Conditional Access since {since}. Include which policy result was applied and for which app.",
+      "template": {
+        "name": "my-ca-failures",
+        "title": "My Conditional Access failures",
+        "description": "Filters personal sign-ins where conditionalAccessStatus indicates failure and summarizes details.",
+        "arguments": [
+          {
+            "name": "since",
+            "description": "UTC timestamp lower bound for sign-ins.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

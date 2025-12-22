@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/country-detail.html",
+      "name": "country-detail-widget",
+      "title": "Country detail widget",
+      "description": "Renders an interactive UI showcasing the country details returned by github_rest_countries_get_detail.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/countries.html",
+      "name": "countries-widget",
+      "title": "Countries list widget",
+      "description": "Renders an interactive UI showcasing the countries returned by github_rest_countries_get_by_region.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

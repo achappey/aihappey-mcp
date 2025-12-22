@@ -1,0 +1,94 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/teams/{teamId}/channels?$select=id,displayName,description",
+      "name": "team-channels",
+      "title": "Get team channels",
+      "description": "Lists all standard and shared channels within a specific Team, including their names and descriptions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/teams/{teamId}/channels/{channelId}/messages?$top=20",
+      "name": "channel-messages",
+      "title": "Get channel messages",
+      "description": "Retrieves the most recent 20 messages from a specified channel in a Team.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/teams/{teamId}/members",
+      "name": "team-members",
+      "title": "Get team members",
+      "description": "Lists all members of a specified Team with their names, user IDs, email addresses, and roles.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/teams/{teamId}/channels/{channelId}/messages/{messageId}/replies",
+      "name": "message-replies",
+      "title": "Get message replies",
+      "description": "Retrieves replies to a specific message in a channel.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/teams/{teamId}/channels/{channelId}/tabs?$select=displayName,webUrl",
+      "name": "channel-tabs",
+      "title": "Get channel tabs",
+      "description": "Retrieves the list of tabs (like Planner, OneNote, etc.) configured in a specific Teams channel.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups?$search=\"displayName:{searchQuery}\"",
+      "name": "search-groups",
+      "title": "Search groups",
+      "description": "Search a list of Microsoft 365 groups on display name by search query.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users?$search=\"displayName:{searchQuery}\"",
+      "name": "search-users",
+      "title": "Search users",
+      "description": "Search a list of Microsoft 365 users by search query",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}/calendar/calendarView?startDateTime={startDateTime}&endDateTime={endDateTime}",
+      "name": "calendar-view-period",
+      "title": "Get calendar view (period)",
+      "description": "Retrieves all calendar events for a group (team) within a specific date range. Returns all events between startDateTime and endDateTime.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}/calendar/events?$filter=start/dateTime ge '{fromDateTime}'",
+      "name": "calendar-events-filter-by-start-date",
+      "title": "Get calendar events by start date",
+      "description": "Retrieves all calendar events for a group (team) that start on or after the specified date/time. Use ISO 8601 format for the date/time.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

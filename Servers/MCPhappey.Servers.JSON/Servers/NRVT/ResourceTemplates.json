@@ -1,0 +1,44 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://nrvt.nl/over-nrvt/downloads?q={q}",
+      "name": "downloads-list",
+      "title": "Downloads overzicht",
+      "description": "Overzichtspagina met categorieën en documenten. Gebruik dit om documentnamen en IDs (via links naar /downloads/{id}) te vinden.",
+      "mimeType": "text/html",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://nrvt.nl/downloads/{id}",
+      "name": "download-by-id",
+      "title": "Download document op ID",
+      "description": "Haalt de downloadpagina of het PDF-bestand op voor het opgegeven id.",
+      "mimeType": "application/pdf",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://nrvt.nl/over-nrvt/nieuws?pagina={pagina}&limiet={limiet}&q={q}&filters[article_type][0]={articleType}",
+      "name": "nieuws-list",
+      "title": "Nieuws en publicaties",
+      "description": "Lijst met nieuws, publicaties of nieuwsbrieven. articleType kan 'publications' of 'newsletter' zijn.",
+      "mimeType": "text/html",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://nrvt.nl/zoeken?q={q}",
+      "name": "site-search",
+      "title": "Zoeken op nrvt.nl",
+      "description": "Volledige site-zoekfunctie voor pagina's en documenten.",
+      "mimeType": "text/html",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://nrvt.nl/vind-een-taxateur?type={type}&q={q}&geo[locatie]={locatie}&geo[afstand]={afstand}",
+      "name": "vind-een-taxateur",
+      "title": "Vind een Register-Taxateur",
+      "description": "Zoek Register-Taxateurs (type=personen of bedrijven) met optionele locatie en afstand.",
+      "mimeType": "text/html",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

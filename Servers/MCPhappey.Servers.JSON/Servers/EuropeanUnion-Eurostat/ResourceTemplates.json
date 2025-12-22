@@ -1,0 +1,112 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://ec.europa.eu/eurostat/api/dissemination/catalogue/datasets?format={format}",
+      "name": "eurostat-datasets",
+      "title": "Eurostat dataset catalogue",
+      "description": "Lists all publicly available datasets in the Eurostat database. Use this to discover dataset codes for further queries.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{dataset}?{filters}&format={format}",
+      "name": "eurostat-data-generic",
+      "title": "Eurostat data query",
+      "description": "Generic query to fetch data for any Eurostat dataset. Provide a dataset code and dimension filters. Output can be JSON-stat or other supported formats.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{dataset}?geo={geo}&time={time}&format={format}",
+      "name": "eurostat-by-geo-time",
+      "title": "Eurostat filter by country and year",
+      "description": "Simple query template for dataset, country, and time period. Returns a small subset suitable for testing and dashboards.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/3.0/structure/dataflow/ESTAT?format={format}",
+      "name": "eurostat-dataflows-sdmx3",
+      "title": "Eurostat SDMX 3.0 dataflows",
+      "description": "Retrieves all Eurostat dataflows with structural metadata following the SDMX 3.0 specification. Useful for inspecting dataset structure.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/{dataset}?geo={geo}&sex={sex}&age={age}&unit={unit}&lastTimePeriod={lastTimePeriod}&format={format}",
+      "name": "eurostat-unemployment-template",
+      "title": "Unemployment quick filter",
+      "description": "Convenience template for unemployment data. Filter by country, sex, age group, unit, and number of recent periods to reduce result size.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/hpi_a?geo={geo}&unit=I15&time={time}&format={format}",
+      "name": "eurostat-hpi-annual",
+      "title": "House Price Index (annual)",
+      "description": "Annual house price index. Filter by country and year. Unit I15 provides index values relative to 2015 = 100.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/sts_copr_m?geo={geo}&unit=I15&lastTimePeriod={lastTimePeriod}&format={format}",
+      "name": "eurostat-construction-output",
+      "title": "Construction production index",
+      "description": "Monthly construction production index. Filter by country and number of recent observations. Returns index values relative to 2015 = 100.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_midx?geo={geo}&coicop={coicop}&lastTimePeriod={lastTimePeriod}&format={format}",
+      "name": "eurostat-hicp",
+      "title": "HICP inflation index",
+      "description": "Monthly Harmonised Index of Consumer Prices. Filter by country, category (COICOP), and number of recent months.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/lfsa_ergan?geo={geo}&sex={sex}&age={age}&unit=THS&time={time}&format={format}",
+      "name": "eurostat-employment",
+      "title": "Employment levels (thousands)",
+      "description": "Annual employment numbers in thousands. Filter by country, sex and age group for clear labour market indicators.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

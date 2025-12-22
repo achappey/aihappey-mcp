@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Wikidata",
+    "title": "Wikidata",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.wikidata.org",
+    "description": "Get structured facts and relationships from Wikidata for search and research.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Wikidata-logo-en_with_square_background_%28needed_for_interfaces%29.svg"
+      }
+    ]
+  }
+}

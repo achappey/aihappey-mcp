@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/admin/windows/updates/catalog/entries",
+      "name": "update-catalog-entries",
+      "title": "List update catalog entries",
+      "description": "Lists all update catalog entries (quality, feature, drivers) available.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

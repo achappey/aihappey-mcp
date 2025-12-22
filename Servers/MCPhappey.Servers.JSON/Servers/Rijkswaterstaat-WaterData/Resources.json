@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://geo.rijkswaterstaat.nl/services/ogc/hws/test/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=locatiesmetlaatstewaarneming&outputFormat=csv",
+      "name": "locaties-met-laatste-waarneming",
+      "title": "Laatste waterwaarnemingen per locatie",
+      "description": "Download een CSV-bestand met de laatst gemeten waterwaarneming op alle beschikbare locaties. Inclusief locatiecode, tijdstip en gemeten waarden. Handig voor snelle overzichten zonder eerst catalogusvragen te doen.",
+      "mimeType": "text/csv",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

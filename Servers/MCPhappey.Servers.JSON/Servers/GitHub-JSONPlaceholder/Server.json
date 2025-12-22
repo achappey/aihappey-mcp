@@ -1,0 +1,9 @@
+{
+  "serverInfo": {
+    "name": "GitHub-JSONPlaceholder",
+    "title": "GitHub {JSON} Placeholder",
+    "version": "1.0.0",
+    "description": "Public fake REST data: posts, comments, users etc. for testing without a real backend.",
+    "websiteUrl": "https://github.com/typicode/jsonplaceholder"
+  }
+}

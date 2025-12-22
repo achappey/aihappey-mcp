@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "Azure-Maps",
+    "title": "Azure Maps",
+    "version": "1.0.0",
+    "websiteUrl": "https://azure.microsoft.com/en-us/products/azure-maps",
+    "description": "Search places, geocode addresses, and plan routes with travel details.",
+    "icons": [
+      {
+        "src": "https://images.seeklogo.com/logo-png/49/2/azure-maps-logo-png_seeklogo-492711.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AzureMaps.AzureMapsService, MCPhappey.Tools"
+  ],
+  "headers": {
+    "Subscription-Key": "Azure Maps Subscription Key"
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

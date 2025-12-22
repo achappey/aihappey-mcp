@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "name": "search-indexes",
+      "title": "Azure Search index list",
+      "uriTemplate": "https://{searchService}.search.windows.net/indexes?api-version=2024-07-01",
+      "description": "Retrieve a list of available search indexes from the Azure AI Search service.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "search-docs",
+      "title": "Search documents",
+      "uriTemplate": "https://{searchService}.search.windows.net/indexes/{indexName}/docs/search?api-version=2024-07-01",
+      "description": "Submit search queries on the chosen search index.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

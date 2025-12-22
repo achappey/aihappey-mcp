@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Markdown",
+    "title": "Markdown",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.markdownguide.org",
+    "description": "Create, edit, and convert Markdown files to Word, PDF, or HTML.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgsMgPrbgdUG2CApDYI49SPyiDueMV3rJ9sCdOr4tnxqLimEbIrdyVRrY_uvQXR1-eGfc&usqp=CAU"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.MarkdownService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Files.ReadWrite"
+  }
+}

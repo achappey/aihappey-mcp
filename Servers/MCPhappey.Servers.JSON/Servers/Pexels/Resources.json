@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.pexels.com/videos/popular",
+      "name": "popular-videos",
+      "title": "Popular videos",
+      "description": "Enables you to receive the current popular Pexels videos",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.pexels.com/v1/curated",
+      "name": "curated-photos",
+      "title": "Curated photos",
+      "description": "Enables you to receive real-time photos curated by the Pexels team. Add at least one new photo per hour is added to our curated list so that you always get a changing selection of trending photos.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

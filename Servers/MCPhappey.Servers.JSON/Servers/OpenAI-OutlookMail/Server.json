@@ -1,0 +1,24 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-OutlookMail",
+    "title": "OpenAI Outlook Mail",
+    "version": "1.0.0",
+    "description": "Search, read and summarize mail, classify messages and draft responses using Graph context.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.OutlookMail.OpenAIOutlookMail, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read"
+  }
+}

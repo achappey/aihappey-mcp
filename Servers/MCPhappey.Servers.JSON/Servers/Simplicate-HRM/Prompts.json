@@ -1,0 +1,154 @@
+{
+  "prompts": [
+    {
+      "prompt": "Geef mij een overzicht van mijn eigen resterende verlofsaldo per verloftype. Laat per type het resterende saldo zien en markeer indien het minder dan 2 dagen betreft.",
+      "template": {
+        "name": "mijn-verlofsaldo-overzicht",
+        "title": "Mijn verlofsaldo",
+        "description": "Toont het actuele resterende verlofsaldo van de ingelogde medewerker per type, met waarschuwing bij laag saldo.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Welke geplande verlofdagen heb ik dit jaar nog staan? Toon datum, type verlof en status (goedgekeurd/in behandeling).",
+      "template": {
+        "name": "mijn-geplande-verlofdagen",
+        "title": "Mijn geplande verlofdagen",
+        "description": "Geeft een overzicht van de nog komende goedgekeurde of aangevraagde verlofdagen van de ingelogde medewerker.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Laat mijn actuele contractgegevens zien: type contract, begindatum, einddatum en het aantal contracturen per week.",
+      "template": {
+        "name": "mijn-contractgegevens",
+        "title": "Mijn contractgegevens",
+        "description": "Toont de belangrijkste contractgegevens van de ingelogde medewerker.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Welke HRM-documenten zijn er het meest recent aan mijn dossier toegevoegd? Noem type, titel en aanmaakdatum.",
+      "template": {
+        "name": "mijn-meest-recente-documenten",
+        "title": "Mijn meest recente documenten",
+        "description": "Geeft de meest recente HRM-documenten van de ingelogde medewerker.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Zoek het vakantie verlof totaal voor team {teamNaam} (leaveType: 'Vakantie verlof'). Presenteer de lijst met medewerkers, de naam met resterend aantal uren dit jaar, in de vorm van een informele e-mail die we kunnen sturen aan de HR-verantwoordelijke van {teamNaam}. Geef de mail in html opmaak en het email onderwerp als losse tekst, geen andere teksten in je antwoord. Gebruik geen borders in de tabel.",
+      "template": {
+        "name": "hrm-resterend-verlofsaldo-team",
+        "title": "Resterend verlofsaldo team",
+        "description": "Toont de resterende verlofsaldi het huidige jaar van medewerkers uit een team.",
+        "arguments": [
+          {
+            "name": "teamNaam",
+            "description": "Naam van de team.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef van medewerker {medewerkerNaam} een overzicht van de actuele contractstatus: type, begindatum, einddatum en eventuele opzegdatum.",
+      "template": {
+        "name": "hrm-contractstatus-medewerker",
+        "title": "Contractstatus medewerker",
+        "description": "Toont de belangrijkste contractgegevens van een medewerker.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker waarvan je de contractstatus wilt weten.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Voor team {teamNaam}: welke drie medewerkers hebben het afgelopen jaar het meeste verlof opgenomen? Toon naam, verloftype en totaal aantal opgenomen dagen.",
+      "template": {
+        "name": "hrm-top-verlofgebruikers-team",
+        "title": "Top verlofgebruikers team",
+        "description": "Geeft per team de drie medewerkers met het meeste verlof afgelopen jaar.",
+        "arguments": [
+          {
+            "name": "teamNaam",
+            "description": "Naam van het team.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Analyseer van medewerker {medewerkerNaam} het huidige verlofsaldo per verloftype. Zijn er verloftypes die (bijna) zijn opgebruikt? Geef per type het resterende saldo en markeer indien het minder dan 2 dagen betreft.",
+      "template": {
+        "name": "hrm-verlofsaldo-analyse",
+        "title": "Verlofsaldo analyse medewerker",
+        "description": "Geeft per verloftype het huidige verlofsaldo van een medewerker, met waarschuwing bij laag saldo.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef voor team {teamNaam} een overzicht van de namen van alle medewerkers met een gebruikersacocunt.",
+      "template": {
+        "name": "hrm-team-samenstelling",
+        "title": "Team samenstelling",
+        "description": "Overzicht van de namen van teamleden van een account.",
+        "arguments": [
+          {
+            "name": "teamNaam",
+            "description": "Naam van het team.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Geef voor de opgegeven medewerker {medewerkerNaam} een overzicht van het aantal contracturen per week. Toon de volledige naam en het actuele aantal contracturen per week volgens het meest recente contract. Indien een medewerker meerdere contracten heeft, neem dan het meest recente actieve contract.",
+      "template": {
+        "name": "hrm-contracturen-per-week-medewerker",
+        "title": "Contracturen per week medewerker",
+        "description": "Toont het aantal contracturen per week volgens het actuele contract van een medewerker.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Welke medewerker heeft het afgelopen kwartaal de meeste verzuimregistraties? Noem deze medewerker, het totaal aantal meldingen en het meest voorkomende verzuimtype.",
+      "template": {
+        "name": "hrm-top-verzuimer",
+        "title": "Top verzuimer kwartaal",
+        "description": "Zoekt de medewerker met de meeste verzuimregistraties afgelopen kwartaal.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Bekijk van medewerker {medewerkerNaam} de meest recente HRM-documenten. Noem het type, de titel en de aanmaakdatum.",
+      "template": {
+        "name": "hrm-meest-recente-documenten-medewerker",
+        "title": "Meest recente documenten medewerker",
+        "description": "Geeft de meest recente documenten van een medewerker.",
+        "arguments": [
+          {
+            "name": "medewerkerNaam",
+            "description": "Naam van de medewerker.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

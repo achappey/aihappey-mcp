@@ -1,0 +1,15 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/kernel-memory-search-results.html",
+      "name": "kernel-memory-search-results-widget",
+      "description": "Search results widget that displays search results.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

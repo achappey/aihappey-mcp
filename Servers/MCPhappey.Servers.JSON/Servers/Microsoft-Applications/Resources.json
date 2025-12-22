@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/applications",
+      "name": "all-applications",
+      "title": "List applications",
+      "description": "Lists all applications (app registrations) in the directory the signed-in user can access.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

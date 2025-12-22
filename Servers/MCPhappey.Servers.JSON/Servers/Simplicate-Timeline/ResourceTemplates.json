@@ -1,0 +1,88 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/timeline/message?sort=-created_at",
+      "name": "timeline-messages",
+      "title": "Tijdlijn berichten zoeken",
+      "description": "Haalt tijdlijn berichten op, gesorteerd op aangemaakt aflopend.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/timeline/message?q[linked_to.id]={linkedToItemId}&sort=-created_at",
+      "name": "timeline-messages-item",
+      "title": "Tijdlijn berichten item",
+      "description": "Haalt tijdlijn berichten op van een specifiek Simplicate item.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/timeline/message?q[created_by.id]={employeeId}",
+      "name": "timeline-messages-employee",
+      "title": "Tijdlijn berichten medewerker",
+      "description": "Haalt tijdlijn berichten op van een medewerker.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/timeline/message?q[created_at][le]={createdAtLessOrEqual}&q[created_at][ge]={createdAtGreaterOrEqual}",
+      "name": "timeline-messages-period",
+      "title": "Tijdlijn berichten periode",
+      "description": "Haalt tijdlijn berichten op van een periode.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/timeline/message?q[message_type.id]={messageTypeId}",
+      "name": "timeline-messages-by-type",
+      "title": "Tijdlijn berichten op berichttype",
+      "description": "Haalt tijdlijn berichten op vper berichttype.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/timeline/message/message:{timelineMessageId}",
+      "name": "timeline-message",
+      "title": "Tijdlijn bericht",
+      "description": "Haalt een enkel tijdlijn bericht op via zijn ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/timeline/messagetype",
+      "name": "timeline-message-types",
+      "title": "Tijdlijn berichttypes zoeken",
+      "description": "Haalt tijdlijn berichttypes op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Project Portfolio Totals</title>
+    <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+    <script src="%HOST_URL%/widget-base.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js"></script>
+    <script src="%HOST_URL%/chatapp-header.js" defer></script>
+    <script src="%HOST_URL%/chatapp-chart.js" defer></script>
+    <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        body {
+            margin: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .body {
+            flex: 1;
+            padding: 8px;
+            display: flex;
+            height: 100%;
+            min-height: 0;
+        }
+
+        chart-js {
+            width: 100%;
+        }
+    </style>
+
+    <script>
+        window.projectBudgetTotalsByCostTypeWidget = function () {
+            return {
+                data: window.openai?.toolOutput || null,
+                init() {
+                    widgetBase.syncOpenAI(this);
+                    const ui = Alpine.store('ui');
+                    if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+                    this.$nextTick(() => this.load());
+                },
+                load() {
+                    this.$nextTick(() => {
+                        const totals = this.data?.totals || {};
+                        const el = this.$refs.chart;
+                        if (!el) return;
+
+                        // 🧮 Define cost type groups
+                        const categories = ["Uren", "Kosten", "Totaal"];
+                        const budgetValues = [
+                            totals.hours_value_budget || 0,
+                            totals.costs_value_budget || 0,
+                            totals.total_value_budget || 0
+                        ];
+                        const spentValues = [
+                            totals.hours_value_spent || 0,
+                            totals.costs_value_spent || 0,
+                            totals.total_value_spent || 0
+                        ];
+                        const invoicedValues = [
+                            0, // uren invoiced = not tracked separately
+                            0, // kosten invoiced = not tracked separately
+                            totals.total_value_invoiced || 0
+                        ];
+
+                        const data = {
+                            labels: categories,
+                            datasets: [
+                                {
+                                    label: "Gebudgetteerd (€)",
+                                    data: budgetValues,
+                                    backgroundColor: "rgba(78,121,167,0.7)"
+                                },
+                                {
+                                    label: "Besteed (€)",
+                                    data: spentValues,
+                                    backgroundColor: "rgba(242,142,43,0.7)"
+                                },
+                                {
+                                    label: "Gefactureerd (€)",
+                                    data: invoicedValues,
+                                    backgroundColor: "rgba(90,181,72,0.7)"
+                                }
+                            ]
+                        };
+
+                        const options = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: { duration: 0 },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: { display: true, text: "Waarde (€)" },
+                                    ticks: {
+                                        callback: v => "€" + Number(v).toLocaleString("nl-NL")
+                                    }
+                                },
+                                x: {
+                                    title: { display: true, text: "Categorie" }
+                                }
+                            },
+                            plugins: {
+                                legend: { position: "bottom" },
+                                tooltip: {
+                                    callbacks: {
+                                        label: (ctx) =>
+                                            `${ctx.dataset.label}: €${Number(ctx.raw)
+                                                .toLocaleString("nl-NL", { maximumFractionDigits: 0 })}`
+                                    }
+                                }
+                            }
+                        };
+
+                        el.update({ type: "bar", data, options, height: 260 });
+                    });
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div x-data="projectBudgetTotalsByCostTypeWidget()" x-init="init()"
+        style="display:flex; flex-direction:column; height:100%;">
+        <chatapp-header text="Projectportefeuille – Budget, besteding en facturatie" no-fullscreen></chatapp-header>
+        <div class="body">
+            <chatapp-chart x-ref="chart"></chatapp-chart>
+        </div>
+    </div>
+    <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

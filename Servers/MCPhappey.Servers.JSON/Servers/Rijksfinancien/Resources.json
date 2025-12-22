@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://www.rijksfinancien.nl/overzicht-datasets",
+      "name": "rijksfinancien-overzicht-datasets",
+      "title": "Overzicht Datasets Rijksfinanciën",
+      "description": "Pagina met alle datasets gepubliceerd door het Rijk via Rijksfinanciën. **Lees alle <a-href>-verwijzingen** (alle anchors) op deze pagina omdat de volledige html een lijst bevat van meerdere datasets / downloadlinks. Zuiver alle href’s dus.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

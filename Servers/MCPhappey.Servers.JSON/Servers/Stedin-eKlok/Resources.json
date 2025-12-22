@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.eklok.nl/feed",
+      "name": "feed-standaard",
+      "title": "Feed (standaardresolutie)",
+      "description": "Standaard feed. Items bevatten: date (ISO 8601, UTC), nlDateTime (NL weergave), range (-100..100), color (hex), past (bool).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.eklok.nl/feed?interpolated=10",
+      "name": "feed-interpolated-10",
+      "title": "Feed (interpolated=10)",
+      "description": "Hogere temporele resolutie via interpolated=10 (ongeveer elke ~6 minuten).",
+      "mimeType": "application/json",
+       "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

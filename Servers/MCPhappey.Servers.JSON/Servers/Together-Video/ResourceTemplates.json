@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.together.xyz/v2/videos/{videoId}",
+      "name": "together-video-get",
+      "title": "Together AI video metadata",
+      "description": "Retrieve status and download info for a generated Together AI video.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

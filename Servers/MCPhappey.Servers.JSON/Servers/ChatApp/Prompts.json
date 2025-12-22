@@ -1,0 +1,64 @@
+{
+  "prompts": [
+    {
+      "prompt": "Explain in clear, factual terms what this tool call did and what the result means. Focus only on what happened and what the outcome is, without unnecessary context or friendly language. Use short, concise sentences or bullet points if that improves clarity. The explanation must be straightforward, objective, and easy to understand for any end user. Avoid fluff and stick to the core facts.\n\nTool call details:\n{toolcall}\n\nLanguage: {language}",
+      "template": {
+        "name": "toolcall-explanation",
+        "title": "Tool call explanation for end users",
+        "description": "Clear, factual explanation of a tool call and its result, in the requested language.",
+        "arguments": [
+          {
+            "name": "toolcall",
+            "description": "Information about the tool call, its action, and its output/result.",
+            "required": true
+          },
+          {
+            "name": "language",
+            "description": "Language for the explanation, e.g., 'en', 'nl', 'de', 'fr'.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "User:\n\n###\n{userMessage}\n###\n\nAnalyze the above user message very well. Come up with a name for this conversation. Max 3-6 words. The name should be in the conversartion locale. Answer with the name of the conversation only. Don't include quotes.",
+      "template": {
+        "name": "conversation-name",
+        "title": "Conversation name",
+        "description": "Generate a name for a conversation",
+        "arguments": [
+          {
+            "name": "userMessage",
+            "description": "User message",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Current date and time: {currentDateTime}\nYou are an AI chatbot. Write a very short, friendly, and slightly creative welcome message suitable for a chat interface. Keep it between 3 and 7 words.\nVary the wording, tone, and mood—be warm, curious, slightly surprising, or subtly witty. Avoid clichés.\nOutput the message in the language specified below.\nMake sure the message is suitable for a professional or business context—tone should be appropriate for workplace communication. In Dutch, avoid sounding overly formal.\nOnly output the welcome message itself, no quotes or extra text.\nDo not use em-dashes (—) or similar punctuation in the output.\nLanguage: {language}\nCurrrent user: {currentUser}",
+      "template": {
+        "name": "welcome-message",
+        "title": "Welcome message",
+        "description": "Generate a concise, friendly chatbot welcome message mentioning the user by name.",
+        "arguments": [
+          {
+            "name": "language",
+            "description": "The language for the welcome message, e.g., 'en', 'nl', 'fr', or a full language name.",
+            "required": true
+          },
+          {
+            "name": "currentDateTime",
+            "description": "The current date and time.",
+            "required": false
+          },
+          {
+            "name": "currentUser",
+            "description": "The name of the current user.",
+            "required": false
+          }
+        ]
+      }
+    }
+  ]
+}

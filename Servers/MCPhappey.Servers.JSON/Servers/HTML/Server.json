@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "HTML",
+    "title": "HTML",
+    "version": "1.0.0",
+    "description": "Fill HTML templates and render the result for emails, documents and web content."
+  },
+  "instructions": "Always add the replacements argument on the HTMLPlugin_FillTemplate, otherwise it will fail",
+  "plugins": [
+    "MCPhappey.Tools.HTML.HTMLPlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

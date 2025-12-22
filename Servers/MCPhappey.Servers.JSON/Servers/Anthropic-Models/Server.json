@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Anthropic-Models",
+    "title": "Anthropic Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.anthropic.com",
+    "description": "Browse Anthropic models, system cards and related resources.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/1/14/Anthropic.png"
+      }
+    ]
+  }
+}

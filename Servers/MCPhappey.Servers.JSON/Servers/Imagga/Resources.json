@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.imagga.com/v2/categorizers",
+      "name": "all-categorizers",
+      "title": "All available categorizers",
+      "description": "List all Imagga categorizers and their label sets.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

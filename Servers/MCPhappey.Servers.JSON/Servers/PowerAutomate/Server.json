@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "PowerAutomate",
+    "title": "Power Automate",
+    "websiteUrl": "https://www.microsoft.com/en-us/power-platform/products/power-automate",
+    "version": "1.0.0",
+    "description": "List flows, runs, and approvals to monitor your automations.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Microsoft_Power_Automate.svg/2048px-Microsoft_Power_Automate.svg.png"
+      }
+    ]
+  },
+  "obo": {
+    "service.flow.microsoft.com": "https://service.flow.microsoft.com/User https://service.flow.microsoft.com/Flows.Read.All https://service.flow.microsoft.com/Flows.Manage.All https://service.flow.microsoft.com/Approvals.Read.All https://service.flow.microsoft.com/Approvals.Manage.All https://service.flow.microsoft.com/Activity.Read.All"
+  }
+}

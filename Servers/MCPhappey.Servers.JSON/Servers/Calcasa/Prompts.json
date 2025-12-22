@@ -1,0 +1,48 @@
+{
+  "prompts": [
+    {
+      "prompt": "Analyseer het ALLERLAATSTE Calcasa WOX kwartaalbericht en lever actiegerichte inzichten voor vastgoedconsultants.\nWerkwijze:\n1) Data-acquisitie (altijd live): gebruik ReadResourceTemplate 'calcasa-onderzoek-index' om de actuele kwartaalberichten te vinden; selecteer het meest recente (bijv. 2025 Q2).\n2) Haal de PDF op via ReadResourceTemplate 'calcasa-wox-pdf' en voer tekstextractie/parsingslag uit.\n3) Extracties: landelijk prijsniveau, transacties, doorstroompercentages, provinciale verschillen, stedelijke vs. landelijke patronen, woningtypeverschillen.\n4) Analyse & synthese: bereken veranderingen t.o.v. vorig kwartaal/jaar, signaleer drivers (rente, beleid), kansen/risico’s.\n5) Output (NL): executive summary, tabel kerncijfers (laatste kwartaal), 3–6 bullets met nieuwe inzichten, 3–6 kansen/risico’s, bronverwijzingen (titel + paginanr + PDF-URL), UTC-tijdstempel.",
+      "template": {
+        "name": "calcasa-laatste-kwartaal-volledige-analyse",
+        "title": "Calcasa – Laatste kwartaal: volledige analyse",
+        "description": "Haalt live het meest recente Calcasa WOX kwartaalbericht op, extraheert kerncijfers en levert beslisgerichte inzichten.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "###{resourceA}###\n###{resourceB}###\nVergelijk twee opgegeven Calcasa WOX kwartaalberichten en rapporteer verschillen.\nWerkwijze: voor beide PDF-resources tekst ophalen, kernindicatoren extraheren en delta berekenen per indicator; geef 5–8 bullets met belangrijkste veranderingen en implicaties; citeer paginarefs + URL’s.",
+      "template": {
+        "name": "calcasa-vergelijk-twee-kwartalen",
+        "title": "Calcasa – Vergelijk twee kwartalen",
+        "description": "Vergelijkt twee gekozen Calcasa WOX kwartaalberichten op kernindicatoren en duidt de verschillen.",
+        "arguments": [
+          {
+            "name": "resourceA",
+            "description": "Eerste kwartaalbericht (PDF-resource).",
+            "required": true
+          },
+          {
+            "name": "resourceB",
+            "description": "Tweede kwartaalbericht (PDF-resource).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "###{resources}###Maak een kerncijfer-tijdreeks uit meerdere Calcasa WOX kwartaalberichten.\nWerkwijze: voor alle opgegeven PDF’s kernindicatoren extraheren en een JSON + Markdown-tabel opbouwen; korte trend-duiding in 3–5 bullets; citeer bronnen per datapunt.",
+      "template": {
+        "name": "calcasa-kerncijfers-tijdreeks",
+        "title": "Calcasa – Kerncijfers tijdreeks",
+        "description": "Extraheert kernindicatoren uit meerdere Calcasa WOX-rapporten en bouwt een tijdreeks + tabel met korte trendduiding.",
+        "arguments": [
+          {
+            "name": "resources",
+            "description": "Lijst van Calcasa WOX kwartaalberichten (PDF-resources).",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

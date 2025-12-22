@@ -1,0 +1,24 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.openai.com/v1/files/{fileId}/content",
+      "name": "get-openai-file-content",
+      "title": "Get OpenAI output file content",
+      "description": "Get content of an OpenAI output file",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.openai.com/v1/files/{fileId}",
+      "name": "get-openai-file",
+      "title": "Get an OpenAI output file",
+      "description": "Get an OpenAI output file",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/employee/employee:{employeeId}?select=id,person.,status.,civil_status.,name,type.,bank_account,function,type.,employment_status,work_email,work_phone,work_mobile,avatar.,created_at,updated_at,is_user",
+      "name": "employee-details",
+      "title": "Medewerker details",
+      "description": "Haalt een enkele medewerker op via ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/employee?q[name]=*{nameFilter}*&q[employment_status]={employmentStatus}&q[teams.name]=*{teamName}*&q[is_user]={isUser}&q[status.label]=*{statusLabelFilter}*&q[employeetype.id]=employeetype:{employeeTypeIdFilter}*&offset={offset}&limit={limit}&sort={sortColumn}&select=id,person.,status.,civil_status.,name,type.,bank_account,function,type.,employment_status,work_email,work_phone,work_mobile,avatar.,created_at,updated_at,is_user&metadata=count",
+      "name": "employees",
+      "title": "Medewerkers",
+      "description": "Haalt alle medewerkers op, met filters voor naam, gebruiker status (true | false), in dienst status ('active' | 'inactive'), team naam, statuslabel, team en medewerkerstype. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/contract/contract:{contractId}",
+      "name": "contract-details",
+      "title": "Contract details",
+      "description": "Haalt een enkel contract op via ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/contract?q[employee.id]=employee:{employeeIdFilter}&q[contracttype.id]=contracttype:{contractTypeIdFilter}*&q[start_date][ge]={startDateGE}&q[end_date][le]={endDateLE}&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "contracts",
+      "title": "Contracten",
+      "description": "Haalt alle contracten op, met filters voor medewerker, contracttype en datumbereik. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/leave/leave:{leaveId}",
+      "name": "leave-details",
+      "title": "Verlofregistratie details",
+      "description": "Haalt een enkele verlofregistratie op via ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/leave?q[employee.id]=employee:{employeeIdFilter}*&q[leavetype.id]=leavetype:{leaveTypeIdFilter}*&q[start_date][ge]={startDateGE}&q[end_date][le]={endDateLE}&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "Verlofregistraties (gefilterd)",
+      "description": "Haalt alle verlofregistraties voor medewerkers op, met filters voor medewerker, verloftype en datumbereik. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/absence/absence:{absenceId}",
+      "name": "Verzuimdetails",
+      "description": "Haalt een enkele verzuimregistratie op via ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/absence?q[employee.id]=employee:{employeeIdFilter}*&q[absencetype.id]=absencetype:{absenceTypeIdFilter}*&q[start_date][ge]={startDateGE}&q[end_date][le]={endDateLE}&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "absences",
+      "title": "Verzuimregistraties",
+      "description": "Haalt alle verzuimregistraties voor medewerkers op, met filters voor medewerker, verzuimtype en datumbereik. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/document?q[title]=*{titleFilter}*&q[documenttype.id]=documenttype:{documentTypeIdFilter}*&q[employee.id]=employee:{employeeIdFilter}*&q[created_at][ge]={createdAtGE}&q[created_at][le]={createdAtLE}&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "hrm-documents",
+      "title": "HRM documenten",
+      "description": "Haalt alle beschikbare HRM-documenten op, met filters voor titel, documenttype, medewerker en aanmaakdatum. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/leavetype?q[label]=*{labelFilter}*&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "leave-types",
+      "title": "Verloftypes",
+      "description": "Haalt alle verloftypes op, met filter voor label. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/documenttype?q[label]=*{labelFilter}*&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "hrm-document-types",
+      "title": "HRM documenttypes",
+      "description": "Haalt alle beschikbare HRM-documenttypes op, met filter voor label. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/team?q[name]=*{nameFilter}*&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "teams",
+      "title": "Teams",
+      "description": "Haalt alle teams op, met filter voor naam. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/leavebalance?q[employee.id]=employee:{employeeIdFilter}*&q[leavetype.id]=leavetype:{leaveTypeIdFilter}*&q[year]={yearFilter}&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "leavebalances",
+      "title": "Verlofsaldi",
+      "description": "Haalt alle verlofsaldi voor medewerkers op, met filters voor medewerker, verloftype en jaar. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/timetable?q[employee.id]=employee:{employeeIdFilter}*&q[start_date][ge]={startDateGE}&q[end_date][le]={endDateLE}&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "timetables",
+      "title": "Roosters",
+      "description": "Haalt alle beschikbare roosters op, met filters voor medewerker en datumbereik. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/absencetype",
+      "name": "absence-types",
+      "title": "Alle HRM verzuimtypes",
+      "description": "Haalt beschikbare verzuimtypes op in de HRM-module. Dit retourneert doorgaans een volledige lijst omdat het stamgegevens zijn.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/civilstatus",
+      "name": "civil-status",
+      "title": "Alle HRM burgerlijke staten",
+      "description": "Haalt beschikbare burgerlijke staten op in de HRM-module. Dit retourneert doorgaans een volledige lijst.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/contracttype",
+      "name": "contract-types",
+      "title": "Alle HRM contracttypes",
+      "description": "Haalt beschikbare contracttypes op in de HRM-module. Dit retourneert doorgaans een volledige lijst.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/employeetype",
+      "name": "employee-types",
+      "title": "Alle HRM medewerkerstypes",
+      "description": "Haalt beschikbare medewerkerstypes op in de HRM-module. Dit retourneert doorgaans een volledige lijst.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/employmenttype",
+      "name": "employment-types",
+      "title": "Alle HRM dienstverbandtypes",
+      "description": "Haalt beschikbare dienstverbandtypes op in de HRM-module. Dit retourneert doorgaans een volledige lijst.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Simplicate Leave Totals Dashboard</title>
+
+  <!-- Simple-DataTables -->
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 16px;
+    }
+
+    .charts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    canvas {
+      flex: 1;
+      min-width: 400px;
+      height: 300px !important;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    select,
+    input[type="search"] {
+      padding: 6px 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    #tableContainer {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="charts">
+    <canvas id="chartByType"></canvas>
+    <canvas id="chartByEmployee"></canvas>
+  </div>
+
+  <div class="toolbar">
+    <label for="searchBox">Search:</label>
+    <input id="searchBox" type="search" placeholder="Type to search…" />
+  </div>
+
+  <div id="tableContainer"></div>
+
+  <script>
+    (function () {
+      const esc = s => String(s ?? "").replace(/[&<>"']/g, m => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[m]));
+
+      let dt = null, chartType = null, chartEmp = null;
+
+      function getData() {
+        const t = window.openai?.toolOutput;
+        if (!t) return [];
+        if (Array.isArray(t?.leaves)) return t.leaves;
+        if (Array.isArray(t.value)) return t.value;
+        return [];
+      }
+
+      function buildRows(list) {
+        const rows = [];
+        for (const emp of list) {
+          const empName = emp.employee_name ?? "-";
+          for (const l of (emp.leaves || [])) {
+            rows.push([
+              empName,
+              l.leaveType ?? "-",
+              Number(l.totalDays ?? 0).toFixed(2),
+              Number(l.totalHours ?? 0).toFixed(1),
+              Number(l.totalHoursPlanned ?? 0).toFixed(1)
+            ]);
+          }
+        }
+        return rows;
+      }
+
+
+      function rebuildTable(rows) {
+        const container = document.getElementById("tableContainer");
+        container.innerHTML = `
+        <table id="leaveTable">
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Leave Type</th>
+              <th>Total Days</th>
+              <th>Total Hours</th>
+              <th>Planned Hours</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>`;
+        if (dt && typeof dt.destroy === "function") dt.destroy();
+        dt = new simpleDatatables.DataTable("#leaveTable", {
+          searchable: true,
+          fixedHeight: false,
+          perPage: 15,
+          data: {
+            headings: ["Employee", "Leave Type", "Total Days", "Total Hours", "Planned Hours"],
+            data: rows
+          },
+          labels: {
+            placeholder: "Search…",
+            noRows: "No leave records found",
+            info: "Showing {start}–{end} of {rows}"
+          }
+        });
+
+        const searchBox = document.getElementById("searchBox");
+        searchBox.value = "";
+        searchBox.oninput = e => {
+          const v = e.target.value || "";
+          if (dt.input) dt.input.value = v;
+          if (typeof dt.search === "function") dt.search(v);
+        };
+      }
+
+      function renderCharts(list) {
+        // Flatten
+        const flat = [];
+        for (const emp of list) {
+          const empName = emp.employee_name ?? "-";
+          for (const l of (emp.leaves || [])) {
+            flat.push({
+              employee: empName,
+              type: l.leaveType ?? "-",
+              hours: Number(l.totalHours ?? 0),
+              days: Number(l.totalDays ?? 0)
+            });
+          }
+        }
+
+
+        // Chart 1: Totals by leave type
+        const typeAggHours = {};
+        flat.forEach(x => {
+          typeAggHours[x.type] = (typeAggHours[x.type] || 0) + x.hours; // hours
+        });
+
+        const labels1 = Object.keys(typeAggHours);
+        const data1 = Object.values(typeAggHours);
+
+        const ctx1 = document.getElementById("chartByType").getContext("2d");
+        if (chartType) chartType.destroy();
+        chartType = new Chart(ctx1, {
+          type: "bar",
+          data: {
+            labels: labels1,
+            datasets: [{
+              label: "Totaal uren per verloftype",
+              data: data1,
+              backgroundColor: "rgba(54, 162, 235, 0.6)"
+            }]
+          },
+          options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            animation: false,
+            plugins: {
+              legend: { display: false },
+              title: { display: true, text: "Totaal uren per verloftype" }
+            },
+            scales: {
+              x: { ticks: { display: false } },
+              y: { beginAtZero: true }
+            }
+          }
+        });
+
+        // Chart 2: Totals by employee
+        const empAggHours = {};
+        flat.forEach(x => {
+          empAggHours[x.employee] = (empAggHours[x.employee] || 0) + x.hours;
+        });
+        const labels2 = Object.keys(empAggHours);
+        const data2 = Object.values(empAggHours);
+
+        const ctx2 = document.getElementById("chartByEmployee").getContext("2d");
+        if (chartEmp) chartEmp.destroy();
+        chartEmp = new Chart(ctx2, {
+          type: "bar",
+          data: {
+            labels: labels2,
+            datasets: [{
+              label: "Totaal uren per medewerker",
+              data: data2,
+              backgroundColor: "rgba(255, 159, 64, 0.6)"
+            }]
+          },
+          options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            animation: false,
+            plugins: {
+              legend: { display: false },
+              title: { display: true, text: "Totaal uren per medewerker" }
+            },
+            scales: {
+              x: { ticks: { display: false } },
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      }
+
+      function render() {
+        const list = getData();
+        const rows = buildRows(list);
+        rebuildTable(rows);
+        renderCharts(list);
+      }
+
+      window.addEventListener("load", render);
+      window.addEventListener("message", e => {
+        if (e.data?.type === "toolOutput") {
+          window.openai = window.openai || {};
+          window.openai.toolOutput = e.data.payload;
+          render();
+        }
+      });
+    })();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "NederlandWereldwijd",
+    "title": "Nederland Wereldwijd",
+    "version": "1.0.0",
+    "websiteUrl": "https://nederlandwereldwijd.nl",
+    "description": "Informatie over landen, reisadviezen en ambassades wereldwijd.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2iQhd7hj99WHMJaUioSjAoW3uzvJ9N-CFaQ&s"
+      }
+    ]
+  }
+}

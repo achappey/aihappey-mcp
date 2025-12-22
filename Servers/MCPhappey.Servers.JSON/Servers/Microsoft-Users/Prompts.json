@@ -1,0 +1,124 @@
+{
+  "prompts": [
+    {
+      "prompt": "Find a user by username {userName} and show their display name, department, and job title.",
+      "template": {
+        "name": "find-user-by-username",
+        "title": "Find user by username",
+        "description": "Finds a user using their username (email address/UPN) and shows key details.",
+        "arguments": [
+          {
+            "name": "userName",
+            "description": "The user's username (user principal name or email address).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show all users in the department {departmentName}, including their display name and email address.",
+      "template": {
+        "name": "list-users-by-department",
+        "title": "List users by department",
+        "description": "Lists all users in the specified department, showing display name and email address.",
+        "arguments": [
+          {
+            "name": "departmentName",
+            "description": "The department name to filter users by.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Find a user by their display name: {userDisplayName}, and show their full profile.",
+      "template": {
+        "name": "find-user-by-displayname",
+        "title": "Find user by displayname",
+        "description": "Finds a user by their full display name, returning full profile.",
+        "arguments": [
+          {
+            "name": "userDisplayName",
+            "description": "The user's full display name.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show the manager of user {userName}, including their display name, email, and job title.",
+      "template": {
+        "name": "get-user-manager",
+        "title": "Get user’s manager",
+        "description": "Retrieves the manager of a specific user, showing display name, email, and job title.",
+        "arguments": [
+          {
+            "name": "userName",
+            "description": "The username (UPN/email) of the user whose manager you want to retrieve.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List all direct reports of user {userName}, including their display name and job title.",
+      "template": {
+        "name": "list-direct-reports",
+        "title": "List direct reports",
+        "description": "Lists all users who directly report to a given manager.",
+        "arguments": [
+          {
+            "name": "userName",
+            "description": "The username (UPN/email) of the manager.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show all groups that user {userName} is a member of.",
+      "template": {
+        "name": "list-user-groups",
+        "title": "List user groups",
+        "description": "Lists all groups the specified user is a member of.",
+        "arguments": [
+          {
+            "name": "userName",
+            "description": "The username (UPN/email) of the user.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Find all users created since {createdSince}, showing display name, email, and created date.",
+      "template": {
+        "name": "list-recent-users",
+        "title": "List recently created users",
+        "description": "Lists all users created since the given date.",
+        "arguments": [
+          {
+            "name": "createdSince",
+            "description": "The date in ISO 8601 format (e.g. 2025-07-01T00:00:00Z).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show the assigned licenses of user {userName}.",
+      "template": {
+        "name": "get-user-licenses",
+        "title": "Get user licenses",
+        "description": "Retrieves the assigned licenses and service plans for a specific user.",
+        "arguments": [
+          {
+            "name": "userName",
+            "description": "The username (UPN/email) of the user.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

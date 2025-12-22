@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Country Detail</title>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --gap: 12px;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.4
+    }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--gap)
+    }
+
+    .card {
+      padding: var(--gap);
+      overflow: hidden
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--gap);
+      margin-bottom: var(--gap);
+      flex-wrap: wrap
+    }
+
+    .title {
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 600
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid rgba(0, 0, 0, .2);
+      background: transparent;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit
+    }
+
+    .inline {
+      display: flex;
+      align-items: center;
+      gap: var(--gap);
+      min-width: 0
+    }
+
+    .flag {
+      width: 72px;
+      height: auto;
+      border-radius: 6px;
+      flex: 0 0 auto
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2px 10px;
+      min-width: 0
+    }
+
+    .label {
+      opacity: .75;
+      white-space: nowrap
+    }
+
+    .value {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .fullscreen {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--gap)
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: var(--gap);
+      flex-wrap: wrap
+    }
+
+    .hero .flag {
+      width: 140px;
+      border-radius: 10px
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: 1.5rem
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--gap)
+    }
+
+    section {
+      border: 1px solid rgba(0, 0, 0, .12);
+      border-radius: var(--radius);
+      padding: var(--gap)
+    }
+
+    section h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem
+    }
+
+    dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 6px 12px
+    }
+
+    dt {
+      opacity: .75;
+      white-space: nowrap
+    }
+
+    dd {
+      margin: 0
+    }
+
+    .scroller {
+      overflow: auto;
+      max-height: 100%
+    }
+
+    .inline-grid {
+      display: grid;
+      gap: var(--gap);
+      /* auto-fit makes it 2 columns when there's room, 1 column when narrow */
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      flex: 1 1 auto;
+      /* take remaining width next to the flag */
+      min-width: 0;
+      /* prevent overflow */
+    }
+
+    .info {
+      border: 1px solid rgba(0, 0, 0, .12);
+      border-radius: var(--radius);
+      padding: var(--gap);
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+
+    [hidden] {
+      display: none !important
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" x-data="countryWidget()" x-init="init()" x-effect="applyMaxHeight()">
+    <div class="card">
+      <div class="toolbar">
+        <h1 class="title" x-text="officialName || 'Country'"></h1>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button @click="getNeighbouringCountries" title="Get neighbouring countries"
+            x-text="$t('neighbouring')"></button>
+          <button @click="toggleMode" title="Toggle view" x-show="mode === 'inline'" x-text="$t('fullscreen')"></button>
+        </div>
+
+      </div>
+
+      <div class="scroller" x-ref="scroller">
+        <!-- Inline -->
+        <div class="inline" x-show="mode === 'inline'">
+          <img class="flag" :src="flagPng" :alt="officialName" />
+
+          <!-- Two responsive info blocks that wrap automatically -->
+          <div class="inline-grid">
+            <!-- Block 1 -->
+            <div class="row info">
+              <template x-for="item in inlineItems" :key="item[0]">
+                <div style="display: contents;">
+                  <div class="label" x-text="item[0]"></div>
+                  <div class="value" x-text="item[1]"></div>
+                </div>
+              </template>
+            </div>
+
+            <!-- Block 2 (new) -->
+            <div class="row info">
+              <template x-for="item in inlineItems2" :key="item[0]">
+                <div style="display: contents;">
+                  <div class="label" x-text="item[0]"></div>
+                  <div class="value" x-text="item[1]"></div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Fullscreen -->
+        <div class="fullscreen" x-show="mode === 'fullscreen'">
+          <div class="hero">
+            <img class="flag" :src="flagPng" :alt="officialName" />
+            <div>
+              <h2 x-text="officialName"></h2>
+              <div x-text="tagline"></div>
+            </div>
+          </div>
+
+          <div class="sections">
+            <template x-for="section in sections" :key="section.title">
+              <section>
+                <h3 x-text="section.title"></h3>
+                <dl>
+                  <template x-for="row in section.items" :key="row[0]">
+                    <div style="display: contents;">
+                      <dt x-text="row[0]"></dt>
+                      <dd x-text="row[1]"></dd>
+                    </div>
+                  </template>
+                </dl>
+              </section>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function countryWidget() {
+      return {
+        mode: (window.openai && window.openai.displayMode) || "inline",
+        data: window.openai?.toolOutput || null,
+        maxHeight: window.openai?.maxHeight ?? null,
+
+        get officialName() {
+          return this.data?.name?.official || this.data?.name?.common || "Country";
+        },
+        get flagPng() { return this.data?.flags?.png || ""; },
+        get tagline() {
+          const region = [this.data?.region, this.data?.subregion].filter(Boolean).join(" / ");
+          const capital = Array.isArray(this.data?.capital) ? this.data.capital[0] : this.data?.capital;
+          return [region || null, capital ? `Capital: ${capital}` : null, this.data?.flag || null]
+            .filter(Boolean).join(" • ");
+        },
+        get inlineItems() {
+          const d = this.data || {};
+          const region = [d.region, d.subregion].filter(Boolean).join(" / ");
+          const capital = Array.isArray(d.capital) ? d.capital[0] : d.capital;
+          const codes = [d.cca2, d.cca3, d.ccn3].filter(Boolean).join(" / ");
+          return [
+            ["Name", this.officialName],
+            ["Region", region],
+            ["Capital", capital],
+            ["Codes", codes],
+          ].filter(i => i[1] && String(i[1]).trim().length > 0);
+        },
+        get inlineItems2() {
+          const d = this.data || {};
+          const join = (a, sep = ", ") => Array.isArray(a) ? a.filter(Boolean).join(sep) : (a ?? "-");
+          const text = v => (v == null || v === "") ? "-" : String(v);
+
+          // Currency (first entry)
+          let currency = "-";
+          if (d.currencies && typeof d.currencies === "object") {
+            const [code, val] = Object.entries(d.currencies)[0] || [];
+            if (code) {
+              const sym = val?.symbol ? ` (${val.symbol})` : "";
+              const nm = val?.name ? ` – ${val.name}` : "";
+              currency = `${code}${sym}${nm}`.trim();
+            }
+          }
+
+          // Calling code
+          const idd = d?.idd ? `${d.idd.root || ""}${Array.isArray(d.idd.suffixes) ? d.idd.suffixes.join(",") : ""}` : "-";
+
+          // Format numbers (fallback safe)
+          const nf = (n) => (typeof n === "number" ? new Intl.NumberFormat().format(n) : text(n));
+
+          return [
+            ["Population", d.population ? nf(d.population) : "-"],
+            ["Area (km²)", d.area ? nf(d.area) : "-"],
+            ["Timezones", join(d.timezones)],
+            ["Currency", currency],
+            ["Calling code", text(idd)],
+          ].filter(i => i[1] && String(i[1]).trim().length > 0);
+        },
+
+        get sections() {
+          const d = this.data || {};
+          const join = (a, sep = ", ") => Array.isArray(a) ? a.filter(Boolean).join(sep) : (a ?? "-");
+          const text = v => (v == null || v === "") ? "-" : String(v);
+
+          const overview = [
+            ["Official name", text(this.officialName)],
+            ["Common name", text(d?.name?.common)],
+            ["Status", text(d?.status)],
+            ["Independent", text(d?.independent)],
+            ["UN Member", text(d?.unMember)],
+            ["Region", text([d?.region, d?.subregion].filter(Boolean).join(" / "))],
+            ["Capital", text(Array.isArray(d?.capital) ? d.capital[0] : d?.capital)],
+            ["Timezones", join(d?.timezones)],
+          ];
+
+          const geography = [
+            ["Coordinates", join(d?.latlng)],
+            ["Area (km²)", text(d?.area)],
+            ["Landlocked", text(d?.landlocked)],
+            ["Borders", join(d?.borders)],
+            ["Continents", join(d?.continents)],
+          ];
+
+          const codes = [
+            ["CCA2", text(d?.cca2)],
+            ["CCA3", text(d?.cca3)],
+            ["CCN3", text(d?.ccn3)],
+            ["CIOC", text(d?.cioc)],
+            ["FIFA", text(d?.fifa)],
+            ["TLD", join(d?.tld)],
+          ];
+
+          const langs = d?.languages ? Object.values(d.languages).join(", ") : "-";
+          const curr = d?.currencies
+            ? Object.entries(d.currencies)
+              .map(([code, v]) => `${code}${v?.symbol ? ` (${v.symbol})` : ""}${v?.name ? ` – ${v.name}` : ""}`)
+              .join("; ")
+            : "-";
+          const langsCurr = [
+            ["Languages", langs],
+            ["Currencies", curr],
+          ];
+
+          const dem = d?.demonyms || {};
+          const people = [
+            ["Demonyms (EN)", [dem.eng?.m, dem.eng?.f].filter(Boolean).join(" / ") || "-"],
+            ["Demonyms (FR)", [dem.fra?.m, dem.fra?.f].filter(Boolean).join(" / ") || "-"],
+          ];
+
+          const idd = d?.idd ? `${d.idd.root || ""}${Array.isArray(d.idd.suffixes) ? d.idd.suffixes.join(",") : ""}` : "-";
+          const carSigns = Array.isArray(d?.car?.signs) ? d.car.signs.join(", ") : null;
+          const logistics = [
+            ["Calling code", text(idd)],
+            ["Drives on", text(d?.car?.side)],
+            ["Car signs", text(carSigns)],
+            ["Postal format", text(d?.postalCode?.format)],
+            ["Postal regex", text(d?.postalCode?.regex)],
+            ["Capital coords", join(d?.capitalInfo?.latlng)],
+          ];
+
+          const maps = [
+            ["Google Maps", text(d?.maps?.googleMaps)],
+            ["OpenStreetMap", text(d?.maps?.openStreetMaps)],
+          ];
+
+          return [
+            { title: "Overview", items: overview },
+            { title: "Geography", items: geography },
+            { title: "Codes", items: codes },
+            { title: "Languages & Currencies", items: langsCurr },
+            { title: "People", items: people },
+            { title: "Logistics", items: logistics },
+            { title: "Maps", items: maps },
+          ];
+        },
+
+        toggleMode() {
+          this.mode = this.mode === "inline" ? "fullscreen" : "inline";
+          window.openai?.requestDisplayMode?.({ mode: this.mode });
+        },
+
+        getNeighbouringCountries() {
+          window.openai?.sendFollowupTurn?.({ prompt: `Can you display similar details for the neighbouring countries of ${this.officialName}?` });
+        },
+
+        applyMaxHeight() {
+          const scroller = this.$refs.scroller;
+          if (this.mode === "fullscreen" && typeof this.maxHeight === "number" && this.maxHeight > 0) {
+            scroller.style.maxHeight = (this.maxHeight - 80) + "px";
+            scroller.style.overflow = "auto";
+          } else {
+            scroller.style.maxHeight = "";
+            scroller.style.overflow = "";
+          }
+        },
+
+        init() {
+          // Listen for host updates
+          window.addEventListener("message", (e) => {
+            if (e?.data?.type === "toolOutput") this.data = e.data.payload;
+            if (e?.data?.type === "openai:set_globals" && e.data.globals) {
+              if (e.data.globals.maxHeight !== undefined) this.maxHeight = e.data.globals.maxHeight;
+              if (e.data.globals.displayMode) this.mode = e.data.globals.displayMode;
+            }
+          });
+        }
+      };
+    }
+  </script>
+
+  <script>
+    // --- Minimal, plugin-free i18n for Alpine (works in static HTML) ---
+    document.addEventListener("alpine:init", () => {
+      const get = (obj, path) => path.split('.').reduce((o, k) => (o && o[k] != null) ? o[k] : undefined, obj);
+      const fmt = (str, vars = {}) => String(str).replace(/\{(\w+)\}/g, (_, k) => (k in vars ? vars[k] : `{${k}}`));
+
+      // Reactive store so Alpine re-renders on locale change
+      const i18n = Alpine.reactive({
+        locale: (window.openai?.locale || "en"),
+        fallback: "en",
+        messages: {
+          en: {
+            fullscreen: "Full screen",
+            neighbouring: "Neighbouring countries",
+            // add more keys here as you go...
+          },
+          nl: {
+            fullscreen: "Volledig scherm",
+            neighbouring: "Buurlanden",
+          },
+        }
+      });
+
+      Alpine.store("i18n", i18n);
+
+      const translate = (key, vars) => {
+        const msg = get(i18n.messages[i18n.locale] || {}, key)
+          ?? get(i18n.messages[i18n.fallback] || {}, key)
+          ?? key;
+        return fmt(msg, vars);
+      };
+
+      // Expose `$t('key', {name:'...'})`
+      Alpine.magic("t", () => (key, vars = {}) => translate(key, vars));
+
+      // Optional: keep in sync with host
+      window.addEventListener("message", (e) => {
+        const newLocale = e?.data?.globals?.locale;
+        if (newLocale && typeof newLocale === "string") {
+          Alpine.store("i18n").locale = newLocale;
+        }
+      });
+
+      // Also expose a manual setter if you want from console:
+      window.setLocale = (l) => Alpine.store("i18n").locale = l;
+    });
+  </script>
+</body>
+
+</html>

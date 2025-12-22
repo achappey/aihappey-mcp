@@ -1,0 +1,11 @@
+{
+  "serverInfo": {
+    "name": "Calendar",
+    "title": "Calendar",
+    "version": "1.0.0",
+    "description": "Show today’s date and time and calculate week numbers and ranges for any month."
+  },
+  "plugins": [
+    "MCPhappey.Tools.Agent.CalendarService, MCPhappey.Tools"
+  ]
+}

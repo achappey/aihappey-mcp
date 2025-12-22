@@ -1,0 +1,33 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-Apps",
+    "title": "OpenAI Apps",
+    "version": "1.0.0",
+    "description": "Helps creating interactive OpenAI compatible chat apps.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "instructions": "OpenAI Apps are built on top of MCP servers. Every tool that outputs structured content can be extended with a static HTML page that renders this content. These pages can use any web technology — HTML, CSS, JavaScript, Alpine.js, Web Components, etc. By default, use the predefined Chat web components (e.g. <chatapp-header>, <chatapp-card>, <chatapp-carousel>) for consistent styling, interactivity, and theme integration. The page must remain self-contained, load external dependencies, and respect OpenAI widget globals (window.openai, window.openai.toolOutput, window.openai.requestDisplayMode, etc.). Apps must support inline displayMode and can optionally implement fullscreen displaymode. See the sample widgets and documentation for reference.",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.Apps.OpenAIApps, MCPhappey.Tools"
+  ],
+  "tools": {
+    "openai_apps_get_company_list": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/random-companies.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

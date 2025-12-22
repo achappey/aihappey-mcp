@@ -1,0 +1,45 @@
+{
+  "serverInfo": {
+    "name": "Simplicate-Projects",
+    "title": "Simplicate Projecten",
+    "version": "1.0.0",
+    "description": "Simplicate projecten: projecten, fases en budgetten ophalen en analyseren.",
+    "icons": [
+      {
+        "src": "https://developer.simplicate.com/images/simplicate_icon.png"
+      }
+    ]
+  },
+  "instructions": "Payloads without select query string parameters are very large.\nRelated entities use a '.' behind the field name in select queries. Total item count is returned in list responses. Use limit=1 with filters to count totals of large datasets. There is NO need to include unused filter properties in resources. Resource templates are only supplied with all options to show all working options compact. NULL values may be searched with null : q[name]=null. Non NULL values may be searched with *: q[name]=*",
+  "plugins": [
+    "MCPhappey.Simplicate.SimplicateCurrentUser, MCPhappey.Simplicate",
+    "MCPhappey.Simplicate.Projects.SimplicateProjects, MCPhappey.Simplicate"
+  ],
+  "headers": {
+    "Authentication-Key": "Simplicate Api Key",
+    "Authentication-Secret": "Simplicate Api Secret"
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "tools": {
+    "simplicate_projects_get_budget_totals_by_manager": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/project-budget-by-manager.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_projects_get_budget_totals_by_cost_type": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/project-budget-totals-by-cost-type.html",
+        "openai/widgetAccessible": true
+      }
+    },
+    "simplicate_projects_get_budget_spent_vs_budget": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/project-spent-vs-budget.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

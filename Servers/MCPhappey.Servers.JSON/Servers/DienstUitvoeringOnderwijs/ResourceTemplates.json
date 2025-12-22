@@ -1,0 +1,76 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=0423457d-c69e-4950-a12c-51912fc48faf&q={query}&limit={limit}",
+      "name": "slagingspercentages-examencijfers-per-vestiging",
+      "title": "Slagingspercentages en gemiddelde examencijfers per vestiging",
+      "description": "Examenkandidaten, geslaagden, gezakten, slagingspercentages en gemiddelde examencijfers per VO-vestiging",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=ffffa7ad-e6a2-4ba7-9fc2-a09df4128555&q={query}&limit={limit}",
+      "name": "ho-opleidingsoverzicht",
+      "title": "HO Opleidingsoverzicht",
+      "description": "Bevat informatie over bekostigde, actuele en toekomstige opleidingen in het hoger onderwijs. Binnen deze dataset vindt u informatie die afkomstig is uit de aangeboden opleidingen, opleidingseenheden, opleidingserkenningen, onderwijslocaties, onderwijsaanbieders en onderwijsbesturen uit Registratie Instellingen en Opleidingen (RIO).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=5776abd4-d34b-4489-9b1b-fd639b05acdb&q={query}&limit={limit}",
+      "name": "mbo-opleidingsaanbod",
+      "title": "MBO Opleidingsaanbod",
+      "description": "Actuele aangeboden opleidingen met de bijbehorende cohorten waarvan de status open is en waarvan de aanmeldperiode nog niet is verstreken.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=1a946297-a7ca-48d5-9ae8-19ad73bf8176&q={query}&limit={limit}",
+      "name": "adressen-instellingen",
+      "title": "Adressen instellingen",
+      "description": "De adresgegevens van door OCW bekostigde instellingen voor middelbaar beroepsonderwijs, bestaand uit vestigings- en correspondentieadres, bijhorend schoolbestuur, denominatie en regionale gebiedsindelingen (nodaal, RPA, WGR, COROP, onderwijsgebied, RMC regio).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id=bf1da9c6-c688-4873-91b1-b12c9ac2c132&q={query}&limit={limit}",
+      "name": "adressen-instellingen-hoger-onderwijs",
+      "title": "Adressen van instellingen in het hoger onderwijs",
+      "description": "Adressen van instellingen in het hoger onderwijs.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://onderwijsdata.duo.nl/api/3/action/datastore_search?resource_id={resourceId}&q={query}&limit={limit}",
+      "name": "duo-onderwijsdata",
+      "title": "Generieke template voor onderwijsdata",
+      "description": "Generieke resource template voor onderwijsdata. Werkt alleen met geldige resourceId.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

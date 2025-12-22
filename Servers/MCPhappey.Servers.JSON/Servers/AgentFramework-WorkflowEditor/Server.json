@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "AgentFramework-WorkflowEditor",
+    "title": "AgentFramework-WorkflowEditor",
+    "version": "1.0.0",
+    "websiteUrl": "https://learn.microsoft.com/en-us/agent-framework",
+    "description": "Create, inspect and modify AI workflows using simple YAML."
+  },
+  "instructions": "You generate, read, validate and update workflows in the Microsoft Agent Frameework declarative YAML format.",
+  "plugins": [
+    "MCPhappey.Tools.AgentFramework.WorkflowEditor, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

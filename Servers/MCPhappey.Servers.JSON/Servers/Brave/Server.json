@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Brave",
+    "title": "Brave",
+    "version": "1.0.0",
+    "websiteUrl": "https://brave.com",
+    "description": "Privacy-focused web and news search results from Brave.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/5/51/Brave_icon_lionface.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

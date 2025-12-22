@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://www.vektis.nl/open-data",
+      "name": "vektis-open-data",
+      "title": "Open data over de zorg",
+      "description": "Overzicht van openbare zorgdata van Vektis, met cijfers per regio en jaar.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.vektis.nl",
+      "name": "vektis-home",
+      "title": "Vektis",
+      "description": "Informatieplatform met cijfers en inzichten over de Nederlandse zorg.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

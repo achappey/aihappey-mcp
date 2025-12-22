@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/applications/{applicationId}",
+      "name": "get-application",
+      "title": "Get application details",
+      "description": "Gets the details of a specific application by application ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/applications/{applicationId}/owners",
+      "name": "application-owners",
+      "title": "List application owners",
+      "description": "Lists the owners of a specific application.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/applications/{applicationId}/appRoles",
+      "name": "application-approles",
+      "title": "List application appRoles",
+      "description": "Lists the app roles defined on a specific application.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/applications/{applicationId}/federatedIdentityCredentials",
+      "name": "application-federated-credentials",
+      "title": "List Federated Identity Credentials",
+      "description": "Lists federated identity credentials configured on a specific application.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

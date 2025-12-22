@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "DienstUitvoeringOnderwijs",
+    "title": "Dienst Uitvoering Onderwijs (DUO)",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.duo.nl",
+    "description": "DUO data: info over studiefinanciering, onderwijsinstellingen en registraties in NL.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/C560BAQHchSWlNHTy4g/company-logo_200_200/company-logo_200_200/0/1642004227429/dienst_uitvoering_onderwijs_ministerie_van_ocw__logo?e=2147483647&v=beta&t=RPf8ycvAPdFfARCxQyuHvzKYo71V09eCGGAXOonmlV8"
+      }
+    ]
+  }
+}

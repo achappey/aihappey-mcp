@@ -1,0 +1,124 @@
+{
+  "resources": [
+    {
+      "uri": "https://www.kadaster.nl/zakelijk/vastgoedinformatie/kwartaalberichten/kwartaalberichten-woningmarkt",
+      "name": "kwartaalberichten-woningmarkt",
+      "title": "Kwartaalberichten woningmarkt",
+      "description": "Overzichtspagina met alle kwartaalberichten over de woningmarkt (doorklik naar detailartikelen).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.kadaster.nl/zakelijk/vastgoedinformatie/kwartaalberichten-agrarische-grondmarkt",
+      "name": "kwartaalberichten-agrarisch",
+      "title": "Kwartaalberichten agrarische grondmarkt",
+      "description": "Overzichtspagina met kwartaalberichten over de agrarische grondmarkt.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.kadaster.nl/zakelijk/vastgoedinformatie/vastgoedcijfers/vastgoeddashboard",
+      "name": "vastgoeddashboard",
+      "title": "Vastgoeddashboard",
+      "description": "Maandelijkse cijfers en grafieken over o.a. woningverkopen (landelijk en per provincie).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.kadaster.nl/zakelijk/woningmarkt",
+      "name": "woningmarkt-landing",
+      "title": "Woningmarkt landingspagina",
+      "description": "Inhoudelijke themapagina met subsecties (starters, senioren, investeerders, hypotheekmarkt, etc.).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.kadaster.nl/zakelijk/over-ons/nieuws",
+      "name": "nieuws-overzicht",
+      "title": "Nieuws en onderzoeken",
+      "description": "Overzicht van nieuws/onderzoeken; gateway naar gerelateerde artikelen en thema’s.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.kadaster.nl/zakelijk/over-ons/nieuws/rss",
+      "name": "nieuws-rss",
+      "title": "RSS-feed nieuws",
+      "description": "RSS-feed met recente Kadaster-berichten voor snelle detectie van nieuwe publicaties.",
+      "mimeType": "application/rss+xml",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.kadaster.nl/sitemap.xml",
+      "name": "sitemap-xml",
+      "title": "Sitemap",
+      "description": "Sitemap met brede dekking van pagina-URL’s; efficiënt startpunt om veel content te vinden.",
+      "mimeType": "application/xml",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.kadaster.nl/zakelijk/over-ons/contact/pers-en-media/publicatieplanning",
+      "name": "publicatieplanning",
+      "title": "Publicatieplanning",
+      "description": "Kalender met aankomende publicaties (handig om toekomstige kwartaalberichten en onderzoeken te volgen).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.kadaster.nl/zakelijk/vastgoedinformatie",
+      "name": "vastgoedinformatie-landing",
+      "title": "Vastgoedinformatie landingspagina",
+      "description": "Overkoepelende ingang naar vastgoedcijfers, kwartaalberichten en datasets.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.kadaster.nl/expert-woningmarkt-matthieu-zuidema",
+      "name": "expert-woningmarkt",
+      "title": "Expert woningmarkt",
+      "description": "Profielpagina van de woningmarktexpert; handig voor context en contactgegevens bij publicaties.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

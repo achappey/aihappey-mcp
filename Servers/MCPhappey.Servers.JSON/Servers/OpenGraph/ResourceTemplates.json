@@ -1,0 +1,76 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://opengraph.io/api/1.1/site/{encodedUrl}?cache_ok={cacheOk}&full_render={fullRender}&use_proxy={useProxy}&use_premium={usePremium}&use_superior={useSuperior}&auto_proxy={autoProxy}&max_cache_age={maxCacheAge}&accept_lang={acceptLang}",
+      "name": "opengraph-get-open-graph",
+      "title": "Get Open Graph metadata for a website",
+      "description": "Retrieves Open Graph and HTML-inferred metadata (title, description, image, etc.) from a given URL.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opengraph.io/api/1.1/extract/{encodedUrl}?html_elements={htmlElements}&cache_ok={cacheOk}&full_render={fullRender}&use_proxy={useProxy}&use_premium={usePremium}&use_superior={useSuperior}&auto_proxy={autoProxy}&max_cache_age={maxCacheAge}&accept_lang={acceptLang}",
+      "name": "opengraph-extract-site",
+      "title": "Extract text and elements from a website",
+      "description": "Extracts text content from specific HTML elements (title, headings, paragraphs, etc.) on a web page.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opengraph.io/api/1.1/scrape/{encodedUrl}?cache_ok={cacheOk}&full_render={fullRender}&use_proxy={useProxy}&use_premium={usePremium}&use_superior={useSuperior}&auto_proxy={autoProxy}&max_cache_age={maxCacheAge}&accept_lang={acceptLang}",
+      "name": "opengraph-scrape-site",
+      "title": "Scrape full HTML of a website",
+      "description": "Returns the full raw HTML source of the specified website for analysis or parsing.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opengraph.io/api/1.1/screenshot/{encodedUrl}?format={format}&quality={quality}&full_page={fullPage}&dimensions={dimensions}&selector={selector}&exclude_selectors={excludeSelectors}&block_cookie_banner={blockCookieBanner}&dark_mode={darkMode}",
+      "name": "opengraph-get-screenshot",
+      "title": "Capture screenshot of a website",
+      "description": "Captures a full-page or viewport screenshot of a given website with optional format, quality, and dimensions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opengraph.io/api/1.1/oembed/{encodedUrl}",
+      "name": "opengraph-get-oembed",
+      "title": "Get oEmbed data for a website",
+      "description": "Returns embeddable HTML representation of a website (iframe, provider, width, height).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://opengraph.io/api/1.1/query/{encodedUrl}?query={query}&responseStructure={responseStructure}",
+      "name": "opengraph-query-site",
+      "title": "Query website for main headline or summary",
+      "description": "Lets the AI ask a question about a website, such as 'What is the main headline?'.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

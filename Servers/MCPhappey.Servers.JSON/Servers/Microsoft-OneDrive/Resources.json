@@ -1,0 +1,144 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive?$select=id,quota",
+      "name": "one-drive-usage-and-limits",
+      "title": "OneDrive usage and limits",
+      "description": "Get personal OneDrive usage and quota",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/recent?$select=id,name,webUrl,lastModifiedDateTime,size,createdBy,folder,file&$top=25",
+      "name": "recent-files",
+      "title": "Recent files",
+      "description": "Get recently accessed files from OneDrive with essential properties",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/sharedWithMe?$select=id,name,webUrl,lastModifiedDateTime,shared,createdBy,remoteItem&$top=25",
+      "name": "shared-with-me",
+      "title": "Shared with me",
+      "description": "Get files shared with user including sharing details",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/root/microsoft.graph.search(q='.pdf')?$top=25&$select=id,name,webUrl,lastModifiedDateTime,size,file",
+      "name": "pdf-files",
+      "title": "PDF files",
+      "description": "Get PDF files with core metadata",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/special/documents?$select=id,name,webUrl,lastModifiedDateTime,size,folder,childCount",
+      "name": "documents-folder",
+      "title": "Documents folder",
+      "description": "Get Documents folder content with folder statistics",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/root/children?$orderby=lastModifiedDateTime desc&$top=10&$select=id,name,webUrl,lastModifiedDateTime,size,createdBy,file,folder",
+      "name": "latest-modified-files",
+      "title": "Latest modified files",
+      "description": "Get recently modified files with key properties",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/root/microsoft.graph.search(q='.docx')?$top=25&$select=id,name,webUrl,lastModifiedDateTime,size,file,createdBy",
+      "name": "word-documents",
+      "title": "Word documents",
+      "description": "Get Word documents with essential metadata",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/special/photos?$select=id,name,webUrl,lastModifiedDateTime,size,photo,image",
+      "name": "photos-folder",
+      "title": "Photos folder",
+      "description": "Get contents of the Pictures folder with image properties",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/following?$select=id,name,webUrl,lastModifiedDateTime,size,followed",
+      "name": "followed-items",
+      "title": "Followed items",
+      "description": "Get items the user is following in OneDrive",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/root/delta?$select=id,name,webUrl,lastModifiedDateTime,file,folder,deleted,createdBy",
+      "name": "changes-track",
+      "title": "Changes track",
+      "description": "Track changes in OneDrive root including deletions",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/special/desktop?$select=id,name,webUrl,lastModifiedDateTime,size,folder,childCount",
+      "name": "desktop-folder",
+      "title": "Desktop folder",
+      "description": "Get contents of the synced Desktop folder",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/root/microsoft.graph.search(q='.xlsx')?$top=25&$select=id,name,webUrl,lastModifiedDateTime,size,file,createdBy",
+      "name": "excel-files",
+      "title": "Excel files",
+      "description": "Get Excel files with core metadata",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/bundles?$select=id,name,webUrl,lastModifiedDateTime,bundle,album",
+      "name": "document-bundles",
+      "title": "Document bundles",
+      "description": "Get document sets and albums",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/drive/special/downloads?$select=id,name,webUrl,lastModifiedDateTime,size,folder,childCount",
+      "name": "downloads-folder",
+      "title": "Downloads folder",
+      "description": "Get contents of the Downloads folder",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

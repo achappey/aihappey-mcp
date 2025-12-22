@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "OpenXML-Word",
+    "title": "OpenXML Word",
+    "version": "1.0.0",
+    "description": "Generates and updates Word documents from text, HTML or Markdown content.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Microsoft_Office_Word_%282025%E2%80%93present%29.svg/746px-Microsoft_Office_Word_%282025%E2%80%93present%29.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenXML.Word.WordPlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

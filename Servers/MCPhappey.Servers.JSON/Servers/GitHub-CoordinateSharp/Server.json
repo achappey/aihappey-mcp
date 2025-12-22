@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "GitHub-CoordinateSharp",
+    "title": "GitHub CoordinateSharp",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/Tronald/CoordinateSharp",
+    "description": "Convert and compute coordinates: distances, bearings and sun/moon data for mapping.",
+    "icons": [
+      {
+        "src": "https://api.nuget.org/v3-flatcontainer/coordinatesharp/3.3.1.1/icon"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.CoordinateSharp.CoordinateSharpService, MCPhappey.Tools"
+  ]
+}

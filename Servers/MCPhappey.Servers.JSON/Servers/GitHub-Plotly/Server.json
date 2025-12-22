@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "GitHub-Plotly",
+        "title": "GitHub Plotly",
+        "version": "1.0.0",
+        "websiteUrl": "https://plotly.net",
+        "description": "Shows data as an interactive chart you can view or share.",
+        "icons": [
+            {
+                "src": "https://avatars.githubusercontent.com/u/5997976?s=280&v=4"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.GitHub.Plotly.PlotlyService, MCPhappey.Tools"
+    ]
+}

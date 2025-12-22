@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Invoices per Organization</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.js"></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-chart.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+  <style>
+    html { overflow: hidden; }
+    body { margin: 0; height: 100%; display: flex; flex-direction: column; }
+    .body { flex: 1; min-height: 250px; padding: 8px; display: flex; }
+    chart-js { width: 100%; }
+  </style>
+
+  <script>
+    window.invoiceChartWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        input: window.openai?.toolInput || null,
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          this.$nextTick(() => this.load());
+        },
+        load() {
+          this.$nextTick(() => {
+            const profiles = Array.isArray(this.data?.my_organization_profiles)
+              ? this.data.my_organization_profiles
+              : [];
+
+            const el = this.$refs.chart;
+            if (!el || !profiles.length) return;
+
+            // 🧮 Aggregate per organization
+            const labels = profiles.map(p => p.name || '(onbekend)');
+            const invoiceCounts = profiles.map(p =>
+              p.debtors.reduce((sum, d) => sum + (d.totalInvoices || 0), 0)
+            );
+            const totalOutstanding = profiles.map(p =>
+              p.debtors.reduce((sum, d) => sum + (d.totalOutstanding || 0), 0)
+            );
+            const avgDaysOpen = profiles.map(p => {
+              const allDays = p.debtors.map(d => d.averageDaysOpen || 0);
+              return allDays.length ? allDays.reduce((a, b) => a + b, 0) / allDays.length : 0;
+            });
+
+            const data = {
+              labels,
+              datasets: [
+                {
+                  label: "Aantal facturen",
+                  data: invoiceCounts,
+                  backgroundColor: "rgba(78,121,167,0.7)",
+                  yAxisID: "y",
+                },
+                {
+                  label: "Totaal uitstaand (€)",
+                  data: totalOutstanding,
+                  backgroundColor: "rgba(242,142,43,0.7)",
+                  yAxisID: "y",
+                },
+                {
+                  label: "Gem. aantal dagen open",
+                  data: avgDaysOpen,
+                  type: "line",
+                  borderColor: "#e15759",
+                  borderWidth: 2,
+                  tension: 0.3,
+                  yAxisID: "y1",
+                },
+              ],
+            };
+
+            const options = {
+              responsive: true,
+              maintainAspectRatio: false,
+              animation: { duration: 0 },
+              responsiveAnimationDuration: 0,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: { display: true, text: "Facturen / Totaal (€)" },
+                },
+                y1: {
+                  beginAtZero: true,
+                  position: "right",
+                  grid: { drawOnChartArea: false },
+                  title: { display: true, text: "Gem. aantal dagen open" },
+                },
+              },
+              plugins: {
+                legend: { position: "bottom" },
+                tooltip: {
+                  mode: "index",
+                  intersect: false,
+                  callbacks: {
+                    label: (ctx) => {
+                      const lbl = ctx.dataset.label;
+                      const val = ctx.formattedValue;
+                      return lbl.includes("€") ? `${lbl}: €${val}` : `${lbl}: ${val}`;
+                    },
+                  },
+                },
+              },
+            };
+
+            el.update({
+              type: "bar",
+              data,
+              options,
+              height: 280,
+            });
+          });
+        },
+      };
+    };
+  </script>
+</head>
+
+<body>
+  <div x-data="invoiceChartWidget()" x-init="init()" style="display:flex; flex-direction:column; height:100%;">
+    <chatapp-header text="Openstaande facturen per organisatie" no-fullscreen></chatapp-header>
+    <div class="body">
+      <chatapp-chart x-ref="chart"></chatapp-chart>
+    </div>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

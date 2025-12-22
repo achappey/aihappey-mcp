@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Calcasa",
+        "title": "Calcasa",
+        "version": "1.0.0",
+        "websiteUrl": "https://calcasa.nl",
+        "description": "WOX-kwartaalberichten van Calcasa: actuele woningmarktdata en kerncijfers vergelijken.",
+        "icons": [
+            {
+                "src": "https://pbs.twimg.com/profile_images/1374711327013416962/4Uq38c5o_400x400.jpg"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+    ]
+}

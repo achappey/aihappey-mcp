@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "ZorgkaartNederland",
+    "title": "Zorgkaart Nederland",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.zorgkaartnederland.nl",
+    "description": "Inzicht in NL-zorg: zorginstellingen, waarderingen, wachttijden en specialisten opzoeken.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPHNjn3ZPSr6c8IxSWGqN86zVwdk2wKyCrYg&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+  ]
+}

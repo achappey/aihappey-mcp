@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Applications",
+    "title": "Microsoft Applications",
+    "version": "1.0.0",
+    "description": "Browse Entra app registrations: view permissions, roles and identity settings for apps.",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Application.ReadWrite.All"
+  }
+}

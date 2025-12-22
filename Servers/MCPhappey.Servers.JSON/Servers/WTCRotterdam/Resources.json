@@ -1,0 +1,133 @@
+{
+  "resources": [
+    {
+      "uri": "https://www.wtcrotterdam.com",
+      "name": "wtc-home",
+      "title": "WTC Rotterdam — Home",
+      "description": "Startpunt met overzicht van kantoren, faciliteiten, nieuws en contactgegevens van WTC Rotterdam.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.wtcrotterdam.com/faciliteiten",
+      "name": "wtc-faciliteiten",
+      "title": "Faciliteiten in WTC Rotterdam",
+      "description": "Overzicht van voorzieningen in het gebouw, zoals vergaderruimtes, horeca, services en bereikbaarheid.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.wtcrotterdam.com/over-wtc",
+      "name": "wtc-over",
+      "title": "Over WTC Rotterdam",
+      "description": "Achtergrond, historie, positie binnen de WTCA en kerninformatie over het gebouw en de organisatie.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.wtcrotterdam.com/kantoren",
+      "name": "wtc-kantoren",
+      "title": "Kantoren — Aanbod en informatie",
+      "description": "Beschikbare kantoorruimtes, toren- en verdiepingsindeling, specificaties en verhuurinformatie.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.wtcrotterdam.com/flex-rooms",
+      "name": "wtc-flex-rooms",
+      "title": "Flex & Rooms — Vergader- en werkruimtes",
+      "description": "Informatie over flexplekken, meeting rooms, boekingsmogelijkheden en services.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.wtcrotterdam.com/over-wtc/revitalisatie",
+      "name": "wtc-revitalisatie",
+      "title": "Revitalisatie WTC Rotterdam",
+      "description": "Projectpagina met toelichting op de vernieuwing van entree, voorzieningen en kantoorruimtes.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.wtcrotterdam.com/over-wtc/duurzaamheid",
+      "name": "wtc-duurzaamheid",
+      "title": "Duurzaamheid bij WTC Rotterdam",
+      "description": "Duurzaamheidsinitiatieven, certificeringen (zoals BREEAM) en ESG-ambities van het gebouw.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.wtcrotterdam.com/contact",
+      "name": "wtc-contact",
+      "title": "Contact — WTC Rotterdam",
+      "description": "Contactgegevens, bezoekadres, routes en algemene servicelijnen.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.wtcrotterdam.com/contact/team",
+      "name": "wtc-contact-team",
+      "title": "Team — Contactpersonen",
+      "description": "Overzicht van teamleden en relevante contactpersonen met bereikbaarheid.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://www.wtcrotterdam.com/sitemap.xml",
+      "name": "wtc-sitemap",
+      "title": "Sitemap — WTC Rotterdam",
+      "description": "XML sitemap met belangrijkste publieke pagina’s en laatst wijzigingsdata; handig voor discovery en monitoring.",
+      "mimeType": "application/xml",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

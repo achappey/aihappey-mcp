@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "ApplicationInsights",
+    "title": "Application Insights",
+    "version": "1.0.0",
+    "description": "Query performance logs and metrics from Azure Application Insights for monitoring and diagnostics.",
+    "icons": [
+      {
+        "src": "https://symbols.getvecta.com/stencil_28/8_application-insights.e5d256458d.png"
+      }
+    ]
+  },
+  "headers": {
+    "x-api-key": "Application Insights API key"
+  }
+}

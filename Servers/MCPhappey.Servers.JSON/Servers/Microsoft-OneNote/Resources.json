@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/onenote/notebooks",
+      "name": "my-onenote-notebooks",
+      "title": "My OneNote Notebooks",
+      "description": "Lists the notebooks the current user has access to.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/onenote/pages",
+      "name": "my-onenote-pages",
+      "title": "My OneNote Pages",
+      "description": "Lists all OneNote pages for the signed-in user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

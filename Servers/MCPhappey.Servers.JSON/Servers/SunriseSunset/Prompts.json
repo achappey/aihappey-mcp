@@ -1,0 +1,83 @@
+{
+  "prompts": [
+    {
+      "prompt": "Get today's sunrise and sunset times for latitude {latitude} and longitude {longitude}.",
+      "template": {
+        "name": "get-today-sunrise-sunset",
+        "title": "Get today's sunrise and sunset",
+        "description": "Fetches today's sunrise and sunset times for the specified coordinates (UTC).",
+        "arguments": [
+          {
+            "name": "latitude",
+            "description": "Latitude in decimal degrees (e.g. 52.3702).",
+            "required": true
+          },
+          {
+            "name": "longitude",
+            "description": "Longitude in decimal degrees (e.g. 4.8952).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Get the sunrise and sunset times for latitude {latitude}, longitude {longitude} on date {date}.",
+      "template": {
+        "name": "get-sunrise-sunset-on-date",
+        "title": "Get sunrise and sunset for a specific date",
+        "description": "Fetches sunrise and sunset times for the given coordinates and date (UTC). Date format: yyyy-mm-dd.",
+        "arguments": [
+          {
+            "name": "latitude",
+            "description": "Latitude in decimal degrees.",
+            "required": true
+          },
+          {
+            "name": "longitude",
+            "description": "Longitude in decimal degrees.",
+            "required": true
+          },
+          {
+            "name": "date",
+            "description": "Date in yyyy-mm-dd format (e.g. 2025-08-06).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show the sunrise, sunset, and twilight times in ISO8601 format for latitude {latitude}, longitude {longitude}, on date {date}.",
+      "template": {
+        "name": "get-iso8601-sun-times",
+        "title": "Get sunrise, sunset, and twilight in ISO8601",
+        "description": "Returns all sun/twilight times for the given coordinates and date in ISO8601 time format (UTC).",
+        "arguments": [
+          {
+            "name": "latitude",
+            "description": "Latitude in decimal degrees.",
+            "required": true
+          },
+          {
+            "name": "longitude",
+            "description": "Longitude in decimal degrees.",
+            "required": true
+          },
+          {
+            "name": "date",
+            "description": "Date in yyyy-mm-dd format.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Get today's sunrise and sunset times for my location.",
+      "template": {
+        "name": "get-today-sunrise-sunset-context",
+        "title": "Get today's sunrise and sunset for current location",
+        "description": "Fetches today's sunrise and sunset times using the current location from user context. Latitude and longitude are inferred, not provided as arguments.",
+        "arguments": []
+      }
+    }
+  ]
+}

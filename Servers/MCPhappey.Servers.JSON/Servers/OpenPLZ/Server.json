@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "OpenPLZ",
+    "title": "OpenPLZ",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.openplzapi.org",
+    "description": "Postal codes and street data for AT, DE, CH and LI using OpenPLZ.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/108539274?v=4"
+      }
+    ]
+  }
+}

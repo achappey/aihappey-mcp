@@ -1,0 +1,102 @@
+{
+  "prompts": [
+    {
+      "prompt": "Set the presence availability to '{availability}' for {durationHours} hours. If number of hours is not mentioned, just set it for 1 hour.",
+      "template": {
+        "name": "set-presence-availability",
+        "title": "Set presence availability",
+        "description": "Sets the availability (e.g., Available, Busy, DoNotDisturb, Away) for a given number of hours.",
+        "arguments": [
+          {
+            "name": "availability",
+            "description": "The desired availability state (e.g., Available, Busy, DoNotDisturb or Away).",
+            "required": true
+          },
+          {
+            "name": "durationHours",
+            "description": "The duration in hours for which to set the availability."
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List all channels for the team {teamName}. Show each channel's description and whether it is private or standard.",
+      "template": {
+        "name": "list-team-channels",
+        "title": "List team channels",
+        "description": "Lists all channels in a specified Microsoft Teams team, showing descriptions and privacy types.",
+        "arguments": [
+          {
+            "name": "teamName",
+            "description": "The display name of the Microsoft Teams team.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Send the following message to the {channelName} channel in the {teamName} team: {message}.",
+      "template": {
+        "name": "send-team-channel-message",
+        "title": "Send team channel message",
+        "description": "Sends a message to a specific channel within a specified team.",
+        "arguments": [
+          {
+            "name": "teamName",
+            "description": "The display name of the Microsoft Teams team.",
+            "required": true
+          },
+          {
+            "name": "channelName",
+            "description": "The display name of the channel within the team.",
+            "required": true
+          },
+          {
+            "name": "message",
+            "description": "The message content to send.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List all Microsoft Teams teams I am a member of, including each team's description and number of members.",
+      "template": {
+        "name": "list-joined-teams",
+        "title": "List joined teams",
+        "description": "Lists all Microsoft Teams teams the user has joined, including descriptions and member counts.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Search the id of Microsoft Teams with name '{teamName}'. Create a new channel called {channelName} in the {teamName} team. The channel should be {channelType} (Standard, Private or SHared). Optionally, use this description: {description}.",
+      "template": {
+        "name": "create-team-channel",
+        "title": "Create team channel",
+        "description": "Creates a new channel in a specified Microsoft Teams team. You can specify the name, type (Standard/Private), and optionally a description.",
+        "arguments": [
+          {
+            "name": "teamName",
+            "description": "The display name of the Microsoft Teams team.",
+            "required": true
+          },
+          {
+            "name": "channelName",
+            "description": "The name of the new channel.",
+            "required": true
+          },
+          {
+            "name": "channelType",
+            "description": "The type of channel: Standard or Private or Shared.",
+            "required": true
+          },
+          {
+            "name": "description",
+            "description": "A description for the new channel.",
+            "required": false
+          }
+        ]
+      }
+    }
+  ]
+}

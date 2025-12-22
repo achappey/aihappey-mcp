@@ -1,0 +1,15 @@
+{
+    "serverInfo": {
+        "name": "KnowledgeGraph",
+        "title": "Knowledge Graph",
+        "version": "1.0.0",
+        "websiteUrl": "https://en.wikipedia.org/wiki/Knowledge_graph",
+        "description": "Extract entities and relationships to show how they connect in text."
+    },
+    "plugins": [
+        "MCPhappey.Tools.AI.KnowledgeGraph, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Together AI Rerank Results</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-carousel.js" defer></script>
+  <script src="%HOST_URL%/chatapp-card.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+  <script>
+    window.rerankResultsWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        input: window.openai?.toolInput || null,
+        results: [],
+        count: 0,
+
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          this.load();
+        },
+
+        parseDocText(docText) {
+          if (!docText) return {};
+          try {
+            const parsed = JSON.parse(docText);
+            return {
+              uri: parsed.uri ?? null,
+              mimeType: parsed.mimeType ?? '',
+              filename: parsed.filename ?? null,
+              contents: parsed.contents ?? parsed.text ?? '',
+            };
+          } catch {
+            // fallback when document.text is raw text
+            return { contents: docText };
+          }
+        },
+
+        load() {
+          const arr = this.data?.results ?? [];
+          this.results = arr.map((r, i) => {
+            const doc = this.parseDocText(r.document?.text);
+            return {
+              id: doc.uri ?? `result-${i}`, // always unique key
+              title: doc.filename || doc.mimeType || `Document ${i + 1}`,
+              text: doc.contents || '',
+              relevance: r.relevance_score?.toFixed(3) ?? '—',
+              uri: doc.uri,
+            };
+          });
+          this.count = this.results.length;
+        },
+
+        getHeader() {
+          return `Together Rerank: ${this.input?.query ?? ''} (${this.count})`;
+        }
+      };
+    };
+  </script>
+
+  <style>
+    .snippet {
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      font-size: small;
+      line-height: 1.4;
+    }
+
+    .relevance {
+      font-weight: 500;
+      color: var(--muted-color, #666);
+      font-size: 0.85em;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div x-data="rerankResultsWidget()" x-init="init()"
+    style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+    <chatapp-header :text="getHeader()" no-fullscreen></chatapp-header>
+
+    <chatapp-carousel style="flex:1; min-height:0;">
+      <template x-for="r in results" :key="r.id">
+        <chatapp-card :title="r.title" :description="'Relevance: ' + r.relevance">
+          <div slot="content">
+            <div class="snippet" x-text="r.text || '—'"></div>
+          </div>
+
+          <template x-if="r.uri">
+            <button slot="actions" @click.prevent="window.open(r.uri, '_blank')">Open</button>
+          </template>
+
+          <button slot="actions"
+            @click.prevent="window.askFollowup('Explain why this document (' + r.uri + ') is relevant for the query: ' + (input?.query || ''))">
+            Explain relevance
+          </button>
+        </chatapp-card>
+      </template>
+    </chatapp-carousel>
+  </div>
+
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

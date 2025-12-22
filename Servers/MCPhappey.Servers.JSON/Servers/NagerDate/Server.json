@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "NagerDate",
+    "title": "Nager.Date",
+    "version": "1.0.0",
+    "websiteUrl": "https://date.nager.at",
+    "description": "Find public holidays and long weekends worldwide for over 100 countries.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/60408767?v=4"
+      }
+    ]
+  }
+}

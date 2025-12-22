@@ -1,0 +1,30 @@
+{
+  "resources": [
+    {
+      "uri": "https://tavusapi.com/v2/personas",
+      "name": "list-tavus-personas",
+      "title": "List Tavus personas",
+      "description": "Lists all personas from Tavus. Supports filtering by type (user, system, Replica) and pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
+    },
+    {
+      "uri": "https://tavusapi.com/v2/replicas",
+      "name": "list-tavus-replicas",
+      "title": "List Tavus replicas",
+      "description": "Returns all replicas from Tavus. Supports filtering by replica type (user, system), verbosity, and pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "EdenAI-Translations",
+    "title": "Eden AI Translations",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.edenai.co",
+    "description": "Translate text and documents instantly or detect languages automatically.",
+    "icons": [
+      {
+        "src": "https://meta-q.cdn.bubble.io/cdn-cgi/image/w=,h=,f=auto,dpr=1,fit=contain/f1680187367069x814617384157327800/edenlogowebclip.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.EdenAI.Translations.EdenAITranslations, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

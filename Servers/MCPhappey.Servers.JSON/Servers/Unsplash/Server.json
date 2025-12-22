@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Unsplash",
+    "title": "Unsplash",
+    "version": "1.0.0",
+    "websiteUrl": "https://unsplash.com",
+    "description": "Search and use free high-quality photos from Unsplash for content and design.",
+    "icons": [
+      {
+        "src": "https://cdn-icons-png.flaticon.com/256/5968/5968763.png"
+      }
+    ]
+  }
+}

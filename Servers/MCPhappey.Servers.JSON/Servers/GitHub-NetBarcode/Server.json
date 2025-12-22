@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "GitHub-NetBarcode",
+        "title": "GitHub NetBarcode",
+        "version": "1.0.0",
+        "websiteUrl": "https://github.com/Tagliatti/NetBarcode",
+        "description": "Create barcode images from simple text values.",
+        "icons": [
+            {
+                "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXDAd-VCEoCGoWPXL5rL-yHc1kGP0GoFXTEA&s"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.GitHub.NetBarcode.NetBarcodeService, MCPhappey.Tools"
+    ]
+}

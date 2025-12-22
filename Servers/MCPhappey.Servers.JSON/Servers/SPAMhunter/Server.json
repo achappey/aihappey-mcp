@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "SPAMhunter",
+    "title": "SPAMhunter",
+    "version": "1.0.0",
+    "websiteUrl": "https://spamhunter.io",
+    "description": "Automatically filters out spam messages to keep your website clean and interactions genuine."
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "plugins": [
+    "MCPhappey.Tools.SPAMhunter.SPAMhunterService, MCPhappey.Tools"
+  ]
+}

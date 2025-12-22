@@ -1,0 +1,68 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.anthropic.com/v1/models",
+      "name": "list-anthropic-claude-models",
+      "title": "List available Anthropic Claude models",
+      "description": "List all available Anthropic Claude models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://www-cdn.anthropic.com/07b2a3f9902ee19fe39a36ca638e5ae987bc64dd.pdf",
+      "name": "anthropic-claude-opus4-sonnet4-system-card",
+      "title": "Anthropic Claude Opus 4 & Claude Sonnet 4 System Card (May 2025)",
+      "description": "Official system card PDF introducing Claude Opus 4 and Claude Sonnet 4: architecture, safety evaluations, Responsible Scaling Policy assessments, alignment and model-welfare evaluations, and AI Safety Level deployment decisions.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://assets.anthropic.com/m/785e231869ea8b3b/original/claude-3-7-sonnet-system-card.pdf",
+      "name": "anthropic-claude-3-7-sonnet-system-card",
+      "title": "Anthropic Claude 3.7 Sonnet System Card (Feb 24, 2025)",
+      "description": "Official system card PDF for Claude 3.7 Sonnet, a hybrid reasoning model featuring standard and extended thinking modes, trained to minimize harm via Responsible Scaling Policy, prompt-injection safeguards, and alignment evaluations.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://assets.anthropic.com/m/12f214efcc2f457a/original/Claude-Sonnet-4-5-System-Card.pdf",
+      "name": "anthropic-claude-sonnet-4-5-system-card",
+      "title": "Anthropic Claude Sonnet 4.5 System Card (Sep 2025)",
+      "description": "Official system card PDF for Claude Sonnet 4.5, covering model architecture, safety evaluations, alignment research, Responsible Scaling Policy compliance, AI Safety Level considerations, and updates compared to earlier Claude Sonnet versions.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://assets.anthropic.com/m/99128ddd009bdcb/Claude-Haiku-4-5-System-Card.pdf",
+      "name": "anthropic-claude-haiku-4-5-system-card",
+      "title": "Anthropic Claude Haiku 4.5 System Card (Oct 2025)",
+      "description": "Official system card PDF for Claude Haiku 4.5, covering model architecture, safety evaluations, alignment research, Responsible Scaling Policy compliance, AI Safety Level considerations, and updates compared to earlier Claude Haiku versions.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

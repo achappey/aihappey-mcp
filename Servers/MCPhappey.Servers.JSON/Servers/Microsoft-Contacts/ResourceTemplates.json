@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/contactFolders/{folderId}/contacts",
+      "name": "contacts-in-folder",
+      "title": "List contacts in Folder",
+      "description": "Lists all contacts in a specific contact folder by folder ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/contacts/{contactId}",
+      "name": "get-contact",
+      "title": "Get contact details",
+      "description": "Gets the details of a specific contact by contact ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/contactFolders/{folderId}",
+      "name": "get-contact-folder",
+      "title": "Get contact folder details",
+      "description": "Gets the details of a specific contact folder by folder ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

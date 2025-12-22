@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/reports/getOffice365ActiveUserCounts(period='D7')",
+      "name": "office365-active-user-counts",
+      "title": "Office 365 active user counts (last 7 days)",
+      "description": "Gets active user counts for Office 365 services over the last 7 days.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/reports/getTeamsUserActivityCounts(period='D7')",
+      "name": "teams-user-activity-counts",
+      "title": "Teams user activity counts (last 7 days)",
+      "description": "Gets Teams user activity counts over the last 7 days.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

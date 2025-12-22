@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://text.pollinations.ai/{prompt}?=model{model}&temperature={temperature}&seed={seed}&system={system}",
+      "name": "pollinations-text",
+      "title": "Pollinations text",
+      "description": "Generate creative text, stories, or messages from any prompt.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

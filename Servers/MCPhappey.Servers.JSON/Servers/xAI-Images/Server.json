@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "xAI-Images",
+    "title": "xAI Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://x.ai",
+    "description": "Creates images from text prompts using xAI Grok, ready to view or use in your workflow.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/dark/xai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/xai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.xAI.GrokImageService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

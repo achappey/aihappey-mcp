@@ -1,0 +1,76 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.bag.kadaster.nl/lvbag/individuelebevragingen/v2/adressen?postcode={postcode}&huisnummer={huisnummer}&huisletter={huisletter}&pageSize=1",
+      "name": "adres-postcode-huisnummer",
+      "title": "Adres op basis van postcode en huisnummer",
+      "description": "Geeft het *huidige* adres (nummeraanduiding) terug op basis van postcode en huisnummer—handig voor een één-op-één-lookup.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.bag.kadaster.nl/lvbag/individuelebevragingen/v2/adressenuitgebreid?postcode={postcode}&huisnummer={huisnummer}&huisletter={huisletter}&pageSize=1",
+      "name": "adres-uitgebreid",
+      "title": "Adres uitgebreid (met pand en objectinfo)",
+      "description": "Zelfde lookup als hierboven maar mét embedded info (pand, verblijfsobject, etc.) dankzij de ‘uitgebreid’-variant.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.bag.kadaster.nl/lvbag/individuelebevragingen/v2/adresseerbareobjecten?bbox={xmin},{ymin},{xmax},{ymax}&type={type}&pageSize={pageSize}",
+      "name": "adresseerbare-objecten-bounding-box",
+      "title": "Adresseerbare objecten binnen een gebied",
+      "description": "Zoek verblijfsobjecten ∕ standplaatsen ∕ ligplaatsen in een beperkte rechthoek. Combineer evt. met `type=verblijfsobject` of `type=standplaats`. De bbox-oppervlakte mag maximaal 250 000 m² zijn.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.bag.kadaster.nl/lvbag/individuelebevragingen/v2/panden?bbox={xmin},{ymin},{xmax},{ymax}&status=Bestaand&pageSize={pageSize}",
+      "name": "panden-bounding-box",
+      "title": "Panden binnen een opgegeven gebied",
+      "description": "Retourneert alleen panden met status ‘Bestaand’ binnen de opgegeven bbox. Zet `pageSize` laag om grote hits te voorkomen (min == 10).",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.bag.kadaster.nl/lvbag/individuelebevragingen/v2/panden/{pandIdentificatie}",
+      "name": "pand-detail",
+      "title": "Detailinformatie van één pand",
+      "description": "Detailinformatie over één pand op basis van het 16-cijferige pand-ID.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.bag.kadaster.nl/lvbag/individuelebevragingen/v2/verblijfsobjecten?oppervlakte[min]={minM2}&oppervlakte[max]={maxM2}&pageSize={pageSize}",
+      "name": "verblijfsobjecten-oppervlak",
+      "title": "Verblijfsobjecten gefilterd op vloeroppervlak",
+      "description": "Filter verblijfsobjecten tussen minimaal en maximaal vloeroppervlak (m²). Goed om snel clusters met vergelijkbare grootte op te halen.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

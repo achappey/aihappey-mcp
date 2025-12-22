@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "GitHub-QuestPDF",
+    "title": "GitHub QuestPDF",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.questpdf.com",
+    "description": "Design and generate PDFs programmatically with layouts and styling.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/73763469?s=200&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.QuestPDF.QuestPDFService, MCPhappey.Tools"
+  ]
+}

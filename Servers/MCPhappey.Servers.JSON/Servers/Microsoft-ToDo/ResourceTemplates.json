@@ -1,0 +1,13 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/todo/lists/{taskListId}?$select=id,displayName,isOwner,isShared,wellknownListName",
+      "name": "All To Do tasks in a task list",
+      "description": "Get a list of all tasks in a tasklist",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

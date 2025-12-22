@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Companies</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-carousel.js" defer></script>
+  <script src="%HOST_URL%/chatapp-card.js" defer></script>
+
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+  <script>
+    window.companiesWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        companies: [],
+        count: 0,
+        requestDisplayMode: window.openai?.requestDisplayMode,
+        maxHeight: window.openai?.maxHeight,
+        init() {
+          widgetBase.syncOpenAI(this);
+          const ui = Alpine.store('ui');
+          if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px';
+          //   document.querySelector("chat-header").addEventListener("modechange", e => {
+          //    window.openai?.requestDisplayMode?.({ mode: e.detail.mode });
+          // });
+
+          this.load();
+        },
+        load() {
+          const arr = this.data?.companies ?? [];
+          this.companies = Array.isArray(arr) ? arr : [];   // <- fill
+          this.count = this.companies.length;
+        },
+        listLanguages(langs) {
+          return Object.values(langs || {}).join(', ');
+        },
+        listCurrencies(curr) {
+          return Object.values(curr || {}).map(c => c.name).join(', ');
+        }
+      };
+    };
+  </script>
+
+  <style>
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 10px;
+      font-size: 0.85rem;
+    }
+
+    .info-grid div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-label {
+      font-weight: 500;
+      color: var(--card-color, #111);
+    }
+  </style>
+</head>
+
+<body>
+  <div x-data="companiesWidget()" x-init="init()"
+    style="display:flex; flex-direction:column; height:100%; overflow: hidden;">
+    <chatapp-header text="Companies" no-fullscreen></chatapp-header>
+    <chatapp-carousel style="flex:1; min-height:0;">
+      <template x-for="c in companies" :key="c.name">
+        <chatapp-card :image="c.logo || ''" :title="c.name" :description="c.address || ''">
+          <div slot="content">
+            <div class="info-grid">
+              <div>
+                <span class="info-label">Catch phrase</span>
+                <span x-text="c.catchPhrase  || '—'"></span>
+              </div>
+              <div>
+                <span class="info-label">Business strategy</span>
+                <span x-text="c.bs || '—'"></span>
+              </div>
+            </div>
+          </div>
+          <button slot="actions" x-show="c.url" @click.prevent="window.open(c.url, '_blank')">
+            Website
+          </button>
+        </chatapp-card>
+      </template>
+    </chatapp-carousel>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

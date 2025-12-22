@@ -1,0 +1,15 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/simplicate-sales-dashboard.html",
+      "name": "simplicate-sales-dashboard-widget",
+      "description": "Simplciate Sales dashboard widget that displays Simplicate Sales totals of simplicate_sales_get_quote_totals_by_month and simplicate_sales_get_totals_by_month in charts.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

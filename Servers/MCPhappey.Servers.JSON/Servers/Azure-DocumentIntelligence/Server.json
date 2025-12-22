@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Azure-DocumentIntelligence",
+    "title": "Azure Document Intelligence",
+    "version": "1.0.0",
+    "websiteUrl": "https://azure.microsoft.com/en-us/products/ai-services/ai-document-intelligence",
+    "description": "Extract text, tables and structure from PDFs and images to make documents searchable and usable.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/2048px-Microsoft_Azure.svg.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.Azure.DocumentIntelligence.AzureDocumentIntelligence, MCPhappey.Tools"
+  ]
+}

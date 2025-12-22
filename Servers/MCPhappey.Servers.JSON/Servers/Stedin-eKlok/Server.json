@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "Stedin-eKlok",
+    "title": "Stedin eKlok",
+    "version": "1.0.0",
+    "websiteUrl": "https://eklok.nl",
+    "description": "Toegang tot eKlok-tijdreeksen met kleurindicatoren en NL-tijden voor monitoring en planning.",
+    "icons": [
+      {
+        "src": "https://eklok.nl/images/klokkie.png"
+      }
+    ]
+  },
+  "instructions": "Respecteer de gebruiksvoorwaarden van eKlok. Bij het presenteren of visualiseren van resultaten op basis van deze feed, vermeld de bron als: Data: eKlok (eklok.nl) en link waar passend."
+}

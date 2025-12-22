@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.elevenlabs.io/v2/voices?page_size={page_size}&search={search}&sort={sort}&sort_direction={sort_direction}&voice_type={voice_type}&category={category}&next_page_token={next_page_token}",
+      "name": "elevenlabs-voices-list",
+      "title": "ElevenLabs voices",
+      "description": "List of available ElevenLabs voices for text-to-speech. Supports pagination, searching, sorting, and filters for voice type and category.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

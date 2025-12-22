@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "Google-Video",
+    "title": "Google Video",
+    "version": "1.0.0",
+    "description": "Search videos and ask questions about them. Get answers, metadata, and thumbnails for workflows.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/YouTube_play_button_square_%282013-2017%29.svg/2048px-YouTube_play_button_square_%282013-2017%29.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Google.Video.GoogleVideo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

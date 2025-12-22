@@ -1,0 +1,63 @@
+{
+  "prompts": [
+    {
+      "prompt": "Based on my prior interactions with {userDisplayName}, give me 5 things likely top of mind for our next meeting.",
+      "template": {
+        "name": "meeting-top-of-mind",
+        "title": "Meeting top of mind items",
+        "description": "Generates a list of 5 items most likely to be on the user's mind for the next meeting, based on prior interactions.",
+        "arguments": [
+          {
+            "name": "userDisplayName",
+            "description": "Display name of the user.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Review my calendar and email from the last month and create 5 to 7 buckets for projects I spend most time on, with % of time spent and short descriptions.",
+      "template": {
+        "name": "project-time-buckets",
+        "title": "Project time distribution",
+        "description": "Analyzes your calendar and email from the last month to identify 5–7 main project buckets, with estimated % of time spent and short descriptions for each.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Review {mail} + prep me for the next meeting in {calendarEventSeries}, based on past manager and team discussions.",
+      "template": {
+        "name": "review-and-prep",
+        "title": "Review and meeting preparation",
+        "description": "Reviews the provided e-mail and prepares the user for the next meeting in the specified series, taking into account past manager and team discussions.",
+        "arguments": [
+          {
+            "name": "mail",
+            "description": "The e-mail to review.",
+            "required": true
+          },
+          {
+            "name": "calendarEventSeries",
+            "description": "The event serie.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Draft a project update based on emails, chats, and all meetings in {calendarEventSeries}: KPIs vs. targets, wins/losses, risks, competitive moves, plus likely tough questions and answers.",
+      "template": {
+        "name": "project-update-draft",
+        "title": "Draft project update",
+        "description": "Creates a structured project update from emails, chats, and meetings in the specified calendar event series, covering KPIs vs. targets, wins and losses, risks, competitive moves, and likely tough questions with answers.",
+        "arguments": [
+          {
+            "name": "calendarEventSeries",
+            "description": "The event serie.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

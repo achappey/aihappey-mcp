@@ -1,0 +1,39 @@
+{
+  "prompts": [
+    {
+      "prompt": "Write a {length} summary from the following text in {format} format, with {extractiveness} extractiveness.\n\nWrite for the reader using clear, active, concise sentences and avoid meta-statements. Separate facts, analysis, and recommendations; avoid jargon (briefly define if necessary) and prevent overlap between points.\n\nDocument contents:\n###\n{documentContents}\n###",
+      "template": {
+        "name": "ai-doc-summarizer",
+        "title": "Document-based summary",
+        "description": "Get a summary from only provided document contents",
+        "arguments": [
+          {
+            "name": "documentContents",
+            "description": "The text or data the answer must be based on",
+            "required": true
+          },
+          {
+            "name": "extractiveness",
+            "description": "Controls how close to the original text the summary is",
+            "required": true
+          },
+          {
+            "name": "length",
+            "description": "Length of the summary",
+            "required": false
+          },
+          {
+            "name": "format",
+            "description": "Format of the summary",
+            "required": true
+          },
+          {
+            "name": "additionalCommand",
+            "description": "A free-form instruction for modifying how the summaries get generated.",
+            "required": false
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+:root {
+    /* spacing + shape */
+    --gap: 8px;
+    --radius: 4px;
+
+    /* light mode defaults */
+    /*--bg: #ffffff;*/
+    --bg: transparent;
+    --text: #111111;
+    --panel: #fafafa;
+    --border: rgba(0, 0, 0, 0.1);
+    --card-bg: var(--panel);
+    --card-color: var(--text);
+    --card-muted: #666;
+    --carousel-button-bg: rgba(0, 0, 0, 0.4);
+    --carousel-button-color: #fff;
+    --card-radius: 4px;
+    --button-color: #111111;
+    --font: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+    --card-font: var(--font);
+    --header-font: var(--font);
+    --deck-bg: #fff;
+    --deck-color: #111111;
+}
+
+:root[data-theme="dark"] {
+    --bg: #141414;
+    --text: #f2f2f2;
+    --panel: #1e1e1e;
+    --border: #292929;
+    --card-bg: var(--panel);
+    --card-color: var(--text);
+    --card-muted: #aaa;
+    --carousel-button-bg: rgba(255, 255, 255, 0.3);
+    --carousel-button-color: #fff;
+    --button-color: var(--text);
+}
+
+/* Basic structural defaults */
+html,
+body {
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: var(--font);
+}

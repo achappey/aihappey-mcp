@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Smithery",
+    "title": "Smithery",
+    "version": "1.0.0",
+    "websiteUrl": "https://smithery.ai",
+    "description": "Discover and connect ready-made AI tools to extend what your assistant can do.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/smithery-color.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "OpenXML-Excel",
+    "title": "OpenXML Excel",
+    "version": "1.0.0",
+    "description": "Work with Excel files: create sheets, edit cells, and import or export CSV data directly.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Microsoft_Office_Excel_%282025%E2%80%93present%29.svg/1166px-Microsoft_Office_Excel_%282025%E2%80%93present%29.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenXML.Excel.ExcelPlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

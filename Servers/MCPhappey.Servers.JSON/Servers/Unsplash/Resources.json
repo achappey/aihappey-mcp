@@ -1,0 +1,40 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.unsplash.com/stats/total",
+      "name": "stats-total",
+      "title": "Totals",
+      "description": "Retrieves a list of global Unsplash statistics including total photos, views, downloads, likes, and more. Reflects aggregate platform metrics.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.unsplash.com/stats/month",
+      "name": "stats-month",
+      "title": "Monthly stats",
+      "description": "Retrieves overall Unsplash statistics for the past 30 days, including views, downloads, and engagement metrics.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.unsplash.com/topics",
+      "name": "list-topics",
+      "title": "List topics",
+      "description": "Retrieves a single page from the list of all topics. Supports filtering, pagination, and sorting.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

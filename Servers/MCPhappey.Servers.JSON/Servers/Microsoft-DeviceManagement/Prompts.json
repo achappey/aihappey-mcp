@@ -1,0 +1,155 @@
+{
+  "prompts": [
+    {
+      "prompt": "Give me a compact fleet health snapshot since {since}: total managed devices, % compliant, count non-compliant by OS, top 5 device models by population, and a short list of the 5 stalest devices (deviceName, user, lastSyncDateTime). End with 3 bullet callouts (max) for immediate actions.",
+      "template": {
+        "name": "fleet-health-snapshot",
+        "title": "Fleet health snapshot",
+        "description": "Summarizes device fleet status and hotspots since a given UTC timestamp.",
+        "arguments": [
+          {
+            "name": "since",
+            "description": "UTC timestamp to start from (e.g., 2025-08-01T00:00:00Z).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "For user {userPrincipalName}, list all managed devices (deviceName, OS/osVersion, complianceState, lastSyncDateTime, serialNumber). Highlight which one appears to be the primary daily driver (based on recent sync and recency) and flag any device risks (stale, non-compliant, very old OS). Keep it concise.",
+      "template": {
+        "name": "user-device-overview",
+        "title": "User device overview",
+        "description": "Summarizes all managed devices for a specific user and highlights risks.",
+        "arguments": [
+          {
+            "name": "userPrincipalName",
+            "description": "User Principal Name of the user.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List the non-compliant devices grouped by complianceState with counts and the top reasons if available. For each group, propose a concrete next step (one line): who to notify (user or admin), what action (sync, remediate, retire), and expected impact.",
+      "template": {
+        "name": "noncompliant-triage",
+        "title": "Non-compliant device triage",
+        "description": "Groups non-compliant devices and proposes clear next steps.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Show OS version distribution across Windows, iOS/iPadOS, Android, and macOS. For each OS, list the top 3 versions by device count and identify any out-of-date concentrations that likely need attention.",
+      "template": {
+        "name": "os-version-distribution",
+        "title": "OS version distribution",
+        "description": "Breaks down device counts by OS and top versions; highlights outdated clusters.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "List devices that haven’t synced since {isoDateTime} with deviceName, userPrincipalName, lastSyncDateTime, operatingSystem, osVersion, serialNumber. Sort by oldest lastSyncDateTime. Add a one-line recommendation per device (e.g., run sync, contact user, consider retire).",
+      "template": {
+        "name": "stale-devices-since",
+        "title": "Stale devices since {isoDateTime}",
+        "description": "Finds devices that have not synced since a given ISO 8601 timestamp and recommends actions.",
+        "arguments": [
+          {
+            "name": "isoDateTime",
+            "description": "ISO 8601 UTC timestamp, e.g., 2025-07-01T00:00:00Z.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show the top 10 models with the highest rate of non-compliance. For each model, include counts (total vs non-compliant), % non-compliant, common failure patterns if available, and a short fix suggestion.",
+      "template": {
+        "name": "model-risk-hotspots",
+        "title": "Model risk hotspots",
+        "description": "Identifies device models with the highest non-compliance rate and suggests fixes.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Prepare an action plan for {userPrincipalName}: which device(s) should be retired or wiped, and why? Include signals like lastSyncDateTime, complianceState, OS age, and whether another active device with the same user is healthy. Output: short rationale + the exact Graph actions to call.",
+      "template": {
+        "name": "user-cleanup-plan",
+        "title": "User device cleanup plan",
+        "description": "Generates a retire/wipe decision plan for a user’s devices with rationale and actions.",
+        "arguments": [
+          {
+            "name": "userPrincipalName",
+            "description": "User Principal Name of the user.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List Windows Autopilot devices with enrollmentState not in a healthy state (or missing expected groupTag). Add short remediation steps: e.g., assign profile, re-register hardware hash, verify groupTag.",
+      "template": {
+        "name": "autopilot-readiness",
+        "title": "Autopilot readiness check",
+        "description": "Surfaces Autopilot devices needing attention and proposes quick remediations.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "Find duplicate serial numbers across managed devices and Autopilot identities, then classify SAFE-TO-DELETE candidates using strict criteria. Criteria to mark as SAFE-TO-DELETE: (1) duplicate serial exists where one record is active and compliant, and the other record is retired, deleted, or has not synced in > {staleDays} days; (2) the stale duplicate has no recent user activity and no successful sign-ins in the last {signInDays} days if available; (3) Autopilot (if present) maps the serial to a different current azureAdDeviceId than the stale record; (4) device has managementState of 'retired' OR complianceState is 'unknown' and enrolledDateTime is null or very old; (5) there is no newer record with the same serial tied to the same azureADDeviceId. Output a table: serialNumber, staleDeviceId, statusSignals (lastSyncDateTime, complianceState, managementState, enrolledDateTime, azureADDeviceId), keepDeviceId (active one), and a final boolean column SAFE_TO_DELETE (true/false). Only set true when ALL criteria match. End with a short list of the exact Graph delete endpoints you would call, but DO NOT execute actions.",
+      "template": {
+        "name": "duplicate-serials-safe-delete",
+        "title": "Duplicate serials: safe delete candidates",
+        "description": "Detects duplicate serials and flags only those meeting strict, multi-signal stale criteria as safe to delete.",
+        "arguments": [
+          {
+            "name": "staleDays",
+            "description": "Minimum days since last sync to consider a record stale (e.g., 60).",
+            "required": true
+          },
+          {
+            "name": "signInDays",
+            "description": "Lookback window for device-related sign-ins, when available (e.g., 60).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Produce a conservative stale device report focused on certainty. Include only devices that have: lastSyncDateTime older than {staleDays} days, complianceState not 'compliant', managementState 'retired' or 'unknown', and no Autopilot match pointing to the same azureAdDeviceId. Output a list with deviceId, deviceName, userPrincipalName, serialNumber, lastSyncDateTime, and a final column CERTAINLY_SAFE_TO_RETIRE (true/false). Only mark true if ALL filters match.",
+      "template": {
+        "name": "certain-stale-retire-list",
+        "title": "Conservative stale devices (certain retire list)",
+        "description": "Generates a highly conservative list of stale devices very likely safe to retire.",
+        "arguments": [
+          {
+            "name": "staleDays",
+            "description": "Minimum days since last sync (e.g., 90).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "For serial {serialNumber}, reconcile all occurrences across managed devices and Autopilot. Decide which record to keep and which to delete based on: lastSyncDateTime recency, complianceState, enrolledDateTime freshness, and whether sign-ins exist for the device in the last {signInDays} days. Output: keep vs delete recommendation, plus rationale.",
+      "template": {
+        "name": "serial-reconcile",
+        "title": "Reconcile a specific serial",
+        "description": "Deep-dive resolution for a single serial to determine keep/delete with clear rationale.",
+        "arguments": [
+          {
+            "name": "serialNumber",
+            "description": "The serial number to reconcile.",
+            "required": true
+          },
+          {
+            "name": "signInDays",
+            "description": "Lookback window for device-related sign-ins (e.g., 60).",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

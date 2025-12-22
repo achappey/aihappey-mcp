@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "xAI-CodeExecution",
+    "title": "xAI Code Execution",
+    "version": "1.0.0",
+    "websiteUrl": "https://x.ai",
+    "description": "Run code snippets with xAI Grok and get structured results or errors instantly.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/dark/xai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/xai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.xAI.GrokCodeExecution, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

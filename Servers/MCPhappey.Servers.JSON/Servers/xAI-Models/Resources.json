@@ -1,0 +1,53 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.x.ai/v1/models",
+      "name": "list-xai-grok-models",
+      "title": "List available xAI Grok models",
+      "description": "List all available xAI Grok models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.x.ai/v1/language-models",
+      "name": "list-xai-grok-language-models",
+      "title": "List available xAI Grok language models",
+      "description": "List all available xAI Grok language models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.x.ai/v1/image-generation-models",
+      "name": "list-xai-grok-image-generation-models",
+      "title": "List available xAI Grok image generation models",
+      "description": "List all available xAI Grok image generation models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.x.ai/2025-08-20-grok-4-model-card.pdf",
+      "name": "xai-grok4-model-card",
+      "title": "xAI Grok 4 Model Card",
+      "description": "Official system card PDF introducing xAI Grok 4: architecture, safety evaluations, Responsible Scaling Policy assessments, alignment and model-welfare evaluations, and AI Safety Level deployment decisions.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "resources": [
+    {
+      "uri": "https://spec.modelcontextprotocol.io/sitemap.xml",
+      "name": "mcp-specifications-sitemap",
+      "title": "Sitemap Model Context Protocol specifications",
+      "description": "Overview of all pages and updates from the Model Context Protocol specifications.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://modelcontextprotocol.io/llms-full.txt",
+      "name": "mcp-documentation-full",
+      "title": "Model Context Protocol documentation (full)",
+      "description": "Complete documentation of Model Context Protocol, including real-life apps, samples, architecture, etc",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://modelcontextprotocol.io/llms.txt",
+      "name": "mcp-documentation-structure",
+      "title": "Model Context Protocol documentation (structure)",
+      "description": "Structure of the modelcontextprotocol.io site",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/modelcontextprotocol/typescript-sdk/refs/heads/main/src/types.ts",
+      "name": "mcp-typescript-typings",
+      "title": "Model Context Protocol typings (TypeScript)",
+      "description": "TypeScript typings for MCP types",
+      "mimeType": "application/typescript",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

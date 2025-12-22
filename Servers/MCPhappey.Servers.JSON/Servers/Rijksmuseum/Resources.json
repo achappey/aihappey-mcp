@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://data.rijksmuseum.nl/search/collection",
+      "name": "rijksmuseum-collection-base",
+      "title": "Full collection",
+      "description": "Retrieve the first 100 collection items without filters.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://data.rijksmuseum.nl/search/collection?imageAvailable=true",
+      "name": "rijksmuseum-search-with-images",
+      "title": "Objects with digital images",
+      "description": "Return only items that include an available digital reproduction.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

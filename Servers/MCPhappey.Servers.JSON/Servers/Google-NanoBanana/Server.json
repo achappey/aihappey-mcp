@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "Google-NanoBanana",
+    "title": "Google Nano Banana",
+    "version": "1.0.0",
+    "description": "Edit and generate images with Google’s Nano Banana: merge, transform and keep characters consistent.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Google-gemini-icon.svg/2048px-Google-gemini-icon.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Google.Image.GoogleNanoBanana, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

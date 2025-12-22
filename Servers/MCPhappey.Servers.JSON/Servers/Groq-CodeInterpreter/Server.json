@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Groq-CodeInterpreter",
+    "title": "Groq Code Interpreter",
+    "version": "1.0.0",
+    "description": "Run Python code to analyze data, create charts and process files in workflows.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnze6t-thGVKlIKNKF9zeiTfaoxLdYdVzX0g&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Groq.CodeInterpreter.GroqCodeInterpreter, MCPhappey.Tools"
+  ]
+}

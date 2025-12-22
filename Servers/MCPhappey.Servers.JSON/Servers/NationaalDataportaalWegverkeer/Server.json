@@ -1,0 +1,9 @@
+{
+  "serverInfo": {
+    "name": "NationaalDataportaalWegverkeer",
+    "title": "Nationaal Dataportaal Wegverkeer (NDW)",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.ndw.nu",
+    "description": "Toegang tot actuele NL-verkeersdata zoals borden en wegkenmerken voor analyses en kaarten."
+  }
+}

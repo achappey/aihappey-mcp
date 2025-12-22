@@ -1,0 +1,125 @@
+{
+  "resources": [
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/MCPhappey/refs/heads/master/src/Abstractions/MCPhappey.Tools/GitHub/RestCountries/CountryService.cs",
+      "name": "examples-gitHub-restcountries",
+      "title": "GitHub RestCountries example",
+      "description": "Sample implementation of a C# CountryService for the RestCountries API. Shows how to structure a tool/plugin for MCP. Simple example with external NuGet package.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.6
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/MCPhappey/refs/heads/master/src/Abstractions/MCPhappey.Tools/HTML/HTMLPlugin.cs",
+      "name": "examples-html-plugin",
+      "title": "HTML Plugin example",
+      "description": "C# code example of an MCP-compatible HTML plugin. Useful for reference when generating new tools. Contains tools with multiple type of Elicit requests.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.6
+      }
+    },
+    {
+      "uri": "mcp-editor://plugins",
+      "name": "mcp-editor-plugins",
+      "title": "MCP Editor plugins",
+      "description": "Lists all plugins that are available in the MCP Editor environment.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.1
+      }
+    },
+    {
+      "uri": "mcp-editor://assemblies",
+      "name": "mcp-editor-assemblies",
+      "title": "MCP Editor Assemblies",
+      "description": "Lists all assemblies loaded on the MCP server and that can be used in tools. Default System and Microsoft assemblies are excluded.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.8
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/MCPhappey/refs/heads/master/src/Abstractions/MCPhappey.Decoders/EpubDecoder.cs",
+      "name": "example-epub-decoder",
+      "title": "Epub decoder example",
+      "description": "Sample implementation of an IContentDecoder for extracting and decoding content from EPUB files. Use as a template for building decoders for document formats.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.6
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/MCPhappey/refs/heads/master/src/Abstractions/MCPhappey.Decoders/AudioDecoder.cs",
+      "name": "example-audio-decoder",
+      "title": "Audio decoder example",
+      "description": "Sample IContentDecoder implementation for processing and extracting information from audio files. Useful for reference when building audio content decoders.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.6
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/MCPhappey/refs/heads/master/src/Abstractions/MCPhappey.Scrapers/Generic/OboClientScraper.cs",
+      "name": "example-oboclient-scraper",
+      "title": "OBO Client scraper example",
+      "description": "Sample ContentScraper implementation for retrieving data using delegated permissions (OBO pattern). Use as a model for scrapers that connect to external APIs with authentication.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.6
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/MCPhappey/refs/heads/master/src/Abstractions/MCPhappey.Scrapers/Microsoft/TeamsScraper.cs",
+      "name": "example-teams-scraper",
+      "title": "Teams scraper example",
+      "description": "ContentScraper class designed for retrieving information from Microsoft Teams. Reference this for scraping logic that targets Microsoft Graph or Teams data.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.6
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/MCPhappey/8a3732cf3c02ee571fc43e3d33557efead9a6d78/src/Core/MCPhappey.Common/Models/FileItem.cs",
+      "name": "fileitem-model",
+      "title": "FileItem model",
+      "description": "Reusable class for storing file content, file URIs, filenames, and MIME types in the application. Used throughout the MCP stack to pass or persist file data.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.5
+      }
+    },
+    {
+      "uri": "mcp-editor://decoders",
+      "name": "mcp-editor-decoders",
+      "title": "MCP Editor decoders",
+      "description": "Lists all decoders registered in the MCP Editor environment, including supported MIME types for each decoder.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.7
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/MCPhappey/refs/heads/master/src/Servers/MCPhappey.Servers.SQL/Providers/McpEditorScraper.cs",
+      "name": "example-mcpeditor-scraper",
+      "title": "McpEditor scraper example",
+      "description": "Sample implementation of a custom ContentScraper that works with non-HTTP, custom URIs instead of web APIs. Demonstrates how to build scrapers that process internal or protocol-based resources in the MCP stack.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.6
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "SemanticKernel-PersonalMemory",
+    "title": "Semantic Kernel Personal Memory",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/microsoft/kernel-memory",
+    "description": "Securely store and search personal memories so tasks can continue over time.",
+    "icons": [
+      {
+        "src": "https://devblogs.microsoft.com/semantic-kernel/wp-content/uploads/sites/78/2024/03/Large_SK_Logo.png"
+      }
+    ]
+  },
+  "instructions": "Use 0 relevance by default. Only use higher relevance when needed and never go beyond 0.6, since that will almost never return anything. ",
+  "plugins": [
+    "MCPhappey.Tools.OpenMemory.OpenMemory, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

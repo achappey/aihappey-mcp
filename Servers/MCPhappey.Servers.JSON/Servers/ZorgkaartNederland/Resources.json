@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://www.zorgkaartnederland.nl/overzicht/organisatietypes",
+      "name": "organisatie-types",
+      "title": "Organisatietypes van ZorgkaartNederland",
+      "description": "Lijst met alle verschillende organisatietypes van ZorgkaartNederland.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
+    }
+  ]
+}

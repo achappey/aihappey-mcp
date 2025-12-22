@@ -1,0 +1,24 @@
+{
+  "resources": [
+    {
+      "uri": "mcp-servers://statistics",
+      "name": "mcp-server-statistics",
+      "title": "MCP server statistics overview",
+      "description": "Aggregated statistics for all static MCP servers, including total counts and averages per server for prompts, resources, and templates.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "mcp-editor://statistics",
+      "name": "mcp-editor-statistics",
+      "title": "MCP server editor statistics overview",
+      "description": "Aggregated statistics for all user-managed MCP servers, including total counts and averages per server for prompts, resources, and templates.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

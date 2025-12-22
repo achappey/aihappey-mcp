@@ -1,0 +1,63 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/mailFolders/Inbox/messages?$top=15&$select=id,subject,from,receivedDateTime,isRead",
+      "name": "my-latest-emails",
+      "title": "My latest emails",
+      "description": "Retrieves the 15 most recent emails from the user's Inbox, including subject, sender, received time, and read status.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/contacts?$top=10&$select=displayName,emailAddresses,mobilePhone",
+      "name": "my-contacts",
+      "title": "My contacts",
+      "description": "Shows the first 10 personal contacts with name, email addresses, and mobile number.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/messages?$filter=isRead eq false&$top=10&$select=subject,from,receivedDateTime",
+      "name": "unread-emails",
+      "title": "Unread emails",
+      "description": "Retrieves the 10 most recent unread emails from the user's mailbox with subject, sender, and time.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/mailFolders",
+      "name": "my-mail-folders",
+      "title": "My mail folders",
+      "description": "Lists the mail folders in the user's mailbox (like Inbox, Sent, Drafts, Archive, etc).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "ui://widget/search-outlook.html",
+      "name": "search-outlook-widget",
+      "description": "Renders an interactive UI showcasing the emails returned by graph_outlook_mail_search.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

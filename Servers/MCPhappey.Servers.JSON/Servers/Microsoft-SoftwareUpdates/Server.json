@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-SoftwareUpdates",
+    "title": "Microsoft Software Updates",
+    "version": "1.0.0",
+    "description": "View enterprise Windows update and device policy settings in Microsoft 365.",
+    "icons": [
+      {
+        "src": "https://garvis.ca/wp-content/uploads/2023/03/image-1.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/DeviceManagementConfiguration.ReadWrite.All"
+  }
+}

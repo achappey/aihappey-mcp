@@ -1,0 +1,20 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/licenseDetails",
+      "name": "user-license-details",
+      "title": "User license details",
+      "description": "Get assigned license details for a specific user.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}/licenseDetails",
+      "name": "group-license-details",
+      "title": "Group license details",
+      "description": "Get assigned license details for a specific Microsoft 365 Group.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

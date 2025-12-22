@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/browserSiteLists/{siteListId}",
+      "name": "get-browser-site-list",
+      "title": "Get browser site list",
+      "description": "Gets the details of a specific browser site list by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/browserSiteLists/{siteListId}/browserSites",
+      "name": "get-browser-sites-in-list",
+      "title": "List browser sites in site list",
+      "description": "Lists all browser sites under a specific browser site list.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/browserSiteLists/{siteListId}/browserSharedCookies",
+      "name": "get-browser-shared-cookies",
+      "title": "List shared cookies for site list",
+      "description": "Lists all browser-shared cookies for a specific site list.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

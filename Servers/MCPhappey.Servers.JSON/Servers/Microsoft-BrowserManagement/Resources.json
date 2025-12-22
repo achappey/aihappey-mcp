@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/browserSiteLists",
+      "name": "all-browser-site-lists",
+      "title": "List browser site lists",
+      "description": "Lists all browser site lists configured in the tenant.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

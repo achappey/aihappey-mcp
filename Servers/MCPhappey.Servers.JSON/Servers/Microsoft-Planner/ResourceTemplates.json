@@ -1,0 +1,44 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/planner/plans/{planId}/buckets?$top=10&$select=id,name",
+      "name": "buckets-in-plan",
+      "title": "Buckets in plan",
+      "description": "Lists all buckets (columns/stages) in a specific Planner plan. Replace {planId} with a plan ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/planner/tasks?$filter=dueDateTime lt {nowPlus3Days}&$select=title,dueDateTime,planId",
+      "name": "planner-tasks-due-soon",
+      "title": "Planner tasks due soon",
+      "description": "Lists your Planner tasks due within 3 days from now, including title and plan.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/planner/plans/{planId}/tasks?$top=50&$select=id,title,percentComplete,dueDateTime,completedDateTime,hasDescription,completedBy",
+      "name": "tasks-in-plan",
+      "title": "Tasks in plan",
+      "description": "Lists up to 50 tasks from a specific Planner plan. Replace {planId} with the plan's ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/planner/buckets/{bucketId}/tasks?$top=50&$select=id,title,percentComplete,dueDateTime",
+      "name": "tasks-in-bucket",
+      "title": "Tasks in bucket",
+      "description": "Lists up to 50 tasks in a specific Planner bucket. Replace {bucketId} with the bucket's ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/planner/tasks/{taskId}/details?$select=description,checklist,previewType",
+      "name": "task-details",
+      "title": "Task details",
+      "description": "Gets extra details, checklist, and references for a specific task. Replace {taskId} with the task's ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

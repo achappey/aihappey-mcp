@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "GitHub-ImageSharp",
+    "title": "GitHub ImageSharp",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/SixLabors/ImageSharp",
+    "description": "Edit images: resize, crop, blur, overlay, and combine multiple files.",
+    "icons": [
+      {
+        "src": "https://raw.githubusercontent.com/SixLabors/Branding/main/icons/imagesharp/sixlabors.imagesharp.256.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.ImageSharp.ImageSharpService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

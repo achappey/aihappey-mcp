@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Rijksfinancien",
+    "title": "Ministerie van Financiën",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.rijksfinancien.nl",
+    "description": "Open data en financiële datasets van het Ministerie van Financiën.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4E0BAQF6QwdZ2sseQg/company-logo_200_200/company-logo_200_200/0/1693986937829/ministry_of_finance_of_netherlands_logo?e=2147483647&v=beta&t=DTae_hRUvXA4om4QcGNhOFJsX03AqzOf6LqhnaSNFUY"
+      }
+    ]
+  },
+  "instructions": "Lees alle <a href>-verwijzingen op https://www.rijksfinancien.nl/overzicht-datasets om elke afzonderlijke datasetpagina en downloadlink automatisch te volgen en verwerken.",
+  "plugins": [
+    "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+  ]
+}

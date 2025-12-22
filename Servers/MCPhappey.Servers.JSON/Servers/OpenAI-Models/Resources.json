@@ -1,0 +1,94 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.openai.com/v1/models",
+      "name": "list-openai-models",
+      "title": "List available OpenAI models",
+      "description": "List all available OpenAI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://cdn.openai.com/pdf/2221c875-02dc-4789-800b-e7758f3722c1/o3-and-o4-mini-system-card.pdf",
+      "name": "openai-o3-o4-mini-system-card",
+      "title": "OpenAI o3 and o4-mini System Card",
+      "description": "Official system card PDF detailing OpenAI's o3 and o4-mini reasoning models: architecture, tool use, safety evaluations, benchmarks, and preparedness assessment.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://cdn.openai.com/o3-mini-system-card-feb10.pdf",
+      "name": "openai-o3-mini-system-card",
+      "title": "OpenAI o3-mini System Card (Feb 10, 2025)",
+      "description": "Official system card PDF for OpenAI's o3-mini model (published Feb 10, 2025), covering safety evaluations, risk assessments under the Preparedness Framework, red-teaming outcomes, and model-autonomy risk ratings.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://cdn.openai.com/deep-research-system-card.pdf",
+      "name": "openai-deep-research-system-card",
+      "title": "OpenAI Deep Research System Card (Feb 25, 2025)",
+      "description": "Official system card PDF detailing OpenAI's Deep Research agent: architecture, safety and preparedness evaluations, browsing and tool-use capabilities, limitations, and red-teaming results.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://cdn.openai.com/gpt-4o-system-card.pdf",
+      "name": "openai-gpt-4o-system-card",
+      "title": "OpenAI GPT-4o System Card",
+      "description": "Official system card PDF for OpenAI's GPT-4o (“omni”) model, detailing multimodal capabilities (text, image, speech), safety evaluations, Preparedness Framework assessments, red-teaming results, and risk mitigation strategies.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://cdn.openai.com/gpt-5-system-card.pdf",
+      "name": "openai-gpt-5-system-card",
+      "title": "OpenAI GPT-5 System Card (Aug 2025)",
+      "description": "Official system card PDF for GPT-5, covering architecture, routing of main vs thinking models, safety & alignment evaluations, benchmark performance, and updates compared to previous GPT releases.",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://cdn.openai.com/pdf/97cc5669-7a25-4e63-b15f-5fd5bdc4d149/gpt-5-codex-system-card.pdf",
+      "name": "openai-gpt-5-codex-system-card",
+      "title": "Addendum to GPT-5 System Card: GPT-5-Codex",
+      "description": "Official addendum PDF for GPT-5-Codex (September 15, 2025), detailing model-specific safety mitigations, evaluation benchmarks, risk assessments, and comparisons to GPT-5/other models. :contentReference[oaicite:0]{index=0}",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

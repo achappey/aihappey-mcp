@@ -1,0 +1,9 @@
+{
+  "serverInfo": {
+    "name": "GitHub-OfficialJokeAPI",
+    "title": "GitHub Official Joke API",
+    "websiteUrl": "https://official-joke-api.appspot.com",
+    "version": "1.0.0",
+    "description": "Fetch random or themed jokes for fun responses in apps and conversations."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "OpenTrivia",
+    "title": "Open Trivia",
+    "version": "1.0.0",
+    "websiteUrl": "https://opentdb.com",
+    "description": "Retrieve trivia questions by category and difficulty to build games and quizzes.",
+    "icons": [
+      {
+        "src": "https://opentdb.com/images/logo.png"
+      }
+    ]
+  }
+}

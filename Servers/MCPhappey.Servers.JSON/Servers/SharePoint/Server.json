@@ -1,0 +1,28 @@
+{
+  "serverInfo": {
+    "name": "SharePoint",
+    "title": "SharePoint",
+    "version": "1.0.0",
+    "description": "Search and read SharePoint sites, lists and files; handle updates when needed.",
+    "icons": [
+      {
+        "src": "https://cdn.worldvectorlogo.com/logos/microsoft-office-sharepoint-2018-present--1.svg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.SharePoint.SharePointSearch, MCPhappey.Tools"
+  ],
+  "instructions": "You can read all kind of SharePoint links, news pages, Graph API, Teams message link urls as resources. Also links that are not specified and/or come up from search results.",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All https://graph.microsoft.com/Contacts.Read https://graph.microsoft.com/Bookmark.Read.All https://graph.microsoft.com/Calendars.Read https://graph.microsoft.com/ChannelMessage.Read.All https://graph.microsoft.com/Chat.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Notes.ReadWrite.All https://graph.microsoft.com/People.Read https://graph.microsoft.com/Sites.Create.All"
+  },
+  "tools": {
+    "sharepoint_search": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/sharepoint-search-results.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

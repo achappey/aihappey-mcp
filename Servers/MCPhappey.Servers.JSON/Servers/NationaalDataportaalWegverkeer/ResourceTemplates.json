@@ -1,0 +1,88 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/events?offset={offset}&limit={limit}&countyCode={countyCode}",
+      "name": "verkeersborden-events-blok",
+      "title": "Verkeersborden events op basis van tijd en gemeente",
+      "description": "Haalt verkeersborden events op sinds de opgegeven offset met optioneel gemeente-filter. Offset in ISO-timestamp, limit 1-100.",
+      "mimeType": "application/geo+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/current-state?countyCode={countyCode}",
+      "name": "verkeersborden-actueel-op-gemeente",
+      "title": "Actueel beeld per gemeente",
+      "description": "Retourneert de actuele verkeersborden binnen een specifieke gemeente (CBS code, bijv. GM0321).",
+      "mimeType": "application/geo+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/current-state?rvvCode={rvvCode}",
+      "name": "verkeersborden-actueel-op-rvv-code",
+      "title": "Actueel beeld per RVV-code",
+      "description": "Filtert het actuele verkeersbordenbeeld op basis van een opgegeven RVV-code. Exacte match vereist.",
+      "mimeType": "application/geo+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/current-state?roadSectionId={roadSectionId}",
+      "name": "verkeersborden-actueel-op-wegvakid",
+      "title": "Actueel beeld op basis van wegvak-ID",
+      "description": "Filtert verkeersborden op een specifieke wegvak-ID vanuit het NWB.",
+      "mimeType": "application/geo+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/current-state?status={status}",
+      "name": "verkeersborden-actueel-op-status",
+      "title": "Actueel beeld op basis van status",
+      "description": "Filter op geplande, geplaatste of verwijderde verkeersborden. Mogelijke waardes: PLANNED, PLACED, REMOVED.",
+      "mimeType": "application/geo+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/current-state?countyCode={countyCode}&rvvCode={rvvCode}&status={status}&crs={crs}",
+      "name": "verkeersborden-actueel-gecombineerd",
+      "title": "Actueel beeld met meerdere filters",
+      "description": "Meerdere filters tegelijk toepassen, inclusief coördinatenreferentie (WGS84 of Rijksdriehoek).",
+      "mimeType": "application/geo+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://data.ndw.nu/api/rest/static-road-data/traffic-signs/v4/current-state?contentType=csv&countyCode={countyCode}&rvvCode={rvvCode}",
+      "name": "verkeersborden-actueel-csv",
+      "title": "Actueel beeld CSV formaat",
+      "description": "Haalt het actuele beeld op in CSV-formaat. Filters optioneel op gemeente en RVV-code.",
+      "mimeType": "text/csv",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

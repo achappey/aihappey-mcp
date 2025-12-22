@@ -1,0 +1,44 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.frankfurter.dev/v1/latest{?base,symbols}",
+      "name": "latest-exchange-rates",
+      "title": "Latest exchange rates",
+      "description": "Retrieve the most recent working day's reference exchange rates. Optional `base` parameter overrides the default (EUR). Optional `symbols` limits the response to specific target currencies.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.frankfurter.dev/v1/{date}{?base,symbols}",
+      "name": "historical-rates-by-date",
+      "title": "Historical rates by date",
+      "description": "Get reference exchange rates for the specified calendar date (format YYYY-MM-DD). Optional `base` and `symbols` query parameters are supported.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.frankfurter.dev/v1/{startDate}..{endDate}{?base,symbols}",
+      "name": "time-series-rates-range",
+      "title": "Time-series rates (start–end)",
+      "description": "Fetch daily reference exchange rates for every working day between `startDate` and `endDate` (inclusive). Optional `base` and `symbols` query parameters are supported.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.frankfurter.dev/v1/{startDate}..{?symbols}",
+      "name": "time-series-rates-to-present",
+      "title": "Time-series rates to present",
+      "description": "Fetch daily reference exchange rates from `startDate` up to the latest available date. Optional `symbols` query parameter filters the returned currencies.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

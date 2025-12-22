@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "SemanticKernel-Plugins",
+    "title": "Semantic Kernel Plugins",
+    "websiteUrl": "https://github.com/microsoft/semantic-kernel/tree/main/dotnet/src/Plugins",
+    "version": "1.0.0",
+    "description": "Time and text tools for quick formatting, calculations and conversions in workflows.",
+    "icons": [
+      {
+        "src": "https://devblogs.microsoft.com/semantic-kernel/wp-content/uploads/sites/78/2024/03/Large_SK_Logo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "Microsoft.SemanticKernel.Plugins.Core.TimePlugin, Microsoft.SemanticKernel.Plugins.Core",
+    "Microsoft.SemanticKernel.Plugins.Core.TextPlugin, Microsoft.SemanticKernel.Plugins.Core"
+  ]
+}

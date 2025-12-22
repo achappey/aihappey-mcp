@@ -1,0 +1,14 @@
+{
+  "resources": [
+    {
+      "uri": "https://app.declaree.com/api/v4/organizations",
+      "name": "get-organizations",
+      "title": "Get organizations",
+      "description": "Retrieve all organizations the current user has access to.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

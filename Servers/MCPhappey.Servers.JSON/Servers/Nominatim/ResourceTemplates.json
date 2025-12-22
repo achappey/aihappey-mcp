@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://nominatim.openstreetmap.org/search?format={format}&q={q}&street={street}&city={city}&county={county}&state={state}&country={country}&postalcode={postalcode}&countrycodes={countrycodes}&limit={limit}&addressdetails={addressdetails}&extratags={extratags}&namedetails={namedetails}&accept-language={acceptLanguage}",
+      "name": "nominatim-search",
+      "title": "Nominatim search",
+      "description": "Search for places using OpenStreetMap Nominatim. Supports free-form and structured address search.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://nominatim.openstreetmap.org/reverse?format={format}&lat={lat}&lon={lon}&zoom={zoom}&addressdetails={addressdetails}&extratags={extratags}&namedetails={namedetails}&accept-language={acceptLanguage}&polygon_geojson={polygonGeoJson}&polygon_kml={polygonKml}&polygon_svg={polygonSvg}&polygon_text={polygonText}&polygon_threshold={polygonThreshold}",
+      "name": "nominatim-reverse",
+      "title": "Nominatim reverse geocoding",
+      "description": "Get the nearest address or place information for a given coordinate using OpenStreetMap Nominatim.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://nominatim.openstreetmap.org/lookup?osm_ids={osmIds}&format={format}&addressdetails={addressdetails}&extratags={extratags}&namedetails={namedetails}&accept-language={acceptLanguage}&polygon_geojson={polygonGeoJson}&polygon_kml={polygonKml}&polygon_svg={polygonSvg}&polygon_text={polygonText}&polygon_threshold={polygonThreshold}",
+      "name": "nominatim-lookup",
+      "title": "Nominatim lookup",
+      "description": "Retrieve detailed address and metadata for OpenStreetMap objects by type and ID. Up to 50 items per request.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://nominatim.openstreetmap.org/status?format={format}",
+      "name": "nominatim-status",
+      "title": "Nominatim Status",
+      "description": "Check service availability and database update timestamp of the OpenStreetMap Nominatim server.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

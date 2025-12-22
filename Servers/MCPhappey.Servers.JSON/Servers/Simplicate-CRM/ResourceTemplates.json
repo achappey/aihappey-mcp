@@ -1,0 +1,144 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/person/person:{personId}",
+      "name": "persoon-details",
+      "title": "Details van één persoon",
+      "description": "Haal alle details van één persoon op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/organization/organization:{organizationId}",
+      "name": "bedrijf-details",
+      "title": "Details van één bedrijf",
+      "description": "Haal alle details van één bedrijf op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/contactperson/contactperson:{contactpersonId}",
+      "name": "contactpersoon-details",
+      "title": "Details van één contactpersoon",
+      "description": "Haal alle details van één contactpersoon op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/myorganizationprofile",
+      "name": "mijn-bedrijfsprofielen",
+      "title": "Mijn bedrijfsprofielen",
+      "description": "Haal al mijn bedrijfsprofielen op. Met 'mijn bedrijf' worden interne organisaties bedoeld, dus geen klanten.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/organization?q[name]=*{organizationName}*&q[relation_type.label]=*{relationTypeLabel}*&q[visiting_address.postal_code]=*{partialPostalCode}*&q[industry.name]=*{industryName}*&q[relation_manager.name]=*{relationManagerName}*&q[teams.name]=*{teamName}*&q[note]=*{partialNote}*&q[bank_account]=*{partialBankAccount}*&q[relation_number]=*{partialRelationNumber}*&q[vat_number]=*{partialVatNumber}*&q[visiting_address.line_1]=*{partialAddressLine}*&q[visiting_address.locality]=*{city}*&q[created_at][ge]={createdAtGE}&q[created_at][le]={createdAtLE}&q[updated_at][ge]={updatedAtGE}&q[updated_at][le]={updatedAtLE}&q[allow_autocollect]={autocollectEnabled}&q[has_different_postal_address]=true&q[is_active]={isActive}&q[phone]=*{partialPhone}*&offset={offset}&limit={limit}&sort={sortColumn}&select=visiting_address.,postal_address.,relation_type.,relation_manager.,customer_group.,teams.,debtor.,organizationsize.,linked_persons_contacts.,accountancy.,created_at,updated_at,simplicate_url,is_active,name,coc_code,vat_number,email,phone,url,note,linkedin_url,has_different_postal_address,industry.,invoice_receiver,allow_autocollect,bank_account,bank_bic,relation_number&metadata=count",
+      "name": "bedrijven-alle-filters",
+      "title": "Bedrijven (alle filters)",
+      "description": "Haal bedrijven op, gefilterd op naam, branche, relatietype/-manager, teams, postcode, adres, telefoon, bank-/relatie-/BTW-nummers, notities, datums (aangemaakt/gewijzigd), status automatische incasso, en paginering/sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/person?q[full_name]=*{partialName}*&q[family_name]=*{partialFamilyName}*&q[relation_type.label]=*{relationTypeLabel}*&q[note]=*{note}*&q[phone]=*{partialPhone}*&q[email]=*{partialEmail}*&q[gender]={genderValue}&q[is_employee]={isEmployee}&q[relation_number]=*{partialRelationNumber}*&q[linkedin_url]=*{partialLinkedinUrl}*&q[twitter_url]=*{partialTwitterUrl}*&q[relation_manager.name]=*{relationManagerName}*&q[teams.name]=*{teamName}*&q[created_at][ge]={createdAtGE}&q[created_at][le]={createdAtLE}&q[updated_at][ge]={updatedAtGE}&q[updated_at][le]={updatedAtLE}&q[date_of_birth][ge]={dateOfBirthFrom}&q[date_of_birth][le]={dateOfBirthTo}&q[is_active]=true&offset={offset}&limit={limit}&sort={sortColumn}&select=address.,relation_manager.,teams.,created_at,updated_at,simplicate_url,is_active,relation_type.,gender,use_custom_salutation,custom_salutation,initials,first_name,family_name_prefix,family_name,full_name,date_of_birth,note,email,phone,website_url,twitter_url,linkedin_url,facebook_url,relation_number,bank_account,bank_bic,invoice_receiver,is_employee,mailing_lists.&metadata=count",
+      "name": "personen-alle-filters",
+      "title": "Personen (alle filters)",
+      "description": "Haal personen op, gefilterd op naam, telefoon/e-mail, notities, geslacht, team, LinkedIn/Twitter/mailings, relatienummer/-type/-manager, werknemersstatus, datumbereiken (aangemaakt, gewijzigd, geboorte). Inclusief paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/contactperson?q[person.id]=person:{personId}&q[organization.name]=*{organizationName}*&q[work_email]=*{workEmail}*&q[work_phone]=*{workPhone}*&q[work_mobile]=*{workMobile}*&q[work_function]=*{workFunction}*&q[created_at][ge]={createdAtGE}&q[created_at][le]={createdAtLE}&q[updated_at][ge]={updatedAtGE}&q[updated_at][le]={updatedAtLE}&q[is_active]={isActive}&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "contactpersonen-alle-filters",
+      "title": "Contactpersonen (alle filters)",
+      "description": "Haal contactpersonen op, gefilterd op naam, bedrijf, e-mail, telefoon, mobiel, functie, aanmaak-/wijzigingsdatumbereik, activiteitsstatus. Ondersteunt paginering en sortering. Let op: het is NIET mogelijk om deze lijst te doorzoeken op naam persoon of bedrijf. Gebruik hiervoor de andere 2 resources (/person, /organization)",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/debtor?q[organization.id]=organization:{organizationId}&q[person.id]=person:{personId}&offset={offset}&limit={limit}&sort=-created_at",
+      "name": "debiteuren-alle-filters",
+      "title": "Debiteuren (alle filters)",
+      "description": "Haal debiteuren op, gefilterd op bedrijfs- of persoonsnaam (gedeeltelijke overeenkomst), met paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/documenttype",
+      "name": "crm-documenttypes",
+      "title": "CRM documenttypes",
+      "description": "Haal alle CRM documenttypes op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/industry",
+      "name": "branchetypes",
+      "title": "Branchetypes",
+      "description": "Haal alle branchetypes op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/gender",
+      "name": "geslachten",
+      "title": "Geslachten",
+      "description": "Haal alle beschikbare geslachtsopties op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/relationtype",
+      "name": "relatietypes",
+      "title": "Relatietypes",
+      "description": "Haal alle relatietypes op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/document?q[title]=*{partialTitle}*&q[description]=*{partialDescription}*&q[document_type.label]=*{documentTypeLabel}*&q[created_by.name]=*{createdByName}*&q[linked_to.label]=*{linkedLabel}*&q[linked_to.type]={linkedType}&q[created_at][ge]={createdAtGE}&q[created_at][le]={createdAtLE}&q[updated_at][ge]={updatedAtGE}&q[updated_at][le]={updatedAtLE}&offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "crm-documenten-alle-filters",
+      "title": "CRM documenten (alle filters)",
+      "description": "Haal CRM documenten op, gefilterd op titel, beschrijving, documenttype, gekoppeld item, maker, aanmaak-/wijzigingsdatum. Ondersteunt paginering en sortering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/crm/document/document:{documentId}",
+      "name": "crm-documentdetails",
+      "title": "CRM documentdetails",
+      "description": "Haal alle details van één CRM document op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

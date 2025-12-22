@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://registry.smithery.ai/servers?q={query}&profile={profile}&page={page}&pageSize={pageSize}",
+      "name": "smithery-registry-list-servers",
+      "title": "List or search Smithery MCP servers",
+      "description": "Lists publicly available MCP servers from the Smithery.ai registry. Supports semantic search and filters such as owner, repo, is:verified, and is:deployed. Requires a Smithery API key.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://registry.smithery.ai/servers/{id}",
+      "name": "smithery-registry-get-server-info",
+      "title": "Get detailed info about a specific Smithery MCP server",
+      "description": "Retrieves full metadata and configuration details for a specific MCP server from the Smithery.ai registry, identified by its qualified name or ID (e.g. smithery/hello-world). Requires a Smithery API key.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

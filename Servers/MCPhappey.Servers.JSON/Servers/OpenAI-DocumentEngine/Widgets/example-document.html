@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-card.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+
+  <script>
+    window.documentWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null,
+        requestDisplayMode: window.openai?.requestDisplayMode,
+        init() {
+          widgetBase.syncOpenAI(this);
+        },
+        toggleMode() {
+          const current = Alpine.store('ui')?.displayMode || 'inline';
+          const newMode = current === 'fullscreen' ? 'inline' : 'fullscreen';
+          window.openai?.requestDisplayMode?.({ mode: newMode });
+        },
+        formatList(arr) {
+          return (arr || []).join(', ');
+        }
+      };
+    };
+  </script>
+
+  <style>
+    .doc-section {
+      margin-bottom: 1.2rem;
+    }
+
+    .doc-section h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .doc-section p {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin: 0;
+      color: var(--card-color, #222);
+      white-space: pre-line;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--accent-bg, #eee);
+      color: var(--accent-color, #333);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      margin: 2px;
+    }
+
+    .people-list {
+      font-size: 0.85rem;
+    }
+
+    .meta-line {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div x-data="documentWidget()" x-init="init()" style="display:flex; flex-direction:column; height:100%;">
+    <chatapp-header :text="data?.title || 'Document'" @modechange="toggleMode"></chatapp-header>
+
+    <!-- INLINE MODE -->
+    <template x-if="$store.ui.displayMode === 'inline'">
+      <div style="flex:1; overflow:auto;">
+        <chatapp-card :title="data?.title" :description="data?.purpose || ''">
+          <div slot="content">
+            <template x-for="t in data?.tags || []" :key="t">
+              <span class="tag" x-text="t"></span>
+            </template>
+          </div>
+        </chatapp-card>
+      </div>
+    </template>
+
+    <!-- FULLSCREEN MODE -->
+    <template x-if="$store.ui.displayMode === 'fullscreen'">
+      <div style="flex:1; overflow:auto; padding:1.2rem; max-width:800px; margin:0 auto;">
+        <div class="doc-section">
+          <h3>Tags</h3>
+          <template x-for="t in data?.tags || []" :key="t">
+            <span class="tag" x-text="t"></span>
+          </template>
+        </div>
+
+        <div class="doc-section">
+          <h3>People</h3>
+          <div class="people-list" x-text="formatList(data?.people) || '—'"></div>
+        </div>
+
+        <div class="doc-section">
+          <h3>Purpose</h3>
+          <p x-text="data?.purpose || '—'"></p>
+        </div>
+
+        <div class="doc-section">
+          <h3>Conclusion</h3>
+          <p x-text="data?.conclusion || '—'"></p>
+        </div>
+
+        <div class="doc-section">
+          <h3>Rationale</h3>
+          <p x-text="data?.rationale || '—'"></p>
+        </div>
+      </div>
+    </template>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

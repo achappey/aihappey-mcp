@@ -1,0 +1,64 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me?$select=displayName,mail,mobilePhone,department,companyName,jobTitle,employeeHireDate,employeeId,createdDateTime,preferredLanguage,otherMails,accountEnabled",
+      "name": "my-microsoft-365-profile",
+      "title": "My Microsoft 365 profile",
+      "description": "Current Microsoft 365 user profile",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/people?$select=id,displayName,emailAddresses,officeLocation,personType,department,phones",
+      "name": "relevant-people",
+      "title": "Relevant people",
+      "description": "Get a list of relevant people",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/insights/trending?$top=10&$select=id,resourceReference",
+      "name": "trending-documents",
+      "title": "Trending documents",
+      "description": "Documents trending around the signed-in user",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/insights/used?$top=10&$select=id,resourceVisualization,resourceReference",
+      "name": "used-documents",
+      "title": "Used documents",
+      "description": "Documents that the user has recently or frequently interacted with",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/insights/shared?$top=10&$select=id,resourceReference,resourceVisualization",
+      "name": "shared-documents",
+      "title": "Shared documents",
+      "description": "Documents that have been shared with the user",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/memberOf?$select=id,displayName,groupTypes",
+      "name": "joined-groups",
+      "title": "Joined groups",
+      "description": "Get a list of joined Microsoft 365 and security groups",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

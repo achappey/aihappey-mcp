@@ -1,0 +1,24 @@
+{
+  "serverInfo": {
+    "name": "deskbird",
+    "title": "deskbird",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.deskbird.com",
+    "description": "Manage deskbird bookings, desks and schedules for occupancy and attendance insights.",
+    "icons": [
+      {
+        "src": "https://play-lh.googleusercontent.com/sm-3HAM8_E7a1e0OaaxGAqsi9p5iocX0r3pDmjVXBSWouh0CF95gn09lpvBa8W9MJw"
+      }
+    ]
+  },
+  "roles": [
+    "deskbird.ReadAll"
+  ],
+  "plugins": [
+    "MCPhappey.Tools.Deskbird.DeskbirdPlugin, MCPhappey.Tools"
+  ],
+  "instructions": "Always use deskbird with a lowercase 'd'.\nFilter /bookings by startDate and endDate.\nUse limit 100 per request (max 500, but responses are large).",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

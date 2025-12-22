@@ -1,0 +1,22 @@
+{
+  "serverInfo": {
+    "name": "Meta-AI",
+    "title": "Meta AI",
+    "version": "1.0.0",
+    "description": "Ask many AI models at once and compare answers side by side in one view."
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI.MetaAI, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "tools": {
+    "ask_execute": {
+      "_meta": {
+        "openai/outputTemplate": "ui://widget/ai-answers.html",
+        "openai/widgetAccessible": true
+      }
+    }
+  }
+}

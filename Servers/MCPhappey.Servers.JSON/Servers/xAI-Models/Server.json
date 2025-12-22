@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "xAI-Models",
+    "title": "xAI Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://x.ai",
+    "description": "Browse xAI Grok models and docs to see capabilities, system cards and usage guidance.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/dark/xai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/xai.png",
+        "theme": "light"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Rijkswaterstaat-WaterData",
+    "title": "WaterData Rijkswaterstaat (WADAR)",
+    "version": "1.0.0",
+    "websiteUrl": "https://rijkswaterstaatdata.nl/projecten/beta-waterwebservices/",
+    "description": "Watermetingen NL: waterstand, temperatuur en kwaliteit opvragen voor inzicht en analyses.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Logo_Rijksoverheid_%28kleur%29.jpg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Rijkswaterstaat.WaterDataService, MCPhappey.Tools"
+  ]
+}

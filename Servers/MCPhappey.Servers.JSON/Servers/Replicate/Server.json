@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Replicate",
+    "title": "Replicate",
+    "version": "1.0.0",
+    "websiteUrl": "https://replicate.com",
+    "description": "Run AI models for images, text, and video directly with Replicate.",
+    "icons": [
+      {
+        "src": "https://images.seeklogo.com/logo-png/61/1/replicate-icon-logo-png_seeklogo-611690.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "plugins": [
+    "MCPhappey.Tools.Replicate.ReplicateService, MCPhappey.Tools"
+  ]
+}

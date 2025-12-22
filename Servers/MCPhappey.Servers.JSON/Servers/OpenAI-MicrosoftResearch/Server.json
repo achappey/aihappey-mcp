@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-MicrosoftResearch",
+    "title": "OpenAI Microsoft Research",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/openai/openai-agents-python/tree/main/examples/research_bot",
+    "description": "Do research with OpenAI on SharePoint files, Teams chats and Outlook for structured insights.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.Research.OpenAIMicrosoftResearch, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/Calendars.Read https://graph.microsoft.com/Sites.Read.All https://graph.microsoft.com/Files.Read.All https://graph.microsoft.com/Chat.Read https://graph.microsoft.com/ChannelMessage.Read.All"
+  }
+}

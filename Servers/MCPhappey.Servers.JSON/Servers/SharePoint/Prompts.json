@@ -1,0 +1,68 @@
+{
+  "prompts": [
+    {
+      "prompt": "Given the following prompt from the user, generate a list of SERP queries to research the topic. Return a maximum of {numberOfQueries} queries, but feel free to return less if the original prompt is clear.\n\nMake sure each query is unique and not similar to each other. The queries must be optimized for use with the SharePoint search engine.\n\nFor SharePoint specifically, this means: \n- Focus on keywords and search terms instead of natural language questions. \n- Think about synonyms, alternate phrasings, and related terms. \n- Use terms that reflect typical internal business documents, such as \"report\", \"analysis\", \"meeting notes\", \"project plan\", \"presentation\", \"spreadsheet\", \"document\", \"contract\", \"memo\", \"policy\", \"financial overview\", \"budget\", or \"proposal\". \n- Consider localized or region-specific document types depending on the organization’s language and context. Examples could include: Dutch: \"verslag\", \"notulen\", \"offerte\", \"jaarrekening\", \"begroting\", \"beleidsstuk\"; German: \"Protokoll\", \"Bericht\", \"Angebot\", \"Haushaltsplan\". \n- Include context-specific business terms relevant to the research topic, such as industry-specific keywords, company names, project names, locations, or financial terminology. \n- When the research is about a particular organization, incorporate internal jargon or department names if known (e.g., \"sales\", \"operations\", \"asset management\", \"compliance\", \"HR\"). \n- Use SharePoint syntax if appropriate:\n    - AND / OR operators: e.g., `taxatie AND rapport`\n    - Quotes for exact phrases: e.g., `\"projectplan Rotterdam\"`\n    - File types: `filetype:pdf` or `filetype:xlsx`\n    - Title search: `title:taxatie`\n    - Date filter: `created>2023-01-01`\n    - Author search: `author:\"Jan Jansen\"`\n- Avoid long queries or vague phrases.\n\nUser prompt:\n<prompt>{topic}</prompt>\n\n{context}\n\nReturn a JSON object with a single property: 'queries'. Each item in the 'queries' array must be a string representing one SERP query. The list must be optimized for the SharePoint search engine. If the prompt and or context is too vague, just return JSON object with empty list. Don't ask for clarification.",
+      "template": {
+        "name": "get-sharepoint-serp-queries",
+        "title": "Get SharePoint SERP queries",
+        "description": "Get a list of optimized SERP queries for SharePoint search engine",
+        "arguments": [
+          {
+            "name": "topic",
+            "description": "Topic for the the search queries",
+            "required": true
+          },
+          {
+            "name": "numberOfQueries",
+            "description": "Number of queries to return",
+            "required": true
+          },
+          {
+            "name": "context",
+            "description": "More context/background info about the topic"
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Facts:\n{facts}\n======\nGiven only the facts above, provide a comprehensive/detailed answer.\nYou don't know where the knowledge comes from, just answer.\nIf you don't have sufficient information, reply with 'INFO NOT FOUND'.\nQuestion: {question}\nAnswer:\n",
+      "template": {
+        "name": "extract-with-facts",
+        "title": "Extract with facts",
+        "description": "Answer a question from some facts",
+        "arguments": [
+          {
+            "name": "facts",
+            "description": "Given facts",
+            "required": true
+          },
+          {
+            "name": "question",
+            "description": "Question to answer",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Content:\n###\n{content}\n###\n\nThe above content is a collection of data from various sources. Analyze the content thoroughly and extract all URLs that provide additional knowledge to achieve the user's goals/question outlined below. Provide only a comma-separated list of these URLs without any additional text or prefixes. If no relevant URLs are found, respond with 'INFO NOT FOUND'.\n\nUser Goals:\n###\n{question}\n###\n",
+      "template": {
+        "name": "extract-urls-with-facts",
+        "title": "Extract URLs with facts",
+        "description": "Extract URLs from search results relevant for the user question",
+        "arguments": [
+          {
+            "name": "content",
+            "description": "Content to get the URLs from",
+            "required": true
+          },
+          {
+            "name": "question",
+            "description": "Question to answer",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

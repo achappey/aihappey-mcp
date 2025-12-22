@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "xeno-canto",
+    "title": "xeno-canto",
+    "version": "1.0.0",
+    "websiteUrl": "https://xeno-canto.org",
+    "description": "Sharing wildlife sounds from around the world.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThemRNaqdOnyGTRpvyjKGukVfDoQ3GGHcmiA&s"
+      }
+    ]
+  }
+}

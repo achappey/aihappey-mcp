@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "ProjectGutenberg",
+    "title": "Project Gutenberg",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.gutenberg.org",
+    "description": "Search and download free ebooks from Project Gutenberg in multiple formats.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Project_Gutenberg_logo.svg/2048px-Project_Gutenberg_logo.svg.png"
+      }
+    ]
+  }
+}

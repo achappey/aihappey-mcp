@@ -1,0 +1,12 @@
+{
+    "serverInfo": {
+        "name": "Monitor-Koopwoningmarkt",
+        "title": "Monitor Koopwoningmarkt",
+        "version": "1.0.0",
+        "websiteUrl": "https://monitor-koopwoningmarkt.nl",
+        "description": "Kwartaalrapporten koopwoningmarkt: direct ophalen, samenvatten en vergelijken."
+    },
+    "plugins": [
+        "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+    ]
+}

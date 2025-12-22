@@ -1,0 +1,63 @@
+{
+  "prompts": [
+    {
+      "prompt": "For the sender {emailAddress}, summarize all unread emails from the past {days} days: include the main topics, the number of emails, and any detected urgency or follow-up actions.",
+      "template": {
+        "name": "sender-unread-summary",
+        "title": "Sender unread summary",
+        "description": "Summarizes unread emails from a specific sender in a time window, highlighting topics, volume, and possible urgency.",
+        "arguments": [
+          {
+            "name": "emailAddress",
+            "description": "The email address of the sender.",
+            "required": true
+          },
+          {
+            "name": "days",
+            "description": "The number of past days to include in the summary.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Review my last 10 flagged emails and suggest three actionable follow-ups. For each, briefly describe the email and recommend the most urgent next step.",
+      "template": {
+        "name": "flagged-emails-followup",
+        "title": "Flagged emails follow-up",
+        "description": "Analyzes recent flagged emails and proposes concrete next actions for each.",
+        "arguments": []
+      }
+    },
+    {
+      "prompt": "List my unread emails with attachments from the past {days} days. For each, summarize the sender, subject, and suggest if the attachment needs urgent review.",
+      "template": {
+        "name": "unread-attachments-review",
+        "title": "Unread attachments review",
+        "description": "Helps the user quickly scan and prioritize unread emails with attachments for a recent time window.",
+        "arguments": [
+          {
+            "name": "days",
+            "description": "Number of days in the past to review.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Analyze my recent sent emails to {recipientName} and suggest if there are any open threads or required follow-ups, including missed replies or pending attachments.",
+      "template": {
+        "name": "sent-emails-followup",
+        "title": "Sent emails follow-up",
+        "description": "Scans recent sent emails to a specific recipient for unfinished conversations or missing actions.",
+        "arguments": [
+          {
+            "name": "recipientName",
+            "description": "The display name or email address of the recipient.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

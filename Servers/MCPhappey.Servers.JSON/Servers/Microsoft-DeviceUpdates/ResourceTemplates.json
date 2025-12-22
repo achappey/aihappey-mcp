@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/admin/windows/updates/catalog/entries/{catalogEntryId}",
+      "name": "get-catalog-entry",
+      "title": "Get update catalog entry",
+      "description": "Gets the details of a specific update catalog entry by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/admin/windows/updates/deployments",
+      "name": "list-deployments",
+      "title": "List deployments",
+      "description": "Lists all deployments of updates in Windows Updates.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/admin/windows/updates/deployments/{deploymentId}",
+      "name": "get-deployment",
+      "title": "Get deployment details",
+      "description": "Gets details about a particular deployment by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/admin/windows/updates/deploymentAudiences/{audienceId}/applicableContent",
+      "name": "get-applicable-content",
+      "title": "Get applicable content for deployment audience",
+      "description": "Gets update content applicable to a given deployment audience.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

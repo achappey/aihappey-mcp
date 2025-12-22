@@ -1,0 +1,24 @@
+{
+  "resources": [
+    {
+      "uri": "https://frankfurter.dev/",
+      "name": "frankfurter-api-reference",
+      "title": "Frankfurter API reference",
+      "description": "All documentation around the Frankfurter API",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }        
+    },
+    {
+      "uri": "https://api.frankfurter.dev/v1/currencies",
+      "name": "supported-currencies",
+      "title": "Supported currencies",
+      "description": "Returns a mapping of currency codes to their full names that are supported by the Frankfurter exchange-rate API.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

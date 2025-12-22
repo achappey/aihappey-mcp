@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://opendata.rdw.nl/resource/m9d7-ebf2.json?$where=kenteken='{kenteken}'",
+      "name": "voertuiginformatie-op-kenteken",
+      "title": "Voertuiginformatie op kenteken",
+      "description": "Geeft uitgebreide voertuiggegevens uit de RDW open data op basis van het opgegeven kenteken. Inclusief merk, model, voertuigtype, kleur en registratiegegevens.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.rdw.nl/resource/8ys7-d773.json?$where=kenteken='{kenteken}'",
+      "name": "eigenaren-per-kenteken",
+      "title": "Eigenaren per kenteken",
+      "description": "Geeft informatie over het aantal vorige eigenaren (zowel natuurlijke personen als bedrijven) van een voertuig met het opgegeven kenteken.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.rdw.nl/resource/vezc-m2t6.json?$where=kenteken='{kenteken}'",
+      "name": "tellerstanden-per-kenteken",
+      "title": "Tellerstanden per kenteken",
+      "description": "Geeft een overzicht van geregistreerde kilometerstanden (tellerstanden) van het voertuig met het opgegeven kenteken, zoals bekend bij de RDW.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.rdw.nl/resource/3huj-srit.json?$where=kenteken='{kenteken}'",
+      "name": "verzekeringsstatus-per-kenteken",
+      "title": "Verzekeringsstatus per kenteken",
+      "description": "Geeft aan of het voertuig met het opgegeven kenteken op dit moment verzekerd is volgens de RDW registratie.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.rdw.nl/resource/8n5q-qe7v.json?$where=kenteken='{kenteken}'",
+      "name": "brandstof-en-milieuklasse-per-kenteken",
+      "title": "Brandstof en milieuklasse per kenteken",
+      "description": "Geeft informatie over de brandstofsoort(en) en milieuklasse van het voertuig met het opgegeven kenteken.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://opendata.rdw.nl/resource/ymwb-9cz9.json?$where=kenteken='{kenteken}'",
+      "name": "technische-voertuiggegevens-per-kenteken",
+      "title": "Technische voertuiggegevens per kenteken",
+      "description": "Geeft technische voertuiggegevens uit de RDW database voor het opgegeven kenteken, zoals motorinhoud, massa, wielbasis en afmetingen.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

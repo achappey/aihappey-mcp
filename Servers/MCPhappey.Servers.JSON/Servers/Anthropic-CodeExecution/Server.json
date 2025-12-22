@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Anthropic-CodeExecution",
+    "title": "Anthropic Code Execution",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.anthropic.com",
+    "description": "Run and test code securely through Anthropic AI, with data and file support.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/1/14/Anthropic.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Anthropic.CodeExecution.AnthropicCodeExecution, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Imagga",
+        "title": "Imagga",
+        "version": "1.0.0",
+        "websiteUrl": "https://imagga.com",
+        "description": "Analyze images: auto tags, categories, colors and smart crops for metadata enrichment.",
+        "icons": [
+            {
+                "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4xaoiPW9IzRpTBZ5x_iZy0FEZxGjbHxCqYw&s"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Imagga.ImaggaService, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

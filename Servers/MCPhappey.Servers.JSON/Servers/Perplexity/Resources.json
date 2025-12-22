@@ -1,0 +1,15 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/perplexity-search-results.html",
+      "name": "perplexity-search-results-widget",
+      "description": "Perplexity search results widget that displays search results.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

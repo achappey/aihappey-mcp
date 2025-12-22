@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "Google-Imagen",
+    "title": "Google Imagen",
+    "version": "1.0.0",
+    "description": "Create images from text prompts using Google Imagen with controllable style.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Google-gemini-icon.svg/2048px-Google-gemini-icon.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Google.Image.GoogleImagen, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

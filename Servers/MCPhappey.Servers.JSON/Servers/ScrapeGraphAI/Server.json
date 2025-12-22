@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "ScrapeGraphAI",
+    "title": "ScrapeGraphAI",
+    "version": "1.0.0",
+    "websiteUrl": "https://scrapegraphai.com",
+    "description": "Extract data or text from any website automatically with AI-powered web scraping.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/171017415?s=280&v=4"
+      }
+    ]
+  },
+  "baseMcp": "mcp.scrapegraphai.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

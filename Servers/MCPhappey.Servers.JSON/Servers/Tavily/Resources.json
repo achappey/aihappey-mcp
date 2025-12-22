@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.tavily.com/usage",
+      "name": "tavily-usage",
+      "title": "Get Tavily usage",
+      "description": "Get Tavily API key and account usage details",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

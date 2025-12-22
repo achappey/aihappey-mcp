@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "GitHub-ClosedXML",
+    "title": "GitHub ClosedXML",
+    "version": "1.0.0",
+    "description": "Create, view, and edit Excel spreadsheets quickly and easily.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/21276615?v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.ClosedXML.ClosedXMLPlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

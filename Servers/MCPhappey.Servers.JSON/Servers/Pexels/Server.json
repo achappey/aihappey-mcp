@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Pexels",
+    "title": "Pexels",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.pexels.com",
+    "description": "Find and download free high-quality photos and videos from Pexels for your projects.",
+    "icons": [
+      {
+        "src": "https://img.utdstc.com/icon/101/937/101937caaf5d051d0a72eae4d98f2abb9ef51e6f4fcfb43a74006d54590c79cd:200"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

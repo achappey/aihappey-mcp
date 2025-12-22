@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Together-CodeInterpreter",
+    "title": "Together Code Interpreter",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.together.ai",
+    "description": "Run Python code snippets and get results directly for quick tests and computations.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/together-color.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Together.CodeInterpreter.TogetherCodeInterpreter, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

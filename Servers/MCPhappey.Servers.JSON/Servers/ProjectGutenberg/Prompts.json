@@ -1,0 +1,99 @@
+{
+  "prompts": [
+    {
+      "prompt": "Find books matching '{search}' written between {author_year_start} and {author_year_end}. Show the title, author, and download URL for each book.",
+      "template": {
+        "name": "search-books-by-title-and-year-range",
+        "title": "Search books by title and author year range",
+        "description": "Searches for books based on a search term and author year range. Shows key info and download links.",
+        "arguments": [
+          {
+            "name": "search",
+            "description": "Keyword or phrase to search in book titles/authors.",
+            "required": true
+          },
+          {
+            "name": "author_year_start",
+            "description": "Start year of author's life.",
+            "required": true
+          },
+          {
+            "name": "author_year_end",
+            "description": "End year of author's life.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Show the most popular books in {languages} right now. List the top 10 including title, author, and download formats.",
+      "template": {
+        "name": "popular-books-per-language",
+        "title": "Popular books per language",
+        "description": "Shows trending books per language. Lists the most popular ones with basic info and download options.",
+        "arguments": [
+          {
+            "name": "languages",
+            "description": "Language codes (comma separated, e.g. en,fr,de).",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Give me all books on the topic '{topic}' in {languages}, including author, title, and bookshelf.",
+      "template": {
+        "name": "books-by-topic-and-language",
+        "title": "Books by topic and language",
+        "description": "Returns books filtered by topic (subject/bookshelf) and language, showing essential details.",
+        "arguments": [
+          {
+            "name": "topic",
+            "description": "Subject or bookshelf, e.g., children, philosophy.",
+            "required": true
+          },
+          {
+            "name": "languages",
+            "description": "Language code(s) to filter by.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Get detailed information and download links for these Gutenberg book IDs: {ids}",
+      "template": {
+        "name": "get-books-by-ids",
+        "title": "Get books by IDs",
+        "description": "Fetches bulk details (title, author, formats) for multiple Gutenberg book IDs.",
+        "arguments": [
+          {
+            "name": "ids",
+            "description": "Comma-separated list of Gutenberg book IDs.",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Search for books available as {mime_type} containing '{search}'. Show title, author, and download link.",
+      "template": {
+        "name": "search-books-by-mime-type",
+        "title": "Search books by file format",
+        "description": "Finds books in a particular file format (e.g., EPUB, TXT) matching the search term.",
+        "arguments": [
+          {
+            "name": "mime_type",
+            "description": "MIME type for file format (e.g., application/epub+zip).",
+            "required": true
+          },
+          {
+            "name": "search",
+            "description": "Search term (title, author, etc.).",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

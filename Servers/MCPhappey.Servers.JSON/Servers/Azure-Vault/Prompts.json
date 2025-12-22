@@ -1,0 +1,144 @@
+{
+  "prompts": [
+    {
+      "prompt": "Provide a comprehensive inventory summary for Key Vault **{vaultName}**:\n\n1. Total count of **secrets**, **keys**, and **certificates**.\n2. Identify the **oldest** and **newest** item in each category (based on creation date).\n3. Highlight items that **expire within the next 90 days**.\n4. Offer concise recommendations to improve vault hygiene (e.g., rotate old keys, delete unused secrets).\n\nPresent the results in a clear table, followed by an executive-style summary with actionable insights.",
+      "template": {
+        "name": "vault-inventory-summary",
+        "title": "Vault inventory summary",
+        "description": "Generates an overview of all assets stored in a Key Vault with actionable insights.",
+        "arguments": [
+          {
+            "name": "vaultName",
+            "description": "DNS-prefix of the vault (e.g., contoso-vault)",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Retrieve detailed information for secret **{secretName}** (version **{secretVersion}** if supplied) in Key Vault **{vaultName}** and answer:\n\n- Current **value** (redact in output unless explicitly requested).\n- **Enabled/disabled** status.\n- **Creation**, **last update**, and **expiration** dates.\n- Number of **previous versions** and their creation dates.\n- Security recommendation (e.g., rotate if older than 180 days, enable content-type where missing).\n\nOutput a two-section report:\n1. *Metadata table*  \n2. *Security insight paragraph*",
+      "template": {
+        "name": "get-secret-details",
+        "title": "Secret details with security insights",
+        "description": "Fetches a secret (latest or specific version) and provides security-oriented analysis.",
+        "arguments": [
+          {
+            "name": "vaultName",
+            "description": "DNS-prefix of the vault",
+            "required": true
+          },
+          {
+            "name": "secretName",
+            "description": "Name of the secret",
+            "required": true
+          },
+          {
+            "name": "secretVersion",
+            "description": "Specific secret version (optional; latest used when omitted)",
+            "required": false
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "List the **top {top} secrets** in Key Vault **{vaultName}** that are **expiring within {days} days** (default 30). For each secret include:\n- Secret **name**\n- **Expiration date** (UTC)\n- **Content type** (if any)\n- Recommended **rotation date**\n\nSort ascending by expiration date and present as a markdown table.",
+      "template": {
+        "name": "secrets-nearing-expiration",
+        "title": "Secrets nearing expiration",
+        "description": "Identifies secrets that will expire soon and suggests rotation timelines.",
+        "arguments": [
+          {
+            "name": "vaultName",
+            "description": "DNS-prefix of the vault",
+            "required": true
+          },
+          {
+            "name": "days",
+            "description": "Threshold in days to consider a secret 'expiring soon' (default 30)",
+            "required": true
+          },
+          {
+            "name": "top",
+            "description": "Maximum number of secrets to return (default 20)",
+            "required": false
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Generate a **certificate expiry report** for Key Vault **{vaultName}** focusing on certificates expiring within **{days} days** (default 60):\n\nFor each certificate provide:\n- **Name**\n- **Expiration date**\n- **Enabled** status\n- **Tags** (environment, owner, etc.)\n\nGroup results by *environment* tag (prod, dev, etc.). End with a summary of risks and recommended next steps (e.g., renew or replace).",
+      "template": {
+        "name": "certificate-expiry-report",
+        "title": "Certificate expiry report",
+        "description": "Summarises certificates approaching expiration with environment grouping.",
+        "arguments": [
+          {
+            "name": "vaultName",
+            "description": "DNS-prefix of the vault",
+            "required": true
+          },
+          {
+            "name": "days",
+            "description": "Threshold in days for upcoming expiry",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Analyse **key rotation** practices in Key Vault **{vaultName}**:\n\n1. List keys older than **{days} days** since last rotation (default 365).\n2. Show total **number of versions** per key.\n3. Flag keys with **disabled** or **expired** versions.\n4. Recommend a rotation schedule and any improvements to key usage policies.\n\nDeliver results in two sections: a table of at-risk keys and a concise best-practice guide.",
+      "template": {
+        "name": "key-rotation-insights",
+        "title": "Key rotation insights",
+        "description": "Provides insights into key age and rotation frequency.",
+        "arguments": [
+          {
+            "name": "vaultName",
+            "description": "DNS-prefix of the vault",
+            "required": true
+          },
+          {
+            "name": "days",
+            "description": "Age threshold for flagging keys",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Create a **soft-deleted secrets audit** for Key Vault **{vaultName}**:\n\n- List up to **{top}** soft-deleted secrets (default 50).\n- Show **scheduled purge dates** and **recovery IDs**.\n- Recommend whether to **purge** or **recover** based on age and naming patterns.\n\nOutput an ordered list with clear suggestions per secret.",
+      "template": {
+        "name": "soft-deleted-secrets-audit",
+        "title": "Soft-deleted secrets audit",
+        "description": "Reviews soft-deleted secrets and proposes follow-up actions.",
+        "arguments": [
+          {
+            "name": "vaultName",
+            "description": "DNS-prefix of the vault",
+            "required": true
+          },
+          {
+            "name": "top",
+            "description": "Maximum entries to list",
+            "required": false
+          }
+        ]
+      }
+    },
+    {
+      "prompt": "Deliver a **compliance snapshot** for Key Vault **{vaultName}**:\n\n- Identify any **secrets** or **certificates** missing mandatory tags (`owner`, `environment`).\n- Highlight items that are **disabled** or already **expired**.\n- Provide an overall compliance score and specific remediation steps.\n\nReturn the results in JSON with two arrays (`nonCompliantSecrets`, `nonCompliantCertificates`) plus a `summary` object.",
+      "template": {
+        "name": "compliance-snapshot",
+        "title": "Compliance snapshot",
+        "description": "Checks tagging and lifecycle compliance for secrets and certificates.",
+        "arguments": [
+          {
+            "name": "vaultName",
+            "description": "DNS-prefix of the vault",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

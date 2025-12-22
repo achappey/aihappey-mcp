@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "SunriseSunset",
+    "title": "Sunrise Sunset",
+    "websiteUrl": "https://sunrise-sunset.org",
+    "version": "1.0.0",
+    "description": "Get sunrise, sunset and twilight times for any location and date.",
+    "icons": [
+      {
+        "src": "https://c1.tablecdn.com/pa/sunrisesunset.png"
+      }
+    ]
+  },
+  "instructions": "You must always credit sunrise-sunset.org when using this data in your app or outputs. Add a visible reference or link to sunrise-sunset.org wherever you show results from this API."
+}

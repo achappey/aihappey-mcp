@@ -1,0 +1,26 @@
+{
+  "resources": [
+    {
+      "uri": "ui://widget/leave_totals.html",
+      "name": "leave-totals-widget",
+      "description": "Leave totals widget that displays total employees leave not used.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    },
+     {
+      "uri": "ui://widget/employees.html",
+      "name": "employees-widget",
+      "description": "Employees widget that displays team employees.",
+      "mimeType": "text/html+skybridge",
+      "annotations": {
+        "audience": [
+          "user"
+        ]
+      }
+    }
+  ]
+}

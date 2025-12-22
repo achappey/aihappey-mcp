@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "BasisregistratieAdressenGebouwen",
+    "title": "Basisregistratie Adressen en Gebouwen (BAG)",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.kadaster.nl/zakelijk/registraties/basisregistraties/bag",
+    "description": "Officiële NL-adressen en gebouwen: zoek panden, adressen en kenmerken voor kaarten en analyses.",
+    "icons": [
+      {
+        "src": "https://www.nordichq.com/wp-content/uploads/2023/03/kvk-logo.jpg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "serverInfo": {
+        "name": "NRVT",
+        "title": "Nederlands Register Vastgoed Taxateurs",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.nrvt.nl",
+        "description": "NRVT info: regelgeving, modellen, tuchtuitspraken en nieuws voor vastgoedtaxateurs in NL.",
+        "icons": [
+            {
+                "src": "https://www.urbanproperties.nl/storage/image/2024/07/17/183/1200x900_nrvt-logo-afbeelding.jpg"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
+    ],
+    "instructions": "Gebruik de ResourceTemplates om lijstpagina's (downloads, regelgeving, nieuws) te lezen en document-IDs te achterhalen. Voor nieuws ondersteunt de site parameters 'pagina', 'limiet', 'q' en 'filters[article_type][0]'. Voor downloads: volg links '/downloads/{id}' om de PDF-inhoud op te halen."
+}

@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-Models",
+    "title": "OpenAI Models",
+    "version": "1.0.0",
+    "description": "Browse OpenAI models and compare options to pick the best one for your task.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  }
+}

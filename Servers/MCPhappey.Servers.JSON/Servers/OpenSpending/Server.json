@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "OpenSpending",
+    "title": "Open Spending",
+    "version": "1.0.0",
+    "websiteUrl": "https://openspending.nl",
+    "description": "Inzicht in NL-overheidsuitgaven en inkomsten per jaar, categorie of organisatie.",
+    "icons": [
+      {
+        "src": "https://openstate.eu/wp-content/uploads/sites/14/2025/04/open-spending-logo-480x375.png"
+      }
+    ]
+  }
+}

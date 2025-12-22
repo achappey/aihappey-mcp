@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Medewerkers</title>
+  <script>window.deferLoadingAlpine = (start) => window._startAlpine = start;</script>
+  <script src="%HOST_URL%/widget-base.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.0/dist/cdn.min.js" defer></script>
+  <script src="%HOST_URL%/chatapp-header.js" defer></script>
+  <script src="%HOST_URL%/chatapp-carousel.js" defer></script>
+  <script src="%HOST_URL%/chatapp-card.js" defer></script>
+  <link rel="stylesheet" href="%HOST_URL%/widget.css" />
+  <style>
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 10px;
+      font-size: .85rem
+    }
+
+    .info-grid div {
+      display: flex;
+      flex-direction: column
+    }
+
+    .info-label {
+      font-weight: 500;
+      color: var(--card-color, #111)
+    }
+  </style>
+  <script>
+    window.employeesWidget = function () {
+      return {
+        data: window.openai?.toolOutput || null, employees: [], count: 0,
+        init() { widgetBase.syncOpenAI(this); const ui = Alpine.store?.('ui'); if (ui?.maxHeight) document.body.style.height = ui.maxHeight + 'px'; this.load(); },
+        load() {
+          const arr = (this.data?.data ?? this.data)?.results ?? (this.data?.data ?? this.data);
+          this.employees = Array.isArray(arr) ? arr : []; this.count = this.employees.length;
+        },
+        getHeader() {
+          return `Simplicate HRM - Medewerkers: ${this.input?.teamName ?? ''} (${this.employees?.length})`;
+        },
+        avatar(e) { return e?.avatar?.url_small || e?.avatar?.url_large || ''; },
+        role(e) { return e?.function || e?.type?.label || ''; },
+        phone(e) { return e?.work_mobile || e?.work_phone || ''; },
+        openUrl(u) { if (u) window.open(u, '_blank', 'noopener,noreferrer'); },
+        copy(v) { if (v) navigator.clipboard?.writeText(v).catch(() => { }); }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div x-data="employeesWidget()" x-init="init()"
+    style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+    <chatapp-header :text="getHeader()" no-fullscreen></chatapp-header>
+    <chatapp-carousel style="flex:1;min-height:0;">
+      <template x-for="e in employees" :key="e.id||e.name">
+        <chatapp-card :title="e.name||'-'" :description="role(e)">
+          <div slot="content">
+            <div class="info-grid">
+              <div><span class="info-label">Email</span><span x-text="e.work_email||'—'"></span></div>
+              <div><span class="info-label">Telefoon</span><span x-text="phone(e)||'—'"></span></div>
+              <div><span class="info-label">Tarief</span><span x-text="e.hourly_sales_tariff||'—'"></span></div>
+              <div><span class="info-label">Type</span><span x-text="e.type?.label||'—'"></span></div>
+            </div>
+          </div>
+          <button slot="actions" x-show="e.work_email" @click.prevent="copy(e.work_email)">Kopieer e-mail</button>
+          <button slot="actions" x-show="phone(e)" @click.prevent="copy(phone(e))">Kopieer telefoon</button>
+        </chatapp-card>
+      </template>
+    </chatapp-carousel>
+  </div>
+  <script>window._startAlpine && window._startAlpine();</script>
+</body>
+
+</html>

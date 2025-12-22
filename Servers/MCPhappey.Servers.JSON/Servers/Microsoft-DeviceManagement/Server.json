@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-DeviceManagement",
+    "title": "Microsoft Device Management",
+    "version": "1.0.0",
+    "description": "See work devices, their status and compliance, and where attention is needed.",
+    "icons": [
+      {
+        "src": "https://garvis.ca/wp-content/uploads/2023/03/image-1.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Devices.GraphDevices, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Directory.AccessAsUser.All https://graph.microsoft.com/Directory.ReadWrite.All https://graph.microsoft.com/DeviceManagementServiceConfig.ReadWrite.All https://graph.microsoft.com/DeviceManagementManagedDevices.ReadWrite.All https://graph.microsoft.com/DeviceManagementConfiguration.ReadWrite.All https://graph.microsoft.com/DeviceManagementManagedDevices.PrivilegedOperations.All"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://www.nvm.nl/zoeken/{?q}",
+      "name": "site-search",
+      "title": "Site search (NVM)",
+      "description": "Doorzoek de volledige NVM-website met een vrije zoekterm.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://www.nvm.nl/nieuws/{year}/{slug}/",
+      "name": "news-article",
+      "title": "Nieuwsartikel (jaar + slug)",
+      "description": "Directe URL-structuur voor NVM nieuwsartikelen per jaar en slug.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://www.nvm.nl/wonen/{slug}/",
+      "name": "wonen-page",
+      "title": "Wonen subpagina",
+      "description": "Generieke template voor pagina’s binnen de sectie Wonen (bijv. marktinformatie/nieuwbouw/huurmarkt).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://www.nvm.nl/business/{slug}/",
+      "name": "business-page",
+      "title": "Business subpagina",
+      "description": "Generieke template voor pagina’s binnen de sectie Business (bijv. kennisplatform, over NVM Business).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://www.nvm.nl/agrarisch-landelijk/{slug}/",
+      "name": "agrarisch-page",
+      "title": "Agrarisch & Landelijk subpagina",
+      "description": "Generieke template voor pagina’s binnen de sectie Agrarisch & Landelijk.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://www.nvm.nl/contact/{slug}/",
+      "name": "contact-subpage",
+      "title": "Contact subpagina",
+      "description": "Template voor contact(sub)pagina’s, zoals pers & mediarelaties of meldingen/klachten.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://www.nvm.nl/{slug}/",
+      "name": "root-section-or-page",
+      "title": "Algemene pagina op root-niveau",
+      "description": "Fallback-template voor overige top-level pagina’s (zoals cookies, disclaimer, expat, etc.).",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://www.nvm.nl/media/{id}/{filename}",
+      "name": "media-file",
+      "title": "Media/PDF-bestand",
+      "description": "Directe template voor mediabestanden (veelal PDF-rapporten) op nvm.nl. Vereist het interne media-id en bestandsnaam.",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/admin/serviceAnnouncement/issues/{issueId}",
+      "name": "get-service-health-issue",
+      "title": "Get service health issue",
+      "description": "Gets the details of a specific service health issue by issue ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/admin/serviceAnnouncement/messages/{messageId}",
+      "name": "get-service-health-message",
+      "title": "Get service health message",
+      "description": "Gets the details of a specific service health message by message ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/admin/serviceAnnouncement/healthOverviews/{serviceId}",
+      "name": "get-service-health-overview",
+      "title": "Get service health overview",
+      "description": "Gets the health overview for a specific Microsoft 365 service by service ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
