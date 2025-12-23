@@ -11,7 +11,7 @@ public class NominatimScraper(IHttpClientFactory httpClientFactory) : IContentSc
     private static readonly TimeSpan Delay = TimeSpan.FromSeconds(2);
 
     // fallback User-Agent if none provided
-    private readonly string _userAgent = "MCPhappey-Nominatim/1.0 (https://github.com/achappey/MCPhappey)";
+    private readonly string _userAgent = "aihappey-Nominatim/1.0 (https://github.com/achappey/aihappey-mcp)";
 
     public bool SupportsHost(ServerConfig serverConfig, string url)
     {

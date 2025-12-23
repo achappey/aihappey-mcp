@@ -1,7 +1,7 @@
 {
   "resources": [
     {
-      "uri": "http://localhost:3041/v0.1/servers",
+      "uri": "https://mcp.aihappey.net/v0.1/servers",
       "name": "default-mcp-server-registry",
       "title": "Default MCP store",
       "description": "List all MCP servers from the default MCP store",
@@ -13,7 +13,7 @@
       }
     },   
     {
-      "uri": "http://localhost:3036/v0.1/servers",
+      "uri": "https://agents.aihappey.net/v0.1/servers",
       "name": "agent-mcp-server-registry",
       "title": "Agent MCP store",
       "description": "List all MCP servers from the Agent MCP store",

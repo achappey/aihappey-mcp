@@ -27,11 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{5D20
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MCPhappey.AzureAuth", "MCPhappey.AzureAuth", "{E3663CB0-CC2C-2D7C-F689-9E45651CA852}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCPhappey.WebApi", "Samples\MCPhappey.AzureAuth\MCPhappey.WebApi.csproj", "{131FC1A0-4681-4664-8FCF-D60661025414}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCPhappey.HeaderAuth", "Samples\MCPhappey.HeaderAuth\MCPhappey.HeaderAuth.csproj", "{C708FA32-19BF-4849-811C-748730F34D44}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCPhappey.WebApi", "Samples\MCPhappey.WebApi\MCPhappey.WebApi.csproj", "{F322E934-9282-48CF-A25C-F2ADBC87EA90}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{769B9289-B2AF-0079-2183-40A0D5B6CA35}"
 EndProject

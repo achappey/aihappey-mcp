@@ -145,10 +145,10 @@ public static partial class ModelContextServerExtensions
                 Repository = new()
                 {
                     Source = "github",
-                    Url = "https://github.com/achappey/MCPhappey",
+                    Url = "https://github.com/achappey/aihappey-mcp",
                     Subfolder = server.SourceType == ServerSourceType.Static ?
-                        $"/tree/master/src/Servers/MCPhappey.Servers.JSON/Servers/{server.Server.ServerInfo.Name}" :
-                        "/tree/master/src/Servers/MCPhappey.Servers.SQL"
+                        $"/tree/main/Servers/MCPhappey.Servers.JSON/Servers/{server.Server.ServerInfo.Name}" :
+                        "/tree/main/Servers/MCPhappey.Servers.SQL"
                 },
                 Remotes = [new ServerRemote() {
                     Url =  $"{baseUrl}/{server.Server.ServerInfo.Name.ToLowerInvariant()}",

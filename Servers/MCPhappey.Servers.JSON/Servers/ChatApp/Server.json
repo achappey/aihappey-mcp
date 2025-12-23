@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "description": "Support for an AI chat app with prompts and Model Context Protocol (MCP) registry resources"
   },
+  "instructions": "- Use **Markdown formatting** for your responses, including tables and lists, unless specifically instructed to output CSV.\n- When outputting **Chart.js**, always include a valid JSON data object inside a chartjs code block.\n- When outputting **CSV**, always return raw CSV text inside a csv code block.\n- When outputting **LaTeX or math**, return a single formula inside a latex code block without delimiters.\n- Do **not** include base64 images; images are handled by the client.\n- Always respond in the user’s preferred language.",
   "plugins": [
     "MCPhappey.Tools.AI.ChatApp, MCPhappey.Tools"
   ]

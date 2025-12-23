@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net9.0/MCPhappey.WebApi.dll",
+            "program": "${workspaceFolder}/bin/Debug/net9.0/MCPhappey.AzureAuth.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

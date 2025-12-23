@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MCPhappey.WebApi.csproj",
+                "${workspaceFolder}/MCPhappey.AzureAuth.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/MCPhappey.WebApi.csproj",
+                "${workspaceFolder}/MCPhappey.AzureAuth.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/MCPhappey.WebApi.csproj",
+                "${workspaceFolder}/MCPhappey.AzureAuth.csproj",
             ],
             "problemMatcher": "$msCompile"
         },
@@ -43,7 +43,7 @@
             "type": "process",
             "args": [
                 "clean",
-                "${workspaceFolder}/MCPhappey.WebApi.csproj",
+                "${workspaceFolder}/MCPhappey.AzureAuth.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -55,7 +55,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/MCPhappey.WebApi.csproj",
+                "${workspaceFolder}/MCPhappey.AzureAuth.csproj",
                 "--configuration",
                 "Release",
                 "/property:GenerateFullPaths=true",
