@@ -11,12 +11,24 @@
           "assistant"
         ]
       }
-    },   
+    },
     {
       "uri": "https://agents.aihappey.net/v0.1/servers",
       "name": "agent-mcp-server-registry",
       "title": "Agent MCP store",
       "description": "List all MCP servers from the Agent MCP store",
+      "mimeType": "application/vnd.modelcontextprotocol-registry+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://ai.aihappey.net/v0.1/servers",
+      "name": "ai-mcp-server-registry",
+      "title": "AI MCP store",
+      "description": "List all MCP servers from the AI MCP store",
       "mimeType": "application/vnd.modelcontextprotocol-registry+json",
       "annotations": {
         "audience": [

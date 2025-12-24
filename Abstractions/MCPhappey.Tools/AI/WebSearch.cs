@@ -31,7 +31,6 @@ public static class WebSearch
        [Description("Search context size. low, medium or high")] string? searchContextSize = "medium",
        CancellationToken cancellationToken = default)
        => await requestContext.WithExceptionCheck(async () =>
-       //  => await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
@@ -77,13 +76,18 @@ public static class WebSearch
         var endTime = DateTime.UtcNow;
         result.Meta?.Add("duration", (endTime - startTime).ToString());
 
-        return JsonSerializer.Serialize(result).ToTextCallToolResponse();
+        return result
+            .ToJsonContentBlock("https://www.google.com")
+            .ToCallToolResult();
     });
 
 
     [Description("Parallel web search across multiple AI models, optionally filtered by date range. If a date range is used, include it in the prompt, as some providers don’t support date filters.")]
     [McpServerTool(Title = "Web search (multi-model)",
         Name = "web_search_execute",
+        OpenWorld = true,
+        Destructive = false,
+        Idempotent = false,
         ReadOnly = true)]
     public static async Task<CallToolResult?> WebSearch_Execute(
        [Description("Search query")] string query,
@@ -212,15 +216,19 @@ public static class WebSearch
     [Description("Academic web search using multiple AI models in parallel")]
     [McpServerTool(Title = "Academic web search (multi-model)",
      Destructive = false,
+     OpenWorld = true,
+     Idempotent = false,
      ReadOnly = true)]
-    public static async Task<IEnumerable<ContentBlock>> WebSearch_ExecuteAcademic(
+    public static async Task<CallToolResult?> WebSearch_ExecuteAcademic(
      [Description("Search query")] string query,
      IServiceProvider serviceProvider,
      RequestContext<CallToolRequestParams> requestContext,
        [Description("Start date of the date range")] string? startDate = null,
        [Description("End date of the date range")] string? endDate = null,
        [Description("Search context size. low, medium or high")] string? searchContextSize = "medium",
-     CancellationToken cancellationToken = default)
+     CancellationToken cancellationToken = default) =>
+       await requestContext.WithExceptionCheck(async () =>
+       await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
@@ -305,7 +313,7 @@ public static class WebSearch
                     cancellationToken
                 );
 
-                return result.Content; // Success
+                return result; // Success
             }
             catch (Exception ex)
             {
@@ -319,8 +327,11 @@ public static class WebSearch
 
         var results = await Task.WhenAll(tasks);
 
-        // Only keep successes
-        return results.Where(r => r != null)!.SelectMany(a => a!);
-    }
+        // Return only successful results
+        return new MessageResults()
+        {
+            Results = results.Where(r => r != null)!.OfType<CreateMessageResult>() ?? []
+        };
+    }));
 }
 

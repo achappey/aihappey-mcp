@@ -87,8 +87,8 @@ public static partial class ModelContextServerExtensions
 
         var block = new Dictionary<string, object>
         {
-            //  ["status"] = "active",
-            // ["isLatest"] = true
+            ["status"] = "active",
+            ["isLatest"] = true
         };
 
         // -------------------------
