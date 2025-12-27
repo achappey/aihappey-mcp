@@ -6,7 +6,6 @@ using MCPhappey.Core.Services;
 using MCPhappey.Tools.StabilityAI.Enums;
 using MCPhappey.Tools.StabilityAI.Models;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 

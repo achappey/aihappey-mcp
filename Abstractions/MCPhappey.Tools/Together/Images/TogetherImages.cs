@@ -100,7 +100,18 @@ public static class TogetherImages
         });
 
         using var client = serviceProvider.CreateTogetherClient();
-        using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.together.xyz/v1/images/generations");
+
+        using var request = new HttpRequestMessage(
+                   HttpMethod.Post,
+                   "https://api.together.xyz/v1/images/generations"
+               )
+        {
+            Content = new StringContent(
+                       jsonBody,
+                       Encoding.UTF8,
+                       "application/json"
+                   )
+        };
 
         // Step 3: Send request
         using var resp = await client.SendAsync(request, cancellationToken);
