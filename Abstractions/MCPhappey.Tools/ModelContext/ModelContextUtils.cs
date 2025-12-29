@@ -4,8 +4,7 @@ using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 using MCPhappey.Common.Extensions;
-using SharpGLTF.IO;
-using System.Text.Json;
+using System.Diagnostics;
 
 namespace MCPhappey.Tools.ModelContext;
 
@@ -31,6 +30,93 @@ public static class ModelContextUtils
         [EnumMember(Value = "Boolean")]
         Boolean
     }
+
+    [Description("Test MCP progress notifications by waiting N seconds for X iterations and reporting progress each tick.")]
+    [McpServerTool(Title = "Wait with progress notifications (test)",
+          ReadOnly = true,
+          Idempotent = true,
+          OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextUtils_WaitWithProgress(
+          RequestContext<CallToolRequestParams> requestContext,
+          [Description("Seconds to wait per iteration (>= 0).")]
+        int waitSeconds,
+          [Description("Number of iterations (>= 1).")]
+        int times,
+          [Description("Optional progress message prefix.")]
+        string? messagePrefix = null,
+          [Description("Also send message notifications on each tick (noisy).")]
+        bool sendMessageEachTick = false,
+          [Description("Log level for message notifications.")]
+        LoggingLevel messageLevel = LoggingLevel.Info,
+          CancellationToken cancellationToken = default)
+          => await requestContext.WithExceptionCheck(async () =>
+          {
+              // basic guardrails (don’t let a typo hang your server forever)
+              var originalWaitSeconds = waitSeconds;
+              var originalTimes = times;
+
+              waitSeconds = Math.Clamp(waitSeconds, 0, 3600); // max 1h per tick
+              times = Math.Clamp(times, 1, 10_000);
+
+              if (originalWaitSeconds != waitSeconds || originalTimes != times)
+              {
+                  await requestContext.Server.SendMessageNotificationAsync(
+                      $"Clamped inputs: waitSeconds={originalWaitSeconds}→{waitSeconds}, times={originalTimes}→{times}",
+                      LoggingLevel.Warning,
+                      cancellationToken);
+              }
+
+              var prefix = string.IsNullOrWhiteSpace(messagePrefix) ? "Waiting" : messagePrefix.Trim();
+              var sw = Stopwatch.StartNew();
+
+              // Optional “start” signal (progress=0)
+              await requestContext.Server.SendProgressNotificationAsync(
+                  requestContext,
+                  progressCounter: 0,
+                  message: $"{prefix} (starting)",
+                  total: times,
+                  cancellationToken: cancellationToken);
+
+              await requestContext.Server.SendMessageNotificationAsync(
+                  $"{prefix}: {times}x {waitSeconds}s (progressToken={(requestContext.Params?.ProgressToken is null ? "none" : "present")})",
+                  messageLevel,
+                  cancellationToken);
+
+              try
+              {
+                  for (var i = 1; i <= times; i++)
+                  {
+                      await Task.Delay(TimeSpan.FromSeconds(waitSeconds), cancellationToken);
+
+                      var msg = $"{prefix} ({i}/{times}) - elapsed {sw.Elapsed:mm\\:ss}";
+                      await requestContext.Server.SendProgressNotificationAsync(
+                          requestContext,
+                          progressCounter: i,
+                          message: msg,
+                          total: times,
+                          cancellationToken: cancellationToken);
+
+                      if (sendMessageEachTick)
+                      {
+                          await requestContext.Server.SendMessageNotificationAsync(
+                              msg,
+                              messageLevel,
+                              cancellationToken);
+                      }
+                  }
+              }
+              catch (OperationCanceledException)
+              {
+                  var cancelledMsg = $"{prefix}: cancelled after {sw.Elapsed:mm\\:ss}.";
+                  await requestContext.Server.SendMessageNotificationAsync(cancelledMsg, LoggingLevel.Warning, cancellationToken);
+                  return cancelledMsg.ToTextContentBlock().ToCallToolResult();
+              }
+
+              var done = $"{prefix}: done. ({times}x {waitSeconds}s) total elapsed {sw.Elapsed:mm\\:ss}.";
+              await requestContext.Server.SendMessageNotificationAsync(done, messageLevel, cancellationToken);
+
+              return done.ToTextContentBlock().ToCallToolResult();
+          });
 
     [Description("Test MCP logging capabilities by send a custom log message")]
     [McpServerTool(Title = "Send log message",
@@ -72,7 +158,7 @@ public static class ModelContextUtils
         string? defaultValue = null,
         CancellationToken cancellationToken = default) =>
            await requestContext.WithExceptionCheck(async () =>
-           //    await requestContext.WithStructuredContent(async () =>
+            await requestContext.WithStructuredContent(async () =>
     {
         var propName = string.IsNullOrWhiteSpace(fieldName) ? "value" : fieldName;
 
@@ -150,11 +236,8 @@ public static class ModelContextUtils
             Message = message
         };
 
-        var result = await requestContext.Server.ElicitAsync(elicitRequest, cancellationToken: cancellationToken);
-
-        return JsonSerializer.Serialize(result).ToTextCallToolResponse();
-
-    });
+        return await requestContext.Server.ElicitAsync(elicitRequest, cancellationToken: cancellationToken);
+    }));
 
 }
 

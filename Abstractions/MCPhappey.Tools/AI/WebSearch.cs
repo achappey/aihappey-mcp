@@ -29,8 +29,9 @@ public static class WebSearch
        [Description("Start date of the date range")] string? startDate = null,
        [Description("End date of the date range")] string? endDate = null,
        [Description("Search context size. low, medium or high")] string? searchContextSize = "medium",
-       CancellationToken cancellationToken = default)
-       => await requestContext.WithExceptionCheck(async () =>
+       CancellationToken cancellationToken = default) =>
+       await requestContext.WithExceptionCheck(async () =>
+       await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
@@ -76,10 +77,12 @@ public static class WebSearch
         var endTime = DateTime.UtcNow;
         result.Meta?.Add("duration", (endTime - startTime).ToString());
 
-        return result
-            .ToJsonContentBlock("https://www.google.com")
-            .ToCallToolResult();
-    });
+        return result;
+
+        //        return result
+        //           .ToJsonContentBlock("https://www.google.com")
+        //          .ToCallToolResult();
+    }));
 
 
     [Description("Parallel web search across multiple AI models, optionally filtered by date range. If a date range is used, include it in the prompt, as some providers don’t support date filters.")]

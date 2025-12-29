@@ -120,7 +120,7 @@ public static partial class CanvasService
     // ---------- INSERT ----------
     [Description("Insert a line into a canvas (.md) file at the given 1-based index.")]
     [McpServerTool(
-        Title = "Insert Canvas Line",
+        Title = "Insert Canvas line",
         Name = "onedrive_canvas_insert",
         ReadOnly = false,
         OpenWorld = false,
@@ -171,7 +171,7 @@ public static partial class CanvasService
     // ---------- REPLACE ----------
     [Description("Replace text inside a canvas (.md) file (simple find/replace).")]
     [McpServerTool(
-        Title = "Replace Canvas Text",
+        Title = "Replace Canvas text",
         Name = "onedrive_canvas_replace",
         ReadOnly = false,
         OpenWorld = false,

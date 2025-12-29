@@ -109,12 +109,13 @@ public static partial class ModelContextToolExtensions
     {
         try
         {
-            var resultContent = JsonSerializer.SerializeToNode(await func(), IgnoreNullWebOptions);
-            
+            var result = await func();
+            var resultContent = JsonSerializer.SerializeToNode(result, IgnoreNullWebOptions);
+
             return new CallToolResult()
             {
                 Meta = await requestContext.GetToolMeta(),
-                StructuredContent = JsonSerializer.SerializeToNode(await func(), IgnoreNullWebOptions)
+                StructuredContent = resultContent
             };
         }
         catch (Exception e)

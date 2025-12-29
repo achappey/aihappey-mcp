@@ -41,7 +41,7 @@
     <PackageReference Include="Plotly.NET" Version="6.0.0-preview.1" />
     <PackageReference Include="Plotly.NET.CSharp" Version="0.14.0-preview.1" />
     <PackageReference Include="QuestPDF" Version="2025.12.1" />
-    <PackageReference Include="QuestPDF.Markdown" Version="1.44.0" />
+    <PackageReference Include="QuestPDF.Markdown" Version="1.45.0" />
     <PackageReference Include="Raffinert.FuzzySharp" Version="3.0.6" />
     <PackageReference Include="RESTCountries.NET" Version="3.6.0" />
     <PackageReference Include="SharpGLTF.Core" Version="1.0.5" />
