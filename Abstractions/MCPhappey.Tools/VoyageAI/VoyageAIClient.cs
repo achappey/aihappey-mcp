@@ -3,7 +3,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.KernelMemory.Pipeline;
-using ModelContextProtocol.Protocol;
 
 namespace MCPhappey.Tools.VoyageAI;
 
@@ -27,14 +26,6 @@ public class VoyageAIClient
     public async Task<JsonNode?> RerankAsync(string model, string query, List<string> documents,
         int topK, bool truncation, CancellationToken ct)
     {
-        var ds = new EmbeddedResourceBlock()
-        {
-            Resource = new TextResourceContents()
-            {
-                Uri = "",
-                Text = ""
-            }
-        };
         var body = new
         {
             model,
