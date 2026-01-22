@@ -379,7 +379,7 @@ public static partial class ModelContextEditor
         };
     }));
 
-    [Description("Deletes a MCP-server")]
+    [Description("Deletes an MCP-server")]
     [McpServerTool(Title = "Delete an MCP-server",
         Destructive = true,
         ReadOnly = false,

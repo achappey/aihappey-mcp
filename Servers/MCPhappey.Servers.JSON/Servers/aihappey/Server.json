@@ -1,0 +1,9 @@
+{
+  "serverInfo": {
+    "name": "aihappey",
+    "title": "aihappey",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/achappey",
+    "description": "aihappey is a modular, provider-agnostic AI platform composed of a core inference backend, MCP servers, agent runtimes, and a unified chat UI. The system is designed for AI-native workflows, supporting streaming, tool execution, and structured context across multiple models and providers."
+  }
+}

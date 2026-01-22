@@ -1,0 +1,56 @@
+{
+  "resources": [
+    {
+      "uri": "https://github.com/achappey/aihappey-chat",
+      "name": "aihappey-chat",
+      "title": "aihappey Chat UI",
+      "description": "Frontend chat application for aihappey. Provides a clean, model-agnostic chat UI with streaming, tool calls, provider selection, and MCP-compatible interactions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
+    },
+    {
+      "uri": "https://github.com/achappey/aihappey-ai",
+      "name": "aihappey-ai",
+      "title": "aihappey Core AI backend",
+      "description": "Central AI backend powering aihappey. Implements provider-agnostic inference, OpenAI-compatible APIs, Vercel AI SDK endpoints, streaming, reranking, image, speech, and tool execution.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
+    },
+    {
+      "uri": "https://github.com/achappey/aihappey-mcp",
+      "name": "aihappey-mcp",
+      "title": "aihappey MCP servers",
+      "description": "Model Context Protocol (MCP) servers exposing structured resources, prompts, and tools for aihappey. Enables AI-native integrations instead of ad-hoc AI features.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.7
+      }
+    },
+    {
+      "uri": "https://github.com/achappey/aihappey-agents",
+      "name": "aihappey-agents",
+      "title": "aihappey Agent runtime",
+      "description": "Agent implementations built on top of MCP and the aihappey backend. Focused on task execution, tool orchestration, and long-running agentic workflows.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.7
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.github.com/repos/achappey/aihappey-chat/commits?per_page={perPage}",
+      "name": "aihappey-chat-commits",
+      "title": "aihappey Chat commit history",
+      "description": "Recent commit history of the aihappey Chat UI repository. Used to track frontend changes, iteration speed, and UI-related development.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.github.com/repos/achappey/aihappey-ai/commits?per_page={perPage}",
+      "name": "aihappey-ai-commits",
+      "title": "aihappey Core AI commit history",
+      "description": "Recent commit history of the aihappey core AI backend. Relevant for understanding provider additions, API changes, and backend behavior.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.github.com/repos/achappey/aihappey-mcp/commits?per_page={perPage}",
+      "name": "aihappey-mcp-commits",
+      "title": "aihappey MCP commit history",
+      "description": "Recent commit history of the aihappey MCP servers. Useful for tracking changes to resources, prompts, tools, and protocol-level behavior.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://api.github.com/repos/achappey/aihappey-agents/commits?per_page={perPage}",
+      "name": "aihappey-agents-commits",
+      "title": "aihappey Agents commit history",
+      "description": "Recent commit history of aihappey agent implementations. Relevant for monitoring agent capabilities, orchestration logic, and task execution changes.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

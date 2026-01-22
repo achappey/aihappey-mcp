@@ -7,7 +7,9 @@
       "description": "Lists all standard and shared channels within a specific Team, including their names and descriptions.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -17,7 +19,9 @@
       "description": "Retrieves the most recent 20 messages from a specified channel in a Team.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -27,7 +31,9 @@
       "description": "Lists all members of a specified Team with their names, user IDs, email addresses, and roles.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -37,7 +43,9 @@
       "description": "Retrieves replies to a specific message in a channel.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -47,7 +55,9 @@
       "description": "Retrieves the list of tabs (like Planner, OneNote, etc.) configured in a specific Teams channel.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -57,7 +67,9 @@
       "description": "Search a list of Microsoft 365 groups on display name by search query.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -67,7 +79,9 @@
       "description": "Search a list of Microsoft 365 users by search query",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -77,7 +91,9 @@
       "description": "Retrieves all calendar events for a group (team) within a specific date range. Returns all events between startDateTime and endDateTime.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -87,7 +103,33 @@
       "description": "Retrieves all calendar events for a group (team) that start on or after the specified date/time. Use ISO 8601 format for the date/time.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}/conversations?$select=id,topic,hasAttachments,uniqueSenders,lastDeliveredDateTime",
+      "name": "group-conversations",
+      "title": "Get group conversations",
+      "description": "Retrieves all email conversations (threads) from a Microsoft 365 Group mailbox, including topic and last delivery time.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}/threads/{threadId}",
+      "name": "group-threads",
+      "title": "Get threads in group",
+      "description": "Retrieves all threads (posts) within a specific group in a Microsoft 365 Group mailbox.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]
