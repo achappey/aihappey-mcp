@@ -35,7 +35,7 @@ public static class GraphOutlookDelegatedMail
                 throw new ArgumentException("Category name cannot be empty.", nameof(category));
 
             var message = await client.Users[userId].Messages[messageId]
-                .GetAsync(req => req.QueryParameters.Select = new[] { "categories" }, cancellationToken);
+                .GetAsync(req => req.QueryParameters.Select = ["categories"], cancellationToken);
 
             var current = message?.Categories?.ToList() ?? [];
 

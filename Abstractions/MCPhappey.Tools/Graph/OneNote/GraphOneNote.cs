@@ -47,8 +47,7 @@ public static class GraphOneNote
             {
                 Title = typed?.Title,
                 Content = BinaryData.FromString($"<html><head><title>{typed?.Title}</title></head><body>{typed?.Content}</body></html>").ToArray()
-            }, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+            }, cancellationToken: cancellationToken);
     })));
 
     [Description("Create a new OneNote section in a specified notebook.")]
@@ -82,8 +81,7 @@ public static class GraphOneNote
             .Onenote
             .Notebooks[notebookId]
             .Sections
-            .PostAsync(section, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+            .PostAsync(section, cancellationToken: cancellationToken);
     })));
 
     [Description("Copy a personal Notebook to a group.")]
@@ -118,8 +116,7 @@ public static class GraphOneNote
            .Onenote
            .Notebooks[notebookId]
            .CopyNotebook
-           .PostAsync(section, cancellationToken: cancellationToken)
-           .ConfigureAwait(false);
+           .PostAsync(section, cancellationToken: cancellationToken);
    })));
 
     [Description("Create a new OneNote notebook for the current user.")]
@@ -149,8 +146,7 @@ public static class GraphOneNote
         return await client.Me
             .Onenote
             .Notebooks
-            .PostAsync(notebook, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+            .PostAsync(notebook, cancellationToken: cancellationToken);
     })));
 
     [Description("Delete a specific OneNote page.")]

@@ -61,8 +61,7 @@ public static class BogusService
         Title = "Generate lorem",
         Name = "github_bogus_generate_lorem",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateLorem(
         [Description("Number of sentences")] int sentences = 3,
         [Description("Locale code (e.g. 'en', 'nl')")] string? locale = "en",
@@ -74,8 +73,7 @@ public static class BogusService
         Title = "Generate company",
         Name = "github_bogus_generate_company",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateCompany(
         [Description("Locale code (e.g. 'en', 'nl')")] string? locale = "en",
         [Description("Optional deterministic seed")] int? seed = null) =>
@@ -96,38 +94,45 @@ public static class BogusService
            ReadOnly = true,
            OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubBogus_GenerateCompanyList(
-           RequestContext<CallToolRequestParams> requestContext,
-           [Description("How many people")] int count = 10,
-           [Description("Locale code")] string? locale = "en",
-           [Description("Optional deterministic seed")] int? seed = null)
-           => await requestContext.WithStructuredContent(async () =>
-        {
-            var f = CreateFaker(locale, seed);
-            var data = Enumerable.Range(0, Math.Max(0, count))
-                .Select(i =>
-                {
-                    // Minor per-item variation by nudging seed via IndexGlobal if provided
-                    return new
-                    {
-                        Name = f.Company.CompanyName(),
-                        Suffix = f.Company.CompanySuffix(),
-                        Logo = f.Image.PicsumUrl(128, 128),
-                        Address = f.Address.FullAddress(),
-                        CatchPhrase = f.Company.CatchPhrase(),
-                        Bs = f.Company.Bs()
-                    };
-                });
+    RequestContext<CallToolRequestParams> requestContext,
+    [Description("How many people")] int count = 10,
+    [Description("Locale code")] string? locale = "en",
+    [Description("Optional deterministic seed")] int? seed = null)
+    => await requestContext.WithStructuredContent(async () =>
+{
+    var f = CreateFaker(locale, seed);
 
-            return await Task.FromResult(data);
+    var data = Enumerable.Range(0, Math.Max(0, count))
+        .Select(i =>
+        {
+            return new
+            {
+                Name = f.Company.CompanyName(),
+                Suffix = f.Company.CompanySuffix(),
+                Logo = f.Image.PicsumUrl(128, 128),
+                Address = f.Address.FullAddress(),
+                CatchPhrase = f.Company.CatchPhrase(),
+                Bs = f.Company.Bs(),
+
+                // 👇 random cijfers toegevoegd
+                EmployeeCount = f.Random.Int(5, 5000),
+                Revenue = f.Random.Decimal(50_000, 50_000_000),
+                FoundedYear = f.Random.Int(1950, DateTime.UtcNow.Year),
+                Rating = Math.Round(f.Random.Double(1.0, 5.0), 1),
+                ExternalId = f.Random.Number(100000, 999999)
+            };
         });
+
+    return await Task.FromResult(data);
+});
+
 
     [Description("Generate a random integer within [min, max].")]
     [McpServerTool(
         Title = "Random int",
         Name = "github_bogus_random_int",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<int> GitHubBogus_RandomInt(
         [Description("Minimum value (inclusive)")] int min = 0,
         [Description("Maximum value (inclusive)")] int max = 100,
@@ -139,8 +144,7 @@ public static class BogusService
         Title = "Random date",
         Name = "github_bogus_random_date",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_RandomDate(
         [Description("'past' or 'future'")] string direction = "future",
         [Description("Days range from reference")] int days = 30,
@@ -154,8 +158,7 @@ public static class BogusService
         Title = "Generate address",
         Name = "github_bogus_generate_address",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateAddress(
         [Description("Locale code (e.g. 'en', 'nl')")] string? locale = "en",
         [Description("Optional deterministic seed")] int? seed = null)
@@ -182,8 +185,7 @@ public static class BogusService
         Title = "Generate internet account",
         Name = "github_bogus_generate_internet_account",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateInternetAccount(
         [Description("Locale code")] string? locale = "en",
         [Description("Optional deterministic seed")] int? seed = null)
@@ -211,8 +213,7 @@ public static class BogusService
         Title = "Generate payment card",
         Name = "github_bogus_generate_payment_card",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GeneratePaymentCard(
         [Description("Locale code")] string? locale = "en",
         [Description("Optional deterministic seed")] int? seed = null)
@@ -240,8 +241,7 @@ public static class BogusService
         Title = "Generate product",
         Name = "github_bogus_generate_product",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateProduct(
         [Description("Locale code")] string? locale = "en",
         [Description("Optional deterministic seed")] int? seed = null)
@@ -268,8 +268,7 @@ public static class BogusService
         Title = "Generate vehicle",
         Name = "github_bogus_generate_vehicle",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateVehicle(
         [Description("Locale code")] string? locale = "en",
         [Description("Optional deterministic seed")] int? seed = null)
@@ -295,8 +294,7 @@ public static class BogusService
         Title = "Generate geo point",
         Name = "github_bogus_generate_geo_point",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateGeoPoint(
         [Description("Locale code")] string? locale = "en",
         [Description("Optional deterministic seed")] int? seed = null)
@@ -322,8 +320,7 @@ public static class BogusService
         Title = "Generate user agent",
         Name = "github_bogus_generate_user_agent",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateUserAgent(
         [Description("Optional deterministic seed")] int? seed = null)
     {
@@ -347,8 +344,7 @@ public static class BogusService
         Title = "Generate images",
         Name = "github_bogus_generate_images",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateImages(
         [Description("Width in pixels")] int width = 128,
         [Description("Height in pixels")] int height = 128,
@@ -374,8 +370,7 @@ public static class BogusService
         Title = "Generate review",
         Name = "github_bogus_generate_review",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubBogus_GenerateReview(
         [Description("Locale code")] string? locale = "en",
         [Description("Optional deterministic seed")] int? seed = null)
@@ -400,8 +395,7 @@ public static class BogusService
         Title = "Generate UUIDs",
         Name = "github_bogus_generate_uuids",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<IEnumerable<string>> GitHubBogus_GenerateUuids(
         [Description("How many UUIDs to generate")] int count = 5,
         [Description("Optional deterministic seed")] int? seed = null)
@@ -451,8 +445,7 @@ public static class BogusService
         Title = "Generate orders list",
         Name = "github_bogus_generate_orders_list",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubBogus_GenerateOrdersList(
         RequestContext<CallToolRequestParams> requestContext,
         [Description("How many orders")] int count = 10,
@@ -480,8 +473,7 @@ public static class BogusService
         Title = "Generate hacker phrase",
         Name = "bogus_generate_hacker_phrase",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_GenerateHackerPhrase(
         [Description("Optional deterministic seed")] int? seed = null) =>
         await Task.FromResult(CreateFaker("en", seed).Hacker.Phrase());
@@ -492,8 +484,7 @@ public static class BogusService
         Title = "Generate database artifact",
         Name = "bogus_generate_database_artifact",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_GenerateDatabaseArtifact(
         [Description("Optional deterministic seed")] int? seed = null)
     {
@@ -514,8 +505,7 @@ public static class BogusService
         Title = "Generate system file",
         Name = "bogus_generate_system_file",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_GenerateSystemFile(
         [Description("Optional deterministic seed")] int? seed = null)
     {
@@ -538,8 +528,7 @@ public static class BogusService
         Title = "Generate finance transaction",
         Name = "bogus_generate_finance_transaction",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_GenerateFinanceTransaction(
         [Description("Minimum amount")] decimal min = 1,
         [Description("Maximum amount")] decimal max = 1000,
@@ -569,8 +558,7 @@ public static class BogusService
         Title = "Parse template",
         Name = "bogus_parse_template",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_ParseTemplate(
         [Description("Template string with dataset handles")] string template,
         [Description("Locale code")] string? locale = "en",
@@ -585,8 +573,7 @@ public static class BogusService
         Title = "Generate date window",
         Name = "bogus_generate_date_window",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_GenerateDateWindow(
         [Description("Days back for 'recent'")] int recentDays = 7,
         [Description("Days forward for 'soon'")] int soonDays = 7,
@@ -612,8 +599,7 @@ public static class BogusService
         Title = "Generate network endpoint",
         Name = "bogus_generate_network_endpoint",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_GenerateNetworkEndpoint(
         [Description("Optional deterministic seed")] int? seed = null)
     {
@@ -638,8 +624,7 @@ public static class BogusService
         Title = "Generate color",
         Name = "bogus_generate_color",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_GenerateColor(
         [Description("Optional deterministic seed")] int? seed = null)
     {
@@ -660,8 +645,7 @@ public static class BogusService
         Title = "Generate exception",
         Name = "bogus_generate_exception",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_GenerateException(
         [Description("Optional deterministic seed")] int? seed = null)
     {
@@ -682,8 +666,7 @@ public static class BogusService
         Title = "Generate directions",
         Name = "bogus_generate_directions",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string> Bogus_GenerateDirections(
         [Description("Optional deterministic seed")] int? seed = null)
     {

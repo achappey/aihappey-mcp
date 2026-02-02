@@ -498,7 +498,7 @@ public static class WordPlugin
     {
         // Encode + convert double newlines to paragraphs, single newlines to <br>
         var encoded = WebUtility.HtmlEncode(text ?? string.Empty).Replace("\r\n", "\n");
-        var paras = encoded.Split(new[] { "\n\n" }, StringSplitOptions.None)
+        var paras = encoded.Split(["\n\n"], StringSplitOptions.None)
                            .Select(p => p.Replace("\n", "<br/>"));
         return "<p>" + string.Join("</p><p>", paras) + "</p>";
     }
@@ -570,7 +570,7 @@ public static class WordPlugin
 
             // Normalize line endings and split paragraphs on blank lines
             var normalized = (text ?? string.Empty).Replace("\r\n", "\n");
-            var paragraphs = normalized.Split(new[] { "\n\n" }, StringSplitOptions.None);
+            var paragraphs = normalized.Split(["\n\n"], StringSplitOptions.None);
 
             foreach (var paraText in paragraphs)
             {

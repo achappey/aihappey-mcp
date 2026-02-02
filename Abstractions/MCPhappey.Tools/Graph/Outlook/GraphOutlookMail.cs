@@ -43,7 +43,7 @@ public static class GraphOutlookMail
             var message = await client.Me.Messages[messageId]
                 .GetAsync(requestConfiguration =>
                 {
-                    requestConfiguration.QueryParameters.Select = new[] { "categories" };
+                    requestConfiguration.QueryParameters.Select = ["categories"];
                 }, cancellationToken);
 
             var current = message?.Categories?.ToList() ?? [];

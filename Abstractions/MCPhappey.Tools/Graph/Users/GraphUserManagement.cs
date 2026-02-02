@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Text.Json;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
@@ -91,12 +90,11 @@ public static class GraphUserManagement
             DisplayName = typed?.DisplayName,
             GivenName = typed?.GivenName,
             MailNickname = typed?.MailNickname,
-            JobTitle = typed?.JobTitle,
-            CompanyName = typed?.CompanyName,
-            Department = typed?.Department,
             MobilePhone = typed?.MobilePhone,
-            BusinessPhones = string.IsNullOrWhiteSpace(typed?.BusinessPhone) ? null : [typed.BusinessPhone],
             AccountEnabled = typed?.AccountEnabled,
+            CompanyName = typed?.CompanyName ?? string.Empty,
+            Department = typed?.Department ?? string.Empty,
+            JobTitle = typed?.JobTitle ?? string.Empty,
             PasswordProfile = new PasswordProfile()
             {
                 ForceChangePasswordNextSignIn = typed?.ForceChangePasswordNextSignIn,
@@ -104,6 +102,11 @@ public static class GraphUserManagement
             },
             UserPrincipalName = typed?.UserPrincipalName
         };
+
+        if (!string.IsNullOrEmpty(typed?.BusinessPhone))
+        {
+            user.BusinessPhones = [typed.BusinessPhone];
+        }
 
         return await client.Users.PostAsync(user, cancellationToken: cancellationToken);
     })));
@@ -113,7 +116,6 @@ public static class GraphUserManagement
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphUsers_UpdateUser(
         [Description("User id to update.")] string userId,
-        IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("The users's given name.")] string? givenName = null,
         [Description("The users's display name.")] string? displayName = null,
@@ -134,9 +136,9 @@ public static class GraphUserManagement
             new GraphUpdateUser
             {
                 GivenName = givenName ?? newUser?.GivenName ?? string.Empty,
-                Department = department ?? newUser?.Department,
-                CompanyName = companyName ?? newUser?.CompanyName,
-                MobilePhone = mobilePhone ?? newUser?.MobilePhone,
+                Department = department ?? newUser?.Department ?? string.Empty,
+                CompanyName = companyName ?? newUser?.CompanyName ?? string.Empty,
+                MobilePhone = mobilePhone ?? newUser?.MobilePhone ?? string.Empty,
                 BusinessPhone = businessPhone ?? newUser?.BusinessPhones?.FirstOrDefault(),
                 DisplayName = displayName ?? newUser?.DisplayName ?? string.Empty,
                 AccountEnabled = accountEnabled ?? (newUser != null
@@ -145,15 +147,16 @@ public static class GraphUserManagement
             },
             cancellationToken
         );
+
         var user = new User()
         {
             DisplayName = typed?.DisplayName,
             GivenName = typed?.GivenName,
-            JobTitle = typed?.JobTitle,
+            JobTitle = typed?.JobTitle ?? string.Empty,
             MobilePhone = typed?.MobilePhone,
             BusinessPhones = string.IsNullOrWhiteSpace(typed?.BusinessPhone) ? null : [typed.BusinessPhone],
-            Department = typed?.Department,
-            CompanyName = typed?.CompanyName,
+            Department = typed?.Department ?? string.Empty,
+            CompanyName = typed?.CompanyName ?? string.Empty,
             AccountEnabled = typed?.AccountEnabled,
         };
 

@@ -28,7 +28,7 @@ public static class GraphUsers
             // First page
             var page = await client.Users.GetAsync(req =>
             {
-                req.QueryParameters.Select = new[] { "id", "userPrincipalName", "department" };
+                req.QueryParameters.Select = ["id", "userPrincipalName", "department"];
                 req.QueryParameters.Top = 999; // big page size; paging handled below
 
                 if (!includeDisabled)
