@@ -18,7 +18,7 @@ public static class PowerPointPlugin
 {
     private static SlidePart GetSlidePartByIndex(PresentationPart presPart, int slideIndex)
     {
-        var slideIds = presPart.Presentation.SlideIdList?.Elements<SlideId>().ToList()
+        var slideIds = presPart.Presentation?.SlideIdList?.Elements<SlideId>().ToList()
             ?? throw new InvalidDataException("No SlideIdList found");
         if (slideIndex < 0 || slideIndex >= slideIds.Count)
             throw new ArgumentOutOfRangeException(nameof(slideIndex), $"Valid range: 0..{slideIds.Count - 1}");
@@ -158,14 +158,15 @@ public static class PowerPointPlugin
         SetShapeText(shape, lines, bullets: normalized == "text/markdown", replace);
 
         slide.Save();
-        presPart.Presentation.Save();
+        presPart.Presentation?.Save();
     }
 
     ms.Flush();
     ms.Position = 0;
 
-    var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken);
-    return updated?.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
+    var updated = await graphClient.UploadBinaryDataAsync(url,
+        new BinaryData(ms.ToArray()), cancellationToken) ?? throw new FileNotFoundException($"No content found");
+    return updated.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
 }));
 
 
@@ -191,7 +192,7 @@ public static class PowerPointPlugin
             using (var doc = PresentationDocument.Open(ms, false))
             {
                 var presPart = doc.PresentationPart ?? throw new InvalidDataException("Missing PresentationPart");
-                var slideId = presPart.Presentation.SlideIdList?.Elements<SlideId>().ElementAt(slideIndex)
+                var slideId = presPart.Presentation?.SlideIdList?.Elements<SlideId>().ElementAt(slideIndex)
                     ?? throw new ArgumentOutOfRangeException(nameof(slideIndex));
 
                 var slidePart = (SlidePart)presPart.GetPartById(slideId.RelationshipId!);
@@ -233,7 +234,7 @@ public static class PowerPointPlugin
         using (var doc = PresentationDocument.Open(ms, false))
         {
             var presPart = doc.PresentationPart ?? throw new InvalidDataException("Missing PresentationPart");
-            var slideIds = presPart.Presentation.SlideIdList?.Elements<SlideId>() ?? Enumerable.Empty<SlideId>();
+            var slideIds = presPart.Presentation?.SlideIdList?.Elements<SlideId>() ?? Enumerable.Empty<SlideId>();
             int i = 0;
             foreach (var slideId in slideIds)
             {
@@ -328,9 +329,9 @@ public static class PowerPointPlugin
     var uploaded = await graphClient.Upload(
         $"{fileName}.pptx",
         await BinaryData.FromStreamAsync(templateStream, cancellationToken),
-        cancellationToken);
+        cancellationToken) ?? throw new FileNotFoundException($"No content found");
 
-    return uploaded?.ToCallToolResult();
+    return uploaded.ToCallToolResult();
 }));
 
 
@@ -350,9 +351,10 @@ public static class PowerPointPlugin
 
         var newBinary = AddBlankSlide(fileItem?.Contents!);
 
-        var uploaded = await graphClient.UploadBinaryDataAsync(url, newBinary, cancellationToken);
+        var uploaded = await graphClient.UploadBinaryDataAsync(url,
+            newBinary, cancellationToken) ?? throw new FileNotFoundException($"No content found");
 
-        return uploaded?.ToResourceLinkBlock(uploaded?.Name!).ToCallToolResult();
+        return uploaded.ToResourceLinkBlock(uploaded?.Name!).ToCallToolResult();
     }));
 
     [Description("Create a new PowerPoint presentation")]
@@ -368,9 +370,11 @@ public static class PowerPointPlugin
         using var stream = new MemoryStream();
         CreatePresentation(stream);
 
-        var uploaded = await graphClient.Upload($"{fileName}.pptx", await BinaryData.FromStreamAsync(stream, cancellationToken), cancellationToken);
+        var uploaded = await graphClient.Upload($"{fileName}.pptx",
+            await BinaryData.FromStreamAsync(stream, cancellationToken), cancellationToken)
+             ?? throw new FileNotFoundException($"No content found");
 
-        return uploaded?.ToCallToolResult();
+        return uploaded.ToCallToolResult();
     }));
 
     // 1) SLIDE VERWIJDEREN
@@ -389,12 +393,13 @@ public static class PowerPointPlugin
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var fileItems = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
         var fileItem = fileItems.FirstOrDefault();
-        if (fileItem == null) return null;
+        if (fileItem == null) throw new FileNotFoundException($"No content found");
 
         var newBinary = RemoveSlideByIndex(fileItem.Contents, slideIndex);
-        var uploaded = await graphClient.UploadBinaryDataAsync(url, newBinary, cancellationToken);
+        var uploaded = await graphClient.UploadBinaryDataAsync(url,
+            newBinary, cancellationToken) ?? throw new FileNotFoundException($"No content found");
 
-        return uploaded?.ToResourceLinkBlock(uploaded?.Name!).ToCallToolResult(); ;
+        return uploaded.ToResourceLinkBlock(uploaded?.Name!).ToCallToolResult(); ;
     }));
 
     // 2) SLIDE VERPLAATSEN (REORDER)
@@ -413,12 +418,13 @@ public static class PowerPointPlugin
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var fileItems = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
         var fileItem = fileItems.FirstOrDefault();
-        if (fileItem == null) return null;
+        if (fileItem == null) throw new FileNotFoundException($"No content found"); ;
 
         var newBinary = ReorderSlides(fileItem.Contents, fromIndex, toIndex);
-        var uploaded = await graphClient.UploadBinaryDataAsync(url, newBinary, cancellationToken);
+        var uploaded = await graphClient.UploadBinaryDataAsync(url, newBinary, cancellationToken)
+         ?? throw new FileNotFoundException($"No content found");
 
-        return uploaded?.ToResourceLinkBlock(uploaded?.Name!).ToCallToolResult(); ;
+        return uploaded.ToResourceLinkBlock(uploaded?.Name!).ToCallToolResult(); ;
     }));
 
     private static BinaryData ReorderSlides(BinaryData pptx, int fromIndex, int toIndex)
@@ -431,7 +437,7 @@ public static class PowerPointPlugin
         using (var presentation = PresentationDocument.Open(outStream, true))
         {
             var presentationPart = presentation.PresentationPart ?? throw new InvalidDataException("No presentation part found.");
-            var slideIdList = presentationPart.Presentation.SlideIdList ?? throw new InvalidDataException("No SlideIdList found.");
+            var slideIdList = presentationPart.Presentation?.SlideIdList ?? throw new InvalidDataException("No SlideIdList found.");
 
             var count = slideIdList.ChildElements.OfType<SlideId>().Count();
             if (count == 0) return new BinaryData(outStream.ToArray());
@@ -509,7 +515,7 @@ public static class PowerPointPlugin
                 ?? throw new InvalidDataException("No SlideMasterPart found.");
             var slideLayoutPart = slideMasterPart.SlideLayoutParts
                 .FirstOrDefault(l =>
-                    l.SlideLayout.CommonSlideData?.ShapeTree?
+                    l.SlideLayout?.CommonSlideData?.ShapeTree?
                     .Descendants<P.PlaceholderShape>().Any() == true)
                 ?? slideMasterPart.SlideLayoutParts.First(); // fallback
 
@@ -530,7 +536,7 @@ public static class PowerPointPlugin
             );
 
             // ✅ Add the placeholders from the layout
-            newSlidePart.Slide.CommonSlideData.ShapeTree.Append(
+            newSlidePart.Slide.CommonSlideData?.ShapeTree?.Append(
                 new P.Shape(
                     new P.NonVisualShapeProperties(
                         new P.NonVisualDrawingProperties { Id = 2U, Name = "Title" },

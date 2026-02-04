@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Freepik-ImprovePrompt",
+    "title": "Freepik Improve Prompt",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.freepik.com",
+    "description": "Enhance user prompts for AI image or video generation using Freepik Improve Prompt API.",
+    "icons": [
+      {
+        "src": "https://cdn.freebiesupply.com/logos/large/2x/freepik-logo-png-transparent.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Freepik.ImprovePrompt.FreepikImprovePrompt, MCPhappey.Tools"
+  ]
+}

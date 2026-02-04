@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
@@ -129,7 +128,7 @@ public static class GraphToDo
         );
 
         return await client.Me.Todo.Lists
-            .PostAsync(new TodoTaskList
+            .PostAsync(new Microsoft.Graph.Beta.Models.TodoTaskList
             {
                 DisplayName = typed?.DisplayName,
             }, cancellationToken: cancellationToken);

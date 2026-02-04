@@ -39,6 +39,8 @@ using MCPhappey.Tools.EdenAI;
 using MCPhappey.Tools.VoyageAI;
 using MCPhappey.Tools.AIML;
 using MCPhappey.Tools.SPAMhunter;
+using MCPhappey.Tools.Freepik;
+using MCPhappey.Tools.ZAI;
 using System.Text.Json;
 using System.Net.Http.Headers;
 
@@ -120,6 +122,8 @@ builder.Services
 .AddVoyageAI(appConfig?.DomainHeaders)
 .AddAIML(appConfig?.DomainHeaders)
 .AddSPAMhunter(appConfig?.DomainHeaders)
+.AddFreepik(appConfig?.DomainHeaders)
+.AddZAI(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
 

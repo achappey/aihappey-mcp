@@ -1,0 +1,21 @@
+{
+    "serverInfo": {
+        "name": "Planner-TaskList",
+        "title": "Planner Task List",
+        "version": "1.0.0",
+        "websiteUrl": "https://planner.cloud.microsoft",
+        "description": "Simple todo list abstraction backed by Microsoft Planner.",
+        "icons": [
+            {
+                "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Microsoft_Planner_%282024%E2%80%93present%29.svg/1200px-Microsoft_Planner_%282024%E2%80%93present%29.svg.png"
+            }
+        ]
+    },
+    "instructions": "Use Planner Task List for lightweight session todo lists. Create a list (plan), add items with title/description/completed, and complete items by title (no task IDs).",
+    "plugins": [
+        "MCPhappey.Tools.Graph.Planner.PlannerTodos, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Group.ReadWrite.All"
+    }
+}

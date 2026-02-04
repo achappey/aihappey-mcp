@@ -56,7 +56,7 @@ public static class WordPlugin
                     settingsPart.Settings.AppendChild(new TrackRevisions());
 
                 // Search each paragraph
-                var paragraphs = mainPart.Document.Body?.Descendants<Paragraph>() ?? Enumerable.Empty<Paragraph>();
+                var paragraphs = mainPart.Document?.Body?.Descendants<Paragraph>() ?? Enumerable.Empty<Paragraph>();
 
                 foreach (var paragraph in paragraphs)
                 {
@@ -107,15 +107,17 @@ public static class WordPlugin
                     }
                 }
 
-                mainPart.Document.Save();
+                mainPart.Document?.Save();
             }
 
             // 3️⃣ Upload the updated doc back
             input.Flush();
             input.Position = 0;
 
-            var updated = await graphClient.UploadBinaryDataAsync(documentUrl, new BinaryData(input.ToArray()), cancellationToken);
-            return updated?.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
+            var updated = await graphClient.UploadBinaryDataAsync(documentUrl,
+                new BinaryData(input.ToArray()), cancellationToken) ?? throw new FileNotFoundException($"No content found");
+
+            return updated.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
         }));
 
 
@@ -165,9 +167,9 @@ public static class WordPlugin
         var uploaded = await graphClient.Upload(
             $"{safeName}.docx",
             await BinaryData.FromStreamAsync(ms, cancellationToken),
-            cancellationToken);
+            cancellationToken) ?? throw new FileNotFoundException($"No content found");
 
-        return uploaded?.ToCallToolResult();
+        return uploaded.ToCallToolResult();
     }));
 
     // 2) CREATE NEW DOCX FROM .DOTX TEMPLATE + INPUT FILE (auto-detect MIME)
@@ -226,9 +228,9 @@ public static class WordPlugin
         var uploaded = await graphClient.Upload(
             $"{safeName}.docx",
             await BinaryData.FromStreamAsync(templateMs, cancellationToken),
-            cancellationToken);
+            cancellationToken) ?? throw new FileNotFoundException($"No content found");
 
-        return uploaded?.ToCallToolResult();
+        return uploaded.ToCallToolResult();
     }));
 
     // 3) APPEND CONTENT TO EXISTING DOCX FROM INPUT FILE (auto-detect MIME)
@@ -282,8 +284,9 @@ public static class WordPlugin
         docStream.Flush();
         docStream.Position = 0;
 
-        var updated = await graphClient.UploadBinaryDataAsync(targetUrl, new BinaryData(docStream.ToArray()), cancellationToken);
-        return updated?.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
+        var updated = await graphClient.UploadBinaryDataAsync(targetUrl,
+            new BinaryData(docStream.ToArray()), cancellationToken) ?? throw new FileNotFoundException($"No content found");
+        return updated.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
     }));
 
 
@@ -417,8 +420,9 @@ public static class WordPlugin
         docStream.Flush();
         docStream.Position = 0;
 
-        var updated = await graphClient.UploadBinaryDataAsync(targetUrl, new BinaryData(docStream.ToArray()), cancellationToken);
-        return updated?.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
+        var updated = await graphClient.UploadBinaryDataAsync(targetUrl,
+            new BinaryData(docStream.ToArray()), cancellationToken) ?? throw new FileNotFoundException($"No content found");
+        return updated.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
     }));
 
     [Description("Create a new Word document (.docx) from a .dotx template URL with text/markdown/HTML content")]
@@ -488,9 +492,9 @@ public static class WordPlugin
                var uploaded = await graphClient.Upload(
                    $"{safeName}.docx",
                    await BinaryData.FromStreamAsync(templateMs, cancellationToken),
-                   cancellationToken);
+                   cancellationToken) ?? throw new FileNotFoundException($"No content found");
 
-               return uploaded?.ToCallToolResult();
+               return uploaded.ToCallToolResult();
            }));
 
     // ---- Small helper (reuse your existing helpers NormalizeContentType, WrapHtml, SanitizeFileName) ----
@@ -552,9 +556,9 @@ public static class WordPlugin
             var uploaded = await graphClient.Upload(
                 $"{safeName}.docx",
                 await BinaryData.FromStreamAsync(ms, cancellationToken),
-                cancellationToken);
+                cancellationToken) ?? throw new FileNotFoundException($"No content found"); ;
 
-            return uploaded?.ToCallToolResult();
+            return uploaded.ToCallToolResult();
         }));
 
     // ---------- Helpers ----------

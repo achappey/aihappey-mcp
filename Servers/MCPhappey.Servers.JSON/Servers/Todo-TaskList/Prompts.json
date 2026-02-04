@@ -1,0 +1,19 @@
+{
+  "prompts": [
+    {
+      "prompt": "Create a new Todo Task list named {listTitle}. Then add the initial items if provided. Return the list id to the user.",
+      "template": {
+        "name": "todo-task-list-create-list",
+        "title": "Create Todo Task list",
+        "description": "Creates a Microsoft To Do task list.",
+        "arguments": [
+          {
+            "name": "listTitle",
+            "description": "Title of the todo list.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

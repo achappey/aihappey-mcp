@@ -1,0 +1,40 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://graph.microsoft.com/beta/planner/plans/{planId}/tasks?$top=200&$select=title,percentComplete,hasDescription",
+            "name": "planner-todos-items",
+            "title": "Planner Todo items",
+            "description": "Lists todo items for a Planner Todo list. Replace {planId} with the plan id. Use task details resource to resolve descriptions.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://graph.microsoft.com/beta/planner/tasks/{taskId}/details?$select=description",
+            "name": "planner-todos-item-details",
+            "title": "Planner Todo item details",
+            "description": "Gets the description for a todo item. Replace {taskId} with the task id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}?$select=id,displayName,description,mail,groupTypes,visibility",
+            "name": "graph-group",
+            "title": "Microsoft Entra ID Group",
+            "description": "Gets details for a Microsoft Entra ID (Azure AD) group. Replace {groupId} with the group id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        }
+    ]
+}

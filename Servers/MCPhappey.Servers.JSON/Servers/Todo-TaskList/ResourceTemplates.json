@@ -1,0 +1,40 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://graph.microsoft.com/beta/me/todo/lists/{listId}/tasks?$top=200&$select=title,status,body",
+            "name": "todo-task-list-items",
+            "title": "To Do Task List items",
+            "description": "Lists todo items for a Microsoft To Do task list. Replace {listId} with the list id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://graph.microsoft.com/beta/me/todo/lists/{listId}/tasks/{taskId}?$select=title,status,body",
+            "name": "todo-task-list-item-details",
+            "title": "To Do Task List item details",
+            "description": "Gets the details for a todo item. Replace {listId} and {taskId} with the list and task ids.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://graph.microsoft.com/beta/me/todo/lists/{listId}?$select=id,displayName,isOwner,isShared,wellknownListName",
+            "name": "todo-task-list",
+            "title": "Microsoft To Do task list",
+            "description": "Gets details for a Microsoft To Do task list. Replace {listId} with the list id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.freepik.com/v1/resources?term={term}&page={page}&limit={limit}&order={order}&filters[orientation]={filters_orientation}&filters[content_type]={filters_content_type}&filters[license]={filters_license}&filters[period]={filters_period}&filters[color]={filters_color}&filters[author]={filters_author}&filters[ai-generated][only]={filters_ai_generated_only}&filters[ai-generated][excluded]={filters_ai_generated_excluded}&filters[vector][type]={filters_vector_type}&filters[vector][style]={filters_vector_style}&filters[psd][type]={filters_psd_type}&filters[ids]={filters_ids}",
+      "name": "freepik-resources-search",
+      "title": "Search resources",
+      "description": "Search and filter Freepik resources. Parameters: term, page, limit, order (relevance|recent), filters_orientation (landscape|portrait|square|panoramic), filters_content_type (photo|psd|vector), filters_license (freemium|premium), filters_period (last-month|last-quarter|last-semester|last-year), filters_color (black|blue|gray|green|orange|red|white|yellow|purple|cyan|pink), filters_author, filters_ai_generated_only (0/1), filters_ai_generated_excluded (0/1), filters_vector_type (jpg|ai|eps|svg), filters_vector_style (watercolor|flat|cartoon|geometric|gradient|isometric|3d|hand-drawn), filters_psd_type (jpg|psd), filters_ids (comma-separated).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.9
+      }
+    },
+    {
+      "uriTemplate": "https://api.freepik.com/v1/icons?term={term}&slug={slug}&page={page}&per_page={per_page}&family-id={family_id}&order={order}&thumbnail_size={thumbnail_size}&filters[color]={filters_color}&filters[shape]={filters_shape}&filters[period]={filters_period}&filters[free_svg]={filters_free_svg}&filters[icon_type]={filters_icon_type}",
+      "name": "freepik-icons-search",
+      "title": "Search icons",
+      "description": "Search and filter Freepik icons. Parameters: term, slug, page, per_page, family_id, order (relevance|recent), thumbnail_size, filters_color, filters_shape (outline|fill|lineal-color|hand-drawn), filters_period (three-months|six-months|one-year|all), filters_free_svg (all|free|premium), filters_icon_type (comma-separated: standard,animated,sticker,uicon).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.9
+      }
+    },
+    {
+      "uriTemplate": "https://api.freepik.com/v1/videos?term={term}&page={page}&order={order}&filters[aspect_ratio]={filters_aspect_ratio}&filters[category]={filters_category}&filters[duration][from]={filters_duration_from}&filters[duration][to]={filters_duration_to}&filters[orientation]={filters_orientation}&filters[license][free]={filters_license_free}&filters[license][premium]={filters_license_premium}&filters[resolution][720]={filters_resolution_720}&filters[resolution][1080]={filters_resolution_1080}&filters[resolution][2k]={filters_resolution_2k}&filters[resolution][4k]={filters_resolution_4k}&filters[fps]={filters_fps}&filters[topic]={filters_topic}&filters[ai-generated][only]={filters_ai_generated_only}&filters[ai-generated][excluded]={filters_ai_generated_excluded}&filters[video-tool][after-effects]={filters_video_tool_after_effects}&filters[video-tool][premiere-pro]={filters_video_tool_premiere_pro}&filters[ids]={filters_ids}&filters[author]={filters_author}",
+      "name": "freepik-videos-search",
+      "title": "Search videos",
+      "description": "Search and filter Freepik videos. Parameters: term (required), page, order (relevance|recent|random), filters_aspect_ratio (comma-separated: 1:1,4:3,9:16,16:9,256:135), filters_category (footage|motion_graphics), filters_duration_from, filters_duration_to, filters_orientation (comma-separated: horizontal,vertical,square,panoramic), filters_license_free (true/false), filters_license_premium (true/false), filters_resolution_720/1080/2k/4k (true/false), filters_fps (comma-separated: 24,25,30,60,gt60), filters_topic (comma-separated), filters_ai_generated_only (true/false), filters_ai_generated_excluded (true/false), filters_video_tool_after_effects (true/false), filters_video_tool_premiere_pro (true/false), filters_ids, filters_author.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"],
+        "priority": 0.9
+      }
+    }
+  ]
+}

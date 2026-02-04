@@ -1,0 +1,24 @@
+{
+  "prompts": [
+    {
+      "prompt": "Create a new Planner Todo list named {listTitle} in the Microsoft 365 group {groupId}. Then add the initial items if provided. Return the plan id to the user.",
+      "template": {
+        "name": "planner-todos-create-list",
+        "title": "Create Planner Todo list",
+        "description": "Creates a Planner Todo list (Planner plan) in the specified group.",
+        "arguments": [
+          {
+            "name": "listTitle",
+            "description": "Title of the todo list.",
+            "required": true
+          },
+          {
+            "name": "groupName",
+            "description": "Microsoft 365 group name that will own the plan.",
+            "required": true
+          }
+        ]
+      }
+    }
+  ]
+}

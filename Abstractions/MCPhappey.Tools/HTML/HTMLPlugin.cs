@@ -63,7 +63,7 @@ public static partial class HTMLPlugin
         [Description("Name of the new HTML file that should be created (without extension)")] string newFilename,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Default values for the replacements. Format: key is argument name (without braces), value is replacement.")] Dictionary<string, string>? replacements = null,
+        [Description("Default values for the replacements. Format: key is argument name (without braces), value is replacement.")] Dictionary<string, string> replacements,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
@@ -108,9 +108,10 @@ public static partial class HTMLPlugin
 
         var graphItem = await requestContext.Server.Upload(serviceProvider,
                                requestContext.ToOutputFileName("html"),
-                               BinaryData.FromString(html), cancellationToken);
+                               BinaryData.FromString(html), cancellationToken)
+                               ?? throw new Exception("No result");
 
-        return graphItem?.ToResourceLinkCallToolResponse();
+        return graphItem.ToResourceLinkCallToolResponse();
     }));
 
 

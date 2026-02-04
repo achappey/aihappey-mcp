@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Freepik-StockContent",
+    "title": "Freepik Stock Content",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.freepik.com",
+    "description": "Search Freepik stock resources, icons, and videos with advanced filters.",
+    "icons": [
+      {
+        "src": "https://cdn.freebiesupply.com/logos/large/2x/freepik-logo-png-transparent.png"
+      }
+    ]
+  }
+}

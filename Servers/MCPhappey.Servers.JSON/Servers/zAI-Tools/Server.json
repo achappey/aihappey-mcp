@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "zAI-Tools",
+    "title": "z.AI Tools",
+    "version": "1.0.0",
+    "websiteUrl": "https://docs.z.ai",
+    "description": "Z.AI tools for web reading, web search, and layout parsing via GLM-OCR.",
+    "icons": [
+      {
+        "src": "https://cdn.freebiesupply.com/logos/large/2x/freepik-logo-png-transparent.png"
+      }
+    ]
+  },
+  "headers": {
+    "Authorization": "Bearer [zAI_API_key]"
+  },
+  "plugins": [
+    "MCPhappey.Tools.ZAI.ZAITools, MCPhappey.Tools"
+  ]
+}

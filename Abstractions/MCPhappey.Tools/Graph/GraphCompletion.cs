@@ -317,11 +317,30 @@ public class GraphCompletion : IAutoCompletion
                         requestConfiguration.QueryParameters.Filter = $"startswith(displayName,'{argValue.Replace("'", "''")}')";
                     }
                     requestConfiguration.QueryParameters.Top = 100;
+                    requestConfiguration.QueryParameters.Select = ["id", "displayName"];
                 }, cancellationToken);
 
                 result = groups?.Value?.Select(g => g.DisplayName)
                                         .OfType<string>()
                                         .ToList() ?? [];
+                break;
+            case "groupId":
+                var groupsById = await client.Groups.GetAsync((requestConfiguration) =>
+                {
+                    if (!string.IsNullOrWhiteSpace(argValue))
+                    {
+                        requestConfiguration.QueryParameters.Filter = $"startswith(displayName,'{argValue.Replace("'", "''")}')";
+                    }
+                    requestConfiguration.QueryParameters.Top = 100;
+                    requestConfiguration.QueryParameters.Select = ["id", "displayName"];
+                }, cancellationToken);
+
+                result = groupsById?.Value?
+                            .Select(g => g.Id)
+                            .Where(id => !string.IsNullOrWhiteSpace(id))
+                            .OfType<string>()
+                            .Distinct(StringComparer.OrdinalIgnoreCase)
+                            .ToList() ?? [];
                 break;
             case "securityGroupName":
                 var securityGroups = await client.Groups.GetAsync((requestConfiguration) =>
@@ -377,6 +396,7 @@ public class GraphCompletion : IAutoCompletion
         "departmentName",
         "plannerName",
         "groupName",
+        "groupId",
         "securityGroupName"
     ];
     }

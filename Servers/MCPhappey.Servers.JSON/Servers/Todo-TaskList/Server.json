@@ -1,0 +1,21 @@
+{
+    "serverInfo": {
+        "name": "Todo-TaskList",
+        "title": "Todo Task List",
+        "version": "1.0.0",
+        "websiteUrl": "https://todo.microsoft.com",
+        "description": "Simple todo list abstraction backed by Microsoft To Do.",
+        "icons": [
+            {
+                "src": "https://upload.wikimedia.org/wikipedia/commons/6/67/Microsoft_To-Do_icon.png"
+            }
+        ]
+    },
+    "instructions": "Use Todo Task List for lightweight session todo lists. Create a list, add items with title/description/completed, and complete items by title (no task IDs).",
+    "plugins": [
+        "MCPhappey.Tools.Graph.ToDo.TodoTaskList, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/Tasks.ReadWrite https://graph.microsoft.com/Tasks.ReadWrite.Shared"
+    }
+}
