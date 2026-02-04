@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://developer.mozilla.org/en-US/docs/Web/HTML",
+      "name": "html-hypertext-markup-language",
+      "title": "HTML: HyperText Markup Language",
+      "description": "HTML (HyperText Markup Language) is the most basic building block of the Web. It defines the meaning and structure of web content. Other technologies besides HTML are generally used to describe a web page&#39;s appearance/presentation (CSS) or functionality/behavior (JavaScript).",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

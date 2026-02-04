@@ -18,7 +18,6 @@ using QuestPDF.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using MCPhappey.Tools.Memory.OneDrive;
-using System.Text.Json;
 
 namespace MCPhappey.Tools.AI;
 
@@ -57,9 +56,9 @@ public static class MarkdownService
                 var uploaded = await graphClient.Upload(
                     $"{safeName}.pdf",
                     await BinaryData.FromStreamAsync(ms, cancellationToken),
-                    cancellationToken);
+                    cancellationToken) ?? throw new Exception("No content");
 
-                return uploaded?.ToCallToolResult();
+                return uploaded.ToCallToolResult();
             })
         );
 
@@ -105,9 +104,9 @@ public static class MarkdownService
                 var uploaded = await graphClient.Upload(
                     $"{safeName}.pdf",
                     await BinaryData.FromStreamAsync(ms, cancellationToken),
-                    cancellationToken);
+                    cancellationToken) ?? throw new Exception("No content");
 
-                return uploaded?.ToCallToolResult();
+                return uploaded.ToCallToolResult();
             })
         );
 
@@ -134,9 +133,9 @@ public static class MarkdownService
                 var uploaded = await graphClient.Upload(
                     $"{safeName}.html",
                     await BinaryData.FromStreamAsync(ms, cancellationToken),
-                    cancellationToken);
+                    cancellationToken) ?? throw new Exception("No content");
 
-                return uploaded?.ToCallToolResult();
+                return uploaded.ToCallToolResult();
             })
         );
 
@@ -172,9 +171,9 @@ public static class MarkdownService
                 var uploaded = await graphClient.Upload(
                     $"{safeName}.html",
                     await BinaryData.FromStreamAsync(ms, cancellationToken),
-                    cancellationToken);
+                    cancellationToken) ?? throw new Exception("No content");
 
-                return uploaded?.ToCallToolResult();
+                return uploaded.ToCallToolResult();
             })
         );
 
@@ -204,9 +203,9 @@ public static class MarkdownService
                 var uploaded = await graphClient.Upload(
                     $"{safeName}.docx",
                     await BinaryData.FromStreamAsync(ms, cancellationToken),
-                    cancellationToken);
+                    cancellationToken) ?? throw new Exception("No content");
 
-                return uploaded?.ToCallToolResult();
+                return uploaded.ToCallToolResult();
             })
         );
 
@@ -246,9 +245,9 @@ public static class MarkdownService
                 var uploaded = await graphClient.Upload(
                     $"{safeName}.docx",
                     await BinaryData.FromStreamAsync(ms, cancellationToken),
-                    cancellationToken);
+                    cancellationToken) ?? throw new Exception("No content");
 
-                return uploaded?.ToCallToolResult();
+                return uploaded.ToCallToolResult();
             })
         );
 
@@ -371,7 +370,8 @@ public static class MarkdownService
                 content = string.Join("\n", lines.Skip(start - 1).Take(end - start + 1));
         }
 
-        return content.ToTextContentBlock().ToCallToolResult();
+        return content.ToTextContentBlock()
+            .ToCallToolResult();
     }));
 
 
@@ -460,6 +460,7 @@ public static class MarkdownService
             lines.Insert(typed.Line - 1, typed.Text);
 
         await graph.WriteTextFileAsync(drive.Id!, normalized, string.Join("\n", lines), cancellationToken);
+
         return "OK".ToTextContentBlock().ToCallToolResult();
     }));
 
@@ -497,6 +498,7 @@ public static class MarkdownService
 
         content = content.Replace(typed.TextToReplace, typed.NewText);
         await graph.WriteTextFileAsync(drive.Id!, normalized, content, cancellationToken);
+
         return "OK".ToTextContentBlock().ToCallToolResult();
     }));
 

@@ -16,7 +16,7 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
           {
               ServerSourceType.Static => await Task.FromResult(serverConfig?.ResourceTemplateList
                                                 ?? new()),
-              ServerSourceType.Dynamic => await dynamicDataService!.GetResourceTemplatesAsync(serverConfig.Server.ServerInfo.Name, 
+              ServerSourceType.Dynamic => await dynamicDataService!.GetResourceTemplatesAsync(serverConfig.Server.ServerInfo.Name,
                 cancellationToken),
               _ => await Task.FromResult(serverConfig?.ResourceTemplateList
                                                 ?? new()),
@@ -65,7 +65,7 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
                     ? $"{request.Scheme}://{request.Host.Value}"
                     : null;
 
-                var html = Encoding.UTF8.GetString((item.Contents));
+                var html = Encoding.UTF8.GetString(item.Contents);
 
                 return new ReadResourceResult()
                 {
@@ -79,8 +79,30 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
                 }]
                 };
             }
+            else 
+            //if (mcpServer.ServerOptions.ServerInfo?.Name == "OneDrive-HTMLCanvas")
+            {
+                var download = await downloadService.DownloadContentAsync(serviceProvider, mcpServer, uri,
+                              cancellationToken);
+
+                if (!download.Any())
+                {
+                    throw new Exception($"Resource {uri} not found");
+                }
+
+                var item = download.First();
+
+                return new ReadResourceResult()
+                {
+                    Contents = [new TextResourceContents() {
+                    Text = Encoding.UTF8.GetString(item.Contents),
+                    MimeType = "text/html",
+                    Uri = uri
+                }]
+                };
+            }
         }
-        
+
         var fileItem = await downloadService.ScrapeContentAsync(serviceProvider, mcpServer, uri,
                        cancellationToken);
 
