@@ -20,6 +20,7 @@ public static partial class SimplicateCRM
     public static async Task<CallToolResult?> SimplicateCRM_GetOrganizations(
      IServiceProvider serviceProvider,
      RequestContext<CallToolRequestParams> requestContext,
+      [Description("(partial) Organization name.")] string? organizationName = null,
       [Description("Text value of industry name.")] string? industryName = null,
       [Description("Text value of relation type.")] string? relationType = null,
       [Description("(partial) text value of team name.")] string? teamName = null,
@@ -48,6 +49,9 @@ public static partial class SimplicateCRM
                 "relation_manager.";
 
          var filters = new List<string>();
+
+         if (!string.IsNullOrWhiteSpace(organizationName))
+             filters.Add($"q[name]=*{Uri.EscapeDataString(organizationName)}*");
 
          if (!string.IsNullOrWhiteSpace(industryName))
              filters.Add($"q[industry.name]=*{Uri.EscapeDataString(industryName)}*");

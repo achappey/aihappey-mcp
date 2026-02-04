@@ -134,6 +134,10 @@ public class SimplicateCompletion(
             (value, _) => $"hours/hourstype?q[label]=*{value}*&sort=label&select=label",
             (item, _) => item.Label),
 
+        ["documentType"] = new CompletionSource<SimplicateLabelItem>(
+            (value, _) => $"documents/documenttype?q[label]=*{value}*&sort=label&select=label",
+            (item, _) => item.Label),
+
         ["medewerkerNaam"] = new CompletionSource<SimplicateNameItem>(
             (value, _) => $"hrm/employee?q[name]=*{value}*&sort=name&select=name&q[is_user]=true",
             (item, _) => item.Name),
@@ -144,6 +148,10 @@ public class SimplicateCompletion(
 
         ["naamBedrijf"] = new CompletionSource<SimplicateNameItem>(
             (value, _) => $"crm/organization?q[name]=*{value}*&sort=name&select=name",
+            (item, _) => item.Name),
+
+        ["naamMijnBedrijf"] = new CompletionSource<SimplicateNameItem>(
+            (value, _) => $"crm/myorganizationprofile?q[name]=*{value}*&sort=name&select=name",
             (item, _) => item.Name),
 
         ["factuurnummer"] = new CompletionSource<SimplicateInvoiceItem>(

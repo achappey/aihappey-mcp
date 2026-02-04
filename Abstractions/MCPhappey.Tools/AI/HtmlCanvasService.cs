@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json;
 using HtmlAgilityPack;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
@@ -173,4 +174,63 @@ public static class HtmlCanvasService
         await graph.WriteTextFileAsync(drive?.Id!, normalized, doc.DocumentNode.OuterHtml, cancellationToken);
         return "OK".ToTextContentBlock().ToCallToolResult();
     }));
+
+    // ---------- COPY (BY URL) ----------
+    [Description("Copy an HTML document referenced by a OneDrive sharing URL into your own OneDrive and return the new relative path.")]
+    [McpServerTool(
+        Title = "Copy HTML Canvas (by URL)",
+        Name = "onedrive_html_copy",
+        ReadOnly = false,
+        OpenWorld = false,
+        Destructive = false)]
+    public static async Task<CallToolResult?> OneDriveHtml_Copy(
+        [Description("OneDrive or SharePoint sharing URL of the HTML file.")]
+    string sourceLink,
+        [Description("Destination folder path in your OneDrive (e.g. /Canvases). Defaults to root.")]
+    string? destinationFolder,
+        RequestContext<CallToolRequestParams> context,
+        CancellationToken cancellationToken = default)
+        => await context.WithExceptionCheck(async () =>
+
+        await context.WithOboGraphClient(async graph =>
+        await context.WithStructuredContent(async () =>
+
+    {
+        var destFolder = string.IsNullOrWhiteSpace(destinationFolder)
+            ? "/"
+            : destinationFolder!.Replace("\\", "/").TrimEnd('/');
+
+        // 1. Resolve shared item via /shares/{encodedUrl}
+        var sharedItem = await graph.GetDriveItem(sourceLink,
+            cancellationToken: cancellationToken);
+
+        if (sharedItem?.Name!.EndsWith(".html", StringComparison.OrdinalIgnoreCase) != true)
+            throw new Exception("Shared file is not an HTML document.");
+
+        // 2. Download content
+        var content = await graph.ReadTextFileAsync(
+            sharedItem.ParentReference!.DriveId!,
+            sharedItem.ParentReference.Path!.Split(":").Last() + "/" + sharedItem.Name,
+            cancellationToken)
+            ?? throw new Exception("Failed to read shared HTML content.");
+
+        // 3. Write into own drive
+        var ownDrive = await graph.GetDefaultDriveAsync(cancellationToken)
+            ?? throw new Exception("Own drive not found.");
+
+        var targetPath = $"{destFolder}/{sharedItem.Name}";
+
+        var driveItem = await graph.WriteTextFileAsync(
+            ownDrive.Id!,
+            targetPath,
+            content,
+            cancellationToken);
+
+        return new
+        {
+            path = targetPath,
+            url = driveItem?.WebUrl
+        };
+    })));
+
 }
