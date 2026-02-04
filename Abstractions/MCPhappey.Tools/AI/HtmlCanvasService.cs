@@ -176,7 +176,7 @@ public static class HtmlCanvasService
     }));
 
     // ---------- COPY (BY URL) ----------
-    [Description("Copy an HTML document referenced by a OneDrive sharing URL into your own OneDrive and return the new relative path.")]
+    [Description("Copy an HTML document referenced by a OneDrive sharing URL into your own OneDrive using a specified filename, and return the new relative path.")]
     [McpServerTool(
         Title = "Copy HTML Canvas (by URL)",
         Name = "onedrive_html_copy",
@@ -185,23 +185,34 @@ public static class HtmlCanvasService
         Destructive = false)]
     public static async Task<CallToolResult?> OneDriveHtml_Copy(
         [Description("OneDrive or SharePoint sharing URL of the HTML file.")]
-    string sourceLink,
+        string sourceLink,
+        [Description("Filename for the new HTML file (e.g. file-subject.html). .html extension is enforced.")]
+        string filename,
         [Description("Destination folder path in your OneDrive (e.g. /Canvases). Defaults to root.")]
-    string? destinationFolder,
+        string? destinationFolder,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default)
         => await context.WithExceptionCheck(async () =>
-
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
-
     {
+        if (string.IsNullOrWhiteSpace(filename))
+            throw new Exception("Filename is required.");
+
+        var safeFilename = filename.Trim().Replace("\\", "/");
+        if (safeFilename.Contains("/"))
+            throw new Exception("Filename must not contain path separators.");
+
+        if (!safeFilename.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
+            safeFilename += ".html";
+
         var destFolder = string.IsNullOrWhiteSpace(destinationFolder)
             ? "/"
             : destinationFolder!.Replace("\\", "/").TrimEnd('/');
 
         // 1. Resolve shared item via /shares/{encodedUrl}
-        var sharedItem = await graph.GetDriveItem(sourceLink,
+        var sharedItem = await graph.GetDriveItem(
+            sourceLink,
             cancellationToken: cancellationToken);
 
         if (sharedItem?.Name!.EndsWith(".html", StringComparison.OrdinalIgnoreCase) != true)
@@ -214,11 +225,11 @@ public static class HtmlCanvasService
             cancellationToken)
             ?? throw new Exception("Failed to read shared HTML content.");
 
-        // 3. Write into own drive
+        // 3. Write into own drive with explicit filename
         var ownDrive = await graph.GetDefaultDriveAsync(cancellationToken)
             ?? throw new Exception("Own drive not found.");
 
-        var targetPath = $"{destFolder}/{sharedItem.Name}";
+        var targetPath = $"{destFolder}/{safeFilename}";
 
         var driveItem = await graph.WriteTextFileAsync(
             ownDrive.Id!,
@@ -232,5 +243,53 @@ public static class HtmlCanvasService
             url = driveItem?.WebUrl
         };
     })));
+
+
+    // ---------- CLEAR ELEMENT ----------
+    [Description("Clear all inner content of an HTML element, leaving the element itself intact.")]
+    [McpServerTool(
+        Title = "Clear HTML element",
+        Name = "onedrive_html_clear_element",
+        ReadOnly = false,
+        OpenWorld = false,
+        Destructive = true)]
+    public static async Task<CallToolResult?> OneDriveHtml_ClearElement(
+        string path,
+        [Description("Selector to locate the target HTML element. Uses XPath (not CSS). Examples: \"//body\", \"//main[@class='content']\", \"//div[@id='main']\". Must resolve to exactly one element.")]
+    string selector,
+        RequestContext<CallToolRequestParams> context,
+        string? driveId = null,
+        CancellationToken cancellationToken = default)
+        => await context.WithExceptionCheck(async () =>
+        await context.WithOboGraphClient(async graph =>
+    {
+        var normalized = Normalize(path);
+
+        var drive = driveId != null
+            ? await graph.Drives[driveId].GetAsync(cancellationToken: cancellationToken)
+            : await graph.GetDefaultDriveAsync(cancellationToken)
+            ?? throw new Exception("Drive not found.");
+
+        var content = await graph.ReadTextFileAsync(drive?.Id!, normalized, cancellationToken)
+                      ?? throw new Exception("File not found.");
+
+        var doc = new HtmlDocument();
+        doc.LoadHtml(content);
+
+        var node = doc.DocumentNode.SelectSingleNode(selector)
+                   ?? throw new Exception("Target element not found.");
+
+        // INTENT: clear, not replace
+        node.RemoveAllChildren();
+
+        await graph.WriteTextFileAsync(
+            drive.Id!,
+            normalized,
+            doc.DocumentNode.OuterHtml,
+            cancellationToken);
+
+        return "OK".ToTextContentBlock().ToCallToolResult();
+    }));
+
 
 }
