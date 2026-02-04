@@ -7,7 +7,7 @@
     "description": "Z.AI tools for web reading, web search, and layout parsing via GLM-OCR.",
     "icons": [
       {
-        "src": "https://cdn.freebiesupply.com/logos/large/2x/freepik-logo-png-transparent.png"
+        "src": "https://avatars.githubusercontent.com/u/223098841?s=200&v=4"
       }
     ]
   },
@@ -16,5 +16,8 @@
   },
   "plugins": [
     "MCPhappey.Tools.ZAI.ZAITools, MCPhappey.Tools"
-  ]
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
 }

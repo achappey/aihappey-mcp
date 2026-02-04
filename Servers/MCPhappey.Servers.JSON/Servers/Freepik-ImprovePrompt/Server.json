@@ -13,5 +13,8 @@
   },
   "plugins": [
     "MCPhappey.Tools.Freepik.ImprovePrompt.FreepikImprovePrompt, MCPhappey.Tools"
-  ]
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
 }

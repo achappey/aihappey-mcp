@@ -10,5 +10,8 @@
         "src": "https://cdn.freebiesupply.com/logos/large/2x/freepik-logo-png-transparent.png"
       }
     ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
   }
 }
