@@ -1,11 +1,6 @@
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Common.Extensions;
-using MCPhappey.Common.Models;
-using MCPhappey.Core.Extensions;
 using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
-using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.Extensions;
 
@@ -59,16 +54,21 @@ public static class HttpExtensions
 
         if (col.Choice != null)
         {
-            return new ElicitRequestParams.EnumSchema
+            return new ElicitRequestParams.TitledSingleSelectEnumSchema
             {
                 Title = title,
                 Description = desc,
-                Enum = col.Choice.Choices?.ToArray() ?? [],
                 Default = defaultValue,
-                EnumNames = null // Could map friendly names if present
+                OneOf = col.Choice.Choices?
+                    .Select(a => new ElicitRequestParams.EnumSchemaOption
+                    {
+                        Title = a,
+                        Const = a,
+                    })
+                    .ToList()
+                    ?? []
             };
         }
-
 
         if (col.DateTime != null)
         {

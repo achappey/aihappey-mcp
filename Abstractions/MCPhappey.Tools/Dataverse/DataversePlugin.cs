@@ -67,11 +67,6 @@ public static class DataversePlugin
             var promptResult = await requestContext.Server.ElicitAsync(new ElicitRequestParams
             {
                 Message = $"Update values for the {tableLogicalName} item (ID {entityId}). Fields left blank will remain unchanged.",
-                /*        Message = $"Update values for the {tableLogicalName} item (ID {entityId}). Fields left blank will remain unchanged."
-                            .ToElicitDefaultData(attributes
-                                .Where(a => availableItems.Contains(a.LogicalName))
-                                .ToDictionary(a => a.LogicalName ?? a.SchemaName,
-                                a => currentRecord.GetProperty(a.LogicalName).ToString())),*/
                 RequestedSchema = new ElicitRequestParams.RequestSchema
                 {
                     Properties = properties,

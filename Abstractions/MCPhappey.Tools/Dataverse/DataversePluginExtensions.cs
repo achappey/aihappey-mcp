@@ -283,10 +283,14 @@ public static class DataversePluginExtensions
                                    await GetPicklistOptionsAsync(http, host,
                                          host.Split('.')[0], a.LogicalName!, cancellationToken);
 
-                        var enumSchema = new ElicitRequestParams.EnumSchema
+                        var enumSchema = new ElicitRequestParams.TitledSingleSelectEnumSchema
                         {
-                            Enum = [.. opts.Select(o => o.Value.ToString())],
-                            EnumNames = [.. opts.Select(o => o.Label.UserLocalizedLabel.Label)]
+                            OneOf = [.. opts.Select(o => new ElicitRequestParams.EnumSchemaOption()
+                            {
+                                Title =  o.Label?.UserLocalizedLabel?.ToString()
+                                    ?? o.Value.ToString(),
+                                Const =  o.Value.ToString()
+                            })]
                         };
 
                         s = enumSchema;
@@ -300,7 +304,14 @@ public static class DataversePluginExtensions
                         if (lookupTargets.Length == 1)
                         {
                             var (_, _, ids, names) = await GetLookupChoicesAsync(http, host, lookupTargets[0], cancellationToken);
-                            s = new ElicitRequestParams.EnumSchema { Enum = ids, EnumNames = names };
+                            s = new ElicitRequestParams.TitledSingleSelectEnumSchema
+                            {
+                                OneOf = [.. ids.Select((o, i) => new ElicitRequestParams.EnumSchemaOption()
+                            {
+                                Title =  names[i],
+                                Const = o
+                            })],
+                            };
                         }
                         else
                         {
