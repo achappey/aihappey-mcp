@@ -143,12 +143,11 @@ public static partial class MistralDocumentAIPlugin
         {
             try
             {
-                pages = pagesCsv
+                pages = [.. pagesCsv
                     .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                     .Select(int.Parse)
                     .Distinct()
-                    .OrderBy(i => i)
-                    .ToArray();
+                    .OrderBy(i => i)];
             }
             catch
             {

@@ -92,7 +92,7 @@ internal static class OneDriveMemoryHelpers
                 return itemsAtRoot?.Value?
                     .Select(i => i.Name ?? string.Empty)
                     .Where(n => !string.IsNullOrWhiteSpace(n))
-                    .ToList() ?? new List<string>();
+                    .ToList() ?? [];
             }
 
             // Overige paden onder /memories mogen via path
@@ -105,12 +105,12 @@ internal static class OneDriveMemoryHelpers
             return items?.Value?
                 .Select(i => i.Name ?? string.Empty)
                 .Where(n => !string.IsNullOrWhiteSpace(n))
-                .ToList() ?? new List<string>();
+                .ToList() ?? [];
         }
         catch
         {
             // Als folder niet bestaat, geef lege lijst terug
-            return new List<string>();
+            return [];
         }
     }
 

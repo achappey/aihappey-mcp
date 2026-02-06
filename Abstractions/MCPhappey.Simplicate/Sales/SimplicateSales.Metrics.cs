@@ -60,9 +60,11 @@ public static partial class SimplicateSales
         var histFrom = string.IsNullOrWhiteSpace(historyFromDate) ? historyDefault : historyFromDate;
 
         // Build common filters
-        var filters = new List<string>();
-        filters.Add($"q[{dateFieldQuery}][ge]={Uri.EscapeDataString(histFrom)}");
-        filters.Add($"q[{dateFieldQuery}][le]={Uri.EscapeDataString(toDate)}");
+        var filters = new List<string>
+        {
+            $"q[{dateFieldQuery}][ge]={Uri.EscapeDataString(histFrom)}",
+            $"q[{dateFieldQuery}][le]={Uri.EscapeDataString(toDate)}"
+        };
         if (!string.IsNullOrWhiteSpace(statusLabel)) filters.Add($"q[status.label]={Uri.EscapeDataString(statusLabel)}");
         if (!string.IsNullOrWhiteSpace(responsibleEmployeeName)) filters.Add($"q[responsible_employee.name]=*{Uri.EscapeDataString(responsibleEmployeeName)}*");
         if (!string.IsNullOrWhiteSpace(organisationName)) filters.Add($"q[organization.name]=*{Uri.EscapeDataString(organisationName)}*");

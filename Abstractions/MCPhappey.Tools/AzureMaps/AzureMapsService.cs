@@ -187,17 +187,13 @@ public static class AzureMapsService
      {
          // [ [ [outer], [hole]... ], [poly2]... ]
          var outer = coords[0][0];
-         ringCoords = outer.EnumerateArray()
-             .Select(pt => new[] { pt[0].GetDouble(), pt[1].GetDouble() }) // lon, lat
-             .ToList();
+         ringCoords = [.. outer.EnumerateArray().Select(pt => new[] { pt[0].GetDouble(), pt[1].GetDouble() })];
      }
      else
      {
          // [ [outer], [hole]... ]
          var outer = coords[0];
-         ringCoords = outer.EnumerateArray()
-             .Select(pt => new[] { pt[0].GetDouble(), pt[1].GetDouble() })
-             .ToList();
+         ringCoords = [.. outer.EnumerateArray().Select(pt => new[] { pt[0].GetDouble(), pt[1].GetDouble() })];
      }
 
      if (ringCoords.Count < 3)

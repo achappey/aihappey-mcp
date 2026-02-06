@@ -124,7 +124,7 @@ public static partial class DataAnalysisExcelExtensions
         else
         {
             // Single row fallback
-            rows.Add(new List<string?> { UntypedToString(node) });
+            rows.Add([UntypedToString(node)]);
         }
         return rows;
     }

@@ -59,8 +59,7 @@ public static class GraphAudit
             AdministrativeUnitIdFilters = typed?.AdministrativeUnitIdFilters?.ToList()
         };
 
-        return await client.Security.AuditLog.Queries.PostAsync(user, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+        return await client.Security.AuditLog.Queries.PostAsync(user, cancellationToken: cancellationToken);
     })));
 
 }

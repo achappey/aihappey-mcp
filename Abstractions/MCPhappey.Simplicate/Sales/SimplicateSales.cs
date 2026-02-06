@@ -39,7 +39,8 @@ public static partial class SimplicateSales
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("A note or description about the sales.")] string? note = null,
-        CancellationToken cancellationToken = default) => await serviceProvider.PostSimplicateResourceAsync(
+        CancellationToken cancellationToken = default) 
+        => await serviceProvider.PostSimplicateResourceAsync(
                 requestContext,
                 "/sales/sales",
                new SimplicateNewSales
@@ -86,8 +87,10 @@ public static partial class SimplicateSales
 
     // === NIEUWE TOOL: Sales totalen per opdrachtgever ===
     [Description("Get total sales grouped by organization (opdrachtgever) with optional filters and measure (count or amount).")]
-    [McpServerTool(Title = "Get Simplicate sales totals by organization", OpenWorld = false, ReadOnly = true)]
-    public static async Task<CallToolResult> SimplicateSales_GetTotalsByOrganization(
+    [McpServerTool(Title = "Get Simplicate sales totals by organization",
+        OpenWorld = false,
+        ReadOnly = true)]
+    public static async Task<CallToolResult?> SimplicateSales_GetTotalsByOrganization(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Date field to filter on. Default: ExpectedClosingDate.")] SalesDateField dateField = SalesDateField.ExpectedClosingDate,
@@ -110,6 +113,8 @@ public static partial class SimplicateSales
         [Description("Sort descending. Default: true.")] bool descending = true,
         [Description("Return only the top N organizations after sorting. Optional.")] int? top = null,
         CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async ()
+        => await requestContext.WithStructuredContent(async () =>
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -176,11 +181,14 @@ public static partial class SimplicateSales
             ? (descending ? grouped.OrderByDescending(x => x.Count) : grouped.OrderBy(x => x.Count))
             : (descending ? grouped.OrderByDescending(x => x.Amount) : grouped.OrderBy(x => x.Amount));
 
-        var result = (top.HasValue && top.Value > 0) ? ordered.Take(top.Value).ToList() : ordered.ToList();
+        var result = (top.HasValue && top.Value > 0) ? ordered.Take(top.Value).ToList() : [.. ordered];
 
         // Terug als JSON content block (zoals de andere tools)
-        return result.ToJsonContentBlock($"{baseUrl}?{filterString}").ToCallToolResult();
-    }
+        return new
+        {
+            organizationTotals = result
+        };
+    }));
 
     // === Extra helper types voor deze tool ===
     public enum SortBy { Count, Amount }

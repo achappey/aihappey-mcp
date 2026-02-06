@@ -168,7 +168,7 @@ public static class WaterDataService
                     .ToArray());
 
             var aquoPlus = new JsonArray();
-            foreach (var sel in aquoSelectors ?? new())
+            foreach (var sel in aquoSelectors ?? [])
             {
                 var meta = new JsonObject();
                 AddCode(meta, "Compartiment", sel.CompartimentCode);

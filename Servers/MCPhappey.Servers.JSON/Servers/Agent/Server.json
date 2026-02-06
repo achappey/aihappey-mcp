@@ -3,7 +3,7 @@
     "name": "AgentTools",
     "title": "Agent Tools",
     "version": "1.0.0",
-    "description": "Utility tools for agents: log internal thoughts or pause execution during workflows."
+    "description": "Utility tools for agents: log internal thoughts, pause execution during workflows, ask follow-up questions and finish tasks."
   },
   "plugins": [
     "MCPhappey.Tools.Agent.AgentService, MCPhappey.Tools"

@@ -32,8 +32,7 @@ public static class GraphDevices
                 .DeviceManagement
                 .ManagedDevices[typed?.DeviceId]
                 .Retire
-                .PostAsync(cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
+                .PostAsync(cancellationToken: cancellationToken);
 
             var now = DateTimeOffset.UtcNow;
 

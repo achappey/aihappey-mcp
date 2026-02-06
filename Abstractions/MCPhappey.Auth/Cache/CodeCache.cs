@@ -3,7 +3,7 @@ namespace MCPhappey.Auth.Cache;
 
 public static class CodeCache
 {
-    private static readonly Dictionary<string, string> _map = new();
+    private static readonly Dictionary<string, string> _map = [];
 
     public static void Store(string code, string redirectUri)
     {

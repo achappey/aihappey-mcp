@@ -407,7 +407,7 @@ public static class GraphLists
             case SharePointColumnType.Choice:
                 col.Choice = new Microsoft.Graph.Beta.Models.ChoiceColumn
                 {
-                    Choices = choices?.Split(',').Select(x => x.Trim()).ToList() ?? new List<string>()
+                    Choices = choices?.Split(',').Select(x => x.Trim()).ToList() ?? []
                 };
                 break;
             case SharePointColumnType.DateTime:

@@ -220,11 +220,11 @@ internal static class OneDriveOpenSkillsGraphExtensions
 
             return items?.Value?
                 .Where(i => i.Folder != null)
-                .ToList() ?? new List<DriveItem>();
+                .ToList() ?? [];
         }
         catch
         {
-            return new List<DriveItem>();
+            return [];
         }
     }
 }

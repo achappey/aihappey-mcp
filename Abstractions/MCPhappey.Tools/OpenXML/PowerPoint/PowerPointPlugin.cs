@@ -204,7 +204,7 @@ public static class PowerPointPlugin
                             .ApplicationNonVisualDrawingProperties?
                             .GetFirstChild<P.PlaceholderShape>()?.Type?.Value.ToString() ?? "None",
                         text = shape.TextBody?.InnerText?.Trim() ?? string.Empty
-                    }).ToList() ?? new();
+                    }).ToList() ?? [];
 
                 return new { shapes = shapes ?? [] };
             }

@@ -129,16 +129,16 @@ public static class ThreeDInspectorService
             Images = images,
             Animations = animations,
             Skins = skins,
-            Meshes = meshes.Select(m => new ThreeDGlbMesh
+            Meshes = [.. meshes.Select(m => new ThreeDGlbMesh
             {
                 Name = m.Name,
                 PrimitiveCount = m.Primitives.Count,
-                Primitives = m.Primitives.Select(p => new ThreeDGlbPrimitive
+                Primitives = [.. m.Primitives.Select(p => new ThreeDGlbPrimitive
                 {
                     Material = p.Material,
                     Mode = p.DrawPrimitiveType
-                }).ToList()
-            }).ToList()
+                })]
+            })]
         };
     }
 
@@ -193,21 +193,21 @@ public sealed class ThreeDGlbInfo
     public int AnimationCount { get; set; }
     public int SkinCount { get; set; }
 
-    public List<string> Scenes { get; set; } = new();
-    public List<string> Nodes { get; set; } = new();
-    public List<string> Materials { get; set; } = new();
-    public List<string> Textures { get; set; } = new();
-    public List<string> Images { get; set; } = new();
-    public List<string> Animations { get; set; } = new();
-    public List<string> Skins { get; set; } = new();
-    public List<ThreeDGlbMesh> Meshes { get; set; } = new();
+    public List<string> Scenes { get; set; } = [];
+    public List<string> Nodes { get; set; } = [];
+    public List<string> Materials { get; set; } = [];
+    public List<string> Textures { get; set; } = [];
+    public List<string> Images { get; set; } = [];
+    public List<string> Animations { get; set; } = [];
+    public List<string> Skins { get; set; } = [];
+    public List<ThreeDGlbMesh> Meshes { get; set; } = [];
 }
 
 public sealed class ThreeDGlbMesh
 {
     public string? Name { get; set; }
     public int PrimitiveCount { get; set; }
-    public List<ThreeDGlbPrimitive> Primitives { get; set; } = new();
+    public List<ThreeDGlbPrimitive> Primitives { get; set; } = [];
 }
 
 public sealed class ThreeDGlbPrimitive

@@ -23,7 +23,8 @@ public static partial class SimplicateInvoices
             IServiceProvider serviceProvider,
             RequestContext<CallToolRequestParams> requestContext,
             [Description("Optional organization name to filter on")] string? organizationName = null,
-            CancellationToken cancellationToken = default) => await requestContext.WithStructuredContent(async () =>
+            CancellationToken cancellationToken = default)
+            => await requestContext.WithStructuredContent(async () =>
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -107,7 +108,7 @@ public static partial class SimplicateInvoices
             pageNum => $"Downloading invoices",
             requestContext,
             cancellationToken: cancellationToken
-        ).ConfigureAwait(false);
+        );
 
         var now = DateTime.UtcNow;
 

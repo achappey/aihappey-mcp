@@ -699,7 +699,7 @@ public static class ImageSharpService
             throw new Exception("No images found in folder or less than 2.");
 
         var data = await BuildCompositeAsync(
-            serviceProvider, requestContext, fileUrls.ToArray(), columns, cellSize, padding, format, cancellationToken);
+            serviceProvider, requestContext, [.. fileUrls], columns, cellSize, padding, format, cancellationToken);
 
         var uploaded = await requestContext.Server.Upload(
             serviceProvider,

@@ -30,9 +30,9 @@ public class SimplicateCompletion(
      IServiceProvider serviceProvider,
      CompleteRequestParams? completeRequestParams,
      CancellationToken cancellationToken = default)
-     {
-         if (completeRequestParams?.Argument?.Name is not string argName || completeRequestParams.Argument.Value is not string argValue)
-             return new();
+    {
+        if (completeRequestParams?.Argument?.Name is not string argName || completeRequestParams.Argument.Value is not string argValue)
+            return new();
 
         if (TryGetCustomFieldRequest(argName, out var customFieldEndpoint, out var customFieldName))
         {
@@ -49,9 +49,9 @@ public class SimplicateCompletion(
                 Values = dynamicValues
             };
         }
- 
-         if (!completionSources.TryGetValue(argName, out var source))
-             return new();
+
+        if (!completionSources.TryGetValue(argName, out var source))
+            return new();
 
         // Use reflection to invoke the generic helper
         var sourceType = source.GetType();
@@ -143,6 +143,7 @@ public class SimplicateCompletion(
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .Take(100)
             .Select(label => label!)
+            .Order()
             .ToList() ?? [];
     }
 
@@ -208,7 +209,7 @@ public class SimplicateCompletion(
             (value, _) => $"projects/service?q[name]=*{value}*&sort=name&select=name",
             (item, _) => item.Name),
 
-        ["urenType"] = new CompletionSource<SimplicateLabelItem>(
+        ["urensoort"] = new CompletionSource<SimplicateLabelItem>(
             (value, _) => $"hours/hourstype?q[label]=*{value}*&sort=label&select=label",
             (item, _) => item.Label),
 
@@ -232,6 +233,22 @@ public class SimplicateCompletion(
             (value, _) => $"crm/myorganizationprofile?q[name]=*{value}*&sort=name&select=name",
             (item, _) => item.Name),
 
+        ["dienstbetrekking"] = new CompletionSource<SimplicateNameItem>(
+            (value, _) => $"hrm/employmenttype?q[name]=*{value}*&sort=name&select=name",
+            (item, _) => item.Name),
+
+        ["typeArbeidscontract"] = new CompletionSource<SimplicateNameItem>(
+            (value, _) => $"hrm/contracttype?q[name]=*{value}*&sort=name&select=name",
+            (item, _) => item.Name),
+
+        ["verzuimsoort"] = new CompletionSource<SimplicateLabelItem>(
+            (value, _) => $"hrm/absencetype?q[label]=*{value}*&sort=label&select=label",
+            (item, _) => item.Label),
+
+        ["kostensoort"] = new CompletionSource<SimplicateLabelItem>(
+            (value, _) => $"projects/purchasetype?q[label]=*{value}*&sort=label&select=label",
+            (item, _) => item.Label),
+
         ["factuurnummer"] = new CompletionSource<SimplicateInvoiceItem>(
             (value, _) => $"invoices/invoice?q[invoice_number]={value}*&sort=invoice_number&select=invoice_number",
             (item, _) => item.InvoiceNumber),
@@ -239,6 +256,18 @@ public class SimplicateCompletion(
         ["factuurStatus"] = new CompletionSource<SimplicateNameItem>(
             (value, _) => $"invoices/invoicestatus?q[name]=*{value}*&sort=name&select=name",
             (item, _) => item.Name.Replace("label_", string.Empty)),
+
+        ["betaalconditie"] = new CompletionSource<SimplicateNameItem>(
+            (value, _) => $"invoices/paymentterm?q[name]=*{value}*&sort=name&select=name",
+            (item, _) => item.Name),
+
+        ["herinneringsplan"] = new CompletionSource<SimplicateLabelItem>(
+            (value, _) => $"invoices/reminderset?q[label]=*{value}*&sort=label&select=label",
+            (item, _) => item.Label),
+
+        ["naamHerinneringssjabloon"] = new CompletionSource<SimplicateLabelItem>(
+            (value, _) => $"invoices/remindertemplate?q[label]=*{value}*&sort=label&select=label",
+            (item, _) => item.Label),
 
     };
 

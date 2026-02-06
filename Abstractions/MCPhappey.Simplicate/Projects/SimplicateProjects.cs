@@ -24,6 +24,7 @@ public static class SimplicateProjects
     RequestContext<CallToolRequestParams> requestContext,
     [Description("Optional project status label filter.")] ProjectStatusLabel? projectStatusLabel = null,
     CancellationToken cancellationToken = default)
+    => await requestContext.WithExceptionCheck(async ()
     => await requestContext.WithStructuredContent(async () =>
 {
     var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
@@ -60,7 +61,7 @@ public static class SimplicateProjects
             })
             .OrderByDescending(x => x.total_value_budget)
     };
-});
+}));
 
 
     [McpServerTool(OpenWorld = false, ReadOnly = true,
@@ -72,6 +73,7 @@ public static class SimplicateProjects
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async ()
         => await requestContext.WithStructuredContent(async () =>
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
@@ -101,7 +103,7 @@ public static class SimplicateProjects
                 total_value_invoiced = projects.Sum(p => p.Budget?.Total.ValueInvoiced ?? 0)
             }
         };
-    });
+    }));
 
     [McpServerTool(OpenWorld = false, ReadOnly = true,
         Destructive = false,
@@ -112,6 +114,7 @@ public static class SimplicateProjects
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async ()
         => await requestContext.WithStructuredContent(async () =>
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
@@ -143,7 +146,7 @@ public static class SimplicateProjects
                 })
                 .OrderByDescending(x => x.spent_ratio)
         };
-    });
+    }));
 
     [Description("Create a new project in Simplicate")]
     [McpServerTool(OpenWorld = false, Title = "Create new project in Simplicate")]
@@ -154,7 +157,8 @@ public static class SimplicateProjects
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Note")] string? note = null,
         [Description("Invoice reference")] string? invoiceReference = null,
-        CancellationToken cancellationToken = default) => await serviceProvider.PostSimplicateResourceAsync(
+        CancellationToken cancellationToken = default)
+        => await serviceProvider.PostSimplicateResourceAsync(
         requestContext,
         "/projects/project",
         new SimplicateNewProject
@@ -184,7 +188,8 @@ public static class SimplicateProjects
        [Description("Id of the projectmanager")] string projectManagerId,
        [Description("Note")] string? note = null,
        [Description("Invoice reference")] string? invoiceReference = null,
-       CancellationToken cancellationToken = default) => await serviceProvider.PutSimplicateResourceMergedAsync(
+       CancellationToken cancellationToken = default)
+       => await serviceProvider.PutSimplicateResourceMergedAsync(
        requestContext,
        "/projects/project/" + projectId,
        new SimplicateNewProject
@@ -211,7 +216,8 @@ public static class SimplicateProjects
     [Description("Id of the project")] string projectId,
     IServiceProvider serviceProvider,
     RequestContext<CallToolRequestParams> requestContext,
-    CancellationToken cancellationToken = default) => await serviceProvider.PostSimplicateResourceAsync(
+    CancellationToken cancellationToken = default)
+    => await serviceProvider.PostSimplicateResourceAsync(
             requestContext,
             "/projects/projectservice",
             new SimplicateNewProjectService
@@ -229,7 +235,8 @@ public static class SimplicateProjects
       [Description("Id of the employee")] string employeeId,
       IServiceProvider serviceProvider,
       RequestContext<CallToolRequestParams> requestContext,
-      CancellationToken cancellationToken = default) => await serviceProvider.PostSimplicateResourceAsync(
+      CancellationToken cancellationToken = default)
+      => await serviceProvider.PostSimplicateResourceAsync(
         requestContext,
         "/projects/projectemployee",
         new SimplicateAddProjectEmployee
@@ -250,13 +257,14 @@ public static class SimplicateProjects
         [Description("My organization profile name of the project filter. Optional.")] string myOrganizationProfileName,
         [Description("End date for filtering (on or after), format yyyy-MM-dd. Optional.")] string? date = null,
         [Description("Project status label to filter by. Optional.")] ProjectStatusLabel? projectStatusLabel = null,
-        CancellationToken cancellationToken = default) => await GetProjectsGroupedBy(
+        CancellationToken cancellationToken = default)
+        => await GetProjectsGroupedBy(
             serviceProvider,
             requestContext,
             x => x.ProjectManager?.Name,
             myOrganizationProfileName, date, projectStatusLabel, cancellationToken);
 
-    private static async Task<CallToolResult> GetProjectsGroupedBy(
+    private static async Task<CallToolResult?> GetProjectsGroupedBy(
             IServiceProvider serviceProvider,
             RequestContext<CallToolRequestParams> requestContext,
             Func<SimplicateProject, string?> groupKeySelector,
@@ -264,6 +272,7 @@ public static class SimplicateProjects
             string? date = null,
             ProjectStatusLabel? projectStatusLabel = null,
             CancellationToken cancellationToken = default)
+            => await requestContext.WithExceptionCheck(async ()
             => await requestContext.WithStructuredContent(async () =>
     {
         if (
@@ -296,12 +305,15 @@ public static class SimplicateProjects
             cancellationToken: cancellationToken
         );
 
-        return hours
+        return new
+        {
+            hours = hours
             .GroupBy(x => groupKeySelector(x) ?? string.Empty)
             .ToDictionary(
                 g => g.Key,
-                g => g.Select(t => t.Name)) ?? [];
-    });
+                g => g.Select(t => t.Name)) ?? []
+        };
+    }));
 
     [Description("Please fill in the project employee details")]
     public class SimplicateAddProjectEmployee

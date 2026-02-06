@@ -33,8 +33,8 @@ public static class DataversePluginExtensions
     }
 
 
-    private static readonly HashSet<string> SupportedAttributeTypes = new()
-    {
+    private static readonly HashSet<string> SupportedAttributeTypes =
+    [
         "String",
         "Boolean",
         "DateTime",
@@ -45,7 +45,7 @@ public static class DataversePluginExtensions
         "Picklist",
         "Lookup",
         "Money"
-    };
+    ];
 
     private static readonly ConcurrentDictionary<string, string> _navCache = new();
 
@@ -227,14 +227,14 @@ public static class DataversePluginExtensions
         using var req = new HttpRequestMessage(HttpMethod.Get, requestUrl);
         req.Headers.Accept.ParseAdd(MediaTypeNames.Application.Json);
 
-        using var res = await http.SendAsync(req, ct).ConfigureAwait(false);
+        using var res = await http.SendAsync(req, ct);
 
         if (!res.IsSuccessStatusCode)
         {
             throw new Exception(await res.Content.ReadAsStringAsync(ct));
         }
 
-        var json = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
+        var json = await res.Content.ReadAsStringAsync(ct);
         return JsonSerializer.Deserialize<EntityMetadata>(json)!;
     }
 

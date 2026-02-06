@@ -326,8 +326,8 @@ public static class ExcelPlugin
     private static (string col, uint row) SplitAddress(string a1)
     {
         if (string.IsNullOrWhiteSpace(a1)) throw new ArgumentException("Invalid address", nameof(a1));
-        var col = new string(a1.TakeWhile(char.IsLetter).ToArray()).ToUpperInvariant();
-        var rowStr = new string(a1.SkipWhile(char.IsLetter).ToArray());
+        var col = new string([.. a1.TakeWhile(char.IsLetter)]).ToUpperInvariant();
+        var rowStr = new string([.. a1.SkipWhile(char.IsLetter)]);
         if (string.IsNullOrEmpty(col) || !uint.TryParse(rowStr, out uint r))
             throw new ArgumentException($"Invalid A1 address '{a1}'", nameof(a1));
         return (col, r);
@@ -413,7 +413,7 @@ public static class ExcelPlugin
         string? line;
         var sb = new StringBuilder();
         bool inQuotes = false;
-        List<string> current = new();
+        List<string> current = [];
 
         void pushField()
         {
@@ -462,7 +462,7 @@ public static class ExcelPlugin
 
             pushField();
             rows.Add(current);
-            current = new();
+            current = [];
         }
 
         // last line if file doesn't end with newline
@@ -514,7 +514,7 @@ public static class ExcelPlugin
         int maxCol = 0;
         foreach (var row in sheetData.Elements<Row>())
         {
-            int cols = row.Elements<Cell>().Select(c => ColumnNameToIndex(new string(c.CellReference!.Value!.TakeWhile(char.IsLetter).ToArray()))).DefaultIfEmpty(0).Max();
+            int cols = row.Elements<Cell>().Select(c => ColumnNameToIndex(new string([.. c.CellReference!.Value!.TakeWhile(char.IsLetter)]))).DefaultIfEmpty(0).Max();
             if (cols > maxCol) maxCol = cols;
         }
 
@@ -538,7 +538,7 @@ public static class ExcelPlugin
 
                 line[idx] = text;
             }
-            table.Add(line.ToList());
+            table.Add([.. line]);
         }
 
         return table;

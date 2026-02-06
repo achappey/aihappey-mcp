@@ -118,7 +118,7 @@ public static partial class GraphWorkbooks
                 .GetSerializationWriter(MediaTypeNames.Application.Json);
             w.WriteObjectValue(null, n);
             using var s = w.GetSerializedContent();
-            return System.Text.Json.JsonSerializer.Deserialize<List<List<object?>>>(s) ?? new();
+            return System.Text.Json.JsonSerializer.Deserialize<List<List<object?>>>(s) ?? [];
         }
 
         // Pak alle zichtbare rijen
@@ -255,12 +255,12 @@ public static partial class GraphWorkbooks
         // 3) UntypedNode helpers
         static List<List<object?>> ToMatrix(UntypedNode? n)
         {
-            if (n == null) return new();
+            if (n == null) return [];
             var w = new Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory()
                 .GetSerializationWriter(MediaTypeNames.Application.Json);
             w.WriteObjectValue(null, n);
             using var s = w.GetSerializedContent();
-            return System.Text.Json.JsonSerializer.Deserialize<List<List<object?>>>(s) ?? new();
+            return System.Text.Json.JsonSerializer.Deserialize<List<List<object?>>>(s) ?? [];
         }
 
         // 4) Pak alle zichtbare rijen (view.Values én view.Rows[*].Values)
