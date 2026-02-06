@@ -13,6 +13,15 @@ public class SimplicateCompletion(
     SimplicateOptions simplicateOptions,
     DownloadService downloadService) : IAutoCompletion
 {
+    private static readonly Dictionary<string, string> customFieldEndpoints = new()
+    {
+        ["customProjectField_"] = "projects/projectcustomfields",
+        ["customOrganizationField_"] = "crm/organizationcustomfields",
+        ["customPersonField_"] = "crm/personcustomfields",
+        ["customSalesField_"] = "sales/salescustomfields",
+        ["customEmployeeField_"] = "hrm/employeecustomfields",
+    };
+
     public bool SupportsHost(ServerConfig serverConfig)
         => serverConfig.Server.ServerInfo.Name.StartsWith("Simplicate-");
 
@@ -21,12 +30,28 @@ public class SimplicateCompletion(
      IServiceProvider serviceProvider,
      CompleteRequestParams? completeRequestParams,
      CancellationToken cancellationToken = default)
-    {
-        if (completeRequestParams?.Argument?.Name is not string argName || completeRequestParams.Argument.Value is not string argValue)
-            return new();
+     {
+         if (completeRequestParams?.Argument?.Name is not string argName || completeRequestParams.Argument.Value is not string argValue)
+             return new();
 
-        if (!completionSources.TryGetValue(argName, out var source))
-            return new();
+        if (TryGetCustomFieldRequest(argName, out var customFieldEndpoint, out var customFieldName))
+        {
+            var dynamicValues = await CompleteCustomFieldDropdownAsync(
+                customFieldEndpoint,
+                customFieldName,
+                argValue,
+                mcpServer,
+                serviceProvider,
+                cancellationToken);
+
+            return new()
+            {
+                Values = dynamicValues
+            };
+        }
+ 
+         if (!completionSources.TryGetValue(argName, out var source))
+             return new();
 
         // Use reflection to invoke the generic helper
         var sourceType = source.GetType();
@@ -66,6 +91,59 @@ public class SimplicateCompletion(
             Values = values
         };
 
+    }
+
+    private static bool TryGetCustomFieldRequest(
+        string argumentName,
+        out string endpoint,
+        out string propertyName)
+    {
+        foreach (var customFieldEndpoint in customFieldEndpoints)
+        {
+            if (!argumentName.StartsWith(customFieldEndpoint.Key, StringComparison.Ordinal))
+                continue;
+
+            propertyName = argumentName[customFieldEndpoint.Key.Length..];
+            if (string.IsNullOrWhiteSpace(propertyName))
+                break;
+
+            endpoint = customFieldEndpoint.Value;
+            return true;
+        }
+
+        endpoint = string.Empty;
+        propertyName = string.Empty;
+        return false;
+    }
+
+    private async Task<List<string>> CompleteCustomFieldDropdownAsync(
+        string endpoint,
+        string propertyName,
+        string typedValue,
+        McpServer mcpServer,
+        IServiceProvider serviceProvider,
+        CancellationToken cancellationToken)
+    {
+        var encodedPropertyName = Uri.EscapeDataString(propertyName);
+        var url = simplicateOptions.GetApiUrl($"/{endpoint}?q[name]={encodedPropertyName}&q[render_type]=dropdown");
+
+        var response = await downloadService.GetSimplicatePageAsync<SimplicateCustomField>(
+            serviceProvider,
+            mcpServer,
+            url,
+            cancellationToken);
+
+        return response?.Data?
+            .Where(field => string.Equals(field.Name, propertyName, StringComparison.OrdinalIgnoreCase))
+            .Where(field => string.Equals(field.RenderType, "dropdown", StringComparison.OrdinalIgnoreCase))
+            .SelectMany(field => field.Options ?? [])
+            .Select(option => option.Label?.Trim())
+            .Where(label => !string.IsNullOrWhiteSpace(label))
+            .Where(label => string.IsNullOrWhiteSpace(typedValue) || label!.Contains(typedValue, StringComparison.OrdinalIgnoreCase))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Take(100)
+            .Select(label => label!)
+            .ToList() ?? [];
     }
 
     // Signature now takes context:
@@ -139,7 +217,7 @@ public class SimplicateCompletion(
             (item, _) => item.Label),
 
         ["medewerkerNaam"] = new CompletionSource<SimplicateNameItem>(
-            (value, _) => $"hrm/employee?q[name]=*{value}*&sort=name&select=name&q[is_user]=true",
+            (value, _) => $"hrm/employee?q[name]=*{value}*&sort=name&select=name&q[is_user]=true&q[employment_status]=active",
             (item, _) => item.Name),
 
         ["brancheNaam"] = new CompletionSource<SimplicateNameItem>(
@@ -210,6 +288,27 @@ public class SimplicateCompletion(
     {
         [JsonPropertyName("label")]
         public string Label { get; set; } = string.Empty;
+    }
+
+    public class SimplicateCustomField
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
+
+        [JsonPropertyName("render_type")]
+        public string RenderType { get; set; } = string.Empty;
+
+        [JsonPropertyName("options")]
+        public List<SimplicateCustomFieldOption>? Options { get; set; }
+    }
+
+    public class SimplicateCustomFieldOption
+    {
+        [JsonPropertyName("label")]
+        public string Label { get; set; } = string.Empty;
+
+        [JsonPropertyName("value")]
+        public string Value { get; set; } = string.Empty;
     }
 
     // Change to:

@@ -18,14 +18,13 @@ public class CompletionService(
          McpServer mcpServer,
          CancellationToken cancellationToken = default)
     {
-        var bestDecoder = autoCompletions
-            .Where(a => a.SupportsHost(serverConfig))
-            .FirstOrDefault();
+        var bestCompleter = autoCompletions
+            .FirstOrDefault(a => a.SupportsHost(serverConfig));
 
         Completion? fileContent = null;
-        if (bestDecoder != null)
+        if (bestCompleter != null)
         {
-            fileContent = await bestDecoder.GetCompletion(mcpServer, serviceProvider, completeRequestParams, cancellationToken);
+            fileContent = await bestCompleter.GetCompletion(mcpServer, serviceProvider, completeRequestParams, cancellationToken);
         }
 
         return new CompleteResult()

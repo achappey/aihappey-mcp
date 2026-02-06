@@ -40,7 +40,6 @@ public class GraphCompletion : IAutoCompletion
                                         .ToList() ?? [];
                 break;
 
-
             case "roleName":
                 var roles = await client.DirectoryRoles.GetAsync(requestConfiguration =>
                 {
@@ -205,8 +204,6 @@ public class GraphCompletion : IAutoCompletion
                                        .Order()
                                        .ToList() ?? [];
                 break;
-
-
             case "driveName":
                 var drives = await client.Drives.GetAsync(requestConfiguration =>
                 {

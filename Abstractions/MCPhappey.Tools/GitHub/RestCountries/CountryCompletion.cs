@@ -32,6 +32,7 @@ public class CountryCompletion : IAutoCompletion
                                             .Where(name => !string.Equals(name, excludeB, StringComparison.OrdinalIgnoreCase))
                                             .OfType<string>()
                                             .Take(100)
+                                            .Order()
                                             .ToList() ?? [];
                 break;
             case "countryB":
@@ -42,12 +43,15 @@ public class CountryCompletion : IAutoCompletion
                                             .Where(name => !string.Equals(name, excludeA, StringComparison.OrdinalIgnoreCase))
                                             .OfType<string>()
                                             .Take(100)
+                                            .Order()
                                             .ToList() ?? [];
                 break;
             case "countryName":
-                result = RestCountriesService.GetCountriesByNameContains(argValue ?? string.Empty)?.Select(a => a.Name.Official)
+                result = RestCountriesService.GetCountriesByNameContains(argValue ?? string.Empty)?
+                                            .Select(a => a.Name.Official)
                                             .OfType<string>()
                                             .Take(100)
+                                            .Order()
                                             .ToList() ?? [];
                 break;
             case "region":
@@ -55,6 +59,7 @@ public class CountryCompletion : IAutoCompletion
                                             .OfType<string>()
                                             .Distinct()
                                             .Take(100)
+                                            .Order()
                                             .ToList() ?? [];
                 break;
 
