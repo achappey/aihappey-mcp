@@ -41,8 +41,6 @@ using MCPhappey.Tools.AIML;
 using MCPhappey.Tools.SPAMhunter;
 using MCPhappey.Tools.Freepik;
 using MCPhappey.Tools.ZAI;
-using System.Text.Json;
-using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -224,7 +222,7 @@ if (!string.IsNullOrEmpty(appConfig?.KernelMemoryDatabase)
         AllowMixingVolatileAndPersistentData = true
     });
 }
-
+/*
 static async Task<string> GetAppTokenAsync(
     string tenantId,
     string clientId,
@@ -289,7 +287,7 @@ static async Task<IReadOnlyList<Microsoft.Graph.Beta.Models.User>> LoadUsersAsyn
 
     return dict.AsReadOnly();
 }
-
+*/
 if (appConfig?.OAuth != null)
 {
     builder.Services.AddSingleton(appConfig.OAuth);

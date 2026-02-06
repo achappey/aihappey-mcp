@@ -371,4 +371,7 @@ if (appConfig?.OAuth != null)
 }
 app.UseWidgets(Path.Combine(AppContext.BaseDirectory, "Widgets"));
 app.UseMcpWebApplication(servers);
+
+
 app.Run();
+

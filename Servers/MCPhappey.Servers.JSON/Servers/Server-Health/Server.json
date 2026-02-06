@@ -1,0 +1,11 @@
+{
+    "serverInfo": {
+        "name": "Server-Health",
+        "title": "Server Health",
+        "version": "1.0.0",
+        "description": "Expose server uptime, processor usage and other server info."
+    },
+    "plugins": [
+        "MCPhappey.Tools.Health.ServerHealthService, MCPhappey.Tools"
+    ]
+}

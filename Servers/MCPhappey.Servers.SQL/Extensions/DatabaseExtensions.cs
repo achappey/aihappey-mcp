@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using MCPhappey.Common.Constants;
 using MCPhappey.Common.Models;
 using ModelContextProtocol.Protocol;
@@ -62,6 +63,8 @@ public static class DatabaseExtensions
             }
         }
 
+       
+
         // ----------------------------
         // Return the MCP-flavoured server
         // ----------------------------
@@ -81,7 +84,7 @@ public static class DatabaseExtensions
                 Description = server.Description,
                 Title = server.Title,
                 WebsiteUrl = server.WebsiteUrl,
-                Version = "1.0.0",
+                Version = "1.0.0",            
                 Icons = server.Icons.Count != 0 ? server.Icons.Select(a => new Icon()
                 {
                     Source = a.Icon.Source,

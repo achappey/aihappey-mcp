@@ -58,6 +58,8 @@ public static class GraphToDo
      [Description("ToDo list id")] string listId,
      RequestContext<CallToolRequestParams> requestContext,
      [Description("The task title.")] string? title = null,
+     [Description("The task content/description.")] string? content = null,
+     [Description("The task content type (text or html).")] BodyType? contentType = BodyType.Text,
      [Description("The due date (YYYY-MM-DD).")] DateTime? dueDateTime = null,
      [Description("Importance (low, normal, high).")] Importance? importance = null,
      [Description("Linked resource URLs.")] IEnumerable<string>? linkedResources = null,
@@ -71,24 +73,29 @@ public static class GraphToDo
             {
                 Title = title ?? string.Empty,
                 DueDateTime = dueDateTime,
-                Importance = importance
+                Importance = importance,
+                Content = content ?? string.Empty,
+                ContentType = contentType ?? BodyType.Text
             },
             cancellationToken
         );
-
 
         var newTask = await client.Me.Todo.Lists[listId].Tasks
             .PostAsync(new TodoTask
             {
                 Title = typed?.Title,
                 Importance = typed?.Importance,
+                Body = new ItemBody()
+                {
+                    ContentType = typed?.ContentType,
+                    Content = typed?.Content
+                },
                 DueDateTime = typed?.DueDateTime != null ? new DateTimeTimeZone
                 {
                     DateTime = typed.DueDateTime?.ToString("yyyy-MM-ddTHH:mm:ss"),
                     TimeZone = "UTC"
                 } : null,
             }, cancellationToken: cancellationToken);
-
 
         // Step 2: Add linked resources AFTER task creation
         if (linkedResources != null)
@@ -134,7 +141,6 @@ public static class GraphToDo
             }, cancellationToken: cancellationToken);
     })));
 
-   
     [Description("Please fill in the To Do task details")]
     public class GraphNewTodoTask
     {
@@ -142,6 +148,16 @@ public static class GraphToDo
         [Required]
         [Description("The task title.")]
         public string Title { get; set; } = default!;
+
+        [JsonPropertyName("content")]
+        [Required]
+        [Description("The task content.")]
+        public string Content { get; set; } = default!;
+
+        [JsonPropertyName("contentType")]
+        [Required]
+        [Description("The task content type.")]
+        public BodyType ContentType { get; set; } = BodyType.Text;
 
         [JsonPropertyName("dueDateTime")]
         [Description("The due date (YYYY-MM-DD).")]
@@ -151,9 +167,7 @@ public static class GraphToDo
         [JsonConverter(typeof(JsonStringEnumConverter))]
         [Description("Importance (low, normal, high).")]
         public Importance? Importance { get; set; }
-
     }
-
 
     [Description("Please fill in the linked resource details")]
     public class GraphNewLinkedResource
@@ -166,7 +180,6 @@ public static class GraphToDo
         [JsonPropertyName("displayName")]
         [Description("The linked resource display name.")]
         public string? DisplayName { get; set; }
-
     }
 
     [Description("Please fill in the To Do task list details")]

@@ -68,6 +68,26 @@ public class GraphNewUser
     [JsonPropertyName("businessPhone")]
     [Description("The users's business phone number.")]
     public string? BusinessPhone { get; set; }
+
+    [JsonPropertyName("officeLocation")]
+    [Description("The users's office location.")]
+    public string? OfficeLocation { get; set; }
+
+    [JsonPropertyName("state")]
+    [Description("The users's state.")]
+    public string? State { get; set; }
+
+    [JsonPropertyName("country")]
+    [Description("The users's country.")]
+    public string? Country { get; set; }
+
+    [JsonPropertyName("postalCode")]
+    [Description("The users's postal code.")]
+    public string? PostalCode { get; set; }
+
+    [JsonPropertyName("city")]
+    [Description("The users's city.")]
+    public string? City { get; set; }
 }
 
 [Description("Please provide the user and group to link.")]
@@ -124,6 +144,25 @@ public class GraphUpdateUser
     [Description("The users's business phone number.")]
     public string? BusinessPhone { get; set; }
 
+    [JsonPropertyName("officeLocation")]
+    [Description("The users's office location.")]
+    public string? OfficeLocation { get; set; }
+
+    [JsonPropertyName("state")]
+    [Description("The users's state.")]
+    public string? State { get; set; }
+
+    [JsonPropertyName("country")]
+    [Description("The users's country.")]
+    public string? Country { get; set; }
+
+    [JsonPropertyName("postalCode")]
+    [Description("The users's postal code.")]
+    public string? PostalCode { get; set; }
+
+    [JsonPropertyName("city")]
+    [Description("The users's city.")]
+    public string? City { get; set; }
 }
 
 

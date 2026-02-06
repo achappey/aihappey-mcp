@@ -1,7 +1,9 @@
 using System.ComponentModel;
+using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
 using Microsoft.Graph.Beta;
+using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -9,6 +11,105 @@ namespace MCPhappey.Tools.Graph.Licensing;
 
 public static class GraphLicensing
 {
+    [Description("Provide the user and license SKU for assignment changes.")]
+    private sealed class GraphLicenseChange
+    {
+        [Description("The user id or UPN.")]
+        public string UserId { get; set; } = default!;
+
+        [Description("The license SKU id (GUID).")]
+        public string SkuId { get; set; } = default!;
+    }
+
+    [Description("Assign a license SKU to a user by SKU ID.")]
+    [McpServerTool(Title = "Assign license to user",
+        OpenWorld = false,
+        Destructive = true,
+        ReadOnly = false,
+        Idempotent = false)]
+    public static async Task<CallToolResult?> GraphUsers_AssignLicense(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("The user id or UPN.")] string userId,
+        [Description("The license SKU id (GUID)." )] string skuId,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+    {
+        var (typed, _, _) = await requestContext.Server.TryElicit(
+            new GraphLicenseChange
+            {
+                UserId = userId ?? string.Empty,
+                SkuId = skuId ?? string.Empty
+            },
+            cancellationToken
+        );
+
+        var requestBody = new Microsoft.Graph.Beta.Users.Item.AssignLicense.AssignLicensePostRequestBody
+        {
+            AddLicenses =
+            [
+                new AssignedLicense
+                {
+                    SkuId = Guid.Parse(typed.SkuId)
+                }
+            ],
+            RemoveLicenses = []
+        };
+
+        await client.Users[typed.UserId].AssignLicense.PostAsync(requestBody, cancellationToken: cancellationToken);
+
+        return new
+        {
+            userId = typed.UserId,
+            skuId = typed.SkuId,
+            action = "assign"
+        };
+    })));
+
+    [Description("Revoke a license SKU from a user by SKU ID.")]
+    [McpServerTool(Title = "Revoke license from user",
+        OpenWorld = false,
+        Destructive = true,
+        ReadOnly = false,
+        Idempotent = false)]
+    public static async Task<CallToolResult?> GraphUsers_RevokeLicense(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("The user id or UPN.")] string userId,
+        [Description("The license SKU id (GUID)." )] string skuId,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+    {
+        var (typed, _, _) = await requestContext.Server.TryElicit(
+            new GraphLicenseChange
+            {
+                UserId = userId ?? string.Empty,
+                SkuId = skuId ?? string.Empty
+            },
+            cancellationToken
+        );
+
+        var requestBody = new Microsoft.Graph.Beta.Users.Item.AssignLicense.AssignLicensePostRequestBody
+        {
+            AddLicenses = [],
+            RemoveLicenses =
+            [
+                Guid.Parse(typed.SkuId)
+            ]
+        };
+
+        await client.Users[typed.UserId].AssignLicense.PostAsync(requestBody, cancellationToken: cancellationToken);
+
+        return new
+        {
+            userId = typed.UserId,
+            skuId = typed.SkuId,
+            action = "revoke"
+        };
+    })));
+
     [Description("Get user SKUs grouped by department. If departmentName is set, only include that department. Users without department are grouped under empty string.")]
     [McpServerTool(Title = "User SKUs per department", ReadOnly = true,
         Idempotent = true, Destructive = false,
@@ -37,8 +138,7 @@ public static class GraphLicensing
                 config.QueryParameters.Filter = filter;
                 config.QueryParameters.Select = ["userPrincipalName", "assignedLicenses", "department"];
                 config.QueryParameters.Top = 999;
-            }, cancellationToken)
-              .ConfigureAwait(false);
+            }, cancellationToken);
 
         foreach (var user in users?.Value ?? [])
         {

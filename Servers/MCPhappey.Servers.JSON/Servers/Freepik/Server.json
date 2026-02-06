@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Freepik",
+    "title": "Freepik",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.freepik.com",
+    "description": "The only creative suite you need—AI tools, smart features, and high-quality stock assets to design and create without ever leaving Freepik.",
+    "icons": [
+      {
+        "src": "https://cdn.freebiesupply.com/logos/large/2x/freepik-logo-png-transparent.png"
+      }
+    ]
+  },
+  "baseMcp": "api.freepik.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

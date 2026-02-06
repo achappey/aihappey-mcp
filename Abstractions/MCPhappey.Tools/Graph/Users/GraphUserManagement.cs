@@ -59,6 +59,11 @@ public static class GraphUserManagement
       [Description("Account enabled.")] bool? accountEnabled = null,
       [Description("The users's department.")] string? department = null,
       [Description("The users's compay name.")] string? companyName = null,
+      [Description("The users's office location.")] string? officeLocation = null,
+        [Description("The users's state.")] string? state = null,
+        [Description("The users's country.")] string? country = null,
+        [Description("The users's postal code.")] string? postalCode = null,
+        [Description("The users's city.")] string? city = null,
       [Description("Force password change.")] bool? forceChangePasswordNextSignIn = null,
       [Description("The users's password.")] string? password = null,
       CancellationToken cancellationToken = default) =>
@@ -76,6 +81,11 @@ public static class GraphUserManagement
                 Department = department ?? string.Empty,
                 MobilePhone = mobilePhone,
                 BusinessPhone = businessPhone,
+                State = state,
+                City = city,
+                Country = country,
+                OfficeLocation = officeLocation,
+                PostalCode = postalCode,
                 CompanyName = companyName ?? string.Empty,
                 AccountEnabled = accountEnabled ?? true,
                 JobTitle = jobTitle ?? string.Empty,
@@ -90,11 +100,7 @@ public static class GraphUserManagement
             DisplayName = typed?.DisplayName,
             GivenName = typed?.GivenName,
             MailNickname = typed?.MailNickname,
-            MobilePhone = typed?.MobilePhone,
             AccountEnabled = typed?.AccountEnabled,
-            CompanyName = typed?.CompanyName ?? string.Empty,
-            Department = typed?.Department ?? string.Empty,
-            JobTitle = typed?.JobTitle ?? string.Empty,
             PasswordProfile = new PasswordProfile()
             {
                 ForceChangePasswordNextSignIn = typed?.ForceChangePasswordNextSignIn,
@@ -103,9 +109,54 @@ public static class GraphUserManagement
             UserPrincipalName = typed?.UserPrincipalName
         };
 
+        if (!string.IsNullOrEmpty(typed?.Country))
+        {
+            user.Country = typed.Country;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.City))
+        {
+            user.City = typed.City;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.State))
+        {
+            user.State = typed.State;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.PostalCode))
+        {
+            user.PostalCode = typed.PostalCode;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.OfficeLocation))
+        {
+            user.OfficeLocation = typed.OfficeLocation;
+        }
+
         if (!string.IsNullOrEmpty(typed?.BusinessPhone))
         {
             user.BusinessPhones = [typed.BusinessPhone];
+        }
+
+        if (!string.IsNullOrEmpty(typed?.JobTitle))
+        {
+            user.JobTitle = typed.JobTitle;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.CompanyName))
+        {
+            user.CompanyName = typed.CompanyName;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.Department))
+        {
+            user.Department = typed.Department;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.MobilePhone))
+        {
+            user.MobilePhone = typed.MobilePhone;
         }
 
         return await client.Users.PostAsync(user, cancellationToken: cancellationToken);
@@ -124,6 +175,11 @@ public static class GraphUserManagement
         [Description("The users's department.")] string? department = null,
         [Description("The users's mobile phone.")] string? mobilePhone = null,
         [Description("The users's business phone.")] string? businessPhone = null,
+        [Description("The users's office location.")] string? officeLocation = null,
+        [Description("The users's state.")] string? state = null,
+        [Description("The users's country.")] string? country = null,
+        [Description("The users's postal code.")] string? postalCode = null,
+        [Description("The users's city.")] string? city = null,
         [Description("Account enabled.")] bool? accountEnabled = null,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
@@ -138,6 +194,11 @@ public static class GraphUserManagement
                 GivenName = givenName ?? newUser?.GivenName ?? string.Empty,
                 Department = department ?? newUser?.Department ?? string.Empty,
                 CompanyName = companyName ?? newUser?.CompanyName ?? string.Empty,
+                State = state ?? newUser?.State ?? string.Empty,
+                Country = country ?? newUser?.Country ?? string.Empty,
+                City = city ?? newUser?.City ?? string.Empty,
+                PostalCode = postalCode ?? newUser?.PostalCode ?? string.Empty,
+                OfficeLocation = officeLocation ?? newUser?.OfficeLocation ?? string.Empty,
                 MobilePhone = mobilePhone ?? newUser?.MobilePhone ?? string.Empty,
                 BusinessPhone = businessPhone ?? newUser?.BusinessPhones?.FirstOrDefault(),
                 DisplayName = displayName ?? newUser?.DisplayName ?? string.Empty,
@@ -152,13 +213,58 @@ public static class GraphUserManagement
         {
             DisplayName = typed?.DisplayName,
             GivenName = typed?.GivenName,
-            JobTitle = typed?.JobTitle ?? string.Empty,
-            MobilePhone = typed?.MobilePhone,
-            BusinessPhones = string.IsNullOrWhiteSpace(typed?.BusinessPhone) ? null : [typed.BusinessPhone],
-            Department = typed?.Department ?? string.Empty,
-            CompanyName = typed?.CompanyName ?? string.Empty,
             AccountEnabled = typed?.AccountEnabled,
         };
+
+        if (!string.IsNullOrEmpty(typed?.Country))
+        {
+            user.Country = typed.Country;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.City))
+        {
+            user.City = typed.City;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.State))
+        {
+            user.State = typed.State;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.PostalCode))
+        {
+            user.PostalCode = typed.PostalCode;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.OfficeLocation))
+        {
+            user.OfficeLocation = typed.OfficeLocation;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.JobTitle))
+        {
+            user.JobTitle = typed.JobTitle;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.BusinessPhone))
+        {
+            user.BusinessPhones = [typed.BusinessPhone];
+        }
+
+        if (!string.IsNullOrEmpty(typed?.CompanyName))
+        {
+            user.CompanyName = typed.CompanyName;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.Department))
+        {
+            user.Department = typed.Department;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.MobilePhone))
+        {
+            user.MobilePhone = typed.MobilePhone;
+        }
 
         return await client.Users[userId].PatchAsync(user, cancellationToken: cancellationToken);
     })));

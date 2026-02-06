@@ -24,6 +24,7 @@ public static class AspNetCoreExtensions
         services.AddScoped<UploadService>();
         services.AddScoped<ResourceService>();
         services.AddSingleton<CompletionService>();
+        services.AddSingleton<CpuUsageTracker>();
 
         services.AddSingleton<IReadOnlyList<ServerConfig>>(servers);
         services.AddSingleton<WebScraper>();
