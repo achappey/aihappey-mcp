@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "GreenPT-Scraper",
+        "title": "GreenPT Scraper",
+        "version": "1.0.0",
+        "websiteUrl": "https://greenpt.ai",
+        "description": "Scrape public webpages into clean markdown, html, rawHtml, and links for AI-ready processing.",
+        "icons": [
+            {
+                "src": "https://greenpt.ai/content/uploads/2026/01/2993679_brand_brands_logo_logos_opera_icon@2x-800x800.webp"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.GreenPT.GreenPTScraper, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

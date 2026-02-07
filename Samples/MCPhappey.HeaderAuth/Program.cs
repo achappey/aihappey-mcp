@@ -41,6 +41,7 @@ using MCPhappey.Tools.AIML;
 using MCPhappey.Tools.SPAMhunter;
 using MCPhappey.Tools.Freepik;
 using MCPhappey.Tools.ZAI;
+using MCPhappey.Tools.GreenPT;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -122,6 +123,7 @@ builder.Services
 .AddSPAMhunter(appConfig?.DomainHeaders)
 .AddFreepik(appConfig?.DomainHeaders)
 .AddZAI(appConfig?.DomainHeaders)
+.AddGreenPT(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
 
