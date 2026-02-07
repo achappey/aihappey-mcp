@@ -13,7 +13,8 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentSummarizer
 {
-    private static readonly string[] ModelNames = ["gpt-5-mini", "gemini-2.5-flash-lite", "claude-haiku-4-5-20251001", "mistral-small-latest"];
+    private static readonly string[] ModelNames = ["gpt-5-mini", 
+        "gemini-2.5-flash-lite", "claude-haiku-4-5-20251001", "mistral-small-latest"];
     //command-a-03-2025
 
     [Description("Parallel document summarize across multiple AI models.")]

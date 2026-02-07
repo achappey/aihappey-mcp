@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/photo/$value",
+      "name": "graph-me-photo",
+      "title": "My profile photo",
+      "description": "Returns the profile photo of the signed-in user as an image.",
+      "mimeType": "image/jpeg",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

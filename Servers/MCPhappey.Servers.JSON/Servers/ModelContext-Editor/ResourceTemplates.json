@@ -6,7 +6,11 @@
       "title": "MCP server resources",
       "description": "Lists all resources for the MCP server specified by {serverName}.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "mcp-editor://server/{serverName}/resourceTemplates",
@@ -14,7 +18,11 @@
       "title": "MCP server resource templates",
       "description": "Lists all resource templates (lists, folders, etc) for the MCP server specified by {serverName}.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "mcp-editor://server/{serverName}/prompts",
@@ -22,7 +30,11 @@
       "title": "MCP server prompts",
       "description": "Lists all prompts configured for the MCP server specified by {serverName}.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "mcp-editor://server/{serverName}/resources/{resourceName}",
@@ -30,7 +42,11 @@
       "title": "MCP server resource",
       "description": "Retrieves a single resource with name {resourceName} from the specified MCP server {serverName}.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "mcp-editor://server/{serverName}/resourceTemplates/{templateName}",
@@ -38,7 +54,11 @@
       "title": "MCP server resource template",
       "description": "Retrieves a single resource template with name {templateName} from the specified MCP server {serverName}.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "mcp-editor://server/{serverName}/prompts/{promptName}",
@@ -46,7 +66,11 @@
       "title": "MCP server prompt",
       "description": "Retrieves a single prompt with name {promptName} from the specified MCP server {serverName}.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }

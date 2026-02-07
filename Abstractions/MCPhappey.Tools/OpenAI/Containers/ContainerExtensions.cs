@@ -2,7 +2,6 @@ using System.ClientModel;
 using System.ClientModel.Primitives;
 using System.Text;
 using MCPhappey.Core.Extensions;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.Containers;

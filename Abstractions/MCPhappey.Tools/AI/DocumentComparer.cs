@@ -12,7 +12,8 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentComparer
 {
-    private static readonly string[] ModelNames = ["gpt-5.1", "gemini-2.5-pro", "claude-opus-4-1-20250805", "grok-4-fast-reasoning"];
+    private static readonly string[] ModelNames = ["gpt-5.2", "gemini-2.5-pro", 
+        "claude-opus-4-1-20250805", "grok-4-fast-reasoning"];
 
     [Description("Parallel document comparer across multiple AI models.")]
     [McpServerTool(Title = "Document comparer (multi-model)",

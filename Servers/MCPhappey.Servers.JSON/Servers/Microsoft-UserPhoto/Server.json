@@ -1,0 +1,19 @@
+{
+    "serverInfo": {
+        "name": "Microsoft-UserPhoto",
+        "title": "Microsoft User Photo",
+        "version": "1.0.0",
+        "description": "Get the current user profile photo or another user's photo from Microsoft.",
+        "icons": [
+            {
+                "src": "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Graph.Users.GraphUserPhotos, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/User.ReadBasic.All"
+    }
+}

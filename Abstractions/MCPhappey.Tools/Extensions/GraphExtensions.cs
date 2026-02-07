@@ -1,4 +1,3 @@
-using System.Text;
 using MCPhappey.Core.Extensions;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;

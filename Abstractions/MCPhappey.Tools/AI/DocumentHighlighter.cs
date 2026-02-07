@@ -5,7 +5,6 @@ using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 

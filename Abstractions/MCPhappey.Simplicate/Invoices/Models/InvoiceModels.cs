@@ -1,12 +1,6 @@
-using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using MCPhappey.Core.Services;
 using MCPhappey.Simplicate.Extensions;
-using MCPhappey.Simplicate.Options;
-using Microsoft.Extensions.DependencyInjection;
-using ModelContextProtocol.Protocol;
-using ModelContextProtocol.Server;
 
 namespace MCPhappey.Simplicate.Invoices.Models;
 

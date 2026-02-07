@@ -12,8 +12,10 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentQnA
 {
-    private static readonly string[] ModelNames = ["gpt-5-mini", "gemini-2.5-flash", "claude-haiku-4-5-20251001", "grok-4-fast-reasoning"];
-    private static readonly string[] AcademicModelNames = ["gpt-5.1", "gemini-2.5-pro", "claude-opus-4-1-20250805", "grok-4-fast-reasoning"];
+    private static readonly string[] ModelNames = ["gpt-5-mini",
+        "gemini-2.5-flash", "claude-haiku-4-5-20251001", "grok-4-fast-reasoning"];
+    private static readonly string[] AcademicModelNames = ["gpt-5.2",
+        "gemini-2.5-pro", "claude-opus-4-1-20250805", "grok-4-fast-reasoning"];
 
     [Description("Parallel document qna across multiple AI models.")]
     [McpServerTool(Title = "Document QnA (multi-model)",
@@ -120,12 +122,14 @@ public static class DocumentQnA
      Name = "document_qna_ask_academic",
      Destructive = false,
      ReadOnly = true)]
-    public static async Task<IEnumerable<ContentBlock>> DocumentQnA_AskAcademic(
+    public static async Task<CallToolResult?> DocumentQnA_AskAcademic(
     [Description("Url of the document you would like to ask")] string fileUrl,
      [Description("Research question")] string researchQuestion,
      IServiceProvider serviceProvider,
      RequestContext<CallToolRequestParams> requestContext,
-     CancellationToken cancellationToken = default)
+     CancellationToken cancellationToken = default) =>
+       await requestContext.WithExceptionCheck(async () =>
+       await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
@@ -190,7 +194,7 @@ public static class DocumentQnA
                     cancellationToken
                 );
 
-                return result.Content; // Success
+                return result; // Success
             }
             catch (Exception ex)
             {
@@ -204,8 +208,13 @@ public static class DocumentQnA
 
         var results = await Task.WhenAll(tasks);
 
-        // Only keep successes
-        return results.Where(r => r != null)!.SelectMany(a => a!);
-    }
+        // Return only successful results
+        return new MessageResults()
+        {
+            Results = results.OfType<CreateMessageResult>()
+        };
+
+
+    }));
 }
 

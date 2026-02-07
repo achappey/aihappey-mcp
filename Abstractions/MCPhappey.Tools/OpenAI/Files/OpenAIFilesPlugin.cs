@@ -1,15 +1,10 @@
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 using OpenAI;
-using OpenAI.Images;
 
 namespace MCPhappey.Tools.OpenAI.Image;
 

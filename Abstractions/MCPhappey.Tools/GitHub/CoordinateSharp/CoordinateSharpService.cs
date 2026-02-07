@@ -1,15 +1,7 @@
 using System.ComponentModel;
 using ModelContextProtocol.Server;
-using Raffinert.FuzzySharp;
-using Raffinert.FuzzySharp.PreProcess;
-using Raffinert.FuzzySharp.SimilarityRatio;
-using Raffinert.FuzzySharp.SimilarityRatio.Scorer;
-using Raffinert.FuzzySharp.SimilarityRatio.Scorer.StrategySensitive;
-using Raffinert.FuzzySharp.SimilarityRatio.Scorer.Composite;
 using ModelContextProtocol.Protocol;
 using MCPhappey.Core.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using MCPhappey.Core.Services;
 using MCPhappey.Common.Extensions;
 using System.Text.Json;
 using System.Globalization;

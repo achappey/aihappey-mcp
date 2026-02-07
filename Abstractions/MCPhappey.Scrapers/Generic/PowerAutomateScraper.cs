@@ -2,7 +2,6 @@ using System.Net.Mime;
 using MCPhappey.Auth.Extensions;
 using MCPhappey.Auth.Models;
 using MCPhappey.Common;
-using MCPhappey.Common.Constants;
 using MCPhappey.Common.Models;
 using MCPhappey.Scrapers.Extensions;
 using Microsoft.Extensions.DependencyInjection;

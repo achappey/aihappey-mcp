@@ -3,7 +3,6 @@ using MCPhappey.Common.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using MCPhappey.Auth.Extensions;
-using MCPhappey.Auth.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MCPhappey.Core.Extensions;

@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace MCPHappey.Telemetry.Models;
 
 public class ClientVersion

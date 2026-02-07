@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/photo/$value",
+      "name": "graph-user-photo-by-id",
+      "title": "User profile photo by ID",
+      "description": "Returns the profile photo of a Microsoft Entra ID user as an image.",
+      "mimeType": "image/jpeg",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

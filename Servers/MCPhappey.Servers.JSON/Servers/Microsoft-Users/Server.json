@@ -10,7 +10,9 @@
       }
     ]
   },
-   "plugins": ["MCPhappey.Tools.Graph.Users.GraphUsers, MCPhappey.Tools"],
+  "plugins": [
+    "MCPhappey.Tools.Graph.Users.GraphUsers, MCPhappey.Tools"
+  ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Directory.ReadWrite.All https://graph.microsoft.com/ProfilePhoto.ReadWrite.All https://graph.microsoft.com/MailboxSettings.ReadWrite https://graph.microsoft.com/Presence.Read.All"
   }

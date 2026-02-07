@@ -1,14 +1,10 @@
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Tools.Together.Images;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;

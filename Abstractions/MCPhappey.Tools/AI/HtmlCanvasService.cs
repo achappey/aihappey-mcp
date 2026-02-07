@@ -1,10 +1,11 @@
 using System.ComponentModel;
-using System.Text.Json;
 using HtmlAgilityPack;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
+using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
 using MCPhappey.Tools.Memory.OneDrive;
+using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -283,13 +284,91 @@ public static class HtmlCanvasService
         node.RemoveAllChildren();
 
         await graph.WriteTextFileAsync(
-            drive.Id!,
+            drive?.Id!,
             normalized,
             doc.DocumentNode.OuterHtml,
             cancellationToken);
 
         return "OK".ToTextContentBlock().ToCallToolResult();
     }));
+
+    // ---------- ADD IMAGE (BASE64 INTO HTML) ----------
+    [Description("Download an image from a OneDrive or SharePoint URL, convert it to base64, and inject it into an HTML file placeholder (e.g. {imageBase64}).")]
+    [McpServerTool(
+        Title = "Add image into HTML template",
+        Name = "onedrive_html_add_image_base64",
+        ReadOnly = false,
+        OpenWorld = false,
+        Destructive = true)]
+    public static async Task<CallToolResult?> OneDriveHtml_AddImageBase64(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("SharePoint/OneDrive URL of the image file.")]
+    string imageFileUrl,
+        [Description("SharePoint/OneDrive URL of the HTML file that contains the placeholder.")]
+    string htmlFileUrl,
+        [Description("Placeholder variable name to replace. You can pass either 'imageBase64' or '{imageBase64}'.")]
+    string variableName,
+        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async graphClient =>
+    {
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+        var mcpServer = requestContext.Server;
+
+        // ---------- DOWNLOAD IMAGE ----------
+        var imageFiles = await downloadService.DownloadContentAsync(
+            serviceProvider,
+            mcpServer,
+            imageFileUrl,
+            cancellationToken);
+
+        var imageFile = imageFiles.FirstOrDefault()
+            ?? throw new FileNotFoundException($"No image content found at '{imageFileUrl}'.");
+
+        var mimeType = string.IsNullOrWhiteSpace(imageFile.MimeType)
+            ? "image/jpeg"
+            : imageFile.MimeType;
+
+        var base64 = Convert.ToBase64String(imageFile.Contents);
+
+        // ready for <img src="">
+        var dataUri = $"data:{mimeType};base64,{base64}";
+
+        // ---------- DOWNLOAD HTML ----------
+        var htmlFiles = await downloadService.DownloadContentAsync(
+            serviceProvider,
+            mcpServer,
+            htmlFileUrl,
+            cancellationToken);
+
+        var htmlFile = htmlFiles.FirstOrDefault()
+            ?? throw new FileNotFoundException($"No HTML content found at '{htmlFileUrl}'.");
+
+        var html = htmlFile.Contents.ToString();
+
+        // ---------- PLACEHOLDER ----------
+        var token = variableName.Trim();
+        if (token.StartsWith("{") && token.EndsWith("}") && token.Length > 2)
+            token = token[1..^1];
+
+        var placeholder = $"{{{token}}}";
+
+        var updatedHtml = html.Replace(
+            placeholder,
+            dataUri,
+            StringComparison.Ordinal);
+
+        // ---------- UPLOAD ----------
+        var updated = await graphClient.UploadBinaryDataAsync(
+            htmlFileUrl,
+            BinaryData.FromString(updatedHtml),
+            cancellationToken)
+            ?? throw new FileNotFoundException($"Failed to update HTML file at '{htmlFileUrl}'.");
+
+        return updated.ToResourceLinkBlock(updated.Name!).ToCallToolResult();
+    }));
+
 
 
 }

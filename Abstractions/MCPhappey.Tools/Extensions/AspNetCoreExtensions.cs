@@ -1,5 +1,4 @@
 using MCPhappey.Common;
-using MCPhappey.Tools.AzureMaps;
 using MCPhappey.Tools.GitHub.RestCountries;
 using MCPhappey.Tools.Graph;
 using MCPhappey.Tools.OpenAI;
