@@ -14,6 +14,11 @@ public class GraphNewUser
     [Description("The users's given name.")]
     public string GivenName { get; set; } = default!;
 
+    [JsonPropertyName("surname")]
+    [Required]
+    [Description("The users's surname.")]
+    public string Surname { get; set; } = default!;
+
     [JsonPropertyName("displayName")]
     [Required]
     [Description("The users's display name.")]
@@ -35,6 +40,10 @@ public class GraphNewUser
     [Description("The users's job title.")]
     public string JobTitle { get; set; } = default!;
 
+    [JsonPropertyName("usageLocation")]
+    [Required]
+    [Description("The users's useage location. A two-letter country code (ISO standard 3166). Examples include: US, JP, and GB.")]
+    public string? UsageLocation { get; set; }
 
     [JsonPropertyName("accountEnabled")]
     [Required]
@@ -77,6 +86,10 @@ public class GraphNewUser
     [Description("The users's state.")]
     public string? State { get; set; }
 
+    [JsonPropertyName("streetAddress")]
+    [Description("The users's street address.")]
+    public string? StreetAddress { get; set; }
+
     [JsonPropertyName("country")]
     [Description("The users's country.")]
     public string? Country { get; set; }
@@ -112,6 +125,11 @@ public class GraphUpdateUser
     [Description("The users's given name.")]
     public string GivenName { get; set; } = default!;
 
+    [Required]
+    [JsonPropertyName("surname")]
+    [Description("The users's surname.")]
+    public string Surname { get; set; } = default!;
+
     [JsonPropertyName("displayName")]
     [Required]
     [Description("The users's display name.")]
@@ -121,6 +139,11 @@ public class GraphUpdateUser
     [Required]
     [Description("The users's job title.")]
     public string JobTitle { get; set; } = default!;
+
+    [JsonPropertyName("usageLocation")]
+    [Required]
+    [Description("The users's useage location. A two-letter country code (ISO standard 3166). Examples include: US, JP, and GB.")]
+    public string? UsageLocation { get; set; }
 
     [JsonPropertyName("accountEnabled")]
     [Required]
@@ -147,6 +170,10 @@ public class GraphUpdateUser
     [JsonPropertyName("officeLocation")]
     [Description("The users's office location.")]
     public string? OfficeLocation { get; set; }
+
+    [JsonPropertyName("streetAddress")]
+    [Description("The users's street address.")]
+    public string? StreetAddress { get; set; }
 
     [JsonPropertyName("state")]
     [Description("The users's state.")]

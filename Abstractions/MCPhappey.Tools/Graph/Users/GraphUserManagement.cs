@@ -50,21 +50,24 @@ public static class GraphUserManagement
     public static async Task<CallToolResult?> GraphUsers_CreateUser(
       RequestContext<CallToolRequestParams> requestContext,
       [Description("The users's given name.")] string? givenName = null,
+      [Description("The users's surname.")] string? surname = null,
       [Description("The users's display name.")] string? displayName = null,
       [Description("The users's principal name.")] string? userPrincipalName = null,
       [Description("The users's mail nickname.")] string? mailNickname = null,
       [Description("The users's job title.")] string? jobTitle = null,
+      [Description("The users's useage location. A two-letter country code (ISO standard 3166). Examples include: US, JP, and GB.")] string? usageLocation = null,
       [Description("The users's mobile phone.")] string? mobilePhone = null,
       [Description("The users's business phone.")] string? businessPhone = null,
       [Description("Account enabled.")] bool? accountEnabled = null,
       [Description("The users's department.")] string? department = null,
       [Description("The users's compay name.")] string? companyName = null,
       [Description("The users's office location.")] string? officeLocation = null,
+      [Description("The users's street address.")] string? streetAddress = null,
         [Description("The users's state.")] string? state = null,
         [Description("The users's country.")] string? country = null,
         [Description("The users's postal code.")] string? postalCode = null,
         [Description("The users's city.")] string? city = null,
-      [Description("Force password change.")] bool? forceChangePasswordNextSignIn = null,
+        [Description("Force password change.")] bool? forceChangePasswordNextSignIn = null,
       [Description("The users's password.")] string? password = null,
       CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
@@ -81,11 +84,14 @@ public static class GraphUserManagement
                 Department = department ?? string.Empty,
                 MobilePhone = mobilePhone,
                 BusinessPhone = businessPhone,
+                StreetAddress = streetAddress,
+                Surname = surname ?? string.Empty,
                 State = state,
                 City = city,
                 Country = country,
                 OfficeLocation = officeLocation,
                 PostalCode = postalCode,
+                UsageLocation = usageLocation ?? string.Empty,
                 CompanyName = companyName ?? string.Empty,
                 AccountEnabled = accountEnabled ?? true,
                 JobTitle = jobTitle ?? string.Empty,
@@ -99,7 +105,9 @@ public static class GraphUserManagement
         {
             DisplayName = typed?.DisplayName,
             GivenName = typed?.GivenName,
+            Surname = typed?.Surname,
             MailNickname = typed?.MailNickname,
+            UsageLocation = typed?.UsageLocation,
             AccountEnabled = typed?.AccountEnabled,
             PasswordProfile = new PasswordProfile()
             {
@@ -108,6 +116,11 @@ public static class GraphUserManagement
             },
             UserPrincipalName = typed?.UserPrincipalName
         };
+
+        if (!string.IsNullOrEmpty(typed?.StreetAddress))
+        {
+            user.StreetAddress = typed.StreetAddress;
+        }
 
         if (!string.IsNullOrEmpty(typed?.Country))
         {
@@ -169,13 +182,16 @@ public static class GraphUserManagement
         [Description("User id to update.")] string userId,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("The users's given name.")] string? givenName = null,
+        [Description("The users's surname.")] string? surname = null,
         [Description("The users's display name.")] string? displayName = null,
         [Description("The users's job title.")] string? jobTitle = null,
+        [Description("The users's usage location.")] string? useageLocation = null,
         [Description("The users's compay name.")] string? companyName = null,
         [Description("The users's department.")] string? department = null,
         [Description("The users's mobile phone.")] string? mobilePhone = null,
         [Description("The users's business phone.")] string? businessPhone = null,
         [Description("The users's office location.")] string? officeLocation = null,
+        [Description("The users's street address.")] string? streetAddress = null,
         [Description("The users's state.")] string? state = null,
         [Description("The users's country.")] string? country = null,
         [Description("The users's postal code.")] string? postalCode = null,
@@ -197,6 +213,9 @@ public static class GraphUserManagement
                 State = state ?? newUser?.State ?? string.Empty,
                 Country = country ?? newUser?.Country ?? string.Empty,
                 City = city ?? newUser?.City ?? string.Empty,
+                UsageLocation = useageLocation ?? newUser?.UsageLocation ?? string.Empty,
+                StreetAddress = streetAddress ?? newUser?.StreetAddress ?? string.Empty,
+                Surname = surname ?? newUser?.Surname ?? string.Empty,
                 PostalCode = postalCode ?? newUser?.PostalCode ?? string.Empty,
                 OfficeLocation = officeLocation ?? newUser?.OfficeLocation ?? string.Empty,
                 MobilePhone = mobilePhone ?? newUser?.MobilePhone ?? string.Empty,
@@ -215,6 +234,21 @@ public static class GraphUserManagement
             GivenName = typed?.GivenName,
             AccountEnabled = typed?.AccountEnabled,
         };
+
+        if (!string.IsNullOrEmpty(typed?.Surname))
+        {
+            user.Surname = typed.Surname;
+        }
+
+        if (!string.IsNullOrEmpty(typed?.StreetAddress))
+        {
+            user.StreetAddress = typed.StreetAddress;
+        }
+        
+        if (!string.IsNullOrEmpty(typed?.UsageLocation))
+        {
+            user.UsageLocation = typed.UsageLocation;
+        }
 
         if (!string.IsNullOrEmpty(typed?.Country))
         {

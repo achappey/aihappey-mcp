@@ -123,7 +123,7 @@ public static class GraphUserPhotos
                 token = token[1..^1];
 
             var placeholder = $"{{{token}}}";
-            var updatedHtml = html.Replace(placeholder, photoBase64, StringComparison.Ordinal);
+            var updatedHtml = html.Replace(placeholder, $"data:{response.Content.Headers.ContentType};base64,{photoBase64}", StringComparison.Ordinal);
 
             var updated = await graphClient.UploadBinaryDataAsync(
                 htmlFileUrl,

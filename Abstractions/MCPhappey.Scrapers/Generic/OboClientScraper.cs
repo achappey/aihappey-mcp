@@ -38,10 +38,7 @@ public class OboClientScraper(IHttpClientFactory httpClientFactory, ServerConfig
         httpClient.DefaultRequestHeaders.Accept.Clear();
         httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
-        if (
-            uri.Host.Contains(Hosts.MicrosoftGraph, StringComparison.OrdinalIgnoreCase) &&
-            System.Text.RegularExpressions.Regex.IsMatch(url, @"[\?&]\$search=")
-        )
+        if (uri.Host.Contains(Hosts.MicrosoftGraph, StringComparison.OrdinalIgnoreCase))
         {
             httpClient.DefaultRequestHeaders.Remove("ConsistencyLevel");
             httpClient.DefaultRequestHeaders.Add("ConsistencyLevel", "eventual");
