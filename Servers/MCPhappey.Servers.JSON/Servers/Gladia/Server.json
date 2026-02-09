@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Gladia",
+        "title": "Gladia",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.gladia.io",
+        "description": "From async to live streaming, our API empowers your platform with accurate, multilingual speech-to-text and actionable insights.",
+        "icons": [
+            {
+                "src": "https://pbs.twimg.com/profile_images/1671129329302896640/bX2pGpi0_400x400.jpg"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Gladia.GladiaAudio, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

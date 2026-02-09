@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "ContextualAI-Parse",
+        "title": "Contextual AI Parse",
+        "version": "1.0.0",
+        "websiteUrl": "https://contextual.ai",
+        "description": "Parses files into structured markdown and JSON using Contextual AI, waiting for completion and returning results.",
+        "icons": [
+            {
+                "src": "https://media.licdn.com/dms/image/v2/D560BAQEUQLTc-jpQAQ/company-logo_200_200/B56ZnCdNsrIYAI-/0/1759904062535/contextualai_logo?e=2147483647&v=beta&t=Nfk2U-IagqdIr1crFoT4nS9MkEeA2_BYNGsGiFl6rJM"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.ContextualAI.Parse.ContextualAIParse, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

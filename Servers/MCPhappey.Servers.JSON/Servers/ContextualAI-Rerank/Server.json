@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "ContextualAI-Rerank",
+        "title": "Contextual AI Rerank",
+        "version": "1.0.0",
+        "websiteUrl": "https://contextual.ai",
+        "description": "Ranks files and SharePoint/OneDrive folder documents by relevance using Contextual AI rerank models.",
+        "icons": [
+            {
+                "src": "https://media.licdn.com/dms/image/v2/D560BAQEUQLTc-jpQAQ/company-logo_200_200/B56ZnCdNsrIYAI-/0/1759904062535/contextualai_logo?e=2147483647&v=beta&t=Nfk2U-IagqdIr1crFoT4nS9MkEeA2_BYNGsGiFl6rJM"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.ContextualAI.Rerank.ContextualAIRerank, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

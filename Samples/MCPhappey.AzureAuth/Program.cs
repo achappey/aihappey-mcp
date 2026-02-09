@@ -44,6 +44,8 @@ using MCPhappey.Tools.ZAI;
 using MCPhappey.Tools.GreenPT;
 using MCPhappey.Tools.Audixa;
 using MCPhappey.Tools.Deepgram;
+using MCPhappey.Tools.Gladia;
+using MCPhappey.Tools.ContextualAI;
 using System.Text.Json;
 using System.Net.Http.Headers;
 
@@ -130,6 +132,8 @@ builder.Services
 .AddGreenPT(appConfig?.DomainHeaders)
 .AddAudixa(appConfig?.DomainHeaders)
 .AddDeepgram(appConfig?.DomainHeaders)
+.AddGladia(appConfig?.DomainHeaders)
+.AddContextualAI(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
 
