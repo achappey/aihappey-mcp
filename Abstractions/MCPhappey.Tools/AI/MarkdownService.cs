@@ -126,7 +126,7 @@ public static class MarkdownService
                     throw new ArgumentException("Markdown content is required.", nameof(markdown));
 
                 var safeName = SanitizeFileName(fileName);
-                var html = Markdig.Markdown.ToHtml(markdown ?? string.Empty);
+                var html = Markdown.ToHtml(markdown ?? string.Empty);
                 var wrappedHtml = WrapHtml(html);
 
                 using var ms = new MemoryStream(Encoding.UTF8.GetBytes(wrappedHtml));
@@ -164,7 +164,7 @@ public static class MarkdownService
                     string.IsNullOrWhiteSpace(fileName) ? GuessNameFromUrl(markdownUrl) : fileName
                 );
 
-                var html = Markdig.Markdown.ToHtml(md ?? string.Empty);
+                var html = Markdown.ToHtml(md ?? string.Empty);
                 var wrappedHtml = WrapHtml(html);
 
                 using var ms = new MemoryStream(Encoding.UTF8.GetBytes(wrappedHtml));

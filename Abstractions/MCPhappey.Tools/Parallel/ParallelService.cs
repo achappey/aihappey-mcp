@@ -105,7 +105,7 @@ public static class ParallelService
        await requestContext.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
    {
-       ArgumentNullException.ThrowIfNullOrWhiteSpace(query);
+       ArgumentException.ThrowIfNullOrWhiteSpace(query);
 
        // 1) Retrieve settings
        var settings = serviceProvider.GetService<ParallelSettings>()
@@ -360,8 +360,8 @@ public static class ParallelService
               enableEvents = typed.EnableEvents;
           }
 
-          ArgumentNullException.ThrowIfNullOrWhiteSpace(processor);
-          ArgumentNullException.ThrowIfNullOrWhiteSpace(input);
+          ArgumentException.ThrowIfNullOrWhiteSpace(processor);
+          ArgumentException.ThrowIfNullOrWhiteSpace(input);
 
           // 2) Retrieve settings
           var settings = serviceProvider.GetService<ParallelSettings>()

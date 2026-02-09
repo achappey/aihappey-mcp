@@ -27,7 +27,7 @@ public static partial class GoogleAudio
         CancellationToken cancellationToken = default)
          => await requestContext.WithExceptionCheck(async () =>
         {
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+            ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
             var googleAI = serviceProvider.GetRequiredService<GoogleAI>();
 
             string ttsModel = "gemini-2.5-flash-preview-tts";
@@ -92,7 +92,7 @@ public static partial class GoogleAudio
         await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+        ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
         var googleAI = serviceProvider.GetRequiredService<GoogleAI>();
 
         var audio = await GenerateMultiSpeakerAudioAsync(

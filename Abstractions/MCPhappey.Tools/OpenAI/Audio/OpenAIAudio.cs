@@ -44,7 +44,7 @@ public static class OpenAIAudio
         float? speed = 1,
         CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(input);
+        ArgumentException.ThrowIfNullOrWhiteSpace(input);
         var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
 
         OAI.Audio.GeneratedSpeechVoice speechVoice = voice.HasValue ? voice.Value.ToGeneratedSpeechVoice()

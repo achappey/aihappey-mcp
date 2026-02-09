@@ -119,7 +119,7 @@ public static class StabilityAIImageService
            CancellationToken cancellationToken = default) =>
            await requestContext.WithExceptionCheck(async () =>
        {
-           ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+           ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
            var downloader = serviceProvider.GetRequiredService<DownloadService>();
            var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

@@ -89,7 +89,7 @@ public static class AIMLAudio
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(script);
+        ArgumentException.ThrowIfNullOrWhiteSpace(script);
 
         var settings = serviceProvider.GetRequiredService<AIMLSettings>();
         var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

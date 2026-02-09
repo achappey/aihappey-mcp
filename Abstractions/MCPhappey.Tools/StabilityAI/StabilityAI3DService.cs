@@ -30,7 +30,7 @@ public static class StabilityAI3DService
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(fileUrl);
+        ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 
         var downloader = serviceProvider.GetRequiredService<DownloadService>();
         var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -96,7 +96,7 @@ public static class StabilityAI3DService
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(fileUrl);
+        ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 
         var downloader = serviceProvider.GetRequiredService<DownloadService>();
         var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

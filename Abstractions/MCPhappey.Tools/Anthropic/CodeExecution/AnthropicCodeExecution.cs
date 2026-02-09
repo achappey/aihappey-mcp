@@ -34,7 +34,7 @@ public static class AnthropicCodeExecution
         int? thinkingBudget = 2048,
           CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+        ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
         var mcpServer = requestContext.Server;
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();

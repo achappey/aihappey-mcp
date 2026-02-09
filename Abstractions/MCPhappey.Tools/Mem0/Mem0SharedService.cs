@@ -72,7 +72,7 @@ public static class Mem0SharedService
         await context.WithExceptionCheck(async () =>
         await context.WithStructuredContent(async () =>
         {
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(query);
+            ArgumentException.ThrowIfNullOrWhiteSpace(query);
 
             var appSettings = serviceProvider.GetRequiredService<OAuthSettings>();
 

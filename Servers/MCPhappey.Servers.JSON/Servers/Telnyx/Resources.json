@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.telnyx.com/v2/ai/models",
+      "name": "list-telnyx-models",
+      "title": "List Telnyx AI models",
+      "description": "Returns Open Source and OpenAI models available in Telnyx AI Inference.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -36,7 +36,7 @@ public static class OpenAIFinancialResearch
         RequestContext<CallToolRequestParams> ctx,
         CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(topic);
+        ArgumentException.ThrowIfNullOrWhiteSpace(topic);
 
         var sampling = services.GetRequiredService<SamplingService>();
 

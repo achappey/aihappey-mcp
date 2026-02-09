@@ -64,7 +64,7 @@ public static class GraphExtensions
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(graphClient);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(folderUrl);
+        ArgumentException.ThrowIfNullOrWhiteSpace(folderUrl);
 
         var fileUrls = new List<string>();
         var folderItem = await graphClient.GetDriveItem(folderUrl);

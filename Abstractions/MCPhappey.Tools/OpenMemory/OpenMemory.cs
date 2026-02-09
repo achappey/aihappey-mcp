@@ -74,7 +74,7 @@ public static class OpenMemory
         CancellationToken cancellationToken = default)
     {
         var appSettings = serviceProvider.GetService<OAuthSettings>();
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(appSettings?.ClientId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(appSettings?.ClientId);
         var memory = serviceProvider.GetRequiredService<IKernelMemory>();
 
         var answer = await memory.AskAsync(prompt, appSettings.ClientId, minRelevance: minRelevance ?? 0,
@@ -111,7 +111,7 @@ public static class OpenMemory
       CancellationToken cancellationToken = default)
     {
         var appSettings = serviceProvider.GetService<OAuthSettings>();
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(appSettings?.ClientId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(appSettings?.ClientId);
         var memory = serviceProvider.GetRequiredService<IKernelMemory>();
         var answer = await memory.SearchAsync(prompt, appSettings.ClientId, minRelevance: minRelevance ?? 0,
             filter: serviceProvider.ToMemoryFilter(),
@@ -140,7 +140,7 @@ public static class OpenMemory
 
         ArgumentNullException.ThrowIfNull(memory);
         var appSettings = serviceProvider.GetService<OAuthSettings>();
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(appSettings?.ClientId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(appSettings?.ClientId);
         var indexes = await memory.SearchAsync("*", index: appSettings.ClientId, filter: serviceProvider.ToMemoryFilter(),
             limit: int.MaxValue,
             cancellationToken: cancellationToken);

@@ -66,7 +66,7 @@ public static partial class DataAnalysisPlugin
          CancellationToken cancellationToken = default)
          => await requestContext.WithExceptionCheck(async () =>
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(csvFileUrl);
+        ArgumentException.ThrowIfNullOrWhiteSpace(csvFileUrl);
 
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var csvRawFiles = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server,

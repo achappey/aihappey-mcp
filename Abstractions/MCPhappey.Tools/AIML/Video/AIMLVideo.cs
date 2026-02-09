@@ -234,7 +234,7 @@ public static partial class AIMLVideo
       CancellationToken cancellationToken = default)
       => await requestContext.WithExceptionCheck(async () =>
   {
-      ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+      ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
       var settings = serviceProvider.GetRequiredService<AIMLSettings>();
       var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

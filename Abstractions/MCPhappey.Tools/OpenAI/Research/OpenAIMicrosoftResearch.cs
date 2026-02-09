@@ -23,7 +23,7 @@ public static class OpenAIMicrosoftResearch
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(researchTopic);
+        ArgumentException.ThrowIfNullOrWhiteSpace(researchTopic);
         var uploadService = serviceProvider.GetRequiredService<UploadService>();
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
         int? progressCounter = requestContext.Params?.ProgressToken is not null ? 1 : null;

@@ -298,7 +298,7 @@ public static class WordPlugin
         if (mt is "text/markdown" or "markdown")
         {
             var md = Encoding.UTF8.GetString(data ?? Array.Empty<byte>());
-            var html = Markdig.Markdown.ToHtml(md ?? string.Empty);
+            var html = Markdown.ToHtml(md ?? string.Empty);
             var wrapped = WrapHtml(html);
             return (AlternativeFormatImportPartType.Html, Encoding.UTF8.GetBytes(wrapped));
         }
@@ -389,7 +389,7 @@ public static class WordPlugin
         string html = normalized switch
         {
             "text/plain" or "text" => PlainTextToHtml(content ?? string.Empty),
-            "text/markdown" or "markdown" => Markdig.Markdown.ToHtml(content ?? string.Empty),
+            "text/markdown" or "markdown" => Markdown.ToHtml(content ?? string.Empty),
             "text/html" or "html" => content ?? string.Empty,
             _ => throw new ArgumentOutOfRangeException(nameof(contentType),
                 $"Unsupported contentType '{contentType}'. Use text/plain, text/markdown or text/html.")

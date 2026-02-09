@@ -47,8 +47,8 @@ public static class AnthropicSkills
         => await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(skillId);
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(versionId);
+            ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
+            ArgumentException.ThrowIfNullOrWhiteSpace(versionId);
 
             var antSettings = serviceProvider.GetRequiredService<AnthropicSettings>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

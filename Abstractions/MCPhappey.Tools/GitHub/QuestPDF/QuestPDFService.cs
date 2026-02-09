@@ -49,7 +49,7 @@ public static class QuestPDFService
                 {
                     container.Page(page =>
                     {
-                        page.Size(QUEH.PageSizes.A4);
+                        page.Size(PageSizes.A4);
 
                         // Use (value, unit) overload — no multiplication with Unit
                         page.Margin((float)marginCm, QUEI.Unit.Centimetre);
@@ -59,7 +59,7 @@ public static class QuestPDFService
                         page.Header().Text(title)
                             .SemiBold()
                             .FontSize(fontSize + 6)
-                            .FontColor(QUEH.Colors.Blue.Medium);
+                            .FontColor(Colors.Blue.Medium);
 
                         page.Content()
                             .PaddingTop(10)
@@ -106,7 +106,7 @@ public static class QuestPDFService
        {
            container.Page(page =>
            {
-               page.Size(QUEH.PageSizes.A4);
+               page.Size(PageSizes.A4);
                page.Margin((float)marginCm, QUEI.Unit.Centimetre);
                page.DefaultTextStyle(t => t.FontSize(fontSize));
                page.PageColor(Colors.White);

@@ -35,7 +35,7 @@ public static class Mem0FeedbackService
       => await requestContext.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
       {
-          ArgumentNullException.ThrowIfNullOrWhiteSpace(memoryId);
+          ArgumentException.ThrowIfNullOrWhiteSpace(memoryId);
 
           var mem0Settings = serviceProvider.GetRequiredService<Mem0Settings>();
           var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

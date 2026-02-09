@@ -36,7 +36,7 @@ public static partial class AudioPlugin
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(audioUrl);
+            ArgumentException.ThrowIfNullOrWhiteSpace(audioUrl);
 
             var settings = serviceProvider.GetRequiredService<MistralSettings>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();

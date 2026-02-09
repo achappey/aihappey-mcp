@@ -34,7 +34,7 @@ public static class GoogleImagen
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+        ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
         var googleAI = serviceProvider.GetRequiredService<Mscc.GenerativeAI.GoogleAI>();
 
 

@@ -24,7 +24,7 @@ public static class OpenAIOutlookMail
           RequestContext<CallToolRequestParams> requestContext,
           CancellationToken cancellationToken = default)
         {
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+        ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
             var oboToken = await serviceProvider.GetOboGraphToken(requestContext.Server);
             var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()

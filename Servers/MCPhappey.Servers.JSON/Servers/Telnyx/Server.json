@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Telnyx",
+    "title": "Telnyx",
+    "version": "1.0.0",
+    "websiteUrl": "https://telnyx.com",
+    "description": "Use Telnyx AI inference for speech-to-text and browse available models.",
+    "icons": [
+      {
+        "src": "https://media.glassdoor.com/sqll/841349/telnyx-squareLogo-1692104355572.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Telnyx.TelnyxSpeechToTextPlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

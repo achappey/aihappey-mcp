@@ -213,8 +213,8 @@ public static class StabilityAIAudioService
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
         {
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(audioUrl);
-            ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+            ArgumentException.ThrowIfNullOrWhiteSpace(audioUrl);
+            ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
             var downloader = serviceProvider.GetRequiredService<DownloadService>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

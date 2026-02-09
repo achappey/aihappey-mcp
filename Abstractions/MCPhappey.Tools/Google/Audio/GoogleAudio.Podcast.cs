@@ -29,7 +29,7 @@ public static partial class GoogleAudio
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+        ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
         var googleAI = serviceProvider.GetRequiredService<GoogleAI>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();

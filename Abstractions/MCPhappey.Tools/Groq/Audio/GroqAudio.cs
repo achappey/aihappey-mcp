@@ -108,7 +108,7 @@ public static class GroqAudio
            CancellationToken cancellationToken = default)
            => await requestContext.WithExceptionCheck(async () =>
            {
-               ArgumentNullException.ThrowIfNullOrWhiteSpace(input);
+               ArgumentException.ThrowIfNullOrWhiteSpace(input);
 
                var settings = serviceProvider.GetRequiredService<GroqSettings>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
