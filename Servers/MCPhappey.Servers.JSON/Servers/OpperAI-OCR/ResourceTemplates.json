@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.opper.ai/v2/ocr/models",
+      "name": "opperai_ocr_models",
+      "title": "List Opper AI OCR models",
+      "description": "List all available OCR models on the Opper platform.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

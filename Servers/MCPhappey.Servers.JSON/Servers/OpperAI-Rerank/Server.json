@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "OpperAI-Rerank",
+    "title": "Opper AI Rerank",
+    "version": "1.0.0",
+    "websiteUrl": "https://opper.ai",
+    "description": "Rerank files and SharePoint folders by relevance using Opper rerank models.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/145928785?s=280&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpperAI.Rerank.OpperAIRerank, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

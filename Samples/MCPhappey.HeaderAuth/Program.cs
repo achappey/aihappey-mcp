@@ -47,6 +47,7 @@ using MCPhappey.Tools.Deepgram;
 using MCPhappey.Tools.Gladia;
 using MCPhappey.Tools.ContextualAI;
 using MCPhappey.Tools.Telnyx;
+using MCPhappey.Tools.OpperAI;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -134,6 +135,7 @@ builder.Services
 .AddGladia(appConfig?.DomainHeaders)
 .AddContextualAI(appConfig?.DomainHeaders)
 .AddTelnyx(appConfig?.DomainHeaders)
+.AddOpperAI(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
 
