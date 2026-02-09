@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.audixa.ai/v2/voices?model={model}",
+      "name": "audixa-voices",
+      "title": "Audixa voices",
+      "description": "List available Audixa voices for the selected model tier. Use model=base or model=advance.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

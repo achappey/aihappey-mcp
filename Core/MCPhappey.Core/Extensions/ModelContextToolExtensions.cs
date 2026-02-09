@@ -110,7 +110,14 @@ public static partial class ModelContextToolExtensions
         try
         {
             var result = await func();
-            var resultContent = JsonSerializer.SerializeToNode(result, IgnoreNullWebOptions);
+            //var resultContent = JsonSerializer.SerializeToNode(result, IgnoreNullWebOptions);
+
+            JsonNode resultContent = result switch
+            {
+                JsonNode node => node,
+                null => new JsonObject(),
+                _ => JsonSerializer.SerializeToNode(result, IgnoreNullWebOptions)!
+            };
 
             return new CallToolResult()
             {

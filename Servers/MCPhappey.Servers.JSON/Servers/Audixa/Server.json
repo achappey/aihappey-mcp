@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Audixa",
+        "title": "Audixa",
+        "version": "1.0.0",
+        "websiteUrl": "https://audixa.ai",
+        "description": "Generate natural text-to-speech audio and browse available Audixa voices.",
+        "icons": [
+            {
+                "src": "https://cdn.audixa.ai/brand.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Audixa.AudixaAudio, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

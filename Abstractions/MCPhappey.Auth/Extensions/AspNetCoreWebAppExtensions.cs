@@ -29,7 +29,6 @@ public static class AspNetCoreWebAppExtensions
             });
         });
     }
-
     public static WebApplication MapOAuth(
             this WebApplication webApp,
             List<ServerConfig> servers,

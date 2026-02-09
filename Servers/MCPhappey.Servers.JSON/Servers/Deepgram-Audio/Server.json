@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Deepgram-Audio",
+        "title": "Deepgram Audio",
+        "version": "1.0.0",
+        "websiteUrl": "https://developers.deepgram.com",
+        "description": "Convert text to speech and transcribe audio/video using Deepgram APIs.",
+        "icons": [
+            {
+                "src": "https://avatars.githubusercontent.com/u/17422641?s=280&v=4"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Deepgram.Audio.DeepgramAudio, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

@@ -10,6 +10,9 @@
       }
     ]
   },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Security.GraphAuthenticationMethodsMe, MCPhappey.Tools"
+  ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/IdentityRiskyUser.Read.All https://graph.microsoft.com/IdentityRiskEvent.Read.All https://graph.microsoft.com/UserAuthenticationMethod.ReadWrite https://graph.microsoft.com/SecurityActions.ReadWrite.All https://graph.microsoft.com/SecurityEvents.ReadWrite.All https://graph.microsoft.com/ThreatIndicators.Read.All https://graph.microsoft.com/ThreatIntelligence.Read.All https://graph.microsoft.com/AttackSimulation.ReadWrite.All https://graph.microsoft.com/DeviceManagementConfiguration.ReadWrite.All https://graph.microsoft.com/AuditLog.Read.All https://graph.microsoft.com/SecurityAlert.ReadWrite.All https://graph.microsoft.com/RoleManagementAlert.ReadWrite.Directory https://graph.microsoft.com/DeviceManagementManagedDevices.ReadWrite.All https://graph.microsoft.com/SecurityIncident.ReadWrite.All"
   }

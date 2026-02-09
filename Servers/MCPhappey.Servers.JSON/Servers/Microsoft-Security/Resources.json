@@ -239,6 +239,18 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/policies/authenticationMethodsPolicy",
+      "name": "authmethods-policy",
+      "title": "Authentication methods policy",
+      "description": "Tenant authentication methods policy definition and state.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }

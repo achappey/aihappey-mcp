@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Deepgram-Text",
+    "title": "Deepgram Text",
+    "version": "1.0.0",
+    "websiteUrl": "https://developers.deepgram.com",
+    "description": "Analyze text directly or from file URLs using Deepgram text intelligence.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/17422641?s=280&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Deepgram.Text.DeepgramText, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

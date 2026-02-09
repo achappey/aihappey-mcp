@@ -61,6 +61,114 @@
       }
     },
     {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/emailMethods/{methodId}",
+      "name": "my-email-method-details",
+      "title": "My email method details",
+      "description": "Gets one email authentication method by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/fido2Methods/{methodId}",
+      "name": "my-fido2-method-details",
+      "title": "My FIDO2 method details",
+      "description": "Gets one FIDO2 authentication method by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/microsoftAuthenticatorMethods/{methodId}",
+      "name": "my-authenticator-app-method-details",
+      "title": "My Microsoft Authenticator app method details",
+      "description": "Gets one Microsoft Authenticator app method by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/phoneMethods/{methodId}",
+      "name": "my-phone-method-details",
+      "title": "My phone method details",
+      "description": "Gets one phone authentication method by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/softwareOathMethods/{methodId}",
+      "name": "my-software-oath-method-details",
+      "title": "My software OATH method details",
+      "description": "Gets one software OATH authentication method by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/temporaryAccessPassMethods/{methodId}",
+      "name": "my-temporary-access-pass-method-details",
+      "title": "My temporary access pass method details",
+      "description": "Gets one temporary access pass method by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/windowsHelloForBusinessMethods/{methodId}",
+      "name": "my-windows-hello-method-details",
+      "title": "My Windows Hello for Business method details",
+      "description": "Gets one Windows Hello for Business method by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/platformCredentialMethods/{methodId}",
+      "name": "my-platform-credential-method-details",
+      "title": "My platform credential method details",
+      "description": "Gets one platform credential method (passkey) by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/passwordMethods/{methodId}",
+      "name": "my-password-method-details",
+      "title": "My password method details",
+      "description": "Gets one password method by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
       "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/signInPreferences",
       "name": "my-signin-preferences",
       "title": "My sign-in preferences",
