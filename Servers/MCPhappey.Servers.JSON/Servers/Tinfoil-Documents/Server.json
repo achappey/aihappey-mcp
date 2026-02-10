@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Tinfoil",
+    "title": "Tinfoil",
+    "version": "1.0.0",
+    "websiteUrl": "https://tinfoil.sh",
+    "description": "Convert documents into structured formats using Tinfoil's Docling-compatible document processing service.",
+    "icons": [
+      {
+        "src": "https://tinfoil.sh/favicon.ico"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Tinfoil.TinfoilDocuments, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

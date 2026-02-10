@@ -48,6 +48,7 @@ using MCPhappey.Tools.Gladia;
 using MCPhappey.Tools.ContextualAI;
 using MCPhappey.Tools.Telnyx;
 using MCPhappey.Tools.OpperAI;
+using MCPhappey.Tools.Tinfoil;
 using System.Text.Json;
 using System.Net.Http.Headers;
 
@@ -138,6 +139,7 @@ builder.Services
 .AddContextualAI(appConfig?.DomainHeaders)
 .AddTelnyx(appConfig?.DomainHeaders)
 .AddOpperAI(appConfig?.DomainHeaders)
+.AddTinfoil(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
 

@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.tinfoil.sh/v1/models",
+      "name": "list-tinfoil-models",
+      "title": "List available Tinfoil models",
+      "description": "List all available Tinfoil models.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
