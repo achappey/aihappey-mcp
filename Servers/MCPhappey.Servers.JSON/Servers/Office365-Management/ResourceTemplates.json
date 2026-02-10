@@ -6,7 +6,11 @@
       "title": "List current subscriptions",
       "description": "Returns all current subscriptions and webhook status for the tenant.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://manage.office.com/api/v1.0/{tenantId}/activity/feed/subscriptions/content?contentType={contentType}&PublisherIdentifier={publisherId}",
@@ -14,7 +18,11 @@
       "title": "List available content (last 24h)",
       "description": "Returns available content blobs for the last 24 hours for the specified contentType (Audit.AzureActiveDirectory, Audit.Exchange, Audit.SharePoint, Audit.General, DLP.All).",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://manage.office.com/api/v1.0/{tenantId}/activity/feed/subscriptions/content?contentType={contentType}&startTime={startUtc}&endTime={endUtc}&PublisherIdentifier={publisherId}",
@@ -22,7 +30,11 @@
       "title": "List available content (time range)",
       "description": "Returns available content blobs within a specific UTC time window. The window must be ≤ 24 hours and start time must be ≤ 7 days ago.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "{contentUri}",
@@ -30,7 +42,11 @@
       "title": "Retrieve content blob",
       "description": "Retrieves the actual audit events from a 'contentUri' provided by subscriptions/content or a webhook. Content expires after approximately 7 days.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://manage.office.com/api/v1.0/{tenantId}/activity/feed/subscriptions/notifications?contentType={contentType}&PublisherIdentifier={publisherId}",
@@ -38,7 +54,11 @@
       "title": "List webhook notifications",
       "description": "Returns a history of webhook notifications delivered to your endpoint. Useful for debugging delivery issues.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://manage.office.com/api/v1.0/{tenantId}/activity/feed/resources/dlpSensitiveTypes?PublisherIdentifier={publisherId}",
@@ -46,7 +66,11 @@
       "title": "List DLP sensitive types",
       "description": "Retrieves the list of Data Loss Prevention sensitive information types. Supports an optional Accept-Language header for localization.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }

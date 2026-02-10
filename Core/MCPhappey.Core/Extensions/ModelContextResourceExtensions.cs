@@ -9,6 +9,26 @@ namespace MCPhappey.Core.Extensions;
 
 public static partial class ModelContextResourceExtensions
 {
+    public static ListResourceTemplatesResult WithIcons(this ListResourceTemplatesResult result, IEnumerable<Icon>? defaultIcons)
+    {
+        foreach (var r in result.ResourceTemplates)
+        {
+            r.Icons = r.Icons != null && r.Icons.Any() ? r.Icons : (defaultIcons?.ToList() ?? []);
+        }
+
+        return result;
+    }
+
+    public static ListResourcesResult WithIcons(this ListResourcesResult result, IEnumerable<Icon>? defaultIcons)
+    {
+        foreach (var r in result.Resources)
+        {
+            r.Icons = r.Icons != null && r.Icons.Any() ? r.Icons : (defaultIcons?.ToList() ?? []);
+        }
+
+        return result;
+    }
+
     public static async Task<ListResourcesResult?> ToListResourcesResult(
        this ServerConfig serverConfig,
        ModelContextProtocol.Server.RequestContext<ListResourcesRequestParams> request,
@@ -16,6 +36,7 @@ public static partial class ModelContextResourceExtensions
        CancellationToken cancellationToken = default)
     {
         var service = request.Services!.GetRequiredService<ResourceService>();
+
         return serverConfig.Server.Capabilities.Resources != null
             ? await service.GetServerResources(serverConfig, cancellationToken)
             : null;

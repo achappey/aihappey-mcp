@@ -7,7 +7,10 @@
       "description": "Schoolvakanties alle regios per schooljaar. Gebruik {startYear}-{endYear} als formaat, bijvoorbeeld 2024-2025. Nooit meer dan 1 jaar tegelijkertijd.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

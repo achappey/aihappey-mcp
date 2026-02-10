@@ -7,7 +7,9 @@
       "description": "Retrieve bookings filtered by one or more statuses (e.g., running, cancelled, completed).",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -17,7 +19,9 @@
       "description": "Retrieve all bookings made by a specific user using their UUID.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -27,7 +31,9 @@
       "description": "Retrieve bookings that occurred within a specific date range.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -37,7 +43,9 @@
       "description": "Retrieve bookings that occurred within a specific date range and filtered by zoneIds (comma seperated list).",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -47,7 +55,9 @@
       "description": "Retrieve a list of all resources by a single zoneId.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]

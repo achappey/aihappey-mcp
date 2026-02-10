@@ -6,7 +6,9 @@
       "description": "Get a list of all tasks in a tasklist",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]

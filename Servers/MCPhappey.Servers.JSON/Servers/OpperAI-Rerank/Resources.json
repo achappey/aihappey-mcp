@@ -1,8 +1,8 @@
 {
-  "resourceTemplates": [
+  "resources": [
     {
-      "uriTemplate": "https://api.opper.ai/v2/rerank/models",
-      "name": "opperai_rerank_models",
+      "uri": "https://api.opper.ai/v2/rerank/models",
+      "name": "opperai-rerank-models",
       "title": "List Opper AI rerank models",
       "description": "List all available reranking models on the Opper platform.",
       "mimeType": "application/json",
@@ -14,4 +14,3 @@
     }
   ]
 }
-

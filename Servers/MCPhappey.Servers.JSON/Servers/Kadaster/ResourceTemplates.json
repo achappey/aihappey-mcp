@@ -44,7 +44,8 @@
       "mimeType": "text/html",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },

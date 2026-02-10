@@ -7,7 +7,9 @@
       "description": "Retrieve route directions between two points based on travel mode",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -17,7 +19,9 @@
       "description": "Translate coordinates into a human-readable address",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -27,7 +31,10 @@
       "description": "Translate an address query into coordinates",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -37,7 +44,9 @@
       "description": "Retrieve severe weather alerts for a specific location",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -47,7 +56,9 @@
       "description": "Get the current weather conditions for a specific location",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -57,7 +68,9 @@
       "description": "Retrieve daily weather forecasts for a specific location",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -67,7 +80,10 @@
       "description": "Fetch latitude and longitude for a given query (e.g., address or location name)",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

@@ -37,18 +37,6 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/reports/getSignIns",
-      "name": "aad-signins",
-      "title": "Azure AD sign-ins",
-      "description": "Lists recent sign-in events (requires appropriate permissions).",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant"
-        ]
-      }
-    },
-    {
       "uriTemplate": "https://graph.microsoft.com/beta/reports/getMailboxUsageDetail(period='{period}')",
       "name": "mailbox-usage-detail",
       "title": "Mailbox usage detail",

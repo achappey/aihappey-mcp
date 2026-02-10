@@ -13,18 +13,6 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/admin/windows/updates/deployments",
-      "name": "list-deployments",
-      "title": "List deployments",
-      "description": "Lists all deployments of updates in Windows Updates.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant"
-        ]
-      }
-    },
-    {
       "uriTemplate": "https://graph.microsoft.com/beta/admin/windows/updates/deployments/{deploymentId}",
       "name": "get-deployment",
       "title": "Get deployment details",

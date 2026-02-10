@@ -172,7 +172,7 @@ public static class NodaTimeService
         return await Task.FromResult(text);
     }
 
-    [Description("Returns the current UTC Instant (now).")]
+    [Description("The current UTC Instant (now).")]
     [McpServerTool(
         Title = "Get current Instant",
         Name = "github_nodatime_now",

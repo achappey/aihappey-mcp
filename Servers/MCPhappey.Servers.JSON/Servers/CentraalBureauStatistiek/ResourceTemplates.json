@@ -6,7 +6,12 @@
       "title": "CBS dataset-metadata",
       "description": "Get metadata of a dataset from Centraal Bureau voor de Statistiek",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     },
     {
       "uriTemplate": "https://datasets.cbs.nl/odata/v1/Datasets?$select=Identifier,Title&$orderby=Modified desc&$top={top}",
@@ -14,7 +19,11 @@
       "title": "Lijst datasets (catalogus)",
       "description": "Laat de nieuwste StatLine-datasets zien; standaard alleen ‘Identifier’ en ‘Title’ en beperkt door $top (default 10).",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://datasets.cbs.nl/odata/v1/Datasets?$filter=contains(tolower(Title),tolower('{keyword}'))&$select=Identifier,Title&$top={top}",
@@ -22,7 +31,11 @@
       "title": "Zoek dataset op trefwoord",
       "description": "Snelle full-text zoek­filter op titel; combineer met $top zodat het resultaat hapbaar blijft.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://datasets.cbs.nl/odata/v1/CBS/{datasetIdentifier}/Properties",
@@ -30,7 +43,11 @@
       "title": "Dataset-eigenschappen",
       "description": "Basis-metadata van één dataset (oude TableInfos). Wordt zelden > 1 record, dus geen extra limiter nodig.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://datasets.cbs.nl/odata/v1/CBS/{datasetIdentifier}/Dimensions?$top={top}",
@@ -38,7 +55,11 @@
       "title": "Lijst dimensies",
       "description": "Alle dimensies (bijv. ‘RegioS’, ‘Perioden’) in de dataset. Zet $top klein (5–10) als je alleen wilt snuffelen.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://datasets.cbs.nl/odata/v1/CBS/{datasetIdentifier}/{dimensionName}Codes?$select=Identifier,Title&$top={top}",
@@ -46,7 +67,11 @@
       "title": "Codelijst voor één dimensie",
       "description": "Haalt codes + omschrijving op voor een specifieke dimensie (bijv. ‘RegioSCodes’); gefilterd op $top.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://datasets.cbs.nl/odata/v1/CBS/{datasetIdentifier}/MeasureCodes?$select=Identifier,Title,Unit&$top={top}",
@@ -54,7 +79,11 @@
       "title": "Onderwerpen (MeasureCodes)",
       "description": "Geeft een hapklare lijst met variabelen/onderwerpen incl. eenheid; standaard maar een paar regels terug.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://datasets.cbs.nl/odata/v1/CBS/{datasetIdentifier}/Observations?$filter={filter}&$select={select}&$top={top}&$skip={skip}",
@@ -62,7 +91,11 @@
       "title": "Observations (waarden)",
       "description": "Cel-gebaseerde data. Filter altijd! – bijv. `Measure in ('M0000352') and Perioden eq '2023' and ValueAttribute eq 'None'` én zet $top ≤ 100 000 (CBS-limiet).",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }

@@ -6,7 +6,11 @@
       "title": "Status projecttoewijzing",
       "description": "Haalt een enkele status van een projecttoewijzing op via zijn ID.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/documenttype/documenttype:{documentTypeId}",
@@ -14,7 +18,11 @@
       "title": "Project documenttype",
       "description": "Haalt een enkel projectdocumenttype op via zijn ID.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/purchasetype/purchasetype:{purchaseTypeId}",
@@ -22,7 +30,11 @@
       "title": "Project inkooptype",
       "description": "Haalt een enkel projectinkooptype op via zijn ID.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/projectcustomfieldgroups/projectcustomfieldgroup:{customFieldGroupId}",
@@ -30,7 +42,11 @@
       "title": "Project aangepaste veldgroepen",
       "description": "Haalt een enkele project aangepaste veldengroep op via zijn ID.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/projectcustomfields/projectcustomfield:{customFieldId}",
@@ -38,7 +54,11 @@
       "title": "Definitie project aangepast veld",
       "description": "Haalt een enkele definitie van een project aangepast veld op via zijn ID.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/projectfilters/projectfilter:{projectFilterId}",
@@ -46,7 +66,11 @@
       "title": "Definitie projectfilter",
       "description": "Haalt een enkele definitie van een projectfilter op via zijn ID.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/projectstatus/projectstatus:{projectStatusId}",
@@ -54,7 +78,11 @@
       "title": "Projectstatus",
       "description": "Haalt een enkele projectstatus op via zijn ID.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/assignmentstatus",
@@ -62,7 +90,11 @@
       "title": "Alle project opdrachtstatussen",
       "description": "Haalt alle beschikbare toewijzingsstatussen voor projecten op. Dit zijn doorgaans stamgegevens die worden gebruikt voor selectielijsten.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/documenttype",
@@ -70,7 +102,11 @@
       "title": "Alle project documenttypes",
       "description": "Haalt alle beschikbare documenttypes specifiek voor projecten op. Dit zijn doorgaans stamgegevens.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/projectcustomfieldgroups",
@@ -78,7 +114,11 @@
       "title": "Alle project aangepaste veldgroepen",
       "description": "Haalt alle aangepaste veldengroepen op die voor projecten zijn gedefinieerd. Dit zijn doorgaans stamgegevens.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/projectcustomfields",
@@ -86,7 +126,11 @@
       "title": "Alle project aangepaste velden definities",
       "description": "Haalt alle definities van aangepaste velden op die beschikbaar zijn voor projecten. Let op: deze lijst kan uitgebreid zijn, afhankelijk van de configuratie.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/projectfilters",
@@ -94,7 +138,11 @@
       "title": "Alle project filterdefinities",
       "description": "Haalt alle opgeslagen filterdefinities op die beschikbaar zijn voor projecten. Dit zijn doorgaans stamgegevens.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/projectstatus",
@@ -102,7 +150,11 @@
       "title": "Alle projectstatussen",
       "description": "Haalt alle gedefinieerde projectstatussen op. Dit zijn doorgaans stamgegevens.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/purchasetype",
@@ -110,7 +162,11 @@
       "title": "Alle project inkooptypes",
       "description": "Haalt alle gedefinieerde inkooptypes voor projecten op. Dit zijn doorgaans stamgegevens.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }

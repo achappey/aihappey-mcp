@@ -7,7 +7,10 @@
       "description": "Recent commit history of the aihappey Chat UI repository. Used to track frontend changes, iteration speed, and UI-related development.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -17,7 +20,10 @@
       "description": "Recent commit history of the aihappey core AI backend. Relevant for understanding provider additions, API changes, and backend behavior.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -27,7 +33,10 @@
       "description": "Recent commit history of the aihappey MCP servers. Useful for tracking changes to resources, prompts, tools, and protocol-level behavior.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -37,7 +46,10 @@
       "description": "Recent commit history of aihappey agent implementations. Relevant for monitoring agent capabilities, orchestration logic, and task execution changes.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

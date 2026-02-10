@@ -4,11 +4,12 @@
       "uri": "https://worldtimeapi.org/api/timezone",
       "name": "list-all-supported-timezones",
       "title": "List all supported timezones",
-      "description": "Returns a list of all available timezones.",
+      "description": "A list of all available timezones.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -16,11 +17,12 @@
       "uri": "https://worldtimeapi.org/api/ip",
       "name": "current-utc-time",
       "title": "Current UTC time",
-      "description": "Returns the current UTC date and time.",
+      "description": "The current UTC date and time.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     }

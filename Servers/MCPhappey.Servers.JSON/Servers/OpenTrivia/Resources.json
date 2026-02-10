@@ -28,7 +28,7 @@
       "uri": "https://opentdb.com/api_category.php",
       "name": "list-categories",
       "title": "List trivia categories",
-      "description": "Returns the entire list of available trivia categories and their IDs.",
+      "description": "The entire list of available trivia categories and their IDs.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
@@ -40,7 +40,7 @@
       "uri": "https://opentdb.com/api_count_global.php",
       "name": "global-question-count",
       "title": "Get global question counts",
-      "description": "Returns the total number of questions across all categories (including pending, verified, rejected).",
+      "description": "The total number of questions across all categories (including pending, verified, rejected).",
       "mimeType": "application/json",
       "annotations": {
         "audience": [

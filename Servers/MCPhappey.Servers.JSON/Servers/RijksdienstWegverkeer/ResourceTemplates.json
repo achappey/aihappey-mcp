@@ -7,7 +7,10 @@
       "description": "Geeft uitgebreide voertuiggegevens uit de RDW open data op basis van het opgegeven kenteken. Inclusief merk, model, voertuigtype, kleur en registratiegegevens.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -17,7 +20,10 @@
       "description": "Geeft informatie over het aantal vorige eigenaren (zowel natuurlijke personen als bedrijven) van een voertuig met het opgegeven kenteken.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -27,7 +33,10 @@
       "description": "Geeft een overzicht van geregistreerde kilometerstanden (tellerstanden) van het voertuig met het opgegeven kenteken, zoals bekend bij de RDW.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -37,7 +46,10 @@
       "description": "Geeft aan of het voertuig met het opgegeven kenteken op dit moment verzekerd is volgens de RDW registratie.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -47,7 +59,10 @@
       "description": "Geeft informatie over de brandstofsoort(en) en milieuklasse van het voertuig met het opgegeven kenteken.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -57,7 +72,10 @@
       "description": "Geeft technische voertuiggegevens uit de RDW database voor het opgegeven kenteken, zoals motorinhoud, massa, wielbasis en afmetingen.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

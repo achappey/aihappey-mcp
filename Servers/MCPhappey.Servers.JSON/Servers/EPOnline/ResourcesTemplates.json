@@ -7,7 +7,10 @@
       "description": "Maakt een nieuwe downloadlink van een EP-Online mutatiebestand energielabels in csv, xlsx of xml formaat",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -17,7 +20,9 @@
       "description": "Haalt het energielabel op van een specifiek adresseerbaar object via het adresseerbaarObjectId (formaat: ^[0-9]{4}[0-9]{2}[0-9]{10}$)",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -27,7 +32,10 @@
       "description": "Zoekt het energielabel van een pand op basis van postcode (formaat: ^[1-9][0-9]{3}[A-Z]{2}$) en huisnummer (formaat: ^[1-9][0-9]{0,4}$)",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

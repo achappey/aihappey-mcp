@@ -1,26 +1,28 @@
 {
   "resourceTemplates": [
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/mailFolders/Inbox/messages?$top=15&$select=id,subject,from,receivedDateTime,isRead",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/mailFolders/Inbox/messages?$top=15&$select=id,subject,from,receivedDateTime,isRead",
       "name": "delegated-latest-emails",
       "title": "Latest emails (delegated)",
       "description": "Retrieve the 15 most recent emails from the delegated user's Inbox, including subject, sender, received time, and read status.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/messages?$search=\"{searchQuery}\"&$top=10&$select=id,subject,from,receivedDateTime,isRead,importance,flag,hasAttachments",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/messages?$search=\"{searchQuery}\"&$top=10&$select=id,subject,from,receivedDateTime,isRead,importance,flag,hasAttachments",
       "name": "delegated-search-email",
       "title": "Search delegated email",
       "description": "Search a delegated mailbox by keyword, name, or email address. Supports filters for importance, flagged messages, or attachments.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -85,14 +87,15 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/mailFolders",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/mailFolders",
       "name": "delegated-mail-folders",
       "title": "Delegated mail folders",
       "description": "List all mail folders available in a delegated user's mailbox (Inbox, Drafts, SentItems, Archive, etc.).",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -121,14 +124,15 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/contacts?$search=\"{searchQuery}\"&$top=10&$select=displayName,emailAddresses,mobilePhone",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/contacts?$search=\"{searchQuery}\"&$top=10&$select=displayName,emailAddresses,mobilePhone",
       "name": "delegated-search-contacts",
       "title": "Search delegated contacts",
       "description": "Search contacts in a delegated mailbox by name, company, or any other field, returning up to 10 matches.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -154,55 +158,6 @@
         "audience": [
           "assistant"
         ]
-      }
-    },
-    {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/sendMail",
-      "name": "delegated-send-mail",
-      "title": "Send delegated email",
-      "description": "Send an email message as the delegated user or on behalf of them. Supports attachments and rich body content.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant"
-        ]
-      }
-    },
-    {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/messages/{messageId}/move",
-      "name": "delegated-move-email",
-      "title": "Move delegated email",
-      "description": "Move a specific message in a delegated mailbox to another folder (e.g., from Inbox to Archive).",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant"
-        ]
-      }
-    },
-    {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/messages/{messageId}/copy",
-      "name": "delegated-copy-email",
-      "title": "Copy delegated email",
-      "description": "Copy a message in a delegated mailbox to another folder without removing the original.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant"
-        ]
-      }
-    },
-    {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/messages/{messageId}",
-      "name": "delegated-delete-email",
-      "title": "Delete delegated email",
-      "description": "Delete a specific email from a delegated mailbox.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant"
-        ],
-        "method": "DELETE"
       }
     },
     {

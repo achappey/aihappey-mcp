@@ -46,21 +46,21 @@ public static class ModelContextProtocolExtensions
                                 ?? new CompleteResult();
                  }
 
+                 var defaultIcons = serverIcons?.Select(a => new Icon()
+                 {
+                     Source = a.Source,
+                     Sizes = a.Sizes?.ToList(),
+                     MimeType = a.MimeType,
+                     Theme = a.Theme
+                 }).ToList() ?? [];
+
+                 var finalIcons = server.SourceType == ServerSourceType.Static ?
+                                          server.Server.ServerInfo.Icons?.ToList() ?? [] :
+                                          server.Server.ServerInfo.Icons?.Any() == true ?
+                                          server.Server.ServerInfo.Icons : defaultIcons;
+
                  if (server.Server.Capabilities.Tools != null || server.Server.McpExtension != null)
                  {
-                     var defaultIcons = serverIcons?.Select(a => new Icon()
-                     {
-                         Source = a.Source,
-                         Sizes = a.Sizes?.ToList(),
-                         MimeType = a.MimeType,
-                         Theme = a.Theme
-                     }).ToList() ?? [];
-
-                     var finalIcons = server.SourceType == ServerSourceType.Static ?
-                            server.Server.ServerInfo.Icons?.ToList() ?? [] :
-                            server.Server.ServerInfo.Icons?.Any() == true ?
-                            server.Server.ServerInfo.Icons : defaultIcons;
-
                      opts.Handlers.ListToolsHandler = async (request, cancellationToken)
                            => await server.Server.ToToolsList(kernel, [.. finalIcons], headers)
                             ?? new();
@@ -74,7 +74,7 @@ public static class ModelContextProtocolExtensions
                  if (server.Server.Capabilities.Prompts != null)
                  {
                      opts.Handlers.ListPromptsHandler = async (request, cancellationToken)
-                            => await server.ToListPromptsResult(request, cancellationToken)
+                            => (await server.ToListPromptsResult(request, cancellationToken))?.WithIcons(finalIcons)
                                 ?? new();
 
                      opts.Handlers.GetPromptHandler = async (request, cancellationToken)
@@ -85,11 +85,11 @@ public static class ModelContextProtocolExtensions
                  if (server.Server.Capabilities.Resources != null)
                  {
                      opts.Handlers.ListResourcesHandler = async (request, cancellationToken) =>
-                         await server.ToListResourcesResult(request, headers, cancellationToken)
+                         (await server.ToListResourcesResult(request, headers, cancellationToken))?.WithIcons(finalIcons)
                              ?? new();
 
                      opts.Handlers.ListResourceTemplatesHandler = async (request, cancellationToken) =>
-                         await server.ToListResourceTemplatesResult(request, headers, cancellationToken)
+                         (await server.ToListResourceTemplatesResult(request, headers, cancellationToken))?.WithIcons(finalIcons)
                              ?? new();
 
                      opts.Handlers.ReadResourceHandler = async (request, cancellationToken) =>

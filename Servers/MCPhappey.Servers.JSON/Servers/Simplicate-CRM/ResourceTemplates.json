@@ -7,7 +7,9 @@
       "description": "Haal alle details van één persoon op.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -17,7 +19,9 @@
       "description": "Haal alle details van één bedrijf op.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -27,7 +31,9 @@
       "description": "Haal alle details van één contactpersoon op.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -37,7 +43,9 @@
       "description": "Haal al mijn bedrijfsprofielen op. Met 'mijn bedrijf' worden interne organisaties bedoeld, dus geen klanten.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -47,7 +55,9 @@
       "description": "Haal bedrijven op, gefilterd op naam, branche, relatietype/-manager, teams, postcode, adres, telefoon, bank-/relatie-/BTW-nummers, notities, datums (aangemaakt/gewijzigd), status automatische incasso, en paginering/sortering.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -57,7 +67,9 @@
       "description": "Haal personen op, gefilterd op naam, telefoon/e-mail, notities, geslacht, team, LinkedIn/Twitter/mailings, relatienummer/-type/-manager, werknemersstatus, datumbereiken (aangemaakt, gewijzigd, geboorte). Inclusief paginering en sortering.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -67,7 +79,9 @@
       "description": "Haal contactpersonen op, gefilterd op naam, bedrijf, e-mail, telefoon, mobiel, functie, aanmaak-/wijzigingsdatumbereik, activiteitsstatus. Ondersteunt paginering en sortering. Let op: het is NIET mogelijk om deze lijst te doorzoeken op naam persoon of bedrijf. Gebruik hiervoor de andere 2 resources (/person, /organization)",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -77,7 +91,9 @@
       "description": "Haal debiteuren op, gefilterd op bedrijfs- of persoonsnaam (gedeeltelijke overeenkomst), met paginering en sortering.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -87,7 +103,9 @@
       "description": "Haal alle CRM documenttypes op.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -97,7 +115,9 @@
       "description": "Haal alle branchetypes op.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -107,7 +127,9 @@
       "description": "Haal alle beschikbare geslachtsopties op.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -117,7 +139,9 @@
       "description": "Haal alle relatietypes op.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -127,7 +151,9 @@
       "description": "Haal CRM documenten op, gefilterd op titel, beschrijving, documenttype, gekoppeld item, maker, aanmaak-/wijzigingsdatum. Ondersteunt paginering en sortering.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -137,7 +163,9 @@
       "description": "Haal alle details van één CRM document op.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]

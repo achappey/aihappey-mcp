@@ -3,10 +3,13 @@
     {
       "uriTemplate": "https://api.luchtmeetnet.nl/open_api/stations?page={page}",
       "name": "List stations",
-      "description": "Geeft een paginated lijst van alle officiële meetstations.",
+      "description": "Geeft een gepagineerde lijst van alle officiële meetstations.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -15,7 +18,9 @@
       "description": "Haalt detailinformatie op voor één station (nummer = station_number).",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -24,7 +29,9 @@
       "description": "Lijst met alle luchtcomponenten (NO2, PM10, O3 enz.).",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -33,7 +40,9 @@
       "description": "Detailinformatie over één component (formula = NO2, PM10, O3, LKI …).",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -42,7 +51,10 @@
       "description": "Overzicht van alle organisaties die meetstations beheren.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -51,7 +63,9 @@
       "description": "Uurgemiddelde metingen per station en component (max. 7-dagen bereik).",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -60,7 +74,9 @@
       "description": "Luchtkwaliteitsindex (LKI) per uur voor één station (zelfde 7-dagen limiet).",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -69,7 +85,9 @@
       "description": "Bere­kende concentraties (of LKI) op geo-punt; handig als er geen dicht station is.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]

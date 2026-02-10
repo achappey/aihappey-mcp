@@ -60,7 +60,6 @@
         ]
       }
     },
-  
     {
       "uriTemplate": "https://data.rijksmuseum.nl/search/collection?pageToken={pageToken}",
       "name": "rijksmuseum-pagination",

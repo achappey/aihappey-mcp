@@ -28,7 +28,7 @@
       "uriTemplate": "https://opengraph.io/api/1.1/scrape/{encodedUrl}?cache_ok={cacheOk}&full_render={fullRender}&use_proxy={useProxy}&use_premium={usePremium}&use_superior={useSuperior}&auto_proxy={autoProxy}&max_cache_age={maxCacheAge}&accept_lang={acceptLang}",
       "name": "opengraph-scrape-site",
       "title": "Scrape full HTML of a website",
-      "description": "Returns the full raw HTML source of the specified website for analysis or parsing.",
+      "description": "The full raw HTML source of the specified website for analysis or parsing.",
       "mimeType": "text/html",
       "annotations": {
         "audience": [

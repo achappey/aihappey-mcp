@@ -52,7 +52,7 @@
       "uriTemplate": "https://api.applicationinsights.io/v1/apps/{appId}/query?query=exceptions%20%7C%20where%20timestamp%20%3E%20ago(7d)%20%7C%20summarize%20Count%20%3D%20count()%20by%20type%20%7C%20order%20by%20Count%20desc",
       "name": "exception-count-by-type",
       "title": "Exception count by type (7d)",
-      "description": "Returns the number of exceptions by type for the last 7 days.",
+      "description": "The number of exceptions by type for the last 7 days.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
@@ -64,7 +64,7 @@
       "uriTemplate": "https://api.applicationinsights.io/v1/apps/{appId}/query?query=requests%20%7C%20where%20timestamp%20%3E%20ago(7d)%20%7C%20summarize%20Count%20%3D%20count()%20by%20resultCode%20%7C%20order%20by%20Count%20desc",
       "name": "requests-by-response-code",
       "title": "Requests by response code (7d)",
-      "description": "Returns the count of requests by HTTP response code for the last 7 days.",
+      "description": "The count of requests by HTTP response code for the last 7 days.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
@@ -76,7 +76,7 @@
       "uriTemplate": "https://api.applicationinsights.io/v1/apps/{appId}/query?query=requests%20%7C%20where%20timestamp%20%3E%20ago(7d)%20and%20duration%20%3E%201s%20%7C%20project%20timestamp%2C%20name%2C%20url%2C%20duration%2C%20resultCode%20%7C%20order%20by%20duration%20desc",
       "name": "slowest-requests",
       "title": "Slowest requests (7d, >1s)",
-      "description": "Returns the slowest requests (over 1 second) from the last 7 days.",
+      "description": "The slowest requests (over 1 second) from the last 7 days.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [

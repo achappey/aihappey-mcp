@@ -6,7 +6,10 @@
       "description": "Retrieve a list of all secret metadata in the specified vault",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -15,7 +18,9 @@
       "description": "Retrieve the latest value and attributes of the specified secret",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -24,7 +29,9 @@
       "description": "Retrieve a specific version of a secret",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -33,7 +40,9 @@
       "description": "List all versions of the specified secret",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -42,7 +51,10 @@
       "description": "Enumerate soft-deleted secrets that are still within retention period",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -51,7 +63,9 @@
       "description": "Retrieve details of a single soft-deleted secret",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -60,7 +74,9 @@
       "description": "Retrieve metadata for certificates stored in the vault",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -69,7 +85,9 @@
       "description": "Retrieve the full certificate bundle for the specified certificate",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -78,7 +96,10 @@
       "description": "Enumerate keys stored in the vault",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -87,7 +108,9 @@
       "description": "Retrieve the public portion and attributes of a key",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -96,7 +119,9 @@
       "description": "List all versions of a specified key",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]

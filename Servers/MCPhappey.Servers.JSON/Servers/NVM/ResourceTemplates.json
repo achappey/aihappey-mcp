@@ -7,7 +7,10 @@
       "description": "Doorzoek de volledige NVM-website met een vrije zoekterm.",
       "mimeType": "text/html",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -17,7 +20,9 @@
       "description": "Directe URL-structuur voor NVM nieuwsartikelen per jaar en slug.",
       "mimeType": "text/html",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -27,7 +32,9 @@
       "description": "Generieke template voor pagina’s binnen de sectie Wonen (bijv. marktinformatie/nieuwbouw/huurmarkt).",
       "mimeType": "text/html",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -37,7 +44,9 @@
       "description": "Generieke template voor pagina’s binnen de sectie Business (bijv. kennisplatform, over NVM Business).",
       "mimeType": "text/html",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -47,7 +56,9 @@
       "description": "Generieke template voor pagina’s binnen de sectie Agrarisch & Landelijk.",
       "mimeType": "text/html",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -57,7 +68,9 @@
       "description": "Template voor contact(sub)pagina’s, zoals pers & mediarelaties of meldingen/klachten.",
       "mimeType": "text/html",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -67,7 +80,9 @@
       "description": "Fallback-template voor overige top-level pagina’s (zoals cookies, disclaimer, expat, etc.).",
       "mimeType": "text/html",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -77,7 +92,9 @@
       "description": "Directe template voor mediabestanden (veelal PDF-rapporten) op nvm.nl. Vereist het interne media-id en bestandsnaam.",
       "mimeType": "application/pdf",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]

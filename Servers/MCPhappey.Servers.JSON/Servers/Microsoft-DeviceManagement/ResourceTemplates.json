@@ -25,14 +25,15 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/managedDevices?$top=100&$select=id,deviceName,operatingSystem,osVersion,serialNumber,model,managementAgent,complianceState,lastSyncDateTime",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/managedDevices?$top=100&$select=id,deviceName,operatingSystem,osVersion,serialNumber,model,managementAgent,complianceState,lastSyncDateTime",
       "name": "user-managed-devices",
       "title": "Devices per user",
-      "description": "All managed devices for a specific user (ID or UPN).",
+      "description": "All managed devices for a specific user.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },

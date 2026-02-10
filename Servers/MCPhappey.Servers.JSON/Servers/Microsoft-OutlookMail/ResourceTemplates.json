@@ -6,7 +6,12 @@
       "title": "Search email",
       "description": "Search emails using a name, email address, or keyword with optional filters for status, importance, flagged, or attachments. Use 'searchQuery' for keyword and 'filterQuery' for advanced filtering.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/messages?$filter={filterQuery}&$top=10&$select=id,subject,from,receivedDateTime,isRead,importance,flag,hasAttachments",
@@ -14,7 +19,12 @@
       "title": "Filter email",
       "description": "Filter emails.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/mailFolders/{folderId}/messages?$filter={filterQuery}&$top=10&$select=id,subject,from,receivedDateTime,isRead,hasAttachments",
@@ -22,7 +32,11 @@
       "title": "Emails from folder",
       "description": "Get the 10 most recent emails from a specified mail folder (e.g. Inbox, Sent, Archive), optionally filtered by any property such as attachments or status.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/messages/{messageId}/attachments?$top=10&$select=id,name,contentType,size",
@@ -30,7 +44,11 @@
       "title": "Attachments of an email",
       "description": "Get metadata for up to 10 attachments of a specified email by message ID, including name, size, and type.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/contacts?$search=\"{searchQuery}\"&$top=10&$select=displayName,emailAddresses",
@@ -38,7 +56,11 @@
       "title": "Search contacts",
       "description": "Search personal contacts by name, company, or other field, returning up to 10 results.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/messages/{messageId}?$select=id,subject,from,receivedDateTime,toRecipients,ccRecipients,bccRecipients,body,bodyPreview,hasAttachments,importance,flag",
@@ -46,7 +68,11 @@
       "title": "Single email details",
       "description": "Retrieve the full details and body content of a specific email by message ID, including recipients, attachments, and the complete message body.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }

@@ -10,6 +10,18 @@ namespace MCPhappey.Core.Extensions;
 
 public static partial class ModelContextPromptExtensions
 {
+
+    public static ListPromptsResult WithIcons(this ListPromptsResult result, IEnumerable<Icon>? defaultIcons)
+    {
+        foreach (var r in result.Prompts)
+        {
+            r.Icons = r.Icons != null && r.Icons.Any() ? r.Icons : (defaultIcons?.ToList() ?? []);
+        }
+
+        return result;
+    }
+
+
     public static async Task<ListPromptsResult?> ToListPromptsResult(this ServerConfig serverConfig,
        ModelContextProtocol.Server.RequestContext<ListPromptsRequestParams> request,
         CancellationToken cancellationToken = default)

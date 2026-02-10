@@ -8,7 +8,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -18,9 +19,10 @@
       "title": "Feed (interpolated=10)",
       "description": "Hogere temporele resolutie via interpolated=10 (ongeveer elke ~6 minuten).",
       "mimeType": "application/json",
-       "annotations": {
+      "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     }

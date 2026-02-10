@@ -24,7 +24,7 @@
       "uri": "https://graph.microsoft.com/beta/me/presence",
       "name": "my-presence",
       "title": "My presence",
-      "description": "Returns the current presence status of the signed-in user (e.g., Available, Busy, Away).",
+      "description": "The current presence status of the signed-in user (e.g., Available, Busy, Away).",
       "mimeType": "application/json",
       "annotations": {
         "audience": ["assistant"]

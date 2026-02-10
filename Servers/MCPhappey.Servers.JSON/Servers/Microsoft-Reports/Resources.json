@@ -23,6 +23,18 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/reports/getSignIns",
+      "name": "aad-signins",
+      "title": "Azure AD sign-ins",
+      "description": "Lists recent sign-in events.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }

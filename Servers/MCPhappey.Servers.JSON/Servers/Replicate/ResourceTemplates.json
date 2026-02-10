@@ -24,7 +24,7 @@
       "uriTemplate": "https://api.replicate.com/v1/models/{model_owner}/{model_name}/readme",
       "name": "replicate-model-readme",
       "title": "Model readme",
-      "description": "Returns the model’s README content in Markdown format, including usage notes and author information.",
+      "description": "The model’s README content in Markdown format, including usage notes and author information.",
       "mimeType": "text/markdown",
       "annotations": {
         "audience": ["assistant"]

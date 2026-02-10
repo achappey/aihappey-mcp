@@ -7,7 +7,9 @@
       "description": "General endpoint for a (filtered) list of books. Combine search term, language(s), topic, copyright status, year ranges, MIME type, etc. 32 results per page; use ‘page’ for pagination.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -17,7 +19,9 @@
       "description": "Retrieve multiple Project Gutenberg IDs in a single call (comma-separated). Useful for fetching bulk details.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -27,7 +31,9 @@
       "description": "All metadata + download URLs (EPUB, HTML, TXT, etc.) for a single book.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -37,7 +43,9 @@
       "description": "Top downloads per language (or combination of languages) ranked by popularity – ideal for ‘trending’ lists.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -47,7 +55,9 @@
       "description": "Filter by subject or ‘bookshelf’ (e.g., topic=children, mystery, philosophy). Combine with a language filter for more precise results.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -57,7 +67,9 @@
       "description": "Search specifically for books offering a particular file type (e.g., text/plain, application/epub+zip, image/jpeg).",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]

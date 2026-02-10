@@ -7,7 +7,10 @@
       "description": "Haal tenders op gepubliceerd via TenderNed. Max pagesize is 100.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

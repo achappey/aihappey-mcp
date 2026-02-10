@@ -7,8 +7,10 @@
       "description": "All documentation around the Frankfurter API",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
-      }        
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uri": "https://api.frankfurter.dev/v1/currencies",
@@ -17,7 +19,9 @@
       "description": "Returns a mapping of currency codes to their full names that are supported by the Frankfurter exchange-rate API.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]

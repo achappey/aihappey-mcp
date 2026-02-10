@@ -28,7 +28,7 @@
       "uriTemplate": "https://opentdb.com/api_count.php?category={categoryId}",
       "name": "category-question-count",
       "title": "Get question counts for a category",
-      "description": "Returns the number of available questions in a specific category.",
+      "description": "The number of available questions in a specific category.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
