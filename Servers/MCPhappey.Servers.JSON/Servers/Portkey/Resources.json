@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.portkey.ai/api/v1/models",
+      "name": "list-portkey-models",
+      "title": "List Portkey models",
+      "description": "List all available Portkey models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

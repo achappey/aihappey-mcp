@@ -8,7 +8,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -20,7 +21,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -32,7 +34,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -44,7 +47,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -56,7 +60,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -68,7 +73,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -80,7 +86,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -88,11 +95,12 @@
       "uri": "https://graph.microsoft.com/beta/auditLogs/directoryAudits?$top=200&$select=id,activityDateTime,activityDisplayName,initiatedBy,result,category,targetResources",
       "name": "auditlogs-directory-audits",
       "title": "Directory audit events",
-      "description": "Recent directory changes. Use templates for user/time filters.",
+      "description": "Recent directory changes.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -100,11 +108,12 @@
       "uri": "https://graph.microsoft.com/beta/auditLogs/provisioning?$top=200&$select=id,activityDateTime,action,sourceSystem,targetSystem,statusInfo",
       "name": "auditlogs-provisioning",
       "title": "Provisioning events",
-      "description": "Recent (de)provisioning events. Use templates for status/time filters.",
+      "description": "Recent (de)provisioning events.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -116,7 +125,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -124,11 +134,12 @@
       "uri": "https://graph.microsoft.com/beta/identityProtection/riskyUsers?$top=50&$select=id,userPrincipalName,riskLevel,riskState,riskLastUpdatedDateTime",
       "name": "identityprotection-risky-users",
       "title": "Risky users",
-      "description": "Risky users summary. Use templates for level filters.",
+      "description": "Risky users summary.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -136,11 +147,12 @@
       "uri": "https://graph.microsoft.com/beta/identityProtection/riskDetections?$top=200&$select=id,detectedDateTime,riskLevel,riskEventType,ipAddress,location,userId",
       "name": "identityprotection-risk-detections",
       "title": "Risk detections",
-      "description": "Raw risk detections. Use templates for time/level filters.",
+      "description": "Raw risk detections.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -152,7 +164,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -160,11 +173,12 @@
       "uri": "https://graph.microsoft.com/beta/reports/authenticationMethods/usersRegisteredByMethod(includedUserTypes='all',includedUserRoles='all')",
       "name": "authmethods-users-registered-by-method",
       "title": "Auth methods users registered by method",
-      "description": "Tenant-level summary by method. Function parameters only; OData $filter is not supported on the function result.",
+      "description": "Tenant-level summary by method.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -172,11 +186,12 @@
       "uri": "https://graph.microsoft.com/beta/reports/authenticationMethods/usersRegisteredByFeature",
       "name": "authmethods-users-registered-by-feature",
       "title": "Auth methods users registered by feature",
-      "description": "Tenant-level capability summary. Limited OData options; prefer function parameters on other endpoints for filtering.",
+      "description": "Tenant-level capability summary.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -188,7 +203,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -196,11 +212,12 @@
       "uri": "https://graph.microsoft.com/beta/deviceManagement/deviceCompliancePolicies?$select=id,displayName,version",
       "name": "intune-device-compliance-policies",
       "title": "Device compliance policies",
-      "description": "Compliance policy list. Use templates for details-by-id.",
+      "description": "Compliance policy list.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -208,11 +225,12 @@
       "uri": "https://graph.microsoft.com/beta/roleManagement/directory/roleAssignments?$top=200&$select=id,principalId,roleDefinitionId,scopeId",
       "name": "directory-role-assignments",
       "title": "Directory role assignments",
-      "description": "Current role assignments. Use templates for principal/role filters.",
+      "description": "Current role assignments.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -220,11 +238,12 @@
       "uri": "https://graph.microsoft.com/beta/identityGovernance/roleManagementAlerts/alerts?$filter=scopeId eq '/' and scopeType eq 'DirectoryRole'&$expand=alertIncidents,alertDefinition",
       "name": "pim-role-management-alerts",
       "title": "PIM role management alerts",
-      "description": "PIM alerts for Entra roles. Use templates for scope/expand control. Some expansions cannot be combined with all $selects.",
+      "description": "PIM alerts for Entra roles.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -232,11 +251,12 @@
       "uri": "https://graph.microsoft.com/beta/security/attackSimulation/simulations?$top=50&$select=id,displayName,status,createdDateTime",
       "name": "security-attack-simulations",
       "title": "Attack simulations",
-      "description": "Security awareness simulations. Use templates for since-date filter.",
+      "description": "Security awareness simulations.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -248,7 +268,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     }

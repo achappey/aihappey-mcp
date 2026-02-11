@@ -7,7 +7,9 @@
       "description": "Retrieve the most recent working day's reference exchange rates. Optional `base` parameter overrides the default (EUR). Optional `symbols` limits the response to specific target currencies.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -17,7 +19,9 @@
       "description": "Get reference exchange rates for the specified calendar date (format YYYY-MM-DD). Optional `base` and `symbols` query parameters are supported.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -27,7 +31,9 @@
       "description": "Fetch daily reference exchange rates for every working day between `startDate` and `endDate` (inclusive). Optional `base` and `symbols` query parameters are supported.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     },
     {
@@ -37,7 +43,9 @@
       "description": "Fetch daily reference exchange rates from `startDate` up to the latest available date. Optional `symbols` query parameter filters the returned currencies.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant"
+        ]
       }
     }
   ]

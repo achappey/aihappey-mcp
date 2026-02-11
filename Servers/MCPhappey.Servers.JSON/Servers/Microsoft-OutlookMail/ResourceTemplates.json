@@ -58,7 +58,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },

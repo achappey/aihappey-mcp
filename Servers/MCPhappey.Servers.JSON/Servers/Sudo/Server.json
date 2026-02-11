@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Sudo",
+    "title": "Sudo",
+    "version": "1.0.0",
+    "websiteUrl": "https://sudoapp.dev",
+    "description": "Browse Sudo AI models to see capabilities, limits and pick the right one for your task.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHpkT8SvBa8pZvJeKuxvxVuSpcFAXnwHz-Hg&s"
+      }
+    ]
+  }
+}

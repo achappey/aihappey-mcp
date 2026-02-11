@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "EUrouter",
+    "title": "EUrouter",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.eurouter.ai",
+    "description": "Browse EUrouter models to see capabilities, limits and pick the right one for your task.",
+    "icons": [
+      {
+        "src": "https://www.eurouter.ai/favicon.ico"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

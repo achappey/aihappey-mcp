@@ -10,5 +10,8 @@
         "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/together-color.png"
       }
     ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
   }
 }

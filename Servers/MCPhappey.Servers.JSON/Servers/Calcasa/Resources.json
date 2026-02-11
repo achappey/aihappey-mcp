@@ -21,7 +21,8 @@
       "mimeType": "text/html",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -33,7 +34,8 @@
       "mimeType": "application/pdf",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -45,7 +47,8 @@
       "mimeType": "application/pdf",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     }

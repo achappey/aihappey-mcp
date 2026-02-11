@@ -1,7 +1,7 @@
 {
   "resourceTemplates": [
     {
-      "uriTemplate": "https://www.nvm.nl/zoeken/{?q}",
+      "uriTemplate": "https://www.nvm.nl/zoeken/{query}",
       "name": "site-search",
       "title": "Site search (NVM)",
       "description": "Doorzoek de volledige NVM-website met een vrije zoekterm.",

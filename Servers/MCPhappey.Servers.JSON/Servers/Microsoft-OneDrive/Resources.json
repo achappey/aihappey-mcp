@@ -7,7 +7,10 @@
       "description": "Get personal OneDrive usage and quota",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -17,7 +20,10 @@
       "description": "Get recently accessed files from OneDrive with essential properties",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -27,17 +33,23 @@
       "description": "Get files shared with user including sharing details",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
       "uri": "https://graph.microsoft.com/beta/me/drive/root/microsoft.graph.search(q='.pdf')?$top=25&$select=id,name,webUrl,lastModifiedDateTime,size,file",
       "name": "pdf-files",
       "title": "PDF files",
-      "description": "Get PDF files with core metadata",
+      "description": "Get PDF files with file details",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -47,7 +59,10 @@
       "description": "Get Documents folder content with folder statistics",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -57,17 +72,23 @@
       "description": "Get recently modified files with key properties",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
       "uri": "https://graph.microsoft.com/beta/me/drive/root/microsoft.graph.search(q='.docx')?$top=25&$select=id,name,webUrl,lastModifiedDateTime,size,file,createdBy",
       "name": "word-documents",
       "title": "Word documents",
-      "description": "Get Word documents with essential metadata",
+      "description": "Get Word documents with essential file details",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -77,7 +98,10 @@
       "description": "Get contents of the Pictures folder with image properties",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -87,7 +111,10 @@
       "description": "Get items the user is following in OneDrive",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -97,7 +124,10 @@
       "description": "Track changes in OneDrive root including deletions",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -107,17 +137,23 @@
       "description": "Get contents of the synced Desktop folder",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
       "uri": "https://graph.microsoft.com/beta/me/drive/root/microsoft.graph.search(q='.xlsx')?$top=25&$select=id,name,webUrl,lastModifiedDateTime,size,file,createdBy",
       "name": "excel-files",
       "title": "Excel files",
-      "description": "Get Excel files with core metadata",
+      "description": "Get Excel files with file details",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -127,7 +163,10 @@
       "description": "Get document sets and albums",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -137,7 +176,10 @@
       "description": "Get contents of the Downloads folder",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

@@ -313,14 +313,15 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/emailMethods",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/emailMethods",
       "name": "user-email-methods",
       "title": "User email authentication methods",
       "description": "Lists email authentication methods for a specific user.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -337,14 +338,15 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/fido2Methods",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/fido2Methods",
       "name": "user-fido2-methods",
       "title": "User FIDO2 methods",
       "description": "Lists FIDO2 security key methods for a specific user.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -361,14 +363,15 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/microsoftAuthenticatorMethods",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/microsoftAuthenticatorMethods",
       "name": "user-authenticator-app-methods",
       "title": "User Microsoft Authenticator app methods",
       "description": "Lists Microsoft Authenticator app methods for a specific user.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -457,14 +460,15 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/windowsHelloForBusinessMethods",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/windowsHelloForBusinessMethods",
       "name": "user-windows-hello-methods",
       "title": "User Windows Hello for Business methods",
       "description": "Lists Windows Hello for Business methods for a specific user.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -481,14 +485,15 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/platformCredentialMethods",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/platformCredentialMethods",
       "name": "user-platform-credential-methods",
       "title": "User platform credential methods",
       "description": "Lists platform credential methods (passkeys) for a specific user.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -505,14 +510,15 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/passwordMethods",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/passwordMethods",
       "name": "user-password-methods",
       "title": "User password methods",
       "description": "Lists password methods for a specific user.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },

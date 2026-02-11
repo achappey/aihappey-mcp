@@ -7,7 +7,10 @@
       "description": "Retrieve all organizations the current user has access to.",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

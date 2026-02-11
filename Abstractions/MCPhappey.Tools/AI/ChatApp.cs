@@ -26,8 +26,16 @@ public static class ChatApp
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
 
         var promptArgs = PromptArguments.Create(
-                       ("userMessage", userMessage ?? string.Empty)
-                   );
+                       ("userMessage", userMessage ?? string.Empty));
+
+        var options = new
+        {
+
+        };
+
+        var meta = new Dictionary<string, object> {
+            { "openai", options },
+        };
 
         // Pick the model you want (same as before or allow config)
         var modelName = "gpt-5-mini"; // or any default model you prefer
@@ -42,6 +50,7 @@ public static class ChatApp
             "conversation-name", // prompt template name
             promptArgs,
             modelName,
+            metadata: meta,
             cancellationToken: cancellationToken
         );
 

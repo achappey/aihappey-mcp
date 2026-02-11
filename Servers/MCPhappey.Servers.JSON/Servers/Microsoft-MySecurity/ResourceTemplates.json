@@ -169,18 +169,6 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/me/authentication/signInPreferences",
-      "name": "my-signin-preferences",
-      "title": "My sign-in preferences",
-      "description": "Retrieves the current user's sign-in preferences (authentication strengths, FIDO restrictions, etc.).",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant"
-        ]
-      }
-    },
-    {
       "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices/{managedDeviceId}?$select=id,deviceName,operatingSystem,osVersion,complianceState,serialNumber,manufacturer,model,azureADRegistered,lastSyncDateTime,deviceEnrollmentType,wiFiMacAddress,meid,imei",
       "name": "my-managed-device-details",
       "title": "My managed device details by id",

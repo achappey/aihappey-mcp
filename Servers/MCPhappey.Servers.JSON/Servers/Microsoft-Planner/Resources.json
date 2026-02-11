@@ -6,7 +6,12 @@
       "title": "My Planner plans",
       "description": "Lists up to 20 Planner plans you are a member of, including title, owner, and created date.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     },
     {
       "uri": "https://graph.microsoft.com/beta/me/planner/tasks?$top=50&$select=id,title,percentComplete,dueDateTime,planId,createdDateTime,completedDateTime",
@@ -14,7 +19,12 @@
       "title": "My Planner tasks",
       "description": "Lists up to 50 Planner tasks assigned to you, with details like title, due date, progress, plan, and assigned users.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     },
     {
       "uri": "https://graph.microsoft.com/beta/planner/plans?$top=20&$select=id,title,owner,createdDateTime",
@@ -22,7 +32,12 @@
       "title": "All accessible Planner plans",
       "description": "Lists up to 20 Planner plans you have access to, including title, owner, and creation date.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     },
     {
       "uri": "https://graph.microsoft.com/beta/planner/tasks?$top=50&$select=id,title,percentComplete,dueDateTime,planId,createdDateTime,completedDateTime",
@@ -30,7 +45,12 @@
       "title": "All accessible Planner tasks",
       "description": "Shows up to 50 Planner tasks across all plans you have access to, including title, due date, progress, plan, and assigned users.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     },
     {
       "uri": "https://graph.microsoft.com/beta/me/planner/recentPlans?$top=10&$select=id,title,owner,createdDateTime",
@@ -38,7 +58,12 @@
       "title": "My recent Planner plans",
       "description": "Lists your 10 most recently accessed Planner plans with title, owner, and creation date.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     },
     {
       "uri": "https://graph.microsoft.com/beta/planner/buckets?$top=20&$select=id,name,planId",
@@ -46,7 +71,12 @@
       "title": "All accessible Planner buckets",
       "description": "Lists up to 20 buckets (columns/stages) across Planner plans you have access to, with name and plan.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     }
   ]
 }

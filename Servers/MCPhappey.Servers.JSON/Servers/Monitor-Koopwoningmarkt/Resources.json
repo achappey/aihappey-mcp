@@ -7,7 +7,10 @@
       "uri": "https://monitor-koopwoningmarkt.nl/wp-content/uploads/2025/05/Kwartaalrapportage-Monitor-Koopwoningmarkt-2025-1.pdf",
       "mimeType": "text/plain",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -17,7 +20,10 @@
       "uri": "https://monitor-koopwoningmarkt.nl/wp-content/uploads/2025/08/Kwartaalrapportage-Monitor-Koopwoningmarkt-2025-2.pdf",
       "mimeType": "text/plain",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     },
     {
@@ -27,7 +33,10 @@
       "uri": "https://monitor-koopwoningmarkt.nl/publicaties/kwartaalrapportages/",
       "mimeType": "text/html",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

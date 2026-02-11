@@ -6,7 +6,10 @@
       "description": "Get a list of all To Do task lists",
       "mimeType": "application/json",
       "annotations": {
-        "audience": ["assistant"]
+        "audience": [
+          "assistant",
+          "user"
+        ]
       }
     }
   ]

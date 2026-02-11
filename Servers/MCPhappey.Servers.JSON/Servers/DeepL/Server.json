@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "DeepL",
+    "title": "DeepL",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.deepl.com",
+    "description": "Translate texts & full document files instantly. Accurate translations for individuals and Teams. Millions translate with DeepL every day.",
+    "icons": [
+      {
+        "src": "https://hel1.your-objectstorage.com/ztudium-cms/deepl_7baa54aa02.jpeg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

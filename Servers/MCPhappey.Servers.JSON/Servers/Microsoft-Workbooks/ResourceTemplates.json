@@ -5,84 +5,132 @@
       "name": "Get Excel worksheet list",
       "description": "Retrieves all worksheets (tabs) from the specified Excel file (OneDrive/SharePoint itemId required).",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/usedRange",
       "name": "Get Excel used range",
       "description": "Retrieves the range of all used cells from the specified worksheet.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/tables",
       "name": "Get Excel tables",
       "description": "Returns a list of all tables (table objects) in the specified Excel file.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/tables/{tableId}/rows",
       "name": "Get Excel table rows",
       "description": "Retrieves all rows from a specific table in the specified Excel file.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/range(address='{range}')",
       "name": "Get Excel cell range",
       "description": "Retrieves a specific cell range (e.g., B2:F20) from a worksheet in the specified Excel file.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/names",
       "name": "Get Excel named ranges",
       "description": "Retrieves all named ranges in the specified Excel file.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/tables/{tableId}/columns",
       "name": "Get Excel table columns",
       "description": "Retrieves all columns from a specific table in the specified Excel file.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook",
       "name": "Get Excel workbook metadata",
       "description": "Retrieves basic metadata for the specified Excel workbook, including worksheet and table info.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/charts",
       "name": "Get Excel worksheet charts",
       "description": "Retrieves all charts from a specific worksheet in the specified Excel file.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/tables",
       "name": "Get worksheet tables",
       "description": "Retrieves all tables in a specific worksheet of the specified Excel file.",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/comments",
       "name": "Get Excel worksheet comments",
       "description": "Retrieves all cell comments (notes) from the specified worksheet in an Excel file (OneDrive/SharePoint).",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/comments/{commentId}/replies",
       "name": "Get Excel comment replies",
       "description": "Retrieves all replies to a specific cell comment in the given worksheet of an Excel file (OneDrive/SharePoint).",
       "mimeType": "application/json",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }

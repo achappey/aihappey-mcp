@@ -1,0 +1,30 @@
+{
+  "resources": [
+    {
+      "uri": "https://sudoapp.dev/api/v1/models",
+      "name": "list-sudo-models",
+      "title": "List available Sudo AI models",
+      "description": "List all available Sudo AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://sudoapp.dev/api/system/health",
+      "name": "sudo-system-health",
+      "title": "Sudo system health",
+      "description": "Get current Sudo AI system health",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

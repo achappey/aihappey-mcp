@@ -1,0 +1,43 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.eurouter.ai/api/v1/models",
+      "name": "list-eurouter-models",
+      "title": "List EUrouter models",
+      "description": "List all available EUrouter models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.eurouter.ai/api/v1/providers",
+      "name": "list-eurouter-providers",
+      "title": "List EUrouter providers",
+      "description": "List all available EUrouter providers",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.eurouter.ai/api/v1/routing-rules",
+      "name": "list-eurouter-routing-rules",
+      "title": "List EUrouter routing rules",
+      "description": "List all available EUrouter routing rules",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

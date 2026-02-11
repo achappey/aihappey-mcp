@@ -1,0 +1,43 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.deepl.com/v2/languages",
+      "name": "list-deepl-languages",
+      "title": "List DeepL languages",
+      "description": "List all supported DeepL languages",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.deepl.com/v2/languages?type=source",
+      "name": "list-deepl-source-languages",
+      "title": "List DeepL source languages",
+      "description": "List all supported DeepL source languages",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.deepl.com/v2/languages?type=target",
+      "name": "list-deepl-target-languages",
+      "title": "List DeepL target languages",
+      "description": "List all supported DeepL target languages",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

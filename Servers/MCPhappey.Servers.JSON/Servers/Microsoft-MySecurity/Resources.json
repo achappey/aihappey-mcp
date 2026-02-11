@@ -8,7 +8,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -20,7 +21,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -32,7 +34,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -44,7 +47,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -56,7 +60,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -68,7 +73,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -80,7 +86,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -92,7 +99,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -104,7 +112,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -116,7 +125,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -128,7 +138,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -140,7 +151,8 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
@@ -152,7 +164,21 @@
       "mimeType": "application/json",
       "annotations": {
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/authentication/signInPreferences",
+      "name": "my-signin-preferences",
+      "title": "My sign-in preferences",
+      "description": "Retrieves the current user's sign-in preferences (authentication strengths, FIDO restrictions, etc.).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
         ]
       }
     }
