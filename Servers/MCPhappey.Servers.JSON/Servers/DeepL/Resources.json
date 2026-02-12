@@ -38,6 +38,19 @@
           "user"
         ]
       }
+    },
+    {
+      "uri": "https://api.deepl.com/v3/style_rules?page_size=10&page=0&detailed=true",
+      "name": "list-deepl-style-rules",
+      "title": "List DeepL style rules",
+      "description": "Get all DeepL style rule lists",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     }
   ]
 }

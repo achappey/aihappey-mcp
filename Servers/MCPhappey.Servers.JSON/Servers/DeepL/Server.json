@@ -13,5 +13,8 @@
   },
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
-  }
+  },
+  "plugins": [
+    "MCPhappey.Tools.DeepL.DeepLDocuments, MCPhappey.Tools"
+  ]
 }
