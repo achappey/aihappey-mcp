@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "RekaAI-Models",
+    "title": "RekaAI Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://reka.ai",
+    "description": "Browse Reka AI models to see capabilities, limits and pick the right one for your task.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8CsOEbRgvL2rm3WdVU2bSTfZp2Vpli4tKTg&s"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

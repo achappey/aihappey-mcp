@@ -4,8 +4,6 @@ using System.Text.Json;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
-using MCPhappey.Tools.Deepgram;
-using MCPhappey.Tools.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;

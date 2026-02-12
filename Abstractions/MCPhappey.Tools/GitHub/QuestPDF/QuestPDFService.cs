@@ -2,7 +2,6 @@ using System.ComponentModel;
 using ModelContextProtocol.Server;
 
 using QUE = QuestPDF;
-using QUEH = QuestPDF.Helpers;
 using QUEI = QuestPDF.Infrastructure;
 
 // IMPORTANT: bring extension methods into scope

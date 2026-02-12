@@ -1,0 +1,43 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.reka.ai/v1/videos",
+      "name": "list-rekaai-videos",
+      "title": "List Reka AI videos",
+      "description": "List all available Reka AI videos",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.reka.ai/v1/videos/groups",
+      "name": "list-rekaai-video-groups",
+      "title": "List Reka AI video groups",
+      "description": "List all available Reka AI video groups",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.reka.ai/v1/images",
+      "name": "list-rekaai-images",
+      "title": "List Reka AI images",
+      "description": "List all available Reka AI images",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

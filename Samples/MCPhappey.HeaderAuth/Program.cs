@@ -50,6 +50,7 @@ using MCPhappey.Tools.Telnyx;
 using MCPhappey.Tools.OpperAI;
 using MCPhappey.Tools.Tinfoil;
 using MCPhappey.Tools.DeepL;
+using MCPhappey.Tools.RekaAI;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -139,6 +140,7 @@ builder.Services
 .AddTelnyx(appConfig?.DomainHeaders)
 .AddOpperAI(appConfig?.DomainHeaders)
 .AddDeepL(appConfig?.DomainHeaders)
+.AddRekaAI(appConfig?.DomainHeaders)
 .AddTinfoil(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();

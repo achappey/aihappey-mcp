@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "RekaAI-Vision",
+    "title": "RekaAI Vision",
+    "version": "1.0.0",
+    "websiteUrl": "https://reka.ai",
+    "description": "Reka AI video and image capabilities.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8CsOEbRgvL2rm3WdVU2bSTfZp2Vpli4tKTg&s"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
