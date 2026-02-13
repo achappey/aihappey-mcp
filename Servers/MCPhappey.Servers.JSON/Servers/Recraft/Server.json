@@ -1,0 +1,25 @@
+{
+    "serverInfo": {
+        "name": "Recraft",
+        "title": "Recraft",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.recraft.ai",
+        "description": "Recraft is a top-ranked text-to-image model and design platform for photorealism, vector generation, custom styles, mockups, and more.",
+        "icons": [
+            {
+                "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/recraft.png",
+                "theme": "light"
+            },
+            {
+                "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/recraft.png",
+                "theme": "dark"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Recraft.RecraftTools, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

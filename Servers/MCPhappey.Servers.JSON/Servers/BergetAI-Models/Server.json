@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "BergetAI-Models",
+    "title": "Berget AI Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://berget.ai",
+    "description": "Browse EU-compliant Berget AI models.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4D0BAQHQGuTgU7ix9w/company-logo_200_200/B4DZWbcxfDGkAI-/0/1742069766482/bergetai_logo?e=2147483647&v=beta&t=EkSpekwlwpXxB9L4u92NEy8s1jqTJaxMnEaSTr1tfZA"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

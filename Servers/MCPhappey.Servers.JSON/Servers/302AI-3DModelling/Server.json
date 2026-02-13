@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "302AI-3DModelling",
+    "title": "302.AI 3D Modelling",
+    "version": "1.0.0",
+    "websiteUrl": "https://302.ai",
+    "description": "302.AI 3D Modelling capabilities.",
+    "icons": [
+      {
+        "src": "https://302.ai/img/logo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI302.AI3023DModellingPlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

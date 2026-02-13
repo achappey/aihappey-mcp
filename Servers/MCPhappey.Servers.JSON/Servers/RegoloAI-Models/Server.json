@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "RegoloAI-Models",
+    "title": "RegoloAI Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://regolo.ai",
+    "description": "Experience Data Privacy First infrastructure. Scalable, enterprise-grade LLM APIs hosted in Europe with Zero Data Retention. Secure your AI workflows.",
+    "icons": [
+      {
+        "src": "https://regolo.ai/wp-content/themes/regolo/img/hero-image.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

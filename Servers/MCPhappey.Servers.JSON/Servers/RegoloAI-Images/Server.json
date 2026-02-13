@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "RegoloAI-Images",
+    "title": "RegoloAI Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://regolo.ai",
+    "description": "Allows you to create images based on textual descriptions, leveraging models like Qwen-Image.",
+    "icons": [
+      {
+        "src": "https://regolo.ai/wp-content/themes/regolo/img/hero-image.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.RegoloAI.Images.RegoloAIImages, MCPhappey.Tools"
+  ]
+}

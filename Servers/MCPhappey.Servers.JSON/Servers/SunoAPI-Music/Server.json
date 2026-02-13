@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SunoAPI-Music",
+    "title": "SunoAPI Music",
+    "version": "1.0.0",
+    "websiteUrl": "https://sunoapi.org",
+    "description": "Generate professional, watermark-free music with fast output and affordable pricing—your perfect choice for seamless music API integration.",
+    "icons": [
+      {
+        "src": "https://sunoapi.org/logo.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

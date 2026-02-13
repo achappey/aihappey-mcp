@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.regolo.ai/v1/models",
+      "name": "list-regoloai-models",
+      "title": "List Regolo AI models",
+      "description": "List all available Regolo AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

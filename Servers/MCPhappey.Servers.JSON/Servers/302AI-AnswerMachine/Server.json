@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "302AI-AnswerMachine",
+    "title": "302.AI Answer Machine",
+    "version": "1.0.0",
+    "websiteUrl": "https://302.ai",
+    "description": "302.AI Answer Machine capabilities.",
+    "icons": [
+      {
+        "src": "https://302.ai/img/logo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AI302.AI302AnswerMachinePlugin, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

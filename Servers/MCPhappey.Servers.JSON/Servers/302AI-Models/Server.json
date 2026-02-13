@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "302AI-Models",
+    "title": "302.AI Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://302.ai",
+    "description": "Browse 302.AI models and related resources.",
+    "icons": [
+      {
+        "src": "https://302.ai/img/logo.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.302.ai/v1/models",
+      "name": "list-302-ai-models",
+      "title": "List available 302.AI models",
+      "description": "List all available 302.AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

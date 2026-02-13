@@ -1,0 +1,30 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.berget.ai/v1/models",
+      "name": "list-bergetai-models",
+      "title": "List available Berget AI models",
+      "description": "List all available Berget AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.berget.ai/v1/health",
+      "name": "bergetai-health",
+      "title": "The health status of the API",
+      "description": "Can be used for monitoring and health checks.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

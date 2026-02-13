@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "302AI-PromptExpert",
+    "title": "302.AI PromptExpert",
+    "version": "1.0.0",
+    "websiteUrl": "https://302.ai",
+    "description": "302.AI Prompt Expert capabilities.",
+    "icons": [
+      {
+        "src": "https://302.ai/img/logo.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

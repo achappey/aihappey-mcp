@@ -15,5 +15,8 @@
         "theme": "light"
       }
     ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
   }
 }

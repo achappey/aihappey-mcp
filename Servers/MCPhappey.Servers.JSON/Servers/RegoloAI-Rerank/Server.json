@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "RegoloAI-Rerank",
+    "title": "RegoloAI Rerank",
+    "version": "1.0.0",
+    "websiteUrl": "https://regolo.ai",
+    "description": "Lets you re‑order a list of documents according to their relevance to a given query.",
+    "icons": [
+      {
+        "src": "https://regolo.ai/wp-content/themes/regolo/img/hero-image.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.RegoloAI.Rerank.RegoloAIRerank, MCPhappey.Tools"
+  ]
+}

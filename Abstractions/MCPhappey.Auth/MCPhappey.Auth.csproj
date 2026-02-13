@@ -14,8 +14,8 @@
 	<ItemGroup>
 	<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.11" />
 	<PackageReference Include="Microsoft.Identity.Client" Version="4.82.1" />
-	<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.15.0" />
-	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
+	<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.16.0" />
+	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.16.0" />
 	</ItemGroup>
 
 </Project>

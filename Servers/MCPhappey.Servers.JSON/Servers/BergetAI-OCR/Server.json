@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "BergetAI-OCR",
+    "title": "Berget AI OCR",
+    "version": "1.0.0",
+    "websiteUrl": "https://berget.ai",
+    "description": "Berget AI Document processing and OCR capabilities.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4D0BAQHQGuTgU7ix9w/company-logo_200_200/B4DZWbcxfDGkAI-/0/1742069766482/bergetai_logo?e=2147483647&v=beta&t=EkSpekwlwpXxB9L4u92NEy8s1jqTJaxMnEaSTr1tfZA"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.BergetAI.OCR.BergetAIOCR, MCPhappey.Tools"
+  ]
+}
