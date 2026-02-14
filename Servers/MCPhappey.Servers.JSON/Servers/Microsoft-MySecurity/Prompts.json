@@ -55,39 +55,6 @@
       }
     },
     {
-      "prompt": "Am I properly set up for secure sign-in? Check if I’m MFA registered and capable, SSPR registered/enabled, and list my registered methods. Call out any recommended gaps.",
-      "template": {
-        "name": "my-auth-setup-health",
-        "title": "My MFA/SSPR setup health",
-        "description": "Assesses MFA/SSPR registration and lists registered auth methods with recommendations.",
-        "arguments": []
-      }
-    },
-    {
-      "prompt": "Show my authentication methods with short labels (e.g., Authenticator app, FIDO2 key, phone). Include method IDs so I can reference a specific one later.",
-      "template": {
-        "name": "my-auth-methods",
-        "title": "My authentication methods",
-        "description": "Lists the current user's registered authentication methods and their IDs.",
-        "arguments": []
-      }
-    },
-    {
-      "prompt": "Show details for my authentication method {methodId}. Explain what it is and any security considerations.",
-      "template": {
-        "name": "my-auth-method-details",
-        "title": "My authentication method details",
-        "description": "Fetches details for a specific auth method by ID and explains its security posture.",
-        "arguments": [
-          {
-            "name": "methodId",
-            "description": "The authentication method ID from my methods list.",
-            "required": true
-          }
-        ]
-      }
-    },
-    {
       "prompt": "List my devices from Intune/Endpoint Manager. Highlight non-compliant ones at the top with OS, version, last sync time, and a brief reason if available.",
       "template": {
         "name": "my-devices-summary",
@@ -127,11 +94,11 @@
       }
     },
     {
-      "prompt": "Show my sign-in preferences (authentication strengths, passkey/FIDO policies, etc.) and explain what they mean for me.",
+      "prompt": "List my devices from Intune/Endpoint Manager. Highlight non-compliant ones at the top with OS, version, last sync time, and a brief reason if available.",
       "template": {
-        "name": "my-signin-preferences",
-        "title": "My sign-in preferences",
-        "description": "Reads sign-in preferences and explains their effect on authentication.",
+        "name": "my-devices-summary",
+        "title": "My devices summary",
+        "description": "Shows owned/managed devices with compliance status and last sync time, prioritizing non-compliant.",
         "arguments": []
       }
     },

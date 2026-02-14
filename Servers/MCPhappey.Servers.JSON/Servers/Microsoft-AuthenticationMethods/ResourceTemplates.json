@@ -1,0 +1,250 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/methods?$top={top}&$select={select}",
+      "name": "user-auth-methods-list",
+      "title": "User authentication methods",
+      "description": "Lists authentication methods for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/methods/{methodId}",
+      "name": "user-auth-method-details",
+      "title": "User authentication method details",
+      "description": "Gets one authentication method by id for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/emailMethods",
+      "name": "user-email-methods",
+      "title": "User email authentication methods",
+      "description": "Lists email authentication methods for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/emailMethods/{methodId}",
+      "name": "user-email-method-details",
+      "title": "User email method details",
+      "description": "Gets one email authentication method for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/fido2Methods",
+      "name": "user-fido2-methods",
+      "title": "User FIDO2 methods",
+      "description": "Lists FIDO2 security key methods for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/fido2Methods/{methodId}",
+      "name": "user-fido2-method-details",
+      "title": "User FIDO2 method details",
+      "description": "Gets one FIDO2 method by id for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/microsoftAuthenticatorMethods",
+      "name": "user-authenticator-app-methods",
+      "title": "User Microsoft Authenticator app methods",
+      "description": "Lists Microsoft Authenticator app methods for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/microsoftAuthenticatorMethods/{methodId}",
+      "name": "user-authenticator-app-method-details",
+      "title": "User Microsoft Authenticator app method details",
+      "description": "Gets one Microsoft Authenticator app method by id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/phoneMethods",
+      "name": "user-phone-methods",
+      "title": "User phone authentication methods",
+      "description": "Lists phone authentication methods for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/phoneMethods/{methodId}",
+      "name": "user-phone-method-details",
+      "title": "User phone method details",
+      "description": "Gets one phone method by id for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/softwareOathMethods",
+      "name": "user-software-oath-methods",
+      "title": "User software OATH methods",
+      "description": "Lists software OATH methods for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/softwareOathMethods/{methodId}",
+      "name": "user-software-oath-method-details",
+      "title": "User software OATH method details",
+      "description": "Gets one software OATH method by id for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/temporaryAccessPassMethods",
+      "name": "user-temporary-access-pass-methods",
+      "title": "User temporary access pass methods",
+      "description": "Lists temporary access pass methods for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/temporaryAccessPassMethods/{methodId}",
+      "name": "user-temporary-access-pass-method-details",
+      "title": "User temporary access pass method details",
+      "description": "Gets one temporary access pass method by id for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/windowsHelloForBusinessMethods",
+      "name": "user-windows-hello-methods",
+      "title": "User Windows Hello for Business methods",
+      "description": "Lists Windows Hello for Business methods for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/windowsHelloForBusinessMethods/{methodId}",
+      "name": "user-windows-hello-method-details",
+      "title": "User Windows Hello for Business method details",
+      "description": "Gets one Windows Hello for Business method by id for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/platformCredentialMethods",
+      "name": "user-platform-credential-methods",
+      "title": "User platform credential methods",
+      "description": "Lists platform credential methods (passkeys) for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/platformCredentialMethods/{methodId}",
+      "name": "user-platform-credential-method-details",
+      "title": "User platform credential method details",
+      "description": "Gets one platform credential method by id for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}/authentication/passwordMethods",
+      "name": "user-password-methods",
+      "title": "User password methods",
+      "description": "Lists password methods for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/authentication/passwordMethods/{methodId}",
+      "name": "user-password-method-details",
+      "title": "User password method details",
+      "description": "Gets one password method by id for a specific user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

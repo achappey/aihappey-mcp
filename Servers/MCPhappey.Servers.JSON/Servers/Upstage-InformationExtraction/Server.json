@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Upstage-InformationExtraction",
+    "title": "Upstage Information Extraction",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.upstage.ai",
+    "description": "Upstage Information Extraction capabilities.",
+    "icons": [
+      {
+        "src": "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/upstage-color.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.Upstage.UpstageInformationExtraction, MCPhappey.Tools"
+  ]
+}

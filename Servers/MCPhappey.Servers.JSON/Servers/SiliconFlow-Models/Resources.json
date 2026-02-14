@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.siliconflow.com/v1/models",
+      "name": "list-siliconflow-models",
+      "title": "List available SiliconFlow models",
+      "description": "List all available SiliconFlow models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

@@ -261,10 +261,10 @@
       }
     },
     {
-      "uri": "https://graph.microsoft.com/beta/policies/authenticationMethodsPolicy",
-      "name": "authmethods-policy",
-      "title": "Authentication methods policy",
-      "description": "Tenant authentication methods policy definition and state.",
+      "uri": "https://graph.microsoft.com/beta/security/attackSimulation/simulations?$top=50&$select=id,displayName,status,createdDateTime",
+      "name": "security-attack-simulations",
+      "title": "Attack simulations",
+      "description": "Security awareness simulations.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [

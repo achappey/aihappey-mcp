@@ -55,6 +55,9 @@ using MCPhappey.Tools.DeepL;
 using MCPhappey.Tools.RekaAI;
 using MCPhappey.Tools.Recraft;
 using MCPhappey.Tools.RegoloAI;
+using MCPhappey.Tools.Scaleway;
+using MCPhappey.Tools.SiliconFlow;
+using MCPhappey.Tools.Upstage;
 using System.Text.Json;
 using System.Net.Http.Headers;
 
@@ -148,9 +151,12 @@ builder.Services
 .AddOpperAI(appConfig?.DomainHeaders)
 .AddBergetAI(appConfig?.DomainHeaders)
 .AddRegoloAI(appConfig?.DomainHeaders)
+.AddScaleway(appConfig?.DomainHeaders)
+.AddSiliconFlow(appConfig?.DomainHeaders)
 .AddDeepL(appConfig?.DomainHeaders)
 .AddRekaAI(appConfig?.DomainHeaders)
 .AddRecraft(appConfig?.DomainHeaders)
+.AddUpstage(appConfig?.DomainHeaders)
 .AddTinfoil(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();

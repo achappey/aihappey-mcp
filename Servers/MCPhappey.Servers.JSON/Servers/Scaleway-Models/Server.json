@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Scaleway-Models",
+    "title": "Scaleway Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.scaleway.com",
+    "description": "Browse Scaleway models.",
+    "icons": [
+      {
+        "src": "https://www-uploads.scaleway.com/Scaleway_3_D_Logo_57e7fb833f.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

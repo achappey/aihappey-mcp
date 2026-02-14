@@ -1,15 +1,18 @@
 {
   "serverInfo": {
-    "name": "Microsoft-MySecurity",
-    "title": "Microsoft My Security",
+    "name": "Microsoft-MyAuthenticationMethods",
+    "title": "Microsoft My Authentication Methods",
     "version": "1.0.0",
-    "description": "See your own profile, devices, risks and security activity with clear personal security insights.",
+    "description": "Review and manage your own authentication methods, sign-in preferences, and MFA/SSPR registration posture.",
     "icons": [
       {
         "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
       }
     ]
   },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Security.GraphAuthenticationMethodsMe, MCPhappey.Tools"
+  ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/IdentityRiskyUser.Read.All https://graph.microsoft.com/IdentityRiskEvent.Read.All https://graph.microsoft.com/UserAuthenticationMethod.ReadWrite https://graph.microsoft.com/SecurityActions.ReadWrite.All https://graph.microsoft.com/SecurityEvents.ReadWrite.All https://graph.microsoft.com/ThreatIndicators.Read.All https://graph.microsoft.com/ThreatIntelligence.Read.All https://graph.microsoft.com/AttackSimulation.ReadWrite.All https://graph.microsoft.com/DeviceManagementConfiguration.ReadWrite.All https://graph.microsoft.com/AuditLog.Read.All https://graph.microsoft.com/SecurityAlert.ReadWrite.All https://graph.microsoft.com/RoleManagementAlert.ReadWrite.Directory https://graph.microsoft.com/DeviceManagementManagedDevices.ReadWrite.All https://graph.microsoft.com/SecurityIncident.ReadWrite.All"
   }

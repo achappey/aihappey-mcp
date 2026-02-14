@@ -14,136 +14,6 @@
       }
     },
     {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/methods",
-      "name": "my-authentication-methods",
-      "title": "My authentication methods",
-      "description": "Lists the authentication methods registered for the current user (e.g., Authenticator, FIDO, phone).",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/emailMethods",
-      "name": "my-email-authentication-methods",
-      "title": "My email authentication methods",
-      "description": "Lists my email authentication methods.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/fido2Methods",
-      "name": "my-fido2-authentication-methods",
-      "title": "My FIDO2 methods",
-      "description": "Lists my FIDO2 security key authentication methods.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/microsoftAuthenticatorMethods",
-      "name": "my-authenticator-app-methods",
-      "title": "My Microsoft Authenticator app methods",
-      "description": "Lists my Microsoft Authenticator app methods.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/phoneMethods",
-      "name": "my-phone-authentication-methods",
-      "title": "My phone authentication methods",
-      "description": "Lists my phone authentication methods.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/softwareOathMethods",
-      "name": "my-software-oath-methods",
-      "title": "My software OATH methods",
-      "description": "Lists my software OATH authentication methods.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/temporaryAccessPassMethods",
-      "name": "my-temporary-access-pass-methods",
-      "title": "My temporary access pass methods",
-      "description": "Lists my temporary access pass methods.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/windowsHelloForBusinessMethods",
-      "name": "my-windows-hello-methods",
-      "title": "My Windows Hello for Business methods",
-      "description": "Lists my Windows Hello for Business methods.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/platformCredentialMethods",
-      "name": "my-platform-credential-methods",
-      "title": "My platform credential methods",
-      "description": "Lists my platform credential methods (passkeys).",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/passwordMethods",
-      "name": "my-password-methods",
-      "title": "My password methods",
-      "description": "Lists my password authentication methods.",
-      "mimeType": "application/json",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
       "uri": "https://graph.microsoft.com/beta/me/managedDevices?$select=id,deviceName,operatingSystem,osVersion,complianceState,lastSyncDateTime",
       "name": "my-managed-devices",
       "title": "My managed devices",
@@ -170,10 +40,10 @@
       }
     },
     {
-      "uri": "https://graph.microsoft.com/beta/me/authentication/signInPreferences",
-      "name": "my-signin-preferences",
-      "title": "My sign-in preferences",
-      "description": "Retrieves the current user's sign-in preferences (authentication strengths, FIDO restrictions, etc.).",
+      "uri": "https://graph.microsoft.com/beta/me/registeredDevices?$top=50&$select=id,displayName,deviceId,operatingSystem",
+      "name": "my-registered-devices",
+      "title": "My registered devices",
+      "description": "Directory-registered devices linked to the current user account.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [

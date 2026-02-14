@@ -1,0 +1,56 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/reports/authenticationMethods/userRegistrationDetails?$top=999&$select=userId,userDisplayName,userPrincipalName,isMfaRegistered,isMfaCapable,isSsprRegistered,isSsprEnabled,methodsRegistered,systemPreferredAuthenticationMethods",
+      "name": "authmethods-user-registration-details",
+      "title": "Auth methods user registration details",
+      "description": "Per-user MFA/SSPR registration. Use templates for MFA-only view.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/reports/authenticationMethods/usersRegisteredByMethod(includedUserTypes='all',includedUserRoles='all')",
+      "name": "authmethods-users-registered-by-method",
+      "title": "Auth methods users registered by method",
+      "description": "Tenant-level summary by method.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/reports/authenticationMethods/usersRegisteredByFeature",
+      "name": "authmethods-users-registered-by-feature",
+      "title": "Auth methods users registered by feature",
+      "description": "Tenant-level capability summary.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/policies/authenticationMethodsPolicy",
+      "name": "authmethods-policy",
+      "title": "Authentication methods policy",
+      "description": "Tenant authentication methods policy definition and state.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

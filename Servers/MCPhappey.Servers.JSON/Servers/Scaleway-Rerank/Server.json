@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Scaleway-Rerank",
+    "title": "Scaleway Rerank",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.scaleway.com",
+    "description": "Ranks files and SharePoint/OneDrive folder documents by relevance using Scaleway rerank models.",
+    "icons": [
+      {
+        "src": "https://www-uploads.scaleway.com/Scaleway_3_D_Logo_57e7fb833f.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Scaleway.Rerank.ScalewayRerank, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

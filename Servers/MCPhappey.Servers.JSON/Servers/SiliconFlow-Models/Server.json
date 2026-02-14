@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SiliconFlow-Models",
+    "title": "SiliconFlow Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.siliconflow.com",
+    "description": "Browse SiliconFlow models.",
+    "icons": [
+      {
+        "src": "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/siliconcloud-color.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
