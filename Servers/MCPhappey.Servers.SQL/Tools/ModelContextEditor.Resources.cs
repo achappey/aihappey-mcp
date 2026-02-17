@@ -162,5 +162,61 @@ public static partial class ModelContextEditor
             ct: cancellationToken);
     });
 
+    [Description("Get a resource from a MCP-server.")]
+    [McpServerTool(
+        Title = "Get a resource",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_GetResource(
+    [Description("Name of the server")] string serverName,
+    [Description("Name of the resource")] string resourceName,
+    IServiceProvider serviceProvider,
+    RequestContext<CallToolRequestParams> requestContext,
+    CancellationToken cancellationToken = default) =>
+    await requestContext.WithExceptionCheck(async () =>
+    await requestContext.WithStructuredContent(async () =>
+    {
+        var server = await serviceProvider.GetServer(serverName, cancellationToken);
+
+        var resource =
+            server.Resources
+                .FirstOrDefault(r =>
+                    string.Equals(r.Name, resourceName, StringComparison.OrdinalIgnoreCase))
+            ?? throw new Exception($"Resource '{resourceName}' not found on server '{serverName}'.");
+
+        return resource.ToResource();
+    }));
+
+    [Description("List all resources of a MCP-server.")]
+    [McpServerTool(
+        Title = "List resources",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_ListResources(
+        [Description("Name of the server")] string serverName,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var server = await serviceProvider.GetServer(serverName, cancellationToken);
+
+            var resources =
+                server.Resources
+                    .OrderBy(r => r.Name)
+                    .Select(r => r.ToResource());
+
+            return new
+            {
+                server = server.Name,
+                resources
+            };
+        }));
+
 }
 

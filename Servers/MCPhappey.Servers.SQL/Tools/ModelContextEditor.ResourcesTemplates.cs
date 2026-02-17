@@ -157,5 +157,63 @@ public static partial class ModelContextEditor
                     ct: cancellationToken);
         });
 
+
+    [Description("Get a resource template from a MCP-server.")]
+    [McpServerTool(
+        Title = "Get a resource template",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_GetResourceTemplate(
+        [Description("Name of the server")] string serverName,
+        [Description("Name of the resource template")] string resourceTemplateName,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var server = await serviceProvider.GetServer(serverName, cancellationToken);
+
+            var template =
+                server.ResourceTemplates
+                    .FirstOrDefault(r =>
+                        string.Equals(r.Name, resourceTemplateName, StringComparison.OrdinalIgnoreCase))
+                ?? throw new Exception($"Resource template '{resourceTemplateName}' not found on server '{serverName}'.");
+
+            return template.ToResourceTemplate();
+        }));
+
+
+    [Description("List all resource templates of a MCP-server.")]
+    [McpServerTool(
+        Title = "List resource templates",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_ListResourceTemplates(
+        [Description("Name of the server")] string serverName,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var server = await serviceProvider.GetServer(serverName, cancellationToken);
+
+            var templates =
+                server.ResourceTemplates
+                    .OrderBy(r => r.Name)
+                    .Select(r => r.ToResourceTemplate());
+
+            return new
+            {
+                server = server.Name,
+                resourceTemplates = templates
+            };
+        }));
+
 }
 

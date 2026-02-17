@@ -105,33 +105,48 @@ public static partial class ModelContextEditor
                 kernel.GetToolsFromType(pluginName, []).ToJsonContentBlock("mcp-editor://tools").ToCallToolResult());
     });
 
-    [Description("Get all tools from all plugins. Name and descriptions only.")]
+    [Description("Search tools across all plugins by name or description.")]
     [McpServerTool(
-        Title = "Get all tools", 
-        ReadOnly = true,
-        Idempotent = true,
-        Destructive = false,
-        OpenWorld = false)]
-    public static async Task<CallToolResult?> ModelContextEditor_GetAllTools(
+     Title = "Search tools",
+     ReadOnly = true,
+     Idempotent = true,
+     Destructive = false,
+     OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_SearchTools(
      IServiceProvider serviceProvider,
-     RequestContext<CallToolRequestParams> requestContext) =>
+     RequestContext<CallToolRequestParams> requestContext,
+     [Description("Search text used to match tool name or description.")]
+    string query) =>
      await requestContext.WithExceptionCheck(async () =>
      await requestContext.WithStructuredContent(async () =>
-   {
-       var repo = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>();
-       var kernel = serviceProvider.GetRequiredService<Kernel>();
+     {
+         var repo = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>();
+         var kernel = serviceProvider.GetRequiredService<Kernel>();
 
-       return await Task.FromResult(new
-       {
-           tools = repo.GetAllPlugins()
-                .SelectMany(v => kernel.GetToolsFromType(v, [])?.Select(a => new
-                {
-                    Plugin = v,
-                    a.ProtocolTool.Name,
-                    a.ProtocolTool.Description
-                }) ?? [])
-       });
-   }));
+         var q = query?.Trim().ToLowerInvariant();
+
+         var tools =
+             repo.GetAllPlugins()
+                 .SelectMany(plugin =>
+                     kernel.GetToolsFromType(plugin, [])?
+                         .Where(t =>
+                             string.IsNullOrWhiteSpace(q) ||
+                             (t.ProtocolTool.Name?.ToLowerInvariant().Contains(q) ?? false) ||
+                             (t.ProtocolTool.Description?.ToLowerInvariant().Contains(q) ?? false))
+                         .Select(t => new
+                         {
+                             Plugin = plugin,
+                             t.ProtocolTool.Name,
+                             t.ProtocolTool.Description
+                         }) ?? []);
+
+         return await Task.FromResult(new
+         {
+             query,
+             tools
+         });
+     }));
+
 
     [Description("Removes a plugin from a MCP-server")]
     [McpServerTool(Title = "Remove a plugin from an MCP-server",
@@ -166,6 +181,72 @@ public static partial class ModelContextEditor
 
         return $"Plugin {typed.PluginName} deleted from MCP server {serverName}".ToTextCallToolResponse();
     }
+
+    [Description("Search plugins across all MCP servers by name. Optionally include tools per plugin.")]
+    [McpServerTool(
+    Title = "Search plugins",
+    ReadOnly = true,
+    Idempotent = true,
+    Destructive = false,
+    OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_SearchPlugins(
+    IServiceProvider serviceProvider,
+    RequestContext<CallToolRequestParams> requestContext,
+    [Description("Search text used to match plugin name.")]
+    string query,
+    [Description("When true, also include tools belonging to the plugin.")]
+    bool includeTools = false) =>
+    await requestContext.WithExceptionCheck(async () =>
+    await requestContext.WithStructuredContent(async () =>
+    {
+        var repo = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>();
+        var kernel = serviceProvider.GetRequiredService<Kernel>();
+
+        var q = query?.Trim().ToLowerInvariant();
+
+        var plugins =
+            repo.GetAllPlugins()
+                .Select(plugin =>
+                {
+                    var tools = kernel.GetToolsFromType(plugin, [])?
+                        .Select(t => new
+                        {
+                            t.ProtocolTool.Name,
+                            t.ProtocolTool.Description
+                        })
+                        .ToList() ?? [];
+
+                    bool matches =
+                        string.IsNullOrWhiteSpace(q)
+                        || plugin.Contains(q, StringComparison.OrdinalIgnoreCase)
+                        || tools.Any(t =>
+                            (t.Name?.Contains(q, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                            (t.Description?.Contains(q, StringComparison.OrdinalIgnoreCase) ?? false));
+
+                    return new
+                    {
+                        Plugin = plugin,
+                        Tools = includeTools ? tools : null,
+                        Matches = matches
+                    };
+                })
+                .Where(p => p.Matches)
+                .OrderBy(p => p.Plugin)
+                .Select(p => new
+                {
+                    p.Plugin,
+                    p.Tools
+                });
+
+
+        return await Task.FromResult(new
+        {
+            query,
+            includeTools,
+            plugins
+        });
+    }));
+
 
 }
 

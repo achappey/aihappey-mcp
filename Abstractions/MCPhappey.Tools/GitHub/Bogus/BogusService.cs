@@ -654,7 +654,7 @@ public static class BogusService
         var json = JsonSerializer.Serialize(new
         {
             Type = ex.GetType().FullName,
-            Message = ex.Message,
+            ex.Message,
             Stack = ex.StackTrace
         });
         return await Task.FromResult(json);

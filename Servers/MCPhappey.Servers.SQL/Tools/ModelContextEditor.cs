@@ -18,6 +18,92 @@ namespace MCPhappey.Servers.SQL.Tools;
 
 public static partial class ModelContextEditor
 {
+    [Description("Search editable (dynamic) MCP servers by name, title or description.")]
+    [McpServerTool(
+    Title = "Search MCP servers",
+    ReadOnly = true,
+    Idempotent = true,
+    Destructive = false,
+    OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_SearchMcpServers(
+    IServiceProvider serviceProvider,
+    RequestContext<CallToolRequestParams> requestContext,
+    [Description("Search text used to match server name, title or description.")]
+    string query,
+    [Description("When true, include full server details such as prompts, resources, templates and tools.")]
+    bool includeDetails = false,
+    CancellationToken cancellationToken = default) =>
+    await requestContext.WithExceptionCheck(async () =>
+    await requestContext.WithStructuredContent(async () =>
+    {
+        var servers = await serviceProvider.GetServers(cancellationToken);
+
+        var q = query?.Trim().ToLowerInvariant();
+
+        var result =
+            servers
+                .Where(s =>
+                    string.IsNullOrWhiteSpace(q) ||
+                    (s.Name?.ToLowerInvariant().Contains(q) ?? false) ||
+                    (s.Title?.ToLowerInvariant().Contains(q) ?? false) ||
+                    (s.Description?.ToLowerInvariant().Contains(q) ?? false))
+                .OrderBy(s => s.Name)
+                .Select(s => new
+                {
+                    s.Name,
+                    s.Title,
+                    s.Description,
+                    s.WebsiteUrl,
+                    s.Secured,
+                    s.Hidden,
+
+                    Details = includeDetails
+                        ? new
+                        {
+                            Prompts = s.Prompts?.Select(p => new
+                            {
+                                p.Name,
+                                p.Description,
+                                Prompt = p.PromptTemplate,
+                                Arguments = p.Arguments?.Select(a => new
+                                {
+                                    a.Name,
+                                    a.Description,
+                                    a.Required
+                                })
+                            }),
+
+                            Resources = s.Resources?.Select(r => new
+                            {
+                                r.Uri,
+                                r.Name,
+                                r.Description
+                            }),
+
+                            ResourceTemplates = s.ResourceTemplates?.Select(r => new
+                            {
+                                Uri = r.TemplateUri,
+                                r.Name,
+                                r.Description
+                            }),
+
+                            Tools = s.Plugins?.Select(t => new
+                            {
+                                t.PluginName
+                            })
+                        }
+                        : null
+                });
+
+        return await Task.FromResult(new
+        {
+            query,
+            includeDetails,
+            servers = result
+        });
+    }));
+
+
     [Description("Clone a MCP-server")]
     [McpServerTool(Title = "Clone a MCP-server",
         Destructive = false,

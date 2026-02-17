@@ -200,5 +200,83 @@ public static partial class ModelContextEditor
             $"Prompt {promptName} deleted.",
             cancellationToken);
     });
+
+    [Description("Get a prompt from a MCP-server.")]
+    [McpServerTool(
+    Title = "Get a prompt",
+    ReadOnly = true,
+    Idempotent = true,
+    Destructive = false,
+    OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_GetPrompt(
+    [Description("Name of the server")] string serverName,
+    [Description("Name of the prompt")] string promptName,
+    IServiceProvider serviceProvider,
+    RequestContext<CallToolRequestParams> requestContext,
+    CancellationToken cancellationToken = default) =>
+    await requestContext.WithExceptionCheck(async () =>
+    await requestContext.WithStructuredContent(async () =>
+    {
+        var server = await serviceProvider.GetServer(serverName, cancellationToken);
+
+        var prompt =
+            server.Prompts
+                .FirstOrDefault(p =>
+                    string.Equals(p.Name, promptName, StringComparison.OrdinalIgnoreCase))
+            ?? throw new Exception($"Prompt '{promptName}' not found on server '{serverName}'.");
+
+        return prompt.ToPromptTemplate();
+    }));
+
+    [Description("List prompts from a MCP-server.")]
+    [McpServerTool(
+        Title = "List prompts",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_ListPrompts(
+        [Description("Name of the server")] string serverName,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("When true, include full prompt templates and arguments.")]
+    bool includeDetails = false,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var server = await serviceProvider.GetServer(serverName, cancellationToken);
+
+            var prompts =
+                server.Prompts
+                    .OrderBy(p => p.Name)
+                    .Select(p => new
+                    {
+                        p.Name,
+                        p.Title,
+                        p.Description,
+
+                        Details = includeDetails
+                            ? new
+                            {
+                                Prompt = p.PromptTemplate,
+                                Arguments = p.Arguments?.Select(a => new
+                                {
+                                    a.Name,
+                                    a.Description,
+                                    a.Required
+                                })
+                            }
+                            : null
+                    });
+
+            return await Task.FromResult(new
+            {
+                server = server.Name,
+                includeDetails,
+                prompts
+            });
+        }));
+
 }
 
