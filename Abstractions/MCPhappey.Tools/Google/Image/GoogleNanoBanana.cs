@@ -45,7 +45,7 @@ public static class GoogleNanoBanana
         {
             Messages = [..items?.Select(a => new ImageContentBlock() {
                     MimeType = a.MimeType,
-                    Data = Convert.ToBase64String(a.Contents.ToArray())
+                    Data = a.Contents.ToArray()
                 }.ToUserSamplingMessage()) ?? [],
                 prompt.ToUserSamplingMessage()],
             IncludeContext = ContextInclusion.ThisServer,

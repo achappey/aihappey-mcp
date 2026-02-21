@@ -41,7 +41,7 @@ public static class OpenAIImageTools
 
             imageBlocks.Add(new ImageContentBlock()
             {
-                Data = Convert.ToBase64String(file?.Contents),
+                Data = file?.Contents,
                 MimeType = file?.MimeType!,
             }.ToUserSamplingMessage());
         }
@@ -99,7 +99,7 @@ public static class OpenAIImageTools
 
            imageBlocks.Add(new ImageContentBlock()
            {
-               Data = Convert.ToBase64String(file?.Contents),
+               Data = file?.Contents,
                MimeType = file?.MimeType!,
            }.ToUserSamplingMessage());
        }

@@ -112,7 +112,7 @@ public static class EdenAIAudio
                     uploaded!,
                     new AudioContentBlock
                     {
-                        Data = Convert.ToBase64String(binary),
+                        Data = binary,
                         MimeType = fileExt == "wav" ? "audio/wav" :
                                    fileExt == "ogg" ? "audio/ogg" : "audio/mpeg"
                     }

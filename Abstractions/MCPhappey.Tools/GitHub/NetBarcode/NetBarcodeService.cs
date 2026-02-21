@@ -49,7 +49,7 @@ public static class NetBarcodeService
                     settings.BarcodeType = Enum.Parse<BarcodeType>(barcodeType);
                 }).SaveImageFile("12345456", "barcode.png");
 
-            var base64 = barcode.GetBase64Image(text);
+            var base64 = barcode.GetByteArray(text);
 
             blocks.Add(new ImageContentBlock()
             {
@@ -93,7 +93,7 @@ public static class NetBarcodeService
                       settings.BarcodeType = Enum.Parse<BarcodeType>(barcodeType);
                   });
 
-              var base64 = barcode.GetBase64Image(text);
+              var base64 = barcode.GetByteArray(text);
 
               return new ImageContentBlock()
               {

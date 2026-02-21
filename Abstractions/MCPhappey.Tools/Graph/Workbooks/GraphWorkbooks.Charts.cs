@@ -37,10 +37,11 @@ public static partial class GraphWorkbooks
             .Image
             .GetAsImageGetResponseAsync(cancellationToken: cancellationToken);
 
+        var base64 = imageResponse?.Value ?? throw new Exception("No image data returned from Graph.");
         return new ImageContentBlock
         {
             MimeType = MimeTypes.ImagePng,
-            Data = imageResponse?.Value ?? throw new Exception("No image data returned from Graph.")
+            Data = Convert.FromBase64String(base64)
         };
     }
 

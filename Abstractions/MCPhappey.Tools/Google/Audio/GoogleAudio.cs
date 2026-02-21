@@ -61,7 +61,7 @@ public static partial class GoogleAudio
 
             AudioContentBlock audio = new()
             {
-                Data = Convert.ToBase64String(mp3Stream.ToArray()),
+                Data = mp3Stream.ToArray(),
                 MimeType = "audio/mp3"
             };
 
@@ -107,7 +107,7 @@ public static partial class GoogleAudio
         );
 
         var outputName = $"{filename}.mp3";
-        using var uploadStream = new MemoryStream(Convert.FromBase64String(audio.Data));
+        using var uploadStream = new MemoryStream(audio.Data.ToArray());
 
         var myDrive = await client.Me.Drive.GetAsync(cancellationToken: cancellationToken);
         var uploadedItem = await client.Drives[myDrive?.Id].Root.ItemWithPath($"/{outputName}")

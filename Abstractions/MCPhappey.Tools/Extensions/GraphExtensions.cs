@@ -48,7 +48,7 @@ public static class GraphExtensions
        Func<GraphServiceClient, Task<CallToolResult>> func)
     {
         if (requestContext.Services == null)
-            throw new ArgumentNullException(nameof(requestContext.Services));
+            throw new ArgumentNullException(nameof(requestContext));
 
         using var client = await requestContext.Services.GetOboGraphClient(requestContext.Server);
 

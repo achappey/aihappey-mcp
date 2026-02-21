@@ -80,7 +80,7 @@ public static class AsyncAIService
                     }, new AudioContentBlock
                     {
                         MimeType = mimeType,
-                        Data = Convert.ToBase64String(audioBytes)
+                        Data = audioBytes
                     }]
         };
     }));
@@ -181,7 +181,7 @@ public static class AsyncAIService
                     }, new AudioContentBlock
                     {
                         MimeType = mimeType,
-                        Data = Convert.ToBase64String(audioBytes)
+                        Data = audioBytes
                     }]
          };
      }));

@@ -56,7 +56,7 @@ public static class GraphUserPhotos
                 [
                     new ImageContentBlock
                     {
-                        Data = Convert.ToBase64String(bytes),
+                        Data = bytes,
                         MimeType = string.IsNullOrWhiteSpace(mimeType) ? "image/jpeg" : mimeType
                     }
                 ]

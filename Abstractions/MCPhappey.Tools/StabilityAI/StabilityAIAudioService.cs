@@ -96,7 +96,7 @@ public static class StabilityAIAudioService
                        graphItem,
                         new AudioContentBlock
                         {
-                            Data = Convert.ToBase64String(bytesOut),
+                            Data = bytesOut,
                             MimeType = MimeTypes.AudioMP3
                         }
                    ]
@@ -192,7 +192,7 @@ public static class StabilityAIAudioService
                        graphItem,
                         new AudioContentBlock
                         {
-                            Data = Convert.ToBase64String(bytesOut),
+                            Data = bytesOut,
                             MimeType = MimeTypes.AudioMP3
                         }
                    ]
@@ -295,7 +295,7 @@ public static class StabilityAIAudioService
                     graphItem,
                             new AudioContentBlock
                             {
-                                Data = Convert.ToBase64String(bytesOut),
+                                Data = bytesOut,
                                 MimeType = MimeTypes.AudioMP3
                             }
                 ]

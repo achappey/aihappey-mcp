@@ -102,7 +102,7 @@ public static class TogetherAudio
                     graphItem,
                     new AudioContentBlock
                     {
-                        Data = Convert.ToBase64String(bytesOut),
+                        Data = bytesOut,
                         MimeType = fileExt == "mp3" ? "audio/mpeg" : "audio/wav"
                     }
                 ]

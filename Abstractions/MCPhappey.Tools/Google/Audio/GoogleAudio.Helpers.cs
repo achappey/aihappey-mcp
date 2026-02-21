@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;
 using Mscc.GenerativeAI;
 using NAudio.Lame;
@@ -79,7 +80,7 @@ public static partial class GoogleAudio
         }, cancellationToken: cancellationToken);
 
         var audioPart = item.Candidates?.FirstOrDefault()?.Content?.Parts.FirstOrDefault();
-        var base64 = audioPart?.InlineData.Data;
+        var base64 = audioPart?.InlineData?.Data;
         if (string.IsNullOrWhiteSpace(base64))
             throw new Exception("No audio data returned.");
 
@@ -90,8 +91,8 @@ public static partial class GoogleAudio
 
         return new AudioContentBlock
         {
-            Data = Convert.ToBase64String(mp3Stream.ToArray()),
-            MimeType = "audio/mp3"
+            Data = mp3Stream.ToArray(),
+            MimeType = MimeTypes.AudioMP3
         };
     }
 

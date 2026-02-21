@@ -101,7 +101,7 @@ public static class FileItemExtensions
             Uri = fileItem.Uri,
         } : new BlobResourceContents()
         {
-            Blob = Convert.ToBase64String(fileItem.Contents.ToArray()),
+            Blob = fileItem.Contents.ToArray(),
             MimeType = fileItem.MimeType,
             Uri = fileItem.Uri,
         };

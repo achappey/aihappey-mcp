@@ -69,7 +69,7 @@ public static class StabilityAI3DService
         {
             Resource = new BlobResourceContents()
             {
-                Blob = Convert.ToBase64String(bytesOut),
+                Blob = bytesOut,
                 Uri = uploaded.Uri,
                 MimeType = "model/gltf-binary"
             }

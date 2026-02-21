@@ -120,7 +120,7 @@ public static class SiliconFlowAudio
                     uploaded,
                     new AudioContentBlock
                     {
-                        Data = Convert.ToBase64String(bytes),
+                        Data = bytes,
                         MimeType = mimeType
                     }
                 ]

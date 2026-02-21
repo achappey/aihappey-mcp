@@ -72,7 +72,7 @@ public static class ResourceExtensions
         new()
         {
             Uri = uri,
-            Blob = Convert.ToBase64String(binaryData),
+            Blob = binaryData,
             MimeType = mimeType
         };
 
@@ -80,7 +80,7 @@ public static class ResourceExtensions
         new()
         {
             Uri = uri,
-            Blob = Convert.ToBase64String(contents),
+            Blob = contents,
             MimeType = mimeType
         };
 

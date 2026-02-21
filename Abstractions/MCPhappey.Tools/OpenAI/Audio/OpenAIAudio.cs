@@ -70,7 +70,7 @@ public static class OpenAIAudio
                             : new AudioContentBlock()
                             {
                                 MimeType = MimeTypes.AudioMP3,
-                                Data = Convert.ToBase64String(binaryData),
+                                Data = binaryData,
                             };
 
         return content.ToCallToolResult();

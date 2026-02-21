@@ -85,7 +85,7 @@ public static class GroqAudio
                     graphItem,
                     new AudioContentBlock
                     {
-                        Data = Convert.ToBase64String(bytesOut),
+                        Data = bytesOut,
                         MimeType =  "audio/wav"
                     }
                 ]
@@ -166,7 +166,7 @@ public static class GroqAudio
                        graphItem,
                         new AudioContentBlock
                         {
-                            Data = Convert.ToBase64String(bytesOut),
+                            Data = bytesOut,
                             MimeType = MimeTypes.AudioWaveform
                         }
                    ]

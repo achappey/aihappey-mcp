@@ -237,11 +237,10 @@ public static class AzureMapsService
          .ToString();
 
      var bytes = await maps.GetBytesAsync(qs, cancellationToken);
-     var base64 = Convert.ToBase64String(bytes);
 
      return new CallToolResult
      {
-         Content = [new ImageContentBlock { MimeType = MimeTypes.ImagePng, Data = base64 }]
+         Content = [new ImageContentBlock { MimeType = MimeTypes.ImagePng, Data = bytes }]
      };
  });
 
@@ -364,12 +363,12 @@ public static class AzureMapsService
             .ToString();
 
         var bytes = await maps.GetBytesAsync(qs, cancellationToken);
-        var base64 = Convert.ToBase64String(bytes);
+
         return new CallToolResult()
         {
             Content = [new ImageContentBlock() {
                 MimeType = MimeTypes.ImagePng,
-                Data = base64
+                Data = bytes
             }]
         };
     });

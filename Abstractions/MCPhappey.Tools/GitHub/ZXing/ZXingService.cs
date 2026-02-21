@@ -70,11 +70,9 @@ public static class ZXingService
         bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
         ms.Position = 0;
 
-        var base64 = Convert.ToBase64String(ms.ToArray());
-
         return new ImageContentBlock()
         {
-            Data = base64,
+            Data = ms.ToArray(),
             MimeType = MimeTypes.ImagePng,
         }.ToCallToolResult();
     });

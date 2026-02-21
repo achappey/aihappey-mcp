@@ -125,7 +125,7 @@ public static class DeepgramAudio
                     uploaded,
                     new AudioContentBlock
                     {
-                        Data = Convert.ToBase64String(bytesOut),
+                        Data = bytesOut,
                         MimeType = mime
                     }
                 ]

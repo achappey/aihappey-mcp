@@ -429,7 +429,7 @@ public static partial class ModelContextToolExtensions
                 var upload = await request.Server.Upload(
                     serviceProvider,
                     request.ToOutputFileName(blobResourceContents.MimeType!.ResolveExtensionFromMime()),
-                    BinaryData.FromBytes(Convert.FromBase64String(blobResourceContents.Blob)),
+                    BinaryData.FromBytes(blobResourceContents.Blob),
                     cancellationToken);
 
                 uploadBlocks.Add(upload!);
@@ -440,7 +440,7 @@ public static partial class ModelContextToolExtensions
                 var upload = await request.Server.Upload(
                     serviceProvider,
                     request.ToOutputFileName(imageContentBlock.MimeType!.ResolveExtensionFromMime()),
-                    BinaryData.FromBytes(Convert.FromBase64String(imageContentBlock.Data)),
+                    BinaryData.FromBytes(imageContentBlock.Data),
                     cancellationToken);
 
                 uploadBlocks.Add(upload!);

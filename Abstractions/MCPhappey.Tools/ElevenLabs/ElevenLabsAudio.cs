@@ -81,8 +81,8 @@ public static class ElevenLabsAudio
                 Content = [
                     uploaded!,
                     new AudioContentBlock {
-                        Data = Convert.ToBase64String(bytesOut),
-                        MimeType =  "audio/mpeg"
+                        Data = bytesOut,
+                        MimeType = MimeTypes.AudioMP3
                     }
                 ]
             };

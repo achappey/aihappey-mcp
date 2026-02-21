@@ -157,7 +157,7 @@ public static class AIMLAudio
                 uploaded,
                 new AudioContentBlock()
                 {
-                    Data = Convert.ToBase64String(fileData.Contents),
+                    Data = fileData.Contents,
                     MimeType = "audio/wav"
                 },
                 doc.ToJsonContent(BASE_URL)
@@ -308,7 +308,7 @@ public static class AIMLAudio
                 uploaded,
                 new AudioContentBlock()
                 {
-                    Data = Convert.ToBase64String(fileData.Contents),
+                    Data = fileData.Contents,
                     MimeType = "audio/" + typed.ResponseFormat.ToString().ToLowerInvariant()
                 },
                 doc.ToJsonContent(BASE_URL)
