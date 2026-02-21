@@ -1,0 +1,21 @@
+{
+    "serverInfo": {
+        "name": "CometAPI-Speech",
+        "title": "CometAPI Speech",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.cometapi.com",
+        "description": "Create speech from raw text or fileUrl-extracted text using CometAPI Text-to-Speech.",
+        "icons": [
+            {
+                "src": "https://avatars.githubusercontent.com/u/225111184?s=200&v=4"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.CometAPI.CometAPISpeechAudio, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}
+

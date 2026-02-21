@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Parasail-Images",
+    "title": "Parasail Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://parasail.io",
+    "description": "Parasail image generation and editing with mandatory elicitation confirmation, fileUrl-only edit input, SharePoint/OneDrive upload, and resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQGHagBOKtWpwQ/company-logo_200_200/company-logo_200_200/0/1732316921073/parasail_io_logo?e=2147483647&v=beta&t=jaZXF1RDXLtJNk15-69YLKarukGLRdtG5m9v9Jx0P4w"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Parasail.ParasailImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

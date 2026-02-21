@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Bineric-Models",
+    "title": "Bineric Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.bineric.com",
+    "description": "Browse Bineric models to see capabilities, limits and pick the right one for your task.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4D0BAQEMXQsylgk1tQ/company-logo_200_200/company-logo_200_200/0/1727125032999/bineric_logo?e=2147483647&v=beta&t=WCy9WYGg7Fo8jru8Vn12U3qt7ruiuHGYWhPYuvNYpcc"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

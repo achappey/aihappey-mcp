@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "APIpie-Models",
+    "title": "APIpie Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://apipie.ai",
+    "description": "Browse APIpie models to see capabilities, limits and pick the right one for your task.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZOKtmO7fayNnJdtNQtYp_rNkcRpULyPhQMA&s"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

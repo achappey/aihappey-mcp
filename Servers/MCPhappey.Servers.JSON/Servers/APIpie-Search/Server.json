@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "APIpie-Search",
+    "title": "APIpie Search",
+    "version": "1.0.0",
+    "websiteUrl": "https://apipie.ai",
+    "description": "Search the web, generate sourced answers, and scrape page content with APIpie.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZOKtmO7fayNnJdtNQtYp_rNkcRpULyPhQMA&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.APIpie.APIpieSearch, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

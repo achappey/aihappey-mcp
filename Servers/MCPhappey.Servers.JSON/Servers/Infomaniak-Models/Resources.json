@@ -1,0 +1,30 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.infomaniak.com/1/ai",
+      "name": "infomaniak-list-ai-tools",
+      "title": "List Infomaniak AI Tools products",
+      "description": "List all Infomaniak AI Tools products where the authenticated user has technical rights.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.infomaniak.com/1/ai/models",
+      "name": "infomaniak-list-models-v1",
+      "title": "List Infomaniak AI models",
+      "description": "Get all available Infomaniak AI models from the v1 endpoint.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

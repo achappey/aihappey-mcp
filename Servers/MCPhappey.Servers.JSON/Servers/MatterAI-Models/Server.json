@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "MatterAI-Models",
+    "title": "MatterAI Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.matterai.so",
+    "description": "Browse MatterAI models to see capabilities, limits and pick the right one for your task.",
+    "icons": [
+      {
+        "src": "https://www.matterai.so/favicon.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

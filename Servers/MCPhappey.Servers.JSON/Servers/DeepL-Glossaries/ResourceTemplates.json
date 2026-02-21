@@ -1,0 +1,56 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.deepl.com/v3/glossaries/{glossaryId}",
+      "name": "deepl-pro-glossary-details",
+      "title": "DeepL Pro glossary details",
+      "description": "Retrieve glossary metadata by glossaryId from DeepL Pro.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api-free.deepl.com/v3/glossaries/{glossaryId}",
+      "name": "deepl-free-glossary-details",
+      "title": "DeepL Free glossary details",
+      "description": "Retrieve glossary metadata by glossaryId from DeepL Free.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.deepl.com/v3/glossaries/{glossaryId}/entries?source_lang={sourceLang}&target_lang={targetLang}",
+      "name": "deepl-pro-glossary-entries",
+      "title": "DeepL Pro glossary entries",
+      "description": "Retrieve glossary entries by glossaryId and language pair from DeepL Pro.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api-free.deepl.com/v3/glossaries/{glossaryId}/entries?source_lang={sourceLang}&target_lang={targetLang}",
+      "name": "deepl-free-glossary-entries",
+      "title": "DeepL Free glossary entries",
+      "description": "Retrieve glossary entries by glossaryId and language pair from DeepL Free.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

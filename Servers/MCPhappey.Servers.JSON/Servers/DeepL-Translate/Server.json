@@ -1,7 +1,7 @@
 {
   "serverInfo": {
-    "name": "DeepL",
-    "title": "DeepL",
+    "name": "DeepL-Translate",
+    "title": "DeepL Translate",
     "version": "1.0.0",
     "websiteUrl": "https://www.deepl.com",
     "description": "Translate texts & full document files instantly. Accurate translations for individuals and Teams. Millions translate with DeepL every day.",
@@ -12,7 +12,7 @@
     ]
   },
   "obo": {
-    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read  https://graph.microsoft.com/Sites.ReadWrite.All"
   },
   "plugins": [
     "MCPhappey.Tools.DeepL.DeepLDocuments, MCPhappey.Tools"

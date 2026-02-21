@@ -1,0 +1,17 @@
+{
+    "resources": [
+        {
+            "uri": "https://inference.do-ai.run/v1/models",
+            "name": "list-digitalocean-models",
+            "title": "List available DigitalOcean models",
+            "description": "List all available DigitalOcean models",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant",
+                    "user"
+                ]
+            }
+        }
+    ]
+}

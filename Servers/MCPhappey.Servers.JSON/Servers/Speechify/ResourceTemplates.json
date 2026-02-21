@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.speechify.ai/v1/voices/{id}/sample",
+      "name": "speechify-voice-sample",
+      "title": "Speechify voice sample",
+      "description": "Download a sample audio file for a personal (cloned) Speechify voice by id.",
+      "mimeType": "audio/*",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

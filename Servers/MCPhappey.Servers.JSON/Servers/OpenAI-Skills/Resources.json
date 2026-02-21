@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.openai.com/v1/skills",
+      "name": "list-openai-skills",
+      "title": "List available OpenAI skills",
+      "description": "List all available OpenAI skills",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

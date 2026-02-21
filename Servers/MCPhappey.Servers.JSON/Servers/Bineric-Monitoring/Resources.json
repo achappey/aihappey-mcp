@@ -1,0 +1,30 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.bineric.com/api/v1/monitoring/daily-usage",
+      "name": "bineric-daily-usage",
+      "title": "Get Bineric daily usage",
+      "description": "Get Bineric daily usage details",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.bineric.com/api/v1/monitoring/balance",
+      "name": "bineric-monitoring-balance",
+      "title": "Get Bineric balance monitoring",
+      "description": "Get Bineric balance monitoring",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

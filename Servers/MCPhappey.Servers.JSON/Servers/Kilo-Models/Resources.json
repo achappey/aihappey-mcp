@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.kilo.ai/api/gateway/models",
+      "name": "list-kilo-models",
+      "title": "List available Kilo models",
+      "description": "List all available Kilo models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

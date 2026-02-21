@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.deapi.ai/api/v1/client/models",
+      "name": "list-deapi-models",
+      "title": "List available deAPI models",
+      "description": "List all available deAPI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

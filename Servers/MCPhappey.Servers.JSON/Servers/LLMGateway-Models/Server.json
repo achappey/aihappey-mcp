@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "LLMGateway-Models",
+        "title": "LLMGateway Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://llmgateway.io",
+        "description": "Browse LLMGateway models.",
+        "icons": [
+            {
+                "src": "https://ph-files.imgix.net/c2dfedf5-ce71-4f9f-97c4-b06c4940b6a8.png?auto=format"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

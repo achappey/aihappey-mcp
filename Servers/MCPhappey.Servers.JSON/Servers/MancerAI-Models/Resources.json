@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://neuro.mancer.tech/oai/v1/models",
+      "name": "list-mancerai-models",
+      "title": "List available MancerAI models",
+      "description": "List all available MancerAI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

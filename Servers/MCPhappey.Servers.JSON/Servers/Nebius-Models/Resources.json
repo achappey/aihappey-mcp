@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.tokenfactory.nebius.com/v1/models",
+      "name": "list-nebius-models",
+      "title": "List available Nebius models",
+      "description": "List all available Nebius models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

@@ -3,6 +3,7 @@
     "name": "OpenAI-Models",
     "title": "OpenAI Models",
     "version": "1.0.0",
+    "websiteUrl": "https://www.openai.com",
     "description": "Browse OpenAI models and compare options to pick the best one for your task.",
     "icons": [
       {
@@ -14,5 +15,8 @@
         "theme": "light"
       }
     ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
   }
 }

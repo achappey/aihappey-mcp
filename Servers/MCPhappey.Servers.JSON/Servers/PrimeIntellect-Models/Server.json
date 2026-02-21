@@ -1,0 +1,22 @@
+{
+    "serverInfo": {
+        "name": "PrimeIntellect-Models",
+        "title": "Prime Intellect Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.primeintellect.ai",
+        "description": "Browse Prime Intellect models.",
+        "icons": [
+            {
+                "src": "https://app.primeintellect.ai/favicon-256x256.png",
+                "theme": "light"
+            },
+            {
+                "src": "https://avatars.githubusercontent.com/u/148051844?s=200&v=4",
+                "theme": "dark"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

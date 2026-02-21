@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.hunyuan.cloud.tencent.com/v1/models",
+      "name": "list-tencent-hunyuan-models",
+      "title": "List available Tencent Hunyuan models",
+      "description": "List all available Tencent Hunyuan models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

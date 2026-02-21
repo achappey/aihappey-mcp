@@ -16,7 +16,7 @@ public static class GraphLists
     [Description("Create a new Microsoft List item")]
     [McpServerTool(Title = "Create a new Microsoft List item", Destructive = true,
         OpenWorld = false)]
-    public static async Task<CallToolResult> GraphLists_CreateListItem(
+    public static async Task<CallToolResult?> GraphLists_CreateListItem(
           string siteId,            // ID of the SharePoint site
           string listId,            // ID of the Microsoft List
     //      [Description("More background info around the list item creation")] string comments,

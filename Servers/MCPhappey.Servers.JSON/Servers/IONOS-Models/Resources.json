@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://openai.inference.de-txl.ionos.com/v1/models",
+      "name": "list-ionos-models",
+      "title": "List available IONOS models",
+      "description": "List all available IONOS models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

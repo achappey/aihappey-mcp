@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Parasail-Models",
+        "title": "Parasail Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://parasail.io",
+        "description": "Browse Parasail models.",
+        "icons": [
+            {
+                "src": "https://media.licdn.com/dms/image/v2/D560BAQGHagBOKtWpwQ/company-logo_200_200/company-logo_200_200/0/1732316921073/parasail_io_logo?e=2147483647&v=beta&t=jaZXF1RDXLtJNk15-69YLKarukGLRdtG5m9v9Jx0P4w"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

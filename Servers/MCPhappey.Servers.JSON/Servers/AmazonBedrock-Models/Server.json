@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "AmazonBedrock-Models",
+        "title": "Amazon Bedrock Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://aws.amazon.com/bedrock",
+        "description": "Browse Amazon Bedrock foundation models.",
+        "icons": [
+            {
+                "src": "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/bedrock-color.png"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

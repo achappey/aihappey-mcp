@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Helicone-Models",
+        "title": "Helicone Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.helicone.ai",
+        "description": "Browse Helicone models.",
+        "icons": [
+            {
+                "src": "https://www.helicone.ai/favicon.ico"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

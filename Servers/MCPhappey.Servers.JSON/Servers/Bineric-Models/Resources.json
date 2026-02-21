@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.bineric.com/api/v1/ai/models",
+      "name": "list-bineric-models",
+      "title": "List available Bineric models",
+      "description": "List all available Bineric models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

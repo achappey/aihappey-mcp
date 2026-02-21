@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "DeepL-Glossaries",
+    "title": "DeepL Glossaries",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.deepl.com",
+    "description": "Create, edit, replace dictionaries, and delete DeepL multilingual glossaries. GET endpoints are exposed via resources/templates.",
+    "icons": [
+      {
+        "src": "https://hel1.your-objectstorage.com/ztudium-cms/deepl_7baa54aa02.jpeg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read  https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.DeepL.DeepLGlossaries, MCPhappey.Tools"
+  ]
+}

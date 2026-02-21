@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.pinference.ai/api/v1/models",
+      "name": "list-primeintellect-models",
+      "title": "List available Prime Intellect models",
+      "description": "List all available Prime Intellect models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

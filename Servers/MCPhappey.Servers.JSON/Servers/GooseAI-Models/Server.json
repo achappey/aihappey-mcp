@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "GooseAI-Models",
+        "title": "GooseAI Engines",
+        "version": "1.0.0",
+        "websiteUrl": "https://goose.ai",
+        "description": "Browse GooseAI engines.",
+        "icons": [
+            {
+                "src": "https://cdn-1.webcatalog.io/catalog/gooseai/gooseai-icon-filled-256.png?v=1714783054795"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

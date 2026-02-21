@@ -34,7 +34,7 @@ public static class AI302AcademicPaperSearchPlugin
                     ["sort_by"] = sortBy,
                     ["language"] = language,
                     ["id_list"] = string.IsNullOrWhiteSpace(idList)
-                        ? new JsonArray()
+                        ? []
                         : new JsonArray(idList.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                             .Select(a => (JsonNode?)a)
                             .ToArray())

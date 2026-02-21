@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Novita-Models",
+        "title": "Novita Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://novita.ai",
+        "description": "Browse Novita models.",
+        "icons": [
+            {
+                "src": "https://media.licdn.com/dms/image/v2/D560BAQG04_X3qbYWrg/company-logo_200_200/company-logo_200_200/0/1737460982063/novita_ai_labs_logo?e=2147483647&v=beta&t=PP0ulFsya1NvYiEtpQDIdmmnEfbrQ03kl6XA7TT1pJ0"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

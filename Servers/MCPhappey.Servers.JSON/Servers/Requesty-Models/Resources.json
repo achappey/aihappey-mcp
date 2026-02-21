@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://router.requesty.ai/v1/models",
+      "name": "list-requesty-models",
+      "title": "List available Requesty models",
+      "description": "List all available Requesty models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

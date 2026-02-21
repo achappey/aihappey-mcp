@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Kilo-Models",
+        "title": "Kilo Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://kilo.ai",
+        "description": "Browse Kilo models.",
+        "icons": [
+            {
+                "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMLlNkfiVjeIdE8Sw7_GmVbxfOaqo-GnRX3w&s"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

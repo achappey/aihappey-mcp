@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "TencentHunyuan-Models",
+        "title": "Tencent Hunyuan Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://hunyuan.tencent.com",
+        "description": "Browse Tencent Hunyuan models.",
+        "icons": [
+            {
+                "src": "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/hunyuan-color.png"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

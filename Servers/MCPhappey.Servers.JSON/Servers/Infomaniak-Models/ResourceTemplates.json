@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.infomaniak.com/2/ai/{product_id}/openai/v1/models",
+      "name": "infomaniak-openai-list-models-v2",
+      "title": "List OpenAI-compatible models for an Infomaniak AI product",
+      "description": "List models from Infomaniak's OpenAI-compatible endpoint for a specific AI product ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

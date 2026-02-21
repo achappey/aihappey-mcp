@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Groq-Models",
+    "title": "Groq Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://groq.com",
+    "description": "Browse Groq models and compare options to pick the best one for your task.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnze6t-thGVKlIKNKF9zeiTfaoxLdYdVzX0g&s"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

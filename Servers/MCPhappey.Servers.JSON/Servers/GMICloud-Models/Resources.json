@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.gmi-serving.com/v1/models",
+      "name": "list-gmicloud-models",
+      "title": "List available GMICloud models",
+      "description": "List all available GMICloud models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

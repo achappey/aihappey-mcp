@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://bedrock.{endpoint}.amazonaws.com/foundation-models",
+      "name": "list-amazon-bedrock-models",
+      "title": "List available Amazon Bedrock foundation models",
+      "description": "List all available Amazon Bedrock foundation models for the specified AWS region endpoint (for example: us-east-1, eu-west-1).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

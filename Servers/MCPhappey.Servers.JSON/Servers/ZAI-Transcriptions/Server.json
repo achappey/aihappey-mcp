@@ -1,0 +1,24 @@
+{
+  "serverInfo": {
+    "name": "ZAI-Transcriptions",
+    "title": "Z.AI Transcriptions",
+    "version": "1.0.0",
+    "websiteUrl": "https://docs.z.ai",
+    "description": "Create speech-to-text transcriptions from fileUrl with Z.AI GLM-ASR and return structured transcription output.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/223098841?s=200&v=4"
+      }
+    ]
+  },
+  "headers": {
+    "Authorization": "Bearer [zAI_API_key]"
+  },
+  "plugins": [
+    "MCPhappey.Tools.ZAI.ZAITranscriptions, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

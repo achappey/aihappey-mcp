@@ -1,0 +1,21 @@
+{
+    "serverInfo": {
+        "name": "Decart-Video",
+        "title": "Decart Video",
+        "version": "1.0.0",
+        "websiteUrl": "https://decart.ai",
+        "description": "Generate and edit videos with Decart Lucy models, then upload the result to SharePoint/OneDrive.",
+        "icons": [
+            {
+                "src": "https://storage.googleapis.com/clean-finder-353810/$bQq0ks0xSdvRsJY1WjayY9ck9qGR1V9MtFzr7KUmp7YNU9GAqBd7fG.jpeg"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Decart.Video.DecartVideo, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}
+

@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://openrouter.ai/api/v1/models",
+      "name": "list-openrouter-models",
+      "title": "List available OpenRouter models",
+      "description": "List all available OpenRouter models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

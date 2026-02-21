@@ -595,7 +595,7 @@ public static class RekaVision
         if (!resp.IsSuccessStatusCode)
             throw new Exception($"{resp.StatusCode}: {json}");
 
-        var node = JsonNode.Parse(json)?.AsObject() ?? new JsonObject();
+        var node = JsonNode.Parse(json)?.AsObject() ?? [];
         return (node, json);
     }
 

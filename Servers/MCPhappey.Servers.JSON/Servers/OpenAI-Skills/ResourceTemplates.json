@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.openai.com/v1/skills/{skill_id}",
+      "name": "skill-detail",
+      "title": "Get skill detail",
+      "description": "Returns basic information about a specific skill, including name, source (custom or system), and the latest version ID. Useful to check whether a skill exists and when it was last updated.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.openai.com/v1/skills/{skill_id}/content",
+      "name": "get-skill-content",
+      "title": "Get skill content",
+      "description": "Get skill content.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

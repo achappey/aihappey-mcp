@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "OVHcloud-Models",
+    "title": "OVHcloud Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.ovhcloud.com",
+    "description": "Browse OVHcloud models and compare options to pick the best one for your task.",
+    "icons": [
+      {
+        "src": "https://pbs.twimg.com/profile_images/1178940876078407680/p0SH0xKH_400x400.jpg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

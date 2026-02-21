@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Requesty-Models",
+    "title": "Requesty Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.requesty.ai",
+    "description": "Browse Requesty models and compare options to pick the best one for your task.",
+    "icons": [
+      {
+        "src": "https://requesty.ai/favicon.ico"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

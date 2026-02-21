@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "deAPI-Video",
+    "title": "deAPI Video",
+    "version": "1.0.0",
+    "websiteUrl": "https://deapi.ai",
+    "description": "deAPI text-to-video and image-to-video tools with mandatory elicitation confirmation, polling, SharePoint/OneDrive upload, and resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://s3-eu-west-1.amazonaws.com/tpd/logos/692038db2a6043b23f4df897/0x0.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.deAPI.deAPIVideo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

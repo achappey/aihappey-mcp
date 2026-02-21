@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "GreenPT-Models",
+        "title": "GreenPT Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://greenpt.ai",
+        "description": "Browse GreenPT models and compare options to pick the best one for your task.",
+        "icons": [
+            {
+                "src": "https://greenpt.ai/content/uploads/2026/01/2993679_brand_brands_logo_logos_opera_icon@2x-800x800.webp"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

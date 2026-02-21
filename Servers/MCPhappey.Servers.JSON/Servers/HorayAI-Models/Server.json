@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "HorayAI-Models",
+        "title": "HorayAI Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.horay.ai",
+        "description": "Browse HorayAI models.",
+        "icons": [
+            {
+                "src": "https://www.google.com/s2/favicons?sz=128&domain=horay.ai"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

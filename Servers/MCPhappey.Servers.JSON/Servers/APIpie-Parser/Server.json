@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "APIpie-Parser",
+    "title": "APIpie Parser",
+    "version": "1.0.0",
+    "websiteUrl": "https://apipie.ai",
+    "description": "Parse documents with APIpie Apache Tika parser and extract content and metadata.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZOKtmO7fayNnJdtNQtYp_rNkcRpULyPhQMA&s"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.APIpie.APIpieParser, MCPhappey.Tools"
+  ]
+}

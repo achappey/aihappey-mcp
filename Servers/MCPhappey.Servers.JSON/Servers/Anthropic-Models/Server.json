@@ -10,5 +10,8 @@
         "src": "https://upload.wikimedia.org/wikipedia/commons/1/14/Anthropic.png"
       }
     ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
   }
 }

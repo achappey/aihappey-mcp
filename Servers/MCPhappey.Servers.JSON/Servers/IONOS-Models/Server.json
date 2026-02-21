@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "IONOS-Models",
+        "title": "IONOS Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.ionos.com",
+        "description": "Browse IONOS models.",
+        "icons": [
+            {
+                "src": "https://avatars.githubusercontent.com/u/67323449?s=200&v=4"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

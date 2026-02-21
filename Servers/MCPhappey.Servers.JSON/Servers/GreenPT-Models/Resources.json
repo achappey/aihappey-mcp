@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.greenpt.ai/v1/models",
+      "name": "list-greenpt-models",
+      "title": "List available GreenPT models",
+      "description": "List all available GreenPT models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

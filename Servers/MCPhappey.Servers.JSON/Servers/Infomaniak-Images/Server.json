@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Infomaniak-Images",
+        "title": "Infomaniak Images",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.infomaniak.com",
+        "description": "Generate Infomaniak images (standard and PhotoMaker) with mandatory elicitation, SharePoint/OneDrive uploads, and resource-link-only output.",
+        "icons": [
+            {
+                "src": "https://i0.wp.com/news.infomaniak.com/wp-content/uploads/2015/05/avatar-infomaniak.jpg?fit=500%2C500&ssl=1"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Infomaniak.InfomaniakImages, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

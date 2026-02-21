@@ -43,6 +43,7 @@ using MCPhappey.Tools.Freepik;
 using MCPhappey.Tools.AI302;
 using MCPhappey.Tools.ZAI;
 using MCPhappey.Tools.GreenPT;
+using MCPhappey.Tools.APIpie;
 using MCPhappey.Tools.Audixa;
 using MCPhappey.Tools.Deepgram;
 using MCPhappey.Tools.Gladia;
@@ -58,6 +59,15 @@ using MCPhappey.Tools.RegoloAI;
 using MCPhappey.Tools.Scaleway;
 using MCPhappey.Tools.SiliconFlow;
 using MCPhappey.Tools.Upstage;
+using MCPhappey.Tools.MiniMax;
+using MCPhappey.Tools.Speechify;
+using MCPhappey.Tools.deAPI;
+using MCPhappey.Tools.Runpod;
+using MCPhappey.Tools.CometAPI;
+using MCPhappey.Tools.StepFun;
+using MCPhappey.Tools.Decart;
+using MCPhappey.Tools.Infomaniak;
+using MCPhappey.Tools.Parasail;
 using System.Text.Json;
 using System.Net.Http.Headers;
 
@@ -138,11 +148,13 @@ builder.Services
 .AddEdenAI(appConfig?.DomainHeaders)
 .AddVoyageAI(appConfig?.DomainHeaders)
 .AddAIML(appConfig?.DomainHeaders)
+.AddMiniMax(appConfig?.DomainHeaders)
 .AddSPAMhunter(appConfig?.DomainHeaders)
 .AddFreepik(appConfig?.DomainHeaders)
 .AddAI302(appConfig?.DomainHeaders)
 .AddZAI(appConfig?.DomainHeaders)
 .AddGreenPT(appConfig?.DomainHeaders)
+.AddAPIpie(appConfig?.DomainHeaders)
 .AddAudixa(appConfig?.DomainHeaders)
 .AddDeepgram(appConfig?.DomainHeaders)
 .AddGladia(appConfig?.DomainHeaders)
@@ -157,7 +169,15 @@ builder.Services
 .AddRekaAI(appConfig?.DomainHeaders)
 .AddRecraft(appConfig?.DomainHeaders)
 .AddUpstage(appConfig?.DomainHeaders)
+.AddSpeechify(appConfig?.DomainHeaders)
+.AddDeAPI(appConfig?.DomainHeaders)
+.AddParasail(appConfig?.DomainHeaders)
+.AddRunpod(appConfig?.DomainHeaders)
+.AddCometAPI(appConfig?.DomainHeaders)
+.AddStepFun(appConfig?.DomainHeaders)
+.AddInfomaniak(appConfig?.DomainHeaders)
 .AddTinfoil(appConfig?.DomainHeaders)
+.AddDecart(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
 

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "MiniMax-Speech",
+    "title": "MiniMax Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.minimax.io",
+    "description": "Generate high-quality speech from text with MiniMax Text-to-Audio models.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/minimax-color.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.MiniMax.Speech.MiniMaxSpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

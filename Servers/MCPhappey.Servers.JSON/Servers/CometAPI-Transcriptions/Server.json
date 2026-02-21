@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "CometAPI-Transcriptions",
+        "title": "CometAPI Transcriptions",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.cometapi.com",
+        "description": "Create audio transcriptions and translations from fileUrl using CometAPI, returning structured text and uploaded .txt artifacts.",
+        "icons": [
+            {
+                "src": "https://avatars.githubusercontent.com/u/225111184?s=200&v=4"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.CometAPI.CometAPITranscriptions, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

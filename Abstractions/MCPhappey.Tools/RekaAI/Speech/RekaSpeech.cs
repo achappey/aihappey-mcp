@@ -86,7 +86,7 @@ public static class RekaSpeech
                 if (!resp.IsSuccessStatusCode)
                     throw new Exception($"{resp.StatusCode}: {json}");
 
-                var responseNode = JsonNode.Parse(json)?.AsObject() ?? new JsonObject();
+                var responseNode = JsonNode.Parse(json)?.AsObject() ?? [];
 
                 var transcript = responseNode["transcript"]?.GetValue<string>();
                 if (!string.IsNullOrWhiteSpace(transcript))
@@ -185,7 +185,7 @@ public static class RekaSpeech
                 if (!resp.IsSuccessStatusCode)
                     throw new Exception($"{resp.StatusCode}: {json}");
 
-                var responseNode = JsonNode.Parse(json)?.AsObject() ?? new JsonObject();
+                var responseNode = JsonNode.Parse(json)?.AsObject() ?? [];
                 var transcript = responseNode["transcript"]?.GetValue<string>();
                 var translation = responseNode["translation"]?.GetValue<string>();
                 var audioBase64 = responseNode["audio_base64"]?.GetValue<string>();

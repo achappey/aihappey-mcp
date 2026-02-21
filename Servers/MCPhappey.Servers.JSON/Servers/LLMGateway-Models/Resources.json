@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.llmgateway.io/v1/models",
+      "name": "list-llmgateway-models",
+      "title": "List available LLMGateway models",
+      "description": "List all available LLMGateway models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

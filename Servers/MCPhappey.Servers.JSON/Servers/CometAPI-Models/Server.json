@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "CometAPI-Models",
+        "title": "CometAPI Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.cometapi.com",
+        "description": "Browse CometAPI models.",
+        "icons": [
+            {
+                "src": "https://avatars.githubusercontent.com/u/225111184?s=200&v=4"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Cerebras-Models",
+    "title": "Cerebras Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.cerebras.ai",
+    "description": "Browse Cerebras models.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/cerebras-color.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

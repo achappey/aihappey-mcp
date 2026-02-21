@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.sambanova.ai/v1/models",
+      "name": "list-sambanova-models",
+      "title": "List available SambaNova models",
+      "description": "List all available SambaNova models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

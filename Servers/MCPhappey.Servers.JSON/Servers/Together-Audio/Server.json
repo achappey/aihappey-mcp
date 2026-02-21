@@ -7,7 +7,12 @@
     "description": "Convert text to speech and speech to text using Together AI voices and transcription.",
     "icons": [
       {
-        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/together-color.png"
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/together-color.png",
+        "theme": "light"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/together-color.png",
+        "theme": "dark"
       }
     ]
   },

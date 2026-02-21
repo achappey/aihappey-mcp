@@ -4,6 +4,7 @@ using ModelContextProtocol.Protocol;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Common.Extensions;
 using PON = Plotly.NET;
+using System.Text.Json.Nodes;
 
 namespace MCPhappey.Tools.GitHub.Plotly;
 
@@ -34,6 +35,7 @@ public static class PlotlyService
         CancellationToken cancellationToken = default)
         =>
         await requestContext!.WithExceptionCheck(async () =>
+        await requestContext!.WithStructuredContent(async () =>
         {
             // Parse inputs
             var x = xValues.Split(',').Select(v => double.Parse(v.Trim())).ToArray();
@@ -43,17 +45,53 @@ public static class PlotlyService
             PON.GenericChart chart = chartType.ToLowerInvariant() switch
             {
                 "line" => PON.CSharp.Chart.Line<double, double, string>(x, y, Name: seriesName!),
-                "bar"  => PON.CSharp.Chart.Column<double, double, string>(x, y, Name: seriesName!),
-                _      => PON.CSharp.Chart.Point<double, double, string>(x, y, Name: seriesName!)
+                "bar" => PON.CSharp.Chart.Column<double, double, string>(x, y, Name: seriesName!),
+                _ => PON.CSharp.Chart.Point<double, double, string>(x, y, Name: seriesName!)
             };
 
             // Generate figure JSON
             string figureJson = PON.GenericChart.toFigureJson(chart);
+            return JsonNode.Parse(figureJson);
+        }));
 
-            // Return as MCP content block
-            return figureJson
-                .ToJsonContentBlock("https://plotly.net")
-                .ToCallToolResult();
-        });
+    [Description("Create an interactive time-series Plotly chart using ISO timestamps.")]
+    [McpServerTool(
+        Title = "Create time-series chart",
+        Name = "plotly_create_timeseries_chart",
+        ReadOnly = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> Plotly_CreateTimeSeriesChart(
+        [Description("ISO timestamps (comma-separated). Example: 2026-01-01,2026-01-02")]
+            string timestamps,
+
+        [Description("Values (comma-separated). Example: 10,15,8")]
+            string values,
+
+        [Description("Series name.")]
+            string? seriesName = "Series",
+
+        RequestContext<CallToolRequestParams>? requestContext = null) =>
+        await requestContext!.WithExceptionCheck(async () =>
+          await requestContext!.WithStructuredContent(async () =>
+        {
+            var x = timestamps.Split(',')
+                .Select(v => DateTime.Parse(v.Trim()))
+                .ToArray();
+
+            var y = values.Split(',')
+                .Select(v => double.Parse(v.Trim()))
+                .ToArray();
+
+            var chart =
+                PON.CSharp.Chart.Line<DateTime, double, string>(
+                    x.AsEnumerable(),
+                    y.AsEnumerable(),
+                    Name: seriesName!);
+
+            var figureJson = PON.GenericChart.toFigureJson(chart);
+
+            return JsonNode.Parse(figureJson);
+        }));
+
 }
 

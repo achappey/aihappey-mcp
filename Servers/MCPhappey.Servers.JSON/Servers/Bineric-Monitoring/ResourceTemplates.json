@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "name": "bineric-usage-per-period",
+      "title": "Bineric usage per period",
+      "uriTemplate": "https://api.bineric.com/api/v1/monitoring/usage?startDate={startDate}&endDate={endDate}",
+      "description": "Get Bineric usage per period. Use ISO 8601 date format (eg. 2024-01-01).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

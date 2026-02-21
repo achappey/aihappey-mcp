@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "APIpie-Anon",
+    "title": "APIpie Anon",
+    "version": "1.0.0",
+    "websiteUrl": "https://apipie.ai",
+    "description": "Uses Microsoft Presidio analyzer and anonymizer to detect PII entities in text and replace them with truncated SHA-256 hashes.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZOKtmO7fayNnJdtNQtYp_rNkcRpULyPhQMA&s"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "plugins": [
+    "MCPhappey.Tools.APIpie.APIpieAnon, MCPhappey.Tools"
+  ]
+}

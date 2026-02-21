@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "GitHub-GTranslate",
+    "title": "GitHub GTranslate",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/d4n3436/GTranslate",
+    "description": "Translate text with provider selection and auto fallback across Google, Microsoft, Bing and Yandex.",
+    "icons": [
+      {
+        "src": "https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.GTranslate.GitHubGTranslateService, MCPhappey.Tools"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "MancerAI-Models",
+        "title": "MancerAI Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://mancer.tech",
+        "description": "Browse MancerAI models.",
+        "icons": [
+            {
+                "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://mancer.tech&size=128"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

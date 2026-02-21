@@ -7,7 +7,12 @@
     "description": "Make short videos from text prompts and download the results when ready.",
     "icons": [
       {
-        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/together-color.png"
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/together-color.png",
+        "theme": "light"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/together-color.png",
+        "theme": "dark"
       }
     ]
   },

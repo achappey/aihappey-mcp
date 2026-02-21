@@ -1,0 +1,56 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.deepl.com/v2/glossary-language-pairs",
+      "name": "deepl-pro-glossary-language-pairs",
+      "title": "DeepL Pro glossary language pairs",
+      "description": "Retrieve language pairs supported by DeepL glossaries (Pro endpoint).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api-free.deepl.com/v2/glossary-language-pairs",
+      "name": "deepl-free-glossary-language-pairs",
+      "title": "DeepL Free glossary language pairs",
+      "description": "Retrieve language pairs supported by DeepL glossaries (Free endpoint).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.deepl.com/v3/glossaries",
+      "name": "deepl-pro-list-glossaries",
+      "title": "DeepL Pro list glossaries",
+      "description": "List all multilingual glossaries (metadata only) from DeepL Pro.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api-free.deepl.com/v3/glossaries",
+      "name": "deepl-free-list-glossaries",
+      "title": "DeepL Free list glossaries",
+      "description": "List all multilingual glossaries (metadata only) from DeepL Free.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

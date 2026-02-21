@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Speechmatics",
+    "title": "Speechmatics",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.speechmatics.com",
+    "description": "Speechmatics batch speech-to-text transcription via create job, polling, and transcript retrieval.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/1/1a/SM-Icon-Dark_Cyan1000.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Speechmatics.SpeechmaticsAudio, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

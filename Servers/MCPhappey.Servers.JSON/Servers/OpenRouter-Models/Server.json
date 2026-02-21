@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "OpenRouter-Models",
+        "title": "OpenRouter Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://openrouter.ai",
+        "description": "Browse OpenRouter models.",
+        "icons": [
+            {
+                "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtUJ7sIo-IoQEx5qCcqYFmJE47fYgbnKe80A&s"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

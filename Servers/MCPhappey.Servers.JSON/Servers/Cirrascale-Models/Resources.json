@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://aisuite.cirrascale.com/apis/v2/models",
+      "name": "list-cirrascale-models",
+      "title": "List available Cirrascale models",
+      "description": "List all available Cirrascale models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.deapi.ai/api/v1/client/prompts/samples?type={type}&topic={topic}&lang_code={lang_code}",
+      "name": "deapi-sample-prompts",
+      "title": "deAPI Sample Prompts Generator",
+      "description": "Generates sample prompts for deAPI tasks. Required: {type} (text2image|text2speech). Optional: {topic}, {lang_code}.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

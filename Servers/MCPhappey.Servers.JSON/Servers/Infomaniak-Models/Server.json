@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Infomaniak-Models",
+        "title": "Infomaniak Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.infomaniak.com",
+        "description": "Browse Infomaniak AI products and available models, including OpenAI-compatible model catalogs.",
+        "icons": [
+            {
+                "src": "https://i0.wp.com/news.infomaniak.com/wp-content/uploads/2015/05/avatar-infomaniak.jpg?fit=500%2C500&ssl=1"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

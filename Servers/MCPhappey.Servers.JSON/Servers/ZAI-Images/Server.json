@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "ZAI-Images",
+    "title": "Z.AI Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://docs.z.ai",
+    "description": "Generate images with Z.AI, upload outputs to SharePoint/OneDrive, and return only resource links.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/223098841?s=200&v=4"
+      }
+    ]
+  },
+  "headers": {
+    "Authorization": "Bearer [zAI_API_key]"
+  },
+  "plugins": [
+    "MCPhappey.Tools.ZAI.ZAIImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

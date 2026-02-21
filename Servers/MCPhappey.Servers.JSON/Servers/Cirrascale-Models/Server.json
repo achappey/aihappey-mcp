@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Cirrascale-Models",
+        "title": "Cirrascale Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.cirrascale.com",
+        "description": "Browse Cirrascale models.",
+        "icons": [
+            {
+                "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsw2BACdjpHicnOtmnwkxEAJj6lyVMrNUcHw&s"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

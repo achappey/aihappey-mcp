@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Infomaniak-Transcriptions",
+        "title": "Infomaniak Transcriptions",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.infomaniak.com",
+        "description": "Create asynchronous transcriptions with Infomaniak from fileUrl media input and return structured transcription results.",
+        "icons": [
+            {
+                "src": "https://i0.wp.com/news.infomaniak.com/wp-content/uploads/2015/05/avatar-infomaniak.jpg?fit=500%2C500&ssl=1"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Infomaniak.InfomaniakTranscriptions, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

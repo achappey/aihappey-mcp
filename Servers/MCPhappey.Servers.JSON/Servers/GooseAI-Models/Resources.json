@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.goose.ai/v1/engines",
+      "name": "list-gooseai-engines",
+      "title": "List available GooseAI engines",
+      "description": "List all available GooseAI engines",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

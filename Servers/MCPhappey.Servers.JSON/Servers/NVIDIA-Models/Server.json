@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "NVIDIA-Models",
+        "title": "NVIDIA Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.nvidia.com",
+        "description": "Browse NVIDIA models.",
+        "icons": [
+            {
+                "src": "https://www.citypng.com/public/uploads/preview/hd-nvidia-eye-logo-icon-png-701751694965655t2lbe7yugk.png"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

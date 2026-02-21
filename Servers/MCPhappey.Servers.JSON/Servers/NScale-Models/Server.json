@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "NScale-Models",
+    "title": "NScale Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.nscale.com",
+    "description": "Browse NScale models and compare options to pick the best one for your task.",
+    "icons": [
+      {
+        "src": "https://startuprise.co.uk/wp-content/uploads/2025/04/nscale_cloud_logo.jpg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

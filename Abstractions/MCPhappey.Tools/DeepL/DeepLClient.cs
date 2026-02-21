@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json.Nodes;
 
 namespace MCPhappey.Tools.DeepL;
@@ -102,6 +103,102 @@ public class DeepLClient
         }
 
         return BinaryData.FromBytes(bytes);
+    }
+
+    public async Task<JsonNode?> CreateMultilingualGlossaryAsync(
+        string name,
+        JsonArray dictionaries,
+        CancellationToken ct)
+    {
+        var payload = new JsonObject
+        {
+            ["name"] = name,
+            ["dictionaries"] = dictionaries
+        };
+
+        return await SendJsonAsync(HttpMethod.Post, "v3/glossaries", payload, ct);
+    }
+
+    public async Task<JsonNode?> PatchMultilingualGlossaryAsync(
+        string glossaryId,
+        string? name,
+        JsonArray? dictionaries,
+        CancellationToken ct)
+    {
+        var payload = new JsonObject();
+
+        if (!string.IsNullOrWhiteSpace(name))
+            payload["name"] = name;
+
+        if (dictionaries != null)
+            payload["dictionaries"] = dictionaries;
+
+        if (payload.Count == 0)
+            throw new ArgumentException("At least one of name or dictionaries must be provided.");
+
+        return await SendJsonAsync(
+            HttpMethod.Patch,
+            $"v3/glossaries/{Uri.EscapeDataString(glossaryId)}",
+            payload,
+            ct);
+    }
+
+    public async Task<JsonNode?> ReplaceDictionaryAsync(
+        string glossaryId,
+        string sourceLang,
+        string targetLang,
+        string entries,
+        string entriesFormat,
+        CancellationToken ct)
+    {
+        var payload = new JsonObject
+        {
+            ["source_lang"] = sourceLang,
+            ["target_lang"] = targetLang,
+            ["entries"] = entries,
+            ["entries_format"] = entriesFormat
+        };
+
+        return await SendJsonAsync(
+            HttpMethod.Put,
+            $"v3/glossaries/{Uri.EscapeDataString(glossaryId)}/dictionaries",
+            payload,
+            ct);
+    }
+
+    public async Task DeleteGlossaryAsync(string glossaryId, CancellationToken ct)
+        => await SendNoContentAsync(HttpMethod.Delete, $"v3/glossaries/{Uri.EscapeDataString(glossaryId)}", ct);
+
+    public async Task DeleteDictionaryAsync(string glossaryId, string sourceLang, string targetLang, CancellationToken ct)
+        => await SendNoContentAsync(
+            HttpMethod.Delete,
+            $"v3/glossaries/{Uri.EscapeDataString(glossaryId)}/dictionaries?source_lang={Uri.EscapeDataString(sourceLang)}&target_lang={Uri.EscapeDataString(targetLang)}",
+            ct);
+
+    private async Task<JsonNode?> SendJsonAsync(HttpMethod method, string relativeUrl, JsonObject payload, CancellationToken ct)
+    {
+        using var req = new HttpRequestMessage(method, relativeUrl)
+        {
+            Content = new StringContent(payload.ToJsonString(), Encoding.UTF8, "application/json")
+        };
+
+        using var resp = await _client.SendAsync(req, ct);
+        var text = await resp.Content.ReadAsStringAsync(ct);
+
+        if (!resp.IsSuccessStatusCode)
+            throw new Exception($"{resp.StatusCode}: {text}");
+
+        return string.IsNullOrWhiteSpace(text) ? null : JsonNode.Parse(text);
+    }
+
+    private async Task SendNoContentAsync(HttpMethod method, string relativeUrl, CancellationToken ct)
+    {
+        using var req = new HttpRequestMessage(method, relativeUrl);
+        using var resp = await _client.SendAsync(req, ct);
+        var text = await resp.Content.ReadAsStringAsync(ct);
+
+        if (!resp.IsSuccessStatusCode)
+            throw new Exception($"{resp.StatusCode}: {text}");
     }
 }
 

@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "StepFun-Models",
+        "title": "StepFun Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://stepfun.ai",
+        "description": "Browse StepFun models.",
+        "icons": [
+            {
+                "src": "https://pbs.twimg.com/profile_images/1888792150437203968/6U_6SM6S.jpg"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

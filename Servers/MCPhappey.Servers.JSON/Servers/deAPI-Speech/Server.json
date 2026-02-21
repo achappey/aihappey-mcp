@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "deAPI-Speech",
+    "title": "deAPI Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://deapi.ai",
+    "description": "deAPI text-to-speech tools for raw text and fileUrl input, including price calculation.",
+    "icons": [
+      {
+        "src": "https://s3-eu-west-1.amazonaws.com/tpd/logos/692038db2a6043b23f4df897/0x0.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.deAPI.deAPISpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

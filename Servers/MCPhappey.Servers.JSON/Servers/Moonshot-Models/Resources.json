@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.moonshot.ai/v1/models",
+      "name": "list-moonshot-models",
+      "title": "List available Moonshot models",
+      "description": "List all available Moonshot models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

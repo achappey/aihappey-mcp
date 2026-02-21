@@ -1,0 +1,17 @@
+{
+    "resources": [
+        {
+            "uri": "https://api.novita.ai/openai/v1/models",
+            "name": "list-novita-models",
+            "title": "List available Novita models",
+            "description": "List all available Novita models",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant",
+                    "user"
+                ]
+            }
+        }
+    ]
+}

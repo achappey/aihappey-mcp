@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.cometapi.com/api/models",
+      "name": "list-cometapi-models",
+      "title": "List available CometAPI models",
+      "description": "List all available CometAPI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

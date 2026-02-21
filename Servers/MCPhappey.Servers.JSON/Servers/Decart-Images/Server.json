@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Decart-Images",
+        "title": "Decart Images",
+        "version": "1.0.0",
+        "websiteUrl": "https://decart.ai",
+        "description": "Generate and edit images with Decart Lucy models, then upload the result to SharePoint/OneDrive.",
+        "icons": [
+            {
+                "src": "https://storage.googleapis.com/clean-finder-353810/$bQq0ks0xSdvRsJY1WjayY9ck9qGR1V9MtFzr7KUmp7YNU9GAqBd7fG.jpeg"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Decart.Images.DecartImages, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

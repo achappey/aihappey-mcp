@@ -1,0 +1,22 @@
+{
+    "serverInfo": {
+        "name": "Moonshot-Models",
+        "title": "Moonshot Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.moonshot.ai",
+        "description": "Browse Moonshot models and compare options to pick the best one for your task.",
+        "icons": [
+            {
+                "src": "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/moonshot.png",
+                "theme": "light"
+            },
+            {
+                "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/moonshot.png",
+                "theme": "dark"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

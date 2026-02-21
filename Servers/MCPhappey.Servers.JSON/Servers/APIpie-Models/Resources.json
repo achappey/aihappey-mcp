@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://apipie.ai/v1/models",
+      "name": "list-apipie-models",
+      "title": "List available APIpie models",
+      "description": "List all available APIpie models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

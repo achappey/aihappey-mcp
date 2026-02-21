@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Infomaniak-Reranker",
+    "title": "Infomaniak Reranker",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.infomaniak.com",
+    "description": "Ranks documents by relevance to your query using Infomaniak Cohere-compatible reranking.",
+    "icons": [
+      {
+        "src": "https://i0.wp.com/news.infomaniak.com/wp-content/uploads/2015/05/avatar-infomaniak.jpg?fit=500%2C500&ssl=1"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Infomaniak.InfomaniakReranker, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

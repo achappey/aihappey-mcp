@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.matterai.so/api/v1/ai/models",
+      "name": "list-matterai-models",
+      "title": "List available MatterAI models",
+      "description": "List all available MatterAI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

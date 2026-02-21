@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.speechify.ai/v1/voices",
+      "name": "speechify-voices-list",
+      "title": "Speechify voices",
+      "description": "List voices available for the authenticated Speechify account.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

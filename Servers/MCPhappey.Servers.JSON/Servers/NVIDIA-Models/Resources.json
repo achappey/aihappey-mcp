@@ -1,0 +1,17 @@
+{
+    "resources": [
+        {
+            "uri": "https://integrate.api.nvidia.com/v1/models",
+            "name": "list-nvidia-models",
+            "title": "List available NVIDIA models",
+            "description": "List all available NVIDIA models",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant",
+                    "user"
+                ]
+            }
+        }
+    ]
+}

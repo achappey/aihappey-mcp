@@ -1,0 +1,17 @@
+{
+    "resources": [
+        {
+            "uri": "https://api.stepfun.ai/v1/models",
+            "name": "list-stepfun-models",
+            "title": "List available StepFun models",
+            "description": "List all available StepFun models",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant",
+                    "user"
+                ]
+            }
+        }
+    ]
+}

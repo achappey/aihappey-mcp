@@ -53,6 +53,30 @@ public class ZAIClient
 
         return string.IsNullOrWhiteSpace(text) ? null : JsonNode.Parse(text);
     }
+
+    public async Task<JsonNode?> GetAsync(
+        string path,
+        IDictionary<string, string>? headers,
+        CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Get, path.TrimStart('/'));
+
+        if (headers != null)
+        {
+            foreach (var header in headers)
+            {
+                request.Headers.TryAddWithoutValidation(header.Key, header.Value);
+            }
+        }
+
+        using var response = await _client.SendAsync(request, cancellationToken);
+        var text = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+            throw new Exception($"{response.StatusCode}: {text}");
+
+        return string.IsNullOrWhiteSpace(text) ? null : JsonNode.Parse(text);
+    }
 }
 
 public class ZAISettings

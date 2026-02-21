@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.horay.ai/v1/models",
+      "name": "list-horayai-models",
+      "title": "List available HorayAI models",
+      "description": "List all available HorayAI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1/models",
+      "name": "list-ovhcloud-models",
+      "title": "List available OVHcloud models",
+      "description": "List all available OVHcloud models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

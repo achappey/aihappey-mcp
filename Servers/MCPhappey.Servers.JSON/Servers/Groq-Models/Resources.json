@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.groq.com/openai/v1/models",
+      "name": "list-groq-models",
+      "title": "List available Groq models",
+      "description": "List all available Groq models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

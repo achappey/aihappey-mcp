@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SambaNova-Models",
+    "title": "SambaNova Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://sambanova.ai",
+    "description": "Browse SambaNova models.",
+    "icons": [
+      {
+        "src": "https://sambanova.ai/hubfs/logotype_sambanova_orange.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

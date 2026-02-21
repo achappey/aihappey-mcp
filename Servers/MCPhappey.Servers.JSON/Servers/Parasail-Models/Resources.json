@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.parasail.io/v1/models",
+      "name": "list-parasail-models",
+      "title": "List available Parasail models",
+      "description": "List all available Parasail models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
