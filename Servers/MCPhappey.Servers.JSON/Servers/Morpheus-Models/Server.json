@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Morpheus-Models",
+        "title": "Morpheus Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://mor.org",
+        "description": "Browse Morpheus models.",
+        "icons": [
+            {
+                "src": "https://s2.coinmarketcap.com/static/img/coins/200x200/31656.png"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

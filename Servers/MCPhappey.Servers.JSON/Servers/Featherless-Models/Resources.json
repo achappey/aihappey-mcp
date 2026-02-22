@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.featherless.ai/v1/models",
+      "name": "list-featherless-models",
+      "title": "List available Featherless models",
+      "description": "List all available Featherless models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

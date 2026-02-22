@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Morpheus-Speech",
+        "title": "Morpheus Speech",
+        "version": "1.0.0",
+        "websiteUrl": "https://mor.org",
+        "description": "Morpheus text-to-speech tools for raw text and fileUrl input with upload + resource-link output.",
+        "icons": [
+            {
+                "src": "https://s2.coinmarketcap.com/static/img/coins/200x200/31656.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Morpheus.MorpheusSpeech, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

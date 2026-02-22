@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Featherless-Models",
+        "title": "Featherless Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://featherless.ai",
+        "description": "Browse Featherless models.",
+        "icons": [
+            {
+                "src": "https://featherless.ai/images/feather-icon.png"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

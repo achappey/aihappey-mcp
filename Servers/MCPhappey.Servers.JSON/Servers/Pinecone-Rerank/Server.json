@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Pinecone-Rerank",
+    "title": "Pinecone Rerank",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.pinecone.io",
+    "description": "Rerank files and SharePoint folders by relevance using Pinecone rerank models.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpSbtuc0QVk1KuqDSweEzC0NcGnTYWHDJtKA&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Pinecone.Rerank.PineconeRerank, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

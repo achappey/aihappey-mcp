@@ -1,0 +1,30 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.mor.org/api/v1/models",
+      "name": "list-morpheus-models",
+      "title": "List available Morpheus models",
+      "description": "List all active models with available providers.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.mor.org/api/v1/models/allmodels",
+      "name": "list-morpheus-models",
+      "title": "List available Morpheus models",
+      "description": "List all non-deleted models, including both active and inactive models.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

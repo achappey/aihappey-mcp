@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Monica-Images",
+    "title": "Monica Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://platform.monica.im",
+    "description": "Monica image generation and image tools with mandatory elicitation confirmation, fileUrl input for image tools, SharePoint/OneDrive upload, and resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://platform.monica.im/favicon.ico"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Monica.Images.MonicaImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

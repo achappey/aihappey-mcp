@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "CAMBAI-Voices",
+    "title": "CAMB.AI Voices",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.camb.ai",
+    "description": "Discover CAMB.AI voices.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4D0BAQGzDuvmLYPpJA/company-logo_200_200/B4DZvGQdCMH0AQ-/0/1768557761738/cambhq_logo?e=2147483647&v=beta&t=m0x89x4ZJgXQMYsDCxWChs8ltYVIEhVmYQcMw2kw0uw"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

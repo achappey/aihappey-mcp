@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "OpenCode-Models",
+        "title": "OpenCode Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://opencode.ai",
+        "description": "Browse OpenCode models and compare options to pick the best one for your task.",
+        "icons": [
+            {
+                "src": "https://ph-files.imgix.net/c8b3ba9e-e0e9-42d4-ad46-42566610e39f.svg?auto=format"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

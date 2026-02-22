@@ -47,6 +47,7 @@ using MCPhappey.Tools.APIpie;
 using MCPhappey.Tools.Audixa;
 using MCPhappey.Tools.Deepgram;
 using MCPhappey.Tools.Gladia;
+using MCPhappey.Tools.ExtendAI;
 using MCPhappey.Tools.ContextualAI;
 using MCPhappey.Tools.Telnyx;
 using MCPhappey.Tools.OpperAI;
@@ -67,6 +68,10 @@ using MCPhappey.Tools.StepFun;
 using MCPhappey.Tools.Decart;
 using MCPhappey.Tools.Infomaniak;
 using MCPhappey.Tools.Parasail;
+using MCPhappey.Tools.Monica;
+using MCPhappey.Tools.Ideogram;
+using MCPhappey.Tools.Picsart;
+using MCPhappey.Tools.Morpheus;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -155,6 +160,7 @@ builder.Services
 .AddAudixa(appConfig?.DomainHeaders)
 .AddDeepgram(appConfig?.DomainHeaders)
 .AddGladia(appConfig?.DomainHeaders)
+.AddExtendAI(appConfig?.DomainHeaders)
 .AddContextualAI(appConfig?.DomainHeaders)
 .AddTelnyx(appConfig?.DomainHeaders)
 .AddOpperAI(appConfig?.DomainHeaders)
@@ -171,7 +177,11 @@ builder.Services
 .AddParasail(appConfig?.DomainHeaders)
 .AddCometAPI(appConfig?.DomainHeaders)
 .AddStepFun(appConfig?.DomainHeaders)
+.AddMorpheus(appConfig?.DomainHeaders)
 .AddInfomaniak(appConfig?.DomainHeaders)
+.AddMonica(appConfig?.DomainHeaders)
+.AddIdeogram(appConfig?.DomainHeaders)
+.AddPicsart(appConfig?.DomainHeaders)
 .AddTinfoil(appConfig?.DomainHeaders)
 .AddDecart(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()

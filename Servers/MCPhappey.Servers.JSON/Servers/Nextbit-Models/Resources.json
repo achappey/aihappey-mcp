@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.nextbit256.com/v1/models",
+      "name": "list-nextbit-models",
+      "title": "List available Nextbit models",
+      "description": "List all available Nextbit models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

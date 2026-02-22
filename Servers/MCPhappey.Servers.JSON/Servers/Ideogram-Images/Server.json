@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Ideogram-Images",
+    "title": "Ideogram Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://ideogram.ai",
+    "description": "Generate stunning images, explore creative ideas, and turn inspiration into reality with Ideogram.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRno6I3vTdmNUsCoGju9rB0NUuq9Qjzw0uyg&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Ideogram.IdeogramImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

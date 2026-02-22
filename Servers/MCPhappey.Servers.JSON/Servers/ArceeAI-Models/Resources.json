@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.arcee.ai/api/v1/models",
+      "name": "list-arceeai-models",
+      "title": "List available Arcee AI models",
+      "description": "List all available Arcee AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

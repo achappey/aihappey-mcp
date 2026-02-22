@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.straico.com/v2/models",
+      "name": "list-straico-models",
+      "title": "List available Straico models",
+      "description": "List all available Straico models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

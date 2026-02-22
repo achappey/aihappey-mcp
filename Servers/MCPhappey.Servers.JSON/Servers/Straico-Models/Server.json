@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "Straico-Models",
+        "title": "Straico Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://straico.com",
+        "description": "Browse Straico models.",
+        "icons": [
+            {
+                "src": "https://images.g2crowd.com/uploads/product/image/9470459ec8d50314e1156b1077e8743e/straico.png"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

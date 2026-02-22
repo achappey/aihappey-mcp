@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.relax.ai/v1/models",
+      "name": "list-relaxai-models",
+      "title": "List Relax AI models",
+      "description": "List all available Relax AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

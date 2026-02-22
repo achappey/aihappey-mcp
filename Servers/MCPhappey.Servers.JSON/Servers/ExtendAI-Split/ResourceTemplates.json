@@ -1,0 +1,17 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://api.extend.ai/splitters?nextPageToken={nextPageToken}&maxPageSize={maxPageSize}&sortBy={sortBy}&sortDir={sortDir}",
+            "name": "extendai-splitters-list",
+            "title": "Extend AI splitters",
+            "description": "List all Extend AI splitters.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant",
+                    "user"
+                ]
+            }
+        }
+    ]
+}

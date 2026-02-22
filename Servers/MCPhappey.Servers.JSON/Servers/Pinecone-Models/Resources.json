@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.pinecone.io/models",
+      "name": "list-pinecone-models",
+      "title": "List available Pinecone models",
+      "description": "List all available Pinecone models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

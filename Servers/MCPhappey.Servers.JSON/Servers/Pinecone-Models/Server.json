@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Pinecone-Models",
+    "title": "Pinecone Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.pinecone.io",
+    "description": "Browse Pinecone models to see capabilities, limits and pick the right one for your task.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpSbtuc0QVk1KuqDSweEzC0NcGnTYWHDJtKA&s"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "RelaxAI-Models",
+    "title": "Relax AI Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://relax.ai",
+    "description": "Browse Relax AI models to see capabilities, limits and pick the right one for your task.",
+    "icons": [
+      {
+        "src": "https://relax.ai/images/home/pricing/relaxai-logomark.svg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

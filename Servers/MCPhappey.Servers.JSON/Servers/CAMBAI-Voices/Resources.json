@@ -1,0 +1,16 @@
+{
+  "rsources": [
+    {
+      "uri": "https://client.camb.ai/apis/list-voices",
+      "name": "cambai-voices-list",
+      "title": "CAMB.AI voices",
+      "description": "List of available CAMB.AI voices.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "ExtendAI-Split",
+        "title": "Extend AI Split",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.extend.ai",
+        "description": "Split files into multiple parts with Extend AI's async splitter, including upload, polling, SharePoint/OneDrive output upload, and cleanup.",
+        "icons": [
+            {
+                "src": "https://media.licdn.com/dms/image/v2/D4E0BAQG3pkt4tEKO7Q/company-logo_200_200/B4EZxYzoEhKoAM-/0/1771016454752/extend_app_logo?e=2147483647&v=beta&t=K1A6OaSU4WhmpmgwyYl9D8YHHlXuX2IDz1-xwoMroyo"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.ExtendAI.Split.ExtendAISplit, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

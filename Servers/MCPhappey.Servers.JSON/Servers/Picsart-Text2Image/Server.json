@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Picsart-Text2Image",
+    "title": "Picsart Image Generation",
+    "version": "1.0.0",
+    "websiteUrl": "https://picsart.com",
+    "description": "Picsart text-to-image, text-to-sticker, laser-engraved stickers, and logo generation with elicitation, polling, SharePoint/OneDrive upload, and resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://play-lh.googleusercontent.com/B1ZyLqecayagX3dNJeg9f0tUS2HF4mwYWuLvVn9TBStQ3N-kgxoecN00INSaEgzoCSQ"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Picsart.PicsartImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read  https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

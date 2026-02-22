@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "ArceeAI-Models",
+        "title": "ArceeAI Models",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.arcee.ai",
+        "description": "Browse ArceeAI models and compare options to pick the best one for your task.",
+        "icons": [
+            {
+                "src": "https://media.licdn.com/dms/image/v2/D560BAQGetmflM6vLLQ/company-logo_200_200/B56ZnFWAkDG0AM-/0/1759952505432/arcee_ai_logo?e=2147483647&v=beta&t=H9pKIOZq5TckIkJ5Ruh9jVRIe86raLCxO9sta-fnI28"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

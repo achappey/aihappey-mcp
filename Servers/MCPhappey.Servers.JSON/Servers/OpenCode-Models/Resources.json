@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://opencode.ai/zen/v1/models",
+      "name": "list-opencode-models",
+      "title": "List available OpenCode models",
+      "description": "List all available OpenCode models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
