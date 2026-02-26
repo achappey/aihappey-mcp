@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Typecast-Speech",
+    "title": "Typecast Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://typecast.ai",
+    "description": "",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQGMi1VQFmpL9w/company-logo_200_200/company-logo_200_200/0/1690863759318/typecastai_logo?e=2147483647&v=beta&t=rhppFYXlTYKnOfNeHrKPQbguYHPT6Cfm7KzyDXjvaBw"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Typecast.TypecastSpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

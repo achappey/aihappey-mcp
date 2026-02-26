@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "LOVO-Speech",
+    "title": "LOVO Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://lovo.ai",
+    "description": "Generate high-quality speech from text with LOVO Genny.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg6g7t1OTIegv3sJShbcj69qBL-ceST3ukMw&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.LOVO.LOVOSpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

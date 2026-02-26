@@ -44,10 +44,6 @@ public static class DeepgramText
         string customIntentMode = "extended",
         [Description("Tag for usage reporting.")]
         string? tag = null,
-        [Description("Optional callback URL.")]
-        string? callback = null,
-        [Description("Callback method: POST or PUT.")]
-        string callbackMethod = "POST",
         [Description("Output filename without extension.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
@@ -69,9 +65,7 @@ public static class DeepgramText
                     ["custom_topic_mode"] = customTopicMode,
                     ["custom_intent"] = customIntent,
                     ["custom_intent_mode"] = customIntentMode,
-                    ["tag"] = tag,
-                    ["callback"] = callback,
-                    ["callback_method"] = callbackMethod,
+                    ["tag"] = tag
                 }));
 
             req.Headers.TryAddWithoutValidation("Authorization", settings.ApiKey);
@@ -139,10 +133,6 @@ public static class DeepgramText
         string customIntentMode = "extended",
         [Description("Tag for usage reporting.")]
         string? tag = null,
-        [Description("Optional callback URL.")]
-        string? callback = null,
-        [Description("Callback method: POST or PUT.")]
-        string callbackMethod = "POST",
         [Description("Output filename without extension.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
@@ -169,8 +159,6 @@ public static class DeepgramText
                 customIntent,
                 customIntentMode,
                 tag,
-                callback,
-                callbackMethod,
                 filename,
                 cancellationToken);
         });

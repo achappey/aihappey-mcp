@@ -97,16 +97,9 @@ public static class ParasailImages
                     Model = model,
                     Size = size,
                     BatchCount = batchCount,
-                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                    Confirmation = "GENERATE"
+                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
                 },
                 cancellationToken);
-
-            if (notAccepted != null) return notAccepted;
-            if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "GENERATE", StringComparison.OrdinalIgnoreCase))
-                return "Image edit canceled: confirmation text must be 'GENERATE'.".ToErrorCallToolResponse();
 
             ValidateEditRequest(typed);
 
@@ -484,9 +477,5 @@ public sealed class ParasailImageEditRequest
     [Description("Output filename without extension.")]
     public string Filename { get; set; } = default!;
 
-    [JsonPropertyName("confirmation")]
-    [Required]
-    [Description("Type GENERATE to confirm execution.")]
-    public string Confirmation { get; set; } = "GENERATE";
 }
 

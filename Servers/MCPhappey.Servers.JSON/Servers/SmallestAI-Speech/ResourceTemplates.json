@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://waves-api.smallest.ai/api/v1/{model}/get_voices",
+      "name": "waves-get-voices",
+      "title": "Waves - Get Voices",
+      "description": "Retrieves all available voices for a given Waves speech model (lightning-v2 or lightning-v3.1). Requires Bearer authentication header.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.mixedbread.com/v1/files?limit=20",
+      "name": "mixedbread-list-files",
+      "title": "List Mixedbread files",
+      "description": "List all Mixedbread files.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

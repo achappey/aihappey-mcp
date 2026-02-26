@@ -44,7 +44,6 @@ public static class IdeogramImages
         [Description("Character reference mask URLs (comma-separated fileUrl values).")]
         string? characterReferenceImageMaskUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
-        [Description("Type GENERATE to confirm execution.")] string confirmation = "GENERATE",
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
@@ -66,14 +65,12 @@ public static class IdeogramImages
                 StyleReferenceImageUrls = styleReferenceImageUrls,
                 CharacterReferenceImageUrls = characterReferenceImageUrls,
                 CharacterReferenceImageMaskUrls = characterReferenceImageMaskUrls,
-                Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                Confirmation = confirmation
+                Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
             }, cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
-            ValidateConfirmation(typed.Confirmation, "GENERATE");
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
             ValidateStyleCodeCombination(typed.StyleCodes, typed.StyleReferenceImageUrls, typed.StyleType);
 
@@ -115,7 +112,6 @@ public static class IdeogramImages
         [Description("Negative prompt text.")] string? negativePrompt = null,
         [Description("Number of images to generate.")] int numImages = 1,
         [Description("Output filename base without extension.")] string? filename = null,
-        [Description("Type GENERATE_TRANSPARENT to confirm execution.")] string confirmation = "GENERATE_TRANSPARENT",
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
@@ -130,13 +126,10 @@ public static class IdeogramImages
                 NegativePrompt = negativePrompt,
                 NumImages = numImages,
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                Confirmation = confirmation
             }, cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            ValidateConfirmation(typed.Confirmation, "GENERATE_TRANSPARENT");
 
             using var form = new MultipartFormDataContent();
             AddString(form, "prompt", typed.Prompt);
@@ -177,7 +170,6 @@ public static class IdeogramImages
         [Description("Character reference mask URLs (comma-separated fileUrl values).")]
         string? characterReferenceImageMaskUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
-        [Description("Type EDIT to confirm execution.")] string confirmation = "EDIT",
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
@@ -199,13 +191,11 @@ public static class IdeogramImages
                 CharacterReferenceImageUrls = characterReferenceImageUrls,
                 CharacterReferenceImageMaskUrls = characterReferenceImageMaskUrls,
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                Confirmation = confirmation
             }, cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
-            ValidateConfirmation(typed.Confirmation, "EDIT");
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
             ValidateStyleCodeCombination(typed.StyleCodes, typed.StyleReferenceImageUrls, typed.StyleType);
 
@@ -261,7 +251,6 @@ public static class IdeogramImages
         [Description("Character reference mask URLs (comma-separated fileUrl values).")]
         string? characterReferenceImageMaskUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
-        [Description("Type REMIX to confirm execution.")] string confirmation = "REMIX",
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
@@ -286,13 +275,11 @@ public static class IdeogramImages
                 CharacterReferenceImageUrls = characterReferenceImageUrls,
                 CharacterReferenceImageMaskUrls = characterReferenceImageMaskUrls,
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                Confirmation = confirmation
             }, cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
-            ValidateConfirmation(typed.Confirmation, "REMIX");
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
             ValidateStyleCodeCombination(typed.StyleCodes, typed.StyleReferenceImageUrls, typed.StyleType);
             ValidateImageWeight(typed.ImageWeight);
@@ -340,7 +327,6 @@ public static class IdeogramImages
         [Description("Style reference image URLs (comma-separated fileUrl values).")]
         string? styleReferenceImageUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
-        [Description("Type REFRAME to confirm execution.")] string confirmation = "REFRAME",
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
@@ -357,13 +343,11 @@ public static class IdeogramImages
                 StyleCodes = styleCodes,
                 StyleReferenceImageUrls = styleReferenceImageUrls,
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                Confirmation = confirmation
             }, cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
-            ValidateConfirmation(typed.Confirmation, "REFRAME");
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
 
             using var form = new MultipartFormDataContent();
@@ -401,7 +385,6 @@ public static class IdeogramImages
         [Description("Style reference image URLs (comma-separated fileUrl values).")]
         string? styleReferenceImageUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
-        [Description("Type REPLACE_BACKGROUND to confirm execution.")] string confirmation = "REPLACE_BACKGROUND",
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
@@ -419,13 +402,11 @@ public static class IdeogramImages
                 StyleCodes = styleCodes,
                 StyleReferenceImageUrls = styleReferenceImageUrls,
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                Confirmation = confirmation
             }, cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
-            ValidateConfirmation(typed.Confirmation, "REPLACE_BACKGROUND");
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
 
             using var form = new MultipartFormDataContent();
@@ -459,7 +440,6 @@ public static class IdeogramImages
         [Description("Number of images to generate.")] int numImages = 1,
         [Description("Random seed for reproducibility.")] int? seed = null,
         [Description("Output filename base without extension.")] string? filename = null,
-        [Description("Type UPSCALE to confirm execution.")] string confirmation = "UPSCALE",
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
@@ -473,13 +453,10 @@ public static class IdeogramImages
                 NumImages = numImages,
                 Seed = seed,
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                Confirmation = confirmation
             }, cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            ValidateConfirmation(typed.Confirmation, "UPSCALE");
 
             using var form = new MultipartFormDataContent();
             var imageFile = await DownloadSingleImageAsync(typed.FileUrl, serviceProvider, requestContext, cancellationToken);
@@ -499,7 +476,6 @@ public static class IdeogramImages
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Describe model version: V_2 or V_3.")] string? describeModelVersion = null,
         [Description("Output filename base without extension.")] string? filename = null,
-        [Description("Type DESCRIBE to confirm execution.")] string confirmation = "DESCRIBE",
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
@@ -508,13 +484,10 @@ public static class IdeogramImages
                 FileUrl = fileUrl,
                 DescribeModelVersion = describeModelVersion,
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                Confirmation = confirmation
             }, cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            ValidateConfirmation(typed.Confirmation, "DESCRIBE");
 
             using var form = new MultipartFormDataContent();
             var imageFile = await DownloadSingleImageAsync(typed.FileUrl, serviceProvider, requestContext, cancellationToken);
@@ -771,17 +744,10 @@ public static class IdeogramImages
             throw new ValidationException("Supported image formats are JPEG, PNG, and WebP.");
     }
 
-    private static void ValidateConfirmation(string? value, string expected)
-    {
-        if (!string.Equals(value?.Trim(), expected, StringComparison.OrdinalIgnoreCase))
-            throw new ValidationException($"Confirmation text must be '{expected}'.");
-    }
-
     private static List<string> SplitCsv(string value)
-        => value
+        => [.. value
             .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Where(v => !string.IsNullOrWhiteSpace(v))
-            .ToList();
+            .Where(v => !string.IsNullOrWhiteSpace(v))];
 
     private static string ResolveImageExtension(string? mimeType, string? url)
     {
@@ -877,9 +843,6 @@ public static class IdeogramImages
         [Required]
         public string Filename { get; set; } = default!;
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        public string Confirmation { get; set; } = "GENERATE";
     }
 
     [Description("Please confirm the Ideogram transparent generation request details.")]
@@ -914,9 +877,6 @@ public static class IdeogramImages
         [Required]
         public string Filename { get; set; } = default!;
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        public string Confirmation { get; set; } = "GENERATE_TRANSPARENT";
     }
 
     [Description("Please confirm the Ideogram edit request details.")]
@@ -973,10 +933,6 @@ public static class IdeogramImages
         [JsonPropertyName("filename")]
         [Required]
         public string Filename { get; set; } = default!;
-
-        [JsonPropertyName("confirmation")]
-        [Required]
-        public string Confirmation { get; set; } = "EDIT";
     }
 
     [Description("Please confirm the Ideogram remix request details.")]
@@ -1043,9 +999,7 @@ public static class IdeogramImages
         [Required]
         public string Filename { get; set; } = default!;
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        public string Confirmation { get; set; } = "REMIX";
+
     }
 
     [Description("Please confirm the Ideogram reframe request details.")]
@@ -1087,9 +1041,6 @@ public static class IdeogramImages
         [Required]
         public string Filename { get; set; } = default!;
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        public string Confirmation { get; set; } = "REFRAME";
     }
 
     [Description("Please confirm the Ideogram replace background request details.")]
@@ -1133,10 +1084,6 @@ public static class IdeogramImages
         [JsonPropertyName("filename")]
         [Required]
         public string Filename { get; set; } = default!;
-
-        [JsonPropertyName("confirmation")]
-        [Required]
-        public string Confirmation { get; set; } = "REPLACE_BACKGROUND";
     }
 
     [Description("Please confirm the Ideogram upscale request details.")]
@@ -1170,9 +1117,6 @@ public static class IdeogramImages
         [Required]
         public string Filename { get; set; } = default!;
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        public string Confirmation { get; set; } = "UPSCALE";
     }
 
     [Description("Please confirm the Ideogram describe request details.")]
@@ -1189,8 +1133,5 @@ public static class IdeogramImages
         [Required]
         public string Filename { get; set; } = default!;
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        public string Confirmation { get; set; } = "DESCRIBE";
     }
 }

@@ -166,8 +166,6 @@ public static class ParallelService
         string[]? mcpServers = null,
         [Description("Enable task run event tracking.")]
         bool? enableEvents = null,
-        [Description("Optional webhook URL for completion callback.")]
-        string? webhook = null,
         CancellationToken cancellationToken = default)
         =>
         await requestContext.WithExceptionCheck(async () =>
@@ -184,13 +182,11 @@ public static class ParallelService
                 {
                     InputSchema = inputSchema,
                     EnableEvents = enableEvents ?? true,
-                    Webhook = webhook
                 },
                 cancellationToken);
 
             inputSchema = typed.InputSchema;
             enableEvents = typed.EnableEvents;
-            webhook = typed.Webhook;
         }
 
         // 3) Retrieve settings
@@ -216,7 +212,6 @@ public static class ParallelService
             },
             mcp_servers = mcpServers,
             enable_events = enableEvents,
-            webhook = string.IsNullOrWhiteSpace(webhook) ? null : new { url = webhook }
         };
 
         var json = JsonSerializer.Serialize(payload, new JsonSerializerOptions
@@ -252,11 +247,7 @@ public static class ParallelService
         [JsonPropertyName("enable_events")]
         [DefaultValue(true)]
         [Description("Enable tracking of task run progress events.")]
-        public bool EnableEvents { get; set; } = true;
-
-        [JsonPropertyName("webhook")]
-        [Description("Webhook URL to call when the run completes.")]
-        public string? Webhook { get; set; }
+        public bool EnableEvents { get; set; } = true;      
     }
 
     [Description("Creates a new task group in Parallel AI.")]
@@ -334,8 +325,6 @@ public static class ParallelService
         string[]? mcpServers = null,
           [Description("Enable task run event tracking.")]
         bool? enableEvents = null,
-          [Description("Optional webhook URL for completion callback.")]
-        string? webhook = null,
           [Description("Optional default task specification (applies when task_spec is omitted).")]
         JsonNode? defaultTaskSpec = null,
           CancellationToken cancellationToken = default)
@@ -382,7 +371,6 @@ public static class ParallelService
               task_spec = taskSpec,
               mcp_servers = mcpServers,
               enable_events = enableEvents,
-              webhook = string.IsNullOrWhiteSpace(webhook) ? null : new { url = webhook },
               default_task_spec = defaultTaskSpec
           };
 

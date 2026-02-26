@@ -23,7 +23,6 @@ public static class FreepikImprovePrompt
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Language code for the improved prompt (ISO 639-1). Default: en.")] string? language = null,
-        [Description("Optional callback URL for asynchronous notifications.")] string? webhookUrl = null,
         [Description("Polling interval in seconds (default 5).")][Range(1, 120)] int pollIntervalSeconds = 5,
         [Description("Maximum polling attempts before timeout (default 60).")][Range(1, 600)] int maxPollAttempts = 60,
         CancellationToken cancellationToken = default)
@@ -40,9 +39,6 @@ public static class FreepikImprovePrompt
 
         if (!string.IsNullOrWhiteSpace(language))
             payload["language"] = language;
-
-        if (!string.IsNullOrWhiteSpace(webhookUrl))
-            payload["webhook_url"] = webhookUrl;
 
         var createResult = await client.PostAsync("/v1/ai/improve-prompt", payload, cancellationToken)
             ?? throw new Exception("Freepik returned no response.");

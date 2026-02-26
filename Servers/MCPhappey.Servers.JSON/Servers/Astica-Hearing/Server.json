@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Astica-Hearing",
+    "title": "Astica Hearing",
+    "version": "1.0.0",
+    "websiteUrl": "https://astica.ai",
+    "description": "Astica hearing/transcription capabilities",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTSxd9KGqn33rj8VDcizegh6D5cW346_x0Ng&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Astica.AsticaHearing, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://gateway.truefoundry.ai/models",
+      "name": "list-truefoundry-models",
+      "title": "List available TrueFoundry models",
+      "description": "List all available TrueFoundry models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

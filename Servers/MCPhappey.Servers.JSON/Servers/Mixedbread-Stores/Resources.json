@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.mixedbread.com/v1/stores?limit=20",
+      "name": "mixedbread-list-stores",
+      "title": "List Mixedbread stores",
+      "description": "List all Mixedbread stores.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

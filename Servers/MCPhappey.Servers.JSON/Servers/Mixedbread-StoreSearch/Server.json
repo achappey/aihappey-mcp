@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Mixedbread-StoreSearch",
+    "title": "Mixedbread Store Search",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.mixedbread.com",
+    "description": "Search Mixedbread stores and find matches across store content.",
+    "icons": [
+      {
+        "src": "https://www.mixedbread.com/apple-touch-icon.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

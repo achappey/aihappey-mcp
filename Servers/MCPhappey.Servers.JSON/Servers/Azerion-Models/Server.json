@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Azerion-Models",
+    "title": "Azerion Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.azerion.com",
+    "description": "Browse Azerion models and compare options to pick the best one for your task.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4D0BAQEvh-Otsqg93Q/company-logo_200_200/B4DZcQ_7UuGkAI-/0/1748336883414/azerion_logo?e=2147483647&v=beta&t=9_SBcLqsilOCTUFwFnWonWnglLgyhJnnLzkh6AIZBK4"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

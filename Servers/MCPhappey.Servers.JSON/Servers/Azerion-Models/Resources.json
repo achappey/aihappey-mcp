@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.azerion.ai/v1/models",
+      "name": "list-azerion-models",
+      "title": "List available Azerion models",
+      "description": "List all available Azerion models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

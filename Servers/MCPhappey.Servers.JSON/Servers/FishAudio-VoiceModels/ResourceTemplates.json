@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.fish.audio/model?page_size={page_size}&page_number={page_number}&title={title}&tag={tag}&self={self}&author_id={author_id}&language={language}&title_language={title_language}&sort_by={sort_by}",
+      "name": "fish-audio-models-list",
+      "title": "List Fish Audio Models",
+      "description": "Get a paginated list of Fish Audio models. Supports filtering by title, tag(s), author, language(s), and sorting by score/task_count/created_at.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

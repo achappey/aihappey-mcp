@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Mixedbread",
+    "title": "Mixedbread",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.mixedbread.com",
+    "description": "Connect AI to your knowledge base for fast, accurate document search and smarter results.",
+    "icons": [
+      {
+        "src": "https://www.mixedbread.com/apple-touch-icon.png"
+      }
+    ]
+  },
+  "baseMcp": "www.mcp.mixedbread.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

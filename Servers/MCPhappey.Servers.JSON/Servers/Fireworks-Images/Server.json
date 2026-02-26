@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Fireworks-Images",
+    "title": "Fireworks Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://fireworks.ai",
+    "description": "Generate images with Fireworks FLUX.1 schnell, confirming via elicitation and uploading outputs to SharePoint/OneDrive.",
+    "icons": [
+      {
+        "src": "https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/xgb8cpbz7pcvovoowrmk?ik-sanitizeSvg=true"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Fireworks.FireworksImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

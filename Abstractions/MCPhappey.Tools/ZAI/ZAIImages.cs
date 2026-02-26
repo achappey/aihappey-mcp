@@ -35,16 +35,9 @@ public static class ZAIImages
                 Quality = quality,
                 Size = size,
                 UserId = userId,
-                Filename = filename,
-                Confirmation = "GENERATE"
+                Filename = filename
             },
             cancellationToken);
-
-        if (notAccepted != null) return notAccepted;
-        if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-        if (!string.Equals(typed.Confirmation?.Trim(), "GENERATE", StringComparison.OrdinalIgnoreCase))
-            return "Image generation canceled: confirmation text must be 'GENERATE'.".ToErrorCallToolResponse();
 
         if (string.IsNullOrWhiteSpace(typed.Prompt))
             throw new ValidationException("prompt is required.");
@@ -154,10 +147,5 @@ public class ZAIImageGenerateRequest
     [JsonPropertyName("filename")]
     [Description("Output filename without extension.")]
     public string? Filename { get; set; }
-
-    [JsonPropertyName("confirmation")]
-    [Required]
-    [Description("Type GENERATE to confirm execution.")]
-    public string Confirmation { get; set; } = "GENERATE";
 }
 

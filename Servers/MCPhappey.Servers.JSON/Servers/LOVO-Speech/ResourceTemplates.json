@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.genny.lovo.ai/api/v1/speakers?sort={sort}&page={page}&limit={limit}",
+      "name": "genny-retrieve-speakers",
+      "title": "Genny (LOVO) - Retrieve Speakers",
+      "description": "Retrieves all available Genny (LOVO) text-to-speech speakers. Supports pagination and sorting by displayName, locale, gender, speakerType, and ageRange. Requires X-API-KEY header.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

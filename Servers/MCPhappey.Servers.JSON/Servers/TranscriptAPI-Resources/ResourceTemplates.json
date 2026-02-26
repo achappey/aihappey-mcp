@@ -1,0 +1,95 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://transcriptapi.com/api/v2/youtube/transcript?video_url={video_url}&format={format}&include_timestamp={include_timestamp}&send_metadata={send_metadata}",
+      "name": "transcriptapi-youtube-transcript",
+      "title": "TranscriptAPI - YouTube Transcript",
+      "description": "Extracts transcript data for a YouTube video. Requires video_url (YouTube URL or 11-character video ID). Optional parameters: format (json or text), include_timestamp (true/false), and send_metadata (true/false). Returns transcript segments with optional timestamps and optional video metadata (title, author_name, author_url, thumbnail_url).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://transcriptapi.com/api/v2/youtube/search?q={q}&type={type}&limit={limit}",
+      "name": "transcriptapi-youtube-search",
+      "title": "TranscriptAPI - YouTube Search",
+      "description": "Searches YouTube for videos or channels. Requires q (search query 1–200 characters). Optional type (video or channel, default video) and limit (1–50, default 20). Returns search results including videoId, title, channelId, channelHandle, verification status, view counts, captions availability, and thumbnails.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://transcriptapi.com/api/v2/youtube/channel/resolve?input={input}",
+      "name": "transcriptapi-channel-resolve",
+      "title": "TranscriptAPI - Resolve Channel",
+      "description": "Resolves a YouTube channel reference (@handle, channel URL, or UC… channel ID) into a canonical UC… channel ID. Free endpoint (no credits charged). Requires input parameter (1–200 characters). Returns resolved channel_id and original input reference.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://transcriptapi.com/api/v2/youtube/channel/search?channel={channel}&q={q}&limit={limit}",
+      "name": "transcriptapi-channel-search",
+      "title": "TranscriptAPI - Search Within Channel",
+      "description": "Searches for videos within a specific YouTube channel. Requires channel (@handle, channel URL, or UC… channel ID) and q (search query). Optional limit (1–50, default 30). Returns matching videos including metadata, captions availability, and thumbnails.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://transcriptapi.com/api/v2/youtube/channel/videos?channel={channel}&continuation={continuation}",
+      "name": "transcriptapi-channel-videos",
+      "title": "TranscriptAPI - Channel Videos",
+      "description": "Lists all uploaded videos from a YouTube channel with pagination. Provide exactly one of: channel (@handle, channel URL, or UC… channel ID) for first page, or continuation token for next pages. Returns up to ~100 videos per page with playlist_info and continuation_token. Each page costs 1 credit.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://transcriptapi.com/api/v2/youtube/channel/latest?channel={channel}",
+      "name": "transcriptapi-channel-latest",
+      "title": "TranscriptAPI - Channel Latest (RSS)",
+      "description": "Returns the latest 15 videos from a YouTube channel via RSS feed. Requires channel (@handle, channel URL, or UC… channel ID). Free endpoint (no credits charged). Returns publish timestamps, view counts, star ratings, and thumbnails.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://transcriptapi.com/api/v2/youtube/playlist/videos?playlist={playlist}&continuation={continuation}",
+      "name": "transcriptapi-playlist-videos",
+      "title": "TranscriptAPI - Playlist Videos",
+      "description": "Lists videos in a YouTube playlist with pagination. Provide exactly one of: playlist (playlist URL or ID such as PL…, UU…, LL…, FL…, OL…) for first page, or continuation token for next pages. Returns up to ~100 videos per page with playlist_info and continuation_token. Each page costs 1 credit.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

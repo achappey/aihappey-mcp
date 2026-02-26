@@ -35,9 +35,7 @@ public static class AI302AcademicPaperSearchPlugin
                     ["language"] = language,
                     ["id_list"] = string.IsNullOrWhiteSpace(idList)
                         ? []
-                        : new JsonArray(idList.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                            .Select(a => (JsonNode?)a)
-                            .ToArray())
+                        : new JsonArray([.. idList.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(a => (JsonNode?)a)])
                 };
 
                 JsonNode? response = await client.PostAsync("302/search/academic/arxiv", body, cancellationToken);

@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.us1.bfl.ai/v1/finetune_details?finetune_id={finetune_id}",
+      "name": "bfl-finetune-details",
+      "title": "Get BFL finetune details",
+      "description": "Get training parameters and metadata for a finetune ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

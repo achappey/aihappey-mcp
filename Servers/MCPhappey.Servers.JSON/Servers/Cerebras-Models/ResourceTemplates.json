@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.cerebras.ai/public/v1/models?format={format}",
+      "name": "list-public-models-formatted",
+      "title": "List public models formatted",
+      "description": "List public models in openrouter or huggingface format",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

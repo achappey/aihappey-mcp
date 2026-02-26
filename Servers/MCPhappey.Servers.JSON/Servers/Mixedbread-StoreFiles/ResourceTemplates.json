@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.mixedbread.com/v1/stores/{store_identifier}/files/{file_identifier}",
+      "name": "mixedbread-get-store-file",
+      "title": "Get Mixedbread store file",
+      "description": "Get Mixedbread store file.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

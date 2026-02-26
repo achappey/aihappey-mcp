@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "Nebius-Images",
+    "title": "Nebius Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://nebius.com",
+    "description": "Generate images with Nebius, upload outputs to SharePoint/OneDrive and return only resource links.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKRoO9XCNhc_7_DVpQm8BsTL_oVF6q57IZPA&s"
+      }
+    ]
+  },
+  "headers": {
+    "Authorization": "Bearer [Nebius_API_key]"
+  },
+  "plugins": [
+    "MCPhappey.Tools.Nebius.NebiusImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read  https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

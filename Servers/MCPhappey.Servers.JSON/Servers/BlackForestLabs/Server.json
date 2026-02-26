@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "BlackForestLabs",
+    "title": "Black Forest Labs",
+    "version": "1.0.0",
+    "websiteUrl": "https://bfl.ai",
+    "description": "Provides access to all FLUX models through the Model Context Protocol. Generate and edit images using natural language.",
+    "icons": [
+      {
+        "src": "https://bfl.ai/brand/avoid/005.svg"
+      }
+    ]
+  },
+  "baseMcp": "api.bfl.ai",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

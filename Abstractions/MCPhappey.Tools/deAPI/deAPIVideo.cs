@@ -64,16 +64,12 @@ public static class deAPIVideo
                     NegativePrompt = negative_prompt,
                     PollIntervalSeconds = pollIntervalSeconds,
                     MaxWaitSeconds = maxWaitSeconds,
-                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                    Confirmation = "GENERATE"
+                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
                 },
                 cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "GENERATE", StringComparison.OrdinalIgnoreCase))
-                return "Video generation canceled: confirmation text must be 'GENERATE'.".ToErrorCallToolResponse();
 
             ValidateTextToVideoRequest(typed);
 
@@ -204,16 +200,12 @@ public static class deAPIVideo
                     NegativePrompt = negative_prompt,
                     PollIntervalSeconds = pollIntervalSeconds,
                     MaxWaitSeconds = maxWaitSeconds,
-                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                    Confirmation = "GENERATE"
+                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
                 },
                 cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "GENERATE", StringComparison.OrdinalIgnoreCase))
-                return "Video generation canceled: confirmation text must be 'GENERATE'.".ToErrorCallToolResponse();
 
             ValidateImageToVideoRequest(typed);
 
@@ -639,10 +631,6 @@ public static class deAPIVideo
         [Description("Output filename without extension.")]
         public string Filename { get; set; } = default!;
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        [Description("Type GENERATE to confirm execution.")]
-        public string Confirmation { get; set; } = "GENERATE";
     }
 
     [Description("Please confirm the deAPI image-to-video request details.")]
@@ -716,9 +704,5 @@ public static class deAPIVideo
         [Description("Output filename without extension.")]
         public string Filename { get; set; } = default!;
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        [Description("Type GENERATE to confirm execution.")]
-        public string Confirmation { get; set; } = "GENERATE";
     }
 }

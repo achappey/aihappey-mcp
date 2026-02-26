@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Mixedbread-Parsing",
+    "title": "Mixedbread Parsing",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.mixedbread.com",
+    "description": "Start and track Mixedbread parsing jobs for files.",
+    "icons": [
+      {
+        "src": "https://www.mixedbread.com/apple-touch-icon.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Mixedbread.MixedbreadParsing, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

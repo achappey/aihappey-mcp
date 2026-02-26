@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "LumaAI-Images",
+    "title": "Luma AI Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://lumalabs.ai",
+    "description": "Luma AI image generation and image modification, single fileUrl input for image-to-image, SharePoint/OneDrive upload, remote generation cleanup and resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://awsmp-logos.s3.amazonaws.com/seller-p22x27mw3bvj2/a6a97dd612a0405476a18abdeb550f2f.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.LumaAI.LumaAIImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

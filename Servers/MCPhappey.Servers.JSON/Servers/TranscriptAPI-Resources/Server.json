@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "TranscriptAPI-Resources",
+    "title": "TranscriptAPI Resources",
+    "version": "1.0.0",
+    "websiteUrl": "https://transcriptapi.com",
+    "description": "Model Context Protocol resource based TranscriptAPI.",
+    "icons": [
+      {
+        "src": "https://transcriptapi.com/brand/transcript_api_logo.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

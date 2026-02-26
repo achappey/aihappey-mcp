@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Kugu-Speech",
+    "title": "Kugu Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://kugu.ai",
+    "description": "Kugu Speech server with two text-to-speech tools: one for raw text and one for fileUrl input. The fileUrl tool scrapes/extracts readable text from supported sources, sends text to Kugu TTS, downloads the generated audio, uploads it to MCP storage, and returns a resource link block.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvhGSZCJ7DBCio2F9Vbtpmhb2VGL2-IVgApw&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Kugu.KuguSpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

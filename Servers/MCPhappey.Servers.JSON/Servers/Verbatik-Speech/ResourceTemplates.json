@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.verbatik.com/api/v1/voices?language={language}&gender={gender}&search={search}",
+      "name": "verbatik-retrieve-voices",
+      "title": "Verbatik - Retrieve Voices",
+      "description": "Retrieves all available Verbatik text-to-speech voices. Supports optional filtering by language code (e.g., en-US), gender (Male, Female, Neutral), and voice name search. Requires API authentication header.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

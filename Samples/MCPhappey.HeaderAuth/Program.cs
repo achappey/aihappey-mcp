@@ -62,16 +62,33 @@ using MCPhappey.Tools.SiliconFlow;
 using MCPhappey.Tools.Upstage;
 using MCPhappey.Tools.MiniMax;
 using MCPhappey.Tools.Speechify;
+using MCPhappey.Tools.Verbatik;
 using MCPhappey.Tools.deAPI;
 using MCPhappey.Tools.CometAPI;
+using MCPhappey.Tools.Mixedbread;
 using MCPhappey.Tools.StepFun;
+using MCPhappey.Tools.Kugu;
 using MCPhappey.Tools.Decart;
 using MCPhappey.Tools.Infomaniak;
+using MCPhappey.Tools.Daglo;
 using MCPhappey.Tools.Parasail;
 using MCPhappey.Tools.Monica;
 using MCPhappey.Tools.Ideogram;
 using MCPhappey.Tools.Picsart;
 using MCPhappey.Tools.Morpheus;
+using MCPhappey.Tools.Pinecone;
+using MCPhappey.Tools.SambaNova;
+using MCPhappey.Tools.Fireworks;
+using MCPhappey.Tools.Nebius;
+using MCPhappey.Tools.Supadata;
+using MCPhappey.Tools.LumaAI;
+using MCPhappey.Tools.AICC;
+using MCPhappey.Tools.OCRSpace;
+using MCPhappey.Tools.YourVoic;
+using MCPhappey.Tools.FishAudio;
+using MCPhappey.Tools.Cartesia;
+using MCPhappey.Tools.SmallestAI;
+using MCPhappey.Tools.UnrealSpeech;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -140,8 +157,10 @@ builder.Services
 .AddPerplexity(appConfig?.DomainHeaders)
 .AddParallel(appConfig?.DomainHeaders)
 .AddImagga(appConfig?.DomainHeaders)
+.AddSupadata(appConfig?.DomainHeaders)
 .AddRunway(appConfig?.DomainHeaders)
 .AddReplicate(appConfig?.DomainHeaders)
+.AddPinecone(appConfig?.DomainHeaders)
 .AddCohere(appConfig?.DomainHeaders)
 .AddJinaAI(appConfig?.DomainHeaders)
 .AddAzureMaps(appConfig?.DomainHeaders)
@@ -154,7 +173,11 @@ builder.Services
 .AddSPAMhunter(appConfig?.DomainHeaders)
 .AddFreepik(appConfig?.DomainHeaders)
 .AddAI302(appConfig?.DomainHeaders)
-.AddZAI(appConfig?.DomainHeaders)
+    .AddZAI(appConfig?.DomainHeaders)
+    .AddNebius(appConfig?.DomainHeaders)
+    .AddAICC(appConfig?.DomainHeaders)
+    .AddLumaAI(appConfig?.DomainHeaders)
+    .AddFireworks(appConfig?.DomainHeaders)
 .AddGreenPT(appConfig?.DomainHeaders)
 .AddAPIpie(appConfig?.DomainHeaders)
 .AddAudixa(appConfig?.DomainHeaders)
@@ -164,6 +187,7 @@ builder.Services
 .AddContextualAI(appConfig?.DomainHeaders)
 .AddTelnyx(appConfig?.DomainHeaders)
 .AddOpperAI(appConfig?.DomainHeaders)
+.AddOCRSpace(appConfig?.DomainHeaders)
 .AddBergetAI(appConfig?.DomainHeaders)
 .AddRegoloAI(appConfig?.DomainHeaders)
 .AddScaleway(appConfig?.DomainHeaders)
@@ -173,17 +197,27 @@ builder.Services
 .AddRecraft(appConfig?.DomainHeaders)
 .AddUpstage(appConfig?.DomainHeaders)
 .AddSpeechify(appConfig?.DomainHeaders)
+.AddVerbatik(appConfig?.DomainHeaders)
+.AddUnrealSpeech(appConfig?.DomainHeaders)
 .AddDeAPI(appConfig?.DomainHeaders)
 .AddParasail(appConfig?.DomainHeaders)
-.AddCometAPI(appConfig?.DomainHeaders)
+    .AddCometAPI(appConfig?.DomainHeaders)
+    .AddMixedbread(appConfig?.DomainHeaders)
 .AddStepFun(appConfig?.DomainHeaders)
+.AddKugu(appConfig?.DomainHeaders)
 .AddMorpheus(appConfig?.DomainHeaders)
 .AddInfomaniak(appConfig?.DomainHeaders)
+.AddDaglo(appConfig?.DomainHeaders)
 .AddMonica(appConfig?.DomainHeaders)
 .AddIdeogram(appConfig?.DomainHeaders)
 .AddPicsart(appConfig?.DomainHeaders)
 .AddTinfoil(appConfig?.DomainHeaders)
+.AddSambaNova(appConfig?.DomainHeaders)
 .AddDecart(appConfig?.DomainHeaders)
+.AddYourVoic(appConfig?.DomainHeaders)
+.AddSmallestAI(appConfig?.DomainHeaders)
+.AddFishAudio(appConfig?.DomainHeaders)
+.AddCartesia(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
 

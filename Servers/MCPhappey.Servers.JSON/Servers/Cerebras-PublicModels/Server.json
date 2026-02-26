@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Cerebras-PublicModels",
+    "title": "Cerebras Public Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.cerebras.ai",
+    "description": "Browse public models through Cerebras.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/cerebras-color.png"
+      }
+    ]
+  }
+}

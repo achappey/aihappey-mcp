@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.cartesia.ai/voices?limit={limit}&starting_after={starting_after}&ending_before={ending_before}&q={q}&is_owner={is_owner}&gender={gender}&expand[]={expand}",
+      "name": "cartesia-list-voices",
+      "title": "Cartesia - List Voices",
+      "description": "Retrieves a paginated list of Cartesia voices. Supports cursor-based pagination (starting_after, ending_before), search (q), filtering by ownership (is_owner) and gender (masculine, feminine, gender_neutral), and optional expansion of additional fields such as preview_file_url. Requires Authorization header (Bearer API key or access token) and mandatory Cartesia-Version header (e.g. 2025-04-16).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://crazyrouter.com/v1/models",
+      "name": "list-crazyrouter-models",
+      "title": "List available Crazyrouter models",
+      "description": "List all available Crazyrouter models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

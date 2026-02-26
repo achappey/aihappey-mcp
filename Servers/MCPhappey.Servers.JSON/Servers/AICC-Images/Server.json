@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "AICC-Images",
+    "title": "AICC Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.ai.cc",
+    "description": "AICC image generation.",
+    "icons": [
+      {
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://ai.cc&size=128"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AICC.AICCImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

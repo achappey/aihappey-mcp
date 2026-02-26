@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/web/scrape?url={url}&noLinks={noLinks}&lang={lang}",
+      "name": "supadata-web-scrape",
+      "title": "Supadata web scrape",
+      "description": "Extract content from a web page to Markdown format.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/web/map?url={url}&noLinks={noLinks}&lang={lang}",
+      "name": "supadata-web-map",
+      "title": "Supadata web map",
+      "description": "Extract all links found on a website.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

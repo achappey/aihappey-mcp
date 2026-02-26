@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "UVoiceAI-Speech",
+    "title": "UVoiceAI Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://uvoice.app",
+    "description": "UVoiceAI speech capabilities",
+    "icons": [
+      {
+        "src": "https://uvoice.app/images/icons/icon-192x192.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.UVoiceAI.UVoiceAISpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read  https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

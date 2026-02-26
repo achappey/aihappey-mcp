@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.mixedbread.com/v1/parsing/jobs?limit=20",
+      "name": "mixedbread-list-parsing-jobs",
+      "title": "List Mixedbread parsing jobs",
+      "description": "List all Mixedbread parsing jobs.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

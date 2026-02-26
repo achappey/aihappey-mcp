@@ -54,11 +54,8 @@ public static class DeepLGlossaries
                 TargetLang2 = targetLang2,
                 Entries2 = entries2,
                 EntriesFormat2 = entriesFormat2,
-                Confirmation = "CREATE"
+             
             }, cancellationToken);
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "CREATE", StringComparison.OrdinalIgnoreCase))
-                return "Create glossary canceled: confirmation text must be 'CREATE'.".ToErrorCallToolResponse();
 
             ValidateRequired(typed.Name, nameof(name));
             ValidateRequired(typed.SourceLang, nameof(sourceLang));
@@ -131,12 +128,8 @@ public static class DeepLGlossaries
                 SourceLang = sourceLang,
                 TargetLang = targetLang,
                 Entries = entries,
-                EntriesFormat = entriesFormat,
-                Confirmation = "EDIT"
+                EntriesFormat = entriesFormat
             }, cancellationToken);
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "EDIT", StringComparison.OrdinalIgnoreCase))
-                return "Edit glossary canceled: confirmation text must be 'EDIT'.".ToErrorCallToolResponse();
 
             ValidateRequired(typed.GlossaryId, nameof(glossaryId));
 
@@ -202,12 +195,8 @@ public static class DeepLGlossaries
                 SourceLang = sourceLang,
                 TargetLang = targetLang,
                 Entries = entries,
-                EntriesFormat = entriesFormat,
-                Confirmation = "REPLACE"
+                EntriesFormat = entriesFormat
             }, cancellationToken);
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "REPLACE", StringComparison.OrdinalIgnoreCase))
-                return "Replace dictionary canceled: confirmation text must be 'REPLACE'.".ToErrorCallToolResponse();
 
             ValidateRequired(typed.GlossaryId, nameof(glossaryId));
             ValidateRequired(typed.SourceLang, nameof(sourceLang));
@@ -254,7 +243,7 @@ public static class DeepLGlossaries
                 cancellationToken);
         });
 
-    [Description("Delete a dictionary from a glossary by language pair using default delete confirmation flow.")]
+    [Description("Delete a dictionary from a glossary by language pair.")]
     [McpServerTool(
         Title = "DeepL delete glossary dictionary",
         Name = "deepl_glossaries_delete_dictionary",
@@ -358,9 +347,6 @@ public static class DeepLGlossaries
         [Description("Optional second entries format: tsv or csv.")]
         public string? EntriesFormat2 { get; set; }
 
-        [JsonPropertyName("confirmation")]
-        [Description("Type CREATE to confirm execution.")]
-        public string? Confirmation { get; set; }
     }
 
     public sealed class PatchGlossaryRequest
@@ -388,11 +374,7 @@ public static class DeepLGlossaries
 
         [JsonPropertyName("entriesFormat")]
         [Description("Optional dictionary entries format: tsv or csv.")]
-        public string? EntriesFormat { get; set; }
-
-        [JsonPropertyName("confirmation")]
-        [Description("Type EDIT to confirm execution.")]
-        public string? Confirmation { get; set; }
+        public string? EntriesFormat { get; set; }     
     }
 
     public sealed class ReplaceDictionaryRequest
@@ -421,9 +403,6 @@ public static class DeepLGlossaries
         [Description("Dictionary entries format: tsv or csv.")]
         public string? EntriesFormat { get; set; } = "tsv";
 
-        [JsonPropertyName("confirmation")]
-        [Description("Type REPLACE to confirm execution.")]
-        public string? Confirmation { get; set; }
     }
 
     public sealed class ConfirmDeleteGlossary : IHasName

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "SmallestAI-Transcriptions",
+    "title": "SmallestAI Transcriptions",
+    "version": "1.0.0",
+    "websiteUrl": "https://smallest.ai",
+    "description": "Create speech-to-text transcriptions from files with Smallest.ai and return structured transcription output.",
+    "icons": [
+      {
+        "src": "https://aws.amazon.com/marketplace/seller-profile?id=seller-jue6d3dchzgjk"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.SmallestAI.SmallestAITranscriptions, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

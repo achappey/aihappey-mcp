@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "OPEAI-Models",
+    "title": "OPE.AI Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://ope.ai",
+    "description": "Browse OPE.AI models.",
+    "icons": [
+      {
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://ope.ai&size=128"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "SambaNova-Transcriptions",
+    "title": "SambaNova Transcriptions",
+    "version": "1.0.0",
+    "websiteUrl": "https://sambanova.ai",
+    "description": "Create speech-to-text transcriptions from files with SambaNova and return structured transcription output.",
+    "icons": [
+      {
+        "src": "https://sambanova.ai/hubfs/logotype_sambanova_orange.png"
+      }
+    ]
+  },
+  "headers": {
+    "Authorization": "Bearer [SambaNova_API_key]"
+  },
+  "plugins": [
+    "MCPhappey.Tools.SambaNova.SambaNovaTranscriptions, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

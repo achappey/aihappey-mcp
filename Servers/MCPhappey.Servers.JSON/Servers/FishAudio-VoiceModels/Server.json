@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "FishAudio-VoiceModels",
+    "title": "Fish Audio Voice Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://fish.audio",
+    "description": "Fish Audio voice models.",
+    "icons": [
+      {
+        "src": "https://fish.audio/apple-touch-icon.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

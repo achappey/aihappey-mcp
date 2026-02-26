@@ -60,9 +60,6 @@ public static class ZAITranscriptions
                         Model = model,
                         Prompt = prompt,
                         Hotwords = hotwords,
-                        RequestId = requestId,
-                        UserId = userId,
-                        Confirmation = "TRANSCRIBE"
                     },
                     cancellationToken);
 
@@ -72,14 +69,8 @@ public static class ZAITranscriptions
                 if (typed == null)
                     throw new InvalidOperationException("No transcription input data provided.");
 
-                if (!string.Equals(typed.Confirmation?.Trim(), "TRANSCRIBE", StringComparison.OrdinalIgnoreCase))
-                    throw new ValidationException("Transcription canceled: confirmation text must be 'TRANSCRIBE'.");
-
                 if (!string.Equals(typed.Model, "glm-asr-2512", StringComparison.OrdinalIgnoreCase))
                     throw new ValidationException("model must be glm-asr-2512.");
-
-                if (!string.IsNullOrWhiteSpace(typed.UserId) && (typed.UserId.Length < 6 || typed.UserId.Length > 128))
-                    throw new ValidationException("userId must be 6 to 128 characters when provided.");
 
                 var hotwordList = ParseHotwords(typed.Hotwords);
                 if (hotwordList.Count > 100)
@@ -98,13 +89,7 @@ public static class ZAITranscriptions
                     form.Add(new StringContent(typed.Prompt), "prompt");
 
                 if (hotwordList.Count > 0)
-                    form.Add(new StringContent(JsonSerializer.Serialize(hotwordList)), "hotwords");
-
-                if (!string.IsNullOrWhiteSpace(typed.RequestId))
-                    form.Add(new StringContent(typed.RequestId), "request_id");
-
-                if (!string.IsNullOrWhiteSpace(typed.UserId))
-                    form.Add(new StringContent(typed.UserId), "user_id");
+                    form.Add(new StringContent(JsonSerializer.Serialize(hotwordList)), "hotwords");           
 
                 using var client = clientFactory.CreateClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", settings.ApiKey);
@@ -136,11 +121,10 @@ public static class ZAITranscriptions
     private static List<string> ParseHotwords(string? hotwords)
         => string.IsNullOrWhiteSpace(hotwords)
             ? []
-            : hotwords
+            : [.. hotwords
                 .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToList();
+                .Distinct(StringComparer.OrdinalIgnoreCase)];
 }
 
 [Description("Please confirm the Z.AI transcription request.")]
@@ -164,17 +148,5 @@ public sealed class ZAITranscriptionRequest
     [Description("Optional comma-separated hotwords. Max 100 entries.")]
     public string? Hotwords { get; set; }
 
-    [JsonPropertyName("requestId")]
-    [Description("Optional unique client request id.")]
-    public string? RequestId { get; set; }
-
-    [JsonPropertyName("userId")]
-    [Description("Optional end-user id (6-128 chars).")]
-    public string? UserId { get; set; }
-
-    [JsonPropertyName("confirmation")]
-    [Required]
-    [Description("Type TRANSCRIBE to confirm execution.")]
-    public string Confirmation { get; set; } = "TRANSCRIBE";
 }
 

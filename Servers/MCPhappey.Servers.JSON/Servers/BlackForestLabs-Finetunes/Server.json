@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "BlackForestLabs-Finetunes",
+    "title": "Black Forest Labs Finetunes",
+    "version": "1.0.0",
+    "websiteUrl": "https://bfl.ai",
+    "description": "Manage Black Forest Labs finetunes: list, inspect details, and delete finetunes.",
+    "icons": [
+      {
+        "src": "https://bfl.ai/brand/avoid/005.svg"
+      }
+    ]
+  },
+  "headers": {
+    "x-key": "[BFL_API_key]"
+  },
+  "plugins": [
+    "MCPhappey.Tools.BlackForestLabs.Finetune.BlackForestLabsFinetune, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

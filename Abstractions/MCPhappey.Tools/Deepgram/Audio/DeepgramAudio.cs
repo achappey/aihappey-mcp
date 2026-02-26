@@ -33,8 +33,6 @@ public static class DeepgramAudio
         [Description("Container: none, wav, ogg.")] string container = "none",
         [Description("Sample rate in Hz.")] int sampleRate = 48000,
         [Description("Bitrate in bits/sec.")] int bitRate = 48000,
-        [Description("Optional callback URL.")] string? callback = null,
-        [Description("Callback method: POST or PUT.")] string callbackMethod = "POST",
         [Description("Tag for usage reporting.")] string? tag = null,
         [Description("Opt out of Deepgram MIP.")] bool mipOptOut = false,
         [Description("Output filename without extension.")] string? filename = null,
@@ -54,8 +52,6 @@ public static class DeepgramAudio
                     Container = container,
                     SampleRate = sampleRate,
                     BitRate = bitRate,
-                    Callback = callback,
-                    CallbackMethod = callbackMethod,
                     Tag = tag,
                     MipOptOut = mipOptOut,
                     Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
@@ -74,8 +70,6 @@ public static class DeepgramAudio
                     ["container"] = typed.Container,
                     ["sample_rate"] = typed.SampleRate.ToString(),
                     ["bit_rate"] = typed.BitRate.ToString(),
-                    ["callback"] = typed.Callback,
-                    ["callback_method"] = typed.CallbackMethod,
                     ["tag"] = typed.Tag,
                     ["mip_opt_out"] = typed.MipOptOut.ToString().ToLowerInvariant(),
                 }));
@@ -160,8 +154,6 @@ public static class DeepgramAudio
         [Description("Comma-separated custom intents.")] string? customIntent = null,
         [Description("Custom intent mode: extended or strict.")] string customIntentMode = "extended",
         [Description("Tag for usage reporting.")] string? tag = null,
-        [Description("Optional callback URL.")] string? callback = null,
-        [Description("Callback method: POST or PUT.")] string callbackMethod = "POST",
         [Description("Opt out of Deepgram MIP.")] bool mipOptOut = false,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
@@ -199,8 +191,6 @@ public static class DeepgramAudio
                     ["custom_intent"] = customIntent,
                     ["custom_intent_mode"] = customIntentMode,
                     ["tag"] = tag,
-                    ["callback"] = callback,
-                    ["callback_method"] = callbackMethod,
                     ["mip_opt_out"] = mipOptOut.ToString().ToLowerInvariant(),
                 }));
 
@@ -269,14 +259,6 @@ public static class DeepgramAudio
         [JsonPropertyName("bit_rate")]
         [Description("Bitrate in bits/sec.")]
         public int BitRate { get; set; } = 48000;
-
-        [JsonPropertyName("callback")]
-        [Description("Optional callback URL.")]
-        public string? Callback { get; set; }
-
-        [JsonPropertyName("callback_method")]
-        [Description("Callback method.")]
-        public string CallbackMethod { get; set; } = "POST";
 
         [JsonPropertyName("tag")]
         [Description("Optional usage tag.")]

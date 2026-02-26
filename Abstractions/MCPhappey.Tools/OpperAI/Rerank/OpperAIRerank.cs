@@ -146,10 +146,9 @@ public static class OpperAIRerank
     }
 
     private static List<string> ParseFileUrls(string input)
-        => (input ?? string.Empty)
+        => [.. (input ?? string.Empty)
             .Split([',', ';', '\n', '\r', '\t'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .Where(url => !string.IsNullOrWhiteSpace(url))
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToList();
+            .Distinct(StringComparer.OrdinalIgnoreCase)];
 }
 

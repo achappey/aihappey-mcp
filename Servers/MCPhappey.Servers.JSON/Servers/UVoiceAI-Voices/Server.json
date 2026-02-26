@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "UVoiceAI-Voices",
+    "title": "UVoiceAI Voices",
+    "version": "1.0.0",
+    "websiteUrl": "https://uvoice.app",
+    "description": "UVoiceAI voice list",
+    "icons": [
+      {
+        "src": "https://uvoice.app/images/icons/icon-192x192.png"
+      }
+    ]
+  }
+}

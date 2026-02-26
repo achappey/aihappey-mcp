@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.ai.cc/v1/models",
+      "name": "list-aicc-models",
+      "title": "List available AICC models",
+      "description": "List all available AICC models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

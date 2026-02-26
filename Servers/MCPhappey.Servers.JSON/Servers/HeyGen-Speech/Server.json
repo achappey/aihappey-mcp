@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "HeyGen-Speech",
+    "title": "HeyGen Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.heygen.com",
+    "description": "HeyGen speech capabilities",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZmrChHtfnAtTZb13JfQBUeFHHxZM6ARBhwA&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.HeyGen.HeyGenSpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

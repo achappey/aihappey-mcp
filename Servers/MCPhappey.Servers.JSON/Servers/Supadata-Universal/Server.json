@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "Supadata-Universal",
+    "title": "Supadata Universal",
+    "version": "1.0.0",
+    "websiteUrl": "https://supadata.ai",
+    "description": "Universal Supadata endpoints for transcripts, metadata, and extraction.",
+    "icons": [
+      {
+        "src": "https://docs.supadata.ai/favicon.svg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "headers": {
+    "x-api-key": "Supadata API key"
+  },
+  "plugins": [
+    "MCPhappey.Tools.Supadata.SupadataUniversal, MCPhappey.Tools"
+  ]
+}

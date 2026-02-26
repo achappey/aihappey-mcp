@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "TranscriptAPI",
+    "title": "TranscriptAPI",
+    "version": "1.0.0",
+    "websiteUrl": "https://transcriptapi.com",
+    "description": "Use TranscriptAPI to fetch transcripts, search YouTube, browse channels, and list playlists — all from within your AI assistant via Model Context Protocol (MCP).",
+    "icons": [
+      {
+        "src": "https://transcriptapi.com/brand/transcript_api_logo.png"
+      }
+    ]
+  },
+  "baseMcp": "transcriptapi.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

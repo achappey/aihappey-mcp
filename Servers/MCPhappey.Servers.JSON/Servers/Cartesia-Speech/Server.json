@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Cartesia-Speech",
+    "title": "Cartesia Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://cartesia.ai",
+    "description": "",
+    "icons": [
+      {
+        "src": "https://play.cartesia.ai/icon.svg?icon.78918bc9.svg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Cartesia.CartesiaSpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

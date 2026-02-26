@@ -1,0 +1,24 @@
+{
+  "serverInfo": {
+    "name": "Supadata-YouTube",
+    "title": "Supadata YouTube",
+    "version": "1.0.0",
+    "websiteUrl": "https://supadata.ai",
+    "description": "Supadata YouTube endpoints for search, metadata, transcripts, and batch jobs.",
+    "icons": [
+      {
+        "src": "https://docs.supadata.ai/favicon.svg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "headers": {
+    "x-api-key": "Supadata API key"
+  },
+  "plugins": [
+    "MCPhappey.Tools.Supadata.SupadataUniversal, MCPhappey.Tools",
+    "MCPhappey.Tools.Supadata.SupadataYouTube, MCPhappey.Tools"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Supadata-Web",
+    "title": "Supadata Web",
+    "version": "1.0.0",
+    "websiteUrl": "https://supadata.ai",
+    "description": "Supadata web scraping and crawling endpoints.",
+    "icons": [
+      {
+        "src": "https://docs.supadata.ai/favicon.svg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  },
+  "headers": {
+    "x-api-key": "Supadata API key"
+  }
+}

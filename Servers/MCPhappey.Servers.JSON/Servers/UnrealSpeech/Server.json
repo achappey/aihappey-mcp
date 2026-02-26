@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "UnrealSpeech",
+    "title": "Unreal Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://unrealspeech.com",
+    "description": "UnrealSpeech text-to-speech server with fileUrl-first tools for /speech and /synthesisTasks. It scrapes document text from supported URLs, generates speech, uploads the resulting audio file, and returns a ResourceLinkBlock.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQETnkv3rb41Bw/company-logo_200_200/company-logo_200_200/0/1663606553324?e=2147483647&v=beta&t=M6L9owNcAFghDwHNpzbt5cvl4buCJ824838zV-aLcos"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.UnrealSpeech.UnrealSpeechService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

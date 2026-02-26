@@ -1,0 +1,100 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/youtube/search?query={query}&uploadDate={uploadDate}&type={type}&duration={duration}&sortBy={sortBy}&features={features}&limit={limit}&nextPageToken={nextPageToken}",
+      "name": "supadata-youtube-search",
+      "title": "Supadata YouTube search",
+      "description": "Search YouTube for videos, channels, and playlists with advanced filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/youtube/video?id={id}",
+      "name": "supadata-youtube-video",
+      "title": "Supadata YouTube video",
+      "description": "Get metadata for a YouTube video (deprecated by Supadata).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/youtube/transcript?url={url}&videoId={videoId}&text={text}&chunkSize={chunkSize}&lang={lang}",
+      "name": "supadata-youtube-transcript",
+      "title": "Supadata YouTube transcript",
+      "description": "Get transcript from a YouTube video. If lang is missing/unavailable, defaults to first available language.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/youtube/channel?id={id}",
+      "name": "supadata-youtube-channel",
+      "title": "Supadata YouTube channel",
+      "description": "Get metadata for a YouTube channel.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/youtube/playlist?id={id}",
+      "name": "supadata-youtube-playlist",
+      "title": "Supadata YouTube playlist",
+      "description": "Get metadata for a YouTube playlist.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/youtube/channel/videos?id={id}&limit={limit}&type={type}",
+      "name": "supadata-youtube-channel-videos",
+      "title": "Supadata YouTube channel videos",
+      "description": "Get video IDs from a YouTube channel.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/youtube/playlist/videos?id={id}&limit={limit}",
+      "name": "supadata-youtube-playlist-videos",
+      "title": "Supadata YouTube playlist videos",
+      "description": "Get video IDs from a YouTube playlist.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/youtube/batch/{jobId}",
+      "name": "supadata-youtube-batch",
+      "title": "Supadata YouTube batch results",
+      "description": "Get the status and results of a YouTube batch job.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

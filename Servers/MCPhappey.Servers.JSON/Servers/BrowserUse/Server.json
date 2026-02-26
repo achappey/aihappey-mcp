@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "BrowserUse",
+    "title": "BrowserUse",
+    "version": "1.0.0",
+    "websiteUrl": "https://browser-use.com",
+    "description": "The Way AI uses the web. Agents at scale. Undetectable browsers. Purpose-built models. The API for any website.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRJmqhQBiLgAmohdbTE3YwAO3ApuMTME2Qew&s"
+      }
+    ]
+  },
+  "baseMcp": "api.browser-use.com/",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Handelsregister-API",
+    "title": "Handelsregister API",
+    "version": "1.0.0",
+    "websiteUrl": "https://handelsregister.ai",
+    "description": "Strukturierter, zuverlässiger und schneller API-Zugang zum deutschen Handelsregister.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPBMX96E74wbEDdSCzialt3Hyk8--PwckudA&s"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

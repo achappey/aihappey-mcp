@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Verbatik-Speech",
+    "title": "Verbatik Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://verbatik.com",
+    "description": "Generate high-quality speech from text with Verbatik.",
+    "icons": [
+      {
+        "src": "https://docs.verbatik.com/images/logo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Verbatik.VerbatikSpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

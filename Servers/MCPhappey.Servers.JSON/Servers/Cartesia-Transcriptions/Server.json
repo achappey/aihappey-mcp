@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Cartesia-Transcriptions",
+    "title": "Cartesia Transcriptions",
+    "version": "1.0.0",
+    "websiteUrl": "https://cartesia.ai",
+    "description": "Create speech-to-text transcriptions from files with Cartesia and return structured transcription output.",
+    "icons": [
+      {
+        "src": "https://play.cartesia.ai/icon.svg?icon.78918bc9.svg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Cartesia.CartesiaTranscriptions, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

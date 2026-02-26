@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/transcript?url={url}&lang={lang}&text={text}&chunkSize={chunkSize}&mode={mode}",
+      "name": "supadata-transcript",
+      "title": "Supadata transcript",
+      "description": "Get transcript from a supported platform or file URL. If too large, the API returns a jobId. Use supadata-transcript-job for results.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/transcript/{jobId}",
+      "name": "supadata-transcript-job",
+      "title": "Supadata transcript job",
+      "description": "Get results for a transcript job by jobId.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.supadata.ai/v1/metadata?url={url}",
+      "name": "supadata-metadata",
+      "title": "Supadata metadata",
+      "description": "Fetch unified media metadata for supported platforms.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Crazyrouter-Models",
+    "title": "Crazyrouter Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://crazyrouter.com",
+    "description": "Browse Crazyrouter models.",
+    "icons": [
+      {
+        "src": "https://www.google.com/s2/favicons?domain=crazyrouter.com&sz=64"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

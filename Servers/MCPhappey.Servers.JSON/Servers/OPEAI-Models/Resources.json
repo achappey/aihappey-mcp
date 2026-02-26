@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api-platform.ope.ai/v1/models",
+      "name": "list-opeai-models",
+      "title": "List available OPE.AI models",
+      "description": "List all available OPE.AI models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

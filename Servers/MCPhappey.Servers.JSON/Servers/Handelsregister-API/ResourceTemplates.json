@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://handelsregister.ai/api/v1/search-organizations?q={query}&skip={skip}&limit={limit}&filters={filters}",
+      "name": "handelsregister-search-organizations",
+      "title": "Search German Organizations",
+      "description": "Search German companies using a query string with pagination (skip/limit) and optional filters such as postal_code.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://handelsregister.ai/api/v1/fetch-organization?q={query}&feature={feature}&ai_search={aiSearch}",
+      "name": "handelsregister-fetch-organization",
+      "title": "Fetch Organization (including optional features)",
+      "description": "Retrieve detailed company information including optional features such as financial_kpi, related_persons, publications, shareholders, and website_content.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://handelsregister.ai/api/v1/fetch-document?company_id={companyId}&document_type={documentType}",
+      "name": "handelsregister-fetch-document",
+      "title": "Fetch Official Register Document (PDF)",
+      "description": "Download official Handelsregister PDF documents such as shareholders_list, articles_of_association, AD (current excerpt), or CD (historical excerpt).",
+      "mimeType": "application/pdf",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -12,6 +12,19 @@
           "user"
         ]
       }
+    },
+    {
+      "uri": "https://api.cerebras.ai/public/v1/models",
+      "name": "list-public-models",
+      "title": "List public models",
+      "description": "List public models in default Cerebras format",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     }
   ]
 }

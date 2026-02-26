@@ -70,7 +70,7 @@ public static class RekaVision
                 };
             }));
 
-    [Description("Upload a video to Reka Vision indexing backend using a PUBLICLY accessible URL only. Local/private URLs are rejected. Uses elicitation confirmation before upload.")]
+    [Description("Upload a video to Reka Vision indexing backend using a PUBLICLY accessible URL only. Local/private URLs are rejected.")]
     [McpServerTool(
         Title = "Reka Vision Upload Video",
         Name = "reka_vision_upload_video",
@@ -127,18 +127,11 @@ public static class RekaVision
                         EncodeChunks = encodeChunks,
                         CaptionMode = captionMode,
                         GroupId = groupId,
-                        ChunkingConfig = chunkingConfig,
-                        Confirmation = "UPLOAD"
+                        ChunkingConfig = chunkingConfig
                     },
                     cancellationToken);
 
-                if (notAccepted != null) return notAccepted;
-                if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
                 EnsurePublicUrl(typed.VideoUrl, "videoUrl");
-
-                if (!string.Equals(typed.Confirmation?.Trim(), "UPLOAD", StringComparison.OrdinalIgnoreCase))
-                    return "Upload canceled: confirmation text must be 'UPLOAD'.".ToErrorCallToolResponse();
 
                 var settings = serviceProvider.GetRequiredService<RekaAISettings>();
                 var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -179,7 +172,7 @@ public static class RekaVision
                 };
             }));
 
-    [Description("Delete a video by ID from Reka Vision. Uses default confirmation flow before deletion.")]
+    [Description("Delete a video by ID from Reka Vision.")]
     [McpServerTool(
         Title = "Reka Vision Delete Video",
         Name = "reka_vision_delete_video",
@@ -242,18 +235,11 @@ public static class RekaVision
                     new RekaVisionUploadImageInput
                     {
                         ImageUrl = imageUrl,
-                        Metadata = metadata,
-                        Confirmation = "UPLOAD"
+                        Metadata = metadata
                     },
                     cancellationToken);
 
-                if (notAccepted != null) return notAccepted;
-                if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
                 EnsurePublicUrl(typed.ImageUrl, "imageUrl");
-
-                if (!string.Equals(typed.Confirmation?.Trim(), "UPLOAD", StringComparison.OrdinalIgnoreCase))
-                    return "Upload canceled: confirmation text must be 'UPLOAD'.".ToErrorCallToolResponse();
 
                 if (string.IsNullOrWhiteSpace(typed.Metadata))
                     return "metadata is required for image upload.".ToErrorCallToolResponse();
@@ -285,7 +271,7 @@ public static class RekaVision
                 };
             }));
 
-    [Description("Delete an image by ID from Reka Vision. Uses default confirmation flow before deletion.")]
+    [Description("Delete an image by ID from Reka Vision.")]
     [McpServerTool(
         Title = "Reka Vision Delete Image",
         Name = "reka_vision_delete_image",
@@ -567,11 +553,10 @@ public static class RekaVision
             }
         }
 
-        return raw
+        return [.. raw
             .Split([',', ';', '\n', '\r'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .Where(a => !string.IsNullOrWhiteSpace(a))
-            .Distinct(StringComparer.OrdinalIgnoreCase)
-            .ToList();
+            .Distinct(StringComparer.OrdinalIgnoreCase)];
     }
 
     private static async Task<(JsonObject jsonNode, string jsonText)> SendRequestAsync(
@@ -656,10 +641,6 @@ public static class RekaVision
         [Description("Optional JSON string for chunking config.")]
         public string? ChunkingConfig { get; set; }
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        [Description("Type UPLOAD to confirm this upload.")]
-        public string Confirmation { get; set; } = "UPLOAD";
     }
 
     [Description("Please review and confirm the Reka Vision image upload request. Type UPLOAD to continue.")]
@@ -675,10 +656,6 @@ public static class RekaVision
         [Description("Metadata JSON string.")]
         public string Metadata { get; set; } = default!;
 
-        [JsonPropertyName("confirmation")]
-        [Required]
-        [Description("Type UPLOAD to confirm this upload.")]
-        public string Confirmation { get; set; } = "UPLOAD";
     }
 
     [Description("Please confirm deletion of the video ID: {0}")]

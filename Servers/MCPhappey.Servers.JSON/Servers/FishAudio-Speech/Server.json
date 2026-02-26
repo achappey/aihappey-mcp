@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "FishAudio-Speech",
+    "title": "Fish Audio Speech",
+    "version": "1.0.0",
+    "websiteUrl": "https://fish.audio",
+    "description": "Fish Audio speech capabilities",
+    "icons": [
+      {
+        "src": "https://fish.audio/apple-touch-icon.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.FishAudio.FishAudioSpeech, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

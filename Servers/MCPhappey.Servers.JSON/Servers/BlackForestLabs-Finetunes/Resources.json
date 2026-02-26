@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.us1.bfl.ai/v1/my_finetunes",
+      "name": "bfl-finetunes-list",
+      "title": "List my BFL finetunes",
+      "description": "List all finetune IDs created by the user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

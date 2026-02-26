@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.mixedbread.com/v1/parsing/jobs/{job_id}",
+      "name": "mixedbread-get-parsing-job",
+      "title": "Get Mixedbread parsing job",
+      "description": "Get Mixedbread parsing job.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -60,16 +60,9 @@ public static class MonicaImages
                     MagicPromptOption = magicPromptOption,
                     Interval = interval,
                     SafetyTolerance = safetyTolerance,
-                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                    Confirmation = "GENERATE"
+                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
                 },
                 cancellationToken);
-
-            if (notAccepted != null) return notAccepted;
-            if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "GENERATE", StringComparison.OrdinalIgnoreCase))
-                return "Image generation canceled: confirmation text must be 'GENERATE'.".ToErrorCallToolResponse();
 
             ValidateGenerateRequest(typed);
 
@@ -94,7 +87,7 @@ public static class MonicaImages
             return links.ToResourceLinkCallToolResponse();
         });
 
-    [Description("Upscale an image with Monica from a single fileUrl, always confirm via elicitation, upload the result to SharePoint/OneDrive, and return only resource link blocks.")]
+    [Description("Upscale an image with Monica from a single fileUrl, upload the result to SharePoint/OneDrive, and return only resource link blocks.")]
     [McpServerTool(Title = "Monica Upscale", Name = "monica_images_upscale", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> Monica_Images_Upscale(
         IServiceProvider serviceProvider,
@@ -110,16 +103,10 @@ public static class MonicaImages
                 {
                     FileUrl = fileUrl,
                     Scale = scale,
-                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                    Confirmation = "UPSCALE"
+                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
-            if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "UPSCALE", StringComparison.OrdinalIgnoreCase))
-                return "Upscale canceled: confirmation text must be 'UPSCALE'.".ToErrorCallToolResponse();
 
             if (string.IsNullOrWhiteSpace(typed.FileUrl))
                 throw new ValidationException("fileUrl is required.");
@@ -146,8 +133,8 @@ public static class MonicaImages
             return links.ToResourceLinkCallToolResponse();
         });
 
-    [Description("Remove image background with Monica from a single fileUrl, always confirm via elicitation, upload the result to SharePoint/OneDrive, and return only resource link blocks.")]
-    [McpServerTool(Title = "Monica Remove Background", Name = "monica_images_remove_background", Destructive = false, OpenWorld = true)]
+    [Description("Remove image background with Monica from a single fileUrl, upload the result to SharePoint/OneDrive, and return only resource link blocks.")]
+    [McpServerTool(Title = "Monica remove background", Name = "monica_images_remove_background", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> Monica_Images_RemoveBackground(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -160,16 +147,9 @@ public static class MonicaImages
                 new MonicaRemoveBackgroundRequest
                 {
                     FileUrl = fileUrl,
-                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                    Confirmation = "REMOVE_BACKGROUND"
+                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
                 },
                 cancellationToken);
-
-            if (notAccepted != null) return notAccepted;
-            if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "REMOVE_BACKGROUND", StringComparison.OrdinalIgnoreCase))
-                return "Remove-background canceled: confirmation text must be 'REMOVE_BACKGROUND'.".ToErrorCallToolResponse();
 
             if (string.IsNullOrWhiteSpace(typed.FileUrl))
                 throw new ValidationException("fileUrl is required.");
@@ -632,10 +612,6 @@ public sealed class MonicaGenerateImageRequest
     [Description("Output filename base without extension.")]
     public string Filename { get; set; } = default!;
 
-    [JsonPropertyName("confirmation")]
-    [Required]
-    [Description("Type GENERATE to confirm execution.")]
-    public string Confirmation { get; set; } = "GENERATE";
 }
 
 [Description("Please confirm the Monica image upscale request details.")]
@@ -656,10 +632,6 @@ public sealed class MonicaUpscaleRequest
     [Description("Output filename base without extension.")]
     public string Filename { get; set; } = default!;
 
-    [JsonPropertyName("confirmation")]
-    [Required]
-    [Description("Type UPSCALE to confirm execution.")]
-    public string Confirmation { get; set; } = "UPSCALE";
 }
 
 [Description("Please confirm the Monica remove-background request details.")]
@@ -674,10 +646,5 @@ public sealed class MonicaRemoveBackgroundRequest
     [Required]
     [Description("Output filename base without extension.")]
     public string Filename { get; set; } = default!;
-
-    [JsonPropertyName("confirmation")]
-    [Required]
-    [Description("Type REMOVE_BACKGROUND to confirm execution.")]
-    public string Confirmation { get; set; } = "REMOVE_BACKGROUND";
 }
 

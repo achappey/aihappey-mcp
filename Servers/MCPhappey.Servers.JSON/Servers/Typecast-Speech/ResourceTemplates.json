@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.typecast.ai/v2/voices?model={model}&gender={gender}&age={age}&use_cases={use_cases}",
+      "name": "typecast-list-voices-v2",
+      "title": "Typecast - List Voices (V2)",
+      "description": "Lists all available Typecast voice models with enhanced metadata and model-grouped emotion support. Supports optional filtering by TTS model (ssfm-v30 or ssfm-v21), gender (male, female), age group (child, teenager, young_adult, middle_age, elder), and use case category (Announcer, Anime, Audiobook, Conversational, Documentary, E-learning, Rapper, Game, Tiktok/Reels, News, Podcast, Voicemail, Ads). Returns voices including voice_id, voice_name, supported model versions with emotion sets, gender, age group, and tagged use cases. Requires X-API-KEY header.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

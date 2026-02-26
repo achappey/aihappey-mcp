@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Fireworks-Transcriptions",
+    "title": "Fireworks Transcriptions",
+    "version": "1.0.0",
+    "websiteUrl": "https://fireworks.ai",
+    "description": "Create Fireworks audio transcriptions and translations from fileUrl, returning structured text and uploaded artifacts.",
+    "icons": [
+      {
+        "src": "https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/xgb8cpbz7pcvovoowrmk?ik-sanitizeSvg=true"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Fireworks.FireworksTranscriptions, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

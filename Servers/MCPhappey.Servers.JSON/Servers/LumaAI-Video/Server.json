@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "LumaAI-Video",
+    "title": "Luma AI Video",
+    "version": "1.0.0",
+    "websiteUrl": "https://lumalabs.ai",
+    "description": "Luma AI video generation with mandatory elicitation confirmation, primitive-only parameters, optional keyframe fileUrl input, SharePoint/OneDrive upload of generated videos, strict remote generation cleanup, and resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://awsmp-logos.s3.amazonaws.com/seller-p22x27mw3bvj2/a6a97dd612a0405476a18abdeb550f2f.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.LumaAI.LumaAIVideo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

@@ -60,16 +60,9 @@ public static class ZAIVideo
                 UserId = userId,
                 PollIntervalSeconds = pollIntervalSeconds,
                 MaxWaitSeconds = maxWaitSeconds,
-                Filename = filename,
-                Confirmation = "GENERATE"
+                Filename = filename
             },
             cancellationToken);
-
-        if (notAccepted != null) return notAccepted;
-        if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-        if (!string.Equals(typed.Confirmation?.Trim(), "GENERATE", StringComparison.OrdinalIgnoreCase))
-            return "Video generation canceled: confirmation text must be 'GENERATE'.".ToErrorCallToolResponse();
 
         ValidateInput(typed);
 
@@ -383,9 +376,5 @@ public sealed class ZAIVideoGenerateRequest
     [Description("Output filename without extension.")]
     public string? Filename { get; set; }
 
-    [JsonPropertyName("confirmation")]
-    [Required]
-    [Description("Type GENERATE to confirm execution.")]
-    public string Confirmation { get; set; } = "GENERATE";
 }
 

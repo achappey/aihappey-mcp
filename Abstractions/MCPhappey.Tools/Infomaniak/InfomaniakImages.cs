@@ -61,16 +61,12 @@ public static class InfomaniakImages
                     Size = size,
                     Style = style,
                     Sync = sync,
-                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                    Confirmation = "GENERATE"
+                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
                 },
                 cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "GENERATE", StringComparison.OrdinalIgnoreCase))
-                return "Image generation canceled: confirmation text must be 'GENERATE'.".ToErrorCallToolResponse();
 
             ValidateImageGenerationRequest(typed);
 
@@ -147,16 +143,12 @@ public static class InfomaniakImages
                     Style = style,
                     StyleStrengthRatio = style_strength_ratio,
                     Sync = sync,
-                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
-                    Confirmation = "GENERATE"
+                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
                 },
                 cancellationToken);
 
             if (notAccepted != null) return notAccepted;
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
-
-            if (!string.Equals(typed.Confirmation?.Trim(), "GENERATE", StringComparison.OrdinalIgnoreCase))
-                return "PhotoMaker generation canceled: confirmation text must be 'GENERATE'.".ToErrorCallToolResponse();
 
             ValidatePhotoMakerRequest(typed);
 
@@ -410,10 +402,6 @@ public sealed class InfomaniakImageGenerateRequest
     [Description("Output filename without extension.")]
     public string Filename { get; set; } = default!;
 
-    [JsonPropertyName("confirmation")]
-    [Required]
-    [Description("Type GENERATE to confirm execution.")]
-    public string Confirmation { get; set; } = "GENERATE";
 }
 
 [Description("Please confirm the Infomaniak PhotoMaker request.")]
@@ -482,9 +470,5 @@ public sealed class InfomaniakPhotoMakerRequest
     [Description("Output filename without extension.")]
     public string Filename { get; set; } = default!;
 
-    [JsonPropertyName("confirmation")]
-    [Required]
-    [Description("Type GENERATE to confirm execution.")]
-    public string Confirmation { get; set; } = "GENERATE";
 }
 

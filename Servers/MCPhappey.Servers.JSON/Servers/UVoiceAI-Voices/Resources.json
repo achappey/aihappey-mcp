@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://uvoice.app/?getVoice=true&filter=All&source=API-DOCS",
+      "name": "uvoiceai-voice-list",
+      "title": "UVoiceAI voice list",
+      "description": "All UVoiceAI voices",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
