@@ -1,9 +1,9 @@
 {
   "serverInfo": {
-    "name": "asyncAI",
-    "title": "asyncAI",
+    "name": "async",
+    "title": "async",
     "version": "1.0.0",
-    "websiteUrl": "https://async.ai",
+    "websiteUrl": "https://async.com",
     "description": "Turn text into natural sounding speech with multiple voices and languages.",
     "icons": [
       {

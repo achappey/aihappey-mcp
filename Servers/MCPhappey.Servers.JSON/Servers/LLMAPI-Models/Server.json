@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "LLMAPI-Models",
+    "title": "LLM API Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://llmapi.ai",
+    "description": "Browse LLM API models.",
+    "icons": [
+      {
+        "src": "https://llmapi.ai/wp-content/uploads/2026/01/Frame-2085662993.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

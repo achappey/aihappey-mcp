@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "ionet-Models",
+    "title": "io.net Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://io.net",
+    "description": "Browse io-intelligence models.",
+    "icons": [
+      {
+        "src": "https://io.net/images/share-card.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

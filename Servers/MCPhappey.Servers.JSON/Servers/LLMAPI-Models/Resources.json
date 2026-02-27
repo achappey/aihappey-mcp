@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.llmapi.ai/v1/models",
+      "name": "list-llmapi-models",
+      "title": "List available LLM API models",
+      "description": "List all available LLM API models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

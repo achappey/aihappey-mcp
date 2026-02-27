@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Copilot",
+    "title": "Microsoft Copilot",
+    "version": "1.0.0",
+    "description": "Find answers from your Microsoft 365 documents and emails.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Microsoft_Copilot_Icon.svg/1280px-Microsoft_Copilot_Icon.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Copilot.GraphCopilotRetrieval, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All https://graph.microsoft.com/Files.Read.All https://graph.microsoft.com/ExternalItem.Read.All https://graph.microsoft.com/FileStorageContainer.Selected"
+  }
+}

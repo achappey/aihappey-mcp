@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "LLMLayer",
+    "title": "LLMLayer",
+    "version": "1.0.0",
+    "websiteUrl": "https://llmlayer.ai",
+    "description": "One API. Infinite Web Possibilities. The complete web infrastructure for AI agents. One API to search, scrape, crawl, and answer — powered by optimized LLMs.",
+    "icons": [
+      {
+        "src": "https://llmlayer.ai/assets/favllm-DM9fx3U8.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

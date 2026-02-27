@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "NetMind",
+    "title": "NetMind",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.netmind.ai",
+    "description": "Parse PDF files to structured content with NetMind.",
+    "icons": [
+      {
+        "src": "https://www.netmind.ai/assets/netmind_svg-61eb4f47.svg"
+      }
+    ]
+  },
+  "baseMcp": "mcp.netmind.ai",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

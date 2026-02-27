@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Simplismart-Images",
+    "title": "Simplismart Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://simplismart.ai",
+    "description": "",
+    "icons": [
+      {
+        "src": "https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/d54ab4fa20db4b0f887938e7a118d979?ik-sanitizeSvg=true"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

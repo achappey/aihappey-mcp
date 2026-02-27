@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.intelligence.io.solutions/api/v1/models",
+      "name": "list-ionet-models",
+      "title": "List available io-intelligence models",
+      "description": "List all available io-intelligence models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

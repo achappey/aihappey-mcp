@@ -239,5 +239,72 @@ public static class ModelContextUtils
         return await requestContext.Server.ElicitAsync(elicitRequest, cancellationToken: cancellationToken);
     }));
 
+    [Description("Test Elicit enum capabilities with configurable options")]
+    [McpServerTool(
+    Title = "Elicit enum test",
+    ReadOnly = true,
+    Idempotent = true,
+    OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextUtils_TestElicitEnum(
+    RequestContext<CallToolRequestParams> requestContext,
+    [Description("Message shown above the enum field")]
+    string message,
+    [Description("Field name")]
+    string fieldName,
+    [Description("Field description")]
+    string description,
+    [Description("Enum options (comma separated, e.g. OptionA,OptionB,OptionC)")]
+    string options,
+    [Description("Is field required")]
+    bool required = true,
+    [Description("Default value (must match one of the options)")]
+    string? defaultValue = null,
+    CancellationToken cancellationToken = default)
+    =>
+    await requestContext.WithExceptionCheck(async () =>
+    await requestContext.WithStructuredContent(async () =>
+    {
+        var propName = string.IsNullOrWhiteSpace(fieldName)
+            ? "selection"
+            : fieldName;
+
+        var optionList = options
+            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(o => new ElicitRequestParams.EnumSchemaOption
+            {
+                Title = o,
+                Const = o
+            })
+            .ToList();
+
+        if (optionList.Count == 0)
+            throw new ArgumentException("At least one enum option must be provided.", nameof(options));
+
+        var schema = new ElicitRequestParams.TitledSingleSelectEnumSchema
+        {
+            Title = propName,
+            Description = description,
+            Default = defaultValue,
+            OneOf = optionList
+        };
+
+        var elicitRequest = new ElicitRequestParams
+        {
+            Message = message,
+            RequestedSchema = new ElicitRequestParams.RequestSchema
+            {
+                Properties = new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>
+                {
+                    [propName] = schema
+                },
+                Required = required ? [propName] : []
+            }
+        };
+
+        return await requestContext.Server.ElicitAsync(
+            elicitRequest,
+            cancellationToken: cancellationToken);
+    }));
+
 }
 

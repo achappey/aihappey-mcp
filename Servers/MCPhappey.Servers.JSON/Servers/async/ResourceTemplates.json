@@ -1,7 +1,7 @@
 {
   "resourceTemplates": [
     {
-      "uriTemplate": "https://api.async.ai/voices/preview/{id}",
+      "uriTemplate": "https://api.async.com/voices/preview/{id}",
       "name": "get-voice-preview",
       "title": "Get voice preview",
       "description": "Retrieves a preview audio file for the specified voice ID, returning the public URL of the sample voice output.",
