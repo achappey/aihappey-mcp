@@ -1,0 +1,29 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.aisa.one/apis/v1/search/smart?q=latest%20ai%20news",
+      "name": "aisa-search-smart-example",
+      "title": "AIsa Smart Search example",
+      "description": "Example GET smart search request returning structured web results.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.aisa.one/apis/v1/youtube/search?engine=youtube&q=ai%20agents",
+      "name": "aisa-youtube-search-example",
+      "title": "AIsa YouTube Search example",
+      "description": "Example GET YouTube search request using engine=youtube.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.widn.ai/v1/language",
+      "name": "widn-languages",
+      "title": "Widn Supported Languages",
+      "description": "Retrieves a list of available languages supported by the Widn platform. Optionally filter by model to return only languages supported by that specific model.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

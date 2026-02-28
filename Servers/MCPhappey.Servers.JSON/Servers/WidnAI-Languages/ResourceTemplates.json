@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.widn.ai/v1/language?model={model}",
+      "name": "widn-languages-by-model",
+      "title": "Widn Supported Languages (Filtered by Model)",
+      "description": "Retrieves a list of languages supported by a specific Widn model. Allowed values: anthill, sugarloaf, vesuvius, sugarloaf-3.1, sugarloaf-4.0.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

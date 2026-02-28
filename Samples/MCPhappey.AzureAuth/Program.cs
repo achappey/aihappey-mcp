@@ -92,6 +92,9 @@ using MCPhappey.Tools.FishAudio;
 using MCPhappey.Tools.Cartesia;
 using MCPhappey.Tools.SmallestAI;
 using MCPhappey.Tools.UnrealSpeech;
+using MCPhappey.Tools.TinyFish;
+using MCPhappey.Tools.LLMLayer;
+using MCPhappey.Tools.AIsa;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -161,6 +164,7 @@ builder.Services
 .AddParallel(appConfig?.DomainHeaders)
 .AddImagga(appConfig?.DomainHeaders)
 .AddSupadata(appConfig?.DomainHeaders)
+.AddAIsa(appConfig?.DomainHeaders)
 .AddRunway(appConfig?.DomainHeaders)
 .AddReplicate(appConfig?.DomainHeaders)
 .AddPinecone(appConfig?.DomainHeaders)
@@ -222,6 +226,8 @@ builder.Services
 .AddSmallestAI(appConfig?.DomainHeaders)
 .AddFishAudio(appConfig?.DomainHeaders)
 .AddCartesia(appConfig?.DomainHeaders)
+.AddTinyFish(appConfig?.DomainHeaders)
+.AddLLMLayer(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
 

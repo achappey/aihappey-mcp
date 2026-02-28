@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "AIsa-Financial",
+    "title": "AIsa Financial",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.aisa.one",
+    "description": "AIsa Financial API MCP with resource templates for GET market and fundamentals endpoints, plus tools for financial screening/search POST operations.",
+    "icons": [
+      {
+        "src": "https://marketplace.aisa.one/logo.png"
+      }
+    ]
+  },
+  "headers": {
+    "Authorization": "Bearer [AIsa_API_key]"
+  },
+  "plugins": [
+    "MCPhappey.Tools.AIsa.AIsaFinancial, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

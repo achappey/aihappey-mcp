@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "WidnAI-Quality",
+    "title": "WidnAI Quality",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.widn.ai",
+    "description": "Assess translation quality with WidnAI using evaluate/estimate endpoints for direct text input or fileUrl-scraped input, returning structured quality scores and error spans.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4E0BAQG5XHQsbluo8A/company-logo_200_200/company-logo_200_200/0/1730978102811/widn_ai_logo?e=2147483647&v=beta&t=5q8f8yOrx6Co7UEAQiIDJN0qbKwZ-GpvR67ZtpucL9o"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.WidnAI.WidnAIQuality, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

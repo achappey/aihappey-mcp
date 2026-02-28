@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "AIsa-Scholar",
+    "title": "AIsa Scholar",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.aisa.one",
+    "description": "AIsa Scholar API MCP with tools for academic, web, mixed search, and explanation generation over scholar result sets.",
+    "icons": [
+      {
+        "src": "https://marketplace.aisa.one/logo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AIsa.AIsaScholar, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

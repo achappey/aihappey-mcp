@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "TinyFish-Automation",
+        "title": "TinyFish Automation",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.tinyfish.ai",
+        "description": "Run TinyFish browser automations with progress notifications.",
+        "icons": [
+            {
+                "src": "https://media.licdn.com/dms/image/v2/D560BAQFtgd7vZ_-ezg/company-logo_200_200/B56ZjFuYw0G4AI-/0/1755663928665/tinyfish_ai_logo?e=2147483647&v=beta&t=zfrSKxTt8-hk2gGbD40tTDJTPOYE1FwzGkw6nKDyAYg"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.TinyFish.TinyFishAutomation, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

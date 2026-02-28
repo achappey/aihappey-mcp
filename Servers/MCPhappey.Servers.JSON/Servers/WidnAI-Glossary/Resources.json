@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.widn.ai/v1/glossary",
+      "name": "widn-glossaries-list",
+      "title": "WidnAI Glossaries",
+      "description": "Retrieves a list of glossaries available. Supports pagination and optional source/target locale or search filters via resource templates.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

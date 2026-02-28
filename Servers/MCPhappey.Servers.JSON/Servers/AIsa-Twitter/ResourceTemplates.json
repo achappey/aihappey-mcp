@@ -1,0 +1,316 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user_about?userName={userName}",
+      "name": "aisa-twitter-user-about",
+      "title": "AIsa Twitter - User Profile About",
+      "description": "Get user profile about information. Required: userName.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user/batch_info_by_ids?userIds={userIds}",
+      "name": "aisa-twitter-user-batch-info-by-ids",
+      "title": "AIsa Twitter - Batch User Info By IDs",
+      "description": "Get batch user info. Required: userIds (comma-separated user IDs).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user/info?userName={userName}",
+      "name": "aisa-twitter-user-info",
+      "title": "AIsa Twitter - User Info",
+      "description": "Get user information. Required: userName.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user/last_tweets?userId={userId}&userName={userName}&cursor={cursor}&includeReplies={includeReplies}",
+      "name": "aisa-twitter-user-last-tweets",
+      "title": "AIsa Twitter - User Last Tweets",
+      "description": "Get last tweets by user. Optional: userId, userName, cursor, includeReplies (default false).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user/followers?userName={userName}&cursor={cursor}&pageSize={pageSize}",
+      "name": "aisa-twitter-user-followers",
+      "title": "AIsa Twitter - User Followers",
+      "description": "Get user followers. Required: userName. Optional: cursor, pageSize (20-200, default 200).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user/followings?userName={userName}&cursor={cursor}&pageSize={pageSize}",
+      "name": "aisa-twitter-user-followings",
+      "title": "AIsa Twitter - User Followings",
+      "description": "Get user followings. Required: userName. Optional: cursor, pageSize (20-200, default 200).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user/mentions?userName={userName}&sinceTime={sinceTime}&untilTime={untilTime}&cursor={cursor}",
+      "name": "aisa-twitter-user-mentions",
+      "title": "AIsa Twitter - User Mentions",
+      "description": "Get mentions for a user. Required: userName. Optional: sinceTime, untilTime, cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user/check_follow_relationship?source_user_name={source_user_name}&target_user_name={target_user_name}",
+      "name": "aisa-twitter-user-check-follow-relationship",
+      "title": "AIsa Twitter - Check Follow Relationship",
+      "description": "Check follow relationship between users. Required: source_user_name, target_user_name.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user/search?query={query}&cursor={cursor}",
+      "name": "aisa-twitter-user-search",
+      "title": "AIsa Twitter - Search Users",
+      "description": "Search users by keyword. Required: query. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/user/verifiedFollowers?user_id={user_id}&cursor={cursor}",
+      "name": "aisa-twitter-user-verified-followers",
+      "title": "AIsa Twitter - User Verified Followers",
+      "description": "Get verified followers for a user. Required: user_id. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/tweets?tweet_ids={tweet_ids}",
+      "name": "aisa-twitter-tweets-by-ids",
+      "title": "AIsa Twitter - Get Tweets By IDs",
+      "description": "Get tweets by IDs. Required: tweet_ids (comma-separated tweet IDs).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/tweet/replies?tweetId={tweetId}&cursor={cursor}",
+      "name": "aisa-twitter-tweet-replies",
+      "title": "AIsa Twitter - Tweet Replies",
+      "description": "Get replies for a tweet. Required: tweetId. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/tweet/quotes?tweetId={tweetId}&cursor={cursor}",
+      "name": "aisa-twitter-tweet-quotes",
+      "title": "AIsa Twitter - Tweet Quotations",
+      "description": "Get quote tweets for a tweet. Required: tweetId. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/tweet/retweeters?tweetId={tweetId}&cursor={cursor}",
+      "name": "aisa-twitter-tweet-retweeters",
+      "title": "AIsa Twitter - Tweet Retweeters",
+      "description": "Get retweeters for a tweet. Required: tweetId. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/tweet/thread_context?tweetId={tweetId}&cursor={cursor}",
+      "name": "aisa-twitter-tweet-thread-context",
+      "title": "AIsa Twitter - Tweet Thread Context",
+      "description": "Get thread context for a tweet. Required: tweetId. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/article?tweet_id={tweet_id}",
+      "name": "aisa-twitter-tweet-article",
+      "title": "AIsa Twitter - Get Article",
+      "description": "Get article by tweet ID. Required: tweet_id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/tweet/advanced_search?query={query}&queryType={queryType}&cursor={cursor}",
+      "name": "aisa-twitter-tweet-advanced-search",
+      "title": "AIsa Twitter - Advanced Tweet Search",
+      "description": "Advanced tweet search. Required: query, queryType (Latest or Top). Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/list/followers?list_id={list_id}&cursor={cursor}",
+      "name": "aisa-twitter-list-followers",
+      "title": "AIsa Twitter - List Followers",
+      "description": "Get followers of a list. Required: list_id. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/list/members?list_id={list_id}&cursor={cursor}",
+      "name": "aisa-twitter-list-members",
+      "title": "AIsa Twitter - List Members",
+      "description": "Get members of a list. Required: list_id. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/community/info?community_id={community_id}",
+      "name": "aisa-twitter-community-info",
+      "title": "AIsa Twitter - Community Info",
+      "description": "Get community information by ID. Required: community_id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/community/members?community_id={community_id}&cursor={cursor}",
+      "name": "aisa-twitter-community-members",
+      "title": "AIsa Twitter - Community Members",
+      "description": "Get community members. Required: community_id. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/community/moderators?community_id={community_id}&cursor={cursor}",
+      "name": "aisa-twitter-community-moderators",
+      "title": "AIsa Twitter - Community Moderators",
+      "description": "Get community moderators. Required: community_id. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/community/tweets?community_id={community_id}&cursor={cursor}",
+      "name": "aisa-twitter-community-tweets",
+      "title": "AIsa Twitter - Community Tweets",
+      "description": "Get tweets from a community. Required: community_id. Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/community/get_tweets_from_all_community?query={query}&queryType={queryType}&cursor={cursor}",
+      "name": "aisa-twitter-community-search-all",
+      "title": "AIsa Twitter - Search Tweets From All Communities",
+      "description": "Search tweets from all communities. Required: query, queryType (Latest or Top). Optional: cursor.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/trends?woeid={woeid}&count={count}",
+      "name": "aisa-twitter-trends",
+      "title": "AIsa Twitter - Trends",
+      "description": "Get trends by WOEID. Required: woeid. Optional: count (>=30, default 30).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/twitter/spaces/detail?space_id={space_id}",
+      "name": "aisa-twitter-spaces-detail",
+      "title": "AIsa Twitter - Space Detail",
+      "description": "Get details of a Twitter Space by ID. Required: space_id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.widn.ai/v1/glossary?sourceLocale={sourceLocale}&targetLocale={targetLocale}&searchQuery={searchQuery}&pageToken={pageToken}&pageLimit={pageLimit}",
+      "name": "widn-glossaries-list-filtered",
+      "title": "WidnAI Glossaries (Filtered)",
+      "description": "List glossaries with optional source/target locale, search query, and pagination parameters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.widn.ai/v1/glossary/{glossaryId}",
+      "name": "widn-glossary-by-id",
+      "title": "WidnAI Glossary by ID",
+      "description": "Get a single glossary by glossaryId.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.widn.ai/v1/glossary/{glossaryId}/item?pageToken={pageToken}&pageLimit={pageLimit}",
+      "name": "widn-glossary-items-list",
+      "title": "WidnAI Glossary Items",
+      "description": "List glossary items for a glossaryId with optional pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

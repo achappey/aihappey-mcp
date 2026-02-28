@@ -1,0 +1,244 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/analyst-estimates?ticker={ticker}&period={period}",
+      "name": "aisa-financial-analyst-estimates",
+      "title": "AIsa Financial - Analyst Estimates",
+      "description": "Fetch earnings per share analyst estimates for a stock ticker. Required: ticker. Optional: period (annual or quarterly).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/company/facts?ticker={ticker}&cik={cik}",
+      "name": "aisa-financial-company-facts",
+      "title": "AIsa Financial - Company Facts",
+      "description": "Get company facts by ticker and/or CIK.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/crypto/prices/snapshot?ticker={ticker}",
+      "name": "aisa-financial-crypto-price-snapshot",
+      "title": "AIsa Financial - Crypto Price Snapshot",
+      "description": "Get real-time cryptocurrency price snapshot. Required: ticker (for example BTC-USD).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/crypto/prices?ticker={ticker}&interval={interval}&interval_multiplier={interval_multiplier}&start_date={start_date}&end_date={end_date}&limit={limit}",
+      "name": "aisa-financial-crypto-prices",
+      "title": "AIsa Financial - Crypto Prices (Historical)",
+      "description": "Get ranged cryptocurrency price data. Required: ticker, interval, interval_multiplier, start_date, end_date. Optional: limit.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/earnings/press-releases?ticker={ticker}",
+      "name": "aisa-financial-earnings-press-releases",
+      "title": "AIsa Financial - Earnings Press Releases",
+      "description": "Get earnings press releases for a ticker. Required: ticker.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/financial-metrics?ticker={ticker}&period={period}&limit={limit}",
+      "name": "aisa-financial-metrics",
+      "title": "AIsa Financial - Financial Metrics",
+      "description": "Get historical financial metrics and ratios. Required: ticker, period (annual, quarterly, ttm). Optional: limit.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/financial-metrics/snapshot?ticker={ticker}",
+      "name": "aisa-financial-metrics-snapshot",
+      "title": "AIsa Financial - Financial Metrics Snapshot",
+      "description": "Get a real-time snapshot of financial metrics and ratios. Required: ticker.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/financials/income-statements?ticker={ticker}&period={period}&limit={limit}&cik={cik}",
+      "name": "aisa-financial-income-statements",
+      "title": "AIsa Financial - Income Statements",
+      "description": "Get income statements. Required: ticker, period (annual, quarterly, ttm). Optional: limit, cik.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/financials/balance-sheets?ticker={ticker}&period={period}&limit={limit}&cik={cik}",
+      "name": "aisa-financial-balance-sheets",
+      "title": "AIsa Financial - Balance Sheets",
+      "description": "Get balance sheets. Required: ticker, period (annual, quarterly, ttm). Optional: limit, cik.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/financials/cash-flow-statements?ticker={ticker}&period={period}&limit={limit}&cik={cik}",
+      "name": "aisa-financial-cash-flow-statements",
+      "title": "AIsa Financial - Cash Flow Statements",
+      "description": "Get cash flow statements. Required: ticker, period (annual, quarterly, ttm). Optional: limit, cik.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/financials?ticker={ticker}&period={period}&limit={limit}&cik={cik}",
+      "name": "aisa-financial-all-financials",
+      "title": "AIsa Financial - All Financial Statements",
+      "description": "Get all financial statements. Required: ticker, period (annual, quarterly, ttm). Optional: limit, cik.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/insider-trades?ticker={ticker}&limit={limit}",
+      "name": "aisa-financial-insider-trades",
+      "title": "AIsa Financial - Insider Trades",
+      "description": "Get insider trades for a ticker. Required: ticker. Optional: limit.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/institutional-ownership?investor={investor}&ticker={ticker}&limit={limit}",
+      "name": "aisa-financial-institutional-ownership",
+      "title": "AIsa Financial - Institutional Ownership",
+      "description": "Get institutional ownership by investor or ticker. Use either investor or ticker, not both. Optional: limit.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/macro/interest-rates?bank={bank}&start_date={start_date}&end_date={end_date}",
+      "name": "aisa-financial-interest-rates-historical",
+      "title": "AIsa Financial - Interest Rates (Historical)",
+      "description": "Retrieve historical interest rates for a central bank. Required: bank. Optional: start_date, end_date.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/macro/interest-rates/snapshot",
+      "name": "aisa-financial-interest-rates-snapshot",
+      "title": "AIsa Financial - Interest Rates Snapshot",
+      "description": "Retrieve the latest published central-bank interest rate snapshot.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/news?ticker={ticker}&start_date={start_date}&end_date={end_date}&limit={limit}",
+      "name": "aisa-financial-news",
+      "title": "AIsa Financial - Company News",
+      "description": "Get real-time and historical news for a ticker. Required: ticker. Optional: start_date, end_date, limit.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/filings?cik={cik}&ticker={ticker}&filing_type={filing_type}",
+      "name": "aisa-financial-filings",
+      "title": "AIsa Financial - SEC Filings",
+      "description": "Get SEC filings by ticker and/or CIK, optionally filtered by filing_type.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/filings/items?ticker={ticker}&filing_type={filing_type}&year={year}&quarter={quarter}&item={item}",
+      "name": "aisa-financial-filing-items",
+      "title": "AIsa Financial - SEC Filing Items",
+      "description": "Get SEC filing items. Required: ticker, filing_type (10-K or 10-Q), year. Optional: quarter (for 10-Q), item.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/financials/segmented-revenues?ticker={ticker}&period={period}&limit={limit}&cik={cik}",
+      "name": "aisa-financial-segmented-revenues",
+      "title": "AIsa Financial - Segmented Revenues",
+      "description": "Get segmented revenue data. Required: ticker, period (annual or quarterly). Optional: limit, cik.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/financial/prices?ticker={ticker}&interval={interval}&interval_multiplier={interval_multiplier}&start_date={start_date}&end_date={end_date}&limit={limit}",
+      "name": "aisa-financial-stock-prices",
+      "title": "AIsa Financial - Stock Prices (Historical)",
+      "description": "Get ranged stock price data. Required: ticker, interval, interval_multiplier, start_date, end_date. Optional: limit.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

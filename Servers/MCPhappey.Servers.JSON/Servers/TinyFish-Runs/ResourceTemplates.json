@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://agent.tinyfish.ai/v1/runs?status={status}&goal={goal}&created_after={created_after}&created_before={created_before}&sort_direction={sort_direction}&cursor={cursor}&limit={limit}",
+      "name": "tinyfish-runs-list-and-search",
+      "title": "TinyFish list and search runs",
+      "description": "List TinyFish runs with optional filters for status, goal text, date range, sort direction, and cursor pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://agent.tinyfish.ai/v1/runs/{id}",
+      "name": "tinyfish-run-by-id",
+      "title": "TinyFish get run by id",
+      "description": "Get details for a specific TinyFish run by its run id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

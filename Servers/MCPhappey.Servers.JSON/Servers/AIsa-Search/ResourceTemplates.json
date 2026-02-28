@@ -1,0 +1,41 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/search/smart?q={q}&count={count}&offset={offset}&freshness={freshness}&mkt={mkt}&cc={cc}&safeSearch={safeSearch}&setLang={setLang}",
+      "name": "aisa-search-smart",
+      "title": "AIsa Smart Search",
+      "description": "Perform intelligent web search with optional paging, freshness, market, country, safe search, and language filters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/search/full?q={q}&count={count}&offset={offset}&freshness={freshness}&mkt={mkt}&cc={cc}&safeSearch={safeSearch}&setLang={setLang}&textDecorations={textDecorations}&contentType={contentType}",
+      "name": "aisa-search-full",
+      "title": "AIsa Full Text Search",
+      "description": "Perform full text web search with optional highlighting and content format controls.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.aisa.one/apis/v1/youtube/search?engine=youtube&q={q}&sp={sp}&gl={gl}&hl={hl}",
+      "name": "aisa-youtube-search",
+      "title": "AIsa YouTube Search",
+      "description": "Perform YouTube search via AIsa. engine must remain youtube.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+
