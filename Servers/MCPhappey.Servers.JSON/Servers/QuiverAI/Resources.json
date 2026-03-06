@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.quiver.ai/v1/models",
+      "name": "quiverai-list-models",
+      "title": "List QuiverAI models",
+      "description": "Returns available QuiverAI models and metadata.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "qomplement",
+    "title": "qomplement",
+    "version": "1.0.0",
+    "websiteUrl": "https://qomplement.com",
+    "description": "AI document processing tools for extraction and form/template filling (PDF/Excel) with async job polling and SharePoint/OneDrive file handling.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt7kzNAIzHoqA0M4bZePMHPAdCCMDvMNIP-A&s"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Qomplement.QomplementService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

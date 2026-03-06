@@ -3,6 +3,7 @@ using MCPhappey.Auth.Models;
 using MCPhappey.Common;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
+using MCPhappey.Core.Services;
 using MCPhappey.Simplicate.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Azure;
@@ -58,6 +59,7 @@ public static class AspNetCoreExtensions
         // Register scraper.
         builder.Services.AddSingleton<IContentScraper, SimplicateScraper>();
         builder.Services.AddSingleton<IAutoCompletion, SimplicateCompletion>();
+        builder.Services.AddSingleton<IMcpExtensionHeaderResolver, SimplicateMcpExtensionHeaderResolver>();
 
         return builder;
     }

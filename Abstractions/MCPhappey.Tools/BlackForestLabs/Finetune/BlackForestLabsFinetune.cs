@@ -48,7 +48,7 @@ public static class BlackForestLabsFinetune
                 expectedName: finetuneId,
                 deleteAction: async _ =>
                 {
-                    var http = await CreateClientAsync(serviceProvider, requestContext, cancellationToken);
+                    var http = CreateClientAsync(serviceProvider, requestContext);
                     var payload = new { finetune_id = finetuneId };
                     var body = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, MimeTypes.Json);
                     using var response = await http.PostAsync("/v1/delete_finetune", body, cancellationToken);
@@ -61,10 +61,9 @@ public static class BlackForestLabsFinetune
                 ct: cancellationToken);
         }));
 
-    private static async Task<HttpClient> CreateClientAsync(
+    private static HttpClient CreateClientAsync(
         IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        CancellationToken cancellationToken)
+        RequestContext<CallToolRequestParams> requestContext)
     {
         var tokenService = serviceProvider.GetService<HeaderProvider>();
         var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

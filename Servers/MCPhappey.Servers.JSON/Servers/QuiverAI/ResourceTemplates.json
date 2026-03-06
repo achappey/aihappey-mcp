@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.quiver.ai/v1/models/{model}",
+      "name": "quiverai-get-model",
+      "title": "Get QuiverAI model",
+      "description": "Returns metadata for a single QuiverAI model by model identifier.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

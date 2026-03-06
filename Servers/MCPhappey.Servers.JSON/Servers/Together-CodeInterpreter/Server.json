@@ -7,12 +7,7 @@
     "description": "Run Python code snippets and get results directly for quick tests and computations.",
     "icons": [
       {
-        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/together-color.png",
-        "theme": "light"
-      },
-      {
-        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/together-color.png",
-        "theme": "dark"
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQHe__yU45OuCQ/company-logo_200_200/B56Zy0qe7rIcAI-/0/1772557561927/togethercomputer_logo?e=2147483647&v=beta&t=fDi1CeF0dyF1w0_wZXhr-DkRGjgNFj0YXMFals7KN18"
       }
     ]
   },

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "JsonReceipt",
+    "title": "JsonReceipt",
+    "version": "1.0.0",
+    "websiteUrl": "https://jsonreceipts.com",
+    "description": "Process receipt images/PDFs synchronously with JsonReceipt from SharePoint/OneDrive/HTTPS fileUrl input and return structured JSON extraction output.",
+    "icons": [
+      {
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://jsonreceipts.com&size=256"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.JsonReceipt.JsonReceiptService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

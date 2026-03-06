@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "QuiverAI",
+    "title": "QuiverAI",
+    "version": "1.0.0",
+    "websiteUrl": "https://quiver.ai",
+    "description": "Generate and vectorize SVG graphics with QuiverAI using text prompts or support file URLs. Supports SSE streaming updates, SharePoint and OneDrive file links, and returns uploaded resource link blocks.",
+    "icons": [
+      {
+        "src": "https://pbs.twimg.com/profile_images/2026805207829475328/KGBSb_g9_400x400.jpg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.QuiverAI.QuiverAIService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

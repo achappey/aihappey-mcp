@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.venice.ai/api/v1/characters?categories={categories}&isAdult={isAdult}&isPro={isPro}&isWebEnabled={isWebEnabled}&limit={limit}&modelId={modelId}&offset={offset}&search={search}&tags={tags}",
+      "name": "venice-list-characters",
+      "title": "Venice - List characters",
+      "description": "List Venice AI characters with optional filters for category, adult/pro/web-enabled flags, model, tags, search text, and pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.venice.ai/api/v1/characters/{slug}",
+      "name": "venice-get-character",
+      "title": "Venice - Get character",
+      "description": "Retrieve a single Venice AI character by slug, including profile metadata such as description, tags, modelId, and URLs.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

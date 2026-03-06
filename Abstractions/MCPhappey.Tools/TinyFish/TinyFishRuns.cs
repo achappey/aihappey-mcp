@@ -33,7 +33,7 @@ public static class TinyFishRuns
 
             var request = new JsonObject
             {
-                ["run_ids"] = new JsonArray(run_ids.Select(id => JsonValue.Create(id)!).ToArray())
+                ["run_ids"] = new JsonArray([.. run_ids.Select(id => JsonValue.Create(id)!)])
             };
 
             var response = await SendPostJsonAsync(serviceProvider, RunsBatchPath, request, cancellationToken);
@@ -70,7 +70,7 @@ public static class TinyFishRuns
 
             var request = new JsonObject
             {
-                ["run_ids"] = new JsonArray(run_ids.Select(id => JsonValue.Create(id)!).ToArray())
+                ["run_ids"] = new JsonArray([.. run_ids.Select(id => JsonValue.Create(id)!)])
             };
 
             var response = await SendPostJsonAsync(serviceProvider, RunsBatchCancelPath, request, cancellationToken);

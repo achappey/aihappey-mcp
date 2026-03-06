@@ -18,7 +18,7 @@ public static class GoogleNanoBanana
     public static async Task<CallToolResult?> GoogleNanoBanana_CreateImage(
         [Description("Image prompt (only English)")]
         string prompt,
-        [Description("Image model (gemini-2.5-flash-image or gemini-3-pro-image-preview)")]
+        [Description("Image model (gemini-2.5-flash-image, gemini-3-pro-image-preview or gemini-3.1-flash-image-preview)")]
         string model,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -74,7 +74,7 @@ public static class GoogleNanoBanana
 
         [JsonPropertyName("model")]
         [Required]
-        [Description("The image model. gemini-2.5-flash-image or gemini-3-pro-image-preview.")]
+        [Description("The image model. gemini-2.5-flash-image, gemini-3-pro-image-preview or gemini-3.1-flash-image-preview.")]
         public string Model { get; set; } = "gemini-3-pro-image-preview";
     }
 

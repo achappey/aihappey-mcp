@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Simplicate",
+    "title": "Simplicate",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.simplicate.com",
+    "description": "Met de Simplicate AI-connector kun je via je favoriete AI-tool interactie hebben met je Simplicate-omgeving.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWGdg3hr4xyPCkWxFycuGyjETGKRBbXFlqTw&s"
+      }
+    ]
+  },
+  "baseMcp": "mcp.simplicate.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

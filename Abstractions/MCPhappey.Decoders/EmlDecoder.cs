@@ -89,7 +89,7 @@ public class EmlDecoder : IContentDecoder
 
             string? textContent = null;
 
-           if (decoder != null)
+            if (decoder != null)
             {
                 try
                 {

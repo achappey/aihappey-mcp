@@ -35,6 +35,7 @@ using MCPhappey.Tools.Cohere;
 using MCPhappey.Tools.Rijkswaterstaat;
 using MCPhappey.Tools.JinaAI;
 using MCPhappey.Tools.Runware;
+using MCPhappey.Tools.QuiverAI;
 using MCPhappey.Tools.EdenAI;
 using MCPhappey.Tools.VoyageAI;
 using MCPhappey.Tools.AIML;
@@ -62,7 +63,9 @@ using MCPhappey.Tools.SiliconFlow;
 using MCPhappey.Tools.Upstage;
 using MCPhappey.Tools.MiniMax;
 using MCPhappey.Tools.Speechify;
+using MCPhappey.Tools.Speechactors;
 using MCPhappey.Tools.Verbatik;
+using MCPhappey.Tools.Venice;
 using MCPhappey.Tools.deAPI;
 using MCPhappey.Tools.Runpod;
 using MCPhappey.Tools.CometAPI;
@@ -86,7 +89,9 @@ using MCPhappey.Tools.Nebius;
 using MCPhappey.Tools.Supadata;
 using MCPhappey.Tools.LumaAI;
 using MCPhappey.Tools.AICC;
+using MCPhappey.Tools.WisdomGate;
 using MCPhappey.Tools.OCRSpace;
+using MCPhappey.Tools.JsonReceipt;
 using MCPhappey.Tools.YourVoic;
 using MCPhappey.Tools.FishAudio;
 using MCPhappey.Tools.Cartesia;
@@ -94,7 +99,11 @@ using MCPhappey.Tools.SmallestAI;
 using MCPhappey.Tools.UnrealSpeech;
 using MCPhappey.Tools.TinyFish;
 using MCPhappey.Tools.LLMLayer;
+using MCPhappey.Tools.Smooth;
+using MCPhappey.Tools.WebsearchAPI;
 using MCPhappey.Tools.AIsa;
+using MCPhappey.Tools.NimbleWay;
+using MCPhappey.Tools.Qomplement;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -173,6 +182,7 @@ builder.Services
 .AddAzureMaps(appConfig?.DomainHeaders)
 .AddAsyncAI(appConfig?.DomainHeaders)
 .AddRunware(appConfig?.DomainHeaders)
+.AddQuiverAI(appConfig?.DomainHeaders)
 .AddEdenAI(appConfig?.DomainHeaders)
 .AddVoyageAI(appConfig?.DomainHeaders)
 .AddAIML(appConfig?.DomainHeaders)
@@ -195,6 +205,7 @@ builder.Services
 .AddTelnyx(appConfig?.DomainHeaders)
 .AddOpperAI(appConfig?.DomainHeaders)
 .AddOCRSpace(appConfig?.DomainHeaders)
+.AddJsonReceipt(appConfig?.DomainHeaders)
 .AddBergetAI(appConfig?.DomainHeaders)
 .AddRegoloAI(appConfig?.DomainHeaders)
 .AddScaleway(appConfig?.DomainHeaders)
@@ -204,7 +215,10 @@ builder.Services
 .AddRecraft(appConfig?.DomainHeaders)
 .AddUpstage(appConfig?.DomainHeaders)
 .AddSpeechify(appConfig?.DomainHeaders)
+.AddSpeechactors(appConfig?.DomainHeaders)
 .AddVerbatik(appConfig?.DomainHeaders)
+.AddVenice(appConfig?.DomainHeaders)
+.AddWisdomGate(appConfig?.DomainHeaders)
 .AddUnrealSpeech(appConfig?.DomainHeaders)
 .AddDeAPI(appConfig?.DomainHeaders)
 .AddParasail(appConfig?.DomainHeaders)
@@ -227,7 +241,11 @@ builder.Services
 .AddFishAudio(appConfig?.DomainHeaders)
 .AddCartesia(appConfig?.DomainHeaders)
 .AddTinyFish(appConfig?.DomainHeaders)
+.AddSmooth(appConfig?.DomainHeaders)
 .AddLLMLayer(appConfig?.DomainHeaders)
+.AddWebsearchAPI(appConfig?.DomainHeaders)
+.AddQomplement(appConfig?.DomainHeaders)
+.AddNimbleWay(appConfig?.DomainHeaders)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
 

@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.venice.ai/api/v1/image/styles",
+      "name": "venice-image-styles",
+      "title": "Venice - Image styles",
+      "description": "List available Venice image styles that can be used in image generation style_preset.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

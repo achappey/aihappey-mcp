@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "NimbleWay",
+    "title": "NimbleWay",
+    "version": "1.0.0",
+    "websiteUrl": "https://nimbleway.com",
+    "description": "NimbleWay SDK integration for Agent Run, Search, Map, Extract, and Crawl workflows. POST endpoints are exposed as tools and GET endpoints are exposed as resource templates.",
+    "icons": [
+      {
+        "src": "https://docs.nimbleway.com/images/favicon.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.NimbleWay.NimbleWayService, MCPhappey.Tools"
+  ],
+  "headers": {
+    "Authorization": "Bearer [NimbleWay_API_key]"
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

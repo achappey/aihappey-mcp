@@ -1,0 +1,31 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.speechactors.com/v1/languages",
+      "name": "speechactors-languages",
+      "title": "Speechactors Supported Languages",
+      "description": "Lists all supported languages/locales from Speechactors.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.speechactors.com/v1/balance",
+      "name": "speechactors-balance",
+      "title": "Speechactors Character Balance",
+      "description": "Returns the remaining character balance for the authenticated Speechactors account.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
+

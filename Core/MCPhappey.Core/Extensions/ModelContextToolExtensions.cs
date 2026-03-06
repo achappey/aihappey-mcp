@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
+using MCPhappey.Core.Services;
 using MCPhappey.Telemetry;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
@@ -132,7 +133,9 @@ public static partial class ModelContextToolExtensions
     }
 
     public static async Task<ListToolsResult?> ToToolsList(this Server server, Kernel kernel, IList<Icon> icons,
-            Dictionary<string, string>? headers = null)
+            Dictionary<string, string>? headers = null,
+            IServiceProvider? serviceProvider = null,
+            CancellationToken cancellationToken = default)
     {
         if (server.Plugins?.Any() != true && server.McpExtension == null) return null;
 
@@ -143,7 +146,7 @@ public static partial class ModelContextToolExtensions
             tools.AddRange(kernel.GetToolsFromType(pluginTypeName, icons) ?? []);
         }
 
-        return await tools.GetListToolsResult(server, headers);
+        return await tools.GetListToolsResult(server, headers, serviceProvider, cancellationToken);
     }
 
     public static async Task<CallToolResult?> ToCallToolResult(this RequestContext<CallToolRequestParams> request,
@@ -257,9 +260,12 @@ public static partial class ModelContextToolExtensions
     }
 
     private static async Task<ListToolsResult?> GetListToolsResult(this IEnumerable<McpServerTool>? tools, Server server,
-        Dictionary<string, string>? headers = null)
+        Dictionary<string, string>? headers = null,
+        IServiceProvider? serviceProvider = null,
+        CancellationToken cancellationToken = default)
     {
-        if (server.McpExtension != null) return await server.ExtendListToolsCapabilities(headers);
+        if (server.McpExtension != null && serviceProvider != null)
+            return await server.ExtendListToolsCapabilities(serviceProvider, headers, cancellationToken);
 
         if (tools == null || !tools.Any())
             return null;
@@ -308,13 +314,22 @@ public static partial class ModelContextToolExtensions
     }
 
     private static async Task<ListToolsResult?> ExtendListToolsCapabilities(this Server server,
-        Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
+        IServiceProvider serviceProvider,
+        Dictionary<string, string>? headers = null,
+        CancellationToken cancellationToken = default)
     {
+        serviceProvider.WithHeaders(headers);
+
+        var finalHeaders = await serviceProvider
+            .GetRequiredService<IMcpExtensionHeaderResolver>()
+            .ResolveHeadersAsync(serviceProvider, server, headers, cancellationToken)
+            ?? [];
+
         var client = await McpClient.CreateAsync(
                   new HttpClientTransport(new HttpClientTransportOptions
                   {
                       Endpoint = new Uri(server.McpExtension?.Url!),
-                      AdditionalHeaders = server.McpExtension?.Headers
+                      AdditionalHeaders = finalHeaders
 
                   }),
                   clientOptions: new McpClientOptions()
@@ -339,11 +354,18 @@ public static partial class ModelContextToolExtensions
         Server server,
        Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default)
     {
+        request.Services!.WithHeaders(headers);
+
+        var finalHeaders = await request.Services!
+            .GetRequiredService<IMcpExtensionHeaderResolver>()
+            .ResolveHeadersAsync(request.Services!, server, headers, cancellationToken)
+            ?? [];
+
         var client = await McpClient.CreateAsync(
                   new HttpClientTransport(new HttpClientTransportOptions
                   {
                       Endpoint = new Uri(server.McpExtension?.Url!),
-                      AdditionalHeaders = server.McpExtension?.Headers
+                      AdditionalHeaders = finalHeaders
 
                   }),
                   clientOptions: new McpClientOptions()
@@ -379,8 +401,6 @@ public static partial class ModelContextToolExtensions
         {
             return JsonSerializer.Serialize($"Tool {tool?.ProtocolTool.Name} not found").ToErrorCallToolResponse();
         }
-
-        request.Services!.WithHeaders(headers);
 
         var args = request.Params?.Arguments?
             .ToDictionary(

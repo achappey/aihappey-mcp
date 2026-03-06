@@ -3,6 +3,7 @@ using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
 using MCPhappey.Telemetry.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.KernelMemory.DataFormats.WebPages;
 using Microsoft.ML.Tokenizers;
 
@@ -19,6 +20,7 @@ public static class AspNetCoreExtensions
 
         services.AddSingleton<TransformService>();
         services.AddSingleton<DownloadService>();
+        services.TryAddSingleton<IMcpExtensionHeaderResolver, DefaultMcpExtensionHeaderResolver>();
         services.AddScoped<PromptService>();
         services.AddScoped<SamplingService>();
         services.AddScoped<UploadService>();

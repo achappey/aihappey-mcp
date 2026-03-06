@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "WisdomGate-Video",
+    "title": "WisdomGate Video",
+    "version": "1.0.0",
+    "websiteUrl": "https://wisdom-gate.juheapi.com",
+    "description": "",
+    "icons": [
+      {
+        "src": "https://wisdom-gate.juheapi.com/favicon.ico"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.WisdomGate.WisdomGateVideo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

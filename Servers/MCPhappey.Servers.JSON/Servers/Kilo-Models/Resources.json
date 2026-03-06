@@ -12,6 +12,32 @@
           "user"
         ]
       }
+    },
+    {
+      "uri": "https://api.kilo.ai/api/gateway/providers",
+      "name": "list-kilo-providers",
+      "title": "List available Kilo providers",
+      "description": "Returns a list of all available inference providers",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.kilo.ai/api/gateway/models-by-provider",
+      "name": "list-kilo-models-by-provider",
+      "title": "List Kilo models grouped by provider",
+      "description": "Returns models grouped by their provider, useful for building model selection interfaces",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     }
   ]
 }

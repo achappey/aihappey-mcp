@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Venice-Characters",
+    "title": "Venice Characters",
+    "version": "1.0.0",
+    "websiteUrl": "https://venice.ai",
+    "description": "Browse Venice AI characters with MCP resource templates for listing and retrieving character profiles by slug.",
+    "icons": [
+      {
+        "src": "https://cryptoast.fr/wp-content/uploads/2025/03/venice-ai-logo.png"
+      }
+    ]
+  }
+}

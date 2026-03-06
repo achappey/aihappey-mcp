@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Spider",
+    "title": "Spider",
+    "version": "1.0.0",
+    "websiteUrl": "https://spider.cloud/",
+    "description": "Spider crawl, scrape, unblocker, search, links, screenshot and transform tools.",
+    "icons": [
+      {
+        "src": "https://dka575ofm4ao0.cloudfront.net/pages-transactional_logos/retina/854016/android-chrome-384x384-4c11e4fa-e96b-4db0-89fc-40d376ee0445.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Spider.SpiderCore, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

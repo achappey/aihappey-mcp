@@ -205,7 +205,7 @@ public static class SmallestAISpeech
                 TryAppendBase64(data, output);
         }
 
-        return output.ToArray();
+        return [.. output];
     }
 
     private static bool TryHandleJsonSseData(string data, List<byte> output, out bool done)

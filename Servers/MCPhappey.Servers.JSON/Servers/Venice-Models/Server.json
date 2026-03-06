@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Venice-Models",
+    "title": "Venice Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://venice.ai",
+    "description": "Browse Venice AI models.",
+    "icons": [
+      {
+        "src": "https://cryptoast.fr/wp-content/uploads/2025/03/venice-ai-logo.png"
+      }
+    ]
+  }
+}

@@ -62,7 +62,8 @@ public static class ModelContextProtocolExtensions
                  if (server.Server.Capabilities.Tools != null || server.Server.McpExtension != null)
                  {
                      opts.Handlers.ListToolsHandler = async (request, cancellationToken)
-                           => await server.Server.ToToolsList(kernel, [.. finalIcons], headers)
+                           => await server.Server.ToToolsList(kernel, [.. finalIcons], headers,
+                               request.Services, cancellationToken)
                             ?? new();
 
                      opts.Handlers.CallToolHandler = async (request, cancellationToken)
