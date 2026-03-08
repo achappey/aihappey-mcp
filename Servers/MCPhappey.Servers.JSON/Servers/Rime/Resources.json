@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://users.rime.ai/data/voices/all-v2.json",
+      "name": "rime-voices-list",
+      "title": "Rime voices",
+      "description": "List of available Rime voices grouped by modelId and language.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

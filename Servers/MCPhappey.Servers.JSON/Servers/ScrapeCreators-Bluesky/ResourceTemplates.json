@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.scrapecreators.com/bluesky/profile?handle={handle}",
+      "name": "bluesky-profile",
+      "title": "Get Bluesky profile",
+      "description": "Returns public Bluesky profile information by `handle`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/bluesky/user/posts?handle={handle}&user_id={user_id}&cursor={cursor}",
+      "name": "bluesky-user-posts",
+      "title": "Get Bluesky user posts",
+      "description": "Returns posts from a Bluesky user. Use either `handle` or `user_id`, and prefer `user_id` for faster responses. `user_id` is the Bluesky DID. Supports pagination with `cursor` when returned by the API.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/bluesky/post?url={url}",
+      "name": "bluesky-post",
+      "title": "Get Bluesky post",
+      "description": "Returns details for a Bluesky post by public URL.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

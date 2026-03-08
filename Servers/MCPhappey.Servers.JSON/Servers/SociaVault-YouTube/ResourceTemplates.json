@@ -1,0 +1,112 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/youtube/channel?channelId={channelId}&handle={handle}&url={url}",
+      "name": "youtube-channel",
+      "title": "Get YouTube channel",
+      "description": "Returns comprehensive YouTube channel information using `channelId`, `handle`, or `url`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/youtube/channel-videos?channelId={channelId}&handle={handle}&cursor={cursor}",
+      "name": "youtube-channel-videos",
+      "title": "Get YouTube channel videos",
+      "description": "Returns videos from a YouTube channel using `channelId` or `handle`, with pagination via `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/youtube/channel-shorts?channelId={channelId}&handle={handle}&cursor={cursor}",
+      "name": "youtube-channel-shorts",
+      "title": "Get YouTube channel shorts",
+      "description": "Returns shorts from a YouTube channel using `channelId` or `handle`, with pagination support via `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/youtube/video?url={url}&videoId={videoId}",
+      "name": "youtube-video",
+      "title": "Get YouTube video or short details",
+      "description": "Returns detailed information for a YouTube video or short using `url` or `videoId`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/youtube/video-comments?url={url}&videoId={videoId}&continuationToken={continuationToken}&order={order}",
+      "name": "youtube-video-comments",
+      "title": "Get YouTube video comments",
+      "description": "Returns top-level comments from a YouTube video. Use `continuationToken` to paginate and `order` to control sorting such as `top` or `newest`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/youtube/video-transcript?url={url}&videoId={videoId}&lang={lang}",
+      "name": "youtube-video-transcript",
+      "title": "Get YouTube video transcript",
+      "description": "Returns transcript data for a YouTube video or short using `url` or `videoId`, with optional `lang` selection when supported.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/youtube/search?query={query}&type={type}&cursor={cursor}",
+      "name": "youtube-search",
+      "title": "Search YouTube",
+      "description": "Searches YouTube for videos, channels, playlists, shorts, lives, and other result types using `query`, optional `type`, and pagination via `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/youtube/search-hashtag?hashtag={hashtag}&cursor={cursor}",
+      "name": "youtube-search-hashtag",
+      "title": "Search YouTube by hashtag",
+      "description": "Searches YouTube results by hashtag and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/youtube/shorts-trending?country={country}",
+      "name": "youtube-trending-shorts",
+      "title": "Get YouTube trending shorts",
+      "description": "Returns trending YouTube shorts, optionally filtered by `country` when supported.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

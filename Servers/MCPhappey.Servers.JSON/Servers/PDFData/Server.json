@@ -1,0 +1,23 @@
+{
+    "serverInfo": {
+        "name": "PDFData",
+        "title": "PDFData",
+        "version": "1.0.0",
+        "websiteUrl": "https://pdfdata.co",
+        "description": "Upload PDF documents, list processed documents, and retrieve extracted structured data from PDFData.",
+        "icons": [
+            {
+                "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://pdfdata.co&size=128"
+            }
+        ]
+    },
+    "headers": {
+        "Authorization": "Bearer [PDFData_API_key]"
+    },
+    "plugins": [
+        "MCPhappey.Tools.PDFData.PDFDataDocuments, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

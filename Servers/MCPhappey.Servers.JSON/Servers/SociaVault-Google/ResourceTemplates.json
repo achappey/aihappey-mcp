@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/google/search?query={query}&page={page}&gl={gl}&hl={hl}",
+      "name": "google-search",
+      "title": "Search Google",
+      "description": "Searches Google results for a query. Supports paging with `page`, region with `gl`, and language with `hl` when supported.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

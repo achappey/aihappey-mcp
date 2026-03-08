@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://eu.api.gradium.ai/voices/?skip=0&limit=100&include_catalog=true",
+      "name": "gradium-voices-list",
+      "title": "Gradium voices",
+      "description": "List of available Gradium voices for the authenticated organization and catalog.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

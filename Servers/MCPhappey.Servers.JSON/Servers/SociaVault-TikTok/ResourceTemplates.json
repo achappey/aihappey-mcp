@@ -1,0 +1,256 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/profile?username={username}&url={url}&user_id={user_id}",
+      "name": "tiktok-profile",
+      "title": "Get TikTok profile",
+      "description": "Returns public TikTok profile information using `username`, `url`, or `user_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/videos?username={username}&user_id={user_id}&cursor={cursor}",
+      "name": "tiktok-profile-videos",
+      "title": "Get TikTok profile videos",
+      "description": "Returns videos from a TikTok profile. Use `username` or `user_id` and paginate with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/video-info?url={url}&video_id={video_id}",
+      "name": "tiktok-video-info",
+      "title": "Get TikTok video info",
+      "description": "Returns data for a TikTok video using `url` or `video_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/comments?url={url}&video_id={video_id}&cursor={cursor}",
+      "name": "tiktok-comments",
+      "title": "Get TikTok comments",
+      "description": "Returns comments for a TikTok video using `url` or `video_id`, with optional pagination via `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/transcript?url={url}&video_id={video_id}&use_ai={use_ai}",
+      "name": "tiktok-transcript",
+      "title": "Get TikTok transcript",
+      "description": "Returns transcript data for a TikTok video. Use `use_ai=true` as fallback when transcript is missing, which may consume more credits.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/search-keyword?query={query}&cursor={cursor}",
+      "name": "tiktok-search-keyword",
+      "title": "Search TikTok by keyword",
+      "description": "Searches TikTok videos that match a keyword and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/search-top?query={query}&cursor={cursor}",
+      "name": "tiktok-search-top",
+      "title": "Search TikTok top results",
+      "description": "Returns TikTok top search results, including videos and photo carousels, and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/search-users?query={query}&cursor={cursor}",
+      "name": "tiktok-search-users",
+      "title": "Search TikTok users",
+      "description": "Searches TikTok users matching a query and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/search-hashtag?hashtag={hashtag}&cursor={cursor}",
+      "name": "tiktok-search-hashtag",
+      "title": "Search TikTok by hashtag",
+      "description": "Returns TikTok videos for a hashtag and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/search-music?query={query}&offset={offset}",
+      "name": "tiktok-search-music",
+      "title": "Search TikTok music",
+      "description": "Searches TikTok sounds and music by keyword. Use `offset` with the cursor value from previous results to paginate.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/music-details?song_id={song_id}",
+      "name": "tiktok-music-details",
+      "title": "Get TikTok song details",
+      "description": "Returns details for a TikTok song by `song_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/music-videos?song_id={song_id}&cursor={cursor}",
+      "name": "tiktok-music-videos",
+      "title": "Get TikToks using a song",
+      "description": "Returns TikTok videos using a song and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/music-popular?country={country}&cursor={cursor}",
+      "name": "tiktok-music-popular",
+      "title": "Get popular TikTok songs",
+      "description": "Returns currently popular TikTok songs, optionally filtered by `country`, and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/trending?country={country}&cursor={cursor}",
+      "name": "tiktok-trending-feed",
+      "title": "Get TikTok trending feed",
+      "description": "Returns trending TikTok feed items, optionally filtered by `country`, with pagination via `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/popular-videos?country={country}&time_period={time_period}&sort_by={sort_by}&cursor={cursor}",
+      "name": "tiktok-popular-videos",
+      "title": "Get popular TikTok videos",
+      "description": "Returns popular TikTok videos filtered by `country`, `time_period`, and `sort_by`, with pagination support.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/popular-hashtags?country={country}&time_period={time_period}&new_trending={new_trending}&cursor={cursor}",
+      "name": "tiktok-popular-hashtags",
+      "title": "Get popular TikTok hashtags",
+      "description": "Returns popular TikTok hashtags filtered by country, time period, and whether they are newly trending. Supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/popular-creators?creator_country={creator_country}&audience_country={audience_country}&min_followers={min_followers}&max_followers={max_followers}&sort_by={sort_by}&cursor={cursor}",
+      "name": "tiktok-popular-creators",
+      "title": "Get popular TikTok creators",
+      "description": "Returns popular TikTok creators with filters for creator country, audience country, follower range, sort order, and pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/followers?username={username}&user_id={user_id}&cursor={cursor}",
+      "name": "tiktok-followers",
+      "title": "Get TikTok followers",
+      "description": "Returns followers of a TikTok account using `username` or `user_id`, with optional pagination using `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/following?username={username}&user_id={user_id}&cursor={cursor}",
+      "name": "tiktok-following",
+      "title": "Get TikTok following",
+      "description": "Returns accounts a TikTok user follows using `username` or `user_id`, with optional pagination using `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/live?username={username}&user_id={user_id}",
+      "name": "tiktok-live",
+      "title": "Get TikTok live info",
+      "description": "Returns TikTok live stream information for a user using `username` or `user_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok/demographics?username={username}&user_id={user_id}",
+      "name": "tiktok-demographics",
+      "title": "Get TikTok audience demographics",
+      "description": "Returns TikTok audience demographics, currently focused on audience countries, for a user identified by `username` or `user_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

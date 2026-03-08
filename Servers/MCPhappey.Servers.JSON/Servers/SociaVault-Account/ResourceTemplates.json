@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/credits",
+      "name": "credits-balance",
+      "title": "Get credits balance",
+      "description": "Returns the current SociaVault credit balance and subscription status for the authenticated account.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

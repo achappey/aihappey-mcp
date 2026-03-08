@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/linkedin/ad-library/search?query={query}&country={country}&cursor={cursor}",
+      "name": "linkedin-ad-library-search",
+      "title": "Search LinkedIn ads",
+      "description": "Searches the LinkedIn Ad Library by `query`, optionally filtering by `country`, and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/linkedin/ad-library/ad-details?ad_id={ad_id}",
+      "name": "linkedin-ad-library-ad-details",
+      "title": "Get LinkedIn ad details",
+      "description": "Returns details for a specific LinkedIn ad by `ad_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

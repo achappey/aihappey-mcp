@@ -1,0 +1,124 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/instagram/profile?handle={handle}&trim={trim}",
+      "name": "instagram-profile",
+      "title": "Get Instagram profile",
+      "description": "Returns public Instagram profile data, recent posts, and related accounts by required `handle`. Set optional `trim` to true for a smaller response.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/instagram/basic-profile?userId={userId}",
+      "name": "instagram-basic-profile",
+      "title": "Get Instagram basic profile",
+      "description": "Returns a basic Instagram profile by `userId`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v2/instagram/user/posts?handle={handle}&next_max_id={next_max_id}&trim={trim}",
+      "name": "instagram-posts",
+      "title": "Get Instagram posts",
+      "description": "Returns public posts from an Instagram profile by required `handle`. Supports pagination with optional `next_max_id` and optional trimmed responses with `trim`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/instagram/post?url={url}&trim={trim}",
+      "name": "instagram-post-info",
+      "title": "Get Instagram post or reel info",
+      "description": "Returns detailed public information for an Instagram post or reel by required public `url`. Set optional `trim` to true for a smaller response.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v2/instagram/media/transcript?url={url}",
+      "name": "instagram-transcript",
+      "title": "Get Instagram transcript",
+      "description": "Returns transcript data for an Instagram post or reel by required public `url` when speech is detected.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v2/instagram/reels/search?query={query}&page={page}",
+      "name": "instagram-search-reels",
+      "title": "Search Instagram reels",
+      "description": "Searches public Instagram reels by required `query`. Supports optional `page` pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v2/instagram/post/comments?url={url}&cursor={cursor}",
+      "name": "instagram-comments",
+      "title": "Get Instagram comments",
+      "description": "Returns comments from an Instagram post or reel by required public `url`. Supports pagination with optional `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/instagram/user/reels?user_id={user_id}&handle={handle}&max_id={max_id}&trim={trim}",
+      "name": "instagram-reels",
+      "title": "Get Instagram reels",
+      "description": "Returns public reels from an Instagram profile. Use either `user_id` or `handle`, prefer `user_id` for faster responses, paginate with optional `max_id`, and optionally set `trim` to true.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/instagram/user/highlights?user_id={user_id}&handle={handle}",
+      "name": "instagram-highlights",
+      "title": "Get Instagram story highlights",
+      "description": "Returns story highlights for an Instagram user. Use either `user_id` or `handle`, and prefer `user_id` for faster responses.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/instagram/user/embed?handle={handle}",
+      "name": "instagram-embed-html",
+      "title": "Get Instagram embed HTML",
+      "description": "Returns the HTML embed for an Instagram user profile by required `handle`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

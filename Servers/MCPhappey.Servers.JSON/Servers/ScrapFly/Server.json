@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "ScrapFly",
+    "title": "ScrapFly",
+    "version": "1.0.0",
+    "websiteUrl": "https://scrapfly.io",
+    "description": "Official ScrapFly MCP mapper for hosted ScrapFly tools and resources.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/54183743?s=280&v=4"
+      }
+    ]
+  },
+  "baseMcp": "mcp.scrapfly.io",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

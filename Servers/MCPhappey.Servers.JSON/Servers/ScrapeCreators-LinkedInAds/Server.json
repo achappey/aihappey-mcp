@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "ScrapeCreators-LinkedInAds",
+    "title": "ScrapeCreators LinkedIn Ads",
+    "version": "1.0.0",
+    "websiteUrl": "https://scrapecreators.com",
+    "description": "Public LinkedIn Ad Library scraping endpoints from ScrapeCreators for ad search and ad detail retrieval.",
+    "icons": [
+      {
+        "src": "https://scrapecreators.com/favicon.ico"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

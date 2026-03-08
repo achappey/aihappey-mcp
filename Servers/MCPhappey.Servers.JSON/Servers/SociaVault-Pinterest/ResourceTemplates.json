@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/pinterest/search?query={query}&cursor={cursor}",
+      "name": "pinterest-search",
+      "title": "Search Pinterest",
+      "description": "Searches Pinterest for public pins and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/pinterest/pin?url={url}&pin_id={pin_id}",
+      "name": "pinterest-pin",
+      "title": "Get Pinterest pin",
+      "description": "Returns details for a Pinterest pin. Use either a pin `url` or `pin_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/pinterest/board?url={url}&board_id={board_id}&cursor={cursor}",
+      "name": "pinterest-board",
+      "title": "Get Pinterest board",
+      "description": "Returns pins from a Pinterest board. Use `url` or `board_id`, and paginate with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/pinterest/user-boards?url={url}&username={username}&cursor={cursor}",
+      "name": "pinterest-user-boards",
+      "title": "Get Pinterest user boards",
+      "description": "Returns boards for a Pinterest user by profile `url` or `username`, with optional pagination via `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

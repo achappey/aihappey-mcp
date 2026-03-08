@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SociaVault-LinkedInAds",
+    "title": "SociaVault LinkedIn Ads",
+    "version": "1.0.0",
+    "websiteUrl": "https://sociavault.com",
+    "description": "LinkedIn Ad Library endpoints from SociaVault for ad search and ad detail retrieval.",
+    "icons": [
+      {
+        "src": "https://sociavault.com/logo.png"
+      }
+    ]
+  },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

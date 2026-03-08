@@ -1,0 +1,76 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/twitter/profile?username={username}&url={url}&user_id={user_id}",
+      "name": "twitter-profile",
+      "title": "Get Twitter profile",
+      "description": "Returns Twitter/X profile information including stats and metadata using `username`, `url`, or `user_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/twitter/user-tweets?username={username}&user_id={user_id}&cursor={cursor}",
+      "name": "twitter-user-tweets",
+      "title": "Get Twitter user tweets",
+      "description": "Returns tweets from a user's profile using `username` or `user_id`, with pagination through `cursor` when supported.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/twitter/tweet?url={url}&tweet_id={tweet_id}",
+      "name": "twitter-tweet",
+      "title": "Get tweet details",
+      "description": "Returns detailed information for a specific tweet using `url` or `tweet_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/twitter/tweet-transcript?url={url}&tweet_id={tweet_id}",
+      "name": "twitter-tweet-transcript",
+      "title": "Get tweet transcript",
+      "description": "Returns transcript data for a video tweet using `url` or `tweet_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/twitter/community?community_id={community_id}&url={url}",
+      "name": "twitter-community",
+      "title": "Get Twitter community",
+      "description": "Returns details of a Twitter/X community using `community_id` or `url`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/twitter/community-tweets?community_id={community_id}&url={url}&cursor={cursor}",
+      "name": "twitter-community-tweets",
+      "title": "Get Twitter community tweets",
+      "description": "Returns tweets from a Twitter/X community using `community_id` or `url`, with pagination via `cursor` when available.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

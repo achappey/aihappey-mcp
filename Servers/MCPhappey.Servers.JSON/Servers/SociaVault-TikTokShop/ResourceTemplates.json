@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok-shop/search?query={query}&page={page}&region={region}",
+      "name": "tiktok-shop-search",
+      "title": "Search TikTok Shop",
+      "description": "Searches TikTok Shop products by query. Use `page` to retrieve specific pages and optionally filter by `region`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok-shop/products?shop_id={shop_id}&cursor={cursor}&region={region}",
+      "name": "tiktok-shop-products",
+      "title": "Get TikTok Shop products",
+      "description": "Returns products from a TikTok Shop using `shop_id`, with pagination via `cursor` and optional regional filtering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok-shop/product-details?product_id={product_id}&region={region}",
+      "name": "tiktok-shop-product-details",
+      "title": "Get TikTok Shop product details",
+      "description": "Returns detailed information for a TikTok Shop product by `product_id`, including stock and related promotional content when available.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/tiktok-shop/product-reviews?product_id={product_id}&cursor={cursor}&region={region}",
+      "name": "tiktok-shop-product-reviews",
+      "title": "Get TikTok Shop product reviews",
+      "description": "Returns reviews for a TikTok Shop product. Use `cursor` to paginate through review pages and optionally pass `region`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

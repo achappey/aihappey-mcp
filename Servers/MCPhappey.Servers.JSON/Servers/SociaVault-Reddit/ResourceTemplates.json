@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/reddit/search?query={query}&sort={sort}&time={time}&cursor={cursor}",
+      "name": "reddit-search",
+      "title": "Search Reddit",
+      "description": "Searches Reddit posts by keyword and supports filters such as `sort`, `time`, and pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/reddit/post-comments?url={url}&post_id={post_id}&cursor={cursor}",
+      "name": "reddit-post-comments",
+      "title": "Get Reddit post comments",
+      "description": "Returns post information and comments for a Reddit post. Use either `url` or `post_id`, and paginate with `cursor` when supported.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/reddit/subreddit?subreddit={subreddit}&url={url}&cursor={cursor}",
+      "name": "reddit-subreddit-posts",
+      "title": "Get subreddit posts",
+      "description": "Returns recent posts from a subreddit with engagement metrics. Use either subreddit name or `url`, and paginate with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/reddit/subreddit-details?subreddit={subreddit}&url={url}",
+      "name": "reddit-subreddit-details",
+      "title": "Get subreddit details",
+      "description": "Returns details about a subreddit using either its name or URL.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/reddit/subreddit-search?subreddit={subreddit}&query={query}&type={type}&sort={sort}&time={time}&cursor={cursor}",
+      "name": "reddit-subreddit-search",
+      "title": "Search within subreddit",
+      "description": "Searches a subreddit for matching posts, comments, or media with filters for `type`, `sort`, `time`, and pagination using `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

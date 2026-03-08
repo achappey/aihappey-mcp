@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SociaVault-TikTokShop",
+    "title": "SociaVault TikTok Shop",
+    "version": "1.0.0",
+    "websiteUrl": "https://sociavault.com",
+    "description": "TikTok Shop endpoints from SociaVault for shop search, shop products, product details, and product reviews.",
+    "icons": [
+      {
+        "src": "https://sociavault.com/logo.png"
+      }
+    ]
+  },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

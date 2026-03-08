@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.amygdala.eu/api/v1/entities/?query={query}&alpha_2={alpha_2}&limit={limit}",
+      "name": "entity-search",
+      "title": "Search entities",
+      "description": "Searches for public entities such as people, organizations, or topics. Results include name, ranking, topic, country and profile image. Use `query` for the search term, optionally filter by `alpha_2` country code (au, ca, de, es, fr, gb, nl, us) and control result size with `limit`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.amygdala.eu/api/v1/entities/{sdu}/",
+      "name": "entity-detail",
+      "title": "Get entity detail",
+      "description": "Returns detailed information about a specific entity including biography, country, topics and social media accounts such as X, Instagram, Facebook, LinkedIn, TikTok and YouTube.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.amygdala.eu/api/v1/match/?x_handle={x_handle}",
+      "name": "entity-match-x-handle",
+      "title": "Match entity by X handle",
+      "description": "Matches an entity based on its X (Twitter) handle. Useful for resolving a social media account like `@username` to the corresponding entity profile in Amygdala.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.amygdala.eu/api/v1/peers/?x_handle={x_handle}",
+      "name": "entity-peers-by-x-handle",
+      "title": "Get peers by X handle",
+      "description": "Returns peer entities related to the given X (Twitter) handle. Useful for discovering similar or related public figures, brands or organizations.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

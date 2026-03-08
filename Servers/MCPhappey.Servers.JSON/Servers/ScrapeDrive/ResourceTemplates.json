@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://sync.scrapedrive.com/api/v1/scrape?url={targetUrl}",
+      "name": "scrapedrive-sync-scrape",
+      "title": "Scrape webpage (ScrapeDrive Sync API)",
+      "description": "Fetches the raw content of a webpage using the ScrapeDrive synchronous scraping API. Returns the page content directly in the response body. Suitable for simple or real-time scraping tasks.",
+      "mimeType": "text/html",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

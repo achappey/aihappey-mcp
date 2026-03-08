@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Noiz",
+        "title": "Noiz",
+        "version": "1.0.0",
+        "websiteUrl": "https://noiz.ai",
+        "description": "Noiz AI text-to-speech tools for raw text and fileUrl input with upload and resource-link-only output.",
+        "icons": [
+            {
+                "src": "https://ph-files.imgix.net/9e2393ae-8f49-438e-8c01-a9f0e0d485e6.jpeg?auto=format"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.NoizAI.NoizAISpeech, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

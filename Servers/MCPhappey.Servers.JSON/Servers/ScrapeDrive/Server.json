@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "ScrapeDrive",
+    "title": "ScrapeDrive",
+    "version": "1.0.0",
+    "websiteUrl": "https://scrapedrive.com",
+    "description": "",
+    "icons": [
+      {
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://scrapedrive.com&size=128"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.ScrapeDrive.ScrapeDriveService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

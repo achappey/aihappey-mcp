@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/ad-library/search?query={query}&country={country}&ad_type={ad_type}&active_status={active_status}&cursor={cursor}",
+      "name": "facebook-ad-library-search",
+      "title": "Search Facebook Ad Library",
+      "description": "Searches the Facebook/Meta Ad Library by keyword. Supports filters such as `country`, `ad_type`, `active_status`, and pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/ad-library/ad-details?ad_id={ad_id}",
+      "name": "facebook-ad-library-ad-details",
+      "title": "Get Facebook ad details",
+      "description": "Returns details for a specific Facebook Ad Library ad by `ad_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/ad-library/company-ads?page_id={page_id}&cursor={cursor}",
+      "name": "facebook-ad-library-company-ads",
+      "title": "Get Facebook company ads",
+      "description": "Returns ads currently associated with a Facebook Ad Library company/page id. Supports pagination via `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/ad-library/search-companies?query={query}&cursor={cursor}",
+      "name": "facebook-ad-library-search-companies",
+      "title": "Search Facebook Ad Library companies",
+      "description": "Searches companies by name to find Facebook Ad Library page identifiers. Supports pagination with `cursor` when available.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

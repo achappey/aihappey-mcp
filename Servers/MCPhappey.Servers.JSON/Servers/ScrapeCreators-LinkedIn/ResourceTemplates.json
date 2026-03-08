@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/linkedin/profile?url={url}",
+      "name": "linkedin-profile",
+      "title": "Get LinkedIn person profile",
+      "description": "Returns a person's public LinkedIn profile, including publicly available recent posts. Use the public profile `url`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/linkedin/company?url={url}",
+      "name": "linkedin-company",
+      "title": "Get LinkedIn company page",
+      "description": "Returns public LinkedIn company page information by company `url`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/linkedin/company/posts?url={url}&page={page}",
+      "name": "linkedin-company-posts",
+      "title": "Get LinkedIn company posts",
+      "description": "Returns posts from a LinkedIn company page by `url`. Supports optional pagination with `page`, with a maximum of 7 pages due to LinkedIn limitations.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/linkedin/post?url={url}",
+      "name": "linkedin-post",
+      "title": "Get LinkedIn post",
+      "description": "Returns a LinkedIn post or article by public URL.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/linkedin/company?url={url}&company_id={company_id}",
+      "name": "linkedin-company",
+      "title": "Get LinkedIn company page",
+      "description": "Returns public LinkedIn company page information. Use either a company `url` or `company_id` when available.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/linkedin/profile?url={url}&public_identifier={public_identifier}",
+      "name": "linkedin-profile",
+      "title": "Get LinkedIn person profile",
+      "description": "Returns a person's public LinkedIn profile, including publicly available recent posts. Use either `url` or `public_identifier`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/linkedin/post?url={url}",
+      "name": "linkedin-post",
+      "title": "Get LinkedIn post",
+      "description": "Returns a LinkedIn post or article by public URL.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

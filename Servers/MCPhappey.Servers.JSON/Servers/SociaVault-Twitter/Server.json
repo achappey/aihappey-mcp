@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SociaVault-Twitter",
+    "title": "SociaVault Twitter",
+    "version": "1.0.0",
+    "websiteUrl": "https://sociavault.com",
+    "description": "Twitter/X endpoints from SociaVault for profiles, tweets, communities, transcripts, and community feed retrieval.",
+    "icons": [
+      {
+        "src": "https://sociavault.com/logo.png"
+      }
+    ]
+  },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

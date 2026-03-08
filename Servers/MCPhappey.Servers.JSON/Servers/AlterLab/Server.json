@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "AlterLab",
+        "title": "AlterLab",
+        "version": "1.0.0",
+        "websiteUrl": "https://alterlab.io",
+        "description": "Web scraping with automatic async job polling and structured scrape results.",
+        "icons": [
+            {
+                "src": "https://alterlab.io/android-chrome-512x512.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.AlterLab.AlterLabService, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

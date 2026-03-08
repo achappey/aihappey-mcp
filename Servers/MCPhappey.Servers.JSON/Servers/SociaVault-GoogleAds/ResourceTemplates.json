@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/google/ad-library/search-advertisers?query={query}&cursor={cursor}",
+      "name": "google-ad-library-search-advertisers",
+      "title": "Search Google advertisers",
+      "description": "Searches the Google Ad Transparency Library for advertisers and returns advertiser identifiers. Supports pagination with `cursor` when available.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/google/ad-library/company-ads?advertiser_id={advertiser_id}&cursor={cursor}",
+      "name": "google-ad-library-company-ads",
+      "title": "Get Google company ads",
+      "description": "Returns public ads for a Google advertiser id. Supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/google/ad-library/ad-details?ad_id={ad_id}",
+      "name": "google-ad-library-ad-details",
+      "title": "Get Google ad details",
+      "description": "Returns details for a specific Google Ad Transparency ad by `ad_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

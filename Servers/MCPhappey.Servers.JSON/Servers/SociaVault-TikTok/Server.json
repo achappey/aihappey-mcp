@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SociaVault-TikTok",
+    "title": "SociaVault TikTok",
+    "version": "1.0.0",
+    "websiteUrl": "https://sociavault.com",
+    "description": "TikTok endpoints from SociaVault for profiles, videos, search, music, trends, live data, audience insights, and transcript retrieval.",
+    "icons": [
+      {
+        "src": "https://sociavault.com/logo.png"
+      }
+    ]
+  },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

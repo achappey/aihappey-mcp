@@ -1,0 +1,112 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/instagram/profile?handle={handle}&url={url}&user_id={user_id}",
+      "name": "instagram-profile",
+      "title": "Get Instagram profile",
+      "description": "Returns public Instagram profile data, recent posts, and related accounts. Use one of `handle`, `url`, or `user_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/instagram/posts?handle={handle}&user_id={user_id}&cursor={cursor}",
+      "name": "instagram-posts",
+      "title": "Get Instagram posts",
+      "description": "Returns public posts from an Instagram profile. Use `user_id` for faster results when known and paginate with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/instagram/reels?handle={handle}&user_id={user_id}&cursor={cursor}",
+      "name": "instagram-reels",
+      "title": "Get Instagram reels",
+      "description": "Returns public reels from an Instagram profile. Use `user_id` for better performance and paginate with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/instagram/post-info?url={url}&shortcode={shortcode}",
+      "name": "instagram-post-info",
+      "title": "Get Instagram post or reel info",
+      "description": "Returns detailed public information about a specific Instagram post or reel. Use either a `url` or `shortcode`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/instagram/comments?url={url}&shortcode={shortcode}&cursor={cursor}",
+      "name": "instagram-comments",
+      "title": "Get Instagram comments",
+      "description": "Returns top-level visible comments from an Instagram post or reel. Supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/instagram/transcript?url={url}&shortcode={shortcode}",
+      "name": "instagram-transcript",
+      "title": "Get Instagram transcript",
+      "description": "Returns transcript data for an Instagram post or reel when speech is detected. Supports `url` or `shortcode` inputs.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/instagram/highlights?handle={handle}&user_id={user_id}",
+      "name": "instagram-highlights",
+      "title": "Get Instagram story highlights",
+      "description": "Returns story highlights for an Instagram user. Use either `handle` or `user_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/instagram/highlight-detail?highlight_id={highlight_id}",
+      "name": "instagram-highlight-detail",
+      "title": "Get Instagram highlight detail",
+      "description": "Returns detailed data for a specific Instagram story highlight by `highlight_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/instagram/reels-by-song?song_id={song_id}&cursor={cursor}",
+      "name": "instagram-reels-by-song",
+      "title": "Get Instagram reels by song",
+      "description": "Returns reels using a specific Instagram song identifier and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

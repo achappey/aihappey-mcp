@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "SociaVault-YouTube",
+        "title": "SociaVault YouTube",
+        "version": "1.0.0",
+        "websiteUrl": "https://sociavault.com",
+        "description": "YouTube endpoints from SociaVault for channels, videos, shorts, comments, transcripts, trending shorts, and search discovery.",
+        "icons": [
+            {
+                "src": "https://sociavault.com/logo.png"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

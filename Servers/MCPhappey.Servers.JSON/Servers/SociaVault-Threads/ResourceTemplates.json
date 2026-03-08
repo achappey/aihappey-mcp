@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/threads/profile?username={username}&url={url}&user_id={user_id}",
+      "name": "threads-profile",
+      "title": "Get Threads profile",
+      "description": "Returns public Threads profile information using `username`, `url`, or `user_id`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/threads/user-posts?username={username}&user_id={user_id}&cursor={cursor}",
+      "name": "threads-user-posts",
+      "title": "Get Threads user posts",
+      "description": "Returns posts from a Threads user. Use `username` or `user_id` and paginate with `cursor` when available.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/threads/post?url={url}&post_id={post_id}",
+      "name": "threads-post",
+      "title": "Get Threads post",
+      "description": "Returns a Threads post by `url` or `post_id`, including comments and related posts when available.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.sociavault.com/v1/scrape/threads/search-users?query={query}&cursor={cursor}",
+      "name": "threads-search-users",
+      "title": "Search Threads users",
+      "description": "Searches Threads users by username or keyword and supports pagination with `cursor`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Image2API",
+    "title": "Image2API",
+    "version": "1.0.0",
+    "websiteUrl": "https://image2api.kastana.software",
+    "description": "Extract text or structured content from images using Image2API one-off extraction.",
+    "icons": [
+      {
+        "src": "https://image2api.kastana.software/favicon.ico"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Image2API.Image2APIService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

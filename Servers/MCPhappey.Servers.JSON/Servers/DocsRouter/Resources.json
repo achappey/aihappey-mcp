@@ -1,0 +1,17 @@
+{
+    "resources": [
+        {
+            "uri": "https://api.docsrouter.com/v1/models",
+            "name": "list-docsrouter-models",
+            "title": "List available DocsRouter models",
+            "description": "List all available DocsRouter models",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant",
+                    "user"
+                ]
+            }
+        }
+    ]
+}

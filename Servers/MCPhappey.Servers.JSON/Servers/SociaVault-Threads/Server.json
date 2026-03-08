@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SociaVault-Threads",
+    "title": "SociaVault Threads",
+    "version": "1.0.0",
+    "websiteUrl": "https://sociavault.com",
+    "description": "Threads endpoints from SociaVault for profile lookup, user post retrieval, post details, comments, and user search.",
+    "icons": [
+      {
+        "src": "https://sociavault.com/logo.png"
+      }
+    ]
+  },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

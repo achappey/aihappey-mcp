@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "DocsRouter",
+    "title": "DocsRouter",
+    "version": "1.0.0",
+    "websiteUrl": "https://docsrouter.com",
+    "description": "Extract text from documents using DocsRouter OCR, with optional tables and format options.",
+    "icons": [
+      {
+        "src": "https://docsrouter.com/icon.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.DocsRouter.DocsRouterService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}

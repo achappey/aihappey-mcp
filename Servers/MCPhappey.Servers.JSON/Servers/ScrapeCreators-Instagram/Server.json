@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "ScrapeCreators-Instagram",
+    "title": "ScrapeCreators Instagram",
+    "version": "1.0.0",
+    "websiteUrl": "https://scrapecreators.com",
+    "description": "Public Instagram scraping endpoints from ScrapeCreators for profiles, posts, post details, transcripts, reels search, comments, reels, highlights, and embeds.",
+    "icons": [
+      {
+        "src": "https://scrapecreators.com/favicon.ico"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

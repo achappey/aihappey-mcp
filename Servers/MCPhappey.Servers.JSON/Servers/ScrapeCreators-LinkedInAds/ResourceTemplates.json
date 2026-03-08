@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/linkedin/ads/search?company={company}&keyword={keyword}&companyId={companyId}&countries={countries}&startDate={startDate}&endDate={endDate}&paginationToken={paginationToken}",
+      "name": "linkedin-ads-search",
+      "title": "Search LinkedIn ads",
+      "description": "Searches the LinkedIn Ad Library. Supports optional filters for `company`, `keyword`, `companyId`, comma-separated `countries`, `startDate`, `endDate`, and pagination with `paginationToken`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.scrapecreators.com/v1/linkedin/ad?url={url}",
+      "name": "linkedin-ad-detail",
+      "title": "Get LinkedIn ad details",
+      "description": "Returns detailed LinkedIn Ad Library data for a specific ad by required public ad `url`.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

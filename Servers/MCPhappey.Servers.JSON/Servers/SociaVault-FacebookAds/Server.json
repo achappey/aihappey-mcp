@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "SociaVault-FacebookAds",
+        "title": "SociaVault Facebook Ads",
+        "version": "1.0.0",
+        "websiteUrl": "https://sociavault.com",
+        "description": "Facebook Ad Library search and ad retrieval endpoints from SociaVault for ads, advertisers, and company ad activity.",
+        "icons": [
+            {
+                "src": "https://sociavault.com/logo.png"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

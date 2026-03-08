@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SociaVault-Pinterest",
+    "title": "SociaVault Pinterest",
+    "version": "1.0.0",
+    "websiteUrl": "https://sociavault.com",
+    "description": "Pinterest endpoints from SociaVault for pin search, pin detail, boards, and user board discovery.",
+    "icons": [
+      {
+        "src": "https://sociavault.com/logo.png"
+      }
+    ]
+  },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://noiz.ai/v1/voices?voice_type={voice_type}&keyword={keyword}&skip={skip}&limit={limit}",
+      "name": "noizai-list-voices",
+      "title": "Noiz AI voices",
+      "description": "Lists available Noiz AI voices for the authenticated account. Supports filtering by voice_type, keyword, skip, and limit. Requires Authorization header.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

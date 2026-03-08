@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "ScrapeCreators-Bluesky",
+    "title": "ScrapeCreators Bluesky",
+    "version": "1.0.0",
+    "websiteUrl": "https://scrapecreators.com",
+    "description": "Public Bluesky scraping endpoints from ScrapeCreators for profiles, user posts, and post retrieval.",
+    "icons": [
+      {
+        "src": "https://scrapecreators.com/favicon.ico"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

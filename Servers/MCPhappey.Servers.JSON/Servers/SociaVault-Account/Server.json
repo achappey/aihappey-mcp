@@ -1,0 +1,17 @@
+{
+    "serverInfo": {
+        "name": "SociaVault-Account",
+        "title": "SociaVault Account",
+        "version": "1.0.0",
+        "websiteUrl": "https://sociavault.com",
+        "description": "Account-level SociaVault endpoints for authenticated API usage, including credit balance and subscription status.",
+        "icons": [
+            {
+                "src": "https://sociavault.com/logo.png"
+            }
+        ]
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

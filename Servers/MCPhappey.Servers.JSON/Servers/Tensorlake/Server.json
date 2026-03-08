@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Tensorlake",
+        "title": "Tensorlake",
+        "version": "1.0.0",
+        "websiteUrl": "https://tensorlake.ai",
+        "description": "Read documents with Tensorlake OCR using a single readdocument tool.",
+        "icons": [
+            {
+                "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrKq88pvPZke_wcnnaiz7yWao60Gd_jJK8tA&s"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Tensorlake.TensorlakeDocuments, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+    }
+}

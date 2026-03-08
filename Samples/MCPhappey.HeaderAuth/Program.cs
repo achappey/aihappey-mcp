@@ -101,6 +101,10 @@ using MCPhappey.Tools.WebsearchAPI;
 using MCPhappey.Tools.AIsa;
 using MCPhappey.Tools.NimbleWay;
 using MCPhappey.Tools.Qomplement;
+using MCPhappey.Tools.Tensorlake;
+using MCPhappey.Tools.NoizAI;
+using MCPhappey.Tools.Rime;
+using MCPhappey.Tools.Gradium;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -201,6 +205,7 @@ builder.Services
 .AddContextualAI(appConfig?.DomainHeaders)
 .AddTelnyx(appConfig?.DomainHeaders)
 .AddOpperAI(appConfig?.DomainHeaders)
+.AddTensorlake(appConfig?.DomainHeaders)
 .AddOCRSpace(appConfig?.DomainHeaders)
 .AddJsonReceipt(appConfig?.DomainHeaders)
 .AddBergetAI(appConfig?.DomainHeaders)
@@ -212,6 +217,7 @@ builder.Services
 .AddRecraft(appConfig?.DomainHeaders)
 .AddUpstage(appConfig?.DomainHeaders)
 .AddSpeechify(appConfig?.DomainHeaders)
+.AddRime(appConfig?.DomainHeaders)
 .AddSpeechactors(appConfig?.DomainHeaders)
 .AddVerbatik(appConfig?.DomainHeaders)
 .AddVenice(appConfig?.DomainHeaders)
@@ -222,7 +228,9 @@ builder.Services
     .AddCometAPI(appConfig?.DomainHeaders)
     .AddMixedbread(appConfig?.DomainHeaders)
 .AddStepFun(appConfig?.DomainHeaders)
-.AddKugu(appConfig?.DomainHeaders)
+ .AddNoizAI(appConfig?.DomainHeaders)
+ .AddGradium(appConfig?.DomainHeaders)
+ .AddKugu(appConfig?.DomainHeaders)
 .AddMorpheus(appConfig?.DomainHeaders)
 .AddInfomaniak(appConfig?.DomainHeaders)
 .AddDaglo(appConfig?.DomainHeaders)

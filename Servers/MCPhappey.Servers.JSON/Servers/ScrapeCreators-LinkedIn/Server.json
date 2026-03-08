@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "ScrapeCreators-LinkedIn",
+    "title": "ScrapeCreators LinkedIn",
+    "version": "1.0.0",
+    "websiteUrl": "https://scrapecreators.com",
+    "description": "Public LinkedIn scraping endpoints from ScrapeCreators for company pages, public person profiles, company posts, and post retrieval.",
+    "icons": [
+      {
+        "src": "https://scrapecreators.com/favicon.ico"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

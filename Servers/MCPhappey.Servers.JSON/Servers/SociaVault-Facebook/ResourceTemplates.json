@@ -1,0 +1,88 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/profile?url={url}&pageId={pageId}",
+            "name": "facebook-profile",
+            "title": "Get Facebook profile",
+            "description": "Returns public Facebook profile information. Use either a profile `url` or `pageId` when available.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/profile/posts?url={url}&pageId={pageId}&cursor={cursor}",
+            "name": "facebook-profile-posts",
+            "title": "Get Facebook profile posts",
+            "description": "Returns public posts from a Facebook page/profile visible in public browsing. Use `pageId` for faster lookups, or `url` when page id is not known. Supports pagination with `cursor` if available.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/profile/reels?url={url}&pageId={pageId}&next_page_id={next_page_id}&cursor={cursor}",
+            "name": "facebook-profile-reels",
+            "title": "Get Facebook profile reels",
+            "description": "Returns public reels from a Facebook page. To paginate, pass both `next_page_id` and `cursor` from the previous response together.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/post?url={url}",
+            "name": "facebook-post",
+            "title": "Get Facebook post or reel",
+            "description": "Returns details for a public Facebook post or reel by URL.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/post/comments?url={url}&cursor={cursor}",
+            "name": "facebook-post-comments",
+            "title": "Get Facebook post comments",
+            "description": "Returns comments for a public Facebook post or reel. Supports pagination with `cursor` when provided by the API.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/post/transcript?url={url}",
+            "name": "facebook-post-transcript",
+            "title": "Get Facebook post transcript",
+            "description": "Returns transcript data for a Facebook post or reel when speech is available.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.sociavault.com/v1/scrape/facebook/group/posts?url={url}&cursor={cursor}",
+            "name": "facebook-group-posts",
+            "title": "Get Facebook group posts",
+            "description": "Returns public posts from a Facebook group. Facebook limits retrieval to small batches, and `cursor` can be used when supported.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SociaVault-Instagram",
+    "title": "SociaVault Instagram",
+    "version": "1.0.0",
+    "websiteUrl": "https://sociavault.com",
+    "description": "Public Instagram scraping endpoints from SociaVault for profiles, posts, reels, comments, highlights, transcripts, and song-based discovery.",
+    "icons": [
+      {
+        "src": "https://sociavault.com/logo.png"
+      }
+    ]
+  },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}
