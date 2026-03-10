@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "Valyu-API",
+    "title": "Valyu API",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.valyu.ai",
+    "description": "Valyu API tools for multi-source search and content extraction, plus MCP resources/resource templates for datasource discovery GET endpoints.",
+    "icons": [
+      {
+        "src": "https://pbs.twimg.com/profile_images/1988216499220238336/50QDcgT6_400x400.jpg"
+      }
+    ]
+  },
+  "headers": {
+    "X-API-Key": "[Valyu_API_Key]"
+  },
+  "plugins": [
+    "MCPhappey.Tools.Valyu.ValyuApi, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -107,6 +107,7 @@ using MCPhappey.Tools.Qomplement;
 using MCPhappey.Tools.Tensorlake;
 using MCPhappey.Tools.NoizAI;
 using MCPhappey.Tools.Rime;
+using MCPhappey.Tools.Valyu;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -221,6 +222,7 @@ builder.Services
 .AddSpeechify(appConfig?.DomainHeaders)
 .AddRime(appConfig?.DomainHeaders)
 .AddSpeechactors(appConfig?.DomainHeaders)
+.AddValyu(appConfig?.DomainHeaders)
 .AddVerbatik(appConfig?.DomainHeaders)
 .AddVenice(appConfig?.DomainHeaders)
 .AddWisdomGate(appConfig?.DomainHeaders)

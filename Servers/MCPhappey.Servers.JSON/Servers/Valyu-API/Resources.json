@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.valyu.ai/v1/datasources/categories",
+      "name": "valyu-api-datasource-categories",
+      "title": "Valyu Datasource Categories",
+      "description": "List all Valyu datasource categories with descriptions and dataset counts.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

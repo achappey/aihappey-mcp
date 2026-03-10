@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Valyu",
+    "title": "Valyu",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.valyu.ai",
+    "description": "Search real-time structured content from web & proprietary sources or run deep research tasks.",
+    "icons": [
+      {
+        "src": "https://pbs.twimg.com/profile_images/1988216499220238336/50QDcgT6_400x400.jpg"
+      }
+    ]
+  },
+  "baseMcp": "mcp.valyu.ai",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

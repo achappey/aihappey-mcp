@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.valyu.ai/v1/datasources/categories",
+      "name": "valyu-api-datasource-categories",
+      "title": "Valyu Datasource Categories",
+      "description": "Retrieve all available Valyu datasource categories as JSON.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.valyu.ai/v1/datasources?category={category}",
+      "name": "valyu-api-datasources-by-category",
+      "title": "Valyu Datasources By Category",
+      "description": "List Valyu datasources, optionally filtered by category.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
