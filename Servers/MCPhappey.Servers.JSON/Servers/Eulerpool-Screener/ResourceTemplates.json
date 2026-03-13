@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/screener/search/{query}",
+      "name": "eulerpool-symbol-search",
+      "title": "Eulerpool symbol search",
+      "description": "Searches for securities including stocks, ETFs and other instruments by name, ticker or ISIN.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.eulerpool.com/api/1/screener/universe",
+      "name": "eulerpool-screener-universe",
+      "title": "Eulerpool screener universe",
+      "description": "Returns the available countries and continents supported by the stock screener.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

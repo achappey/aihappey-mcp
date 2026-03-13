@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/bonds/prices/{isin}",
+      "name": "eulerpool-bond-prices",
+      "title": "Eulerpool bond prices",
+      "description": "Returns historical OHLC price data and volume for a bond identified by its ISIN.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/bonds/list?q={q}&exchange={exchange}&offset={offset}&limit={limit}",
+      "name": "eulerpool-bond-list",
+      "title": "Eulerpool bond list",
+      "description": "Returns a paginated list of bonds. Supports filtering by keyword (ISIN or description), exchange code, and pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/bonds/profile/{isin}",
+      "name": "eulerpool-bond-profile",
+      "title": "Eulerpool bond profile",
+      "description": "Returns profile information for a bond identified by its ISIN, including coupon, maturity date, issuer details and classification.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

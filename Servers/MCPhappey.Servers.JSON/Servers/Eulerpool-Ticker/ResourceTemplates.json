@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/trends/ticker-trends/{symbol}",
+      "name": "eulerpool-ticker-trends",
+      "title": "Eulerpool ticker trends",
+      "description": "Returns the current trend state and quote metrics for a symbol. If symbol=all the response returns trend data for all supported symbols.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

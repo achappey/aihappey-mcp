@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Eulerpool-Indices",
+    "title": "Eulerpool Indices",
+    "version": "1.0.0",
+    "websiteUrl": "https://eulerpool.com",
+    "description": "Index constituents and related listings",
+    "icons": [
+      {
+        "src": "https://www.eu-startups.com/wp-content/uploads/2024/10/eulerpool_logo.jpg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

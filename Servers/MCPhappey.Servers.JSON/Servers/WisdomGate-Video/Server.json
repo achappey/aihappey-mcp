@@ -4,7 +4,7 @@
     "title": "WisdomGate Video",
     "version": "1.0.0",
     "websiteUrl": "https://wisdom-gate.juheapi.com",
-    "description": "",
+    "description": "Generate AI videos from prompts",
     "icons": [
       {
         "src": "https://wisdom-gate.juheapi.com/favicon.ico"

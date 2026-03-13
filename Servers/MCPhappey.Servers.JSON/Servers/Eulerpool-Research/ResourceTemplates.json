@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/research/recommendations/{ticker}",
+      "name": "eulerpool-research-recommendations",
+      "title": "Eulerpool analyst recommendations",
+      "description": "Returns analyst recommendation trends for a company ticker, including strong buy, buy, hold, sell, strong sell counts and consensus price targets.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/research/news/{ticker}",
+      "name": "eulerpool-research-company-news",
+      "title": "Eulerpool company news",
+      "description": "Returns recent news articles mentioning a specific company ticker, including headline, summary, source, URL and publication timestamp.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/research/press-releases/{ticker}",
+      "name": "eulerpool-research-press-releases",
+      "title": "Eulerpool company press releases",
+      "description": "Returns official company press releases for a ticker symbol, including title, content and publication time.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

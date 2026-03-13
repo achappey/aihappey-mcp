@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/mutual-fund/holdings/{symbol}",
+      "name": "eulerpool-mutual-fund-holdings",
+      "title": "Eulerpool mutual fund holdings",
+      "description": "Returns the top holdings of a mutual fund identified by its ticker symbol.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/mutual-fund/countries/{symbol}",
+      "name": "eulerpool-mutual-fund-countries",
+      "title": "Eulerpool mutual fund country allocation",
+      "description": "Returns the geographic allocation breakdown of a mutual fund by ticker symbol.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/mutual-fund/profile/{isin}",
+      "name": "eulerpool-mutual-fund-profile",
+      "title": "Eulerpool mutual fund profile",
+      "description": "Returns profile and overview information for a mutual fund identified by its ISIN.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/mutual-fund/sectors/{symbol}",
+      "name": "eulerpool-mutual-fund-sectors",
+      "title": "Eulerpool mutual fund sector allocation",
+      "description": "Returns the sector allocation breakdown of a mutual fund identified by its ticker symbol.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

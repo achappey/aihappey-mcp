@@ -10,7 +10,7 @@
       }
     ]
   },
-  "instructions": "Payloads without select query string parameters are very large.\nRelated entities use a '.' behind the field name in select queries. There is NO need to include unused filter properties in resources. Resource templates are only supplied with all options to show all working options compact. It's not necessary to normalize the existing URLs in organizations/persons without the http(s) prefix in Simplicate.",
+  "instructions": "Payloads without select query string parameters are very large.\nRelated entities use a '.' behind the field name in select queries. There is NO need to include unused filter properties in resources. Resource templates are only supplied with all options to show all working options compact. URL fields without http/https are NO problem in Simplicate.",
   "headers": {
     "Authentication-Key": "Simplicate Api Key",
     "Authentication-Secret": "Simplicate Api Secret"

@@ -4,7 +4,7 @@
         "title": "OCR.space",
         "version": "1.0.0",
         "websiteUrl": "https://ocr.space",
-        "description": "",
+        "description": "OCR text from scans, screenshots, images, and PDFs",
         "icons": [
             {
                 "src": "https://ocr.space/Content/Images/icons/upload.png"

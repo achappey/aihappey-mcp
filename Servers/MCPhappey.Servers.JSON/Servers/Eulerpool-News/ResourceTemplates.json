@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/eulerpool-news/feed.xml?language={language}&type={type}",
+      "name": "eulerpool-news-feed-filtered",
+      "title": "Eulerpool news RSS feed filtered",
+      "description": "Returns the Eulerpool RSS news feed filtered by language and content type. Language example: de. Type examples: news, ticker.",
+      "mimeType": "application/rss+xml",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

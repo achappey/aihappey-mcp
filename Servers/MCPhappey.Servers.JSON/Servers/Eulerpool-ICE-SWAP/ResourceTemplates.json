@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/ice-swap/{code}",
+      "name": "eulerpool-ice-swap",
+      "title": "Eulerpool ICE-SWAP data",
+      "description": "Returns ICE-SWAP market data for a given code, including quote values across different maturity years.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

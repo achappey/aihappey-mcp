@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/calendar/dividends/{year}",
+      "name": "eulerpool-calendar-dividends",
+      "title": "Eulerpool dividend calendar",
+      "description": "Returns ex-dividend dates and dividend amounts for a given year. The year parameter can be a specific year (e.g. 2026) or 'initial' for the current year ±1 year.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/calendar/earnings/{date}",
+      "name": "eulerpool-calendar-earnings-week",
+      "title": "Eulerpool earnings calendar (weekly)",
+      "description": "Returns all earnings reports scheduled in the week containing the provided date (YYYY-MM-DD).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/calendar/earnings-by-symbol/{symbol}",
+      "name": "eulerpool-calendar-earnings-symbol",
+      "title": "Eulerpool earnings calendar by symbol",
+      "description": "Returns upcoming and historical earnings dates for a specific company identified by its ticker symbol.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/calendar/earnings-surprises/{symbol}",
+      "name": "eulerpool-calendar-earnings-surprises",
+      "title": "Eulerpool earnings surprises",
+      "description": "Returns historical earnings surprise data for a company, including EPS estimates, actual EPS, differences and surprise percentages.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

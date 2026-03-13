@@ -14,7 +14,8 @@ public static class WebSearch
 {
     private static readonly string[] ModelNames = ["sonar-pro", "gpt-5-mini", "gemini-2.5-flash",
         "claude-haiku-4-5-20251001", "grok-4-fast-non-reasoning", "mistral-medium-latest", "openai/gpt-oss-20b"];
-    private static readonly string[] AcademicModelNames = ["sonar-reasoning-pro", "gpt-5.1", "gemini-2.5-pro",
+    private static readonly string[] AcademicModelNames = ["sonar-reasoning-pro", "gpt-5.1", 
+        "gemini-2.5-pro",
         "claude-opus-4-1-20250805", "grok-4-fast-reasoning", "mistral-large-latest"];
 
     [Description("Perform a quick web search using Google AI with Google Search grounding.")]

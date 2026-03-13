@@ -1,0 +1,52 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://api.handinger.com/image?url={url}",
+            "name": "handinger-image",
+            "title": "Generate Website Screenshot",
+            "description": "Capture a screenshot for the supplied website URL through Handinger's image endpoint.",
+            "mimeType": "image/png",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.handinger.com/markdown?url={url}",
+            "name": "handinger-markdown",
+            "title": "Extract Website Content",
+            "description": "Retrieve webpage content from Handinger as markdown.",
+            "mimeType": "text/markdown",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.handinger.com/html?url={url}",
+            "name": "handinger-markdown",
+            "title": "Extract Website Content",
+            "description": "Retrieve webpage content from Handinger as html.",
+            "mimeType": "text/markdown",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.handinger.com/llm?url={url}&prompt={prompt}",
+            "name": "handinger-llm",
+            "title": "Run LLM Prompt Against Website",
+            "description": "Send a prompt together with a website URL to Handinger's llm endpoint so the service can answer using the page content. The api_key query parameter is omitted because it is injected at runtime.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        }
+    ]
+}

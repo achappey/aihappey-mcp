@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Kirha-Tools",
+    "title": "Kirha Tools",
+    "version": "1.0.0",
+    "websiteUrl": "https://kirha.com",
+    "description": "Browse and run Kirha tools by vertical.",
+    "icons": [
+      {
+        "src": "https://kirha.com/favicon.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Kirha.KirhaTools, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

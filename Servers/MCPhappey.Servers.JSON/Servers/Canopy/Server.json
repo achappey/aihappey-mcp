@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Canopy",
+        "title": "Canopy",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.canopyapi.co",
+        "description": "Canopy API MCP server exposing Amazon product, search, category, seller, author, deals, and bestseller GET endpoints as resources and resource templates.",
+        "icons": [
+            {
+                "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpFDxcVTAKGao9iwj3NTPOkUnfM3dHMkjzsQ&s"
+            }
+        ]
+    },
+    "headers": {
+        "API-KEY": "[Canopy_API_key]"
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

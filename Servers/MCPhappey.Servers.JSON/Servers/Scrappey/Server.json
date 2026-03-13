@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Scrappey",
+        "title": "Scrappey",
+        "version": "1.0.0",
+        "websiteUrl": "https://scrappey.com",
+        "description": "Scrappey browser scraping with request tools, session management, balance lookup, and GET resource templates for publisher.scrappey.com.",
+        "icons": [
+            {
+                "src": "https://docs.scrappey.com/favicon.ico"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Scrappey.ScrappeyService, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Simplicate.Extensions;
@@ -6,6 +7,7 @@ using MCPhappey.Simplicate.Options;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
+using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Simplicate.CRM;
 
@@ -239,6 +241,7 @@ public static partial class SimplicateCRM
                    Note = note,
                    LinkedInUrl = linkedInUrl,
                    Email = email,
+                   IsActive = true,
                    Url = url,
                    IndustryId = industryId
                },
@@ -263,10 +266,10 @@ public static partial class SimplicateCRM
 
     [Description("Update an organization in Simplicate CRM")]
     [McpServerTool(Title = "Update organization in Simplicate",
-    ReadOnly = false,
-    Idempotent = false,
-    Destructive = true,
-    OpenWorld = false)]
+            ReadOnly = false,
+            Idempotent = false,
+            Destructive = true,
+            OpenWorld = false)]
     public static async Task<CallToolResult?> SimplicateCRM_UpdateOrganization(
             string organizationId,
             IServiceProvider serviceProvider,
@@ -277,8 +280,10 @@ public static partial class SimplicateCRM
             string? phone = null,
             Uri? url = null,
             string? industryId = null,
+            string? relationManagerId = null,
             string? cocCode = null,
             string? vatNumber = null,
+            bool? isActive = null,
             Uri? linkedinUrl = null,
             CancellationToken cancellationToken = default)
     {
@@ -288,7 +293,9 @@ public static partial class SimplicateCRM
             Note = note,
             Email = email,
             Phone = phone,
+            RelationManagerId = relationManagerId,
             CocCode = cocCode,
+            IsActive = isActive,
             LinkedInUrl = linkedinUrl,
             VatNumber = vatNumber,
             Url = url,
@@ -297,7 +304,7 @@ public static partial class SimplicateCRM
 
         return await serviceProvider.PutSimplicateResourceMergedAsync(
             requestContext,
-            "/crm/organization/" + organizationId,
+            "/crm/organization/" + organizationId.EnsurePrefix("organization"),
             dto,
             d => new
             {
@@ -305,45 +312,52 @@ public static partial class SimplicateCRM
                 note = d.Note,
                 email = d.Email,
                 coc_code = d.CocCode,
+                is_active = d.IsActive,
                 phone = d.Phone,
                 linkedin_url = d.LinkedInUrl,
                 vat_number = d.VatNumber,
                 url = d.Url,
                 industry = !string.IsNullOrEmpty(d.IndustryId)
                     ? new { id = d.IndustryId }
+                    : null,
+                relation_manager = !string.IsNullOrEmpty(d.RelationManagerId)
+                    ? new { id = d.RelationManagerId }
                     : null
             },
-            cancellationToken);
+             cancellationToken);
     }
 
-
-    [Description("Create a new person in Simplicate CRM")]
-    [McpServerTool(Title = "Create new person in Simplicate", 
+    [Description("Delete an organization in Simplicate CRM after typed confirmation of the exact organization id.")]
+    [McpServerTool(Title = "Delete organization in Simplicate",
+        Name = "simplicate_crm_delete_organization",
         ReadOnly = false,
         Idempotent = false,
-        Destructive = true, OpenWorld = false)]
-    public static async Task<CallToolResult?> SimplicateCRM_CreatePerson(
-        [Description("The person's first name.")] string firstName,
-        [Description("The person's family name or surname.")] string familyName,
-      IServiceProvider serviceProvider,
-      RequestContext<CallToolRequestParams> requestContext,
-        [Description("A note or comment about the person.")] string? note = null,
-        [Description("The person's primary email address.")] string? email = null,
-        [Description("The person's phone number.")] string? phone = null,
-        [Description("The person's website URL, if available.")] Uri? websiteUrl = null,
-      CancellationToken cancellationToken = default) => await serviceProvider.PostSimplicateResourceAsync(
-        requestContext,
-        "/crm/person",
-        new SimplicateNewPerson
-        {
-            FirstName = firstName,
-            FamilyName = familyName,
-            Note = note,
-            Email = email,
-            Phone = phone,
-            WebsiteUrl = websiteUrl
-        },
-        cancellationToken
-    );
+        Destructive = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> SimplicateCRM_DeleteOrganization(
+        [Description("The Simplicate organization id.")] string organizationId,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default)
+    {
+        var normalizedOrganizationId = organizationId.EnsurePrefix("organization");
+
+        return await requestContext.ConfirmAndDeleteAsync<ConfirmDeleteSimplicateOrganization>(
+            expectedName: normalizedOrganizationId,
+            async ct => await serviceProvider.DeleteSimplicateResourceAsync(
+                requestContext,
+                "/crm/organization/" + normalizedOrganizationId,
+                $"Organization '{normalizedOrganizationId}' deleted.",
+                ct),
+            $"Organization '{normalizedOrganizationId}' deleted.",
+            cancellationToken);
+    }
+}
+
+[Description("Please confirm deletion of the Simplicate organization id: {0}")]
+public sealed class ConfirmDeleteSimplicateOrganization : IHasName
+{
+    [Description("Type the exact organization id to confirm deletion.")]
+    public string? Name { get; set; }
 }
 

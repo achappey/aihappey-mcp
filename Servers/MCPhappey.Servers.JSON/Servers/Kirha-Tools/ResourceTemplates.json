@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.kirha.ai/chat/v1/tools?vertical_id={verticalId}",
+      "name": "kirha-tools-by-vertical",
+      "title": "Kirha tools by vertical",
+      "description": "List Kirha tools for a specific vertical identifier.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

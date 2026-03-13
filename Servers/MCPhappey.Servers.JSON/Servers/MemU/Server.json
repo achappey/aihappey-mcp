@@ -1,0 +1,21 @@
+{
+    "serverInfo": {
+        "name": "MemU",
+        "title": "MemU",
+        "version": "1.0.0",
+        "websiteUrl": "https://memu.so",
+        "description": "AI memory system for storing and retrieving conversation data.",
+        "icons": [
+            {
+                "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3rQ4d34l6NSNuYEoX88onBulkAe-WJZiXcQ&s"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.MemU.MemUService, MCPhappey.Tools"
+    ],
+    "instructions": "Use the MemU conversation tools to build and maintain conversation drafts in the current user's OneDrive under /memu/conversations.json.",
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Files.ReadWrite"
+    }
+}

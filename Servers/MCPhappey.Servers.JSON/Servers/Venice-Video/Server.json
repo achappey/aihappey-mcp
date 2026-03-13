@@ -4,7 +4,7 @@
     "title": "Venice Video",
     "version": "1.0.0",
     "websiteUrl": "https://venice.ai",
-    "description": "",
+    "description": "Generate AI videos from prompts",
     "icons": [
       {
         "src": "https://cryptoast.fr/wp-content/uploads/2025/03/venice-ai-logo.png"

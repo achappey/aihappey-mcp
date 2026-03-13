@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/institutional/profile/{cik}",
+      "name": "eulerpool-institutional-profile",
+      "title": "Eulerpool institutional investor profile",
+      "description": "Returns profile information for an institutional investor identified by their SEC CIK number, including fund name, manager and portfolio value.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/institutional/portfolio/{cik}",
+      "name": "eulerpool-institutional-portfolio",
+      "title": "Eulerpool institutional 13F portfolio",
+      "description": "Returns the latest 13-F portfolio holdings of an institutional investor identified by their SEC CIK number, including positions, share counts and portfolio allocation percentages.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

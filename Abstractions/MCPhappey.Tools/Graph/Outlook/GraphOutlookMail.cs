@@ -265,6 +265,7 @@ public static class GraphOutlookMail
      [Description("Subject of the e-mail message.")] string? subject = null,
      [Description("Body of the e-mail message.")] string? body = null,
      [Description("Type of the message body (html or text).")] BodyType? bodyType = null,
+     [Description("Importance.")] Importance? importance = null,
      CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
@@ -277,6 +278,7 @@ public static class GraphOutlookMail
                 CcRecipients = ccRecipients,
                 Subject = subject,
                 Body = body,
+                Importance = importance,
                 BodyType = bodyType ?? BodyType.Text
             },
             cancellationToken
@@ -287,6 +289,7 @@ public static class GraphOutlookMail
         Message newMessage = new()
         {
             Subject = typed?.Subject,
+            Importance = typed?.Importance,
             Body = new ItemBody
             {
                 ContentType = typed?.BodyType,
@@ -408,15 +411,19 @@ public static class GraphOutlookMail
         [Description("Subject of the e-mail message.")]
         public string? Subject { get; set; }
 
-        [JsonPropertyName("body")]
-        [Required]
-        [Description("Body of the e-mail message.")]
-        public string? Body { get; set; }
+        [JsonPropertyName("importance")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [Description("Importance.")]
+        public Importance? Importance { get; set; }
 
         [JsonPropertyName("bodyType")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         [Description("Type of the message body (html or text).")]
         public BodyType? BodyType { get; set; }
 
+        [JsonPropertyName("body")]
+        [Required]
+        [Description("Body of the e-mail message.")]
+        public string? Body { get; set; }
     }
 }

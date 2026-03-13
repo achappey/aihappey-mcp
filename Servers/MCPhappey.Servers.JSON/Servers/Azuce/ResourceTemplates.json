@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://azuce.com/api/v1/forecast?latitude={latitude}&longitude={longitude}&systemSizeKw={systemSizeKw}&panelAzimuth={panelAzimuth}&panelTilt={panelTilt}&shadingLoss={shadingLoss}&systemLosses={systemLosses}&tempCoefficient={tempCoefficient}&address={address}&customerName={customerName}&enableFinancials={enableFinancials}&installedCost={installedCost}&electricityRate={electricityRate}&exportRate={exportRate}&selfConsumptionPct={selfConsumptionPct}&annualMaintenanceCost={annualMaintenanceCost}&annualDegradationPct={annualDegradationPct}&enableCarbon={enableCarbon}&gridKgCo2PerKwh={gridKgCo2PerKwh}&currencyCode={currencyCode}&currencySymbol={currencySymbol}&countryCode={countryCode}",
+      "name": "azuce-forecast-info-template",
+      "title": "Azuce forecast endpoint information",
+      "description": "Template form of the Azuce forecast endpoint including the full documented forecast parameter surface so clients can inspect or fill the same fields used by the POST forecast operation.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

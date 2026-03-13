@@ -20,6 +20,7 @@ using MCPhappey.Tools.StabilityAI.Models;
 using MCPhappey.Tools.Azure.DocumentIntelligence;
 using MCPhappey.Tools.Imagga;
 using MCPhappey.Tools.AsyncAI;
+using MCPhappey.Tools.DumplingAI;
 using MCPhappey.Tools.Mem0;
 using MCPhappey.Tools.Anthropic.Skills;
 using MCPhappey.Tools.ElevenLabs;
@@ -37,6 +38,7 @@ using MCPhappey.Tools.JinaAI;
 using MCPhappey.Tools.Runware;
 using MCPhappey.Tools.QuiverAI;
 using MCPhappey.Tools.EdenAI;
+using MCPhappey.Tools.Azuce;
 using MCPhappey.Tools.VoyageAI;
 using MCPhappey.Tools.AIML;
 using MCPhappey.Tools.SPAMhunter;
@@ -58,6 +60,7 @@ using MCPhappey.Tools.DeepL;
 using MCPhappey.Tools.RekaAI;
 using MCPhappey.Tools.Recraft;
 using MCPhappey.Tools.RegoloAI;
+using MCPhappey.Tools.Scrappey;
 using MCPhappey.Tools.Scaleway;
 using MCPhappey.Tools.SiliconFlow;
 using MCPhappey.Tools.Upstage;
@@ -108,6 +111,8 @@ using MCPhappey.Tools.Tensorlake;
 using MCPhappey.Tools.NoizAI;
 using MCPhappey.Tools.Rime;
 using MCPhappey.Tools.Valyu;
+using MCPhappey.Tools.Kirha;
+using MCPhappey.Tools.MemU;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -176,11 +181,13 @@ builder.Services
 .AddPerplexity(appConfig?.DomainHeaders)
 .AddParallel(appConfig?.DomainHeaders)
 .AddImagga(appConfig?.DomainHeaders)
-.AddSupadata(appConfig?.DomainHeaders)
-.AddAIsa(appConfig?.DomainHeaders)
-.AddRunway(appConfig?.DomainHeaders)
+ .AddSupadata(appConfig?.DomainHeaders)
+ .AddAzuce(appConfig?.DomainHeaders)
+ .AddAIsa(appConfig?.DomainHeaders)
+ .AddRunway(appConfig?.DomainHeaders)
 .AddReplicate(appConfig?.DomainHeaders)
 .AddPinecone(appConfig?.DomainHeaders)
+.AddKirha(appConfig?.DomainHeaders)
 .AddCohere(appConfig?.DomainHeaders)
 .AddJinaAI(appConfig?.DomainHeaders)
 .AddAzureMaps(appConfig?.DomainHeaders)
@@ -236,9 +243,10 @@ builder.Services
 .AddNoizAI(appConfig?.DomainHeaders)
 .AddKugu(appConfig?.DomainHeaders)
 .AddMorpheus(appConfig?.DomainHeaders)
-.AddInfomaniak(appConfig?.DomainHeaders)
-.AddDaglo(appConfig?.DomainHeaders)
-.AddMonica(appConfig?.DomainHeaders)
+ .AddInfomaniak(appConfig?.DomainHeaders)
+ .AddDaglo(appConfig?.DomainHeaders)
+ .AddDumplingAI(appConfig?.DomainHeaders)
+ .AddMonica(appConfig?.DomainHeaders)
 .AddIdeogram(appConfig?.DomainHeaders)
 .AddPicsart(appConfig?.DomainHeaders)
 .AddTinfoil(appConfig?.DomainHeaders)
@@ -253,9 +261,11 @@ builder.Services
 .AddLLMLayer(appConfig?.DomainHeaders)
 .AddWebsearchAPI(appConfig?.DomainHeaders)
 .AddQomplement(appConfig?.DomainHeaders)
-.AddNimbleWay(appConfig?.DomainHeaders)
-.AddRijkswaterstaat()
-.AddEuropeanUnionVies();
+ .AddNimbleWay(appConfig?.DomainHeaders)
+ .AddMemU(appConfig?.DomainHeaders)
+ .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)
+ .AddRijkswaterstaat()
+ .AddEuropeanUnionVies();
 
 if (appConfig?.DomainHeaders is { } headers)
 {

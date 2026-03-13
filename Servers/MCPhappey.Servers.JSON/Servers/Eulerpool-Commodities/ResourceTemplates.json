@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/commodity/profile/{ticker}",
+      "name": "eulerpool-commodity-profile",
+      "title": "Eulerpool commodity profile",
+      "description": "Returns profile information for a commodity such as Gold, Crude Oil, Silver or Natural Gas. Requires the commodity ticker (e.g. GC=F or CL=F).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/commodity/quotes/{ticker}?startdate={startdate}&enddate={enddate}",
+      "name": "eulerpool-commodity-quotes",
+      "title": "Eulerpool commodity quotes",
+      "description": "Returns historical price data for a commodity ticker. Optional startdate and enddate parameters define the time range in milliseconds since Unix epoch.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

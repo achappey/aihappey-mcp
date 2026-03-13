@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.kirha.com/billing/v1/account/balance",
+      "name": "kirha-account-balance",
+      "title": "Kirha account balance",
+      "description": "Get the current Kirha account balance, subscription balance, and top-up balance.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

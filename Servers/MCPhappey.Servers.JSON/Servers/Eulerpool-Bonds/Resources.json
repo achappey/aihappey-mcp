@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.eulerpool.com/api/1/bonds/yield-curve",
+      "name": "eulerpool-bond-yield-curve",
+      "title": "Eulerpool bond yield curve",
+      "description": "Returns the latest Treasury yield curve across maturities (e.g. 1y, 2y, 10y, 30y).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

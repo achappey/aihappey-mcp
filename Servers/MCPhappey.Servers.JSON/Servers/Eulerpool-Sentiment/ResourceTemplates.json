@@ -1,0 +1,88 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/sentiment/insider-sentiment/{isin}",
+      "name": "eulerpool-insider-sentiment",
+      "title": "Eulerpool insider sentiment",
+      "description": "Returns monthly insider sentiment (MSPR - Monthly Share Purchase Ratio) for a stock identified by its ISIN.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/sentiment/news-sentiment/{isin}",
+      "name": "eulerpool-news-sentiment",
+      "title": "Eulerpool news sentiment",
+      "description": "Returns aggregated news sentiment metrics for a stock identified by its ISIN, including bullish and bearish percentages and news activity.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/sentiment/social-sentiment/{isin}",
+      "name": "eulerpool-social-sentiment",
+      "title": "Eulerpool social sentiment",
+      "description": "Returns social media sentiment data from Reddit and Twitter for a stock identified by its ISIN.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/sentiment/price-metrics/{isin}",
+      "name": "eulerpool-price-metrics",
+      "title": "Eulerpool price metrics",
+      "description": "Returns price performance statistics for a stock identified by its ISIN, including 52-week high/low, trading volume averages and beta.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/sentiment/fund-ownership/{isin}",
+      "name": "eulerpool-fund-ownership",
+      "title": "Eulerpool fund ownership",
+      "description": "Returns mutual fund holders and allocation percentages for a stock identified by its ISIN.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/sentiment/institutional-ownership/{isin}",
+      "name": "eulerpool-institutional-ownership",
+      "title": "Eulerpool institutional ownership",
+      "description": "Returns institutional investor holdings from 13-F filings for a stock identified by its ISIN.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/sentiment/sector-metrics?region={region}",
+      "name": "eulerpool-sector-metrics",
+      "title": "Eulerpool sector metrics",
+      "description": "Returns average and median financial ratios by sector for a given region. Supported regions include NA, EU and Asia.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

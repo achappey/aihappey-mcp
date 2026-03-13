@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.memu.so/api/v3/memory/memorize/status/{task_id}",
+      "name": "memu-memorize-status",
+      "title": "Get MemU memorization task status",
+      "description": "Retrieve the current status of a MemU memorization task by task id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

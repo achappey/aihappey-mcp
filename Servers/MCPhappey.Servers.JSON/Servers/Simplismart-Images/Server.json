@@ -4,7 +4,7 @@
     "title": "Simplismart Images",
     "version": "1.0.0",
     "websiteUrl": "https://simplismart.ai",
-    "description": "",
+    "description": "Generate AI images from prompts",
     "icons": [
       {
         "src": "https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/d54ab4fa20db4b0f887938e7a118d979?ik-sanitizeSvg=true"

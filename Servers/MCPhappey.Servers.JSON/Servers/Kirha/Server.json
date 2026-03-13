@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Kirha",
+    "title": "Kirha",
+    "version": "1.0.0",
+    "websiteUrl": "https://kirha.com",
+    "description": "Kirha is a search API for AI agents to query paid data from external providers.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D4E0BAQFnlCyAesvRAg/company-logo_200_200/B4EZuDb53xKUAI-/0/1767436689350/kirha_logo?e=2147483647&v=beta&t=dNGPCj3Ug55VLL5uMdLB66rn0G8M6o_dkCT-0Jl5n4o"
+      }
+    ]
+  },
+  "baseMcp": "mcp.kirha.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

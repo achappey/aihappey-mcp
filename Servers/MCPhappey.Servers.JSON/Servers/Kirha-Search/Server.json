@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Kirha-Search",
+    "title": "Kirha Search",
+    "version": "1.0.0",
+    "websiteUrl": "https://kirha.com",
+    "description": "Search trusted paid data sources with Kirha.",
+    "icons": [
+      {
+        "src": "https://kirha.com/favicon.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Kirha.KirhaSearch, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

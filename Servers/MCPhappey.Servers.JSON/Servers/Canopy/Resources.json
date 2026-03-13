@@ -1,0 +1,40 @@
+{
+  "resources": [
+    {
+      "uri": "https://rest.canopyapi.co/api/amazon/categories",
+      "name": "canopy-amazon-categories",
+      "title": "Canopy Amazon categories",
+      "description": "Returns the root Amazon product category taxonomy using Canopy's default US domain.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://rest.canopyapi.co/api/amazon/deals",
+      "name": "canopy-amazon-deals",
+      "title": "Canopy Amazon deals",
+      "description": "Returns current Amazon deals using Canopy's default US domain and default paging.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://rest.canopyapi.co/api/amazon/bestsellers",
+      "name": "canopy-amazon-bestsellers",
+      "title": "Canopy Amazon best sellers",
+      "description": "Returns Amazon best sellers using Canopy's default US domain and default paging.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

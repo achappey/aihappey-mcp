@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.eulerpool.com/api/1/eulerpool-news/feed.xml",
+      "name": "eulerpool-news-feed",
+      "title": "Eulerpool news RSS feed",
+      "description": "Returns the global Eulerpool RSS news feed containing all recent financial news articles.",
+      "mimeType": "application/rss+xml",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

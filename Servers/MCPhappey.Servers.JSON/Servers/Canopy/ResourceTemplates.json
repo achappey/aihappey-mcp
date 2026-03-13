@@ -1,0 +1,172 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/product?asin={asin}&url={url}&gtin={gtin}&domain={domain}",
+      "name": "canopy-amazon-product",
+      "title": "Canopy Amazon product information",
+      "description": "Get Amazon product information by ASIN, Amazon URL, or GTIN. Domain is optional and defaults to US.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/product/variants?asin={asin}&url={url}&gtin={gtin}&domain={domain}",
+      "name": "canopy-amazon-product-variants",
+      "title": "Canopy Amazon product variants",
+      "description": "Get Amazon product variants by ASIN, Amazon URL, or GTIN. Domain is optional and defaults to US.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/product/stock?asin={asin}&url={url}&gtin={gtin}&domain={domain}",
+      "name": "canopy-amazon-product-stock",
+      "title": "Canopy Amazon product stock estimates",
+      "description": "Get Amazon product stock estimates by ASIN, Amazon URL, or GTIN. Domain is optional and defaults to US.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/product/sales?asin={asin}&url={url}&gtin={gtin}&domain={domain}",
+      "name": "canopy-amazon-product-sales",
+      "title": "Canopy Amazon product sales estimates",
+      "description": "Get Amazon product sales estimates by ASIN, Amazon URL, or GTIN. Domain is optional and defaults to US.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/product/reviews?asin={asin}&url={url}&gtin={gtin}&domain={domain}",
+      "name": "canopy-amazon-product-reviews",
+      "title": "Canopy Amazon product reviews",
+      "description": "Get top Amazon product reviews by ASIN, Amazon URL, or GTIN. Domain is optional and defaults to US.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/product/offers?asin={asin}&url={url}&gtin={gtin}&domain={domain}&page={page}",
+      "name": "canopy-amazon-product-offers",
+      "title": "Canopy Amazon product offers",
+      "description": "Get Amazon product offers by ASIN, Amazon URL, or GTIN. Domain and page are optional.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/search?searchTerm={searchTerm}&domain={domain}&categoryId={categoryId}&page={page}&limit={limit}&minPrice={minPrice}&maxPrice={maxPrice}&conditions={conditions}&sort={sort}",
+      "name": "canopy-amazon-search",
+      "title": "Canopy Amazon product search",
+      "description": "Search Amazon products by search term with optional domain, category, paging, price filters, conditions, and sort order.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/autocomplete?searchTerm={searchTerm}&domain={domain}&category={category}",
+      "name": "canopy-amazon-autocomplete",
+      "title": "Canopy Amazon search autocomplete",
+      "description": "Get Amazon autocomplete suggestions for a search term with optional domain and category alias.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/categories?domain={domain}",
+      "name": "canopy-amazon-categories-template",
+      "title": "Canopy Amazon category taxonomy",
+      "description": "Get the root Amazon category taxonomy. Domain is optional and defaults to US.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/category?categoryId={categoryId}&domain={domain}&page={page}&sort={sort}",
+      "name": "canopy-amazon-category",
+      "title": "Canopy Amazon category information",
+      "description": "Get Amazon category information and category product results by category ID with optional domain, page, and sort.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/seller?sellerId={sellerId}&domain={domain}&page={page}",
+      "name": "canopy-amazon-seller",
+      "title": "Canopy Amazon seller information",
+      "description": "Get Amazon seller information and seller product results by seller ID with optional domain and page.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/author?asin={asin}&domain={domain}&page={page}",
+      "name": "canopy-amazon-author",
+      "title": "Canopy Amazon author information",
+      "description": "Get Amazon author information and book results by author ASIN with optional domain and page.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/deals?domain={domain}&page={page}&limit={limit}&categoryIds={categoryIds}",
+      "name": "canopy-amazon-deals-template",
+      "title": "Canopy Amazon deals",
+      "description": "Get Amazon deals with optional domain, page, limit, and comma-separated category IDs.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://rest.canopyapi.co/api/amazon/bestsellers?domain={domain}&page={page}&limit={limit}&categoryId={categoryId}&url={url}",
+      "name": "canopy-amazon-bestsellers-template",
+      "title": "Canopy Amazon best sellers",
+      "description": "Get Amazon best sellers with optional domain, page, limit, category ID, or a specific Amazon best-sellers URL.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

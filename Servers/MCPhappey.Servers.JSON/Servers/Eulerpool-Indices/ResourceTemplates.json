@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/index/constituents/{id}",
+      "name": "eulerpool-index-constituents",
+      "title": "Eulerpool index constituents",
+      "description": "Returns companies that are part of a stock market index such as S&P 500, DAX, Nasdaq 100 or Dow Jones.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/index/constituents/{id}?start={start}&end={end}",
+      "name": "eulerpool-index-constituents-paginated",
+      "title": "Eulerpool index constituents paginated",
+      "description": "Returns companies in a stock market index with pagination controls using start and end offsets.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

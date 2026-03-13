@@ -15,6 +15,11 @@ public static class SimplicateExtensions
     private static readonly JsonSerializerOptions JsonSerializerOptions = new()
     { PropertyNameCaseInsensitive = true };
 
+    public static string EnsurePrefix(
+               this string value,
+               string prefix)
+               => value.StartsWith($"{prefix}:") ? value : $"{prefix}:{value}";
+
     public static string GetApiUrl(
            this SimplicateOptions options,
            string endpoint)
@@ -77,7 +82,7 @@ public static class SimplicateExtensions
             var markdown =
                 $"<details><summary><a href=\"{url}\" target=\"blank\">{new Uri(url).Host}</a></summary>\n\n```\n{JsonSerializer.Serialize(result)}\n```\n</details>";
 
-            await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, 
+            await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug,
                 cancellationToken: cancellationToken);
 
             results.AddRange(result.Data);
@@ -401,7 +406,10 @@ public static class SimplicateExtensions
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
     {
-        var json = JsonSerializer.Serialize(item, JsonSerializerOptions.Web);
+        var json = JsonSerializer.Serialize(item, new JsonSerializerOptions(JsonSerializerOptions.Web)
+        {
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+        });
 
         if (LoggingLevel.Debug.ShouldLog(requestContext.Server.LoggingLevel))
         {
@@ -425,5 +433,31 @@ public static class SimplicateExtensions
         }
 
         return response.ToJsonContentBlock($"{baseUrl}/{response?.Data.Id}");
+    }
+
+    public static async Task<CallToolResult?> DeleteSimplicateResourceAsync(
+        this IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string relativePath,
+        string successText,
+        CancellationToken cancellationToken = default)
+    {
+        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+        var url = simplicateOptions.GetApiUrl(relativePath);
+
+        var scraper = serviceProvider.GetServices<IContentScraper>()
+                                     .OfType<SimplicateScraper>()
+                                     .First();
+
+        if (LoggingLevel.Debug.ShouldLog(requestContext.Server.LoggingLevel))
+        {
+            await requestContext.Server.SendMessageNotificationAsync(
+                $"<details><summary>DELETE <code>{url}</code></summary></details>",
+                LoggingLevel.Debug,
+                cancellationToken: cancellationToken);
+        }
+
+        await scraper.DeleteContentAsync(serviceProvider, url, cancellationToken);
+        return successText.ToTextCallToolResponse();
     }
 }

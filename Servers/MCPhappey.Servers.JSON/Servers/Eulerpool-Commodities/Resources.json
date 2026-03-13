@@ -1,0 +1,14 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.eulerpool.com/api/1/commodity/list",
+      "name": "eulerpool-commodities-list",
+      "title": "Eulerpool commodities list",
+      "description": "Returns a list of all available commodities with their current prices and metadata.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

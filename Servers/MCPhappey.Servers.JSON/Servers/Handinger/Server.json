@@ -1,0 +1,14 @@
+{
+    "serverInfo": {
+        "name": "Handinger",
+        "title": "Handinger",
+        "version": "1.0.0",
+        "websiteUrl": "https://handinger.com",
+        "description": "Handinger MCP server exposing documented GET endpoints as resource templates for webpage screenshots, extracted markdown content, and LLM-ready page summarization flows.",
+        "icons": [
+            {
+                "src": "https://handinger.com/favicon.ico"
+            }
+        ]
+    }
+}

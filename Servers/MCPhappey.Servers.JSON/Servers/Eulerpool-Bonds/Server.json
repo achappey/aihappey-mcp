@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Eulerpool-Bonds",
+    "title": "Eulerpool Bonds",
+    "version": "1.0.0",
+    "websiteUrl": "https://eulerpool.com",
+    "description": "Bond prices, profiles, lists, and yield curve data",
+    "icons": [
+      {
+        "src": "https://www.eu-startups.com/wp-content/uploads/2024/10/eulerpool_logo.jpg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

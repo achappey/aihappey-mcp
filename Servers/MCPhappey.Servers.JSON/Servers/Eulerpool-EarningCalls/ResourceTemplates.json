@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/earning-calls/list/{ticker}",
+      "name": "eulerpool-earning-calls-list",
+      "title": "Eulerpool earning call transcripts by ticker",
+      "description": "Returns a list of earning call transcript summaries for a company ticker symbol. Includes transcript ID, publication date, title and available media links.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/earning-calls/transcript/{id}",
+      "name": "eulerpool-earning-call-transcript",
+      "title": "Eulerpool earning call transcript",
+      "description": "Returns the full earning call transcript content identified by its transcript ID, including participants and parsed dialogue entries.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

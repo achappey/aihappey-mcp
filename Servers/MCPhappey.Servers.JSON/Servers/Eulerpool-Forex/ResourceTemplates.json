@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.eulerpool.com/api/1/forex/rates/{basecurrency}",
+      "name": "eulerpool-forex-rates",
+      "title": "Eulerpool forex rates",
+      "description": "Returns current exchange rates for a specified base currency (e.g. EUR, USD, GBP). The response includes the base currency and a map of conversion rates to other currencies.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

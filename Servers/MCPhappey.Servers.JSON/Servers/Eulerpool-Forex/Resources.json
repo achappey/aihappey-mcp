@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.eulerpool.com/api/1/forex/list",
+      "name": "eulerpool-forex-list",
+      "title": "Eulerpool forex base currencies",
+      "description": "Returns a list of all available base currencies that can be used to request foreign exchange rates.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+    "serverInfo": {
+        "name": "Azuce",
+        "title": "Azuce",
+        "version": "1.0.0",
+        "websiteUrl": "https://azuce.com",
+        "description": "Solar production forecasts with financial and carbon impact analysis.",
+        "icons": [
+            {
+                "src": "https://azuce.com/_next/image?url=%2Fazuce-logo.png&w=640&q=75"
+            }
+        ]
+    },
+    "headers": {
+        "Authorization": "Bearer [Azuce_API_key]"
+    },
+    "plugins": [
+        "MCPhappey.Tools.Azuce.AzuceForecast, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

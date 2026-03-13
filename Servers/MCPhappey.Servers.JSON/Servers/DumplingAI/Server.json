@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "DumplingAI",
+    "title": "DumplingAI",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.dumplingai.com",
+    "description": "DumplingAI gives your AI agents and automations access to clean, reliable, real-time data from the web, social media, search, documents, video, audio, and more.",
+    "icons": [
+      {
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.dumplingai.com&size=128"
+      }
+    ]
+  },
+  "baseMcp": "mcp.dumplingai.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

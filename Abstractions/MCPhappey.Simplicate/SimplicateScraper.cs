@@ -138,6 +138,29 @@ public class SimplicateScraper(
         return JsonSerializer.Deserialize<SimplicateNewItemData>(respContent);
     }
 
+    public async Task DeleteContentAsync(
+        IServiceProvider serviceProvider,
+        string url,
+        CancellationToken cancellationToken = default)
+    {
+        var tokenProvider = serviceProvider.GetService<HeaderProvider>();
+        var (key, secret) = await TryGetKeySecretAsync(tokenProvider, cancellationToken);
+        if (key is null || secret is null)
+            throw new InvalidOperationException("Missing Simplicate credentials.");
+
+        var client = _httpClientFactory.CreateClient();
+        client.DefaultRequestHeaders.Add(AuthenticationKey, key);
+        client.DefaultRequestHeaders.Add(AuthenticationSecret, secret);
+
+        using var response = await client.DeleteAsync(url, cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync(cancellationToken);
+            throw new InvalidOperationException($"DELETE failed: {response.StatusCode} - {error}");
+        }
+    }
+
     private async Task<(string Key, string Secret)?> GetCredentialsAsync(
         string oid,
         CancellationToken cancellationToken)

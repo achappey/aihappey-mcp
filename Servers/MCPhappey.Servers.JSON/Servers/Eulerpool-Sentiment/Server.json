@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Eulerpool-Sentiment",
+    "title": "Eulerpool Sentiment",
+    "version": "1.0.0",
+    "websiteUrl": "https://eulerpool.com",
+    "description": "News, social, insider, and ownership sentiment data",
+    "icons": [
+      {
+        "src": "https://www.eu-startups.com/wp-content/uploads/2024/10/eulerpool_logo.jpg"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
