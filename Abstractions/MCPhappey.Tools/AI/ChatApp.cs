@@ -35,12 +35,13 @@ public static class ChatApp
 
         var meta = new Dictionary<string, object> {
             { "openai", options },
+            { "pollinations", options },
         };
 
         // Pick the model you want (same as before or allow config)
-        var modelName = "gpt-5-mini"; // or any default model you prefer
 
-        // Optional: Logging/notification
+        List<string> modelNames = ["gpt-5-mini", "openai"];
+
         var markdown = $"Generating conversation name...\nUser: {userMessage}";
         await mcpServer.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: cancellationToken);
 
@@ -49,7 +50,7 @@ public static class ChatApp
             mcpServer,
             "conversation-name", // prompt template name
             promptArgs,
-            modelName,
+            modelHints: modelNames,
             metadata: meta,
             cancellationToken: cancellationToken
         );
@@ -171,6 +172,7 @@ public static class ChatApp
 
         var meta = new Dictionary<string, object> {
             { "openai", options },
+            { "pollinations", options },
         };
 
         async Task<IEnumerable<ContentBlock>?> SampleAsync() =>
