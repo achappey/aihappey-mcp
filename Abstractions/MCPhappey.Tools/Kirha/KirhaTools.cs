@@ -11,7 +11,7 @@ namespace MCPhappey.Tools.Kirha;
 public static class KirhaTools
 {
     [Description("Execute a Kirha hosted tool and return the tool result, usage, and error state as structured content.")]
-    [McpServerTool(Title = "Kirha tool execute", Name = "kirha_tools_execute", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Kirha tool execute", Name = "kirha_tools_execute", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> ExecuteTool(
         [Description("Kirha tool name to execute.")] string toolName,
         IServiceProvider serviceProvider,

@@ -249,7 +249,7 @@ public static partial class SimplicateHRM
         [Description("Get Simplicate leaves totals grouped on employee and leave type")]
         [McpServerTool(Title = "Get Simplicate leave totals",
             Name = "simplicate_hrm_get_leave_totals",
-            OpenWorld = false, ReadOnly = true, UseStructuredContent = true)]
+            OpenWorld = false, ReadOnly = true)]
         public static async Task<CallToolResult?> SimplicateHRM_GetLeaveTotals2(
             [Description("Team to get the leave totals for")] string teamName,
             IServiceProvider serviceProvider,

@@ -24,8 +24,7 @@ public static class deAPIPromptEnhancement
         Title = "deAPI Image Prompt Booster",
         Name = "deapi_prompt_enhance_image",
         ReadOnly = true,
-        OpenWorld = true,
-        UseStructuredContent = true)]
+        OpenWorld = true)]
     public static async Task<PromptEnhancementResult> deAPI_Prompt_EnhanceImage(
         IServiceProvider serviceProvider,
         [Description("Prompt to enhance (minimum 3 characters).")]
@@ -52,8 +51,8 @@ public static class deAPIPromptEnhancement
         Title = "deAPI Video Prompt Booster",
         Name = "deapi_prompt_enhance_video",
         ReadOnly = true,
-        OpenWorld = true,
-        UseStructuredContent = true)]
+        OpenWorld = true
+        )]
     public static async Task<PromptEnhancementResult> deAPI_Prompt_EnhanceVideo(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -147,8 +146,8 @@ public static class deAPIPromptEnhancement
         Title = "deAPI Image-to-Image Prompt Booster",
         Name = "deapi_prompt_enhance_image_to_image",
         ReadOnly = true,
-        OpenWorld = true,
-        UseStructuredContent = true)]
+        OpenWorld = true
+        )]
     public static async Task<PromptEnhancementResult> deAPI_Prompt_EnhanceImageToImage(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

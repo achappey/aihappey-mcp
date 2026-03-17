@@ -12,7 +12,7 @@ namespace MCPhappey.Tools.DumplingAI;
 public static class DumplingAIWebScraping
 {
     [Description("Scrape a URL with DumplingAI and return structured content, markdown, HTML, or other extracted page data.")]
-    [McpServerTool(Title = "DumplingAI scrape", Name = "dumplingai_scrape", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI scrape", Name = "dumplingai_scrape", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_Scrape(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -34,7 +34,7 @@ public static class DumplingAIWebScraping
             $"DumplingAI scrape completed for {url}.");
 
     [Description("Crawl a website or sitemap with DumplingAI and return captured pages and crawl metadata as structured content.")]
-    [McpServerTool(Title = "DumplingAI crawl website", Name = "dumplingai_crawl", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI crawl website", Name = "dumplingai_crawl", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_Crawl(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -58,7 +58,7 @@ public static class DumplingAIWebScraping
             $"DumplingAI crawl completed for {url}.");
 
     [Description("Capture a screenshot or PDF rendition of a URL with DumplingAI and return the resulting structured response.")]
-    [McpServerTool(Title = "DumplingAI screenshot", Name = "dumplingai_screenshot", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI screenshot", Name = "dumplingai_screenshot", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_Screenshot(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -84,7 +84,7 @@ public static class DumplingAIWebScraping
             $"DumplingAI screenshot completed for {url}.");
 
     [Description("Extract structured content from raw text, HTML, a URL, or a document or image file sent as base64 or fileUrl.")]
-    [McpServerTool(Title = "DumplingAI extract", Name = "dumplingai_extract", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI extract", Name = "dumplingai_extract", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_Extract(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

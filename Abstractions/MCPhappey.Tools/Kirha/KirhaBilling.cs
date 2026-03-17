@@ -10,7 +10,7 @@ namespace MCPhappey.Tools.Kirha;
 public static class KirhaBilling
 {
     [Description("Initiate a Kirha account top-up and return payment instructions as structured content.")]
-    [McpServerTool(Title = "Kirha account top-up", Name = "kirha_billing_account_topup", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Kirha account top-up", Name = "kirha_billing_account_topup", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> AccountTopup(
         [Description("Top-up type. Currently only 'crypto' is supported.")] string type,
         [Description("Currency identifier, for example 'eth'.")] string currencyId,
@@ -37,7 +37,7 @@ public static class KirhaBilling
             }));
 
     [Description("Confirm a Kirha account top-up using the blockchain transaction hash.")]
-    [McpServerTool(Title = "Kirha account top-up complete", Name = "kirha_billing_account_topup_complete", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Kirha account top-up complete", Name = "kirha_billing_account_topup_complete", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> AccountTopupComplete(
         [Description("Identifier of the created top-up.")] string id,
         [Description("Blockchain transaction hash for the payment.")] string transactionHash,

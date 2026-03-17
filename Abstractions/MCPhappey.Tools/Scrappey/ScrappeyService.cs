@@ -13,7 +13,7 @@ namespace MCPhappey.Tools.Scrappey;
 public static class ScrappeyService
 {
     [Description("Get the remaining Scrappey request balance.")]
-    [McpServerTool(Title = "Scrappey remaining balance", Name = "scrappey_balance_get", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Scrappey remaining balance", Name = "scrappey_balance_get", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> Scrappey_Balance_Get(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -42,7 +42,7 @@ public static class ScrappeyService
             }));
 
     [Description("Submit a Scrappey POST browser request and return the structured response.")]
-    [McpServerTool(Title = "Scrappey POST browser request", Name = "scrappey_request_post", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Scrappey POST browser request", Name = "scrappey_request_post", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> Scrappey_Request_Post(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -96,7 +96,7 @@ public static class ScrappeyService
             }));
 
     [Description("Submit an advanced Scrappey POST browser automation request with browser actions and structured response.")]
-    [McpServerTool(Title = "Scrappey advanced POST browser request", Name = "scrappey_request_post_advanced", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Scrappey advanced POST browser request", Name = "scrappey_request_post_advanced", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> Scrappey_Request_Post_Advanced(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -163,7 +163,7 @@ public static class ScrappeyService
             }));
 
     [Description("Create a persistent Scrappey browser session.")]
-    [McpServerTool(Title = "Scrappey session create", Name = "scrappey_session_create", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Scrappey session create", Name = "scrappey_session_create", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> Scrappey_Session_Create(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -185,7 +185,7 @@ public static class ScrappeyService
             }));
 
     [Description("Destroy a Scrappey browser session.")]
-    [McpServerTool(Title = "Scrappey session destroy", Name = "scrappey_session_destroy", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Scrappey session destroy", Name = "scrappey_session_destroy", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> Scrappey_Session_Destroy(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

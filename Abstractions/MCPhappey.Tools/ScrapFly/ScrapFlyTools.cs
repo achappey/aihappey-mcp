@@ -19,7 +19,7 @@ public static class ScrapFlyTools
     private const string JsonMimeType = "application/json";
 
     [Description("Scrape a webpage with ScrapFly Web Scraping API. Supports ScrapFly formats, anti-bot options, and optional SharePoint/OneDrive file outputs via uploaded artifacts.")]
-    [McpServerTool(Title = "ScrapFly scrape", Name = "scrapfly_scrape", Destructive = false, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "ScrapFly scrape", Name = "scrapfly_scrape", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> ScrapFly_Scrape(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -87,7 +87,7 @@ public static class ScrapFlyTools
             }));
 
     [Description("Capture a website screenshot with ScrapFly Screenshot API and upload the image output as a resource link block.")]
-    [McpServerTool(Title = "ScrapFly screenshot", Name = "scrapfly_screenshot", Destructive = false, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "ScrapFly screenshot", Name = "scrapfly_screenshot", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> ScrapFly_Screenshot(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -143,7 +143,7 @@ public static class ScrapFlyTools
             }));
 
     [Description("Extract structured data or answers from text, markdown, HTML, or other readable fileUrl content with ScrapFly Extraction API.")]
-    [McpServerTool(Title = "ScrapFly extraction", Name = "scrapfly_extraction", Destructive = false, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "ScrapFly extraction", Name = "scrapfly_extraction", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> ScrapFly_Extraction(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -190,7 +190,7 @@ public static class ScrapFlyTools
             }));
 
     [Description("Start a ScrapFly crawler job, poll until it finishes, and optionally return URLs, contents, or uploaded artifacts when ready.")]
-    [McpServerTool(Title = "ScrapFly crawl", Name = "scrapfly_crawl", Destructive = false, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "ScrapFly crawl", Name = "scrapfly_crawl", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> ScrapFly_Crawl(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -408,7 +408,7 @@ public static class ScrapFlyTools
             }));
 
     [Description("List crawled URLs for a ScrapFly crawler job.")]
-    [McpServerTool(Title = "ScrapFly crawl URLs", Name = "scrapfly_crawl_urls", Destructive = false, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "ScrapFly crawl URLs", Name = "scrapfly_crawl_urls", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> ScrapFly_Crawl_Urls(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -434,7 +434,7 @@ public static class ScrapFlyTools
             cancellationToken);
 
     [Description("Retrieve crawl contents for one URL or all pages in a selected format.")]
-    [McpServerTool(Title = "ScrapFly crawl contents", Name = "scrapfly_crawl_contents", Destructive = false, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "ScrapFly crawl contents", Name = "scrapfly_crawl_contents", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> ScrapFly_Crawl_Contents(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -459,7 +459,7 @@ public static class ScrapFlyTools
             cancellationToken: cancellationToken);
 
     [Description("Download a crawl artifact such as WARC or HAR, upload it to SharePoint/OneDrive, and return only a resource link block in content.")]
-    [McpServerTool(Title = "ScrapFly crawl artifact", Name = "scrapfly_crawl_artifact", Destructive = false, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "ScrapFly crawl artifact", Name = "scrapfly_crawl_artifact", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> ScrapFly_Crawl_Artifact(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

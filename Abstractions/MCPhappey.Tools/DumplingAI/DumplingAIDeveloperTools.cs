@@ -12,7 +12,7 @@ namespace MCPhappey.Tools.DumplingAI;
 public static class DumplingAIDeveloperTools
 {
     [Description("Run sandboxed JavaScript code with DumplingAI and return stdout, stderr, logs, and structured execution metadata.")]
-    [McpServerTool(Title = "DumplingAI run JavaScript code", Name = "dumplingai_run_javascript", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI run JavaScript code", Name = "dumplingai_run_javascript", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_RunJavaScript(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -34,7 +34,7 @@ public static class DumplingAIDeveloperTools
             "DumplingAI JavaScript execution completed.");
 
     [Description("Run sandboxed Python code with DumplingAI and return stdout, stderr, logs, and structured execution metadata.")]
-    [McpServerTool(Title = "DumplingAI run Python code", Name = "dumplingai_run_python", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI run Python code", Name = "dumplingai_run_python", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_RunPython(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

@@ -103,8 +103,7 @@ public static partial class ModelContextEditor
         });
     }));
 
-
-    [Description("Clone a MCP-server")]
+    [Description("Clone a MCP-server.")]
     [McpServerTool(Title = "Clone a MCP-server",
         Destructive = false,
         ReadOnly = false,
@@ -134,14 +133,14 @@ public static partial class ModelContextEditor
         {
             if (customServer?.Owners?.Select(a => a.Id).Contains(userId) != true)
             {
-                throw new Exception("Only editors can clone a server");
+                throw new Exception("Only editors can clone a server. Please make sure you use the name of the server, not the title.");
             }
         }
         else if (sourceServerConfig == null)
         {
             if (customServer?.Owners?.Select(a => a.Id).Contains(userId) != true)
             {
-                throw new Exception("Only editors can clone a server");
+                throw new Exception("Only editors can clone a server. Please make sure you use the name of the server, not the title.");
             }
         }
 

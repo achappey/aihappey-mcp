@@ -12,7 +12,7 @@ namespace MCPhappey.Tools.DumplingAI;
 public static class DumplingAIData
 {
     [Description("Get detailed YouTube channel metadata using a channel ID, handle, or full channel URL.")]
-    [McpServerTool(Title = "DumplingAI get YouTube channel", Name = "dumplingai_get_youtube_channel", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get YouTube channel", Name = "dumplingai_get_youtube_channel", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetYouTubeChannel(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -37,7 +37,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("channelId, handle, or url", channelId, handle, url));
 
     [Description("List uploaded long-form videos for a YouTube channel.")]
-    [McpServerTool(Title = "DumplingAI get YouTube channel videos", Name = "dumplingai_get_youtube_channel_videos", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get YouTube channel videos", Name = "dumplingai_get_youtube_channel_videos", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetYouTubeChannelVideos(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -66,7 +66,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("channelId, handle, or url", channelId, handle, url));
 
     [Description("List YouTube Shorts for a channel.")]
-    [McpServerTool(Title = "DumplingAI get YouTube channel shorts", Name = "dumplingai_get_youtube_channel_shorts", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get YouTube channel shorts", Name = "dumplingai_get_youtube_channel_shorts", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetYouTubeChannelShorts(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -95,7 +95,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("channelId, handle, or url", channelId, handle, url));
 
     [Description("Get detailed metadata for a YouTube video or short.")]
-    [McpServerTool(Title = "DumplingAI get YouTube video", Name = "dumplingai_get_youtube_video", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get YouTube video", Name = "dumplingai_get_youtube_video", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetYouTubeVideo(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -122,7 +122,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("videoId or url", videoId, url));
 
     [Description("Get public comments for a YouTube video.")]
-    [McpServerTool(Title = "DumplingAI get YouTube video comments", Name = "dumplingai_get_youtube_video_comments", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get YouTube video comments", Name = "dumplingai_get_youtube_video_comments", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetYouTubeVideoComments(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -151,7 +151,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("videoId or url", videoId, url));
 
     [Description("Search YouTube for videos, shorts, or channels.")]
-    [McpServerTool(Title = "DumplingAI search YouTube", Name = "dumplingai_search_youtube", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI search YouTube", Name = "dumplingai_search_youtube", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_SearchYouTube(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -178,7 +178,7 @@ public static class DumplingAIData
             () => EnsureRequired(query, "query"));
 
     [Description("Get transcript segments for a YouTube video.")]
-    [McpServerTool(Title = "DumplingAI get YouTube transcript", Name = "dumplingai_get_youtube_transcript", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get YouTube transcript", Name = "dumplingai_get_youtube_transcript", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetYouTubeTranscript(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -203,7 +203,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("videoId or url", videoId, url));
 
     [Description("Get public profile metadata for a TikTok user.")]
-    [McpServerTool(Title = "DumplingAI get TikTok profile", Name = "dumplingai_get_tiktok_profile", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get TikTok profile", Name = "dumplingai_get_tiktok_profile", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetTikTokProfile(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -226,7 +226,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("username or url", username, url));
 
     [Description("List videos published by a TikTok profile.")]
-    [McpServerTool(Title = "DumplingAI get TikTok profile videos", Name = "dumplingai_get_tiktok_profile_videos", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get TikTok profile videos", Name = "dumplingai_get_tiktok_profile_videos", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetTikTokProfileVideos(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -253,7 +253,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("username or url", username, url));
 
     [Description("Get detailed metadata for a TikTok video.")]
-    [McpServerTool(Title = "DumplingAI get TikTok video", Name = "dumplingai_get_tiktok_video", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get TikTok video", Name = "dumplingai_get_tiktok_video", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetTikTokVideo(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -276,7 +276,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("videoId or url", videoId, url));
 
     [Description("Get public comments for a TikTok video.")]
-    [McpServerTool(Title = "DumplingAI get TikTok video comments", Name = "dumplingai_get_tiktok_video_comments", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get TikTok video comments", Name = "dumplingai_get_tiktok_video_comments", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetTikTokVideoComments(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -303,7 +303,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("videoId or url", videoId, url));
 
     [Description("List followers for a TikTok profile.")]
-    [McpServerTool(Title = "DumplingAI get TikTok user followers", Name = "dumplingai_get_tiktok_user_followers", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get TikTok user followers", Name = "dumplingai_get_tiktok_user_followers", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetTikTokUserFollowers(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -330,7 +330,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("username or url", username, url));
 
     [Description("List accounts followed by a TikTok profile.")]
-    [McpServerTool(Title = "DumplingAI get TikTok user following", Name = "dumplingai_get_tiktok_user_following", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get TikTok user following", Name = "dumplingai_get_tiktok_user_following", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetTikTokUserFollowing(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -357,7 +357,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("username or url", username, url));
 
     [Description("Get transcript data for a TikTok video.")]
-    [McpServerTool(Title = "DumplingAI get TikTok transcript", Name = "dumplingai_get_tiktok_transcript", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get TikTok transcript", Name = "dumplingai_get_tiktok_transcript", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetTikTokTranscript(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -380,7 +380,7 @@ public static class DumplingAIData
             () => EnsureAnyProvided("videoId or url", videoId, url));
 
     [Description("Search TikTok users by keyword or username.")]
-    [McpServerTool(Title = "DumplingAI search TikTok users", Name = "dumplingai_search_tiktok_users", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI search TikTok users", Name = "dumplingai_search_tiktok_users", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_SearchTikTokUsers(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -405,7 +405,7 @@ public static class DumplingAIData
             () => EnsureRequired(query, "query"));
 
     [Description("Get public LinkedIn profile data for a person.")]
-    [McpServerTool(Title = "DumplingAI get LinkedIn profile", Name = "dumplingai_get_linkedin_profile", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get LinkedIn profile", Name = "dumplingai_get_linkedin_profile", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetLinkedInProfile(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -426,7 +426,7 @@ public static class DumplingAIData
             () => EnsureRequired(url, "url"));
 
     [Description("Get public LinkedIn company data.")]
-    [McpServerTool(Title = "DumplingAI get LinkedIn company", Name = "dumplingai_get_linkedin_company", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get LinkedIn company", Name = "dumplingai_get_linkedin_company", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetLinkedInCompany(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -447,7 +447,7 @@ public static class DumplingAIData
             () => EnsureRequired(url, "url"));
 
     [Description("Run a federated web search across DumplingAI search providers.")]
-    [McpServerTool(Title = "DumplingAI search web", Name = "dumplingai_search_web", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI search web", Name = "dumplingai_search_web", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_SearchWeb(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -476,7 +476,7 @@ public static class DumplingAIData
             () => EnsureRequired(query, "query"));
 
     [Description("Search news articles through DumplingAI.")]
-    [McpServerTool(Title = "DumplingAI search news", Name = "dumplingai_search_news", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI search news", Name = "dumplingai_search_news", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_SearchNews(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -505,7 +505,7 @@ public static class DumplingAIData
             () => EnsureRequired(query, "query"));
 
     [Description("Search for places, businesses, and points of interest.")]
-    [McpServerTool(Title = "DumplingAI search places", Name = "dumplingai_search_places", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI search places", Name = "dumplingai_search_places", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_SearchPlaces(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -538,7 +538,7 @@ public static class DumplingAIData
             () => EnsureRequired(query, "query"));
 
     [Description("Search map results and coordinates through DumplingAI.")]
-    [McpServerTool(Title = "DumplingAI search maps", Name = "dumplingai_search_maps", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI search maps", Name = "dumplingai_search_maps", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_SearchMaps(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -571,7 +571,7 @@ public static class DumplingAIData
             () => EnsureRequired(query, "query"));
 
     [Description("Get autocomplete suggestions for a partial query.")]
-    [McpServerTool(Title = "DumplingAI get autocomplete", Name = "dumplingai_get_autocomplete", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get autocomplete", Name = "dumplingai_get_autocomplete", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetAutocomplete(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -596,7 +596,7 @@ public static class DumplingAIData
             () => EnsureRequired(query, "query"));
 
     [Description("Get recent Google reviews and ratings for a business.")]
-    [McpServerTool(Title = "DumplingAI get Google reviews", Name = "dumplingai_get_google_reviews", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI get Google reviews", Name = "dumplingai_get_google_reviews", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_GetGoogleReviews(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

@@ -14,7 +14,7 @@ public static class NimbleWayService
     private const string BaseUrl = "https://sdk.nimbleway.com";
 
     [Description("Execute NimbleWay Agent Run via POST /v1/agents/run and return structured extraction response.")]
-    [McpServerTool(Title = "NimbleWay Agent Run", Name = "nimbleway_agent_run", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "NimbleWay Agent Run", Name = "nimbleway_agent_run", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> NimbleWay_AgentRun(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -43,7 +43,7 @@ public static class NimbleWayService
             }));
 
     [Description("Run NimbleWay Search via POST /v1/search and return structured search results.")]
-    [McpServerTool(Title = "NimbleWay Search", Name = "nimbleway_search", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "NimbleWay Search", Name = "nimbleway_search", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> NimbleWay_Search(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -105,7 +105,7 @@ public static class NimbleWayService
             }));
 
     [Description("Run NimbleWay Map via POST /v1/map and return structured mapped links.")]
-    [McpServerTool(Title = "NimbleWay Map", Name = "nimbleway_map", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "NimbleWay Map", Name = "nimbleway_map", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> NimbleWay_Map(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -143,7 +143,7 @@ public static class NimbleWayService
             }));
 
     [Description("Run NimbleWay Extract via POST /v1/extract and return structured extraction response.")]
-    [McpServerTool(Title = "NimbleWay Extract", Name = "nimbleway_extract", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "NimbleWay Extract", Name = "nimbleway_extract", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> NimbleWay_Extract(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -216,7 +216,7 @@ public static class NimbleWayService
             }));
 
     [Description("Create NimbleWay crawl job, poll until terminal status, and return final crawl result as structured content.")]
-    [McpServerTool(Title = "NimbleWay Create Crawl (wait)", Name = "nimbleway_crawl_create_wait", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "NimbleWay Create Crawl (wait)", Name = "nimbleway_crawl_create_wait", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> NimbleWay_CrawlCreateWait(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

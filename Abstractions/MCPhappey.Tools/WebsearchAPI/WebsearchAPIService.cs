@@ -14,7 +14,7 @@ public static class WebsearchAPIService
     private const string BaseUrl = "https://api.websearchapi.ai";
 
     [Description("Search the web using WebSearchAPI.ai POST /ai-search and return structured search results.")]
-    [McpServerTool(Title = "WebsearchAPI AI Search", Name = "websearchapi_search", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "WebsearchAPI AI Search", Name = "websearchapi_search", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> WebsearchAPI_Search(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -73,7 +73,7 @@ public static class WebsearchAPIService
             cancellationToken);
 
     [Description("Scrape a webpage using WebSearchAPI.ai POST /scrape and return extracted structured content.")]
-    [McpServerTool(Title = "WebsearchAPI Scrape", Name = "websearchapi_scrape", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "WebsearchAPI Scrape", Name = "websearchapi_scrape", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> WebsearchAPI_Scrape(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

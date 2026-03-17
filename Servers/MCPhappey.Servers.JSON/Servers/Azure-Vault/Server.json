@@ -10,6 +10,9 @@
       }
     ]
   },
+  "plugins": [
+    "MCPhappey.Tools.Azure.Vault.AzureVaultSecrets, MCPhappey.Tools"
+  ],
   "obo": {
     ".vault.azure.net": "https://vault.azure.net/.default"
   }

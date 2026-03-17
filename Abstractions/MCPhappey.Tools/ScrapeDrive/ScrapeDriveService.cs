@@ -11,7 +11,7 @@ namespace MCPhappey.Tools.ScrapeDrive;
 public static class ScrapeDriveService
 {
     [Description("Scrape a webpage with ScrapeDrive async scraping, poll until completion, and return the final result as structured content.")]
-    [McpServerTool(Title = "ScrapeDrive scrape", Name = "scrapedrive_scrape", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "ScrapeDrive scrape", Name = "scrapedrive_scrape", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> ScrapeDrive_Scrape(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

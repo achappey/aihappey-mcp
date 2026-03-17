@@ -12,7 +12,7 @@ namespace MCPhappey.Tools.AlterLab;
 public static class AlterLabService
 {
     [Description("Scrape a webpage with AlterLab. The tool waits for completion automatically and returns the final scrape result as structured content.")]
-    [McpServerTool(Title = "AlterLab scrape", Name = "alterlab_scrape", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "AlterLab scrape", Name = "alterlab_scrape", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> AlterLab_Scrape(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

@@ -14,7 +14,7 @@ public static class SpiderCore
     private const string BaseUrl = "https://api.spider.cloud";
 
     [Description("Crawl website(s) and return extracted resources using Spider /crawl.")]
-    [McpServerTool(Title = "Spider crawl", Name = "spider_crawl", Idempotent = false, OpenWorld = true, ReadOnly = false, UseStructuredContent = true)]
+    [McpServerTool(Title = "Spider crawl", Name = "spider_crawl", Idempotent = false, OpenWorld = true, ReadOnly = false)]
     public static async Task<CallToolResult?> Spider_Crawl(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -27,7 +27,7 @@ public static class SpiderCore
         => await PostCoreEndpoint(serviceProvider, requestContext, "/crawl", url, null, null, optionsJson, returnFormat, runInBackground, cancellationToken);
 
     [Description("Scrape a single page and return extracted resources using Spider /scrape.")]
-    [McpServerTool(Title = "Spider scrape", Name = "spider_scrape", Idempotent = false, OpenWorld = true, ReadOnly = false, UseStructuredContent = true)]
+    [McpServerTool(Title = "Spider scrape", Name = "spider_scrape", Idempotent = false, OpenWorld = true, ReadOnly = false)]
     public static async Task<CallToolResult?> Spider_Scrape(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -40,7 +40,7 @@ public static class SpiderCore
         => await PostCoreEndpoint(serviceProvider, requestContext, "/scrape", url, null, null, optionsJson, returnFormat, runInBackground, cancellationToken);
 
     [Description("Unblock challenging websites and return data using Spider /unblocker.")]
-    [McpServerTool(Title = "Spider unblocker", Name = "spider_unblocker", Idempotent = false, OpenWorld = true, ReadOnly = false, UseStructuredContent = true)]
+    [McpServerTool(Title = "Spider unblocker", Name = "spider_unblocker", Idempotent = false, OpenWorld = true, ReadOnly = false)]
     public static async Task<CallToolResult?> Spider_Unblocker(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -53,7 +53,7 @@ public static class SpiderCore
         => await PostCoreEndpoint(serviceProvider, requestContext, "/unblocker", url, null, null, optionsJson, returnFormat, runInBackground, cancellationToken);
 
     [Description("Search and optionally crawl results using Spider /search.")]
-    [McpServerTool(Title = "Spider search", Name = "spider_search", Idempotent = false, OpenWorld = true, ReadOnly = false, UseStructuredContent = true)]
+    [McpServerTool(Title = "Spider search", Name = "spider_search", Idempotent = false, OpenWorld = true, ReadOnly = false)]
     public static async Task<CallToolResult?> Spider_Search(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -66,7 +66,7 @@ public static class SpiderCore
         => await PostCoreEndpoint(serviceProvider, requestContext, "/search", null, search, null, optionsJson, returnFormat, runInBackground, cancellationToken);
 
     [Description("Collect discovered links using Spider /links.")]
-    [McpServerTool(Title = "Spider links", Name = "spider_links", Idempotent = false, OpenWorld = true, ReadOnly = false, UseStructuredContent = true)]
+    [McpServerTool(Title = "Spider links", Name = "spider_links", Idempotent = false, OpenWorld = true, ReadOnly = false)]
     public static async Task<CallToolResult?> Spider_Links(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -79,7 +79,7 @@ public static class SpiderCore
         => await PostCoreEndpoint(serviceProvider, requestContext, "/links", url, null, null, optionsJson, returnFormat, runInBackground, cancellationToken);
 
     [Description("Take website screenshots using Spider /screenshot.")]
-    [McpServerTool(Title = "Spider screenshot", Name = "spider_screenshot", Idempotent = false, OpenWorld = true, ReadOnly = false, UseStructuredContent = true)]
+    [McpServerTool(Title = "Spider screenshot", Name = "spider_screenshot", Idempotent = false, OpenWorld = true, ReadOnly = false)]
     public static async Task<CallToolResult?> Spider_Screenshot(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -92,7 +92,7 @@ public static class SpiderCore
         => await PostCoreEndpoint(serviceProvider, requestContext, "/screenshot", url, null, null, optionsJson, returnFormat, runInBackground, cancellationToken);
 
     [Description("Transform HTML/text payloads using Spider /transform.")]
-    [McpServerTool(Title = "Spider transform", Name = "spider_transform", Idempotent = false, OpenWorld = true, ReadOnly = false, UseStructuredContent = true)]
+    [McpServerTool(Title = "Spider transform", Name = "spider_transform", Idempotent = false, OpenWorld = true, ReadOnly = false)]
     public static async Task<CallToolResult?> Spider_Transform(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

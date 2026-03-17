@@ -11,7 +11,7 @@ namespace MCPhappey.Tools.Kirha;
 public static class KirhaSearch
 {
     [Description("Execute a Kirha search and return summary, raw data, planning, usage, and account metadata as structured content.")]
-    [McpServerTool(Title = "Kirha search", Name = "kirha_search", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Kirha search", Name = "kirha_search", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> Search(
         [Description("Search query string.")] string query,
         IServiceProvider serviceProvider,
@@ -44,7 +44,7 @@ public static class KirhaSearch
             }));
 
     [Description("Create a Kirha search plan and return the pending confirmation or clarification plan as structured content.")]
-    [McpServerTool(Title = "Kirha search plan", Name = "kirha_search_plan", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Kirha search plan", Name = "kirha_search_plan", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> SearchPlan(
         [Description("Search query string.")] string query,
         IServiceProvider serviceProvider,
@@ -71,7 +71,7 @@ public static class KirhaSearch
             }));
 
     [Description("Run a previously created Kirha search plan and return summary, raw data, planning, usage, and account metadata as structured content.")]
-    [McpServerTool(Title = "Kirha search plan run", Name = "kirha_search_plan_run", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "Kirha search plan run", Name = "kirha_search_plan_run", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> SearchPlanRun(
         [Description("Identifier of the search plan to execute.")] string planId,
         IServiceProvider serviceProvider,

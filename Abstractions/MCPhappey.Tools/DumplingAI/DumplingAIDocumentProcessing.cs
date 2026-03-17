@@ -12,7 +12,7 @@ namespace MCPhappey.Tools.DumplingAI;
 public static class DumplingAIDocumentProcessing
 {
     [Description("Convert a PDF or DOCX document into plain text using a public URL or base64 file content.")]
-    [McpServerTool(Title = "DumplingAI doc to text", Name = "dumplingai_doc_to_text", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI doc to text", Name = "dumplingai_doc_to_text", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_DocToText(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -34,7 +34,7 @@ public static class DumplingAIDocumentProcessing
             "DumplingAI document-to-text conversion completed.");
 
     [Description("Convert a supported document or image into a PDF using a public URL or base64 file content.")]
-    [McpServerTool(Title = "DumplingAI convert to PDF", Name = "dumplingai_convert_to_pdf", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI convert to PDF", Name = "dumplingai_convert_to_pdf", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_ConvertToPdf(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -50,7 +50,7 @@ public static class DumplingAIDocumentProcessing
             "DumplingAI PDF conversion completed.");
 
     [Description("Merge multiple PDF files into one PDF using public URLs or base64 file contents.")]
-    [McpServerTool(Title = "DumplingAI merge PDFs", Name = "dumplingai_merge_pdfs", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI merge PDFs", Name = "dumplingai_merge_pdfs", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_MergePdfs(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -77,7 +77,7 @@ public static class DumplingAIDocumentProcessing
             minimumFiles: 2);
 
     [Description("Read metadata embedded in one or more PDF files using public URLs or base64 file contents.")]
-    [McpServerTool(Title = "DumplingAI read PDF metadata", Name = "dumplingai_read_pdf_metadata", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI read PDF metadata", Name = "dumplingai_read_pdf_metadata", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_ReadPdfMetadata(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -97,7 +97,7 @@ public static class DumplingAIDocumentProcessing
             "DumplingAI PDF metadata read completed.");
 
     [Description("Write metadata into one or more PDF files using public URLs or base64 file contents.")]
-    [McpServerTool(Title = "DumplingAI write PDF metadata", Name = "dumplingai_write_pdf_metadata", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI write PDF metadata", Name = "dumplingai_write_pdf_metadata", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_WritePdfMetadata(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -117,7 +117,7 @@ public static class DumplingAIDocumentProcessing
             "DumplingAI PDF metadata write completed.");
 
     [Description("Extract structured data from one or more documents using a prompt and public URLs or base64 file contents.")]
-    [McpServerTool(Title = "DumplingAI extract document", Name = "dumplingai_extract_document", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI extract document", Name = "dumplingai_extract_document", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_ExtractDocument(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -144,7 +144,7 @@ public static class DumplingAIDocumentProcessing
             validate: () => EnsureRequired(prompt, "prompt"));
 
     [Description("Extract OCR text or structured insights from one or more images using a prompt and public URLs or base64 image contents.")]
-    [McpServerTool(Title = "DumplingAI extract image", Name = "dumplingai_extract_image", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI extract image", Name = "dumplingai_extract_image", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_ExtractImage(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -170,7 +170,7 @@ public static class DumplingAIDocumentProcessing
             validate: () => EnsureRequired(prompt, "prompt"));
 
     [Description("Extract transcripts or structured insights from an audio file using a prompt and either a public URL or base64 audio content.")]
-    [McpServerTool(Title = "DumplingAI extract audio", Name = "dumplingai_extract_audio", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI extract audio", Name = "dumplingai_extract_audio", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_ExtractAudio(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -196,7 +196,7 @@ public static class DumplingAIDocumentProcessing
             validate: () => EnsureRequired(prompt, "prompt"));
 
     [Description("Extract transcripts or structured insights from a video file using a prompt and either a public URL or base64 video content.")]
-    [McpServerTool(Title = "DumplingAI extract video", Name = "dumplingai_extract_video", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI extract video", Name = "dumplingai_extract_video", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_ExtractVideo(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -222,7 +222,7 @@ public static class DumplingAIDocumentProcessing
             validate: () => EnsureRequired(prompt, "prompt"));
 
     [Description("Trim a public MP4 video URL to a start and end timestamp and return the trimmed asset.")]
-    [McpServerTool(Title = "DumplingAI trim video", Name = "dumplingai_trim_video", ReadOnly = true, OpenWorld = true, UseStructuredContent = true)]
+    [McpServerTool(Title = "DumplingAI trim video", Name = "dumplingai_trim_video", ReadOnly = true, OpenWorld = true)]
     public static async Task<CallToolResult?> DumplingAI_TrimVideo(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

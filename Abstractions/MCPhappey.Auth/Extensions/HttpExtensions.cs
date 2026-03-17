@@ -113,9 +113,13 @@ public static class HttpExtensions
     if (string.IsNullOrWhiteSpace(host))
       throw new ArgumentNullException(nameof(host));
 
-    // Match obo key by suffix
+    // Match OBO key by exact host or configured suffix.
+    // This keeps existing wildcard-like entries such as ".sharepoint.com"
+    // working, while also supporting resource hosts like "vault.azure.net"
+    // against a configured key such as ".vault.azure.net".
+    var normalizedHost = host.Trim().TrimStart('.');
     var oboKey = server.OBO?.Keys
-        .FirstOrDefault(k => host.EndsWith(k, StringComparison.OrdinalIgnoreCase));
+        .FirstOrDefault(k => HostMatchesOboKey(normalizedHost, k));
 
     if (oboKey == null || server.OBO == null || !server.OBO.TryGetValue(oboKey, out var rawScopeString))
       throw new UnauthorizedAccessException($"No OBO config for host: {host}");
@@ -147,6 +151,18 @@ public static class HttpExtensions
     _cache[cacheKey] = (accessToken, expiresAt);
 
     return accessToken ?? throw new UnauthorizedAccessException("Failed to get delegated token.");
+  }
+
+  private static bool HostMatchesOboKey(string host, string configuredKey)
+  {
+    if (string.IsNullOrWhiteSpace(host) || string.IsNullOrWhiteSpace(configuredKey))
+      return false;
+
+    var normalizedKey = configuredKey.Trim().TrimStart('.');
+
+    return host.Equals(normalizedKey, StringComparison.OrdinalIgnoreCase)
+           || host.EndsWith($".{normalizedKey}", StringComparison.OrdinalIgnoreCase)
+           || host.EndsWith(configuredKey, StringComparison.OrdinalIgnoreCase);
   }
 
   private static string BuildCacheKey(string token, string host, string[] scopes)
