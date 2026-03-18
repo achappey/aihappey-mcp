@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "CaseDev-Skills",
+    "title": "case.dev Skills",
+    "version": "1.0.0",
+    "websiteUrl": "https://case.dev",
+    "description": "Curated library of legal prompts, document templates, and research methodologies for AI agents.",
+    "icons": [
+      {
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://case.dev&size=128"
+      }
+    ]
+  },
+  "baseMcp": "skills.case.dev",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

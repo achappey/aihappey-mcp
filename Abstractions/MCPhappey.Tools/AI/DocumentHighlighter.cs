@@ -12,13 +12,13 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentHighlighter
 {
-    private static readonly string[] ModelNames = ["gpt-5-mini", "gemini-2.5-flash", "claude-haiku-4-5-20251001", "grok-4-fast-reasoning"];
+    private static readonly string[] ModelNames = ["gpt-5.4-mini", "gemini-2.5-flash", "claude-haiku-4-5-20251001", "grok-4-fast-reasoning"];
 
     [Description("Parallel document highlighter across multiple AI models.")]
     [McpServerTool(Title = "Document highlighter (multi-model)",
         Name = "document_highlighter_summarize",
         ReadOnly = true)]
-    public static async Task<CallToolResult> DocumentHighlighter_Highlight(
+    public static async Task<CallToolResult?> DocumentHighlighter_Highlight(
        [Description("Url of the document you would like to highlight. Protected SharePoint and OneDive links are supported.")] string fileUrl,
        IServiceProvider serviceProvider,
        RequestContext<CallToolRequestParams> requestContext,

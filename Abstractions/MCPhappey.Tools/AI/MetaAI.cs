@@ -12,7 +12,7 @@ namespace MCPhappey.Tools.AI;
 
 public static class MetaAI
 {
-    private static readonly string[] ModelNames = ["sonar-pro", "gpt-5-mini", "gemini-2.5-flash", "grok-4-fast-non-reasoning",
+    private static readonly string[] ModelNames = ["sonar-pro", "gpt-5.4-mini", "gemini-2.5-flash", "grok-4-fast-non-reasoning",
             "claude-haiku-4-5-20251001", "mistral-medium-latest"];
 
     [Description("Ask once, answer from many. Sends the same prompt to multiple AI providers in parallel and returns their answers.")]

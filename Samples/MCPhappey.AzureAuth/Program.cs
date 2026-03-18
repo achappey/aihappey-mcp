@@ -23,6 +23,7 @@ using MCPhappey.Tools.AsyncAI;
 using MCPhappey.Tools.DumplingAI;
 using MCPhappey.Tools.Mem0;
 using MCPhappey.Tools.Anthropic.Skills;
+using MCPhappey.Tools.OpenAI.Skills;
 using MCPhappey.Tools.ElevenLabs;
 using MCPhappey.Tools.Runway;
 using MCPhappey.Common.Models;
@@ -329,6 +330,14 @@ var apiKey = appConfig?.DomainHeaders?
 
 var openAiClient = !string.IsNullOrEmpty(apiKey) ?
     new OpenAIClient(apiKey) : null;
+
+if (!string.IsNullOrEmpty(apiKey))
+{
+    builder.Services.AddSingleton(new OpenAISettings()
+    {
+        ApiKey = apiKey
+    });
+}
 
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Logging.AddApplicationInsights();

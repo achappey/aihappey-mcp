@@ -111,7 +111,7 @@ public static class SharePointSearch
         };
 
         var result = await samplingService.GetPromptSample(
-            serviceProvider, mcpServer, "extract-with-facts", args, "gpt-5-mini",
+            serviceProvider, mcpServer, "extract-with-facts", args, "gpt-5.4-mini",
             metadata: new Dictionary<string, object>()
                 {
                     {"openai", new {

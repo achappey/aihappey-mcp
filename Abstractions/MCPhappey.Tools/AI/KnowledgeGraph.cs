@@ -29,7 +29,7 @@ public static class KnowledgeGraph
           var samplingService = serviceProvider.GetRequiredService<SamplingService>();
           var downloadService = serviceProvider.GetRequiredService<DownloadService>();
           var mcpServer = requestContext.Server;
-          var model = modelName ?? "gpt-5-mini";
+          var model = modelName ?? "gpt-5.4-mini";
 
           var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
           var content = files.GetTextFiles()

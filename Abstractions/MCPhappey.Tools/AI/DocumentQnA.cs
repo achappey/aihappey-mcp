@@ -12,7 +12,7 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentQnA
 {
-    private static readonly string[] ModelNames = ["gpt-5-mini",
+    private static readonly string[] ModelNames = ["gpt-5.4-mini",
         "gemini-2.5-flash", "claude-haiku-4-5-20251001", "grok-4-fast-reasoning"];
     private static readonly string[] AcademicModelNames = ["gpt-5.2",
         "gemini-2.5-pro", "claude-opus-4-1-20250805", "grok-4-fast-reasoning"];

@@ -13,7 +13,7 @@ namespace MCPhappey.Tools.AI;
 public static class DocumentTools
 {
     private static readonly string[] ModelNames_Actions = [
-        "gpt-5-mini",
+        "gpt-5.4-mini",
         "gemini-2.5-flash",
         "claude-haiku-4-5-20251001",
         "grok-4-fast-reasoning"
@@ -122,7 +122,7 @@ public static class DocumentTools
         }));
 
     private static readonly string[] ModelNames_Glossary = [
-        "gpt-5-mini",
+        "gpt-5.4-mini",
         "gemini-2.5-flash-lite",
         "claude-haiku-4-5-20251001",
         "grok-4-fast-reasoning"
@@ -229,7 +229,7 @@ public static class DocumentTools
         }));
 
     private static readonly string[] ModelNames_Stakeholders = [
-        "gpt-5-mini",
+        "gpt-5.4-mini",
         "gemini-2.5-flash",
         "claude-haiku-4-5-20251001",
         "grok-4-fast-reasoning"

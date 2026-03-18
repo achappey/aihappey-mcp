@@ -40,7 +40,7 @@ public static class ChatApp
 
         // Pick the model you want (same as before or allow config)
 
-        List<string> modelNames = ["gpt-5-mini", "openai"];
+        List<string> modelNames = ["gpt-5.4-mini", "openai"];
 
         var markdown = $"Generating conversation name...\nUser: {userMessage}";
         await mcpServer.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: cancellationToken);
@@ -149,7 +149,7 @@ public static class ChatApp
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
 
         // Pick the model you want
-        List<string> modelNames = ["gpt-5-nano", "openai"];
+        List<string> modelNames = ["gpt-5.4-nano", "openai"];
         // Optional: Logging/notification
         var markdown = $"Generating welcome message";
 
@@ -157,7 +157,7 @@ public static class ChatApp
 
         var options = new
         {
-            reasoning = new { effort = "minimal" },
+            reasoning = new { effort = "low" },
         };
 
         const int MaxLength = 60;
@@ -209,7 +209,7 @@ public static class ChatApp
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
 
         // Pick the model you want
-        var modelName = "gpt-5-nano"; // or set to your preferred model
+        var modelName = "gpt-5.4-nano"; // or set to your preferred model
 
         // Optional: Logging/notification
         var markdown = $"Explain tool call";

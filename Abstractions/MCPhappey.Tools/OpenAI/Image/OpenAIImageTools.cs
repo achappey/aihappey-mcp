@@ -110,7 +110,7 @@ public static class OpenAIImageTools
            mcpServer,
            "describe-images-in-detail",
            arguments: promptArgs,
-           modelHint: "gpt-5-mini",
+           modelHint: "gpt-5.4-mini",
            maxTokens: 8192 * 4,
            metadata: new Dictionary<string, object>
            {

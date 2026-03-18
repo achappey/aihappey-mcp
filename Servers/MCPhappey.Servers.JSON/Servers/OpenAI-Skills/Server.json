@@ -16,6 +16,9 @@
       }
     ]
   },
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.Skills.OpenAISkills, MCPhappey.Tools"
+  ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
   }

@@ -101,7 +101,7 @@ public static class OpenAIMicrosoftResearch
 
         var reportSampling = await samplingService.GetPromptSample(serviceProvider,
             requestContext.Server, "write-report", reportArgs,
-            "gpt-5-mini",
+            "gpt-5.4-mini",
             maxTokens: 4096 * 4,
             metadata: new Dictionary<string, object>() { { "openai", new {
                                 reasoning = new {
@@ -153,7 +153,7 @@ public static class OpenAIMicrosoftResearch
 
         var querySampling = await samplingService.GetPromptSample(serviceProvider,
                  mcpServer, "microsoft-research", values,
-                     "gpt-5-mini",
+                     "gpt-5.4-mini",
                      metadata: new Dictionary<string, object>() { { "openai", new {
                                 reasoning = new {
                                     effort = "low"

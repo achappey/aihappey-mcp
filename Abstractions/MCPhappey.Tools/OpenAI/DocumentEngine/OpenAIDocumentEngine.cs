@@ -268,9 +268,10 @@ public static class OpenAIDocumentEngine
           requestContext, serviceProvider, documentTemplateUrl, cancellationToken);
 
       var result = await client.Upload("schema".ToOutputFileName() + ".json",
-          BinaryData.FromString(schemaJson), cancellationToken: cancellationToken);
+          BinaryData.FromString(schemaJson), cancellationToken: cancellationToken)
+          ?? throw new Exception("Something went wrong");
 
-      return result?.ToCallToolResult();
+      return result.ToCallToolResult();
   }));
 
 
@@ -323,7 +324,7 @@ public static class OpenAIDocumentEngine
             requestContext.Server,
             "extract-template-structure",
             reportArgs,
-            "gpt-5-mini",
+            "gpt-5.4-mini",
             maxTokens: 4096 * 4,
             metadata: new Dictionary<string, object>()
             {

@@ -22,10 +22,10 @@ public static class OpenAIFinancialResearch
 
     // === Model defaults (pas aan naar wens) ===
     private const string PlannerModel = "gpt-5.1";
-    private const string SearchModel = "gpt-5-mini";
-    private const string AnalystsModel = "gpt-5-mini";
+    private const string SearchModel = "gpt-5.4-mini";
+    private const string AnalystsModel = "gpt-5.4-mini";
     private const string WriterModel = "gpt-5.1";
-    private const string VerifierModel = "gpt-5-mini";
+    private const string VerifierModel = "gpt-5.4-mini";
 
     [Description("Perform financial research on a topic. Before you use this tool, always ask the user first for more details so you can craft a detailed research topic for maximum accuracy.")]
     [McpServerTool(Title = "Perform financial research", ReadOnly = true, OpenWorld = false)]

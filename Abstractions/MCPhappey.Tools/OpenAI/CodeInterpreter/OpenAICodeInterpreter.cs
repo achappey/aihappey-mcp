@@ -19,8 +19,8 @@ public static class OpenAICodeInterpreter
           [Description("Prompt to execute (code is allowed).")]
             string prompt,
           RequestContext<CallToolRequestParams> requestContext,
-          [Description("Target model (e.g. gpt-5 or gpt-5-mini).")]
-            string model = "gpt-5-mini",
+          [Description("Target model (e.g. gpt-5 or gpt-5.4-mini).")]
+            string model = "gpt-5.4-mini",
           [Description("Reasoning effort level. low, medium, hard ")]
             string reasoningEffort = "low",
           [Description("Optional container id")]

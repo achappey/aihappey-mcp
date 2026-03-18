@@ -45,7 +45,7 @@ public static class SearchExtensions
 
         var extractWithFactsSampleTask = samplingService.GetPromptSample(serviceProvider, mcpServer,
             "extract-with-facts", args,
-            "gpt-5-mini", cancellationToken: cancellationToken);
+            "gpt-5.4-mini", cancellationToken: cancellationToken);
 
         var urlArgs = new Dictionary<string, JsonElement>()
         {
@@ -118,7 +118,7 @@ public static class SearchExtensions
 
                 var extractFromUrlsWithFactsSampleTask = samplingService.GetPromptSample(
                     serviceProvider, mcpServer, "extract-with-facts",
-                    urlFactArgs, "gpt-5-mini");
+                    urlFactArgs, "gpt-5.4-mini");
 
                 timeoutTask = Task.Delay(TimeSpan.FromSeconds(10), cancellationToken: CancellationToken.None);
                 completedTask = await Task.WhenAny(extractFromUrlsWithFactsSampleTask, timeoutTask);
