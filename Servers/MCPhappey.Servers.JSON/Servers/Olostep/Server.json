@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Olostep",
+    "title": "Olostep",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.olostep.com",
+    "description": "Use Olostep through the Model Context Protocol for fast, efficient web data.",
+    "icons": [
+      {
+        "src": "https://cdn.prod.website-files.com/65a8fb3d4b5d954b171b9ab8/68be8c293132febc0e2f18e9_Favicon%20(2).svg"
+      }
+    ]
+  },
+  "baseMcp": "mpc.olostep.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

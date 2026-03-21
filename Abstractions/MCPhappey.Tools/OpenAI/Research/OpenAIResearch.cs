@@ -155,7 +155,6 @@ public static class OpenAIResearch
                                     effort = "low"
                                 },
                                 web_search = new {
-                                    search_context_size = "medium"
                                 }
                             }  } },
                             cancellationToken: cancellationToken);

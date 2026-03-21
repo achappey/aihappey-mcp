@@ -1,12 +1,15 @@
+using System.Reflection;
 using System.Text.Json;
 using MCPhappey.Common;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Services;
+using MCPhappey.Simplicate.CRM;
 using MCPhappey.Simplicate.Options;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
+using static MCPhappey.Simplicate.CRM.SimplicateCRM;
 
 namespace MCPhappey.Simplicate.Extensions;
 
@@ -14,6 +17,315 @@ public static class SimplicateExtensions
 {
     private static readonly JsonSerializerOptions JsonSerializerOptions = new()
     { PropertyNameCaseInsensitive = true };
+
+    private static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>?>
+        BuildElicitPropertyOverridesAsync<TDto>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            TDto dto,
+            Func<IServiceProvider, RequestContext<CallToolRequestParams>, TDto, CancellationToken,
+                Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>?>>?
+                elicitPropertyOverridesFactory,
+            CancellationToken cancellationToken)
+        where TDto : class
+        => elicitPropertyOverridesFactory == null
+            ? null
+            : await elicitPropertyOverridesFactory(serviceProvider, requestContext, dto, cancellationToken);
+
+    public static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
+        BuildSimplicateEmployeeElicitOverridesAsync<TDto>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            IReadOnlyCollection<SimplicateElicitFieldOverride> fields,
+            CancellationToken cancellationToken = default)
+        where TDto : class
+    {
+        if (fields.Count == 0)
+            return new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>(StringComparer.OrdinalIgnoreCase);
+
+        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+
+        var teams = await downloadService.GetAllSimplicatePagesAsync<SimplicateTeamEmployeeCollection>(
+            serviceProvider,
+            requestContext.Server,
+            simplicateOptions.GetApiUrl("/hrm/team"),
+            "sort=name",
+            page => $"Downloading Simplicate team employees page {page}",
+            requestContext,
+            cancellationToken: cancellationToken);
+
+        var employeeOptions = teams
+            .SelectMany(team => team.Employees ?? [])
+            .Where(employee => !string.IsNullOrWhiteSpace(employee.Id))
+            .GroupBy(employee => employee.Id!, StringComparer.OrdinalIgnoreCase)
+            .Select(group => group
+                .OrderByDescending(employee => !string.IsNullOrWhiteSpace(employee.Name))
+                .ThenBy(employee => employee.Name ?? employee.Id, StringComparer.OrdinalIgnoreCase)
+                .First())
+            .OrderBy(employee => employee.Name ?? employee.Id, StringComparer.OrdinalIgnoreCase)
+            .ThenBy(employee => employee.Id, StringComparer.OrdinalIgnoreCase)
+            .Select(employee => new ElicitRequestParams.EnumSchemaOption
+            {
+                Title = string.IsNullOrWhiteSpace(employee.Name) ? employee.Id! : employee.Name,
+                Const = employee.Id!
+            })
+            .ToArray();
+
+        return fields
+            .Select(field => CreateEmployeeFieldOverrideDefinition<TDto>(field, employeeOptions))
+            .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static KeyValuePair<string, ElicitRequestParams.PrimitiveSchemaDefinition>
+        CreateEmployeeFieldOverrideDefinition<TDto>(
+            SimplicateElicitFieldOverride field,
+            IReadOnlyCollection<ElicitRequestParams.EnumSchemaOption> employeeOptions)
+        where TDto : class
+    {
+        var property = typeof(TDto).GetProperty(
+            field.PropertyName,
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+
+        var jsonPropertyName = property?.GetJsonPropertyName() ?? field.PropertyName;
+        var title = string.IsNullOrWhiteSpace(field.Title)
+            ? property?.Name ?? field.PropertyName
+            : field.Title;
+        var description = string.IsNullOrWhiteSpace(field.Description)
+            ? property?.GetDescription()
+            : field.Description;
+
+        ElicitRequestParams.PrimitiveSchemaDefinition schema = employeeOptions.Count > 0
+            ? new ElicitRequestParams.TitledSingleSelectEnumSchema
+            {
+                Title = title,
+                Description = description,
+                Default = field.DefaultValue,
+                OneOf = [.. employeeOptions]
+            }
+            : new ElicitRequestParams.StringSchema
+            {
+                Title = title,
+                Description = description ?? "Employee id.",
+                Default = field.DefaultValue
+            };
+
+        return new KeyValuePair<string, ElicitRequestParams.PrimitiveSchemaDefinition>(jsonPropertyName, schema);
+    }
+
+    public static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
+        BuildSimplicateRelationTypeElicitOverridesAsync<TDto>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            IReadOnlyCollection<SimplicateElicitFieldOverride> fields,
+            string? relationTypeScope = null,
+            CancellationToken cancellationToken = default)
+        where TDto : class
+    {
+        if (fields.Count == 0)
+            return new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>(StringComparer.OrdinalIgnoreCase);
+
+        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+        var relationTypeQuery = string.IsNullOrWhiteSpace(relationTypeScope)
+            ? "sort=label&select=id,label,color,type"
+            : $"q[type]={Uri.EscapeDataString(relationTypeScope)}&sort=label&select=id,label,color,type";
+
+        var relationTypes = await downloadService.GetAllSimplicatePagesAsync<SimplicateRelationType>(
+            serviceProvider,
+            requestContext.Server,
+            simplicateOptions.GetApiUrl("/crm/relationtype"),
+            relationTypeQuery,
+            page => $"Downloading Simplicate relation types page {page}",
+            requestContext,
+            cancellationToken: cancellationToken);
+
+        var relationTypeOptions = relationTypes
+            .Where(relationType => !string.IsNullOrWhiteSpace(relationType.Id))
+            .GroupBy(relationType => relationType.Id, StringComparer.OrdinalIgnoreCase)
+            .Select(group => group
+                .OrderByDescending(relationType => !string.IsNullOrWhiteSpace(relationType.Label))
+                .ThenBy(relationType => relationType.Label ?? relationType.Id, StringComparer.OrdinalIgnoreCase)
+                .First())
+            .OrderBy(relationType => relationType.Label ?? relationType.Id, StringComparer.OrdinalIgnoreCase)
+            .ThenBy(relationType => relationType.Id, StringComparer.OrdinalIgnoreCase)
+            .Select(relationType => new ElicitRequestParams.EnumSchemaOption
+            {
+                Title = BuildRelationTypeOptionTitle(relationType),
+                Const = relationType.Id
+            })
+            .ToArray();
+
+        return fields
+            .Select(field => CreateRelationTypeFieldOverrideDefinition<TDto>(field, relationTypeOptions))
+            .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static string BuildRelationTypeOptionTitle(SimplicateRelationType relationType)
+    {
+        return string.IsNullOrWhiteSpace(relationType.Label)
+            ? relationType.Id
+            : relationType.Label;
+    }
+
+    private static KeyValuePair<string, ElicitRequestParams.PrimitiveSchemaDefinition>
+        CreateRelationTypeFieldOverrideDefinition<TDto>(
+            SimplicateElicitFieldOverride field,
+            IReadOnlyCollection<ElicitRequestParams.EnumSchemaOption> relationTypeOptions)
+        where TDto : class
+    {
+        var property = typeof(TDto).GetProperty(
+            field.PropertyName,
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+
+        var jsonPropertyName = property?.GetJsonPropertyName() ?? field.PropertyName;
+        var title = string.IsNullOrWhiteSpace(field.Title)
+            ? property?.Name ?? field.PropertyName
+            : field.Title;
+        var description = string.IsNullOrWhiteSpace(field.Description)
+            ? property?.GetDescription()
+            : field.Description;
+
+        ElicitRequestParams.PrimitiveSchemaDefinition schema = relationTypeOptions.Count > 0
+            ? new ElicitRequestParams.TitledSingleSelectEnumSchema
+            {
+                Title = title,
+                Description = description,
+                Default = field.DefaultValue,
+                OneOf = [.. relationTypeOptions]
+            }
+            : new ElicitRequestParams.StringSchema
+            {
+                Title = title,
+                Description = description ?? "Relation type id.",
+                Default = field.DefaultValue
+            };
+
+        return new KeyValuePair<string, ElicitRequestParams.PrimitiveSchemaDefinition>(jsonPropertyName, schema);
+    }
+
+    public static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
+       BuildSimplicateTeamsElicitOverridesAsync<TDto>(
+           this IServiceProvider serviceProvider,
+           RequestContext<CallToolRequestParams> requestContext,
+           IReadOnlyCollection<SimplicateElicitFieldOverride> fields,
+           CancellationToken cancellationToken = default)
+       where TDto : class
+    {
+        if (fields.Count == 0)
+            return new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>(StringComparer.OrdinalIgnoreCase);
+
+        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+
+        var teams = await downloadService.GetAllSimplicatePagesAsync<SimplicateTeamEmployeeCollection>(
+            serviceProvider,
+            requestContext.Server,
+            simplicateOptions.GetApiUrl("/hrm/team"),
+            "sort=name",
+            page => $"Downloading Simplicate team page {page}",
+            requestContext,
+            cancellationToken: cancellationToken);
+
+        var teamOptions = teams
+            .Where(team => !string.IsNullOrWhiteSpace(team.Id))
+            .GroupBy(team => team.Id!, StringComparer.OrdinalIgnoreCase)
+            .Select(group => group
+                .OrderByDescending(team => !string.IsNullOrWhiteSpace(team.Name))
+                .ThenBy(team => team.Name ?? team.Id, StringComparer.OrdinalIgnoreCase)
+                .First())
+            .OrderBy(team => team.Name ?? team.Id, StringComparer.OrdinalIgnoreCase)
+            .ThenBy(team => team.Id, StringComparer.OrdinalIgnoreCase)
+            .Select(team => new ElicitRequestParams.EnumSchemaOption
+            {
+                Title = string.IsNullOrWhiteSpace(team.Name) ? team.Id! : team.Name,
+                Const = team.Id!
+            })
+            .ToArray();
+
+        return fields
+            .Select(field => CreateTeamsFieldOverrideDefinition<TDto>(field, teamOptions))
+            .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static KeyValuePair<string, ElicitRequestParams.PrimitiveSchemaDefinition>
+        CreateTeamsFieldOverrideDefinition<TDto>(
+            SimplicateElicitFieldOverride field,
+            IReadOnlyCollection<ElicitRequestParams.EnumSchemaOption> teamOptions)
+        where TDto : class
+    {
+        var property = typeof(TDto).GetProperty(
+            field.PropertyName,
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+
+        var jsonPropertyName = property?.GetJsonPropertyName() ?? field.PropertyName;
+        var title = string.IsNullOrWhiteSpace(field.Title)
+            ? property?.Name ?? field.PropertyName
+            : field.Title;
+        var description = string.IsNullOrWhiteSpace(field.Description)
+            ? property?.GetDescription()
+            : field.Description;
+        var defaultValues = field.DefaultValues?
+            .Where(value => !string.IsNullOrWhiteSpace(value))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        if ((defaultValues == null || defaultValues.Length == 0) && !string.IsNullOrWhiteSpace(field.DefaultValue))
+            defaultValues = [field.DefaultValue];
+
+        ElicitRequestParams.PrimitiveSchemaDefinition schema = teamOptions.Count > 0
+            ? new ElicitRequestParams.TitledMultiSelectEnumSchema
+            {
+                Title = title,
+                Description = description ?? "Select one or more team ids.",
+                Default = defaultValues ?? [],
+                Items = new ElicitRequestParams.TitledEnumItemsSchema()
+                {
+                    AnyOf = [.. teamOptions]
+                }
+            }
+            : new ElicitRequestParams.StringSchema
+            {
+                Title = title,
+                Description = description ?? "Comma-separated team ids.",
+                Default = field.DefaultValue
+            };
+
+        return new KeyValuePair<string, ElicitRequestParams.PrimitiveSchemaDefinition>(jsonPropertyName, schema);
+    }
+
+    public static IReadOnlyList<SimplicateTeamAssignment>? BuildSimplicateTeamAssignments(
+        this IEnumerable<string>? selectedTeamIds,
+        IEnumerable<string>? existingTeamIds = null)
+    {
+        var selectedIds = (selectedTeamIds ?? [])
+            .Where(teamId => !string.IsNullOrWhiteSpace(teamId))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        var previousIds = (existingTeamIds ?? [])
+            .Where(teamId => !string.IsNullOrWhiteSpace(teamId))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+
+        var assignments = selectedIds
+            .Select(teamId => new SimplicateTeamAssignment
+            {
+                Id = teamId,
+                Value = true
+            })
+            .Concat(previousIds
+                .Except(selectedIds, StringComparer.OrdinalIgnoreCase)
+                .Select(teamId => new SimplicateTeamAssignment
+                {
+                    Id = teamId,
+                    Value = false
+                }))
+            .ToArray();
+
+        return assignments.Length > 0 ? assignments : null;
+    }
+
 
     public static string EnsurePrefix(
                this string value,
@@ -234,11 +546,40 @@ public static class SimplicateExtensions
         TDto seedDto,
         CancellationToken cancellationToken = default)
         where TDto : class, new()              // <-- add new()
+        => await serviceProvider.PostSimplicateResourceAsync(
+            requestContext,
+            relativePath,
+            seedDto,
+            elicitPropertyOverridesFactory: null,
+            cancellationToken);
+
+    /// <summary>
+    /// Common case: elicit and POST the same DTO type, with optional per-field elicitation overrides.
+    /// </summary>
+    public static async Task<CallToolResult?> PostSimplicateResourceAsync<TDto>(
+        this IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string relativePath,
+        TDto seedDto,
+        Func<IServiceProvider, RequestContext<CallToolRequestParams>, TDto, CancellationToken,
+            Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>?>>?
+            elicitPropertyOverridesFactory = null,
+        CancellationToken cancellationToken = default)
+        where TDto : class, new()              // <-- add new()
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
         var url = simplicateOptions.GetApiUrl(relativePath);
 
-        var (dto, notAccepted, _) = await requestContext.Server.TryElicit(seedDto, cancellationToken);
+        var elicitPropertyOverrides = await serviceProvider.BuildElicitPropertyOverridesAsync(
+            requestContext,
+            seedDto,
+            elicitPropertyOverridesFactory,
+            cancellationToken);
+
+        var (dto, notAccepted, _) = await requestContext.Server.TryElicit(
+            seedDto,
+            elicitPropertyOverrides,
+            cancellationToken);
         if (notAccepted != null) return notAccepted;
 
         var scraper = serviceProvider.GetServices<IContentScraper>()
@@ -263,12 +604,44 @@ public static class SimplicateExtensions
         Func<TDto, object> mapper,                 // <-- new: map DTO → object/dynamic/anon type
         CancellationToken cancellationToken = default)
         where TDto : class, new()
+        => await serviceProvider.PostSimplicateResourceAsync(
+            requestContext,
+            relativePath,
+            seedDto,
+            mapper,
+            elicitPropertyOverridesFactory: null,
+            cancellationToken);
+
+    /// <summary>
+    /// Common case: elicit a DTO, then map it into the proper JSON structure and POST.
+    /// Supports optional per-field elicitation overrides.
+    /// </summary>
+    public static async Task<CallToolResult?> PostSimplicateResourceAsync<TDto>(
+        this IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string relativePath,
+        TDto seedDto,
+        Func<TDto, object> mapper,
+        Func<IServiceProvider, RequestContext<CallToolRequestParams>, TDto, CancellationToken,
+            Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>?>>?
+            elicitPropertyOverridesFactory = null,
+        CancellationToken cancellationToken = default)
+        where TDto : class, new()
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
         var url = simplicateOptions.GetApiUrl(relativePath);
 
+        var elicitPropertyOverrides = await serviceProvider.BuildElicitPropertyOverridesAsync(
+            requestContext,
+            seedDto,
+            elicitPropertyOverridesFactory,
+            cancellationToken);
+
         // Let Elicit fill the flat DTO
-        var (dto, notAccepted, _) = await requestContext.Server.TryElicit(seedDto, cancellationToken);
+        var (dto, notAccepted, _) = await requestContext.Server.TryElicit(
+            seedDto,
+            elicitPropertyOverrides,
+            cancellationToken);
         if (notAccepted != null) return notAccepted;
 
         // Map flat DTO into the correct Simplicate structure
@@ -296,16 +669,82 @@ public static class SimplicateExtensions
         Func<TDto, object> mapper, // maps final dto → PUT body
         CancellationToken cancellationToken = default)
         where TDto : class, new()
+        => await serviceProvider.PutSimplicateResourceMergedAsync<TDto, TDto>(
+            requestContext,
+            relativePath,
+            incomingDto,
+            mapper,
+            existing => existing,
+            elicitPropertyOverridesFactory: null,
+            cancellationToken);
+
+    public static async Task<CallToolResult?> PutSimplicateResourceMergedAsync<TDto>(
+        this IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string relativePath,
+        TDto incomingDto,
+        Func<TDto, object> mapper,
+        Func<IServiceProvider, RequestContext<CallToolRequestParams>, TDto, CancellationToken,
+            Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>?>>?
+            elicitPropertyOverridesFactory = null,
+        CancellationToken cancellationToken = default)
+        where TDto : class, new()
+        => await serviceProvider.PutSimplicateResourceMergedAsync<TDto, TDto>(
+            requestContext,
+            relativePath,
+            incomingDto,
+            mapper,
+            existing => existing,
+            elicitPropertyOverridesFactory,
+            cancellationToken);
+
+    public static async Task<CallToolResult?> PutSimplicateResourceMergedAsync<TExisting, TDto>(
+        this IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string relativePath,
+        TDto incomingDto,
+        Func<TDto, object> mapper,
+        Func<TExisting, TDto> existingToDto,
+        Func<IServiceProvider, RequestContext<CallToolRequestParams>, TDto, CancellationToken,
+            Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>?>>?
+            elicitPropertyOverridesFactory = null,
+        CancellationToken cancellationToken = default)
+        where TExisting : class
+        where TDto : class, new()
+        => await serviceProvider.PutSimplicateResourceMergedAsync(
+            requestContext,
+            relativePath,
+            incomingDto,
+            (_, dto) => mapper(dto),
+            existingToDto,
+            elicitPropertyOverridesFactory,
+            cancellationToken);
+
+    public static async Task<CallToolResult?> PutSimplicateResourceMergedAsync<TExisting, TDto>(
+        this IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string relativePath,
+        TDto incomingDto,
+        Func<TExisting?, TDto, object> mapper,
+        Func<TExisting, TDto> existingToDto,
+        Func<IServiceProvider, RequestContext<CallToolRequestParams>, TDto, CancellationToken,
+            Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>?>>?
+            elicitPropertyOverridesFactory = null,
+        CancellationToken cancellationToken = default)
+        where TExisting : class
+        where TDto : class, new()
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var url = simplicateOptions.GetApiUrl(relativePath);
 
         // 1️⃣ Fetch existing item first
-        var existing = await downloadService.GetSimplicateItemAsync<TDto>(
+        var existing = await downloadService.GetSimplicateItemAsync<TExisting>(
             serviceProvider, requestContext.Server, url, cancellationToken);
 
-        var baseDto = existing?.Data ?? new TDto();
+        var baseDto = existing?.Data != null
+            ? existingToDto(existing.Data) ?? new TDto()
+            : new TDto();
 
         // 2️⃣ Pre-fill incomingDto with defaults from existing
         foreach (var prop in typeof(TDto).GetProperties())
@@ -320,7 +759,16 @@ public static class SimplicateExtensions
         }
 
         // 3️⃣ Let user/AI elicit interactively (with defaults prefilled)
-        var (dto, notAccepted, _) = await requestContext.Server.TryElicit(incomingDto, cancellationToken);
+        var elicitPropertyOverrides = await serviceProvider.BuildElicitPropertyOverridesAsync(
+            requestContext,
+            incomingDto,
+            elicitPropertyOverridesFactory,
+            cancellationToken);
+
+        var (dto, notAccepted, _) = await requestContext.Server.TryElicit(
+            incomingDto,
+            elicitPropertyOverrides,
+            cancellationToken);
         if (notAccepted != null) return notAccepted;
 
         // 4️⃣ Merge: prefer elicited non-nulls over existing
@@ -332,7 +780,7 @@ public static class SimplicateExtensions
         }
 
         // 5️⃣ Map and PUT
-        var mappedObject = mapper(baseDto);
+        var mappedObject = mapper(existing?.Data, baseDto);
         var scraper = serviceProvider.GetServices<IContentScraper>()
                                      .OfType<SimplicateScraper>()
                                      .First();
@@ -371,7 +819,7 @@ public static class SimplicateExtensions
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
     {
-        var json = JsonSerializer.Serialize(item, JsonSerializerOptions.Web);
+        var json = JsonSerializer.Serialize(item, jsonOptions);
 
         if (LoggingLevel.Debug.ShouldLog(requestContext.Server.LoggingLevel))
         {
@@ -397,19 +845,20 @@ public static class SimplicateExtensions
         return response.ToJsonContentBlock($"{baseUrl}/{response?.Data.Id}");
     }
 
+    private static JsonSerializerOptions jsonOptions = new(JsonSerializerOptions.Web)
+    {
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+    };
 
     public static async Task<ContentBlock?> PutSimplicateItemAsync<T>(
         this SimplicateScraper downloadService,
         IServiceProvider serviceProvider,
-        string baseUrl, // e.g. "https://{subdomain}.simplicate.nl/api/v2/project/project"
+        string baseUrl,
         T item,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
     {
-        var json = JsonSerializer.Serialize(item, new JsonSerializerOptions(JsonSerializerOptions.Web)
-        {
-            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
-        });
+        var json = JsonSerializer.Serialize(item, jsonOptions);
 
         if (LoggingLevel.Debug.ShouldLog(requestContext.Server.LoggingLevel))
         {

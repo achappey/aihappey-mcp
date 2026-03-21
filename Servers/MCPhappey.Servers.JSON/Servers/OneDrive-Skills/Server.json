@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "OneDrive-Skills",
+    "title": "OneDrive Skills",
+    "version": "1.0.0",
+    "description": "Discover and read Skills (SKILL.md) instructions and Skill files stored in your OneDrive /skills folder.",
+    "icons": [
+      {
+        "src": "https://www.aaudxp-cms.aau.dk/media/3sglfyu0/onedrive.png?width=960"
+      }
+    ]
+  },
+  "instructions": "Read-only Skills access. Skills are stored under /skills in the user's default OneDrive. Use onedrive_openskills_list to enumerate skills and onedrive_openskills_read / onedrive_openskills_read_file to retrieve SKILL.md or a relative file within a skill folder.",
+  "plugins": [
+    "MCPhappey.Tools.OneDrive.OpenSkills.OneDriveOpenSkills, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

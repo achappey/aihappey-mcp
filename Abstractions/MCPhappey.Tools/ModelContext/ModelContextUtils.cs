@@ -257,6 +257,8 @@ public static class ModelContextUtils
     string options,
     [Description("Is field required")]
     bool required = true,
+    [Description("Is field multi select")]
+    bool mutliSelect = false,
     [Description("Default value (must match one of the options)")]
     string? defaultValue = null,
     CancellationToken cancellationToken = default)
@@ -280,13 +282,6 @@ public static class ModelContextUtils
         if (optionList.Count == 0)
             throw new ArgumentException("At least one enum option must be provided.", nameof(options));
 
-        var schema = new ElicitRequestParams.TitledSingleSelectEnumSchema
-        {
-            Title = propName,
-            Description = description,
-            Default = defaultValue,
-            OneOf = optionList
-        };
 
         var elicitRequest = new ElicitRequestParams
         {
@@ -295,7 +290,23 @@ public static class ModelContextUtils
             {
                 Properties = new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>
                 {
-                    [propName] = schema
+                    [propName] = mutliSelect ? new ElicitRequestParams.TitledMultiSelectEnumSchema
+                    {
+                        Title = propName,
+                        Description = description,
+                        Default = string.IsNullOrEmpty(defaultValue)
+                            ? [] : [defaultValue],
+                        Items = new ElicitRequestParams.TitledEnumItemsSchema()
+                        {
+                            AnyOf = optionList
+                        }
+                    } : new ElicitRequestParams.TitledSingleSelectEnumSchema
+                    {
+                        Title = propName,
+                        Description = description,
+                        Default = defaultValue,
+                        OneOf = optionList
+                    }
                 },
                 Required = required ? [propName] : []
             }

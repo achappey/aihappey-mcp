@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Flexprice",
+    "title": "Flexprice",
+    "version": "1.0.0",
+    "websiteUrl": "https://flexprice.io",
+    "description": "The Flexprice Model Context Protocol (MCP) server provides a set of tools that AI agents can use to interact with the Flexprice API: customers, plans, subscriptions, invoices, payments, events, and more.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQE2IQgIAJVXwg/company-logo_200_200/B56ZwyEFlpKIAI-/0/1770366460083/flexpriceio_logo?e=2147483647&v=beta&t=O6nfFyFxAwTmq2yAqleziv652G80zdCJHH5JFuBWwSo"
+      }
+    ]
+  },
+  "baseMcp": "us.api.flexprice.io",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

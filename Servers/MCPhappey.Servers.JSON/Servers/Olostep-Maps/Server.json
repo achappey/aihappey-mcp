@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Olostep-Maps",
+    "title": "Olostep Maps",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.olostep.com",
+    "description": "Discover website URLs with Olostep maps, including filters, pagination cursors, and retrieval by map id.",
+    "icons": [
+      {
+        "src": "https://cdn.prod.website-files.com/65a8fb3d4b5d954b171b9ab8/68be8c293132febc0e2f18e9_Favicon%20(2).svg"
+      }
+    ]
+  },
+   "plugins": [
+    "MCPhappey.Tools.Olostep.OlostepMaps, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

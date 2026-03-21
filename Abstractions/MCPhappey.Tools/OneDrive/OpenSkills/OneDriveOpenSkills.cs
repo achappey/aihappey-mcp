@@ -3,8 +3,6 @@ using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
 using MCPhappey.Tools.Memory.OneDrive;
-using Microsoft.Graph.Beta;
-using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -12,8 +10,8 @@ namespace MCPhappey.Tools.OneDrive.OpenSkills;
 
 public static class OneDriveOpenSkills
 {
-    private const string RootFolderName = "skills";
-    private const string SkillManifestName = "SKILL.md";
+    internal const string RootFolderName = "skills";
+    internal const string SkillManifestName = "SKILL.md";
 
     [Description("List OpenSkills stored under /skills in the user's OneDrive.")]
     [McpServerTool(
@@ -31,6 +29,7 @@ public static class OneDriveOpenSkills
         var drive = await graph.GetDefaultDriveAsync(cancellationToken)
                    ?? throw new Exception("Could not resolve default OneDrive.");
 
+        await graph.EnsureFolderExistsAsync(drive.Id!, RootFolderName, cancellationToken);
         var skillFolders = await graph.ListFoldersIfExistsAsync(drive.Id!, RootFolderName, cancellationToken);
         if (skillFolders.Count == 0)
         {
@@ -62,15 +61,14 @@ public static class OneDriveOpenSkills
                 continue;
             }
 
-            var (metadata, _) = ParseFrontMatter(skillText);
-            metadata.TryGetValue("name", out var manifestName);
-            metadata.TryGetValue("description", out var description);
+            var manifest = SkillDocumentParser.Parse(skillText, skillName);
 
             results.Add(new OpenSkillSummary
             {
-                Name = string.IsNullOrWhiteSpace(manifestName) ? skillName : manifestName,
-                Description = description,
-                Metadata = metadata.Count == 0 ? null : metadata
+                Name = string.IsNullOrWhiteSpace(manifest.Name) ? skillName : manifest.Name,
+                Description = manifest.Description,
+                Metadata = manifest.Metadata.Count == 0 ? null : manifest.Metadata,
+                Warnings = manifest.Warnings.Count == 0 ? null : manifest.Warnings
             });
         }
 
@@ -143,7 +141,7 @@ public static class OneDriveOpenSkills
         return content.ToTextContentBlock().ToCallToolResult();
     }));
 
-    private static string NormalizeSkillName(string skillName)
+    internal static string NormalizeSkillName(string skillName)
     {
         var normalized = skillName.Trim().Replace("\\", "/").Trim('/');
         if (string.IsNullOrWhiteSpace(normalized) || normalized.Contains(".."))
@@ -153,7 +151,7 @@ public static class OneDriveOpenSkills
         return normalized;
     }
 
-    private static string NormalizeRelativePath(string relativePath)
+    internal static string NormalizeRelativePath(string relativePath)
     {
         var normalized = relativePath.Trim().Replace("\\", "/").Trim('/');
         if (string.IsNullOrWhiteSpace(normalized) || normalized.Contains(".."))
@@ -161,70 +159,12 @@ public static class OneDriveOpenSkills
         return normalized;
     }
 
-    private static (Dictionary<string, string> metadata, string content) ParseFrontMatter(string text)
-    {
-        var metadata = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        if (string.IsNullOrWhiteSpace(text))
-            return (metadata, string.Empty);
-
-        using var reader = new StringReader(text);
-        var line = reader.ReadLine();
-        if (line == null || line.Trim() != "---")
-            return (metadata, text);
-
-        while ((line = reader.ReadLine()) != null)
-        {
-            if (line.Trim() == "---")
-                break;
-
-            var idx = line.IndexOf(':');
-            if (idx <= 0)
-                continue;
-
-            var key = line[..idx].Trim();
-            var value = line[(idx + 1)..].Trim();
-            if (string.IsNullOrWhiteSpace(key))
-                continue;
-
-            metadata[key] = value;
-        }
-
-        var remaining = reader.ReadToEnd();
-        return (metadata, remaining ?? string.Empty);
-    }
-
     private sealed class OpenSkillSummary
     {
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public Dictionary<string, string>? Metadata { get; set; }
+        public List<string>? Warnings { get; set; }
     }
 }
 
-internal static class OneDriveOpenSkillsGraphExtensions
-{
-    public static async Task<List<DriveItem>> ListFoldersIfExistsAsync(
-        this GraphServiceClient graph,
-        string driveId,
-        string folderPath,
-        CancellationToken ct)
-    {
-        try
-        {
-            var path = folderPath.Trim('/');
-            var items = await graph.Drives[driveId]
-                .Root
-                .ItemWithPath(path)
-                .Children
-                .GetAsync(cancellationToken: ct);
-
-            return items?.Value?
-                .Where(i => i.Folder != null)
-                .ToList() ?? [];
-        }
-        catch
-        {
-            return [];
-        }
-    }
-}

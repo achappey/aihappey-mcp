@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "OneDrive-SkillsEditor",
+    "title": "OneDrive Skills Editor",
+    "version": "1.0.0",
+    "description": "Create and edit Skills from your personal OneDrive /skills folder.",
+    "icons": [
+      {
+        "src": "https://www.aaudxp-cms.aau.dk/media/3sglfyu0/onedrive.png?width=960"
+      }
+    ]
+  },
+  "instructions": "Author and maintain Agent Skills stored under /skills in the user's default OneDrive. Use the editor tools to create spec-compliant SKILL.md files, update manifest metadata and instructions, manage files within a skill folder, inspect validation diagnostics, and safely delete skill content.",
+  "plugins": [
+    "MCPhappey.Tools.OneDrive.OpenSkills.OneDriveSkillsEditor, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

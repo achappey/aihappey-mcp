@@ -2,6 +2,7 @@ using System.ComponentModel;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
+using MCPhappey.Simplicate;
 using MCPhappey.Simplicate.Extensions;
 using MCPhappey.Simplicate.Options;
 using Microsoft.Extensions.DependencyInjection;
@@ -225,9 +226,10 @@ public static partial class SimplicateCRM
     OpenWorld = false)]
     public static async Task<CallToolResult?> SimplicateCRM_CreateOrganization(
         [Description("The full name of the organization.")] string name,
-        [Description("Industry id.")] string industryId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
+        [Description("Industry id.")] string? industryId = null,
+        [Description("The organization relation type id.")] string? relationTypeId = null,
         [Description("A note or description about the organization.")] string? note = null,
         [Description("The primary email address for the organization.")] string? email = null,
         [Description("The main website URL of the organization.")] Uri? url = null,
@@ -235,7 +237,7 @@ public static partial class SimplicateCRM
         CancellationToken cancellationToken = default) => await serviceProvider.PostSimplicateResourceAsync(
                 requestContext,
                 "/crm/organization",
-               new SimplicateNewOrganization
+                new SimplicateNewOrganization
                {
                    Name = name,
                    Note = note,
@@ -243,25 +245,36 @@ public static partial class SimplicateCRM
                    Email = email,
                    IsActive = true,
                    Url = url,
-                   IndustryId = industryId
-               },
-                dto => new
-                {
-                    name = dto.Name,
-                    note = dto.Note,
-                    email = dto.Email,
-                    coc_code = dto.CocCode,
-                    phone = dto.Phone,
-                    linkedin_url = dto.LinkedInUrl,
-                    vat_number = dto.VatNumber,
-                    url = dto.Url,
-                    industry = !string.IsNullOrEmpty(dto.IndustryId) ? new
-                    {
-                        id = dto.IndustryId
-                    } : null
+                   Industry = industryId,
+                   RelationTypeId = relationTypeId
                 },
-                cancellationToken
-            );
+                  dto => new
+                  {
+                      name = dto.Name,
+                     note = dto.Note,
+                     email = dto.Email,
+                     coc_code = dto.CocCode,
+                      phone = dto.Phone,
+                      linkedin_url = dto.LinkedInUrl,
+                      vat_number = dto.VatNumber,
+                      url = dto.Url,
+                       teams = dto.Teams.BuildSimplicateTeamAssignments(),
+                       industry = !string.IsNullOrEmpty(dto.Industry) ? new
+                       {
+                           id = dto.Industry
+                       } : null,
+                       relation_type = !string.IsNullOrEmpty(dto.RelationTypeId) ? new
+                       {
+                           id = dto.RelationTypeId
+                       } : null,
+                       relation_manager = !string.IsNullOrEmpty(dto.RelationManagerId) ? new
+                       {
+                           id = dto.RelationManagerId
+                       } : null
+                  },
+                  GetOrganizationWriteElicitOverridesAsync,
+                  cancellationToken
+             );
 
 
     [Description("Update an organization in Simplicate CRM")]
@@ -280,6 +293,7 @@ public static partial class SimplicateCRM
             string? phone = null,
             Uri? url = null,
             string? industryId = null,
+            string? relationTypeId = null,
             string? relationManagerId = null,
             string? cocCode = null,
             string? vatNumber = null,
@@ -294,19 +308,20 @@ public static partial class SimplicateCRM
             Email = email,
             Phone = phone,
             RelationManagerId = relationManagerId,
+            RelationTypeId = relationTypeId,
             CocCode = cocCode,
             IsActive = isActive,
             LinkedInUrl = linkedinUrl,
             VatNumber = vatNumber,
             Url = url,
-            IndustryId = industryId
+            Industry = industryId
         };
 
-        return await serviceProvider.PutSimplicateResourceMergedAsync(
+        return await serviceProvider.PutSimplicateResourceMergedAsync<SimplicateOrganization, SimplicateNewOrganization>(
             requestContext,
             "/crm/organization/" + organizationId.EnsurePrefix("organization"),
             dto,
-            d => new
+            (existingOrganization, d) => new
             {
                 name = d.Name,
                 note = d.Note,
@@ -317,15 +332,151 @@ public static partial class SimplicateCRM
                 linkedin_url = d.LinkedInUrl,
                 vat_number = d.VatNumber,
                 url = d.Url,
-                industry = !string.IsNullOrEmpty(d.IndustryId)
-                    ? new { id = d.IndustryId }
+                industry = !string.IsNullOrEmpty(d.Industry)
+                    ? new { id = d.Industry }
+                    : null,
+                relation_type = !string.IsNullOrEmpty(d.RelationTypeId)
+                    ? new { id = d.RelationTypeId }
                     : null,
                 relation_manager = !string.IsNullOrEmpty(d.RelationManagerId)
                     ? new { id = d.RelationManagerId }
-                    : null
+                    : null,
+                teams = d.Teams.BuildSimplicateTeamAssignments(existingOrganization?.Teams?.Select(team => team.Id))
             },
+            MapOrganizationToWriteModel,
+            GetOrganizationWriteElicitOverridesAsync,
              cancellationToken);
     }
+
+    private static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>?>
+        GetOrganizationWriteElicitOverridesAsync(
+            IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            SimplicateNewOrganization dto,
+            CancellationToken cancellationToken)
+    {
+        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+
+        var industries = await downloadService.GetAllSimplicatePagesAsync<SimplicateIndustry>(
+            serviceProvider,
+            requestContext.Server,
+            simplicateOptions.GetApiUrl("/crm/industry"),
+            "sort=name&select=id,name",
+            page => $"Downloading industries page {page}",
+            requestContext,
+            cancellationToken: cancellationToken);
+
+        var industryOptions = industries
+            .Where(x => !string.IsNullOrWhiteSpace(x.Id))
+            .GroupBy(x => x.Id, StringComparer.OrdinalIgnoreCase)
+            .Select(x => x.First())
+            .OrderBy(x => x.Name ?? x.Id, StringComparer.OrdinalIgnoreCase)
+            .Select(x => new ElicitRequestParams.EnumSchemaOption
+            {
+                Title = string.IsNullOrWhiteSpace(x.Name) ? x.Id : x.Name,
+                Const = x.Id
+            })
+            .ToArray();
+
+        ElicitRequestParams.PrimitiveSchemaDefinition industrySchema = industryOptions.Length > 0
+            ? new ElicitRequestParams.TitledSingleSelectEnumSchema
+            {
+                Title = "Industry",
+                Description = "Select the organization industry. Clients see the industry names, while the submitted value remains the Simplicate industry id.",
+                Default = dto.Industry,
+                OneOf = industryOptions
+            }
+            : new ElicitRequestParams.StringSchema
+            {
+                Title = "Industry",
+                Description = "Industry id.",
+                Default = dto.Industry
+            };
+
+        var overrides = new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["industry"] = industrySchema
+        };
+
+        var employeeOverrides = await serviceProvider.BuildSimplicateEmployeeElicitOverridesAsync<SimplicateNewOrganization>(
+            requestContext,
+            [
+                new SimplicateElicitFieldOverride
+                {
+                    PropertyName = nameof(SimplicateNewOrganization.RelationManagerId),
+                    Title = "Relation manager",
+                    Description = "Select the organization relation manager.",
+                    DefaultValue = dto.RelationManagerId
+                }
+            ],
+            cancellationToken);
+
+        foreach (var employeeOverride in employeeOverrides)
+            overrides[employeeOverride.Key] = employeeOverride.Value;
+
+        var relationTypeOverrides = await serviceProvider.BuildSimplicateRelationTypeElicitOverridesAsync<SimplicateNewOrganization>(
+            requestContext,
+            [
+                new SimplicateElicitFieldOverride
+                {
+                    PropertyName = nameof(SimplicateNewOrganization.RelationTypeId),
+                    Title = "Relation type",
+                    Description = "Select the organization relation type.",
+                    DefaultValue = dto.RelationTypeId
+                }
+            ],
+            relationTypeScope: "crm",
+            cancellationToken: cancellationToken);
+
+        foreach (var relationTypeOverride in relationTypeOverrides)
+            overrides[relationTypeOverride.Key] = relationTypeOverride.Value;
+
+        var teamOverrides = await serviceProvider.BuildSimplicateTeamsElicitOverridesAsync<SimplicateNewOrganization>(
+            requestContext,
+            [
+                new SimplicateElicitFieldOverride
+                {
+                    PropertyName = nameof(SimplicateNewOrganization.Teams),
+                    Title = "Teams",
+                    Description = "Select one or more teams for the organization.",
+                    DefaultValues = dto.Teams
+                }
+            ],
+            cancellationToken);
+
+        foreach (var teamOverride in teamOverrides)
+            overrides[teamOverride.Key] = teamOverride.Value;
+
+        return overrides;
+    }
+
+    private static SimplicateNewOrganization MapOrganizationToWriteModel(SimplicateOrganization organization)
+        => new()
+        {
+            Name = organization.Name,
+            Note = organization.Note,
+            Email = organization.Email,
+            Phone = organization.Phone,
+            Url = TryCreateAbsoluteUri(organization.Url),
+            LinkedInUrl = TryCreateAbsoluteUri(organization.LinkedinUrl),
+            CocCode = organization.CocCode,
+            VatNumber = organization.VatNumber,
+            Industry = organization.Industry?.Id,
+            RelationTypeId = organization.RelationType?.Id,
+            RelationManagerId = organization.RelationManager?.Id,
+            Teams = organization.Teams?
+                .Where(team => !string.IsNullOrWhiteSpace(team.Id))
+                .Select(team => team.Id)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList(),
+            IsActive = organization.IsActive,
+        };
+
+    private static Uri? TryCreateAbsoluteUri(string? value)
+        => Uri.TryCreate(value, UriKind.Absolute, out var uri)
+            ? uri
+            : null;
 
     [Description("Delete an organization in Simplicate CRM after typed confirmation of the exact organization id.")]
     [McpServerTool(Title = "Delete organization in Simplicate",

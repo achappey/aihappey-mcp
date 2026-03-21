@@ -16,6 +16,7 @@ using MCPhappey.Tools.Perplexity;
 using MCPhappey.Tools.xAI;
 using MCPhappey.Servers.JSON.Extensions;
 using MCPhappey.Tools.AzureMaps;
+using MCPhappey.Tools.Azure;
 using MCPhappey.Tools.StabilityAI.Models;
 using MCPhappey.Tools.Azure.DocumentIntelligence;
 using MCPhappey.Tools.Imagga;
@@ -99,6 +100,7 @@ using MCPhappey.Tools.Cartesia;
 using MCPhappey.Tools.SmallestAI;
 using MCPhappey.Tools.UnrealSpeech;
 using MCPhappey.Tools.TinyFish;
+using MCPhappey.Tools.Olostep;
 using MCPhappey.Tools.LLMLayer;
 using MCPhappey.Tools.Smooth;
 using MCPhappey.Tools.WebsearchAPI;
@@ -175,6 +177,7 @@ AddApi(builder.Services, appConfig, "api.groq.com", k => new GroqSettings { ApiK
 AddApi(builder.Services, appConfig, "api.aimlapi.com", k => new AIMLSettings { ApiKey = k });
 
 builder.Services
+.AddAzureSkills(appConfig?.SkillsStorage)
 .AddMistral(appConfig?.DomainHeaders)
 .AddPerplexity(appConfig?.DomainHeaders)
 .AddParallel(appConfig?.DomainHeaders)
@@ -254,10 +257,11 @@ builder.Services
 .AddFishAudio(appConfig?.DomainHeaders)
 .AddCartesia(appConfig?.DomainHeaders)
 .AddTinyFish(appConfig?.DomainHeaders)
-.AddSmooth(appConfig?.DomainHeaders)
-.AddLLMLayer(appConfig?.DomainHeaders)
-.AddWebsearchAPI(appConfig?.DomainHeaders)
-.AddQomplement(appConfig?.DomainHeaders)
+ .AddSmooth(appConfig?.DomainHeaders)
+ .AddLLMLayer(appConfig?.DomainHeaders)
+ .AddOlostep(appConfig?.DomainHeaders)
+ .AddWebsearchAPI(appConfig?.DomainHeaders)
+ .AddQomplement(appConfig?.DomainHeaders)
 .AddMemU(appConfig?.DomainHeaders)
 .AddNimbleWay(appConfig?.DomainHeaders)
 .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)

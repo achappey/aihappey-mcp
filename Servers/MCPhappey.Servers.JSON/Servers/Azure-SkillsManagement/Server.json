@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Azure-SkillsManagement",
+    "title": "Azure Skills Management",
+    "version": "1.0.0",
+    "websiteUrl": "https://azure.microsoft.com/en-us/products/storage/blobs",
+    "description": "Manage Skills stored on Azure Blob Storage.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/2048px-Microsoft_Azure.svg.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Azure.AzureSkillsManagement, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

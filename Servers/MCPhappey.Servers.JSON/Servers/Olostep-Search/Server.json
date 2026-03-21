@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Olostep-Search",
+    "title": "Olostep Search",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.olostep.com",
+    "description": "Search the web with Olostep and return deduplicated relevant links with titles and descriptions.",
+    "icons": [
+      {
+        "src": "https://cdn.prod.website-files.com/65a8fb3d4b5d954b171b9ab8/68be8c293132febc0e2f18e9_Favicon%20(2).svg"
+      }
+    ]
+  },
+   "plugins": [
+    "MCPhappey.Tools.Olostep.OlostepSearch, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

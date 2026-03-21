@@ -11,8 +11,16 @@ public static class ElicitExtensions
      T elicitRequest,
      CancellationToken cancellationToken = default)
      where T : class, new()
+        => await mcpServer.TryElicit(elicitRequest, propertyOverrides: null, cancellationToken);
+
+    public static async Task<(T typedResult, CallToolResult? notAccepted, ElicitResult? elicitResult)> TryElicit<T>(
+     this McpServer mcpServer,
+     T elicitRequest,
+     IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>? propertyOverrides,
+     CancellationToken cancellationToken = default)
+     where T : class, new()
     {
-        var elicitParams = ElicitFormExtensions.CreateElicitRequestParamsForType<T>(elicitRequest);
+        var elicitParams = ElicitFormExtensions.CreateElicitRequestParamsForType(elicitRequest, propertyOverrides);
         var result = await mcpServer.ElicitAsync(elicitParams, cancellationToken);
         if (result?.Action != "accept")
             throw new Exception($"Elicit not completed: {result?.Action}\n\n{JsonSerializer.Serialize(result, JsonSerializerOptions.Web)}");

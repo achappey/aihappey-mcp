@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Flexprice-Addons",
+    "title": "Flexprice Addons",
+    "version": "1.0.0",
+    "websiteUrl": "https://flexprice.io",
+    "description": "Browse Flexprice addons through resource templates and manage addon lifecycle changes through tools.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQE2IQgIAJVXwg/company-logo_200_200/B56ZwyEFlpKIAI-/0/1770366460083/flexpriceio_logo?e=2147483647&v=beta&t=O6nfFyFxAwTmq2yAqleziv652G80zdCJHH5JFuBWwSo"
+      }
+    ]
+  },
+  "baseMcp": "us.api.flexprice.io",
+  "plugins": [
+    "MCPhappey.Tools.Flexprice.FlexpriceAddons, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

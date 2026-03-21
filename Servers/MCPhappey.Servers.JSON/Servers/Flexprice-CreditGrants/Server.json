@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Flexprice-CreditGrants",
+    "title": "Flexprice CreditGrants",
+    "version": "1.0.0",
+    "websiteUrl": "https://flexprice.io",
+    "description": "Retrieve Flexprice credit grants through resource templates and manage credit grants through tools.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQE2IQgIAJVXwg/company-logo_200_200/B56ZwyEFlpKIAI-/0/1770366460083/flexpriceio_logo?e=2147483647&v=beta&t=O6nfFyFxAwTmq2yAqleziv652G80zdCJHH5JFuBWwSo"
+      }
+    ]
+  },
+  "baseMcp": "us.api.flexprice.io",
+  "plugins": [
+    "MCPhappey.Tools.Flexprice.FlexpriceCreditGrants, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Relace-Repos",
+    "title": "Relace Repos",
+    "version": "1.0.0",
+    "websiteUrl": "https://relace.ai",
+    "description": "Browse Relace repos through MCP resources/templates and manage repos, single-file updates, retrieval, and repo tokens with structured tools.",
+    "icons": [
+      {
+        "src": "https://media.licdn.com/dms/image/v2/D560BAQGyEC9dN4ThLg/company-logo_200_200/company-logo_200_200/0/1729798780244?e=2147483647&v=beta&t=Ce04Sph9QwEIIQeAA7yUtIXegtFQZZQ7zeI87lIcb-U"
+      }
+    ]
+  },
+  "instructions": "Use resources and resource templates for every GET endpoint. Use tools only for create, update, upload, delete, token creation, token deletion, and retrieve POST workflows. Keep tool parameters primitive: pass metadata/filter payloads as JSON strings instead of nested MCP objects. Use elicitation for create/update/upload/delete flows. For repo updates, prefer a single diff operation or a single git sync per tool call instead of complex bulk mutations. For file-based inputs, use the default SharePoint/OneDrive/HTTP fileUrl strategy. Return structured content from tools.",
+  "plugins": [
+    "MCPhappey.Tools.Relace.RelaceRepos, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

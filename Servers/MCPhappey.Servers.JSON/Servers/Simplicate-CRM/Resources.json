@@ -1,6 +1,18 @@
 {
   "resources": [
     {
+      "uri": "https://{organization}.simplicate.app/api/v2/crm/interests",
+      "name": "crm-interests",
+      "title": "Alle CRM intresses",
+      "description": "Haal alle intresses opties op uit Simplicate CRM.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
       "uri": "ui://widget/my-organization-profiles.html",
       "name": "my-organization-profiles-widget",
       "description": "My organization profiles widget that displays my organization profiles.",

@@ -14,7 +14,7 @@ public static class WebSearch
 {
     private static readonly string[] ModelNames = ["sonar-pro", "gpt-5.4-mini", "gemini-2.5-flash",
         "claude-haiku-4-5-20251001", "grok-4-fast-non-reasoning", "mistral-medium-latest", "openai/gpt-oss-20b"];
-    private static readonly string[] AcademicModelNames = ["sonar-reasoning-pro", "gpt-5.1", 
+    private static readonly string[] AcademicModelNames = ["sonar-reasoning-pro", "gpt-5.1",
         "gemini-2.5-pro",
         "claude-opus-4-1-20250805", "grok-4-fast-reasoning", "mistral-large-latest"];
 
@@ -79,10 +79,6 @@ public static class WebSearch
         result.Meta?.Add("duration", (endTime - startTime).ToString());
 
         return result;
-
-        //        return result
-        //           .ToJsonContentBlock("https://www.google.com")
-        //          .ToCallToolResult();
     }));
 
 
@@ -150,7 +146,6 @@ public static class WebSearch
                             } },
                             { "openai", new {
                                 web_search = new {
-                                    search_context_size = searchContextSize
                                 },
                                 reasoning = new {
                                     effort = "low"
@@ -290,7 +285,6 @@ public static class WebSearch
                     } },
                     { "openai", new {
                         web_search = new {
-                            search_context_size = searchContextSize
                          },
                          reasoning = new {
                             effort = "low"

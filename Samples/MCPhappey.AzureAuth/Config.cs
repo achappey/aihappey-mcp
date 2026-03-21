@@ -1,6 +1,7 @@
 using MCPhappey.Auth.Models;
 using MCPhappey.Common.Models;
 using MCPhappey.Simplicate.Options;
+using MCPhappey.Tools.Azure;
 using MCPhappey.Tools.AI;
 
 namespace MCPhappey.WebApi;
@@ -30,5 +31,7 @@ public class Config
     public Dictionary<string, McpExtension>? McpExtensions { get; set; }
 
     public Dictionary<string, Dictionary<string, string>>? DomainQueryStrings { get; set; }
+
+    public SkillsStorageSettings? SkillsStorage { get; set; }
 
 }

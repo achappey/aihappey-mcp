@@ -1,0 +1,56 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.relace.run/v1/repo?page_start={pageStart}&page_size={pageSize}&order_by={orderBy}&order_descending={orderDescending}&filter_metadata={filterMetadata}",
+      "name": "relace-list-repos",
+      "title": "Relace list repos",
+      "description": "List repos you own with optional paging, ordering, and metadata filtering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.relace.run/v1/repo/{repoId}",
+      "name": "relace-repo-details",
+      "title": "Relace repo details",
+      "description": "Retrieve metadata and settings for a single Relace repo by repoId.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.relace.run/v1/repo/{repoId}/clone",
+      "name": "relace-clone-repo",
+      "title": "Relace clone repo",
+      "description": "Download all files and full contents from a single Relace repo by repoId.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.relace.run/v1/repo_token/{token}",
+      "name": "relace-repo-token-details",
+      "title": "Relace repo token details",
+      "description": "Retrieve details for a scoped Relace repo token by token value.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://us.api.flexprice.io/v1/addons/{id}",
+      "name": "addon-by-id",
+      "title": "Addon by id",
+      "description": "Retrieve a single Flexprice addon by addon id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://us.api.flexprice.io/v1/addons/lookup/{lookup_key}",
+      "name": "addon-by-lookup-key",
+      "title": "Addon by lookup key",
+      "description": "Retrieve a single Flexprice addon by lookup key.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

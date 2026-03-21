@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using MCPhappey.Simplicate;
 
 namespace MCPhappey.Simplicate.CRM;
 
@@ -49,6 +50,18 @@ public static partial class SimplicateCRM
         [JsonPropertyName("is_active")]
         [Description("Organization active.")]
         public bool? IsActive { get; set; }
+
+        [JsonPropertyName("relation_manager.id")]
+        [Description("Relation manager id")]
+        public string? RelationManagerId { get; set; }
+
+        [JsonPropertyName("relation_type.id")]
+        [Description("Relation type. The displayed option is the relation type label, while the submitted value is the Simplicate relation type id.")]
+        public string? RelationTypeId { get; set; }
+
+        [JsonPropertyName("teams")]
+        [Description("Selected teams for the person.")]
+        public List<string>? Teams { get; set; }
     }
 
 
@@ -95,9 +108,19 @@ public static partial class SimplicateCRM
         [Description("LinkedIn url.")]
         public Uri? LinkedInUrl { get; set; }
 
+        [JsonPropertyName("relation_manager")]
+        public SimplicateRelationManager? RelationManager { get; set; }
+
+        [JsonPropertyName("relation_type")]
+        public SimplicateRelationType? RelationType { get; set; }
+
         [JsonPropertyName("linked_as_contact_to_organization")]
         [Description("Organizations this person is linked to as contact.")]
         public List<SimplicatePersonOrganizationContact>? LinkedAsContactToOrganization { get; set; }
+
+        [JsonPropertyName("teams")]
+        [Description("Teams assigned to the person.")]
+        public List<SimplicateTeamAssignment>? Teams { get; set; }
 
         [JsonPropertyName("is_active")]
         [Description("Person active.")]
@@ -107,6 +130,10 @@ public static partial class SimplicateCRM
     [Description("Organization contact link for a person")]
     public class SimplicatePersonOrganizationContact
     {
+        [JsonPropertyName("id")]
+        [Description("The contact link id.")]
+        public string? Id { get; set; }
+
         [JsonPropertyName("work_function")]
         [Description("Job title / work function of the contact person in the organization.")]
         public string? WorkFunction { get; set; }
@@ -124,6 +151,10 @@ public static partial class SimplicateCRM
         [Required]
         [Description("The organization id this person should be linked to as a contact.")]
         public string? OrganizationId { get; set; }
+
+        [JsonPropertyName("interests")]
+        [Description("Interest values for this organization contact link.")]
+        public List<SimplicateInterestValue>? Interests { get; set; }
     }
 
     [Description("Organization contact link details to confirm before linking a person to an organization")]
@@ -146,6 +177,92 @@ public static partial class SimplicateCRM
         [JsonPropertyName("work_mobile")]
         [Description("Work mobile phone for this organization contact link.")]
         public string? WorkMobile { get; set; }
+    }
+
+    [Description("Organization-person contact link details to confirm before linking or updating a person on an organization")]
+    public class SimplicateOrganizationPersonContactInput
+    {
+        [JsonPropertyName("person_id")]
+        [Required]
+        [Description("The person id this organization should be linked to as a contact.")]
+        public string? PersonId { get; set; }
+
+        [JsonPropertyName("work_function")]
+        [Description("Job title / work function of the linked person for this organization.")]
+        public string? WorkFunction { get; set; }
+
+        [JsonPropertyName("work_email")]
+        [EmailAddress]
+        [Description("Work email address for this organization contact link.")]
+        public string? WorkEmail { get; set; }
+
+        [JsonPropertyName("work_mobile")]
+        [Description("Work mobile phone for this organization contact link.")]
+        public string? WorkMobile { get; set; }
+    }
+
+    [Description("Interest value to confirm before updating a linked contact relationship")]
+    public class SimplicateLinkedContactInterestInput
+    {
+        [JsonPropertyName("interest_id")]
+        [Required]
+        [Description("The interest id to set on the linked contact relationship.")]
+        public string? InterestId { get; set; }
+
+        [JsonPropertyName("value")]
+        [Description("The value to set for the selected interest.")]
+        public bool Value { get; set; }
+    }
+
+    public class SimplicateInterestDefinition
+    {
+        [JsonPropertyName("id")]
+        [Required]
+        public string Id { get; set; } = null!;
+
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("api_name")]
+        public string? ApiName { get; set; }
+
+        [JsonPropertyName("organization")]
+        public bool Organization { get; set; }
+
+        [JsonPropertyName("person")]
+        public bool Person { get; set; }
+
+        [JsonPropertyName("contact")]
+        public bool Contact { get; set; }
+    }
+
+    public class SimplicateInterestValue
+    {
+        [JsonPropertyName("id")]
+        [Required]
+        public string Id { get; set; } = null!;
+
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("api_name")]
+        public string? ApiName { get; set; }
+
+        [JsonPropertyName("value")]
+        public bool Value { get; set; }
+    }
+
+    public class SimplicateTeamAssignment
+    {
+        [JsonPropertyName("id")]
+        [Required]
+        public string Id { get; set; } = null!;
+
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("value")]
+        public bool? Value { get; set; }
     }
 
 
@@ -186,13 +303,22 @@ public static partial class SimplicateCRM
         [Description("VAT number.")]
         public string? VatNumber { get; set; }
 
-        [JsonPropertyName("industry.id")]
-        [Description("Industry id")]
-        public string? IndustryId { get; set; }
+        [JsonPropertyName("industry")]
+        [Required]
+        [Description("Industry. The displayed option is the industry name, while the submitted value is the Simplicate industry id.")]
+        public string? Industry { get; set; }
 
         [JsonPropertyName("relation_manager.id")]
         [Description("Relation manager id")]
         public string? RelationManagerId { get; set; }
+
+        [JsonPropertyName("relation_type.id")]
+        [Description("Relation type. The displayed option is the relation type label, while the submitted value is the Simplicate relation type id.")]
+        public string? RelationTypeId { get; set; }
+
+        [JsonPropertyName("teams")]
+        [Description("Selected teams for the organization.")]
+        public List<string>? Teams { get; set; }
 
         [JsonPropertyName("is_active")]
         [Description("Organization active.")]
@@ -273,9 +399,47 @@ public static partial class SimplicateCRM
         [JsonPropertyName("relation_manager")]
         public SimplicateRelationManager? RelationManager { get; set; }
 
+        [JsonPropertyName("linked_persons_contacts")]
+        [Description("Persons linked to this organization as contacts.")]
+        public List<SimplicateOrganizationPersonContact>? LinkedPersonsContacts { get; set; }
+
+        [JsonPropertyName("teams")]
+        [Description("Teams assigned to the organization.")]
+        public List<SimplicateTeamAssignment>? Teams { get; set; }
+
         [JsonPropertyName("is_active")]
         [Description("Organization active.")]
         public bool? IsActive { get; set; }
+    }
+
+    [Description("Person contact link for an organization")]
+    public class SimplicateOrganizationPersonContact
+    {
+        [JsonPropertyName("id")]
+        [Description("The contact link id.")]
+        public string? Id { get; set; }
+
+        [JsonPropertyName("person_id")]
+        [Required]
+        [Description("The person id linked to the organization as a contact.")]
+        public string? PersonId { get; set; }
+
+        [JsonPropertyName("work_function")]
+        [Description("Job title / work function of the linked person for this organization.")]
+        public string? WorkFunction { get; set; }
+
+        [JsonPropertyName("work_email")]
+        [EmailAddress]
+        [Description("Work email address for this organization contact link.")]
+        public string? WorkEmail { get; set; }
+
+        [JsonPropertyName("work_mobile")]
+        [Description("Work mobile phone for this organization contact link.")]
+        public string? WorkMobile { get; set; }
+
+        [JsonPropertyName("interests")]
+        [Description("Interest values for this organization contact link.")]
+        public List<SimplicateInterestValue>? Interests { get; set; }
     }
 
     public class SimplicateRelationManager
@@ -308,6 +472,9 @@ public static partial class SimplicateCRM
 
         [JsonPropertyName("color")]
         public string Color { get; set; } = null!;
+
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
 
     }
 

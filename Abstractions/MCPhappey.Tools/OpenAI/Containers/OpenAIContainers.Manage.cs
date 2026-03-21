@@ -10,6 +10,7 @@ using System.ClientModel;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using MCPhappey.Core.Services;
+using System.Text.Json;
 
 namespace MCPhappey.Tools.OpenAI.Containers;
 
@@ -25,6 +26,7 @@ public static partial class OpenAIContainers
      RequestContext<CallToolRequestParams> requestContext,
      CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
     {
         var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -40,7 +42,7 @@ public static partial class OpenAIContainers
 
         return response.Content.ToString()?
             .ToJsonCallToolResponse($"https://api.openai.com/v1/containers/{containerId}/files/file_id");
-    });
+    }));
     /*
 
    [Description("Download a file from OpenAI container and uploads it to users' OneDrive")]
@@ -77,6 +79,7 @@ public static partial class OpenAIContainers
         =>
         await requestContext.WithExceptionCheck(async () =>
         await serviceProvider.WithContainerClient(async (client) =>
+        await requestContext.WithStructuredContent(async () =>
         {
             var userId = serviceProvider.GetUserId();
 
@@ -97,8 +100,8 @@ public static partial class OpenAIContainers
             using var raw = item.GetRawResponse();            // PipelineResponse
             string json = raw.Content.ToString();
 
-            return json?.ToJsonContentBlock($"{ContainerExtensions.BASE_URL}").ToCallToolResult();
-        }));
+            return json;
+        })));
 
     [Description("Please fill in the container details.")]
     public class OpenAINewContainer

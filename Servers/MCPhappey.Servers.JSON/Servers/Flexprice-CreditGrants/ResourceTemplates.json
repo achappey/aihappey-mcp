@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://us.api.flexprice.io/v1/creditgrants/{id}",
+      "name": "credit-grant-by-id",
+      "title": "Credit grant by id",
+      "description": "Retrieve a single Flexprice credit grant by credit grant id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://us.api.flexprice.io/v1/plans/{id}/creditgrants",
+      "name": "plan-credit-grants",
+      "title": "Plan credit grants",
+      "description": "Retrieve the Flexprice credit grants attached to a plan id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

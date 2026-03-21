@@ -134,7 +134,7 @@
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/team?q[name]=*{nameFilter}*&offset={offset}&limit={limit}&sort={sortColumn}",
       "name": "teams",
       "title": "Teams",
-      "description": "Haalt alle teams op, met filter voor naam. Ondersteunt paginering en sortering.",
+      "description": "Haalt alle teams en medewerkers per team op, met filter voor naam. Ondersteunt paginering en sortering.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [

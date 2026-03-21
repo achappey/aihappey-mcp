@@ -57,6 +57,12 @@ public static class ElicitFormExtensions
     }
 
     public static ElicitRequestParams CreateElicitRequestParamsForType<T>(T defaultValues, string? message = null)
+        => CreateElicitRequestParamsForType(defaultValues, propertyOverrides: null, message);
+
+    public static ElicitRequestParams CreateElicitRequestParamsForType<T>(
+        T defaultValues,
+        IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>? propertyOverrides,
+        string? message = null)
     {
         var type = typeof(T);
         var description = GetElicitDescription<T>(message);
@@ -74,7 +80,15 @@ public static class ElicitFormExtensions
                     return prop.ToElicitSchemaDef(defVal);
                 });
 
-        var required = GetRequiredProperties(typeof(T));
+        if (propertyOverrides != null)
+        {
+            foreach (var propertyOverride in propertyOverrides)
+            {
+                properties[propertyOverride.Key] = propertyOverride.Value;
+            }
+        }
+
+        var required = GetRequiredProperties(type);
 
         return new ElicitRequestParams
         {

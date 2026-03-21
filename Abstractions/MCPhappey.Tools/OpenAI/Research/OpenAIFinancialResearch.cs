@@ -159,7 +159,7 @@ public static class OpenAIFinancialResearch
             metadata: new Dictionary<string, object> {
                 { "openai", new {
                     reasoning = new { effort = "low" },
-                    web_search = new { search_context_size = "medium" }
+                    web_search = new {  }
                 } }
             },
             cancellationToken: cancellationToken

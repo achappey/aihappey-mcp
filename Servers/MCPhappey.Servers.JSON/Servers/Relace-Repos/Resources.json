@@ -1,0 +1,30 @@
+{
+  "resources": [
+    {
+      "uri": "https://docs.relace.ai/llms.txt",
+      "name": "relace-documentation-index",
+      "title": "Relace documentation index",
+      "description": "Fetch the complete Relace documentation index to discover available pages before exploring further.",
+      "mimeType": "text/plain",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.relace.run/v1/repo",
+      "name": "relace-list-repos-default",
+      "title": "Relace repos (default page)",
+      "description": "List repos you own using the default pagination and sorting options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
