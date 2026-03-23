@@ -225,13 +225,13 @@ public static class GraphAuthenticationMethodsAdmin
             return JsonNode.Parse(text);
         }
 
-        return JsonSerializer.SerializeToNode(new
+        return new
         {
             method.Method,
             Path = relativePath,
             Status = (int)response.StatusCode,
             Message = "Operation completed successfully."
-        });
+        }.ToStructuredContent();
     }
 
     [Description("Input for adding an email method.")]

@@ -259,7 +259,8 @@ public static partial class ModelContextToolExtensions
         return pluginTools;
     }
 
-    private static async Task<ListToolsResult?> GetListToolsResult(this IEnumerable<McpServerTool>? tools, Server server,
+    private static async Task<ListToolsResult?> GetListToolsResult(
+        this IEnumerable<McpServerTool>? tools, Server server,
         Dictionary<string, string>? headers = null,
         IServiceProvider? serviceProvider = null,
         CancellationToken cancellationToken = default)
@@ -366,7 +367,6 @@ public static partial class ModelContextToolExtensions
                   {
                       Endpoint = new Uri(server.McpExtension?.Url!),
                       AdditionalHeaders = finalHeaders
-
                   }),
                   clientOptions: new McpClientOptions()
                   {

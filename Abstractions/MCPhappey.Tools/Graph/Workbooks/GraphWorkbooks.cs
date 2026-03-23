@@ -87,13 +87,13 @@ public static partial class GraphWorkbooks
     public static async Task<CallToolResult?> GraphWorkbooks_AddRowToTable(
             string excelFileUrl,
             string tableName,
-            IServiceProvider serviceProvider,
             RequestContext<CallToolRequestParams> requestContext,
             [Description("Default values for the row form. Format: key is row name, value is default value.")]
         Dictionary<string, string>? defaultValues = null,
             CancellationToken cancellationToken = default)
               => await requestContext.WithExceptionCheck(async () =>
                 await requestContext.WithOboGraphClient(async (graphClient) =>
+                await requestContext.WithStructuredContent(async () =>
     {
         var driveItem = await graphClient.GetDriveItem(excelFileUrl, cancellationToken);
         var columnsResponse = await graphClient.Drives[driveItem?.ParentReference?.DriveId]
@@ -106,8 +106,7 @@ public static partial class GraphWorkbooks
 
         if (defaultValues == null)
         {
-            return $"defaultValues missing. Please provide some default values. Column names: {string.Join(",", columns ?? [])}"
-                .ToErrorCallToolResponse();
+            throw new Exception($"defaultValues missing. Please provide some default values. Column names: {string.Join(",", columns ?? [])}");
         }
 
         // 2. Vraag de gebruiker om input per kolom (elicit)
@@ -130,8 +129,9 @@ public static partial class GraphWorkbooks
 
         if (elicited.Action != "accept")
         {
-            return elicited.Action.ToErrorCallToolResponse();
+            throw new Exception(elicited.Action);
         }
+
         var valuesDict = ExtractValues(elicited.Content);
         var valuesNode = BuildValuesNode(columns!, valuesDict);
 
@@ -143,10 +143,9 @@ public static partial class GraphWorkbooks
                 Values = valuesNode
             }, cancellationToken: cancellationToken);
 
-        var workbookGraphUrl = $"https://graph.microsoft.com/beta/drives/{driveItem?.ParentReference?.DriveId}/items/{driveItem?.Id}/workbook";
 
-        return elicited.Content.ToJsonContentBlock(workbookGraphUrl).ToCallToolResult();
-    }));
+        return newRow;
+    })));
 
     private static readonly char[] charArray = [';', ',', '\t', '|'];
 
@@ -169,9 +168,9 @@ public static partial class GraphWorkbooks
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var csvRawFiles = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server,
            csvUrl, cancellationToken);
-        var csvRaw = csvRawFiles.Where(a => a.MimeType?.Equals("text/csv",
-            StringComparison.OrdinalIgnoreCase) == true)
-            .FirstOrDefault()?.Contents.ToString();
+        
+        var csvRaw = csvRawFiles.FirstOrDefault(a => a.MimeType?.Equals("text/csv",
+            StringComparison.OrdinalIgnoreCase) == true)?.Contents.ToString();
 
         if (string.IsNullOrEmpty(csvRaw))
         {
@@ -276,7 +275,6 @@ public static partial class GraphWorkbooks
 
         return new { TableName = tableName, Address = address }
             .ToJsonContentBlock(workbookGraphUrl).ToCallToolResult();
-
     }));
 
     // Utility function as before

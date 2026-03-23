@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "MuleRun-Context7",
+    "title": "MuleRun Context7",
+    "version": "1.0.0",
+    "websiteUrl": "https://mulerun.com",
+    "description": "MuleRun Context7 features",
+    "icons": [
+      {
+        "src": "https://mulerun.com/assets/image/logo.png"
+      }
+    ]
+  },
+  "baseMcp": "mcp.mulerun.com/context7",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

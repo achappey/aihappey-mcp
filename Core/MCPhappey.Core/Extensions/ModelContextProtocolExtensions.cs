@@ -38,6 +38,8 @@ public static class ModelContextProtocolExtensions
                     (server.Server.OBO?.Count > 0 && a.Key == "Authorization"))
                         .ToDictionary(h => h.Key, h => h.Value.ToString());
 
+                 headers.Add("mcp-session-id", Guid.NewGuid().ToString());
+
                  if (completionService.CanComplete(server, cancellationToken))
                  {
                      opts.Handlers.CompleteHandler = async (request, cancellationToken)
@@ -61,6 +63,7 @@ public static class ModelContextProtocolExtensions
 
                  if (server.Server.Capabilities.Tools != null || server.Server.McpExtension != null)
                  {
+
                      opts.Handlers.ListToolsHandler = async (request, cancellationToken)
                            => await server.Server.ToToolsList(kernel, [.. finalIcons], headers,
                                request.Services, cancellationToken)

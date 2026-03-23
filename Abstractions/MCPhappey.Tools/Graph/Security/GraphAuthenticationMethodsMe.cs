@@ -13,7 +13,11 @@ namespace MCPhappey.Tools.Graph.Security;
 public static class GraphAuthenticationMethodsMe
 {
     [Description("Add an email authentication method for the current user.")]
-    [McpServerTool(Title = "Add my email auth method", Name = "graph_auth_me_add_email_method", OpenWorld = false, ReadOnly = false, Destructive = true)]
+    [McpServerTool(Title = "Add my email auth method",
+        Name = "graph_auth_me_add_email_method",
+        OpenWorld = false,
+        ReadOnly = false,
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphAuthMe_AddEmailMethod(
         [Description("Email address to register.")] string emailAddress,
         IServiceProvider serviceProvider,
@@ -34,7 +38,11 @@ public static class GraphAuthenticationMethodsMe
         }));
 
     [Description("Add a phone authentication method for the current user.")]
-    [McpServerTool(Title = "Add my phone auth method", Name = "graph_auth_me_add_phone_method", OpenWorld = false, ReadOnly = false, Destructive = true)]
+    [McpServerTool(Title = "Add my phone auth method",
+    Name = "graph_auth_me_add_phone_method",
+        OpenWorld = false,
+        ReadOnly = false,
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphAuthMe_AddPhoneMethod(
         [Description("Phone number in E.164 format.")] string phoneNumber,
         [Description("Phone type: mobile, alternateMobile, office.")] string phoneType,
@@ -208,13 +216,13 @@ public static class GraphAuthenticationMethodsMe
             return JsonNode.Parse(text);
         }
 
-        return JsonSerializer.SerializeToNode(new
+        return new
         {
             method.Method,
             Path = relativePath,
             Status = (int)response.StatusCode,
             Message = "Operation completed successfully."
-        });
+        }.ToStructuredContent();
     }
 
     [Description("Input for adding an email authentication method for the current user.")]

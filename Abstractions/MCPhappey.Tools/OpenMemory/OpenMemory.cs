@@ -46,11 +46,13 @@ public static class OpenMemory
     [McpServerTool(Title = "Delete memory",
         Destructive = true,
         OpenWorld = false)]
-    public static async Task<CallToolResult> OpenMemory_DeleteMemory(
+    public static async Task<CallToolResult?> OpenMemory_DeleteMemory(
         [Description("Id of the memory")]
         string memoryId,
         IServiceProvider serviceProvider,
+         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
+          => await requestContext.WithExceptionCheck(async () =>
     {
         var kernelMemory = serviceProvider.GetRequiredService<IKernelMemory>();
         var appSettings = serviceProvider.GetRequiredService<OAuthSettings>();
@@ -59,19 +61,22 @@ public static class OpenMemory
             cancellationToken: cancellationToken);
 
         return "Memory deleted".ToTextCallToolResponse();
-    }
+    });
 
     [Description("Ask a question to personal user memory")]
     [McpServerTool(Title = "Ask memory",
         OpenWorld = false,
         ReadOnly = true)]
-    public static async Task<CallToolResult> OpenMemory_AskMemory(
+    public static async Task<CallToolResult?> OpenMemory_AskMemory(
         [Description("Question prompt")]
         string prompt,
         IServiceProvider serviceProvider,
+         RequestContext<CallToolRequestParams> requestContext,
         [Description("Minimum relevance")]
         double? minRelevance = 0,
         CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
     {
         var appSettings = serviceProvider.GetService<OAuthSettings>();
         ArgumentException.ThrowIfNullOrWhiteSpace(appSettings?.ClientId);
@@ -91,24 +96,27 @@ public static class OpenMemory
                 Date = b.Partitions.OrderByDescending(y => y.LastUpdate).FirstOrDefault()?.LastUpdate,
                 Memory = string.Join("\n\n", b.Partitions.Select(z => z.Text))
             })
-        }.ToJsonContentBlock(appSettings.ClientId)
-            .ToCallToolResult();
-    }
+        };
+    }));
 
     [Description("Search personal user memories with a prompt")]
     [McpServerTool(Title = "Search memories",
         Idempotent = true,
         OpenWorld = false,
         ReadOnly = true)]
-    public static async Task<CallToolResult> OpenMemory_SearchMemories(
+    public static async Task<CallToolResult?> OpenMemory_SearchMemories(
       [Description("Question prompt")]
         string prompt,
       IServiceProvider serviceProvider,
+       RequestContext<CallToolRequestParams> requestContext,
       [Description("Minimum relevance")]
         double? minRelevance = 0,
       [Description("Limit items")]
         int? limit = 10,
       CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
+
     {
         var appSettings = serviceProvider.GetService<OAuthSettings>();
         ArgumentException.ThrowIfNullOrWhiteSpace(appSettings?.ClientId);
@@ -118,23 +126,27 @@ public static class OpenMemory
             limit: limit ?? int.MaxValue,
             cancellationToken: cancellationToken);
 
-        return answer.Results.Select(a => new
+        return new
         {
-            id = a.DocumentId,
-            memory = string.Join("\n\n", a.Partitions.Select(t => t.Text))
-        })
-        .ToJsonContentBlock(appSettings.ClientId)
-        .ToCallToolResult();
-    }
+            results = answer.Results.Select(a => new
+            {
+                id = a.DocumentId,
+                memory = string.Join("\n\n", a.Partitions.Select(t => t.Text))
+            })
+        };
+    }));
 
     [Description("List personal user memories")]
     [McpServerTool(Title = "List memories",
         ReadOnly = true,
         Idempotent = true,
         OpenWorld = false)]
-    public static async Task<CallToolResult> OpenMemory_ListMemories(
+    public static async Task<CallToolResult?> OpenMemory_ListMemories(
         IServiceProvider serviceProvider,
+         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
+         => await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
     {
         var memory = serviceProvider.GetService<IKernelMemory>();
 
@@ -145,14 +157,15 @@ public static class OpenMemory
             limit: int.MaxValue,
             cancellationToken: cancellationToken);
 
-        return indexes.Results.Select(a => new
+        return new
         {
-            id = a.DocumentId,
-            memory = string.Join("\n\n", a.Partitions.Select(t => t.Text))
-        })
-        .ToJsonContentBlock(appSettings.ClientId)
-        .ToCallToolResult();
-    }
+            results = indexes.Results.Select(a => new
+            {
+                id = a.DocumentId,
+                memory = string.Join("\n\n", a.Partitions.Select(t => t.Text))
+            })
+        };
+    }));
 
     [Description("Please fill in the new memory details.")]
     public class OpenMemoryNewMemory

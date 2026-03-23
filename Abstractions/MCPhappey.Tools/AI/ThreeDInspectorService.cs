@@ -4,7 +4,6 @@ using SharpGLTF.Schema2;
 using ModelContextProtocol.Server;
 using ModelContextProtocol.Protocol;
 using MCPhappey.Core.Services;
-using System.Text.Json;
 using MCPhappey.Core.Extensions;
 
 namespace MCPhappey.Tools.AI;
@@ -23,6 +22,7 @@ public static class ThreeDInspectorService
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken ct = default) =>
         await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
     {
         if (string.IsNullOrWhiteSpace(fileUrl))
             throw new ArgumentException("Provide 'fileUrl'");
@@ -35,9 +35,6 @@ public static class ThreeDInspectorService
         using var ms = new MemoryStream(file.Contents.ToArray());
         ModelRoot model = ModelRoot.ReadGLB(ms);
 
-        return new CallToolResult
-        {
-            StructuredContent = JsonSerializer.SerializeToNode(model)
-        };
-    });
+        return model;
+    }));
 }

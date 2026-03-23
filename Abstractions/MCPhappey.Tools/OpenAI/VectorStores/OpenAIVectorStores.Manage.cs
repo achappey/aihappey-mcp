@@ -139,6 +139,7 @@ public static partial class OpenAIVectorStores
         =>
         await requestContext.WithExceptionCheck(async () =>
         await serviceProvider.WithVectorStoreClient(async (client) =>
+        await requestContext.WithStructuredContent(async () =>
         {
             var userId = serviceProvider.GetUserId();
 
@@ -162,8 +163,8 @@ public static partial class OpenAIVectorStores
 
             var item = await client.CreateVectorStoreAsync(options, cancellationToken);
 
-            return item?.ToJsonContentBlock($"{VectorStoreExtensions.BASE_URL}/{item.Value.Id}").ToCallToolResult();
-        }));
+            return item;
+        })));
 
     [Description("Add a file to a vector store")]
     [McpServerTool(Title = "Add file to vector store", Destructive = true, OpenWorld = false)]
@@ -176,6 +177,7 @@ public static partial class OpenAIVectorStores
        CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         await serviceProvider.WithVectorStoreOwnerClient<CallToolResult>(vectorStoreId, async (client, current) =>
+        await requestContext.WithStructuredContent(async () =>
         {
             var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -191,10 +193,10 @@ public static partial class OpenAIVectorStores
                 fileIds.Add(fileItem.Value.Id);
             }
 
-            var item = client.AddFileBatchToVectorStoreAsync(vectorStoreId, fileIds, cancellationToken);
+            var item = await client.AddFileBatchToVectorStoreAsync(vectorStoreId, fileIds, cancellationToken);
 
-            return item?.ToJsonContentBlock($"{VectorStoreExtensions.BASE_URL}/{vectorStoreId}/files").ToCallToolResult();
-        }));
+            return item;
+        })));
 
     [Description("Delete a vector store at OpenAI")]
     [McpServerTool(Title = "Delete a vector store at OpenAI",

@@ -13,8 +13,7 @@ public static class NodaTimeService
       Title = "Convert local time to UTC",
       Name = "github_nodatime_local_to_instant",
       ReadOnly = true,
-      OpenWorld = false,
-      UseStructuredContent = true)]
+      OpenWorld = false)]
     public static async Task<string?> GitHubNodaTime_LocalToInstant(
       [Description("Local date/time (e.g. '2025-10-17T10:30:00')")] string localDateTime,
       [Description("IANA time zone ID (e.g. 'Europe/Amsterdam')")] string timeZone)
@@ -34,8 +33,7 @@ public static class NodaTimeService
         Title = "Add or subtract period from date",
         Name = "github_nodatime_add_period",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubNodaTime_AddPeriod(
         [Description("Start date (e.g. '2025-10-17')")] string date,
         [Description("Number of days to add (negative to subtract)")] int days = 0,
@@ -54,8 +52,7 @@ public static class NodaTimeService
         Title = "List time zones",
         Name = "github_nodatime_list_zones",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string[]> GitHubNodaTime_ListZones() =>
         await Task.FromResult(DateTimeZoneProviders.Tzdb.Ids.ToArray());
 
@@ -64,8 +61,7 @@ public static class NodaTimeService
         Title = "Current local time in zone",
         Name = "github_nodatime_current_localtime",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubNodaTime_CurrentLocalTime(
         [Description("IANA time zone ID (e.g. 'America/New_York')")] string timeZone)
     {
@@ -81,8 +77,7 @@ public static class NodaTimeService
         Title = "Business days between dates",
         Name = "github_nodatime_business_days_between",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<int> GitHubNodaTime_BusinessDaysBetween(
         [Description("Start date (inclusive, e.g. '2025-10-01')")] string startDate,
         [Description("End date (exclusive, e.g. '2025-10-17')")] string endDate)
@@ -107,8 +102,7 @@ public static class NodaTimeService
         Title = "Convert Instant to local time",
         Name = "github_nodatime_instant_to_local",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubNodaTime_InstantToLocal(
         [Description("UTC instant (e.g. '2025-10-17T08:30:00Z')")] string instant,
         [Description("IANA time zone ID (e.g. 'Europe/Amsterdam')")] string timeZone)
@@ -128,8 +122,7 @@ public static class NodaTimeService
         Title = "Duration between instants",
         Name = "github_nodatime_duration_between",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubNodaTime_DurationBetween(
         [Description("Start instant (e.g. '2025-10-17T08:30:00Z')")] string start,
         [Description("End instant (e.g. '2025-10-17T10:45:00Z')")] string end)
@@ -147,8 +140,7 @@ public static class NodaTimeService
         Title = "Humanize duration between instants",
         Name = "github_nodatime_humanize_duration",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubNodaTime_HumanizeDuration(
         [Description("Earlier instant (e.g. '2025-10-17T08:30:00Z')")] string earlier,
         [Description("Later instant (e.g. '2025-10-17T10:45:00Z')")] string later)
@@ -177,8 +169,7 @@ public static class NodaTimeService
         Title = "Get current Instant",
         Name = "github_nodatime_now",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GitHubNodaTime_Now() =>
         await Task.FromResult(SystemClock.Instance.GetCurrentInstant().ToString());
 }

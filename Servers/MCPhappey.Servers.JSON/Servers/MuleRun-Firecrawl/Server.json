@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "MuleRun-Firecrawl",
+    "title": "MuleRun Firecrawl",
+    "version": "1.0.0",
+    "websiteUrl": "https://mulerun.com",
+    "description": "MuleRun Firecrawl features",
+    "icons": [
+      {
+        "src": "https://mulerun.com/assets/image/logo.png"
+      }
+    ]
+  },
+  "baseMcp": "firecrawl.mulerun.com",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -64,8 +64,7 @@ public static class PlannerTaskList
             BucketName = bucket?.Name ?? DefaultBucketName
         };
 
-        return result.ToJsonContentBlock($"https://graph.microsoft.com/beta/planner/plans/{plan?.Id}")
-            .ToCallToolResult();
+        return result;
     })));
 
     [Description("Add a todo item to a Planner Task List. Creates the default Tasks bucket if it is missing.")]
@@ -112,8 +111,7 @@ public static class PlannerTaskList
             Completed = completed
         };
 
-        return result.ToJsonContentBlock($"https://graph.microsoft.com/beta/planner/plans/{planId}")
-            .ToCallToolResult();
+        return result;
     })));
 
     [Description("Complete all todo items in a Planner Task List that match the given title (case-insensitive).")]
@@ -160,8 +158,7 @@ public static class PlannerTaskList
             CompletedCount = completedCount
         };
 
-        return result.ToJsonContentBlock($"https://graph.microsoft.com/beta/planner/plans/{planId}")
-            .ToCallToolResult();
+        return result;
     })));
 
     [Description("List all todo items in a Planner Task List. Returns only title, description, and completed.")]
@@ -204,8 +201,7 @@ public static class PlannerTaskList
             });
         }
 
-        return results.ToJsonContentBlock($"https://graph.microsoft.com/beta/planner/plans/{planId}")
-            .ToCallToolResult();
+        return results;
     })));
 
     private static async Task<PlannerBucket> GetOrCreateTasksBucketAsync(

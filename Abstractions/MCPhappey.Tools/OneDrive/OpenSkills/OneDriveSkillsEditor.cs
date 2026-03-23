@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using MCPhappey.Common.Extensions;
@@ -134,22 +135,23 @@ public static class OneDriveSkillsEditor
         CancellationToken cancellationToken = default) =>
         await context.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
-    {
-        var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
-        var drive = await graph.GetDefaultDriveAsync(cancellationToken)
-                   ?? throw new Exception("Could not resolve default OneDrive.");
-
-        var files = await graph.ListFilesRecursivelyIfExistsAsync(
-            drive.Id!,
-            $"/{OneDriveOpenSkills.RootFolderName}/{normalizedName}",
-            cancellationToken);
-
-        return new
+        await context.WithStructuredContent(async () =>
         {
-            skillName = normalizedName,
-            files
-        }.ToJsonContentBlock($"onedrive://skills/{normalizedName}").ToCallToolResult();
-    }));
+            var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
+            var drive = await graph.GetDefaultDriveAsync(cancellationToken)
+                    ?? throw new Exception("Could not resolve default OneDrive.");
+
+            var files = await graph.ListFilesRecursivelyIfExistsAsync(
+                drive.Id!,
+                $"/{OneDriveOpenSkills.RootFolderName}/{normalizedName}",
+                cancellationToken);
+
+            return new
+            {
+                skillName = normalizedName,
+                files
+            }.ToStructuredContent();
+        })));
 
     [Description("Inspect and validate a OneDrive skill manifest against the Agent Skills specification.")]
     [McpServerTool(
@@ -164,6 +166,7 @@ public static class OneDriveSkillsEditor
         CancellationToken cancellationToken = default) =>
         await context.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
+        await context.WithStructuredContent(async () =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
         var drive = await graph.GetDefaultDriveAsync(cancellationToken)
@@ -174,6 +177,7 @@ public static class OneDriveSkillsEditor
                            ?? throw new ValidationException($"Skill '{normalizedName}' is missing SKILL.md.");
 
         var parsed = SkillDocumentParser.Parse(manifestText, normalizedName);
+
         return new SkillInspectionResult
         {
             SkillName = normalizedName,
@@ -187,8 +191,8 @@ public static class OneDriveSkillsEditor
             Warnings = parsed.Warnings,
             Errors = parsed.Errors,
             Body = parsed.Body
-        }.ToJsonContentBlock($"onedrive://skills/{normalizedName}/{OneDriveOpenSkills.SkillManifestName}").ToCallToolResult();
-    }));
+        };
+    })));
 
     [Description("Create a new spec-compliant skill under /skills in the user's OneDrive.")]
     [McpServerTool(
@@ -209,6 +213,7 @@ public static class OneDriveSkillsEditor
         CancellationToken cancellationToken = default) =>
         await context.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
+        await context.WithStructuredContent(async () =>
     {
         var (typed, notAccepted, _) = await context.Server.TryElicit(
             new OneDriveSkillCreateInput
@@ -222,9 +227,6 @@ public static class OneDriveSkillsEditor
                 Metadata = metadata
             },
             cancellationToken);
-
-        if (notAccepted is not null)
-            return notAccepted;
 
         ArgumentNullException.ThrowIfNull(typed);
 
@@ -252,8 +254,8 @@ public static class OneDriveSkillsEditor
             Message = "Skill created successfully.",
             Files = [OneDriveOpenSkills.SkillManifestName],
             Warnings = definition.Warnings
-        }.ToJsonContentBlock($"onedrive://skills/{definition.Name}").ToCallToolResult();
-    }));
+        };
+    })));
 
     [Description("Create or update a text file inside a OneDrive skill folder. Uses elicitation so the client can confirm the final path and content before writing.")]
     [McpServerTool(
@@ -329,6 +331,7 @@ public static class OneDriveSkillsEditor
         CancellationToken cancellationToken = default) =>
         await context.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
+        await context.WithStructuredContent(async () =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
         var drive = await graph.GetDefaultDriveAsync(cancellationToken)
@@ -352,9 +355,6 @@ public static class OneDriveSkillsEditor
             },
             cancellationToken);
 
-        if (notAccepted is not null)
-            return notAccepted;
-
         ArgumentNullException.ThrowIfNull(typed);
         typed.Name = normalizedName;
 
@@ -369,8 +369,8 @@ public static class OneDriveSkillsEditor
             Message = "SKILL.md updated successfully.",
             Files = [OneDriveOpenSkills.SkillManifestName],
             Warnings = definition.Warnings
-        }.ToJsonContentBlock($"onedrive://skills/{normalizedName}/{OneDriveOpenSkills.SkillManifestName}").ToCallToolResult();
-    }));
+        };
+    })));
 
     [Description("Import a single text file into an existing OneDrive skill folder from a direct URL.")]
     [McpServerTool(
@@ -388,6 +388,7 @@ public static class OneDriveSkillsEditor
         CancellationToken cancellationToken = default) =>
         await context.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
+        await context.WithStructuredContent(async () =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
         var (typed, notAccepted, _) = await context.Server.TryElicit(
@@ -397,9 +398,6 @@ public static class OneDriveSkillsEditor
                 RelativePath = relativePath ?? string.Empty
             },
             cancellationToken);
-
-        if (notAccepted is not null)
-            return notAccepted;
 
         ArgumentNullException.ThrowIfNull(typed);
 
@@ -429,8 +427,8 @@ public static class OneDriveSkillsEditor
             SkillName = normalizedName,
             Message = $"Imported '{file.Filename ?? file.Uri}' into '{normalizedPath}'.",
             Files = [normalizedPath]
-        }.ToJsonContentBlock($"onedrive://skills/{normalizedName}/{normalizedPath}").ToCallToolResult();
-    }));
+        };
+    })));
 
     [Description("Delete an entire OneDrive skill folder after explicit confirmation.")]
     [McpServerTool(

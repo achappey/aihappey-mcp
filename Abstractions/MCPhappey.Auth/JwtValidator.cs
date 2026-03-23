@@ -98,15 +98,7 @@ public class JwtValidator(IHttpClientFactory httpClientFactory) : IJwtValidator
                     ],
                     IssuerSigningKeys = innerKeys,
                     ValidateLifetime = true,
-                    //ValidateAudience = true,
                     ValidateAudience = false,
-                    // OR, if you want a soft allow-list:
-                    //    AudienceValidator = (audiences, _, _) =>
-                    //       audiences.Any(aud =>
-                    //          aud.Equals(oAuthSettings.Audience, StringComparison.OrdinalIgnoreCase) ||
-                    //         aud.Equals("api://e1fc4277-83bd-43c6-b3a8-83377e942f2f", StringComparison.OrdinalIgnoreCase))
-                    //AudienceValidator = (tokenAudiences, _, _) =>
-                    //   tokenAudiences.Contains(oAuthSettings.Audience, StringComparer.OrdinalIgnoreCase) == true
                 };
 
                 var innerResult = await handler.ValidateTokenAsync(actToken, innerValidation);

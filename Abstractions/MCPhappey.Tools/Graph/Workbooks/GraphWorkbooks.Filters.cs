@@ -26,6 +26,7 @@ public static partial class GraphWorkbooks
             RequestContext<CallToolRequestParams> requestContext,
             CancellationToken cancellationToken = default)
             => await requestContext.WithExceptionCheck(async () =>
+             await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
         using var client = await serviceProvider.GetOboGraphClient(mcpServer);
@@ -142,9 +143,11 @@ public static partial class GraphWorkbooks
             return dict;
         }).ToList();
 
-        var workbookGraphUrl = $"https://graph.microsoft.com/beta/drives/{driveItem?.ParentReference?.DriveId}/items/{driveItem?.Id}/workbook";
-        return rowObjs.ToJsonContentBlock(workbookGraphUrl).ToCallToolResult();
-    });
+        return new
+        {
+            rows = rowObjs
+        };
+    }));
 
 
     [Description("Get filtered rows from an Excel table on OneDrive or SharePoint via Microsoft Graph, without persisting changes.")]

@@ -203,7 +203,10 @@ internal sealed class AzureSkillsStorageService(SkillsStorageSettings settings)
         ValidateSkillName(skillName);
 
         var container = GetContainerClient();
-        await foreach (var blob in container.GetBlobsAsync(prefix: $"{skillName}/", cancellationToken: cancellationToken))
+        await foreach (var blob in container.GetBlobsAsync(
+            traits: BlobTraits.None,
+            states: BlobStates.None,
+            prefix: $"{skillName}/", cancellationToken: cancellationToken))
         {
             await container.DeleteBlobIfExistsAsync(blob.Name, cancellationToken: cancellationToken);
         }
@@ -219,7 +222,10 @@ internal sealed class AzureSkillsStorageService(SkillsStorageSettings settings)
         var prefix = BuildVersionPrefix(skillName, version);
         var found = false;
 
-        await foreach (var blob in container.GetBlobsAsync(prefix: prefix, cancellationToken: cancellationToken))
+        await foreach (var blob in container.GetBlobsAsync(
+            traits: BlobTraits.None,
+            states: BlobStates.None,
+            prefix: prefix, cancellationToken: cancellationToken))
         {
             found = true;
             await container.DeleteBlobIfExistsAsync(blob.Name, cancellationToken: cancellationToken);
@@ -307,7 +313,10 @@ internal sealed class AzureSkillsStorageService(SkillsStorageSettings settings)
 
         var versions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        await foreach (var blob in container.GetBlobsAsync(prefix: $"{skillName}/", cancellationToken: cancellationToken))
+        await foreach (var blob in container.GetBlobsAsync(
+            traits: BlobTraits.None,
+            states: BlobStates.None,
+            prefix: $"{skillName}/", cancellationToken: cancellationToken))
         {
             var segments = blob.Name.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             if (segments.Length < 3)
@@ -434,7 +443,10 @@ internal sealed class AzureSkillsStorageService(SkillsStorageSettings settings)
         var files = new List<string>();
         var prefix = BuildVersionPrefix(skillName, version);
 
-        await foreach (var blob in container.GetBlobsAsync(prefix: prefix, cancellationToken: cancellationToken))
+        await foreach (var blob in container.GetBlobsAsync(
+            traits: BlobTraits.None,
+            states: BlobStates.None,
+            prefix: prefix, cancellationToken: cancellationToken))
         {
             var relativePath = blob.Name[prefix.Length..];
             if (string.IsNullOrWhiteSpace(relativePath))

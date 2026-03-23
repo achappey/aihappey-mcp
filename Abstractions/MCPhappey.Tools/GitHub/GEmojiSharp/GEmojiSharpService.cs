@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using GEmojiSharp;
+using MCPhappey.Core.Extensions;
+using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.GitHub.GEmojiSharp;
@@ -11,8 +13,7 @@ public static class GEmojiSharpService
     Title = "Alias to emoji",
     Name = "github_gemojisharp_alias_to_emoji",
     ReadOnly = true,
-    OpenWorld = false,
-    UseStructuredContent = true)]
+    OpenWorld = false)]
     public static async Task<string?> GEmojiSharp_AliasToEmoji(
     [Description("Emoji alias (e.g. ':tada:')")] string alias) =>
     await Task.FromResult(Emoji.Get(alias)?.Raw);
@@ -22,8 +23,7 @@ public static class GEmojiSharpService
         Title = "Emoji to alias",
         Name = "github_gemojisharp_emoji_to_alias",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GEmojiSharp_EmojiToAlias(
         [Description("Raw emoji character (e.g. '🎉')")] string emoji) =>
         await Task.FromResult(Emoji.Get(emoji)?.Alias());
@@ -33,8 +33,7 @@ public static class GEmojiSharpService
         Title = "Emojify text",
         Name = "github_gemojisharp_emojify",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GEmojiSharp_Emojify(
         [Description("Text containing emoji aliases (e.g. 'Great job :tada:')")] string input) =>
         await Task.FromResult(Emoji.Emojify(input));
@@ -44,8 +43,7 @@ public static class GEmojiSharpService
         Title = "Demojify text",
         Name = "github_gemojisharp_demojify",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GEmojiSharp_Demojify(
         [Description("Text containing raw emojis (e.g. 'Great job 🎉')")] string input) =>
         await Task.FromResult(Emoji.Demojify(input));
@@ -55,8 +53,7 @@ public static class GEmojiSharpService
         Title = "Find emoji",
         Name = "github_gemojisharp_find_emoji",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
+        OpenWorld = false)]
     public static async Task<string?> GEmojiSharp_FindEmoji(
         [Description("Search term (e.g. 'party popper')")] string query) =>
         await Task.FromResult(Emoji.Find(query).FirstOrDefault()?.Raw);
@@ -66,11 +63,16 @@ public static class GEmojiSharpService
         Title = "Emoji skin tone variants",
         Name = "github_gemojisharp_skin_tones",
         ReadOnly = true,
-        OpenWorld = false,
-        UseStructuredContent = true)]
-    public static async Task<IEnumerable<string>?> GEmojiSharp_SkinToneVariants(
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GEmojiSharp_SkinToneVariants(
+        RequestContext<CallToolRequestParams> requestContext,
         [Description("Raw emoji character (e.g. '✌️')")] string emoji) =>
-        await Task.FromResult(Emoji.Get(emoji)?.RawSkinToneVariants());
+         await requestContext.WithStructuredContent(async () =>
+            await Task.FromResult(new
+            {
+                items = Emoji.Get(emoji)?.RawSkinToneVariants()
+            }));
+
 
 }
 

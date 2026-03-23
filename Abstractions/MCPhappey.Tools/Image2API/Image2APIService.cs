@@ -15,8 +15,7 @@ public static class Image2APIService
         Name = "image2api_extract",
         Title = "Image2API OCR",
         ReadOnly = true,
-        OpenWorld = true,
-        UseStructuredContent = true)]
+        OpenWorld = true)]
     public static async Task<CallToolResult?> Image2API_Extract(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

@@ -39,8 +39,9 @@ public static class CountryService
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubRestCountries_GetDetail(
         [Description("The alpha-2 code of the country")] string cca,
-        RequestContext<CallToolRequestParams> requestContext) => await requestContext.WithStructuredContent(async () =>
-            await Task.FromResult(RestCountriesService.GetCountryByCode(cca.ToString())));
+        RequestContext<CallToolRequestParams> requestContext)
+            => await requestContext.WithStructuredContent(async ()
+            => await Task.FromResult(RestCountriesService.GetCountryByCode(cca.ToString())));
 
     [Description("Get countries by region")]
     [McpServerTool(Title = "Get countries by region",
@@ -50,8 +51,9 @@ public static class CountryService
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubRestCountries_GetByRegion(
         [Description("The region to filter on (e.g. Europe, Asia, Africa).")] string region,
-        RequestContext<CallToolRequestParams> requestContext) =>
-            await requestContext.WithStructuredContent(async () => await Task.FromResult(
+        RequestContext<CallToolRequestParams> requestContext)
+        => await requestContext.WithStructuredContent(async ()
+            => await Task.FromResult(
             new
             {
                 countries = RestCountriesService

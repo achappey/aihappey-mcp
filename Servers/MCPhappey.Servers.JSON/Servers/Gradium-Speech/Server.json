@@ -1,10 +1,10 @@
 {
     "serverInfo": {
-        "name": "Gradium",
-        "title": "Gradium",
+        "name": "Gradium-Speech",
+        "title": "Gradium-Speech",
         "version": "1.0.0",
         "websiteUrl": "https://gradium.ai",
-        "description": "Gradium speech synthesis tools and voice management.",
+        "description": "Gradium speech synthesis tools.",
         "icons": [
             {
                 "src": "https://avatars.githubusercontent.com/u/229105977?s=200&v=4"

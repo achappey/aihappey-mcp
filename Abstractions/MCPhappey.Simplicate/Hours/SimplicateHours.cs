@@ -109,7 +109,8 @@ public static class SimplicateHours
         [Description("Invoiced status label to filter by. Optional.")] InvoiceStatus? invoiceStatus = null,
         [Description("Project name to filter by. Optional.")] string? projectName = null,
         [Description("Employee name to filter by. Optional.")] string? employeeName = null,
-        CancellationToken cancellationToken = default) => await requestContext.WithExceptionCheck(async () =>
+        CancellationToken cancellationToken = default) => 
+        await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         await GetHourTotalsGroupedBy(
             serviceProvider,
@@ -130,7 +131,8 @@ public static class SimplicateHours
         [Description("Approval status label to filter by. Optional.")] ApprovalStatusLabel? approvalStatusLabel = null,
         [Description("Invoiced status label to filter by. Optional.")] InvoiceStatus? invoiceStatus = null,
         [Description("Employee name to filter by. Optional.")] string? employeeName = null,
-        CancellationToken cancellationToken = default) => await requestContext.WithExceptionCheck(async () =>
+        CancellationToken cancellationToken = default) => 
+        await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         await GetHourTotalsGroupedBy(
             serviceProvider,

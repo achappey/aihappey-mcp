@@ -14,8 +14,7 @@ public static class DocsRouterService
         Name = "docsrouter_ocr",
         Title = "DocsRouter OCR",
         ReadOnly = true,
-        OpenWorld = true,
-        UseStructuredContent = true)]
+        OpenWorld = true)]
     public static async Task<CallToolResult?> DocsRouter_OCR(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

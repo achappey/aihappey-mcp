@@ -16,10 +16,12 @@ public static class SimplicateCurrentUser
 
     [Description("Get current user profile from Simplicate")]
     [McpServerTool(ReadOnly = true)]
-    public static async Task<ContentBlock?> Simplicate_GetCurrentUser(
+    public static async Task<CallToolResult?> Simplicate_GetCurrentUser(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
     {
         using var graphClient = await serviceProvider.GetOboGraphClient(requestContext.Server);
         var currentUser = await graphClient.Me.GetAsync();
@@ -46,11 +48,8 @@ public static class SimplicateCurrentUser
                   cancellationToken: cancellationToken
               );
 
-        var selectedId = employees.OfType<Employee>().FirstOrDefault();
-
-        return selectedId.ToJsonContentBlock($"{employeeUrl}/{selectedId?.Id}");
-
-    }
+        return employees.OfType<Employee>().FirstOrDefault();
+    }));
 
     public class Employee
     {

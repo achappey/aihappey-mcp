@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://eu.api.gradium.ai/api/voices?skip={skip}&limit={limit}&include_catalog={include_catalog}",
+      "name": "gradium-get-voices",
+      "title": "List Gradium voices",
+      "description": "Lists voices for the authenticated organization. Supports pagination via skip/limit and optional inclusion of catalog voices.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://eu.api.gradium.ai/api/voices/{voice_uid}",
+      "name": "gradium-get-voice",
+      "title": "Get Gradium voice",
+      "description": "Get a voice by UID. Returns catalog or custom voice metadata including name, language, tags, and clone info.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

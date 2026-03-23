@@ -59,6 +59,7 @@ public static partial class GraphWorkbooks
     CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (client) =>
+        await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
         var (typed, notAccepted, result) = await mcpServer.TryElicit(
@@ -70,8 +71,7 @@ public static partial class GraphWorkbooks
             },
             cancellationToken
         );
-        if (notAccepted != null) return notAccepted;
-        if (typed == null) return "Invalid result".ToErrorCallToolResponse();
+
         var driveItem = await client.GetDriveItem(excelFileUrl, cancellationToken);
         var requestBody = new Microsoft.Graph.Beta.Drives.Item.Items.Item.Workbook.Worksheets.Item.Charts.Add.AddPostRequestBody
         {
@@ -90,10 +90,8 @@ public static partial class GraphWorkbooks
             .Add
             .PostAsync(requestBody, cancellationToken: cancellationToken);
 
-        var url = $"https://graph.microsoft.com/beta/drives/{driveItem?.ParentReference?.DriveId}/items/{driveItem?.Id}/workbook/worksheets/{worksheetName}/charts/{chart?.Id}";
-
-        return chart.ToJsonContentBlock(url).ToCallToolResult();
-    }));
+        return chart;
+    })));
 
 
     [Description("Please fill in the details to add a chart to an Excel worksheet.")]

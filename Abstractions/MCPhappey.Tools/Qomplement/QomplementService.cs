@@ -18,8 +18,7 @@ public static class QomplementService
         Title = "Qomplement Extract Data",
         Name = "qomplement_extract",
         ReadOnly = true,
-        OpenWorld = true,
-        UseStructuredContent = true)]
+        OpenWorld = true)]
     public static async Task<CallToolResult?> Qomplement_Extract(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -110,8 +109,7 @@ public static class QomplementService
         Name = "qomplement_fill_pdf",
         ReadOnly = false,
         OpenWorld = true,
-        Destructive = false,
-        UseStructuredContent = true)]
+        Destructive = false)]
     public static async Task<CallToolResult?> Qomplement_FillPdf(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -220,8 +218,7 @@ public static class QomplementService
         Name = "qomplement_fill_excel",
         ReadOnly = false,
         OpenWorld = true,
-        Destructive = false,
-        UseStructuredContent = true)]
+        Destructive = false)]
     public static async Task<CallToolResult?> Qomplement_FillExcel(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

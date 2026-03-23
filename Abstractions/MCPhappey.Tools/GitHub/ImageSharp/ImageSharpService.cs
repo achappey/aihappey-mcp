@@ -37,6 +37,7 @@ public static class ImageSharpService
         [Description("Keep aspect ratio (true = keep).")]
         bool keepAspect = true,
         CancellationToken cancellationToken = default)
+         => await requestContext.WithExceptionCheck(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var mcpServer = requestContext.Server;
@@ -89,20 +90,20 @@ public static class ImageSharpService
 
         return new CallToolResult
         {
+            StructuredContent = new
+            {
+                originalWidth = image.Width,
+                originalHeight = image.Height,
+                width = targetWidth,
+                height = targetHeight,
+                mimeType = "image/png"
+            }.ToStructuredContent(),
             Content =
             [
                 uploaded!,
-                    new
-                    {
-                        originalWidth = image.Width,
-                        originalHeight = image.Height,
-                        width = targetWidth,
-                        height = targetHeight,
-                        mimeType = "image/png"
-                    }.ToJsonContentBlock("https://github.com/SixLabors/ImageSharp")
             ]
         };
-    }
+    });
 
     [Description("Optimize and compress an image to reduce file size.")]
     [McpServerTool(
@@ -120,6 +121,7 @@ public static class ImageSharpService
        [Description("Quality level (1-100). Default: 85")]
         int quality = 85,
        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
@@ -156,20 +158,20 @@ public static class ImageSharpService
 
         return new CallToolResult
         {
+            StructuredContent = new
+            {
+                originalFormat = file.MimeType,
+                optimizedFormat = format,
+                quality,
+                optimizedSizeKb = optimizedBytes.Length / 1024,
+                mimeType = $"image/{format}"
+            }.ToStructuredContent(),
             Content =
             [
                 uploaded!,
-                new
-                {
-                    originalFormat = file.MimeType,
-                    optimizedFormat = format,
-                    quality,
-                    optimizedSizeKb = optimizedBytes.Length / 1024,
-                    mimeType = $"image/{format}"
-                }.ToJsonContentBlock("https://github.com/SixLabors/ImageSharp")
             ]
         };
-    }
+    });
 
     [Description("Add a text or logo watermark to an image.")]
     [McpServerTool(
@@ -193,6 +195,7 @@ public static class ImageSharpService
            [Description("Position: bottom-right, center, top-left, etc.")]
         string position = "bottom-right",
            CancellationToken cancellationToken = default)
+            => await requestContext.WithExceptionCheck(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
@@ -288,20 +291,20 @@ public static class ImageSharpService
 
         return new CallToolResult
         {
+            StructuredContent = new
+            {
+                source = fileUrl,
+                watermark = logoUrl ?? watermarkText,
+                opacity,
+                position,
+                mimeType = "image/png"
+            }.ToStructuredContent(),
             Content =
             [
-                uploaded!,
-                new
-                {
-                    source = fileUrl,
-                    watermark = logoUrl ?? watermarkText,
-                    opacity,
-                    position,
-                    mimeType = "image/png"
-                }.ToJsonContentBlock("https://github.com/SixLabors/ImageSharp")
+                uploaded!
             ]
         };
-    }
+    });
 
     [Description("Add a text banner overlay to an image.")]
     [McpServerTool(
@@ -327,6 +330,7 @@ public static class ImageSharpService
        [Description("Banner opacity 0–1. Default: 0.6")]
         float opacity = 0.6f,
        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
@@ -388,22 +392,22 @@ public static class ImageSharpService
 
         return new CallToolResult
         {
+            StructuredContent = new
+            {
+                overlayText,
+                position,
+                fontSize,
+                backgroundColor,
+                textColor,
+                opacity,
+                mimeType = "image/png"
+            }.ToStructuredContent(),
             Content =
             [
                 uploaded!,
-                new
-                {
-                    overlayText,
-                    position,
-                    fontSize,
-                    backgroundColor,
-                    textColor,
-                    opacity,
-                    mimeType = "image/png"
-                }.ToJsonContentBlock("https://github.com/SixLabors/ImageSharp")
             ]
         };
-    }
+    });
 
     [Description("Crop an image by coordinates and dimensions.")]
     [McpServerTool(
@@ -425,6 +429,7 @@ public static class ImageSharpService
             [Description("Height of the crop area.")]
         int height,
             CancellationToken cancellationToken = default)
+             => await requestContext.WithExceptionCheck(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
@@ -453,20 +458,20 @@ public static class ImageSharpService
 
         return new CallToolResult
         {
+            StructuredContent = new
+            {
+                x,
+                y,
+                width,
+                height,
+                mimeType = "image/png"
+            }.ToStructuredContent(),
             Content =
             [
                 uploaded!,
-                new
-                {
-                    x,
-                    y,
-                    width,
-                    height,
-                    mimeType = "image/png"
-                }.ToJsonContentBlock("https://github.com/SixLabors/ImageSharp")
             ]
         };
-    }
+    });
 
     [Description("Generate a square thumbnail (center crop + resize).")]
     [McpServerTool(
@@ -484,6 +489,7 @@ public static class ImageSharpService
         [Description("Output format (png or jpg). Default: png.")]
         string format = "png",
         CancellationToken cancellationToken = default)
+         => await requestContext.WithExceptionCheck(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
@@ -524,19 +530,19 @@ public static class ImageSharpService
 
         return new CallToolResult
         {
+            StructuredContent = new
+            {
+                thumbnailSize = size,
+                cropX = x,
+                cropY = y,
+                mimeType = $"image/{format}"
+            }.ToStructuredContent(),
             Content =
             [
                 uploaded!,
-                new
-                {
-                    thumbnailSize = size,
-                    cropX = x,
-                    cropY = y,
-                    mimeType = $"image/{format}"
-                }.ToJsonContentBlock("https://github.com/SixLabors/ImageSharp")
             ]
         };
-    }
+    });
 
     [Description("Apply Gaussian blur to an image or a region.")]
     [McpServerTool(
@@ -556,6 +562,7 @@ public static class ImageSharpService
        [Description("Output format (png or jpg). Default: png.")]
         string format = "png",
        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
@@ -605,18 +612,18 @@ public static class ImageSharpService
 
         return new CallToolResult
         {
+            StructuredContent = new
+            {
+                radius,
+                region,
+                mimeType = $"image/{format}"
+            }.ToStructuredContent(),
             Content =
             [
                 uploaded!,
-                new
-                {
-                    radius,
-                    region,
-                    mimeType = $"image/{format}"
-                }.ToJsonContentBlock("https://github.com/SixLabors/ImageSharp")
             ]
         };
-    }
+    });
 
     [Description("Combine multiple image URLs into a single grid or collage.")]
     [McpServerTool(
@@ -655,17 +662,17 @@ public static class ImageSharpService
 
         return new CallToolResult
         {
+            StructuredContent = new
+            {
+                count = imageUrls.Length,
+                columns,
+                cellSize,
+                padding,
+                mimeType = $"image/{format}"
+            }.ToStructuredContent(),
             Content =
             [
                 uploaded!,
-                new
-                {
-                    count = imageUrls.Length,
-                    columns,
-                    cellSize,
-                    padding,
-                    mimeType = $"image/{format}"
-                }.ToJsonContentBlock("https://github.com/SixLabors/ImageSharp")
             ]
         };
     }));
@@ -709,18 +716,18 @@ public static class ImageSharpService
 
         return new CallToolResult
         {
+            StructuredContent = new
+            {
+                folder = sharepointFolderUrl,
+                count = fileUrls.Count,
+                columns,
+                cellSize,
+                padding,
+                mimeType = $"image/{format}"
+            }.ToStructuredContent(),
             Content =
             [
                 uploaded!,
-                new
-                {
-                    folder = sharepointFolderUrl,
-                    count = fileUrls.Count,
-                    columns,
-                    cellSize,
-                    padding,
-                    mimeType = $"image/{format}"
-                }.ToJsonContentBlock("https://github.com/SixLabors/ImageSharp")
             ]
         };
     }));

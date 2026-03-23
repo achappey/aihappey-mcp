@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using ModelContextProtocol.Protocol;
@@ -9,6 +10,9 @@ namespace MCPhappey.Common.Extensions;
 
 public static class ToolExtensions
 {
+
+    public static JsonNode? ToStructuredContent<T>(this T item)
+            => JsonSerializer.SerializeToNode(item, JsonSerializerOptions.Web);
 
     public static CallToolResult ToCallToolResponse(this IEnumerable<ContentBlock> content)
         => new()
@@ -105,7 +109,7 @@ public static class ToolExtensions
         var attribute = memberInfo?.GetCustomAttribute<EnumMemberAttribute>();
         return attribute?.Value ?? enumValue.ToString();
     }
-    
+
     public static async ValueTask<List<T>> MaterializeToListAsync<T>(
        this IAsyncEnumerable<T> source,
        CancellationToken cancellationToken = default)

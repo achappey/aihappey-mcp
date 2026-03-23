@@ -1,4 +1,6 @@
 using System.ComponentModel;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
@@ -25,6 +27,7 @@ public static class OneDriveOpenSkills
         CancellationToken cancellationToken = default) =>
         await context.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
+        await context.WithStructuredContent(async () =>
     {
         var drive = await graph.GetDefaultDriveAsync(cancellationToken)
                    ?? throw new Exception("Could not resolve default OneDrive.");
@@ -33,9 +36,8 @@ public static class OneDriveOpenSkills
         var skillFolders = await graph.ListFoldersIfExistsAsync(drive.Id!, RootFolderName, cancellationToken);
         if (skillFolders.Count == 0)
         {
-            return new List<OpenSkillSummary>()
-                .ToJsonContentBlock("onedrive://skills")
-                .ToCallToolResult();
+            return new { items = Array.Empty<List<OpenSkillSummary>>() }
+            .ToStructuredContent();
         }
 
         var results = new List<OpenSkillSummary>();
@@ -72,10 +74,8 @@ public static class OneDriveOpenSkills
             });
         }
 
-        return results
-            .ToJsonContentBlock("onedrive://skills")
-            .ToCallToolResult();
-    }));
+        return new { items = results }.ToStructuredContent();
+    })));
 
     [Description("Read the SKILL.md for a specific skill under /skills/{skillName}.")]
     [McpServerTool(

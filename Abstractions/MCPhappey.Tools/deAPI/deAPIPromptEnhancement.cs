@@ -109,8 +109,7 @@ public static class deAPIPromptEnhancement
         Title = "deAPI Speech Prompt Booster",
         Name = "deapi_prompt_enhance_speech",
         ReadOnly = true,
-        OpenWorld = true,
-        UseStructuredContent = true)]
+        OpenWorld = true)]
     public static async Task<SpeechPromptEnhancementResult> deAPI_Prompt_EnhanceSpeech(
         IServiceProvider serviceProvider,
         [Description("Prompt to enhance (minimum 3 characters).")]
