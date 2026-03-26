@@ -1,0 +1,244 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.ned.nl/v1/activities/{id}",
+      "name": "ned-activity-by-id",
+      "title": "NED Activity by id",
+      "description": "Retrieves a single activity resource by its activity identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/activities?page={page}&itemsPerPage={itemsPerPage}",
+      "name": "ned-activities-list",
+      "title": "NED Activities list",
+      "description": "Retrieves the activity collection with explicit pagination controls. Supports page and itemsPerPage.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/authorisations/{id}",
+      "name": "ned-authorisation-by-id",
+      "title": "NED Authorisation by id",
+      "description": "Retrieves a single authorisation resource by its authorisation identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/authorisations?page={page}&itemsPerPage={itemsPerPage}",
+      "name": "ned-authorisations-list",
+      "title": "NED Authorisations list",
+      "description": "Retrieves the authorisation collection with explicit pagination controls. Supports page and itemsPerPage.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/classifications/{id}",
+      "name": "ned-classification-by-id",
+      "title": "NED Classification by id",
+      "description": "Retrieves a single classification resource by its classification identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/classifications?page={page}&itemsPerPage={itemsPerPage}",
+      "name": "ned-classifications-list",
+      "title": "NED Classifications list",
+      "description": "Retrieves the classification collection with explicit pagination controls. Supports page and itemsPerPage.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/granularities/{id}",
+      "name": "ned-granularity-by-id",
+      "title": "NED Granularity by id",
+      "description": "Retrieves a single granularity resource by its granularity identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/granularities?page={page}&itemsPerPage={itemsPerPage}",
+      "name": "ned-granularities-list",
+      "title": "NED Granularities list",
+      "description": "Retrieves the granularity collection with explicit pagination controls. Supports page and itemsPerPage.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/granularity_time_zones/{id}",
+      "name": "ned-granularity-time-zone-by-id",
+      "title": "NED Granularity time zone by id",
+      "description": "Retrieves a single granularity time zone resource by its identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/granularity_time_zones?page={page}&itemsPerPage={itemsPerPage}",
+      "name": "ned-granularity-time-zones-list",
+      "title": "NED Granularity time zones list",
+      "description": "Retrieves the granularity time zone collection with explicit pagination controls. Supports page and itemsPerPage.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/points/{id}",
+      "name": "ned-point-by-id",
+      "title": "NED Point by id",
+      "description": "Retrieves a single point resource by its point identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/points?page={page}&itemsPerPage={itemsPerPage}&id={id}&id[]={id_array}&identifier={identifier}&name={name}&parentpoints={parentpoints}&parentpoints[]={parentpoints_array}&childpoints={childpoints}&childpoints[]={childpoints_array}&validfrom={validfrom}&validfrom[]={validfrom_array}&validfrom[before]={validfrom_before}&validfrom[strictly_before]={validfrom_strictly_before}&validfrom[after]={validfrom_after}&validfrom[strictly_after]={validfrom_strictly_after}",
+      "name": "ned-points-list",
+      "title": "NED Points list with filters",
+      "description": "Retrieves the point collection with complete documented query support: page, itemsPerPage, id, repeated id[], identifier, name, parentpoints, repeated parentpoints[], childpoints, repeated childpoints[], validfrom, repeated validfrom[], and the validfrom before/strictly_before/after/strictly_after range filters.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/types/{id}",
+      "name": "ned-type-by-id",
+      "title": "NED Type by id",
+      "description": "Retrieves a single type resource by its type identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/types?page={page}&itemsPerPage={itemsPerPage}",
+      "name": "ned-types-list",
+      "title": "NED Types list",
+      "description": "Retrieves the type collection with explicit pagination controls. Supports page and itemsPerPage.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/users/{id}",
+      "name": "ned-user-by-id",
+      "title": "NED User by id",
+      "description": "Retrieves a single user resource by its user identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/users?page={page}&itemsPerPage={itemsPerPage}",
+      "name": "ned-users-list",
+      "title": "NED Users list",
+      "description": "Retrieves the user collection with explicit pagination controls. Supports page and itemsPerPage.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/utilizations/{id}",
+      "name": "ned-utilization-by-id",
+      "title": "NED Utilization by id",
+      "description": "Retrieves a single utilization resource by its utilization identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/utilizations?page={page}&itemsPerPage={itemsPerPage}&id={id}&id[]={id_array}&point={point}&point[]={point_array}&type={type}&type[]={type_array}&granularity={granularity}&granularity[]={granularity_array}&granularitytimezone={granularitytimezone}&granularitytimezone[]={granularitytimezone_array}&classification={classification}&classification[]={classification_array}&activity={activity}&activity[]={activity_array}&validfrom[before]={validfrom_before}&validfrom[strictly_before]={validfrom_strictly_before}&validfrom[after]={validfrom_after}&validfrom[strictly_after]={validfrom_strictly_after}&order[validfrom]={order_validfrom}",
+      "name": "ned-utilizations-list",
+      "title": "NED Utilizations list with filters",
+      "description": "Retrieves the utilization collection with complete documented query support: page, itemsPerPage, id, repeated id[], point, repeated point[], type, repeated type[], granularity, repeated granularity[], granularitytimezone, repeated granularitytimezone[], classification, repeated classification[], activity, repeated activity[], validfrom before/strictly_before/after/strictly_after range filters, and order[validfrom] with asc or desc.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/widgets/{hash}",
+      "name": "ned-widget-by-hash",
+      "title": "NED Widget by hash",
+      "description": "Retrieves a single widget resource by its widget hash identifier.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.ned.nl/v1/widgets?page={page}&itemsPerPage={itemsPerPage}&hash={hash}&hash[]={hash_array}&owner={owner}&owner[]={owner_array}&validfrom[before]={validfrom_before}&validfrom[strictly_before]={validfrom_strictly_before}&validfrom[after]={validfrom_after}&validfrom[strictly_after]={validfrom_strictly_after}&order[validfrom]={order_validfrom}",
+      "name": "ned-widgets-list",
+      "title": "NED Widgets list with filters",
+      "description": "Retrieves the widget collection with complete documented GET query support: page, itemsPerPage, hash, repeated hash[], owner, repeated owner[], validfrom before/strictly_before/after/strictly_after range filters, and order[validfrom] with asc or desc.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

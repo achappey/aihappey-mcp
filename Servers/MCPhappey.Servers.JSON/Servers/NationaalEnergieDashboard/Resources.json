@@ -1,0 +1,124 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.ned.nl/v1/activities",
+      "name": "ned-activities-collection",
+      "title": "NED Activities collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of activity resources from the Nationaal Energie Dashboard API. Supports default pagination when no query parameters are supplied.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.ned.nl/v1/authorisations",
+      "name": "ned-authorisations-collection",
+      "title": "NED Authorisations collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of authorisation resources from the Nationaal Energie Dashboard API. Supports default pagination when no query parameters are supplied.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.ned.nl/v1/classifications",
+      "name": "ned-classifications-collection",
+      "title": "NED Classifications collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of classification resources from the Nationaal Energie Dashboard API. Supports default pagination when no query parameters are supplied.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.ned.nl/v1/granularities",
+      "name": "ned-granularities-collection",
+      "title": "NED Granularities collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of granularity resources from the Nationaal Energie Dashboard API. Supports default pagination when no query parameters are supplied.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.ned.nl/v1/granularity_time_zones",
+      "name": "ned-granularity-time-zones-collection",
+      "title": "NED Granularity time zones collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of granularity time zone resources from the Nationaal Energie Dashboard API. Supports default pagination when no query parameters are supplied.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.ned.nl/v1/points",
+      "name": "ned-points-collection",
+      "title": "NED Points collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of point resources from the Nationaal Energie Dashboard API without optional filters. Default pagination applies when no query parameters are supplied.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.ned.nl/v1/types",
+      "name": "ned-types-collection",
+      "title": "NED Types collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of type resources from the Nationaal Energie Dashboard API. Supports default pagination when no query parameters are supplied.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.ned.nl/v1/users",
+      "name": "ned-users-collection",
+      "title": "NED Users collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of user resources from the Nationaal Energie Dashboard API. Supports default pagination when no query parameters are supplied.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.ned.nl/v1/utilizations",
+      "name": "ned-utilizations-collection",
+      "title": "NED Utilizations collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of utilization resources from the Nationaal Energie Dashboard API without optional filters. The documented default page size is 144 and the default validfrom ordering is descending.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.ned.nl/v1/widgets",
+      "name": "ned-widgets-collection",
+      "title": "NED Widgets collection",
+      "description": "Retrieves the default JSON-LD Hydra collection of widget resources from the Nationaal Energie Dashboard API without optional filters. Default ordering is descending on validfrom.",
+      "mimeType": "application/ld+json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

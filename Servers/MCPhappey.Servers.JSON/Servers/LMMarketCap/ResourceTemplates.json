@@ -1,0 +1,136 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/models/{slug}",
+      "name": "lmmarketcap-model-detail",
+      "title": "Get LM Market Cap model detail",
+      "description": "Returns full profile for a model including pricing, scores, categories and aliases.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/models/{slug}/scores",
+      "name": "lmmarketcap-model-scores",
+      "title": "Get model score history",
+      "description": "Returns time series of model scores with optional category and date filtering.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/models/{slug}/signals",
+      "name": "lmmarketcap-model-signals",
+      "title": "Get model signals",
+      "description": "Returns raw signal events contributing to a model score.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/models/{slug}/reviews",
+      "name": "lmmarketcap-model-reviews",
+      "title": "Get model reviews",
+      "description": "Returns community reviews for a model with pagination and sorting.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/models/{slug}/pricing",
+      "name": "lmmarketcap-model-pricing",
+      "title": "Get model pricing",
+      "description": "Returns current pricing and pricing history for a model.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/categories/{slug}",
+      "name": "lmmarketcap-category-detail",
+      "title": "Get category detail",
+      "description": "Returns metadata for a category including children and model count.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/rankings/{category}",
+      "name": "lmmarketcap-rankings",
+      "title": "Get category rankings",
+      "description": "Returns leaderboard ranking for a category.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/rankings/{category}/history",
+      "name": "lmmarketcap-ranking-history",
+      "title": "Get ranking history",
+      "description": "Returns historical ranking snapshots for a category.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/rankings/{category}/movers",
+      "name": "lmmarketcap-ranking-movers",
+      "title": "Get ranking movers",
+      "description": "Returns largest ranking changes for a category.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/models/search?q={query}",
+      "name": "lmmarketcap-search-models",
+      "title": "Search models",
+      "description": "Typo tolerant search across model names, aliases and descriptions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.lmmarketcap.com/v1/models/compare?slugs={slugs}",
+      "name": "lmmarketcap-compare-models",
+      "title": "Compare models",
+      "description": "Compare multiple models across scores, pricing and metadata.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

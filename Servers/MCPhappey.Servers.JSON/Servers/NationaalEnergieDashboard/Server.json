@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "NationaalEnergieDashboard",
+    "title": "NationaalEnergieDashboard",
+    "version": "1.0.0",
+    "websiteUrl": "https://ned.nl",
+    "description": "Vind actuele data over energie in Nederland, beschikbaar gesteld door Gasunie en TenneT. Deze data wordt publiek toegankelijk gemaakt met als doel slimmer en duurzamer om te gaan met onze beschikbare energie.",
+    "icons": [
+      {
+        "src": "https://ned.nl/themes/custom/nedt/images/favicon/favicon-180x180.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.NationaalEnergieDashboard.NationaalEnergieDashboardTools, MCPhappey.Tools"
+  ]
+}

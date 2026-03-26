@@ -8,7 +8,7 @@ namespace MCPhappey.Scrapers.Generic;
 
 public class DynamicHeaderScraper(IHttpClientFactory httpClientFactory) : IContentScraper
 {
-    private static readonly List<string> SupportedHosts = ["app.declaree.com", "api.applicationinsights.io"];
+    private static readonly List<string> SupportedHosts = ["app.declaree.com"];
 
     public bool SupportsHost(ServerConfig serverConfig, string url) => SupportedHosts.Contains(new Uri(url).Host);
 

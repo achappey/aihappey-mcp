@@ -10,7 +10,7 @@
       }
     ]
   },
-  "headers": {
-    "x-api-key": "Application Insights API key"
+  "obo": {
+    "api.applicationinsights.io": "https://api.applicationinsights.io/.default"
   }
 }

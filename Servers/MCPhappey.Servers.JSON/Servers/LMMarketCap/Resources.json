@@ -1,0 +1,44 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.lmmarketcap.com/v1/models",
+      "name": "lmmarketcap-list-models",
+      "title": "List LM Market Cap models",
+      "description": "Returns paginated list of AI models with optional filters like category, provider, status, search and sorting.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant", "user"]
+      }
+    },
+    {
+      "uri": "https://api.lmmarketcap.com/v1/categories",
+      "name": "lmmarketcap-list-categories",
+      "title": "List LM Market Cap categories",
+      "description": "Returns the full hierarchical category tree used to classify AI models.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant", "user"]
+      }
+    },
+    {
+      "uri": "https://api.lmmarketcap.com/health",
+      "name": "lmmarketcap-health",
+      "title": "LM Market Cap API health",
+      "description": "Returns operational status of the LM Market Cap API.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant", "user"]
+      }
+    },
+    {
+      "uri": "https://api.lmmarketcap.com/health/pipelines",
+      "name": "lmmarketcap-health-pipelines",
+      "title": "LM Market Cap pipeline health",
+      "description": "Returns ingestion pipeline health and data freshness status.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant", "user"]
+      }
+    }
+  ]
+}
