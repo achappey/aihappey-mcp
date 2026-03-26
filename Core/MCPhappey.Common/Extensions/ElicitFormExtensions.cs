@@ -210,7 +210,9 @@ public static class ElicitFormExtensions
             {
                 Title = title,
                 Format = "date-time",
-                Default = defaultValue,
+                Default = defaultValue is DateTime dt
+                    ? DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToString("O")
+                    : defaultValue,
                 Description = desc
             },
             Type t when t == typeof(bool) || t == typeof(bool?) => new ElicitRequestParams.BooleanSchema

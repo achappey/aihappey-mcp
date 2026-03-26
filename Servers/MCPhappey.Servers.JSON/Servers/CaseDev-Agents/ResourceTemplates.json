@@ -1,0 +1,30 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.case.dev/agent/v1/agents?limit={limit}",
+      "name": "casedev-agents-list",
+      "title": "case.dev list agents",
+      "description": "List Case.dev agents with a caller-provided limit value.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.case.dev/agent/v1/agents/{id}",
+      "name": "casedev-agent-details",
+      "title": "case.dev agent details",
+      "description": "Retrieve a single Case.dev agent definition by agent id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

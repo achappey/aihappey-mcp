@@ -1,4 +1,3 @@
-using MCPhappey.Tools.Supadata;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MCPhappey.Tools.Supadata;

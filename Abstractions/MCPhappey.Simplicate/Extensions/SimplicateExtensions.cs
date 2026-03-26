@@ -3,7 +3,6 @@ using System.Text.Json;
 using MCPhappey.Common;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Services;
-using MCPhappey.Simplicate.CRM;
 using MCPhappey.Simplicate.Options;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;

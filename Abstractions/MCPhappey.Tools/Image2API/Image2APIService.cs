@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Linq;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;

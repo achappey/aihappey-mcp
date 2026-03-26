@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Privatemode-Transcriptions",
+    "title": "Privatemode Transcriptions",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.privatemode.ai",
+    "description": "Use the Privatemode speech-to-text to generate text from audio files.",
+    "icons": [
+      {
+        "src": "https://cdn-1.webcatalog.io/catalog/privatemode-ai/privatemode-ai-icon-filled-256.png?v=1745551566709"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Privatemode.PrivatemodeTranscriptions, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

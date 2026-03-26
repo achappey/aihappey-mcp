@@ -4,7 +4,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
+using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -259,6 +261,7 @@ public static class GraphOutlookMail
     [Description("Send an e-mail message through Outlook from the current users' mailbox.")]
     [McpServerTool(Title = "Send e-mail via Outlook", Destructive = true)]
     public static async Task<CallToolResult?> GraphOutlookMail_SendMail(
+     IServiceProvider serviceProvider,
      RequestContext<CallToolRequestParams> requestContext,
      [Description("E-mail addresses of the recipients. Use a comma separated list for multiple recipients.")] string? toRecipients = null,
      [Description("E-mail addresses for CC (carbon copy). Use a comma separated list for multiple recipients.")] string? ccRecipients = null,
@@ -266,6 +269,7 @@ public static class GraphOutlookMail
      [Description("Body of the e-mail message.")] string? body = null,
      [Description("Type of the message body (html or text).")] BodyType? bodyType = null,
      [Description("Importance.")] Importance? importance = null,
+     [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the body.")] string? emailSignatureUrl = null,
      CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
@@ -279,12 +283,21 @@ public static class GraphOutlookMail
                 Subject = subject,
                 Body = body,
                 Importance = importance,
-                BodyType = bodyType ?? BodyType.Text
+                BodyType = bodyType ?? BodyType.Text,
+                EmailSignatureUrl = emailSignatureUrl
             },
             cancellationToken
         );
 
         if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
+
+        var resolvedBody = await BuildBodyWithOptionalSignatureAsync(
+            serviceProvider,
+            requestContext,
+            typed?.Body,
+            typed?.BodyType,
+            typed?.EmailSignatureUrl,
+            cancellationToken);
 
         Message newMessage = new()
         {
@@ -293,7 +306,7 @@ public static class GraphOutlookMail
             Body = new ItemBody
             {
                 ContentType = typed?.BodyType,
-                Content = typed?.Body
+                Content = resolvedBody
             },
             ToRecipients = typed?.ToRecipients.Split(",").Select(a => a.ToRecipient()).ToList(),
             CcRecipients = typed?.CcRecipients?.Split(",", StringSplitOptions.RemoveEmptyEntries)
@@ -325,6 +338,7 @@ public static class GraphOutlookMail
         [Description("Subject of the draft e-mail message.")] string? subject = null,
         [Description("Body of the draft e-mail message.")] string? body = null,
         [Description("Type of the message body (html or text).")] BodyType? bodyType = null,
+        [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the draft body.")] string? emailSignatureUrl = null,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
@@ -336,12 +350,21 @@ public static class GraphOutlookMail
                 CcRecipients = ccRecipients,
                 Subject = subject,
                 Body = body,
-                BodyType = bodyType ?? BodyType.Text
+                BodyType = bodyType ?? BodyType.Text,
+                EmailSignatureUrl = emailSignatureUrl
             },
             cancellationToken
         );
 
         if (notAccepted != null) return notAccepted;
+
+        var resolvedBody = await BuildBodyWithOptionalSignatureAsync(
+            serviceProvider,
+            requestContext,
+            typed?.Body,
+            typed?.BodyType,
+            typed?.EmailSignatureUrl,
+            cancellationToken);
 
         var newMessage = new Message
         {
@@ -349,7 +372,7 @@ public static class GraphOutlookMail
             Body = new ItemBody
             {
                 ContentType = typed?.BodyType,
-                Content = typed?.Body
+                Content = resolvedBody
             },
             ToRecipients = typed?.ToRecipients
                 ?.Split(",", StringSplitOptions.RemoveEmptyEntries)
@@ -364,6 +387,38 @@ public static class GraphOutlookMail
         var createdMessage = await client.Me.Messages.PostAsync(newMessage, cancellationToken: cancellationToken);
         return createdMessage.ToJsonContentBlock($"https://graph.microsoft.com/beta/me/messages/{createdMessage?.Id}").ToCallToolResult();
     }));
+
+    internal static async Task<string?> BuildBodyWithOptionalSignatureAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string? body,
+        BodyType? bodyType,
+        string? emailSignatureUrl,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(emailSignatureUrl))
+            return body;
+
+        if ((bodyType ?? BodyType.Text) == BodyType.Text)
+            throw new ValidationException("emailSignatureUrl can only be used when bodyType is html.");
+
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+        var signatureFiles = await downloadService.DownloadContentAsync(
+            serviceProvider,
+            requestContext.Server,
+            emailSignatureUrl,
+            cancellationToken);
+
+        var signatureFile = signatureFiles.FirstOrDefault()
+            ?? throw new ValidationException("Failed to download content from emailSignatureUrl.");
+
+        var signatureHtml = signatureFile.Contents.ToString();
+
+        if (string.IsNullOrWhiteSpace(signatureHtml))
+            throw new ValidationException("emailSignatureUrl returned empty content.");
+
+        return $"{body ?? string.Empty}{signatureHtml}";
+    }
 
     [Description("Please fill in the draft e-mail details")]
     public class GraphCreateMailDraft
@@ -391,6 +446,10 @@ public static class GraphOutlookMail
         [JsonConverter(typeof(JsonStringEnumConverter))]
         [Description("Type of the message body (html or text).")]
         public BodyType? BodyType { get; set; }
+
+        [JsonPropertyName("emailSignatureUrl")]
+        [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the body.")]
+        public string? EmailSignatureUrl { get; set; }
     }
 
 
@@ -425,5 +484,9 @@ public static class GraphOutlookMail
         [Required]
         [Description("Body of the e-mail message.")]
         public string? Body { get; set; }
+
+        [JsonPropertyName("emailSignatureUrl")]
+        [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the body.")]
+        public string? EmailSignatureUrl { get; set; }
     }
 }

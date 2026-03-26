@@ -11,7 +11,7 @@
       }
     ]
   },
-  "baseMcp": "mcp.mulerun.com/context7",
+  "baseMcp": "context7.mulerun.com",
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
   }

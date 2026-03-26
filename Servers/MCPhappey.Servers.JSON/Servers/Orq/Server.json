@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Orq",
+    "title": "Orq",
+    "version": "1.0.0",
+    "websiteUrl": "https://orq.ai",
+    "description": "Provides AI code assistants with direct access to your Orq.ai workspace.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/92824965?s=280&v=4"
+      }
+    ]
+  },
+  "baseMcp": "my.orq.ai",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.case.dev/format/v1/health",
+      "name": "casedev-format-health",
+      "title": "case.dev Format health",
+      "description": "Health check for the Case.dev Format service.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://api.case.dev/format/v1/templates",
+      "name": "casedev-format-templates-example",
+      "title": "case.dev format templates example",
+      "description": "Example GET request that lists available Case.dev format templates for the organization.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

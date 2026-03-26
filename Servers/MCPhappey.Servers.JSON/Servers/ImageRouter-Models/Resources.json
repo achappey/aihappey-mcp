@@ -1,0 +1,18 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.imagerouter.io/v2/models",
+      "name": "list-imagerouter-models",
+      "title": "List available ImageRouter models",
+      "description": "List all available ImageRouter image and video models.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
+

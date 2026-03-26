@@ -10,7 +10,6 @@ using System.ClientModel;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using MCPhappey.Core.Services;
-using System.Text.Json;
 
 namespace MCPhappey.Tools.OpenAI.Containers;
 

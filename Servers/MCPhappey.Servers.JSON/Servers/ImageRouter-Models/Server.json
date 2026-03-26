@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "ImageRouter-Models",
+    "title": "ImageRouter Models",
+    "version": "1.0.0",
+    "websiteUrl": "https://imagerouter.io",
+    "description": "Browse ImageRouter AI image and video models.",
+    "icons": [
+      {
+        "src": "https://imagerouter.io/apple-touch-icon.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
+

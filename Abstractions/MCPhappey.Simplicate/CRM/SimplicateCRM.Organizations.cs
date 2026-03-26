@@ -2,7 +2,6 @@ using System.ComponentModel;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
-using MCPhappey.Simplicate;
 using MCPhappey.Simplicate.Extensions;
 using MCPhappey.Simplicate.Options;
 using Microsoft.Extensions.DependencyInjection;

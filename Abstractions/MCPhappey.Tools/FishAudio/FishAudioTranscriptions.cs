@@ -9,7 +9,6 @@ using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.StabilityAI;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 

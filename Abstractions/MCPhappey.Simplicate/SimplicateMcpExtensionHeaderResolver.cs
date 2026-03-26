@@ -2,7 +2,6 @@ using System.Collections.Concurrent;
 using Azure.Security.KeyVault.Secrets;
 using MCPhappey.Auth.Extensions;
 using MCPhappey.Common;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,0 +1,31 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.imagerouter.io/v2/models/{modelId}",
+      "name": "imagerouter-model-by-id",
+      "title": "Get ImageRouter model by id",
+      "description": "Retrieve a single ImageRouter model by modelId.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.imagerouter.io/v2/models?outputType={outputType}&inputType={inputType}&provider={provider}&free={free}&name={name}&sort={sort}&limit={limit}&fields={fields}",
+      "name": "imagerouter-models-filter-sort",
+      "title": "Search, filter, and sort ImageRouter models",
+      "description": "Retrieve ImageRouter models with optional filtering, sorting, limiting, and field selection.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
+

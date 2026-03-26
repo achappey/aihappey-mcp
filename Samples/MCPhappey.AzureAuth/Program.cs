@@ -38,6 +38,7 @@ using MCPhappey.Tools.Cohere;
 using MCPhappey.Tools.Rijkswaterstaat;
 using MCPhappey.Tools.JinaAI;
 using MCPhappey.Tools.Runware;
+using MCPhappey.Tools.CaseDev;
 using MCPhappey.Tools.QuiverAI;
 using MCPhappey.Tools.EdenAI;
 using MCPhappey.Tools.Azuce;
@@ -72,6 +73,7 @@ using MCPhappey.Tools.Speechactors;
 using MCPhappey.Tools.Verbatik;
 using MCPhappey.Tools.Venice;
 using MCPhappey.Tools.deAPI;
+using MCPhappey.Tools.ImageRouter;
 using MCPhappey.Tools.Runpod;
 using MCPhappey.Tools.CometAPI;
 using MCPhappey.Tools.Mixedbread;
@@ -93,6 +95,7 @@ using MCPhappey.Tools.Fireworks;
 using MCPhappey.Tools.Nebius;
 using MCPhappey.Tools.Supadata;
 using MCPhappey.Tools.LumaAI;
+using MCPhappey.Tools.Lumenfall;
 using MCPhappey.Tools.AICC;
 using MCPhappey.Tools.WisdomGate;
 using MCPhappey.Tools.OCRSpace;
@@ -117,6 +120,7 @@ using MCPhappey.Tools.Valyu;
 using MCPhappey.Tools.Kirha;
 using MCPhappey.Tools.MemU;
 using MCPhappey.Tools.Relace;
+using MCPhappey.Tools.Privatemode;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -210,6 +214,7 @@ builder.Services
     .AddNebius(appConfig?.DomainHeaders)
     .AddAICC(appConfig?.DomainHeaders)
     .AddLumaAI(appConfig?.DomainHeaders)
+    .AddLumenfall(appConfig?.DomainHeaders)
     .AddFireworks(appConfig?.DomainHeaders)
 .AddGreenPT(appConfig?.DomainHeaders)
 .AddAPIpie(appConfig?.DomainHeaders)
@@ -241,6 +246,7 @@ builder.Services
 .AddWisdomGate(appConfig?.DomainHeaders)
 .AddUnrealSpeech(appConfig?.DomainHeaders)
 .AddDeAPI(appConfig?.DomainHeaders)
+.AddImageRouter(appConfig?.DomainHeaders)
 .AddParasail(appConfig?.DomainHeaders)
 .AddRunpod(appConfig?.DomainHeaders)
     .AddCometAPI(appConfig?.DomainHeaders)
@@ -262,6 +268,7 @@ builder.Services
 .AddSmallestAI(appConfig?.DomainHeaders)
 .AddFishAudio(appConfig?.DomainHeaders)
 .AddCartesia(appConfig?.DomainHeaders)
+.AddPrivatemode(appConfig?.DomainHeaders)
 .AddTinyFish(appConfig?.DomainHeaders)
  .AddSmooth(appConfig?.DomainHeaders)
  .AddLLMLayer(appConfig?.DomainHeaders)
@@ -270,6 +277,7 @@ builder.Services
  .AddQomplement(appConfig?.DomainHeaders)
  .AddNimbleWay(appConfig?.DomainHeaders)
  .AddMemU(appConfig?.DomainHeaders)
+ .AddCaseDev(appConfig?.DomainHeaders)
  .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)
  .AddRijkswaterstaat()
  .AddEuropeanUnionVies();

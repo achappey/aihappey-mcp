@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "ImageRouter-Images",
+    "title": "ImageRouter Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://imagerouter.io",
+    "description": "Generate and edit images with ImageRouter via unified multipart endpoint, upload outputs to SharePoint/OneDrive, and return resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://imagerouter.io/apple-touch-icon.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.ImageRouter.ImageRouterImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

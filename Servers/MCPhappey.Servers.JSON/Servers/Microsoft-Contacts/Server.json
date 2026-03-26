@@ -11,7 +11,10 @@
       }
     ]
   },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Contacts.GraphContacts, MCPhappey.Tools"
+  ],
   "obo": {
-    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Contacts.ReadWrite.Shared"
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Contacts.ReadWrite https://graph.microsoft.com/Contacts.ReadWrite.Shared"
   }
 }

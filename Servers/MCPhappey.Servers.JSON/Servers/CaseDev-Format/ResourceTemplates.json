@@ -1,0 +1,30 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.case.dev/format/v1/templates?type={type}",
+      "name": "casedev-format-templates-by-type",
+      "title": "case.dev format templates by type",
+      "description": "Filter Case.dev format templates by template type such as contract, pleading, or letter.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.case.dev/format/v1/templates/{id}",
+      "name": "casedev-format-template-details",
+      "title": "case.dev format template details",
+      "description": "Retrieve a single Case.dev format template by template id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

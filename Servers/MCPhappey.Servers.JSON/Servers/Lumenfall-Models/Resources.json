@@ -1,0 +1,18 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.lumenfall.ai/openai/v1/models",
+      "name": "list-lumenfall-models",
+      "title": "List available Lumenfall models",
+      "description": "List all available Lumenfall models",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
+

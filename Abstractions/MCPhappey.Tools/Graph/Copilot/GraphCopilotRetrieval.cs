@@ -3,8 +3,6 @@ using System.Text;
 using System.Text.Json;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
-using Microsoft.Kiota.Abstractions;
-using Microsoft.Kiota.Abstractions.Serialization;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 

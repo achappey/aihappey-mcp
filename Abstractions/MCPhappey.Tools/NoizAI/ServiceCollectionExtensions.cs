@@ -1,4 +1,3 @@
-using MCPhappey.Auth.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "SweetCLI",
+    "title": "SweetCLI",
+    "version": "1.0.0",
+    "websiteUrl": "https://sweetcli.com",
+    "description": "Your terminal's sweet spot for shipping code.",
+    "icons": [
+      {
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://sweetcli.com&size=128"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.SweetCLI.SweetCLIService, MCPhappey.Tools"
+  ]
+}

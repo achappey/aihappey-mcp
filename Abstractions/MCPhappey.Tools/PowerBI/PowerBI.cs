@@ -5,7 +5,6 @@ using Microsoft.PowerBI.Api;
 using Microsoft.PowerBI.Api.Models;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using SharpGLTF.IO;
 
 namespace MCPhappey.Tools.PowerBI;
 

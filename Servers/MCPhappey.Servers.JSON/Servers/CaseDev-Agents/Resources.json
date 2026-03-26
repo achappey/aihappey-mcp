@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.case.dev/agent/v1/agents?limit=50",
+      "name": "casedev-agents-list-example",
+      "title": "case.dev agents list example",
+      "description": "Example GET request that lists up to 50 active Case.dev agents for the authenticated organization.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

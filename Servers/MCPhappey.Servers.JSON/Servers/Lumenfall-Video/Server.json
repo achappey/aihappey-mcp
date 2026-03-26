@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Lumenfall-Video",
+    "title": "Lumenfall Video",
+    "version": "1.0.0",
+    "websiteUrl": "https://lumenfall.ai",
+    "description": "Lumenfall text-to-video and image-to-video tools with mandatory elicitation confirmation, polling, SharePoint/OneDrive upload, and resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://docs.lumenfall.ai/favicon.ico"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Lumenfall.LumenfallVideo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

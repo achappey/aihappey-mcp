@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Lumenfall-Images",
+    "title": "Lumenfall Images",
+    "version": "1.0.0",
+    "websiteUrl": "https://lumenfall.ai",
+    "description": "Lumenfall text-to-image and image edit tools with SharePoint/OneDrive upload and resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://docs.lumenfall.ai/favicon.ico"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Lumenfall.LumenfallImages, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

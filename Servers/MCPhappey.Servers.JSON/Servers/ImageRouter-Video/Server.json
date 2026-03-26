@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "ImageRouter-Video",
+    "title": "ImageRouter Video",
+    "version": "1.0.0",
+    "websiteUrl": "https://imagerouter.io",
+    "description": "Generate videos with ImageRouter via unified multipart endpoint, upload outputs to SharePoint/OneDrive, and return resource-link-only output.",
+    "icons": [
+      {
+        "src": "https://imagerouter.io/apple-touch-icon.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.ImageRouter.ImageRouterVideo, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
+

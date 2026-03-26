@@ -17,10 +17,11 @@
   },
   "plugins": [
     "MCPhappey.Simplicate.CRM.SimplicateCRM, MCPhappey.Simplicate",
+    "MCPhappey.Simplicate.CRM.SimplicateCRMContactSync, MCPhappey.Simplicate",
     "MCPhappey.Simplicate.SimplicateCurrentUser, MCPhappey.Simplicate"
   ],
   "obo": {
-    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Contacts.ReadWrite"
   },
   "tools": {
     "simplicate_crm_get_my_organization_profiles": {

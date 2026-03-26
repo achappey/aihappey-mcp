@@ -38,6 +38,7 @@ using MCPhappey.Tools.Cohere;
 using MCPhappey.Tools.Rijkswaterstaat;
 using MCPhappey.Tools.JinaAI;
 using MCPhappey.Tools.Runware;
+using MCPhappey.Tools.CaseDev;
 using MCPhappey.Tools.QuiverAI;
 using MCPhappey.Tools.EdenAI;
 using MCPhappey.Tools.Azuce;
@@ -72,6 +73,7 @@ using MCPhappey.Tools.Speechactors;
 using MCPhappey.Tools.Verbatik;
 using MCPhappey.Tools.Venice;
 using MCPhappey.Tools.deAPI;
+using MCPhappey.Tools.ImageRouter;
 using MCPhappey.Tools.CometAPI;
 using MCPhappey.Tools.Mixedbread;
 using MCPhappey.Tools.StepFun;
@@ -90,6 +92,7 @@ using MCPhappey.Tools.Fireworks;
 using MCPhappey.Tools.Nebius;
 using MCPhappey.Tools.Supadata;
 using MCPhappey.Tools.LumaAI;
+using MCPhappey.Tools.Lumenfall;
 using MCPhappey.Tools.AICC;
 using MCPhappey.Tools.WisdomGate;
 using MCPhappey.Tools.OCRSpace;
@@ -205,6 +208,7 @@ builder.Services
     .AddNebius(appConfig?.DomainHeaders)
     .AddAICC(appConfig?.DomainHeaders)
     .AddLumaAI(appConfig?.DomainHeaders)
+    .AddLumenfall(appConfig?.DomainHeaders)
     .AddFireworks(appConfig?.DomainHeaders)
 .AddGreenPT(appConfig?.DomainHeaders)
 .AddAPIpie(appConfig?.DomainHeaders)
@@ -235,6 +239,7 @@ builder.Services
 .AddWisdomGate(appConfig?.DomainHeaders)
 .AddUnrealSpeech(appConfig?.DomainHeaders)
 .AddDeAPI(appConfig?.DomainHeaders)
+.AddImageRouter(appConfig?.DomainHeaders)
 .AddParasail(appConfig?.DomainHeaders)
     .AddCometAPI(appConfig?.DomainHeaders)
     .AddMixedbread(appConfig?.DomainHeaders)
@@ -263,6 +268,7 @@ builder.Services
  .AddWebsearchAPI(appConfig?.DomainHeaders)
  .AddQomplement(appConfig?.DomainHeaders)
 .AddMemU(appConfig?.DomainHeaders)
+.AddCaseDev(appConfig?.DomainHeaders)
 .AddNimbleWay(appConfig?.DomainHeaders)
 .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)
 .AddRijkswaterstaat()

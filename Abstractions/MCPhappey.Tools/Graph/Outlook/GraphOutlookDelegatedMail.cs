@@ -192,12 +192,14 @@ public static class GraphOutlookDelegatedMail
     [McpServerTool(Title = "Send delegated e-mail", Destructive = true)]
     public static async Task<CallToolResult?> GraphDelegatedMail_SendMail(
      [Description("Delegated user ID or mailbox address.")] string userId,
+     IServiceProvider serviceProvider,
      RequestContext<CallToolRequestParams> requestContext,
      [Description("E-mail addresses of the recipients. Use a comma separated list for multiple recipients.")] string? toRecipients = null,
      [Description("E-mail addresses for CC (carbon copy). Use a comma separated list for multiple recipients.")] string? ccRecipients = null,
      [Description("Subject of the e-mail message.")] string? subject = null,
      [Description("Body of the e-mail message.")] string? body = null,
      [Description("Type of the message body (html or text).")] BodyType? bodyType = null,
+     [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the body.")] string? emailSignatureUrl = null,
      CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
@@ -210,10 +212,19 @@ public static class GraphOutlookDelegatedMail
                 CcRecipients = ccRecipients,
                 Subject = subject,
                 Body = body,
-                BodyType = bodyType ?? BodyType.Text
+                BodyType = bodyType ?? BodyType.Text,
+                EmailSignatureUrl = emailSignatureUrl
             },
             cancellationToken
         );
+
+        var resolvedBody = await GraphOutlookMail.BuildBodyWithOptionalSignatureAsync(
+            serviceProvider,
+            requestContext,
+            typed?.Body,
+            typed?.BodyType,
+            typed?.EmailSignatureUrl,
+            cancellationToken);
 
         var newMessage = new Message
         {
@@ -221,7 +232,7 @@ public static class GraphOutlookDelegatedMail
             Body = new ItemBody
             {
                 ContentType = typed?.BodyType,
-                Content = typed?.Body
+                Content = resolvedBody
             },
             ToRecipients = typed?.ToRecipients.Split(",").Select(a => a.ToRecipient()).ToList(),
             CcRecipients = typed?.CcRecipients?.Split(",", StringSplitOptions.RemoveEmptyEntries)
@@ -252,6 +263,7 @@ public static class GraphOutlookDelegatedMail
         [Description("Subject of the draft e-mail message.")] string? subject = null,
         [Description("Body of the draft e-mail message.")] string? body = null,
         [Description("Type of the message body (html or text).")] BodyType? bodyType = null,
+        [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the draft body.")] string? emailSignatureUrl = null,
         CancellationToken cancellationToken = default)
     {
         var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
@@ -261,10 +273,19 @@ public static class GraphOutlookDelegatedMail
                 CcRecipients = ccRecipients,
                 Subject = subject,
                 Body = body,
-                BodyType = bodyType ?? BodyType.Text
+                BodyType = bodyType ?? BodyType.Text,
+                EmailSignatureUrl = emailSignatureUrl
             },
             cancellationToken
         );
+
+        var resolvedBody = await GraphOutlookMail.BuildBodyWithOptionalSignatureAsync(
+            serviceProvider,
+            requestContext,
+            typed?.Body,
+            typed?.BodyType,
+            typed?.EmailSignatureUrl,
+            cancellationToken);
 
         var newMessage = new Message
         {
@@ -272,7 +293,7 @@ public static class GraphOutlookDelegatedMail
             Body = new ItemBody
             {
                 ContentType = typed?.BodyType,
-                Content = typed?.Body
+                Content = resolvedBody
             },
             ToRecipients = typed?.ToRecipients
                 ?.Split(",", StringSplitOptions.RemoveEmptyEntries)

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "NationaleWoningbouwkaart",
+    "title": "NationaleWoningbouwkaart",
+    "version": "1.0.0",
+    "websiteUrl": "https://nationalewoningbouwkaart.nl",
+    "description": "Landelijke kaart met alle woningbouwplannen, halfjaarlijks geüpdatet door gemeenten en BZK.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Logo_Rijksoverheid_%28kleur%29.jpg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.NationaleWoningbouwkaart.NationaleWoningbouwkaartTools, MCPhappey.Tools"
+  ]
+}
