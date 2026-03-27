@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Magisterium",
+        "title": "Magisterium",
+        "version": "1.0.0",
+        "websiteUrl": "https://www.magisterium.com",
+        "description": "Search in Catholic sources.",
+        "icons": [
+            {
+                "src": "https://www.magisterium.com/apple-icon.png?apple-icon.2847d4d4.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Magisterium.MagisteriumSearch, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

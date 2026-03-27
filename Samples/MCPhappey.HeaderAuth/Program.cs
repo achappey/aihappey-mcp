@@ -38,6 +38,7 @@ using MCPhappey.Tools.Cohere;
 using MCPhappey.Tools.Rijkswaterstaat;
 using MCPhappey.Tools.JinaAI;
 using MCPhappey.Tools.Runware;
+using MCPhappey.Tools.Magisterium;
 using MCPhappey.Tools.CaseDev;
 using MCPhappey.Tools.QuiverAI;
 using MCPhappey.Tools.EdenAI;
@@ -266,6 +267,7 @@ builder.Services
  .AddLLMLayer(appConfig?.DomainHeaders)
  .AddOlostep(appConfig?.DomainHeaders)
  .AddWebsearchAPI(appConfig?.DomainHeaders)
+ .AddMagisterium(appConfig?.DomainHeaders)
  .AddQomplement(appConfig?.DomainHeaders)
 .AddMemU(appConfig?.DomainHeaders)
 .AddCaseDev(appConfig?.DomainHeaders)
