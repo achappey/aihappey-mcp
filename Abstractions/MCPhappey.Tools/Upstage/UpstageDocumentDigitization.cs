@@ -79,35 +79,39 @@ public static class UpstageDocumentDigitization
         string model = "ocr",
         [Description("Optional schema file URL. Value in file should resolve to clova or google.")]
         string? schemaFileUrl = null,
+        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
             {
-                if (string.IsNullOrWhiteSpace(fileUrl))
-                    throw new ArgumentException("fileUrl is required.");
+                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, schemaFileUrl, cancellationToken);
+                if (saveOutput)
+                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
 
-                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-                var upstage = serviceProvider.GetRequiredService<UpstageClient>();
-                var file = await DownloadSingleAsync(serviceProvider, requestContext, downloadService, fileUrl, cancellationToken);
-
-                using var form = new MultipartFormDataContent();
-
-                var fileContent = new ByteArrayContent(file.Contents.ToArray());
-                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.MimeType);
-                form.Add(fileContent, "document", file.Filename ?? "document.bin");
-
-                form.Add(new StringContent(model), "model");
-
-                if (!string.IsNullOrWhiteSpace(schemaFileUrl))
+                return new CallToolResult
                 {
-                    var schema = await DownloadPrimitiveStringAsync(serviceProvider, requestContext, downloadService, schemaFileUrl!, cancellationToken);
-                    if (!string.IsNullOrWhiteSpace(schema))
-                        form.Add(new StringContent(schema), "schema");
-                }
+                    Meta = await requestContext.GetToolMeta(),
+                    StructuredContent = result ?? new JsonObject()
+                };
+            });
 
-                using var req = new HttpRequestMessage(HttpMethod.Post, "document-digitization") { Content = form };
-                return await upstage.SendAsync(req, cancellationToken);
-            }));
+    [Description("Run OCR using Upstage Document OCR API (/document-digitization, ocr), always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(Name = "upstage_document_digitization_ocr_save", Title = "Upstage document OCR Save", IconSource = UpstageConstants.ICON_SOURCE, ReadOnly = true)]
+    public static async Task<CallToolResult?> Upstage_Document_Digitization_OcrSave(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Document file URL (SharePoint/OneDrive/HTTPS).")]
+        string fileUrl,
+        [Description("Model alias/version. Default: ocr.")]
+        string model = "ocr",
+        [Description("Optional schema file URL. Value in file should resolve to clova or google.")]
+        string? schemaFileUrl = null,
+        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
+        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+            {
+                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, schemaFileUrl, cancellationToken);
+                return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
+            });
 
     private static async Task<MCPhappey.Common.Models.FileItem> DownloadSingleAsync(
         IServiceProvider serviceProvider,
@@ -150,6 +154,40 @@ public static class UpstageDocumentDigitization
         }
 
         return raw.Trim('"');
+    }
+
+    private static async Task<JsonNode?> ExecuteOcrAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string fileUrl,
+        string model,
+        string? schemaFileUrl,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(fileUrl))
+            throw new ArgumentException("fileUrl is required.");
+
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+        var upstage = serviceProvider.GetRequiredService<UpstageClient>();
+        var file = await DownloadSingleAsync(serviceProvider, requestContext, downloadService, fileUrl, cancellationToken);
+
+        using var form = new MultipartFormDataContent();
+
+        var fileContent = new ByteArrayContent(file.Contents.ToArray());
+        fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.MimeType);
+        form.Add(fileContent, "document", file.Filename ?? "document.bin");
+
+        form.Add(new StringContent(model), "model");
+
+        if (!string.IsNullOrWhiteSpace(schemaFileUrl))
+        {
+            var schema = await DownloadPrimitiveStringAsync(serviceProvider, requestContext, downloadService, schemaFileUrl, cancellationToken);
+            if (!string.IsNullOrWhiteSpace(schema))
+                form.Add(new StringContent(schema), "schema");
+        }
+
+        using var req = new HttpRequestMessage(HttpMethod.Post, "document-digitization") { Content = form };
+        return await upstage.SendAsync(req, cancellationToken);
     }
 }
 

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Net.Http.Headers;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,34 +19,73 @@ public static class APIpieParser
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Extract document metadata from APIpie parser response.")] bool metadata = true,
         [Description("Extract textual content from APIpie parser response.")] bool content = true,
+        [Description("When true, uploads the parser JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
             {
-                var client = serviceProvider.GetRequiredService<APIpieClient>();
-                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+                var result = await ExecuteParseAsync(serviceProvider, requestContext, fileUrl, metadata, content, cancellationToken)
+                    ?? new JsonObject();
 
-                var files = await downloadService.DownloadContentAsync(
-                    serviceProvider,
-                    requestContext.Server,
-                    fileUrl,
-                    cancellationToken);
+                if (saveOutput)
+                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result.ToJsonString()), "json", cancellationToken: cancellationToken);
 
-                var file = files.FirstOrDefault()
-                    ?? throw new Exception("No file found for APIpie parser input.");
+                return new CallToolResult
+                {
+                    Meta = await requestContext.GetToolMeta(),
+                    StructuredContent = result
+                };
+            });
 
-                using var form = new MultipartFormDataContent();
-                var fileContent = new ByteArrayContent(file.Contents.ToArray());
+    [Description("Parse a document with APIpie Apache Tika parser, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(Title = "APIpie parser Save", Name = "apipie_parse_document_save", ReadOnly = true, OpenWorld = true)]
+    public static async Task<CallToolResult?> APIpie_Parse_DocumentSave(
+        [Description("File URL of the input document. Secure SharePoint and OneDrive links are supported.")] string fileUrl,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Extract document metadata from APIpie parser response.")] bool metadata = true,
+        [Description("Extract textual content from APIpie parser response.")] bool content = true,
+        [Description("Optional SharePoint or OneDrive folder URL to store the parser JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        {
+            var result = await ExecuteParseAsync(serviceProvider, requestContext, fileUrl, metadata, content, cancellationToken)
+                ?? new JsonObject();
 
-                if (!string.IsNullOrWhiteSpace(file.MimeType))
-                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.MimeType);
+            return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result.ToJsonString()), "json", folderUrl, cancellationToken);
+        });
 
-                form.Add(fileContent, "file", file.Filename ?? "document.bin");
-                form.Add(new StringContent(metadata ? "true" : "false"), "metadata");
-                form.Add(new StringContent(content ? "true" : "false"), "content");
+    private static async Task<JsonNode?> ExecuteParseAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string fileUrl,
+        bool metadata,
+        bool content,
+        CancellationToken cancellationToken)
+    {
+        var client = serviceProvider.GetRequiredService<APIpieClient>();
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-                return await client.PostMultipartAsync("v1/parser", form, cancellationToken)
-                    ?? throw new Exception("APIpie returned no response.");
-            }));
+        var files = await downloadService.DownloadContentAsync(
+            serviceProvider,
+            requestContext.Server,
+            fileUrl,
+            cancellationToken);
+
+        var file = files.FirstOrDefault()
+            ?? throw new Exception("No file found for APIpie parser input.");
+
+        using var form = new MultipartFormDataContent();
+        var fileContent = new ByteArrayContent(file.Contents.ToArray());
+
+        if (!string.IsNullOrWhiteSpace(file.MimeType))
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.MimeType);
+
+        form.Add(fileContent, "file", file.Filename ?? "document.bin");
+        form.Add(new StringContent(metadata ? "true" : "false"), "metadata");
+        form.Add(new StringContent(content ? "true" : "false"), "content");
+
+        return await client.PostMultipartAsync("v1/parser", form, cancellationToken)
+            ?? throw new Exception("APIpie returned no response.");
+    }
 }
 

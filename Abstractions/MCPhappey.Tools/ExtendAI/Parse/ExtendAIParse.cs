@@ -30,106 +30,157 @@ public static class ExtendAIParse
         int pollingIntervalSeconds = 2,
         [Description("Maximum wait time in seconds before timeout.")]
         int maxWaitSeconds = 900,
+        [Description("When true, uploads the parse JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
             {
-                if (string.IsNullOrWhiteSpace(fileUrl))
-                    throw new ArgumentException("fileUrl is required.");
+                var result = await ExecuteParseAsync(serviceProvider, requestContext, fileUrl, target, chunkingType, engine, pageRanges, pollingIntervalSeconds, maxWaitSeconds, cancellationToken);
 
-                target = NormalizeOption(target, ["markdown", "spatial"], "markdown");
-                chunkingType = NormalizeOption(chunkingType, ["page", "document", "section"], "page");
-                engine = NormalizeOption(engine, ["parse_performance", "parse_light"], "parse_performance");
+                if (saveOutput)
+                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result.ToJsonString()), "json", cancellationToken: cancellationToken);
 
-                pollingIntervalSeconds = Math.Max(1, pollingIntervalSeconds);
-                maxWaitSeconds = Math.Max(30, maxWaitSeconds);
-
-                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-                var extendFiles = serviceProvider.GetRequiredService<ExtendAIFileService>();
-
-                var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-                var inputFile = files.FirstOrDefault() ?? throw new InvalidOperationException("Failed to download file from fileUrl.");
-
-                var uploadedFileId = string.Empty;
-                var parseRunId = string.Empty;
-
-                try
+                return new CallToolResult
                 {
-                    uploadedFileId = await extendFiles.UploadAsync(inputFile, cancellationToken);
+                    Meta = await requestContext.GetToolMeta(),
+                    StructuredContent = result
+                };
+            });
 
-                    var config = BuildConfig(target, chunkingType, engine, pageRanges);
+    [Description("Parse a file with Extend AI (async), wait for completion, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(Title = "Extend AI parse file Save", Name = "extendai_parse_file_save", ReadOnly = true)]
+    public static async Task<CallToolResult?> ExtendAI_Parse_FileSave(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("File URL (SharePoint/OneDrive/HTTP) to parse.")]
+        string fileUrl,
+        [Description("Target format: markdown or spatial.")]
+        string target = "markdown",
+        [Description("Chunking strategy type: page, document, or section.")]
+        string chunkingType = "page",
+        [Description("Parsing engine: parse_performance or parse_light.")]
+        string engine = "parse_performance",
+        [Description("Optional page ranges, e.g. '1-2,5-6'. Empty for all pages.")]
+        string pageRanges = "",
+        [Description("Polling interval in seconds.")]
+        int pollingIntervalSeconds = 2,
+        [Description("Maximum wait time in seconds before timeout.")]
+        int maxWaitSeconds = 900,
+        [Description("Optional SharePoint or OneDrive folder URL to store the parse JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
+        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+        {
+            var result = await ExecuteParseAsync(serviceProvider, requestContext, fileUrl, target, chunkingType, engine, pageRanges, pollingIntervalSeconds, maxWaitSeconds, cancellationToken);
+            return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result.ToJsonString()), "json", folderUrl, cancellationToken);
+        });
 
-                    var createBody = new JsonObject
-                    {
-                        ["file"] = new JsonObject
-                        {
-                            ["id"] = uploadedFileId
-                        },
-                        ["config"] = config
-                    };
+    private static async Task<JsonObject> ExecuteParseAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string fileUrl,
+        string target,
+        string chunkingType,
+        string engine,
+        string pageRanges,
+        int pollingIntervalSeconds,
+        int maxWaitSeconds,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(fileUrl))
+            throw new ArgumentException("fileUrl is required.");
 
-                    var createResponse = await extendFiles.CreateParseRunAsync(createBody, cancellationToken);
-                    parseRunId = createResponse["id"]?.GetValue<string>()
-                        ?? throw new Exception("Extend parse run response missing id.");
+        target = NormalizeOption(target, ["markdown", "spatial"], "markdown");
+        chunkingType = NormalizeOption(chunkingType, ["page", "document", "section"], "page");
+        engine = NormalizeOption(engine, ["parse_performance", "parse_light"], "parse_performance");
 
-                    var sw = Stopwatch.StartNew();
-                    JsonNode? latest = createResponse;
+        pollingIntervalSeconds = Math.Max(1, pollingIntervalSeconds);
+        maxWaitSeconds = Math.Max(30, maxWaitSeconds);
 
-                    while (true)
-                    {
-                        if (sw.Elapsed > TimeSpan.FromSeconds(maxWaitSeconds))
-                            throw new TimeoutException($"Extend parse run timed out after {maxWaitSeconds}s.");
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+        var extendFiles = serviceProvider.GetRequiredService<ExtendAIFileService>();
 
-                        latest = await extendFiles.GetParseRunAsync(parseRunId, cancellationToken);
-                        var status = latest?["status"]?.GetValue<string>()?.ToUpperInvariant();
+        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
+        var inputFile = files.FirstOrDefault() ?? throw new InvalidOperationException("Failed to download file from fileUrl.");
 
-                        if (status == "PROCESSED")
-                            break;
+        var uploadedFileId = string.Empty;
+        var parseRunId = string.Empty;
 
-                        if (status == "FAILED")
-                        {
-                            var failureReason = latest?["failureReason"]?.GetValue<string>();
-                            var failureMessage = latest?["failureMessage"]?.GetValue<string>();
-                            throw new Exception($"Extend parse failed: {failureReason ?? "unknown"}. {failureMessage}".Trim());
-                        }
+        try
+        {
+            uploadedFileId = await extendFiles.UploadAsync(inputFile, cancellationToken);
 
-                        await Task.Delay(TimeSpan.FromSeconds(pollingIntervalSeconds), cancellationToken);
-                    }
+            var config = BuildConfig(target, chunkingType, engine, pageRanges);
 
-                    return new JsonObject
-                    {
-                        ["parseRunId"] = parseRunId,
-                        ["fileId"] = uploadedFileId,
-                        ["status"] = latest?["status"],
-                        ["output"] = latest?["output"],
-                        ["metrics"] = latest?["metrics"],
-                        ["usage"] = latest?["usage"],
-                        ["config"] = latest?["config"]
-                    };
-                }
-                finally
+            var createBody = new JsonObject
+            {
+                ["file"] = new JsonObject
                 {
-                    try
-                    {
-                        if (!string.IsNullOrWhiteSpace(parseRunId))
-                            await extendFiles.DeleteParseRunAsync(parseRunId, cancellationToken);
-                    }
-                    catch
-                    {
-                        // Ignore cleanup failure
-                    }
+                    ["id"] = uploadedFileId
+                },
+                ["config"] = config
+            };
 
-                    try
-                    {
-                        if (!string.IsNullOrWhiteSpace(uploadedFileId))
-                            await extendFiles.DeleteFileAsync(uploadedFileId, cancellationToken);
-                    }
-                    catch
-                    {
-                        // Ignore cleanup failure
-                    }
+            var createResponse = await extendFiles.CreateParseRunAsync(createBody, cancellationToken);
+            parseRunId = createResponse["id"]?.GetValue<string>()
+                ?? throw new Exception("Extend parse run response missing id.");
+
+            var sw = Stopwatch.StartNew();
+            JsonNode? latest = createResponse;
+
+            while (true)
+            {
+                if (sw.Elapsed > TimeSpan.FromSeconds(maxWaitSeconds))
+                    throw new TimeoutException($"Extend parse run timed out after {maxWaitSeconds}s.");
+
+                latest = await extendFiles.GetParseRunAsync(parseRunId, cancellationToken);
+                var status = latest?["status"]?.GetValue<string>()?.ToUpperInvariant();
+
+                if (status == "PROCESSED")
+                    break;
+
+                if (status == "FAILED")
+                {
+                    var failureReason = latest?["failureReason"]?.GetValue<string>();
+                    var failureMessage = latest?["failureMessage"]?.GetValue<string>();
+                    throw new Exception($"Extend parse failed: {failureReason ?? "unknown"}. {failureMessage}".Trim());
                 }
-            }));
+
+                await Task.Delay(TimeSpan.FromSeconds(pollingIntervalSeconds), cancellationToken);
+            }
+
+            return new JsonObject
+            {
+                ["parseRunId"] = parseRunId,
+                ["fileId"] = uploadedFileId,
+                ["status"] = latest?["status"],
+                ["output"] = latest?["output"],
+                ["metrics"] = latest?["metrics"],
+                ["usage"] = latest?["usage"],
+                ["config"] = latest?["config"]
+            };
+        }
+        finally
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(parseRunId))
+                    await extendFiles.DeleteParseRunAsync(parseRunId, cancellationToken);
+            }
+            catch
+            {
+                // Ignore cleanup failure
+            }
+
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(uploadedFileId))
+                    await extendFiles.DeleteFileAsync(uploadedFileId, cancellationToken);
+            }
+            catch
+            {
+                // Ignore cleanup failure
+            }
+        }
+    }
 
     private static string NormalizeOption(string input, string[] allowed, string fallback)
     {

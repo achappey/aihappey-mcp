@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Net.Http.Headers;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,39 +20,77 @@ public static class OpperAIOCR
         [Description("OCR model name, e.g. mistral/ocr-latest")] string model = "mistral/ocr-latest",
         [Description("Optional language code, e.g. en or nl")] string? language = null,
         [Description("Include image base64 in response where supported")] bool includeImageBase64 = false,
+        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
             {
-                var opper = serviceProvider.GetRequiredService<OpperAIClient>();
-                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, language, includeImageBase64, cancellationToken);
 
-                var files = await downloadService.DownloadContentAsync(
-                    serviceProvider,
-                    requestContext.Server,
-                    fileUrl,
-                    cancellationToken);
+                if (saveOutput)
+                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
 
-                var file = files.FirstOrDefault()
-                    ?? throw new Exception("No file found for Opper OCR input.");
-
-                using var form = new MultipartFormDataContent();
-                var fileContent = new ByteArrayContent(file.Contents.ToArray());
-                fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.MimeType ?? "application/octet-stream");
-
-                form.Add(fileContent, "file", file.Filename ?? "input.bin");
-                form.Add(new StringContent(model), "model");
-                form.Add(new StringContent(includeImageBase64 ? "true" : "false"), "include_image_base64");
-
-                if (!string.IsNullOrWhiteSpace(language))
-                    form.Add(new StringContent(language), "language");
-
-                using var request = new HttpRequestMessage(HttpMethod.Post, "ocr")
+                return new CallToolResult
                 {
-                    Content = form
+                    Meta = await requestContext.GetToolMeta(),
+                    StructuredContent = result ?? new JsonObject()
                 };
+            });
 
-                return await opper.SendAsync(request, cancellationToken);
-            }));
+    [Description("Extract text from an image or PDF using Opper OCR, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(Name = "opperai_ocr_save", Title = "Opper AI OCR Save")]
+    public static async Task<CallToolResult?> OpperAI_OCR_Save(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("File URL or SharePoint/OneDrive reference")] string fileUrl,
+        [Description("OCR model name, e.g. mistral/ocr-latest")] string model = "mistral/ocr-latest",
+        [Description("Optional language code, e.g. en or nl")] string? language = null,
+        [Description("Include image base64 in response where supported")] bool includeImageBase64 = false,
+        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
+        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+            {
+                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, language, includeImageBase64, cancellationToken);
+                return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
+            });
+
+    private static async Task<JsonNode?> ExecuteOcrAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string fileUrl,
+        string model,
+        string? language,
+        bool includeImageBase64,
+        CancellationToken cancellationToken)
+    {
+        var opper = serviceProvider.GetRequiredService<OpperAIClient>();
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+
+        var files = await downloadService.DownloadContentAsync(
+            serviceProvider,
+            requestContext.Server,
+            fileUrl,
+            cancellationToken);
+
+        var file = files.FirstOrDefault()
+            ?? throw new Exception("No file found for Opper OCR input.");
+
+        using var form = new MultipartFormDataContent();
+        var fileContent = new ByteArrayContent(file.Contents.ToArray());
+        fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.MimeType ?? "application/octet-stream");
+
+        form.Add(fileContent, "file", file.Filename ?? "input.bin");
+        form.Add(new StringContent(model), "model");
+        form.Add(new StringContent(includeImageBase64 ? "true" : "false"), "include_image_base64");
+
+        if (!string.IsNullOrWhiteSpace(language))
+            form.Add(new StringContent(language), "language");
+
+        using var request = new HttpRequestMessage(HttpMethod.Post, "ocr")
+        {
+            Content = form
+        };
+
+        return await opper.SendAsync(request, cancellationToken);
+    }
 }
 

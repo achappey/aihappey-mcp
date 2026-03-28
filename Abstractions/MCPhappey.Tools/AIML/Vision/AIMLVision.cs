@@ -22,28 +22,35 @@ public static class AIMLVision
             [Description("Input file URL. Protected SharePoint and/or OneDrive links are supported.")] string fileUrl,
             IServiceProvider serviceProvider,
             RequestContext<CallToolRequestParams> requestContext,
+            [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
              CancellationToken cancellationToken = default)
              => await requestContext.WithExceptionCheck(async () =>
-                await requestContext.WithStructuredContent(async () =>
           {
-              var settings = serviceProvider.GetRequiredService<AIMLSettings>();
-              var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-              var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-              var file = files.FirstOrDefault() ?? throw new Exception("File not found");
+              var result = await ExecuteGoogleExtractAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
+              if (saveOutput)
+                  return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
 
-              // Step 2: Build JSON payload
-              var body = new
+              return new CallToolResult
               {
-                  model = "google/gc-document-ai",
-                  mimeType = file.MimeType,
-                  document = Convert.ToBase64String(file.Contents)
+                  Meta = await requestContext.GetToolMeta(),
+                  StructuredContent = result ?? new JsonObject()
               };
+          });
 
-              var aiml = serviceProvider.GetRequiredService<AIMLClient>();
-              var doc = await aiml.PostAsync(OCR_BASE_URL, body, cancellationToken);
-
-              return JsonNode.Parse(doc.RootElement.GetRawText());
-          }));
+    [Description("Extracts structured text from documents or images using Google's Document AI OCR model, always saves the JSON result, and optionally stores it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(Title = "AI/ML Google OCR extraction Save",
+              Name = "aiml_vision_google_extract_save", Destructive = false, ReadOnly = true)]
+    public static async Task<CallToolResult?> AIMLVision_GoogleExtractSave(
+            [Description("Input file URL. Protected SharePoint and/or OneDrive links are supported.")] string fileUrl,
+            IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
+             CancellationToken cancellationToken = default)
+             => await requestContext.WithExceptionCheck(async () =>
+          {
+              var result = await ExecuteGoogleExtractAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
+              return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
+          });
 
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -134,4 +141,27 @@ public static class AIMLVision
 
             return JsonNode.Parse(doc.RootElement.GetRawText());
         }));
+
+    private static async Task<JsonNode?> ExecuteGoogleExtractAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string fileUrl,
+        CancellationToken cancellationToken)
+    {
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
+        var file = files.FirstOrDefault() ?? throw new Exception("File not found");
+
+        var body = new
+        {
+            model = "google/gc-document-ai",
+            mimeType = file.MimeType,
+            document = Convert.ToBase64String(file.Contents)
+        };
+
+        var aiml = serviceProvider.GetRequiredService<AIMLClient>();
+        var doc = await aiml.PostAsync(OCR_BASE_URL, body, cancellationToken);
+
+        return JsonNode.Parse(doc.RootElement.GetRawText());
+    }
 }

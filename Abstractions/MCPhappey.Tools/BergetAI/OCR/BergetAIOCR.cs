@@ -3,6 +3,7 @@ using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json.Nodes;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -23,49 +24,99 @@ public static class BergetAIOCR
         [Description("Extract table structure. Default: true")] bool doTableStructure = true,
         [Description("Output format. Default: md")] string outputFormat = "md",
         [Description("Include images in output. Default: false")] bool includeImages = false,
+        [Description("When true, uploads the OCR result and returns only a resource link instead of inline content.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
             {
-                var berget = serviceProvider.GetRequiredService<BergetAIClient>();
-                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, tableMode, ocrMethod, doOcr, doTableStructure, outputFormat, includeImages, cancellationToken);
 
-                var files = await downloadService.DownloadContentAsync(
-                    serviceProvider,
-                    requestContext.Server,
-                    fileUrl,
-                    cancellationToken);
-
-                var file = files.FirstOrDefault()
-                    ?? throw new Exception("No file found for Berget AI OCR input.");
-
-                var documentUri = file.ToDataUri();
-
-                var inputFormat = ResolveInputFormat(file.Filename, file.MimeType);
-
-                var body = new
+                if (saveOutput)
                 {
-                    model,
-                    document = new
-                    {
-                        url = documentUri,
-                        type = "document"
-                    },
-                    @async = false,
-                    options = new
-                    {
-                        tableMode,
-                        ocrMethod,
-                        doOcr,
-                        doTableStructure,
-                        inputFormat = new[] { inputFormat },
-                        outputFormat,
-                        includeImages
-                    }
-                };
+                    var savedOutput = result.ToSavedOutput(outputFormat, outputFormat, "content", "output", "result", "markdown", "text", "html", "doctags");
+                    return await requestContext.SaveOutputAsync(serviceProvider, savedOutput.Content, savedOutput.Extension, cancellationToken: cancellationToken);
+                }
 
-                return await berget.PostJsonAsync("v1/ocr", body, cancellationToken);
-            }));
+                return new CallToolResult
+                {
+                    Meta = await requestContext.GetToolMeta(),
+                    StructuredContent = result ?? new JsonObject()
+                };
+            });
+
+    [Description("Extract text content from a document using Berget AI OCR, always save the result, and optionally store it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(Name = "bergetai_ocr_save", Title = "Berget AI OCR Save")]
+    public static async Task<CallToolResult?> BergetAI_OCR_Save(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("File URL or SharePoint/OneDrive reference")] string fileUrl,
+        [Description("Model identifier to use. Default: docling-v1")] string model = "docling-v1",
+        [Description("Table extraction mode: accurate, fast, or none")] string tableMode = "accurate",
+        [Description("OCR method: easyocr, doctr, tesseract, or auto")] string ocrMethod = "easyocr",
+        [Description("Perform OCR. Default: true")] bool doOcr = true,
+        [Description("Extract table structure. Default: true")] bool doTableStructure = true,
+        [Description("Output format. Default: md")] string outputFormat = "md",
+        [Description("Include images in output. Default: false")] bool includeImages = false,
+        [Description("Optional SharePoint or OneDrive folder URL to store the OCR result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
+        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+            {
+                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, tableMode, ocrMethod, doOcr, doTableStructure, outputFormat, includeImages, cancellationToken);
+                var savedOutput = result.ToSavedOutput(outputFormat, outputFormat, "content", "output", "result", "markdown", "text", "html", "doctags");
+                return await requestContext.SaveOutputAsync(serviceProvider, savedOutput.Content, savedOutput.Extension, folderUrl, cancellationToken);
+            });
+
+    private static async Task<JsonNode?> ExecuteOcrAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string fileUrl,
+        string model,
+        string tableMode,
+        string ocrMethod,
+        bool doOcr,
+        bool doTableStructure,
+        string outputFormat,
+        bool includeImages,
+        CancellationToken cancellationToken)
+    {
+        var berget = serviceProvider.GetRequiredService<BergetAIClient>();
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+
+        var files = await downloadService.DownloadContentAsync(
+            serviceProvider,
+            requestContext.Server,
+            fileUrl,
+            cancellationToken);
+
+        var file = files.FirstOrDefault()
+            ?? throw new Exception("No file found for Berget AI OCR input.");
+
+        var documentUri = file.ToDataUri();
+
+        var inputFormat = ResolveInputFormat(file.Filename, file.MimeType);
+
+        var body = new
+        {
+            model,
+            document = new
+            {
+                url = documentUri,
+                type = "document"
+            },
+            @async = false,
+            options = new
+            {
+                tableMode,
+                ocrMethod,
+                doOcr,
+                doTableStructure,
+                inputFormat = new[] { inputFormat },
+                outputFormat,
+                includeImages
+            }
+        };
+
+        return await berget.PostJsonAsync("v1/ocr", body, cancellationToken);
+    }
 
     private static string ResolveInputFormat(string? filename, string? mimeType)
     {

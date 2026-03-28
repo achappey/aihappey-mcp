@@ -26,60 +26,31 @@ public static partial class MistralDocumentAIPlugin
         [Description("File url of the input document file. This tool can access secure SharePoint and OneDrive links.")] string fileUrl,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
+        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
         {
-            var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-            var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-            var file = files.FirstOrDefault() ?? throw new Exception("File not found or empty.");
-            var isImage = file.MimeType.StartsWith("image/");
-            var httpClientFactory = serviceProvider.GetService<IHttpClientFactory>()
-                ?? throw new InvalidOperationException("No IHttpClientFactory found in service provider");
-            var mistralSettings = serviceProvider.GetService<MistralSettings>()
-                ?? throw new InvalidOperationException("No MistralSettings found in service provider");
+            var ocrJson = await ExtractDocumentAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
+            if (saveOutput)
+                return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(ocrJson), "json", cancellationToken: cancellationToken);
 
-            var httpClient = httpClientFactory.CreateClient();
-
-            httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", mistralSettings.ApiKey);
-
-            string dataUri = file.ToDataUri();
-
-            using var ms = new MemoryStream();
-            using (var w = new Utf8JsonWriter(ms, new JsonWriterOptions { Indented = false }))
-            {
-                w.WriteStartObject();
-
-                w.WriteString("model", OCR_MODEL);
-
-                w.WritePropertyName("document");
-                w.WriteStartObject();
-                if (isImage)
-                {
-                    w.WriteString("type", "image_url");
-                    w.WriteString("image_url", dataUri);
-                }
-                else
-                {
-                    w.WriteString("type", "document_url");
-                    w.WriteString("document_url", dataUri);
-                }
-                w.WriteEndObject();
-
-                w.WriteBoolean("include_image_base64", true);
-                w.WriteEndObject();
-                w.Flush();
-            }
-
-            var json = Encoding.UTF8.GetString(ms.ToArray());
-            var jsonContent = new StringContent(json, Encoding.UTF8, MimeTypes.Json);
-            var response = await httpClient.PostAsync($"{BaseUrl}/ocr", jsonContent, cancellationToken);
-            response.EnsureSuccessStatusCode();
-
-            var ocrJson = await response.Content.ReadAsStringAsync(cancellationToken);
-
-            // Return OCR JSON result
             return ocrJson.ToJsonCallToolResponse($"{BaseUrl}/ocr");
+        });
+
+    [Description("Extract text content, images bboxes and metadata from a document using Mistral OCR AI, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(Title = "Mistral document OCR Save", Name = "mistral_documentai_extract_save",
+        IconSource = MistralConstants.ICON_SOURCE,
+        Destructive = false, ReadOnly = true)]
+    public static async Task<CallToolResult?> MistralDocumentAI_ExtractSave(
+        [Description("File url of the input document file. This tool can access secure SharePoint and OneDrive links.")] string fileUrl,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        {
+            var ocrJson = await ExtractDocumentAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
+            return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(ocrJson), "json", folderUrl, cancellationToken);
         });
 
     [Description("Run Mistral OCR with Document Annotations using a custom JSON schema.")]
@@ -110,12 +81,141 @@ public static partial class MistralDocumentAIPlugin
             Example:
             { ""name"": ""InvoiceSummary"", ""strict"": true, ""schema"": { ""type"": ""object"", ""additionalProperties"": false, ""properties"": { ""company"": { ""type"": ""object"", ""additionalProperties"": false, ""properties"": { ""legal_name"": { ""type"": ""string"" }, ""vat_number"": { ""type"": ""string"" }, ""address"": { ""type"": ""string"" } }, ""required"": [ ""legal_name"" ] }, ""invoice"": { ""type"": ""object"", ""additionalProperties"": false, ""properties"": { ""number"": { ""type"": ""string"" }, ""date"": { ""type"": ""string"" } }, ""required"": [ ""number"" ] }, ""amounts"": { ""type"": ""object"", ""additionalProperties"": false, ""properties"": { ""currency"": { ""type"": ""string"" }, ""subtotal_excl_vat"": { ""type"": ""number"" }, ""vat_amount"": { ""type"": ""number"" }, ""total_incl_vat"": { ""type"": ""number"" } }, ""required"": [ ""subtotal_excl_vat"", ""total_incl_vat"" ] } }, ""required"": [ ""company"", ""invoice"", ""amounts"" ] } }
             ")]
+             string documentJsonSchema,
+        [Description("Comma-separated zero-based page indices (e.g. '0,1,2'). Optional.")]
+                string? pagesCsv = null,
+        [Description("Include base64 images in response (default: true).")]
+                bool includeImageBase64 = true,
+        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+   CancellationToken cancellationToken = default) => await requestContext!.WithExceptionCheck(async () =>
+    {
+        var responseText = await AnnotateDocumentAsync(
+            fileUrl,
+            serviceProvider,
+            requestContext,
+            documentJsonSchema,
+            pagesCsv,
+            includeImageBase64,
+            cancellationToken);
+
+        if (saveOutput)
+            return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(responseText), "json", cancellationToken: cancellationToken);
+
+        return responseText.ToJsonCallToolResponse($"{BaseUrl}/ocr");
+    });
+
+    [Description("Run Mistral OCR with Document Annotations using a custom JSON schema, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(Title = "Mistral document annotation Save", Name = "mistral_documentai_annotate_save",
+        IconSource = MistralConstants.ICON_SOURCE,
+        Destructive = false, ReadOnly = true)]
+    public static async Task<CallToolResult?> MistralDocumentAI_AnnotateSave(
+        [Description("File url of the input document (SharePoint/OneDrive secure links supported).")]
+                string fileUrl,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+          [Description(@"
+            JSON for Mistral document_annotation_format.json_schema.
+
+            Required: 
+            - ""name"" (string)
+            - ""schema"" (object)
+            Optional:
+            - ""strict"" (boolean)
+
+            Rules:
+            - Set ""additionalProperties"": false on the root object AND on every nested object.
+            - Allowed keywords: type, properties, required, enum, const, additionalProperties
+            - Disallowed keywords: format, nullable, $schema, $id, hints/instructions, patternProperties, anyOf, allOf, oneOf
+            - Dates are plain ""string"" (no ""format"").
+            - Optional fields = omit from ""required"".
+
+            Example:
+            { ""name"": ""InvoiceSummary"", ""strict"": true, ""schema"": { ""type"": ""object"", ""additionalProperties"": false, ""properties"": { ""company"": { ""type"": ""object"", ""additionalProperties"": false, ""properties"": { ""legal_name"": { ""type"": ""string"" }, ""vat_number"": { ""type"": ""string"" }, ""address"": { ""type"": ""string"" } }, ""required"": [ ""legal_name"" ] }, ""invoice"": { ""type"": ""object"", ""additionalProperties"": false, ""properties"": { ""number"": { ""type"": ""string"" }, ""date"": { ""type"": ""string"" } }, ""required"": [ ""number"" ] }, ""amounts"": { ""type"": ""object"", ""additionalProperties"": false, ""properties"": { ""currency"": { ""type"": ""string"" }, ""subtotal_excl_vat"": { ""type"": ""number"" }, ""vat_amount"": { ""type"": ""number"" }, ""total_incl_vat"": { ""type"": ""number"" } }, ""required"": [ ""subtotal_excl_vat"", ""total_incl_vat"" ] } }, ""required"": [ ""company"", ""invoice"", ""amounts"" ] } }
+            ")]
             string documentJsonSchema,
         [Description("Comma-separated zero-based page indices (e.g. '0,1,2'). Optional.")]
                 string? pagesCsv = null,
         [Description("Include base64 images in response (default: true).")]
                 bool includeImageBase64 = true,
+        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
    CancellationToken cancellationToken = default) => await requestContext!.WithExceptionCheck(async () =>
+    {
+        var responseText = await AnnotateDocumentAsync(
+            fileUrl,
+            serviceProvider,
+            requestContext,
+            documentJsonSchema,
+            pagesCsv,
+            includeImageBase64,
+            cancellationToken);
+
+        return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(responseText), "json", folderUrl, cancellationToken);
+    });
+
+    private static async Task<string> ExtractDocumentAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string fileUrl,
+        CancellationToken cancellationToken)
+    {
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
+        var file = files.FirstOrDefault() ?? throw new Exception("File not found or empty.");
+        var isImage = file.MimeType.StartsWith("image/");
+        var httpClientFactory = serviceProvider.GetService<IHttpClientFactory>()
+            ?? throw new InvalidOperationException("No IHttpClientFactory found in service provider");
+        var mistralSettings = serviceProvider.GetService<MistralSettings>()
+            ?? throw new InvalidOperationException("No MistralSettings found in service provider");
+
+        var httpClient = httpClientFactory.CreateClient();
+
+        httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", mistralSettings.ApiKey);
+
+        string dataUri = file.ToDataUri();
+
+        using var ms = new MemoryStream();
+        using (var w = new Utf8JsonWriter(ms, new JsonWriterOptions { Indented = false }))
+        {
+            w.WriteStartObject();
+
+            w.WriteString("model", OCR_MODEL);
+
+            w.WritePropertyName("document");
+            w.WriteStartObject();
+            if (isImage)
+            {
+                w.WriteString("type", "image_url");
+                w.WriteString("image_url", dataUri);
+            }
+            else
+            {
+                w.WriteString("type", "document_url");
+                w.WriteString("document_url", dataUri);
+            }
+            w.WriteEndObject();
+
+            w.WriteBoolean("include_image_base64", true);
+            w.WriteEndObject();
+            w.Flush();
+        }
+
+        var json = Encoding.UTF8.GetString(ms.ToArray());
+        var jsonContent = new StringContent(json, Encoding.UTF8, MimeTypes.Json);
+        var response = await httpClient.PostAsync($"{BaseUrl}/ocr", jsonContent, cancellationToken);
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadAsStringAsync(cancellationToken);
+    }
+
+    private static async Task<string> AnnotateDocumentAsync(
+        string fileUrl,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string documentJsonSchema,
+        string? pagesCsv,
+        bool includeImageBase64,
+        CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(fileUrl))
             throw new ArgumentException("fileUrl is required.");
@@ -222,6 +322,6 @@ public static partial class MistralDocumentAIPlugin
         if (!response.IsSuccessStatusCode)
             throw new Exception($"Mistral OCR API error {(int)response.StatusCode}: {response.ReasonPhrase}\n{responseText}");
 
-        return responseText.ToJsonCallToolResponse($"{BaseUrl}/ocr");
-    });
+        return responseText;
+    }
 }

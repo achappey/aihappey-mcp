@@ -188,5 +188,43 @@ public static class GraphClientExtensions
 
     }
 
+    public static async Task<ResourceLinkBlock?> UploadToFolder(this GraphServiceClient graphServiceClient,
+              string folderUrl,
+              string filename,
+              BinaryData binaryData,
+              CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(graphServiceClient);
+        ArgumentException.ThrowIfNullOrWhiteSpace(folderUrl);
+        ArgumentException.ThrowIfNullOrWhiteSpace(filename);
+
+        var folderItem = await graphServiceClient.GetDriveItem(folderUrl, cancellationToken)
+            ?? throw new IOException($"Could not resolve folder URL '{folderUrl}'.");
+
+        if (folderItem.Folder == null)
+            throw new IOException($"The URL '{folderUrl}' does not point to a folder.");
+
+        var driveId = folderItem.ParentReference?.DriveId
+            ?? throw new IOException("DriveId missing for target folder.");
+        var folderId = folderItem.Id
+            ?? throw new IOException("FolderId missing for target folder.");
+
+        using var uploadStream = new MemoryStream(binaryData.ToArray());
+
+        var uploadedItem = await graphServiceClient.Drives[driveId].Items[folderId]
+            .ItemWithPath(filename)
+            .Content
+            .PutAsync(uploadStream, cancellationToken: cancellationToken);
+
+        if (string.IsNullOrWhiteSpace(uploadedItem?.Id))
+            throw new IOException($"Upload failed for '{filename}'.");
+
+        var retrievedItem = await graphServiceClient.Drives[driveId].Items[uploadedItem.Id]
+            .GetAsync(cancellationToken: cancellationToken);
+
+        return retrievedItem?.ToResourceLinkBlock(filename)
+            ?? throw new IOException($"Uploaded item could not be retrieved for '{filename}'.");
+    }
+
 }
 

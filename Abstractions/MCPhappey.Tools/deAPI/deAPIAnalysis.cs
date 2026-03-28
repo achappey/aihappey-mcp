@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,48 +31,127 @@ public static class deAPIAnalysis
         [Description("Optional language code for OCR processing, e.g. en.")] string? language = null,
         [Description("OCR output format: text or json.")] string format = "text",
         [Description("If true, return OCR result directly in response when supported by the model/endpoint.")] bool return_result_in_response = false,
+        [Description("When true, uploads the OCR result and returns only a resource link instead of inline content.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
             {
-                ValidateRequest(fileUrl, model, format);
+                var responseText = await ExecuteImageToTextAsync(
+                    serviceProvider,
+                    requestContext,
+                    fileUrl,
+                    model,
+                    language,
+                    format,
+                    return_result_in_response,
+                    cancellationToken);
 
-                var settings = serviceProvider.GetRequiredService<deAPISettings>();
-                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
-                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+                var structuredContent = JsonSerializer.SerializeToNode(JsonSerializer.Deserialize<object>(responseText) ?? new { raw = responseText })
+                    ?? new JsonObject();
 
-                var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-                var source = files.FirstOrDefault() ?? throw new ValidationException("fileUrl could not be downloaded.");
+                if (saveOutput)
+                {
+                    var savedOutput = BuildSavedOutput(responseText, format);
+                    return await requestContext.SaveOutputAsync(serviceProvider, savedOutput.Content, savedOutput.Extension, cancellationToken: cancellationToken);
+                }
 
-                using var client = clientFactory.CreateClient();
-                using var req = new HttpRequestMessage(HttpMethod.Post, $"{BaseUrl}{Img2TxtPath}");
-                req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", settings.ApiKey);
-                req.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeTypes.Json));
+                return new CallToolResult
+                {
+                    Meta = await requestContext.GetToolMeta(),
+                    StructuredContent = structuredContent
+                };
+            });
 
-                using var form = new MultipartFormDataContent();
-                var contentType = string.IsNullOrWhiteSpace(source.MimeType) ? "application/octet-stream" : source.MimeType;
-                var imageContent = new ByteArrayContent(source.Contents.ToArray());
-                imageContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                var sourceName = string.IsNullOrWhiteSpace(source.Filename) ? "input-image.png" : source.Filename;
+    [Description("Extract text from an image using deAPI OCR (image-to-text), always save the result, and optionally store it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(
+        Title = "deAPI Image-to-Text Analysis Save",
+        Name = "deapi_analysis_image_to_text_save",
+        Destructive = false,
+        OpenWorld = true)]
+    public static async Task<CallToolResult?> deAPI_Analysis_ImageToText_Save(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Image file URL (SharePoint/OneDrive/HTTP) to process with OCR.")] string fileUrl,
+        [Description("deAPI OCR model slug.")] string model,
+        [Description("Optional language code for OCR processing, e.g. en.")] string? language = null,
+        [Description("OCR output format: text or json.")] string format = "text",
+        [Description("If true, return OCR result directly in response when supported by the model/endpoint.")] bool return_result_in_response = false,
+        [Description("Optional SharePoint or OneDrive folder URL to store the OCR result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
+        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+            {
+                var responseText = await ExecuteImageToTextAsync(
+                    serviceProvider,
+                    requestContext,
+                    fileUrl,
+                    model,
+                    language,
+                    format,
+                    return_result_in_response,
+                    cancellationToken);
 
-                form.Add(imageContent, "image", sourceName);
-                form.Add(new StringContent(model), "model");
-                form.Add(new StringContent(format.Trim().ToLowerInvariant()), "format");
-                form.Add(new StringContent(return_result_in_response ? "true" : "false"), "return_result_in_response");
+                var savedOutput = BuildSavedOutput(responseText, format);
+                return await requestContext.SaveOutputAsync(serviceProvider, savedOutput.Content, savedOutput.Extension, folderUrl, cancellationToken);
+            });
 
-                if (!string.IsNullOrWhiteSpace(language))
-                    form.Add(new StringContent(language.Trim()), "language");
+    private static async Task<string> ExecuteImageToTextAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        string fileUrl,
+        string model,
+        string? language,
+        string format,
+        bool return_result_in_response,
+        CancellationToken cancellationToken)
+    {
+        ValidateRequest(fileUrl, model, format);
 
-                req.Content = form;
+        var settings = serviceProvider.GetRequiredService<deAPISettings>();
+        var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-                using var resp = await client.SendAsync(req, cancellationToken);
-                var json = await resp.Content.ReadAsStringAsync(cancellationToken);
+        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
+        var source = files.FirstOrDefault() ?? throw new ValidationException("fileUrl could not be downloaded.");
 
-                if (!resp.IsSuccessStatusCode)
-                    throw new Exception($"{resp.StatusCode}: {json}");
+        using var client = clientFactory.CreateClient();
+        using var req = new HttpRequestMessage(HttpMethod.Post, $"{BaseUrl}{Img2TxtPath}");
+        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", settings.ApiKey);
+        req.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeTypes.Json));
 
-                return JsonSerializer.Deserialize<object>(json) ?? new { raw = json };
-            }));
+        using var form = new MultipartFormDataContent();
+        var contentType = string.IsNullOrWhiteSpace(source.MimeType) ? "application/octet-stream" : source.MimeType;
+        var imageContent = new ByteArrayContent(source.Contents.ToArray());
+        imageContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+        var sourceName = string.IsNullOrWhiteSpace(source.Filename) ? "input-image.png" : source.Filename;
+
+        form.Add(imageContent, "image", sourceName);
+        form.Add(new StringContent(model), "model");
+        form.Add(new StringContent(format.Trim().ToLowerInvariant()), "format");
+        form.Add(new StringContent(return_result_in_response ? "true" : "false"), "return_result_in_response");
+
+        if (!string.IsNullOrWhiteSpace(language))
+            form.Add(new StringContent(language.Trim()), "language");
+
+        req.Content = form;
+
+        using var resp = await client.SendAsync(req, cancellationToken);
+        var json = await resp.Content.ReadAsStringAsync(cancellationToken);
+
+        if (!resp.IsSuccessStatusCode)
+            throw new Exception($"{resp.StatusCode}: {json}");
+
+        return json;
+    }
+
+    private static (string Extension, BinaryData Content) BuildSavedOutput(string responseText, string format)
+    {
+        var parsed = JsonNode.Parse(responseText);
+        if (parsed != null)
+            return parsed.ToSavedOutput(format, "text", "result", "output", "content");
+
+        var normalizedFormat = (format ?? string.Empty).Trim().ToLowerInvariant();
+        var extension = normalizedFormat == "text" ? "txt" : "json";
+        return (extension, BinaryData.FromString(responseText));
+    }
 
     private static void ValidateRequest(string fileUrl, string model, string format)
     {

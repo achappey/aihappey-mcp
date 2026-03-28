@@ -98,24 +98,67 @@ public static class ZAITools
         [Description("End page number for PDF (>=1). Optional.")] int? endPageId = null,
         [Description("Unique request ID.")] string? requestId = null,
         [Description("End user ID for abuse monitoring (6-128 chars). Optional.")] string? userId = null,
+        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
             {
-                var client = serviceProvider.GetRequiredService<ZAIClient>();
-                var body = new
-                {
-                    model,
-                    file,
-                    return_crop_images = returnCropImages,
-                    need_layout_visualization = needLayoutVisualization,
-                    start_page_id = startPageId,
-                    end_page_id = endPageId,
-                    request_id = requestId,
-                    user_id = userId
-                };
+                var response = await ExecuteLayoutParsingAsync(serviceProvider, model, file, returnCropImages, needLayoutVisualization, startPageId, endPageId, requestId, userId, cancellationToken);
+                if (saveOutput)
+                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(response?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
 
-                JsonNode? response = await client.PostAsync("paas/v4/layout_parsing", body, null, cancellationToken);
-                return response;
-            }));
+                return new CallToolResult
+                {
+                    Meta = await requestContext.GetToolMeta(),
+                    StructuredContent = response ?? new JsonObject()
+                };
+            });
+
+    [Description("Parse document or image layout using GLM-OCR, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
+    [McpServerTool(Title = "Z.AI layout parsing Save", Name = "zai_tools_layout_parsing_save", ReadOnly = true, OpenWorld = true)]
+    public static async Task<CallToolResult?> ZAI_Tools_LayoutParsingSave(
+        [Description("Model code. Must be glm-ocr.")] string model,
+        [Description("Image or PDF URL/base64 to analyze.")] string file,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Return screenshot info (true/false). Default is false.")] bool? returnCropImages = false,
+        [Description("Return detailed layout visualization (true/false). Default is false.")] bool? needLayoutVisualization = false,
+        [Description("Start page number for PDF (>=1). Optional.")] int? startPageId = null,
+        [Description("End page number for PDF (>=1). Optional.")] int? endPageId = null,
+        [Description("Unique request ID.")] string? requestId = null,
+        [Description("End user ID for abuse monitoring (6-128 chars). Optional.")] string? userId = null,
+        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+            {
+                var response = await ExecuteLayoutParsingAsync(serviceProvider, model, file, returnCropImages, needLayoutVisualization, startPageId, endPageId, requestId, userId, cancellationToken);
+                return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(response?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
+            });
+
+    private static async Task<JsonNode?> ExecuteLayoutParsingAsync(
+        IServiceProvider serviceProvider,
+        string model,
+        string file,
+        bool? returnCropImages,
+        bool? needLayoutVisualization,
+        int? startPageId,
+        int? endPageId,
+        string? requestId,
+        string? userId,
+        CancellationToken cancellationToken)
+    {
+        var client = serviceProvider.GetRequiredService<ZAIClient>();
+        var body = new
+        {
+            model,
+            file,
+            return_crop_images = returnCropImages,
+            need_layout_visualization = needLayoutVisualization,
+            start_page_id = startPageId,
+            end_page_id = endPageId,
+            request_id = requestId,
+            user_id = userId
+        };
+
+        return await client.PostAsync("paas/v4/layout_parsing", body, null, cancellationToken);
+    }
 }
