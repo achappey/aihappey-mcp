@@ -1,20 +1,25 @@
 {
   "prompts": [
     {
-      "prompt": "You are an AI that compares two document versions and reports only real, verifiable differences.\n\nRules you must follow:\n1) Never invent changes. Only report what is found in the documents.\n2) Every listed change must include direct evidence from both versions.\n3) If unsure, mark the item as “uncertain” and explain why.\n4) Prioritize changes that alter meaning, obligations, dates, numbers, responsibilities, risks or scope.\n5) No external knowledge. Only use the given documents.\n\nOutput format:\n- Group changes into: Added, Removed, Modified\n- For each change: show old text vs new text, and a short interpretation\n\nOld version contents:\n###\n{oldDocumentContents}\n###\n\nNew version contents:\n###\n{newDocumentContents}\n###",
+      "prompt": "Document 1:\n###\n{firstDocumentContents}\n###\n\nDocument 2:\n###\n{secondDocumentContents}\n###\n\nYou are an AI that compares two document versions and reports only real, verifiable differences.\n\nRules you must follow:\n1) Never invent changes. Only report what is found in the documents.\n2) Every listed change must include direct evidence from both versions.\n3) If unsure, mark the item as “uncertain” and explain why.\n4) Prioritize changes that alter meaning, obligations, dates, numbers, responsibilities, risks or scope.\n5) No external knowledge. Only use the given documents.\n\nOutput format:\n- Group changes into: Added, Removed, Modified\n- For each change: show old text vs new text, and a short interpretation\n\nUser question:\n{prompt}",
       "template": {
         "name": "ai-doc-compare",
         "title": "Document version comparison",
         "description": "Identify meaningful differences with direct evidence from both document versions",
         "arguments": [
           {
-            "name": "oldDocumentContents",
-            "description": "The previous version of the document",
+            "name": "firstDocumentContents",
+            "description": "The first version of the document",
             "required": true
           },
           {
-            "name": "newDocumentContents",
-            "description": "The updated version of the document",
+            "name": "secondDocumentContents",
+            "description": "The second version of the document",
+            "required": true
+          },
+          {
+            "name": "prompt",
+            "description": "The prompt to compare the document on",
             "required": true
           }
         ]

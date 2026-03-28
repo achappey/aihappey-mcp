@@ -12,8 +12,12 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentComparer
 {
-    private static readonly string[] ModelNames = ["gpt-5.2", "gemini-2.5-pro", 
-        "claude-opus-4-1-20250805", "grok-4-fast-reasoning"];
+    private static readonly string[] ModelNames = [
+        "gpt-5.2",
+        "gemini-3.1-pro-preview",
+        "claude-opus-4-6",
+        "grok-4.20-0309-reasoning"
+        ];
 
     [Description("Parallel document comparer across multiple AI models.")]
     [McpServerTool(Title = "Document comparer (multi-model)",
@@ -22,6 +26,7 @@ public static class DocumentComparer
     public static async Task<CallToolResult?> DocumentComparer_Compare(
        [Description("Url of the original document you would like to compare. Protected SharePoint and OneDive links are supported.")] string originalFileUrl,
        [Description("Url of the new version of the document you would like compare the original with. Protected SharePoint and OneDive links are supported.")] string newFileUrl,
+       [Description("The prompt to compare the document on.")] string comparePrompt,
        IServiceProvider serviceProvider,
        RequestContext<CallToolRequestParams> requestContext,
        CancellationToken cancellationToken = default) =>
@@ -32,15 +37,16 @@ public static class DocumentComparer
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, originalFileUrl, cancellationToken);
-        var contents = string.Join("\n\n", files.GetTextFiles().Select(z => z.Contents.ToString()));
+        var contents = string.Join("\n\n", files.GetTextFiles().Select(z => $"{z.Filename}\n\n{z.Contents}"));
 
         var newFiles = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, newFileUrl, cancellationToken);
-        var newContents = string.Join("\n\n", newFiles.GetTextFiles().Select(z => z.Contents.ToString()));
+        var newContents = string.Join("\n\n", newFiles.GetTextFiles().Select(z => $"{z.Filename}\n\n{z.Contents}"));
 
         var promptArgs = new Dictionary<string, JsonElement>
         {
-            ["oldDocumentContents"] = JsonSerializer.SerializeToElement(contents),
-            ["newDocumentContents"] = JsonSerializer.SerializeToElement(newContents),
+            ["firstDocumentContents"] = JsonSerializer.SerializeToElement(contents),
+            ["secondDocumentContents"] = JsonSerializer.SerializeToElement(newContents),
+            ["prompt"] = JsonSerializer.SerializeToElement(comparePrompt),
         };
 
         int? progressToken = 1;
