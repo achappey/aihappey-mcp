@@ -9,12 +9,13 @@ using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
 using MCPhappey.Tools.Memory.OneDrive;
-using MCPhappey.Tools.OneDrive.OpenSkills;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
+
+namespace MCPhappey.Tools.OneDrive.OpenSkills;
 
 public static class OneDriveSkillsEditor
 {

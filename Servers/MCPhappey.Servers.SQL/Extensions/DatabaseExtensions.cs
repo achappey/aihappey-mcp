@@ -48,8 +48,9 @@ public static class DatabaseExtensions
                 .Where(x => !string.IsNullOrEmpty(x.Host))
                 .Where(x =>
                     !string.IsNullOrEmpty(x.Host)
-                    && x.Host.EndsWith(".sharepoint.com", StringComparison.OrdinalIgnoreCase)
+                    && ((x.Host.EndsWith(".sharepoint.com", StringComparison.OrdinalIgnoreCase)
                     && x.Path?.IndexOf("/_api/", StringComparison.OrdinalIgnoreCase) >= 0)
+                    || x.Host.Equals("api.applicationinsights.io", StringComparison.OrdinalIgnoreCase)))
                 .Select(x => x.Host)
                 .Distinct(StringComparer.OrdinalIgnoreCase))
             {
@@ -62,7 +63,7 @@ public static class DatabaseExtensions
             }
         }
 
-       
+
 
         // ----------------------------
         // Return the MCP-flavoured server
@@ -83,7 +84,7 @@ public static class DatabaseExtensions
                 Description = server.Description,
                 Title = server.Title,
                 WebsiteUrl = server.WebsiteUrl,
-                Version = "1.0.0",            
+                Version = "1.0.0",
                 Icons = server.Icons.Count != 0 ? server.Icons.Select(a => new Icon()
                 {
                     Source = a.Icon.Source,

@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://agentskills.io/llms.txt",
+      "name": "agent-skills-llms-txt",
+      "description": "LLM overview page of all Agent Skills documentation",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

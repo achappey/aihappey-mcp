@@ -1,0 +1,13 @@
+{
+  "serverInfo": {
+    "name": "Skills-Documentation",
+    "title": "Skills Documentation",
+    "version": "1.0.0",
+    "description": "A simple, open format for giving agents new capabilities and expertise.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1jLgTnAbSMnq9YIyekhYMKw2Ime1rGOdwAg&s"
+      }
+    ]
+  }
+}

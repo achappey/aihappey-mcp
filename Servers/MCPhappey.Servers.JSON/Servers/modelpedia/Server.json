@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "modelpedia",
+    "title": "modelpedia",
+    "version": "1.0.0",
+    "websiteUrl": "https://modelpedia.dev",
+    "description": "Open catalog of AI models across providers. Compare specs, pricing, and capabilities.",
+    "icons": [
+      {
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://modelpedia.dev&size=128"
+      }
+    ]
+  },
+  "baseMcp": "api.modelpedia.dev"
+}
