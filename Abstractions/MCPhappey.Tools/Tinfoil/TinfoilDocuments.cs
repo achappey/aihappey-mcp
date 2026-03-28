@@ -27,7 +27,7 @@ public static class TinfoilDocuments
         [Description("Extract formulas and enrich math output.")] bool? doFormulaEnrichment = null,
         [Description("OCR engine selection (Docling-compatible).")]
         string? ocrEngine = null,
-        [Description("When true, uploads the converted output and returns only a resource link instead of inline content.")] bool saveOutput = false,
+        [Description("When true, saves the converted output beside the source file using the same filename plus .LLMs.<ext> when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
             {
@@ -45,33 +45,6 @@ public static class TinfoilDocuments
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = result
                 };
-            });
-
-    [Description("Convert documents into structured formats using Tinfoil's Docling-compatible document processing service, always save the result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Title = "Tinfoil convert document Save", Name = "tinfoil_convert_document_save", ReadOnly = true, OpenWorld = true)]
-    public static async Task<CallToolResult?> Tinfoil_Convert_DocumentSave(
-        [Description("File url of the input document or image. This tool can access secure SharePoint and OneDrive links.")] string fileUrl,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Model identifier. Default is doc-upload.")] string? model = null,
-        [Description("Output formats. Allowed values: md, json, yaml, html, text, doctags. Default is [md].")] List<string>? toFormats = null,
-        [Description("Input formats. Allowed values: pdf, docx, pptx, xlsx, html, image, asciidoc, md, csv.")] List<string>? fromFormats = null,
-        [Description("Processing pipeline. Default is standard.")] string? pipeline = null,
-        [Description("Enable OCR for scanned documents.")] bool? doOcr = null,
-        [Description("Include images in output.")] bool? includeImages = null,
-        [Description("Image handling: placeholder, embedded, referenced.")] string? imageExportMode = null,
-        [Description("Extract table structure.")] bool? doTableStructure = null,
-        [Description("Extract formulas and enrich math output.")] bool? doFormulaEnrichment = null,
-        [Description("OCR engine selection (Docling-compatible).")]
-        string? ocrEngine = null,
-        [Description("Optional SharePoint or OneDrive folder URL to store the converted result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
-            {
-                var requestedFormat = ResolveRequestedFormat(toFormats, "md");
-                var result = await ExecuteConvertAsync(serviceProvider, requestContext, fileUrl, model, toFormats, fromFormats, pipeline, doOcr, includeImages, imageExportMode, doTableStructure, doFormulaEnrichment, ocrEngine, cancellationToken);
-                var savedOutput = result.ToSavedOutput(requestedFormat, requestedFormat, "content", "output", "result", "markdown", "text", "html", "doctags");
-                return await requestContext.SaveOutputAsync(serviceProvider, savedOutput.Content, savedOutput.Extension, folderUrl, cancellationToken);
             });
 
     private static async Task<System.Text.Json.Nodes.JsonNode> ExecuteConvertAsync(

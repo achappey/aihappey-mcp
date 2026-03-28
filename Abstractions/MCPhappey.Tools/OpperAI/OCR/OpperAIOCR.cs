@@ -20,7 +20,7 @@ public static class OpperAIOCR
         [Description("OCR model name, e.g. mistral/ocr-latest")] string model = "mistral/ocr-latest",
         [Description("Optional language code, e.g. en or nl")] string? language = null,
         [Description("Include image base64 in response where supported")] bool includeImageBase64 = false,
-        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+        [Description("When true, saves the OCR JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             {
@@ -34,23 +34,6 @@ public static class OpperAIOCR
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = result ?? new JsonObject()
                 };
-            });
-
-    [Description("Extract text from an image or PDF using Opper OCR, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Name = "opperai_ocr_save", Title = "Opper AI OCR Save")]
-    public static async Task<CallToolResult?> OpperAI_OCR_Save(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("File URL or SharePoint/OneDrive reference")] string fileUrl,
-        [Description("OCR model name, e.g. mistral/ocr-latest")] string model = "mistral/ocr-latest",
-        [Description("Optional language code, e.g. en or nl")] string? language = null,
-        [Description("Include image base64 in response where supported")] bool includeImageBase64 = false,
-        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-            {
-                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, language, includeImageBase64, cancellationToken);
-                return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
             });
 
     private static async Task<JsonNode?> ExecuteOcrAsync(

@@ -22,7 +22,7 @@ public static class GreenPTDocuments
         [Description("Extract table structure from documents. Default true.")] bool? doTableStructure = null,
         [Description("Table detection mode. Allowed values: fast, accurate. Default accurate.")] string? tableMode = null,
         [Description("Extract images from the document. Default true.")] bool? includeImages = null,
-        [Description("When true, uploads the converted output and returns only a resource link instead of inline content.")] bool saveOutput = false,
+        [Description("When true, saves the converted output beside the source file using the same filename plus .LLMs.<ext> when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
             {
@@ -40,28 +40,6 @@ public static class GreenPTDocuments
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = result
                 };
-            });
-
-    [Description("Process a document or image into AI-ready output using GreenPT Documents with OCR and table extraction support, always save the result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Title = "GreenPT convert document Save", Name = "greenpt_documents_convert_save", ReadOnly = true, OpenWorld = true)]
-    public static async Task<CallToolResult?> GreenPT_Documents_ConvertSave(
-        [Description("File url of the input document or image. This tool can access secure SharePoint and OneDrive links.")] string fileUrl,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional output formats. Allowed values: md, json, html, html_split_page, text, doctags. Default is [md].")] List<string>? toFormats = null,
-        [Description("Enable OCR processing for bitmap content. Default true.")] bool? doOcr = null,
-        [Description("When true, replace existing text with OCR-generated text. Default false.")] bool? forceOcr = null,
-        [Description("Extract table structure from documents. Default true.")] bool? doTableStructure = null,
-        [Description("Table detection mode. Allowed values: fast, accurate. Default accurate.")] string? tableMode = null,
-        [Description("Extract images from the document. Default true.")] bool? includeImages = null,
-        [Description("Optional SharePoint or OneDrive folder URL to store the converted result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
-            {
-                var requestedFormat = ResolveRequestedFormat(toFormats, "md");
-                var result = await ExecuteConvertAsync(serviceProvider, requestContext, fileUrl, toFormats, doOcr, forceOcr, doTableStructure, tableMode, includeImages, cancellationToken);
-                var savedOutput = result.ToSavedOutput(requestedFormat, requestedFormat, "content", "output", "result", "markdown", "text", "html", "doctags");
-                return await requestContext.SaveOutputAsync(serviceProvider, savedOutput.Content, savedOutput.Extension, folderUrl, cancellationToken);
             });
 
     private static async Task<System.Text.Json.Nodes.JsonNode> ExecuteConvertAsync(

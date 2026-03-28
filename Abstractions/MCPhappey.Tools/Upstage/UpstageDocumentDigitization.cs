@@ -79,7 +79,7 @@ public static class UpstageDocumentDigitization
         string model = "ocr",
         [Description("Optional schema file URL. Value in file should resolve to clova or google.")]
         string? schemaFileUrl = null,
-        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+        [Description("When true, saves the OCR JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             {
@@ -92,25 +92,6 @@ public static class UpstageDocumentDigitization
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = result ?? new JsonObject()
                 };
-            });
-
-    [Description("Run OCR using Upstage Document OCR API (/document-digitization, ocr), always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Name = "upstage_document_digitization_ocr_save", Title = "Upstage document OCR Save", IconSource = UpstageConstants.ICON_SOURCE, ReadOnly = true)]
-    public static async Task<CallToolResult?> Upstage_Document_Digitization_OcrSave(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Document file URL (SharePoint/OneDrive/HTTPS).")]
-        string fileUrl,
-        [Description("Model alias/version. Default: ocr.")]
-        string model = "ocr",
-        [Description("Optional schema file URL. Value in file should resolve to clova or google.")]
-        string? schemaFileUrl = null,
-        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-            {
-                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, schemaFileUrl, cancellationToken);
-                return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
             });
 
     private static async Task<MCPhappey.Common.Models.FileItem> DownloadSingleAsync(

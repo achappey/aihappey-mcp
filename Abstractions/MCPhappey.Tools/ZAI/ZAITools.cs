@@ -98,7 +98,7 @@ public static class ZAITools
         [Description("End page number for PDF (>=1). Optional.")] int? endPageId = null,
         [Description("Unique request ID.")] string? requestId = null,
         [Description("End user ID for abuse monitoring (6-128 chars). Optional.")] string? userId = null,
-        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+        [Description("When true, saves the OCR JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
             {
@@ -111,27 +111,6 @@ public static class ZAITools
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = response ?? new JsonObject()
                 };
-            });
-
-    [Description("Parse document or image layout using GLM-OCR, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Title = "Z.AI layout parsing Save", Name = "zai_tools_layout_parsing_save", ReadOnly = true, OpenWorld = true)]
-    public static async Task<CallToolResult?> ZAI_Tools_LayoutParsingSave(
-        [Description("Model code. Must be glm-ocr.")] string model,
-        [Description("Image or PDF URL/base64 to analyze.")] string file,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Return screenshot info (true/false). Default is false.")] bool? returnCropImages = false,
-        [Description("Return detailed layout visualization (true/false). Default is false.")] bool? needLayoutVisualization = false,
-        [Description("Start page number for PDF (>=1). Optional.")] int? startPageId = null,
-        [Description("End page number for PDF (>=1). Optional.")] int? endPageId = null,
-        [Description("Unique request ID.")] string? requestId = null,
-        [Description("End user ID for abuse monitoring (6-128 chars). Optional.")] string? userId = null,
-        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
-            {
-                var response = await ExecuteLayoutParsingAsync(serviceProvider, model, file, returnCropImages, needLayoutVisualization, startPageId, endPageId, requestId, userId, cancellationToken);
-                return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(response?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
             });
 
     private static async Task<JsonNode?> ExecuteLayoutParsingAsync(

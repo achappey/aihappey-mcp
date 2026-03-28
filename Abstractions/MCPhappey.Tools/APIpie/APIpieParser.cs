@@ -19,7 +19,7 @@ public static class APIpieParser
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Extract document metadata from APIpie parser response.")] bool metadata = true,
         [Description("Extract textual content from APIpie parser response.")] bool content = true,
-        [Description("When true, uploads the parser JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+        [Description("When true, saves the parser JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
             {
@@ -35,24 +35,6 @@ public static class APIpieParser
                     StructuredContent = result
                 };
             });
-
-    [Description("Parse a document with APIpie Apache Tika parser, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Title = "APIpie parser Save", Name = "apipie_parse_document_save", ReadOnly = true, OpenWorld = true)]
-    public static async Task<CallToolResult?> APIpie_Parse_DocumentSave(
-        [Description("File URL of the input document. Secure SharePoint and OneDrive links are supported.")] string fileUrl,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Extract document metadata from APIpie parser response.")] bool metadata = true,
-        [Description("Extract textual content from APIpie parser response.")] bool content = true,
-        [Description("Optional SharePoint or OneDrive folder URL to store the parser JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
-        {
-            var result = await ExecuteParseAsync(serviceProvider, requestContext, fileUrl, metadata, content, cancellationToken)
-                ?? new JsonObject();
-
-            return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result.ToJsonString()), "json", folderUrl, cancellationToken);
-        });
 
     private static async Task<JsonNode?> ExecuteParseAsync(
         IServiceProvider serviceProvider,

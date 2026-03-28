@@ -27,7 +27,7 @@ public static class TensorlakeDocuments
         [Description("Enable barcode detection. Default: false.")] bool barcodeDetection = false,
         [Description("Polling interval in seconds.")] int pollingIntervalSeconds = 2,
         [Description("Maximum wait time in seconds before timeout.")] int maxWaitSeconds = 900,
-        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+        [Description("When true, saves the OCR JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             {
@@ -40,30 +40,6 @@ public static class TensorlakeDocuments
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = result ?? new JsonObject()
                 };
-            });
-
-    [Description("Read a document with Tensorlake OCR, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Title = "Tensorlake read document Save", Name = "tensorlake_read_document_save", ReadOnly = true, OpenWorld = true)]
-    public static async Task<CallToolResult?> Tensorlake_ReadDocumentSave(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Document URL to read. Protected SharePoint and OneDrive links are supported.")] string fileUrl,
-        [Description("Optional page range, for example '1-3,5'. Empty means all pages.")] string pageRange = "",
-        [Description("OCR model. Default: model03.")] string ocrModel = "model03",
-        [Description("Chunking strategy: none, page, section, or fragment.")] string chunkingStrategy = "none",
-        [Description("Table output mode: html or markdown.")] string tableOutputMode = "html",
-        [Description("Include images in markdown output. Default: false.")] bool includeImages = false,
-        [Description("Merge adjacent tables when possible. Default: false.")] bool mergeTables = false,
-        [Description("Enable signature detection. Default: false.")] bool signatureDetection = false,
-        [Description("Enable barcode detection. Default: false.")] bool barcodeDetection = false,
-        [Description("Polling interval in seconds.")] int pollingIntervalSeconds = 2,
-        [Description("Maximum wait time in seconds before timeout.")] int maxWaitSeconds = 900,
-        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-            {
-                var result = await ExecuteReadDocumentAsync(serviceProvider, requestContext, fileUrl, pageRange, ocrModel, chunkingStrategy, tableOutputMode, includeImages, mergeTables, signatureDetection, barcodeDetection, pollingIntervalSeconds, maxWaitSeconds, cancellationToken);
-                return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
             });
 
     private static string NormalizeOption(string? input, string[] allowed, string fallback)

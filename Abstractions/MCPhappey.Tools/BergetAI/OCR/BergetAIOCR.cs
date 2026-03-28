@@ -24,7 +24,7 @@ public static class BergetAIOCR
         [Description("Extract table structure. Default: true")] bool doTableStructure = true,
         [Description("Output format. Default: md")] string outputFormat = "md",
         [Description("Include images in output. Default: false")] bool includeImages = false,
-        [Description("When true, uploads the OCR result and returns only a resource link instead of inline content.")] bool saveOutput = false,
+        [Description("When true, saves the OCR result beside the source file using the same filename plus .LLMs.<ext> when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             {
@@ -41,28 +41,6 @@ public static class BergetAIOCR
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = result ?? new JsonObject()
                 };
-            });
-
-    [Description("Extract text content from a document using Berget AI OCR, always save the result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Name = "bergetai_ocr_save", Title = "Berget AI OCR Save")]
-    public static async Task<CallToolResult?> BergetAI_OCR_Save(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("File URL or SharePoint/OneDrive reference")] string fileUrl,
-        [Description("Model identifier to use. Default: docling-v1")] string model = "docling-v1",
-        [Description("Table extraction mode: accurate, fast, or none")] string tableMode = "accurate",
-        [Description("OCR method: easyocr, doctr, tesseract, or auto")] string ocrMethod = "easyocr",
-        [Description("Perform OCR. Default: true")] bool doOcr = true,
-        [Description("Extract table structure. Default: true")] bool doTableStructure = true,
-        [Description("Output format. Default: md")] string outputFormat = "md",
-        [Description("Include images in output. Default: false")] bool includeImages = false,
-        [Description("Optional SharePoint or OneDrive folder URL to store the OCR result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-            {
-                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, tableMode, ocrMethod, doOcr, doTableStructure, outputFormat, includeImages, cancellationToken);
-                var savedOutput = result.ToSavedOutput(outputFormat, outputFormat, "content", "output", "result", "markdown", "text", "html", "doctags");
-                return await requestContext.SaveOutputAsync(serviceProvider, savedOutput.Content, savedOutput.Extension, folderUrl, cancellationToken);
             });
 
     private static async Task<JsonNode?> ExecuteOcrAsync(

@@ -26,7 +26,7 @@ public static class OCRSpaceService
         [Description("Generate searchable PDF output link.")] bool isCreateSearchablePdf = false,
         [Description("Hide text layer in generated searchable PDF.")] bool isSearchablePdfHideTextLayer = false,
         [Description("Optional filetype override: PDF, GIF, PNG, JPG, TIF, BMP.")] string? filetype = null,
-        [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+        [Description("When true, saves the OCR JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             {
@@ -53,43 +53,6 @@ public static class OCRSpaceService
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = result ?? new JsonObject()
                 };
-            });
-
-    [Description("Extract text from image/PDF files using OCR.space, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Name = "ocrspace_parse_save", Title = "OCR.space parse Save")]
-    public static async Task<CallToolResult?> OCRSpace_ParseSave(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("File URL or SharePoint/OneDrive reference.")] string fileUrl,
-        [Description("OCR language (3-letter code), e.g. eng, nld, deu, auto.")] string language = "eng",
-        [Description("OCR engine version: 1, 2, or 3.")] int ocrEngine = 1,
-        [Description("Return word overlay coordinates.")] bool isOverlayRequired = false,
-        [Description("Auto-detect and rotate text orientation.")] bool detectOrientation = false,
-        [Description("Treat document as table-like content.")] bool isTable = false,
-        [Description("Enable internal upscaling for low-resolution scans.")] bool scale = false,
-        [Description("Generate searchable PDF output link.")] bool isCreateSearchablePdf = false,
-        [Description("Hide text layer in generated searchable PDF.")] bool isSearchablePdfHideTextLayer = false,
-        [Description("Optional filetype override: PDF, GIF, PNG, JPG, TIF, BMP.")] string? filetype = null,
-        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-            {
-                var result = await ParseAsync(
-                    serviceProvider,
-                    requestContext,
-                    fileUrl,
-                    language,
-                    ocrEngine,
-                    isOverlayRequired,
-                    detectOrientation,
-                    isTable,
-                    scale,
-                    isCreateSearchablePdf,
-                    isSearchablePdfHideTextLayer,
-                    filetype,
-                    cancellationToken);
-
-                return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
             });
 
     private static async Task<JsonNode?> ParseAsync(

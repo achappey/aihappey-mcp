@@ -30,7 +30,7 @@ public static class ExtendAIParse
         int pollingIntervalSeconds = 2,
         [Description("Maximum wait time in seconds before timeout.")]
         int maxWaitSeconds = 900,
-        [Description("When true, uploads the parse JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+        [Description("When true, saves the parse JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             {
@@ -45,33 +45,6 @@ public static class ExtendAIParse
                     StructuredContent = result
                 };
             });
-
-    [Description("Parse a file with Extend AI (async), wait for completion, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Title = "Extend AI parse file Save", Name = "extendai_parse_file_save", ReadOnly = true)]
-    public static async Task<CallToolResult?> ExtendAI_Parse_FileSave(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("File URL (SharePoint/OneDrive/HTTP) to parse.")]
-        string fileUrl,
-        [Description("Target format: markdown or spatial.")]
-        string target = "markdown",
-        [Description("Chunking strategy type: page, document, or section.")]
-        string chunkingType = "page",
-        [Description("Parsing engine: parse_performance or parse_light.")]
-        string engine = "parse_performance",
-        [Description("Optional page ranges, e.g. '1-2,5-6'. Empty for all pages.")]
-        string pageRanges = "",
-        [Description("Polling interval in seconds.")]
-        int pollingIntervalSeconds = 2,
-        [Description("Maximum wait time in seconds before timeout.")]
-        int maxWaitSeconds = 900,
-        [Description("Optional SharePoint or OneDrive folder URL to store the parse JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-        {
-            var result = await ExecuteParseAsync(serviceProvider, requestContext, fileUrl, target, chunkingType, engine, pageRanges, pollingIntervalSeconds, maxWaitSeconds, cancellationToken);
-            return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result.ToJsonString()), "json", folderUrl, cancellationToken);
-        });
 
     private static async Task<JsonObject> ExecuteParseAsync(
         IServiceProvider serviceProvider,

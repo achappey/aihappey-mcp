@@ -22,7 +22,7 @@ public static class AzureDocumentIntelligence
         string[]? features,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("When true, uploads the JSON analysis result and returns only a resource link instead of inline JSON.")]
+        [Description("When true, saves the JSON analysis beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")]
         bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
@@ -37,64 +37,13 @@ public static class AzureDocumentIntelligence
             cancellationToken);
 
         if (saveOutput)
-        {
-            var uploadName = requestContext.ToOutputFileName("json");
-            var uploaded = await requestContext.Server.Upload(
-                serviceProvider,
-                uploadName,
-                BinaryData.FromString(result?.ToJsonString() ?? "{}"),
-                cancellationToken);
-
-            return uploaded?.ToResourceLinkCallToolResponse();
-        }
+            return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
 
         return new CallToolResult
         {
             Meta = await requestContext.GetToolMeta(),
             StructuredContent = result ?? new JsonObject()
         };
-    });
-
-    [Description("Analyze a document or image with Azure Document Intelligence (OCR / prebuilt-read), always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Title = "Azure Document Intelligence OCR Save", ReadOnly = true)]
-    public static async Task<CallToolResult?> AzureDocumentIntelligence_AnalyzeDocumentSave(
-        [Description("URL of the document to analyze.")]
-        string documentUrl,
-        [Description("Optional feature flags (e.g., ocr.highResolution, ocr.font, ocr.formula).")]
-        string[]? features,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional SharePoint or OneDrive folder URL to store the JSON result in directly. When omitted, the default MCP output location is used.")]
-        string? folderUrl = null,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-    {
-        var result = await AnalyzeDocumentAsync(
-            serviceProvider,
-            requestContext,
-            documentUrl,
-            "prebuilt-read",
-            features,
-            "Document analysis",
-            cancellationToken);
-
-        var uploadName = requestContext.ToOutputFileName("json");
-        var uploadContent = BinaryData.FromString(result?.ToJsonString() ?? "{}");
-
-        if (!string.IsNullOrWhiteSpace(folderUrl))
-        {
-            using var graphClient = await serviceProvider.GetOboGraphClient(requestContext.Server);
-            var uploadedToFolder = await graphClient.UploadToFolder(folderUrl, uploadName, uploadContent, cancellationToken);
-            return uploadedToFolder?.ToResourceLinkCallToolResponse();
-        }
-
-        var uploaded = await requestContext.Server.Upload(
-            serviceProvider,
-            uploadName,
-            uploadContent,
-            cancellationToken);
-
-        return uploaded?.ToResourceLinkCallToolResponse();
     });
 
     [Description("Extract text, tables, and structure from a document using Azure Document Intelligence (prebuilt-layout).")]

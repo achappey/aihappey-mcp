@@ -22,7 +22,7 @@ public static class AIMLVision
             [Description("Input file URL. Protected SharePoint and/or OneDrive links are supported.")] string fileUrl,
             IServiceProvider serviceProvider,
             RequestContext<CallToolRequestParams> requestContext,
-            [Description("When true, uploads the OCR JSON result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+            [Description("When true, saves the OCR JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
              CancellationToken cancellationToken = default)
              => await requestContext.WithExceptionCheck(async () =>
           {
@@ -36,22 +36,6 @@ public static class AIMLVision
                   StructuredContent = result ?? new JsonObject()
               };
           });
-
-    [Description("Extracts structured text from documents or images using Google's Document AI OCR model, always saves the JSON result, and optionally stores it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Title = "AI/ML Google OCR extraction Save",
-              Name = "aiml_vision_google_extract_save", Destructive = false, ReadOnly = true)]
-    public static async Task<CallToolResult?> AIMLVision_GoogleExtractSave(
-            [Description("Input file URL. Protected SharePoint and/or OneDrive links are supported.")] string fileUrl,
-            IServiceProvider serviceProvider,
-            RequestContext<CallToolRequestParams> requestContext,
-            [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-             CancellationToken cancellationToken = default)
-             => await requestContext.WithExceptionCheck(async () =>
-          {
-              var result = await ExecuteGoogleExtractAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
-              return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
-          });
-
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum VisionFeatureType

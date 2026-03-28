@@ -61,7 +61,7 @@ public static class AzureVision
         string imageUrl,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("When true, uploads the JSON OCR result and returns only a resource link instead of inline JSON.")] bool saveOutput = false,
+        [Description("When true, saves the JSON OCR result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
         await requestContext.WithExceptionCheck(async () =>
     {
@@ -75,21 +75,6 @@ public static class AzureVision
             Meta = await requestContext.GetToolMeta(),
             StructuredContent = result ?? new JsonObject()
         };
-    });
-
-    [Description("Extract printed text (OCR) from an image using Azure AI Vision Read API, always save the JSON result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(Title = "Azure Vision OCR Save", ReadOnly = true)]
-    public static async Task<CallToolResult?> AzureVision_ReadImageSaveAsync(
-        [Description("URL of the image to extract text from.")]
-        string imageUrl,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional SharePoint or OneDrive folder URL to store the OCR JSON result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
-    {
-        var result = await ReadImageResultAsync(imageUrl, serviceProvider, requestContext, cancellationToken);
-        return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", folderUrl, cancellationToken);
     });
 
     private static async Task<JsonNode?> ReadImageResultAsync(

@@ -24,7 +24,7 @@ public static class DocsRouterService
         [Description("If true, extract table structures when possible. Default: false")] bool extractTables = false,
         [Description("Language hint for the document, e.g. en, de, es. Default: auto")] string language = "auto",
         [Description("Preferred output format: text, json, or markdown. Default: text")] string outputFormat = "text",
-        [Description("When true, uploads the OCR result and returns only a resource link instead of inline content.")] bool saveOutput = false,
+        [Description("When true, saves the OCR result beside the source file using the same filename plus .LLMs.<ext> when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             {
@@ -41,29 +41,6 @@ public static class DocsRouterService
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = result ?? new JsonObject()
                 };
-            });
-
-    [Description("Extract OCR text from a fileUrl using DocsRouter native OCR, always save the result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(
-        Name = "docsrouter_ocr_save",
-        Title = "DocsRouter OCR Save",
-        ReadOnly = true,
-        OpenWorld = true)]
-    public static async Task<CallToolResult?> DocsRouter_OCR_Save(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("File URL or SharePoint/OneDrive reference to download and OCR")] string fileUrl,
-        [Description("Vision model to use. Default: google/gemini-2.0-flash-001")] string model = "google/gemini-2.0-flash-001",
-        [Description("If true, extract table structures when possible. Default: false")] bool extractTables = false,
-        [Description("Language hint for the document, e.g. en, de, es. Default: auto")] string language = "auto",
-        [Description("Preferred output format: text, json, or markdown. Default: text")] string outputFormat = "text",
-        [Description("Optional SharePoint or OneDrive folder URL to store the OCR result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-            {
-                var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, extractTables, language, outputFormat, cancellationToken);
-                var savedOutput = result.ToSavedOutput(outputFormat, outputFormat, "content", "output", "result", "text", "markdown");
-                return await requestContext.SaveOutputAsync(serviceProvider, savedOutput.Content, savedOutput.Extension, folderUrl, cancellationToken);
             });
 
     private static async Task<JsonNode?> ExecuteOcrAsync(

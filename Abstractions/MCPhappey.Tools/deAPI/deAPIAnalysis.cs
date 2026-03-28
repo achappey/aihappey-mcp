@@ -31,7 +31,7 @@ public static class deAPIAnalysis
         [Description("Optional language code for OCR processing, e.g. en.")] string? language = null,
         [Description("OCR output format: text or json.")] string format = "text",
         [Description("If true, return OCR result directly in response when supported by the model/endpoint.")] bool return_result_in_response = false,
-        [Description("When true, uploads the OCR result and returns only a resource link instead of inline content.")] bool saveOutput = false,
+        [Description("When true, saves the OCR result beside the source file using the same filename plus .LLMs.<ext> when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             {
@@ -59,38 +59,6 @@ public static class deAPIAnalysis
                     Meta = await requestContext.GetToolMeta(),
                     StructuredContent = structuredContent
                 };
-            });
-
-    [Description("Extract text from an image using deAPI OCR (image-to-text), always save the result, and optionally store it directly in a SharePoint or OneDrive folder.")]
-    [McpServerTool(
-        Title = "deAPI Image-to-Text Analysis Save",
-        Name = "deapi_analysis_image_to_text_save",
-        Destructive = false,
-        OpenWorld = true)]
-    public static async Task<CallToolResult?> deAPI_Analysis_ImageToText_Save(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Image file URL (SharePoint/OneDrive/HTTP) to process with OCR.")] string fileUrl,
-        [Description("deAPI OCR model slug.")] string model,
-        [Description("Optional language code for OCR processing, e.g. en.")] string? language = null,
-        [Description("OCR output format: text or json.")] string format = "text",
-        [Description("If true, return OCR result directly in response when supported by the model/endpoint.")] bool return_result_in_response = false,
-        [Description("Optional SharePoint or OneDrive folder URL to store the OCR result in directly. When omitted, the default MCP output location is used.")] string? folderUrl = null,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-            {
-                var responseText = await ExecuteImageToTextAsync(
-                    serviceProvider,
-                    requestContext,
-                    fileUrl,
-                    model,
-                    language,
-                    format,
-                    return_result_in_response,
-                    cancellationToken);
-
-                var savedOutput = BuildSavedOutput(responseText, format);
-                return await requestContext.SaveOutputAsync(serviceProvider, savedOutput.Content, savedOutput.Extension, folderUrl, cancellationToken);
             });
 
     private static async Task<string> ExecuteImageToTextAsync(

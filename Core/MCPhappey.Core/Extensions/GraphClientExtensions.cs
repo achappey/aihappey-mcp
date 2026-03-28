@@ -226,5 +226,37 @@ public static class GraphClientExtensions
             ?? throw new IOException($"Uploaded item could not be retrieved for '{filename}'.");
     }
 
+    public static async Task<(string UploadName, string FolderUrl)?> TryResolveSiblingOutputTargetAsync(
+        this GraphServiceClient graphServiceClient,
+        string sourceUrl,
+        string extension,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(graphServiceClient);
+
+        if (string.IsNullOrWhiteSpace(sourceUrl)
+            || !Uri.TryCreate(sourceUrl, UriKind.Absolute, out _))
+        {
+            return null;
+        }
+
+        var sourceItem = await graphServiceClient.GetDriveItem(sourceUrl, cancellationToken);
+        if (sourceItem == null || sourceItem.Folder != null || string.IsNullOrWhiteSpace(sourceItem.Name))
+            return null;
+
+        var driveId = sourceItem.ParentReference?.DriveId;
+        var folderId = sourceItem.ParentReference?.Id;
+        if (string.IsNullOrWhiteSpace(driveId) || string.IsNullOrWhiteSpace(folderId))
+            return null;
+
+        var folderItem = await graphServiceClient.Drives[driveId].Items[folderId]
+            .GetAsync(cancellationToken: cancellationToken);
+
+        if (string.IsNullOrWhiteSpace(folderItem?.WebUrl))
+            return null;
+
+        return ($"{sourceItem.Name}.LLMs.{extension}", folderItem.WebUrl);
+    }
+
 }
 
