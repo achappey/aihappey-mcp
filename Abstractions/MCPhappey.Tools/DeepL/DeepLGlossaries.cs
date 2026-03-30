@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -97,7 +96,7 @@ public static class DeepLGlossaries
 
             return new CallToolResult
             {
-                StructuredContent = json,
+                StructuredContent = (json).ToJsonElement(),
                 Content = ["DeepL glossary created successfully.".ToTextContentBlock()]
             };
         });
@@ -165,7 +164,7 @@ public static class DeepLGlossaries
 
             return new CallToolResult
             {
-                StructuredContent = json,
+                StructuredContent = (json).ToJsonElement(),
                 Content = ["DeepL glossary updated successfully.".ToTextContentBlock()]
             };
         });
@@ -214,7 +213,7 @@ public static class DeepLGlossaries
 
             return new CallToolResult
             {
-                StructuredContent = json,
+                StructuredContent = (json).ToJsonElement(),
                 Content = ["DeepL glossary dictionary replaced successfully.".ToTextContentBlock()]
             };
         });

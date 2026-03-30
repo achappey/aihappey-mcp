@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
@@ -91,7 +90,7 @@ public static class WidnAITranslate
 
             return new CallToolResult
             {
-                StructuredContent = structured,
+                StructuredContent = (structured).ToJsonElement(),
                 Content =
                 [
                     JsonSerializer.Serialize(structured, new JsonSerializerOptions { WriteIndented = true }).ToTextContentBlock()

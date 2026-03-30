@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -32,7 +31,7 @@ public static class EdenAITranslations
 
            var eden = serviceProvider.GetRequiredService<EdenAIClient>();
 
-           // 1️⃣ Build JSON payload
+           // 1ï¸âƒ£ Build JSON payload
            var payload = new Dictionary<string, object?>
            {
                ["providers"] = provider,
@@ -44,7 +43,7 @@ public static class EdenAITranslations
            if (!string.IsNullOrWhiteSpace(fallbackProviders))
                payload["fallback_providers"] = fallbackProviders;
 
-           // 2️⃣ Call Eden AI
+           // 2ï¸âƒ£ Call Eden AI
            return await eden.PostAsync("translation/language_detection/", payload, cancellationToken)
                ?? throw new Exception("Eden AI returned no response.");
        }));
@@ -74,12 +73,12 @@ public static class EdenAITranslations
           var eden = serviceProvider.GetRequiredService<EdenAIClient>();
           var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-          // 1️⃣ Download source document
+          // 1ï¸âƒ£ Download source document
           var files = await downloadService.DownloadContentAsync(
               serviceProvider, requestContext.Server, fileUrl, cancellationToken);
           var file = files.FirstOrDefault() ?? throw new Exception("No file found for translation input.");
 
-          // 2️⃣ Build multipart form
+          // 2ï¸âƒ£ Build multipart form
           using var form = new MultipartFormDataContent();
           var fileContent = new ByteArrayContent(file.Contents.ToArray());
           fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
@@ -97,7 +96,7 @@ public static class EdenAITranslations
           if (!string.IsNullOrWhiteSpace(filePassword))
               form.Add("file_password".NamedField(filePassword));
 
-          // 3️⃣ Send request to EdenAI
+          // 3ï¸âƒ£ Send request to EdenAI
           using var req = new HttpRequestMessage(HttpMethod.Post, "translation/document_translation/")
           {
               Content = form
@@ -105,12 +104,12 @@ public static class EdenAITranslations
           var resultNode = await eden.SendAsync(req, cancellationToken)
               ?? throw new Exception("Eden AI returned no response.");
 
-          // 4️⃣ Extract translated document (base64 or URL)
+          // 4ï¸âƒ£ Extract translated document (base64 or URL)
           var providerKey = resultNode.AsObject().First().Key;
           var providerResult = resultNode[providerKey];
           var translatedUrl = providerResult?["document_resource_url"]?.GetValue<string>();
 
-          // 5️⃣ Download and upload translated file to Graph
+          // 5ï¸âƒ£ Download and upload translated file to Graph
           BinaryData translatedData;
 
           var downloadedTranslated = await downloadService.DownloadContentAsync(
@@ -125,10 +124,10 @@ public static class EdenAITranslations
               translatedData,
               cancellationToken);
 
-          // 6️⃣ Return structured + readable result
+          // 6ï¸âƒ£ Return structured + readable result
           return new CallToolResult
           {
-              StructuredContent = resultNode,
+              StructuredContent = (resultNode).ToJsonElement(),
               Content =
               [
                   uploaded!
@@ -160,7 +159,7 @@ public static class EdenAITranslations
 
             var eden = serviceProvider.GetRequiredService<EdenAIClient>();
 
-            // 1️⃣ Build JSON payload
+            // 1ï¸âƒ£ Build JSON payload
             var payload = new Dictionary<string, object?>
             {
                 ["providers"] = provider,
@@ -176,17 +175,17 @@ public static class EdenAITranslations
             if (!string.IsNullOrWhiteSpace(fallbackProviders))
                 payload["fallback_providers"] = fallbackProviders;
 
-            // 2️⃣ Send request to EdenAI
+            // 2ï¸âƒ£ Send request to EdenAI
             var resultNode = await eden.PostAsync("translation/automatic_translation/", payload, cancellationToken)
                 ?? throw new Exception("Eden AI returned no response.");
 
-            // 3️⃣ Extract translation result
+            // 3ï¸âƒ£ Extract translation result
             var providerKey = resultNode.AsObject().First().Key;
             var translation = resultNode[providerKey]?["text"]?.GetValue<string>()
                               ?? resultNode[providerKey]?["items"]?.AsArray().FirstOrDefault()?["text"]?.GetValue<string>()
                               ?? "(no translation returned)";
 
-            // 4️⃣ Upload translation to Graph
+            // 4ï¸âƒ£ Upload translation to Graph
             return await requestContext.Server.Upload(
                 serviceProvider,
                 requestContext.ToOutputFileName("txt"),

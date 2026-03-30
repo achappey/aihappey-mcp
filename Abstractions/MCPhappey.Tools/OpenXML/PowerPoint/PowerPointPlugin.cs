@@ -10,7 +10,6 @@ using ModelContextProtocol.Server;
 using P = DocumentFormat.OpenXml.Presentation;
 using A = DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml;
-using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Tools.OpenXML.PowerPoint;
 

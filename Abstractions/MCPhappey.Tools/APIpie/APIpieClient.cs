@@ -1,7 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using Microsoft.KernelMemory.Pipeline;
 
@@ -25,7 +24,7 @@ public class APIpieClient
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeTypes.Json));
     }
 
-    public async Task<JsonNode?> PostAsync(string path, object body, CancellationToken ct)
+    public async Task<JsonElement?> PostAsync(string path, object body, CancellationToken ct)
     {
         var json = JsonSerializer.Serialize(body, JsonOpts);
 
@@ -37,7 +36,7 @@ public class APIpieClient
         return await SendAndParseAsync(req, ct);
     }
 
-    public async Task<JsonNode?> PostMultipartAsync(string path, MultipartFormDataContent form, CancellationToken ct)
+    public async Task<JsonElement?> PostMultipartAsync(string path, MultipartFormDataContent form, CancellationToken ct)
     {
         using var req = new HttpRequestMessage(HttpMethod.Post, path.TrimStart('/'))
         {
@@ -47,7 +46,7 @@ public class APIpieClient
         return await SendAndParseAsync(req, ct);
     }
 
-    private async Task<JsonNode?> SendAndParseAsync(HttpRequestMessage req, CancellationToken ct)
+    private async Task<JsonElement?> SendAndParseAsync(HttpRequestMessage req, CancellationToken ct)
     {
         using var resp = await _client.SendAsync(req, ct);
         var text = await resp.Content.ReadAsStringAsync(ct);
@@ -55,7 +54,11 @@ public class APIpieClient
         if (!resp.IsSuccessStatusCode)
             throw new Exception($"{resp.StatusCode}: {text}");
 
-        return string.IsNullOrWhiteSpace(text) ? null : JsonNode.Parse(text);
+        if (string.IsNullOrWhiteSpace(text))
+            return null;
+
+        using var doc = JsonDocument.Parse(text);
+        return doc.RootElement.Clone(); // IMPORTANT
     }
 }
 
@@ -63,4 +66,3 @@ public class APIpieSettings
 {
     public string ApiKey { get; set; } = default!;
 }
-

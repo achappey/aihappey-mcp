@@ -32,7 +32,7 @@ public static class OpperAIOCR
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result ?? new JsonObject()
+                    StructuredContent = (result ?? new JsonObject()).ToJsonElement()
                 };
             });
 

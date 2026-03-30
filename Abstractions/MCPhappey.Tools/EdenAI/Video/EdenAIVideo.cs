@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -28,22 +27,22 @@ public static class EdenAIVideo
         [Description("Primary provider, e.g. 'google' or 'amazon'.")] string provider = "google",
         [Description("Fallback providers (comma separated).")] string? fallbackProviders = null,
         [Description("Temperature between 0 and 1 (controls randomness).")] double temperature = 0,
-        [Description("Maximum tokens to generate (1–3000000).")] int maxTokens = 1000,
+        [Description("Maximum tokens to generate (1â€“3000000).")] int maxTokens = 1000,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
         {
-            // 1️⃣ Dependencies
+            // 1ï¸âƒ£ Dependencies
             var eden = serviceProvider.GetRequiredService<EdenAIClient>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-            // 2️⃣ Download video
+            // 2ï¸âƒ£ Download video
             var files = await downloadService.DownloadContentAsync(
                 serviceProvider, requestContext.Server, fileUrl, cancellationToken);
             var file = files.FirstOrDefault()
                        ?? throw new Exception("No file found for video question answering input.");
 
-            // 3️⃣ Build multipart/form-data
+            // 3ï¸âƒ£ Build multipart/form-data
             using var form = new MultipartFormDataContent();
             var fileContent = new ByteArrayContent(file.Contents.ToArray());
             fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
@@ -59,13 +58,13 @@ public static class EdenAIVideo
             if (!string.IsNullOrWhiteSpace(fallbackProviders))
                 form.Add(new StringContent(fallbackProviders), "fallback_providers");
 
-            // 4️⃣ Direct EdenAI request
+            // 4ï¸âƒ£ Direct EdenAI request
             using var req = new HttpRequestMessage(HttpMethod.Post, "video/question_answer/")
             {
                 Content = form
             };
 
-            // 5️⃣ Send and return structured result
+            // 5ï¸âƒ£ Send and return structured result
             return await eden.SendAsync(req, cancellationToken);
         }));
 
@@ -84,12 +83,12 @@ public static class EdenAIVideo
       CancellationToken cancellationToken = default)
       => await requestContext.WithExceptionCheck(async () =>
       {
-          // 🧱 1. Dependencies
+          // ðŸ§± 1. Dependencies
           var eden = serviceProvider.GetRequiredService<EdenAIClient>();
           var downloadService = serviceProvider.GetRequiredService<DownloadService>();
           var filePrefix = string.IsNullOrWhiteSpace(filenamePrefix) ? publicId : filenamePrefix;
 
-          // 🔍 2. Get job results
+          // ðŸ” 2. Get job results
           using var req = new HttpRequestMessage(HttpMethod.Get, $"video/generation_async/{publicId}/");
           var resultNode = await eden.SendAsync(req, cancellationToken)
               ?? throw new Exception("Eden AI returned no response for video job result.");
@@ -100,7 +99,7 @@ public static class EdenAIVideo
           if (resultsNode == null)
               throw new Exception("Eden AI response does not contain results.");
 
-          // 🎬 3. Extract and download video URLs
+          // ðŸŽ¬ 3. Extract and download video URLs
           foreach (var providerResult in resultsNode.AsObject())
           {
               var provider = providerResult.Key;
@@ -130,14 +129,14 @@ public static class EdenAIVideo
                   uploaded.Add(uploadResult);
           }
 
-          // 🧹 4. Delete the job after upload
+          // ðŸ§¹ 4. Delete the job after upload
           using var delReq = new HttpRequestMessage(HttpMethod.Delete, "video/generation_async/");
           await eden.SendAsync(delReq, cancellationToken);
 
-          // 🎯 5. Return structured result + OneDrive uploads
+          // ðŸŽ¯ 5. Return structured result + OneDrive uploads
           return new CallToolResult
           {
-              StructuredContent = resultNode,
+              StructuredContent = (resultNode).ToJsonElement(),
               Content = uploaded
           };
       });
@@ -165,7 +164,7 @@ public static class EdenAIVideo
           => await requestContext.WithExceptionCheck(async () =>
               await requestContext.WithStructuredContent(async () =>
               {
-                  // 🧠 1. Elicit structured defaults if not all provided
+                  // ðŸ§  1. Elicit structured defaults if not all provided
                   var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
                       new EdenAIVideoRequest
                       {
@@ -179,12 +178,12 @@ public static class EdenAIVideo
                       },
                       cancellationToken);
 
-                  // 🧱 2. Dependencies
+                  // ðŸ§± 2. Dependencies
                   var eden = serviceProvider.GetRequiredService<EdenAIClient>();
                   var downloadService = serviceProvider.GetRequiredService<DownloadService>();
                   typed.Filename ??= requestContext.ToOutputFileName("mp4");
 
-                  // 🖼️ 3. Optional keyframe image
+                  // ðŸ–¼ï¸ 3. Optional keyframe image
                   ByteArrayContent? seedImageContent = null;
                   string? seedFileName = null;
 
@@ -202,7 +201,7 @@ public static class EdenAIVideo
                       }
                   }
 
-                  // 🧾 4. Build multipart form
+                  // ðŸ§¾ 4. Build multipart form
                   using var form = new MultipartFormDataContent
                   {
                       { new StringContent(typed.Provider), "providers" },
@@ -217,7 +216,7 @@ public static class EdenAIVideo
                   if (seedImageContent != null && seedFileName != null)
                       form.Add(seedImageContent, "file", seedFileName);
 
-                  // 🚀 5. Execute call
+                  // ðŸš€ 5. Execute call
                   using var req = new HttpRequestMessage(HttpMethod.Post, "video/generation_async/")
                   {
                       Content = form

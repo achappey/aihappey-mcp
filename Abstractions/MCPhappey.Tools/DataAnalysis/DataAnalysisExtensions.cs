@@ -1,6 +1,5 @@
 using System.Linq.Dynamic.Core;
 using ModelContextProtocol.Protocol;
-using MCPhappey.Common.Extensions;
 using System.Text.RegularExpressions;
 
 namespace MCPhappey.Tools.DataAnalysis;

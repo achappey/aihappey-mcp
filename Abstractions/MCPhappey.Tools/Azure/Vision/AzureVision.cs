@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -68,20 +69,21 @@ public static class AzureVision
         var result = await ReadImageResultAsync(imageUrl, serviceProvider, requestContext, cancellationToken);
 
         if (saveOutput)
-            return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
+            return await requestContext.SaveOutputAsync(serviceProvider, 
+                BinaryData.FromString(result?.GetRawText() ?? "{}"), "json", cancellationToken: cancellationToken);
 
         return new CallToolResult
         {
             Meta = await requestContext.GetToolMeta(),
-            StructuredContent = result ?? new JsonObject()
+            StructuredContent = (result ?? new JsonElement()).ToJsonElement()
         };
     });
 
-    private static async Task<JsonNode?> ReadImageResultAsync(
-        string imageUrl,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        CancellationToken cancellationToken)
+    private static async Task<JsonElement?> ReadImageResultAsync(
+       string imageUrl,
+       IServiceProvider serviceProvider,
+       RequestContext<CallToolRequestParams> requestContext,
+       CancellationToken cancellationToken)
     {
         var settings = serviceProvider.GetRequiredService<AzureAISettings>();
         var httpClient = serviceProvider.GetRequiredService<HttpClient>();
@@ -89,15 +91,23 @@ public static class AzureVision
 
         var uri = $"https://{settings.Endpoint}/vision/v4.0/read/analyze";
 
-        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, imageUrl, cancellationToken);
-        var file = files.FirstOrDefault() ?? throw new Exception("No image file provided.");
+        var files = await downloadService.DownloadContentAsync(
+            serviceProvider,
+            requestContext.Server,
+            imageUrl,
+            cancellationToken);
+
+        var file = files.FirstOrDefault()
+            ?? throw new Exception("No image file provided.");
 
         using var post = new HttpRequestMessage(HttpMethod.Post, uri);
         post.Headers.Add("Ocp-Apim-Subscription-Key", settings.ApiKey);
         post.Content = new ByteArrayContent(file.Contents.ToArray());
-        post.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+        post.Content.Headers.ContentType =
+            new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
 
         using var postResponse = await httpClient.SendAsync(post, cancellationToken);
+
         if (!postResponse.IsSuccessStatusCode)
         {
             var error = await postResponse.Content.ReadAsStringAsync(cancellationToken);
@@ -108,23 +118,37 @@ public static class AzureVision
             throw new Exception("Operation-Location header missing from response.");
 
         var operationUrl = opLocValues.First();
-        JsonNode? result = null;
+        JsonElement? result = null;
 
         while (true)
         {
             await Task.Delay(1000, cancellationToken);
+
             using var getReq = new HttpRequestMessage(HttpMethod.Get, operationUrl);
             getReq.Headers.Add("Ocp-Apim-Subscription-Key", settings.ApiKey);
 
             using var getRes = await httpClient.SendAsync(getReq, cancellationToken);
-            var json = await getRes.Content.ReadAsStringAsync(cancellationToken);
-            result = JsonNode.Parse(json);
 
-            var status = result?["status"]?.ToString();
+            await using var stream = await getRes.Content.ReadAsStreamAsync(cancellationToken);
+            using var doc = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken);
+
+            var root = doc.RootElement;
+
+            var status = root.TryGetProperty("status", out var s)
+                ? s.GetString()
+                : null;
+
             if (status == "succeeded")
+            {
+                result = root.Clone();
                 break;
+            }
+
             if (status == "failed")
+            {
+                var json = root.GetRawText();
                 throw new Exception($"Vision OCR failed: {json}");
+            }
         }
 
         return result;

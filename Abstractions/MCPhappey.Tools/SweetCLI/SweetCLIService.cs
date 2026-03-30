@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -63,7 +62,7 @@ public static class SweetCLIService
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = structured
+                    StructuredContent = (structured).ToJsonElement()
                 };
             }));
 
@@ -120,7 +119,7 @@ public static class SweetCLIService
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = structured
+                    StructuredContent = (structured).ToJsonElement()
                 };
             }));
 

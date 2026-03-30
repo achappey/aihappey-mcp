@@ -10,7 +10,6 @@ using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using QuestPDF.Helpers;
 using QuestPDF.Markdown;
-using MCPhappey.Common.Extensions;
 using Microsoft.KernelMemory.Pipeline;
 
 namespace MCPhappey.Tools.GitHub.QuestPDF;

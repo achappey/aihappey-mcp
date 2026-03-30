@@ -1,7 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using Microsoft.KernelMemory.Pipeline;
 
@@ -25,7 +24,7 @@ public class UpstageClient
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    public async Task<JsonNode?> PostJsonAsync(string path, object body, CancellationToken ct)
+    public async Task<JsonElement?> PostJsonAsync(string path, object body, CancellationToken ct)
     {
         var json = JsonSerializer.Serialize(body, JsonOpts);
         using var response = await _client.PostAsync(path, new StringContent(json, Encoding.UTF8, MimeTypes.Json), ct);
@@ -37,7 +36,7 @@ public class UpstageClient
         return ParseResponseAsJsonNode(text);
     }
 
-    public async Task<JsonNode?> SendAsync(HttpRequestMessage request, CancellationToken ct)
+    public async Task<JsonElement?> SendAsync(HttpRequestMessage request, CancellationToken ct)
     {
         using var response = await _client.SendAsync(request, ct);
         var text = await response.Content.ReadAsStringAsync(ct);
@@ -48,15 +47,12 @@ public class UpstageClient
         return ParseResponseAsJsonNode(text);
     }
 
-    private static JsonNode ParseResponseAsJsonNode(string text)
+    private static JsonElement ParseResponseAsJsonNode(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
-            return new JsonObject();
+            return new JsonElement();
 
-        return JsonNode.Parse(text) ?? new JsonObject
-        {
-            ["content"] = text
-        };
+        return JsonSerializer.SerializeToElement(text);
     }
 }
 

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,11 +44,11 @@ public static class TinfoilDocuments
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result
+                    StructuredContent = (result).ToJsonElement()
                 };
             });
 
-    private static async Task<System.Text.Json.Nodes.JsonNode> ExecuteConvertAsync(
+    private static async Task<JsonElement> ExecuteConvertAsync(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         string fileUrl,

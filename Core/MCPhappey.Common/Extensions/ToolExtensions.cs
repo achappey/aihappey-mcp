@@ -10,7 +10,47 @@ namespace MCPhappey.Common.Extensions;
 
 public static class ToolExtensions
 {
+    public static JsonObject ToJsonObject<T>(this T item)
+    {
+        if (item is JsonObject jsonObject)
+            return (JsonObject)jsonObject.DeepClone();
 
+        if (item is JsonNode jsonNode)
+            return JsonNode.Parse(jsonNode.ToJsonString())?.AsObject() ?? new JsonObject();
+
+        return JsonSerializer.SerializeToNode(item, JsonSerializerOptions.Web)?.AsObject() ?? new JsonObject();
+    }
+
+ 
+    public static JsonElement? ToJsonElement(this JsonNode? node)
+    {
+        if (node is null)
+            return null;
+
+        using var doc = JsonDocument.Parse(node.ToJsonString());
+        return doc.RootElement.Clone();
+    }
+
+    public static JsonElement ToJsonElement<T>(this T item)
+    {
+        if (item is JsonElement element)
+            return element.Clone();
+
+        if (item is JsonDocument document)
+            return document.RootElement.Clone();
+
+        if (item is JsonNode jsonNode)
+            return jsonNode.ToJsonElement() ?? ParseJsonElement("{}");
+
+        return JsonSerializer.SerializeToElement(item, JsonSerializerOptions.Web);
+    }
+
+    public static JsonElement ParseJsonElement(this string? json)
+    {
+        using var doc = JsonDocument.Parse(string.IsNullOrWhiteSpace(json) ? "{}" : json);
+        return doc.RootElement.Clone();
+    }
+ 
     public static JsonNode? ToStructuredContent<T>(this T item)
             => JsonSerializer.SerializeToNode(item, JsonSerializerOptions.Web);
 
@@ -20,11 +60,21 @@ public static class ToolExtensions
             Content = [.. content]
         };
 
+    public static CallToolResult ToCallToolResponse(this JsonElement content)
+          => new()
+          {
+              StructuredContent = content
+          };
+
     public static CallToolResult ToCallToolResponse(this JsonNode content)
-        => new()
+    {
+        using var doc = JsonDocument.Parse(content.ToJsonString());
+
+        return new CallToolResult
         {
-            StructuredContent = content
+            StructuredContent = doc.RootElement.Clone()
         };
+    }
 
 
     public static CallToolResult ToErrorCallToolResponse(this string content)

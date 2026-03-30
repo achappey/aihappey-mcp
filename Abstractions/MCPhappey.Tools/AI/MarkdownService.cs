@@ -8,7 +8,6 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml;
 using MCPhappey.Tools.Extensions;
-using MCPhappey.Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MCPhappey.Core.Services;
 using QuestPDF.Fluent;

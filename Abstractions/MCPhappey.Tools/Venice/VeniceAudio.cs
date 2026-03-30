@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -201,7 +200,7 @@ public static class VeniceAudio
 
             return new CallToolResult
             {
-                StructuredContent = structured,
+                StructuredContent = (structured).ToJsonElement(),
                 Content =
                 [
                     text.ToTextContentBlock(),

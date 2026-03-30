@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;

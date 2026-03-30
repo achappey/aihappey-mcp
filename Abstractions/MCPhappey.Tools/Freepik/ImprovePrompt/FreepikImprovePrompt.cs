@@ -48,7 +48,7 @@ public static class FreepikImprovePrompt
         {
             return new CallToolResult
             {
-                StructuredContent = createResult
+                StructuredContent = (createResult).ToJsonElement()
             };
         }
 
@@ -73,7 +73,7 @@ public static class FreepikImprovePrompt
 
         return new CallToolResult
         {
-            StructuredContent = lastResult
+            StructuredContent = (lastResult).ToJsonElement()
         };
     }));
 }

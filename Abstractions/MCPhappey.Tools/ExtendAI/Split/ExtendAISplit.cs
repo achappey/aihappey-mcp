@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -140,7 +139,7 @@ public static class ExtendAISplit
                             ["splitterVersion"] = latest?["splitterVersion"],
                             ["metadata"] = latest?["metadata"],
                             ["dashboardUrl"] = latest?["dashboardUrl"]
-                        },
+                        }.ToJsonElement(),
                         Content = links.Count > 0 ? [.. links] : []
                     };
                 }

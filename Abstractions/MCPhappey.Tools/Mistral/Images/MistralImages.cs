@@ -1,6 +1,4 @@
 using System.ComponentModel;
-using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -26,12 +24,12 @@ public static class MistralImages
     {
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>()
+            Metadata = new Dictionary<string, object?>()
                 {
                     {"mistral", new {
                         image_generation = new { type = "image_generation" }
                      } },
-                }),
+                }.ToJsonObject(),
             Temperature = 0,
             MaxTokens = 8192,
             ModelPreferences = model.ToModelPreferences(),

@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Net.Http.Headers;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.StabilityAI.Enums;

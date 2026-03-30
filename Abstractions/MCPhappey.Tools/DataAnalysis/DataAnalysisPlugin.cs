@@ -2,7 +2,6 @@ using System.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Server;
 using ModelContextProtocol.Protocol;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Core.Extensions;
 

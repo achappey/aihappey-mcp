@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,26 +39,31 @@ public static class GreenPTDocuments
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result
+                    StructuredContent = (result).ToJsonElement()
                 };
             });
 
-    private static async Task<System.Text.Json.Nodes.JsonNode> ExecuteConvertAsync(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        string fileUrl,
-        List<string>? toFormats,
-        bool? doOcr,
-        bool? forceOcr,
-        bool? doTableStructure,
-        string? tableMode,
-        bool? includeImages,
-        CancellationToken cancellationToken)
+    private static async Task<JsonElement> ExecuteConvertAsync(
+    IServiceProvider serviceProvider,
+    RequestContext<CallToolRequestParams> requestContext,
+    string fileUrl,
+    List<string>? toFormats,
+    bool? doOcr,
+    bool? forceOcr,
+    bool? doTableStructure,
+    string? tableMode,
+    bool? includeImages,
+    CancellationToken cancellationToken)
     {
         var client = serviceProvider.GetRequiredService<GreenPTClient>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
+        var files = await downloadService.DownloadContentAsync(
+            serviceProvider,
+            requestContext.Server,
+            fileUrl,
+            cancellationToken);
+
         if (files is null || !files.Any())
             throw new Exception("No file found for GreenPT Documents input.");
 
@@ -66,11 +72,16 @@ public static class GreenPTDocuments
         var index = 0;
         foreach (var file in files)
         {
-            var fileName = string.IsNullOrWhiteSpace(file.Filename) ? $"file-{++index}" : file.Filename;
+            var fileName = string.IsNullOrWhiteSpace(file.Filename)
+                ? $"file-{++index}"
+                : file.Filename;
+
             var fileContent = new ByteArrayContent(file.Contents.ToArray());
-            fileContent.Headers.ContentType = new MediaTypeHeaderValue(string.IsNullOrWhiteSpace(file.MimeType)
-                ? "application/octet-stream"
-                : file.MimeType);
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(
+                string.IsNullOrWhiteSpace(file.MimeType)
+                    ? "application/octet-stream"
+                    : file.MimeType);
+
             form.Add(fileContent, "files", fileName);
         }
 
@@ -91,17 +102,28 @@ public static class GreenPTDocuments
 
         if (doOcr.HasValue)
             form.Add(new StringContent(doOcr.Value ? "true" : "false"), "do_ocr");
+
         if (forceOcr.HasValue)
             form.Add(new StringContent(forceOcr.Value ? "true" : "false"), "force_ocr");
+
         if (doTableStructure.HasValue)
             form.Add(new StringContent(doTableStructure.Value ? "true" : "false"), "do_table_structure");
+
         if (!string.IsNullOrWhiteSpace(tableMode))
             form.Add(new StringContent(tableMode), "table_mode");
+
         if (includeImages.HasValue)
             form.Add(new StringContent(includeImages.Value ? "true" : "false"), "include_images");
 
-        return await client.PostMultipartAsync("v1/tools/documents/convert/file", form, cancellationToken)
-            ?? throw new Exception("GreenPT returned no response.");
+        var result = await client.PostMultipartAsync(
+            "v1/tools/documents/convert/file",
+            form,
+            cancellationToken);
+
+        if (!result.HasValue)
+            throw new Exception("GreenPT returned no response.");
+
+        return result.Value;
     }
 
     private static string ResolveRequestedFormat(List<string>? formats, string fallback)

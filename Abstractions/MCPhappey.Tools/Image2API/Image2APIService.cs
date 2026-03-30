@@ -31,7 +31,7 @@ public static class Image2APIService
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result ?? new JsonObject()
+                    StructuredContent = (result ?? new JsonObject()).ToJsonElement()
                 };
             });
 

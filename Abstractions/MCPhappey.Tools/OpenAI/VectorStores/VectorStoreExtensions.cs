@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using OpenAI;
 using OpenAI.VectorStores;
 using MCPhappey.Auth.Extensions;
-using MCPhappey.Common.Extensions;
 using ModelContextProtocol.Protocol;
 
 namespace MCPhappey.Tools.OpenAI.VectorStores;

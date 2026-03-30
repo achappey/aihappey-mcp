@@ -1,6 +1,5 @@
 using MCPhappey.Auth.Extensions;
 using MCPhappey.Common;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Server;

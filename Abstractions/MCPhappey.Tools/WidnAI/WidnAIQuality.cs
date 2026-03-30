@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,7 +61,7 @@ public static class WidnAIQuality
 
             return new CallToolResult
             {
-                StructuredContent = structured,
+                StructuredContent = (structured).ToJsonElement(),
                 Content =
                 [
                     JsonSerializer.Serialize(structured, new JsonSerializerOptions { WriteIndented = true }).ToTextContentBlock()
@@ -130,7 +129,7 @@ public static class WidnAIQuality
 
             return new CallToolResult
             {
-                StructuredContent = structured,
+                StructuredContent = (structured).ToJsonElement(),
                 Content =
                 [
                     JsonSerializer.Serialize(structured, new JsonSerializerOptions { WriteIndented = true }).ToTextContentBlock()
@@ -192,7 +191,7 @@ public static class WidnAIQuality
 
             return new CallToolResult
             {
-                StructuredContent = structured,
+                StructuredContent = (structured).ToJsonElement(),
                 Content =
                 [
                     JsonSerializer.Serialize(structured, new JsonSerializerOptions { WriteIndented = true }).ToTextContentBlock()
@@ -264,7 +263,7 @@ public static class WidnAIQuality
 
             return new CallToolResult
             {
-                StructuredContent = structured,
+                StructuredContent = (structured).ToJsonElement(),
                 Content =
                 [
                     JsonSerializer.Serialize(structured, new JsonSerializerOptions { WriteIndented = true }).ToTextContentBlock()

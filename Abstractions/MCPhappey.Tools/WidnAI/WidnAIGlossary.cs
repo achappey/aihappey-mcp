@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -312,7 +311,7 @@ public static class WidnAIGlossary
 
         return new CallToolResult
         {
-            StructuredContent = structured,
+            StructuredContent = (structured).ToJsonElement(),
             Content =
             [
                 JsonSerializer.Serialize(structured, new JsonSerializerOptions { WriteIndented = true }).ToTextContentBlock()

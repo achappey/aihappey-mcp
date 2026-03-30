@@ -1,4 +1,3 @@
-using MCPhappey.Common.Extensions;
 using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
 

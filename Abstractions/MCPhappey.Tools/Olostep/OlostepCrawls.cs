@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
@@ -139,7 +138,7 @@ public static class OlostepCrawls
                     ("pagesCount", pagesCount),
                     ("waitForCompletion", typed.WaitForCompletion),
                     ("pollCount", pollCount),
-                    ("timedOut", timedOut)),
+                    ("timedOut", timedOut)).ToJsonElement(),
                 Content = [summary.ToTextContentBlock()]
             };
         });
@@ -177,7 +176,7 @@ public static class OlostepCrawls
                     response,
                     ("id", OlostepHelpers.GetString(response, "id") ?? typed.CrawlId),
                     ("status", status),
-                    ("pagesCount", pagesCount)),
+                    ("pagesCount", pagesCount)).ToJsonElement(),
                 Content = [summary.ToTextContentBlock()]
             };
         });
@@ -239,7 +238,7 @@ public static class OlostepCrawls
                     ("crawlId", response["crawl_id"]?.GetValue<string>() ?? typed.CrawlId),
                     ("status", OlostepHelpers.GetString(response, "status")),
                     ("pagesCount", pagesCount),
-                    ("cursor", nextCursor)),
+                    ("cursor", nextCursor)).ToJsonElement(),
                 Content = [summary.ToTextContentBlock()]
             };
         });

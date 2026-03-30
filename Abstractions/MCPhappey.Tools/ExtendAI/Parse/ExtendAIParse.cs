@@ -42,7 +42,7 @@ public static class ExtendAIParse
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result
+                    StructuredContent = (result).ToJsonElement()
                 };
             });
 

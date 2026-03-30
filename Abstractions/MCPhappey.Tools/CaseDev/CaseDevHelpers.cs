@@ -1,9 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Net.Http.Headers;
-using System.Text.Json;
 using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -117,7 +114,7 @@ internal static class CaseDevHelpers
             return new CallToolResult
             {
                 Meta = await requestContext.GetToolMeta(),
-                StructuredContent = response.Json,
+                StructuredContent = (response.Json).ToJsonElement(),
                 Content = ["Case.dev returned JSON output.".ToTextContentBlock()]
             };
         }
@@ -147,7 +144,7 @@ internal static class CaseDevHelpers
         return new CallToolResult
         {
             Meta = await requestContext.GetToolMeta(),
-            StructuredContent = structured,
+            StructuredContent = (structured).ToJsonElement(),
             Content = [uploaded]
         };
     }

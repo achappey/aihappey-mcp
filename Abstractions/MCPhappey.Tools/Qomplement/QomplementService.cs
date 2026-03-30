@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -207,7 +206,7 @@ public static class QomplementService
                         ["endpoint"] = "/v1/fill/pdf",
                         ["sourceFileCount"] = sourceUrls.Count,
                         ["job"] = job
-                    },
+                    }.ToJsonElement(),
                     Content = resource != null ? [resource] : []
                 };
             }));
@@ -313,7 +312,7 @@ public static class QomplementService
                         ["endpoint"] = "/v1/fill/excel",
                         ["sourceFileCount"] = sourceUrls.Count,
                         ["job"] = job
-                    },
+                    }.ToJsonElement(),
                     Content = resource != null ? [resource] : []
                 };
             }));

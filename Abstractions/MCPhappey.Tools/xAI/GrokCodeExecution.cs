@@ -1,6 +1,4 @@
 using System.ComponentModel;
-using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,12 +44,12 @@ public static class GrokCodeExecution
 
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>()
+            Metadata = new Dictionary<string, object?>()
                 {
                     {"xai", new {
                         code_execution = new { }
                      } },
-                }),
+                }.ToJsonObject(),
             Temperature = 0,
             MaxTokens = 8192,
             ModelPreferences = "grok-4-fast-reasoning".ToModelPreferences(),

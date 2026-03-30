@@ -51,7 +51,7 @@ public static class OCRSpaceService
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result ?? new JsonObject()
+                    StructuredContent = (result ?? new JsonObject()).ToJsonElement()
                 };
             });
 

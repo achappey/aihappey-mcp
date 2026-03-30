@@ -5,7 +5,6 @@ using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Services;
 
 namespace MCPhappey.Tools.Runway;

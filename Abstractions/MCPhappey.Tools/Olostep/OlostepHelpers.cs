@@ -44,7 +44,7 @@ internal static class OlostepHelpers
     internal static JsonNode? SerializeNode(object? value)
         => value is null ? null : value as JsonNode ?? JsonSerializer.SerializeToNode(value, JsonOptions);
 
-    internal static JsonObject CreateStructuredResponse(string endpoint, object? request, JsonNode? response, params (string Key, object? Value)[] extras)
+    internal static JsonElement CreateStructuredResponse(string endpoint, object? request, JsonNode? response, params (string Key, object? Value)[] extras)
     {
         var structured = new JsonObject
         {
@@ -61,7 +61,8 @@ internal static class OlostepHelpers
                 structured[key] = node;
         }
 
-        return structured;
+        using var doc = JsonDocument.Parse(structured.ToJsonString());
+        return doc.RootElement.Clone();
     }
 
     internal static void AddIfNotNull(JsonObject json, string key, object? value)

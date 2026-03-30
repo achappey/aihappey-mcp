@@ -1,4 +1,3 @@
-using System.IO;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Common.Extensions;
@@ -39,19 +38,34 @@ public static class OcrOutputExtensions
     }
 
     public static (string Extension, BinaryData Content) ToSavedOutput(
+        this JsonElement result,
+        string? requestedFormat,
+        params string[] preferredFields)
+        => ((JsonElement?)result).ToSavedOutput(requestedFormat, preferredFields);
+
+    public static (string Extension, BinaryData Content) ToSavedOutput(
         this JsonNode? result,
+        string? requestedFormat,
+        params string[] preferredFields)
+        => result.ToJsonElement().ToSavedOutput(requestedFormat, preferredFields);
+
+    public static (string Extension, BinaryData Content) ToSavedOutput(
+        this JsonElement? result,
         string? requestedFormat,
         params string[] preferredFields)
     {
         var normalizedFormat = NormalizeExtension(requestedFormat);
         if (normalizedFormat == "json")
-            return ("json", BinaryData.FromString(result?.ToJsonString() ?? "{}"));
+            return ("json", BinaryData.FromString(result?.GetRawText() ?? "{}"));
 
-        var extracted = TryExtractText(result, BuildCandidateFields(normalizedFormat, preferredFields));
+        if (result == null)
+            return ("json", BinaryData.FromString("{}"));
+            
+        var extracted = TryExtractText(result.Value, BuildCandidateFields(normalizedFormat, preferredFields));
         if (!string.IsNullOrWhiteSpace(extracted))
             return (normalizedFormat, BinaryData.FromString(extracted));
 
-        return ("json", BinaryData.FromString(result?.ToJsonString() ?? "{}"));
+        return ("json", BinaryData.FromString(result?.GetRawText() ?? "{}"));
     }
 
     private static async Task<ResourceLinkBlock?> UploadToFolderAsync(
@@ -151,25 +165,32 @@ public static class OcrOutputExtensions
         return fields;
     }
 
-    private static string? TryExtractText(JsonNode? node, IReadOnlyList<string> candidateFields)
+    private static string? TryExtractText(JsonElement node, IReadOnlyList<string> candidateFields)
     {
         if (TryGetScalarText(node, out var directText))
             return directText;
 
-        if (node is JsonObject obj)
+        if (node.ValueKind == JsonValueKind.Object)
         {
+            // First pass: preferred candidate fields
             foreach (var candidateField in candidateFields)
             {
-                var match = obj.FirstOrDefault(property => string.Equals(property.Key, candidateField, StringComparison.OrdinalIgnoreCase));
-                if (TryGetScalarText(match.Value, out var matchedText))
-                    return matchedText;
+                foreach (var property in node.EnumerateObject())
+                {
+                    if (!string.Equals(property.Name, candidateField, StringComparison.OrdinalIgnoreCase))
+                        continue;
 
-                var nestedMatch = TryExtractText(match.Value, candidateFields);
-                if (!string.IsNullOrWhiteSpace(nestedMatch))
-                    return nestedMatch;
+                    if (TryGetScalarText(property.Value, out var matchedText))
+                        return matchedText;
+
+                    var nestedMatch = TryExtractText(property.Value, candidateFields);
+                    if (!string.IsNullOrWhiteSpace(nestedMatch))
+                        return nestedMatch;
+                }
             }
 
-            foreach (var property in obj)
+            // Second pass: full scan
+            foreach (var property in node.EnumerateObject())
             {
                 var nested = TryExtractText(property.Value, candidateFields);
                 if (!string.IsNullOrWhiteSpace(nested))
@@ -177,10 +198,11 @@ public static class OcrOutputExtensions
             }
         }
 
-        if (node is JsonArray array)
+        if (node.ValueKind == JsonValueKind.Array)
         {
             var parts = new List<string>();
-            foreach (var item in array)
+
+            foreach (var item in node.EnumerateArray())
             {
                 if (TryGetScalarText(item, out var scalar))
                 {
@@ -200,21 +222,24 @@ public static class OcrOutputExtensions
         return null;
     }
 
-    private static bool TryGetScalarText(JsonNode? node, out string text)
+    private static bool TryGetScalarText(JsonElement element, out string? text)
     {
-        text = string.Empty;
-
-        if (node is not JsonValue value)
-            return false;
-
-            if (value.TryGetValue<string>(out var stringValue))
+        switch (element.ValueKind)
         {
-            text = stringValue;
-            return !string.IsNullOrWhiteSpace(text);
-        }
+            case JsonValueKind.String:
+                text = element.GetString();
+                return !string.IsNullOrWhiteSpace(text);
 
-        text = value.ToJsonString().Trim();
-        return !string.IsNullOrWhiteSpace(text);
+            case JsonValueKind.Number:
+            case JsonValueKind.True:
+            case JsonValueKind.False:
+                text = element.ToString();
+                return true;
+
+            default:
+                text = null;
+                return false;
+        }
     }
 
     private static string? TryResolveSourceUrl(RequestContext<CallToolRequestParams> requestContext)

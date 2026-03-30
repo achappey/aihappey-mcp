@@ -7,7 +7,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Auth.Extensions;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.KernelMemory.Pipeline;

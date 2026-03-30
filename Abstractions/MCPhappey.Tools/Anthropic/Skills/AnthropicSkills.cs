@@ -8,7 +8,6 @@ using MCPhappey.Tools.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using MCPhappey.Common.Extensions;
 using Microsoft.Graph.Beta.Models;
 using Microsoft.Graph.Beta;
 using System.Text;

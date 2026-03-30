@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
@@ -28,12 +29,13 @@ public static class AIMLVision
           {
               var result = await ExecuteGoogleExtractAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
               if (saveOutput)
-                  return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
+                  return await requestContext.SaveOutputAsync(serviceProvider, 
+                    BinaryData.FromString(result?.GetRawText() ?? "{}"), "json", cancellationToken: cancellationToken);
 
               return new CallToolResult
               {
                   Meta = await requestContext.GetToolMeta(),
-                  StructuredContent = result ?? new JsonObject()
+                  StructuredContent = (result ?? new JsonElement()).ToJsonElement()
               };
           });
 
@@ -126,7 +128,7 @@ public static class AIMLVision
             return JsonNode.Parse(doc.RootElement.GetRawText());
         }));
 
-    private static async Task<JsonNode?> ExecuteGoogleExtractAsync(
+    private static async Task<JsonElement?> ExecuteGoogleExtractAsync(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         string fileUrl,
@@ -146,6 +148,6 @@ public static class AIMLVision
         var aiml = serviceProvider.GetRequiredService<AIMLClient>();
         var doc = await aiml.PostAsync(OCR_BASE_URL, body, cancellationToken);
 
-        return JsonNode.Parse(doc.RootElement.GetRawText());
+        return doc.RootElement;
     }
 }

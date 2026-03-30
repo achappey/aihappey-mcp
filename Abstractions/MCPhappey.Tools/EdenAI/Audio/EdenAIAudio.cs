@@ -5,7 +5,6 @@ using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
-using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Tools.EdenAI.Audio;
 
@@ -32,7 +31,7 @@ public static class EdenAIAudio
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
         {
-            // 1️⃣ Elicit missing parameters
+            // 1ï¸âƒ£ Elicit missing parameters
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new EdenAIAudioTextToSpeechRequest
                 {
@@ -49,10 +48,10 @@ public static class EdenAIAudio
                 },
                 cancellationToken);
 
-            // 2️⃣ Prepare EdenAI client
+            // 2ï¸âƒ£ Prepare EdenAI client
             var eden = serviceProvider.GetRequiredService<EdenAIClient>();
 
-            // 3️⃣ Build JSON payload
+            // 3ï¸âƒ£ Build JSON payload
             var payload = new Dictionary<string, object?>
             {
                 ["providers"] = typed.Provider,
@@ -71,11 +70,11 @@ public static class EdenAIAudio
             if (!string.IsNullOrWhiteSpace(typed.FallbackProviders))
                 payload["fallback_providers"] = typed.FallbackProviders;
 
-            // 4️⃣ Make Eden AI request
+            // 4ï¸âƒ£ Make Eden AI request
             var resultNode = await eden.PostAsync("audio/text_to_speech/", payload, cancellationToken)
                 ?? throw new Exception("Eden AI returned no response.");
 
-            // 5️⃣ Extract audio content (provider-specific)
+            // 5ï¸âƒ£ Extract audio content (provider-specific)
             var providerKey = resultNode.AsObject().First().Key;
             var providerResult = resultNode[providerKey];
             var audioBase64 = providerResult?["audio"]?.GetValue<string>();
@@ -85,11 +84,11 @@ public static class EdenAIAudio
             if (status != "success" || string.IsNullOrWhiteSpace(audioBase64))
                 throw new Exception("Eden AI TTS generation failed or returned empty audio.");
 
-            // 6️⃣ Convert base64 → BinaryData
+            // 6ï¸âƒ£ Convert base64 â†’ BinaryData
             var binary = Convert.FromBase64String(audioBase64);
             var binaryData = BinaryData.FromBytes(binary);
 
-            // 7️⃣ Upload to Graph
+            // 7ï¸âƒ£ Upload to Graph
             var fileExt = typed.AudioFormat switch
             {
                 "wav" => "wav",
@@ -103,10 +102,10 @@ public static class EdenAIAudio
                 binaryData,
                 cancellationToken);
 
-            // 8️⃣ Return structured result
+            // 8ï¸âƒ£ Return structured result
             return new CallToolResult
             {
-                StructuredContent = resultNode,
+                StructuredContent = (resultNode).ToJsonElement(),
                 Content =
                 [
                     uploaded!,

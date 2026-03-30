@@ -4,7 +4,6 @@ using PdfSharpCore.Drawing;
 using ModelContextProtocol.Server;
 using ModelContextProtocol.Protocol;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MCPhappey.Core.Services;
 

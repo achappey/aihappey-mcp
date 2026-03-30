@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.KernelMemory.Pipeline;

@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Text;
-using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
+using System.Text.Json;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,12 +36,13 @@ public static class AzureDocumentIntelligence
             cancellationToken);
 
         if (saveOutput)
-            return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
+            return await requestContext.SaveOutputAsync(serviceProvider, 
+                BinaryData.FromString(result?.GetRawText() ?? "{}"), "json", cancellationToken: cancellationToken);
 
         return new CallToolResult
         {
             Meta = await requestContext.GetToolMeta(),
-            StructuredContent = result ?? new JsonObject()
+            StructuredContent = (result ?? new JsonElement()).ToJsonElement()
         };
     });
 
@@ -69,14 +69,14 @@ public static class AzureDocumentIntelligence
         cancellationToken);
 }));
 
-    private static async Task<JsonNode?> AnalyzeDocumentAsync(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        string documentUrl,
-        string modelId,
-        string[]? features,
-        string operationName,
-        CancellationToken cancellationToken = default)
+    private static async Task<JsonElement?> AnalyzeDocumentAsync(
+     IServiceProvider serviceProvider,
+     RequestContext<CallToolRequestParams> requestContext,
+     string documentUrl,
+     string modelId,
+     string[]? features,
+     string operationName,
+     CancellationToken cancellationToken = default)
     {
         var settings = serviceProvider.GetRequiredService<AzureAISettings>();
         var httpClient = serviceProvider.GetRequiredService<HttpClient>();
@@ -88,19 +88,28 @@ public static class AzureDocumentIntelligence
 
         var uri = $"https://{settings.Endpoint}/documentintelligence/documentModels/{modelId}:analyze{featureQuery}";
 
-        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, documentUrl, cancellationToken);
+        var files = await downloadService.DownloadContentAsync(
+            serviceProvider,
+            requestContext.Server,
+            documentUrl,
+            cancellationToken);
+
         var file = files.FirstOrDefault() ?? throw new Exception("No file provided.");
 
-        var payload = new JsonObject
+        var payload = new
         {
-            ["base64Source"] = Convert.ToBase64String(file.Contents.ToArray())
+            base64Source = Convert.ToBase64String(file.Contents.ToArray())
         };
 
         using var post = new HttpRequestMessage(HttpMethod.Post, uri);
         post.Headers.Add("Ocp-Apim-Subscription-Key", settings.ApiKey);
-        post.Content = new StringContent(payload.ToJsonString(), Encoding.UTF8, MimeTypes.Json);
+        post.Content = new StringContent(
+            JsonSerializer.Serialize(payload),
+            Encoding.UTF8,
+            MimeTypes.Json);
 
         using var postResponse = await httpClient.SendAsync(post, cancellationToken);
+
         if (!postResponse.IsSuccessStatusCode)
         {
             var error = await postResponse.Content.ReadAsStringAsync(cancellationToken);
@@ -112,22 +121,37 @@ public static class AzureDocumentIntelligence
 
         var operationUrl = opLocValues.First();
 
-        JsonNode? result = null;
+        JsonElement? result = null;
+
         while (true)
         {
             await Task.Delay(1000, cancellationToken);
+
             using var getReq = new HttpRequestMessage(HttpMethod.Get, operationUrl);
             getReq.Headers.Add("Ocp-Apim-Subscription-Key", settings.ApiKey);
 
             using var getRes = await httpClient.SendAsync(getReq, cancellationToken);
-            var json = await getRes.Content.ReadAsStringAsync(cancellationToken);
-            result = JsonNode.Parse(json);
 
-            var status = result?["status"]?.ToString();
+            await using var stream = await getRes.Content.ReadAsStreamAsync(cancellationToken);
+            using var doc = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken);
+
+            var root = doc.RootElement;
+
+            var status = root.TryGetProperty("status", out var s)
+                ? s.GetString()
+                : null;
+
             if (status == "succeeded")
+            {
+                result = root.Clone();
                 break;
+            }
+
             if (status == "failed")
+            {
+                var json = root.GetRawText();
                 throw new Exception($"{operationName} failed: {json}");
+            }
         }
 
         return result;

@@ -6,7 +6,6 @@ using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Tools.ExtendAI.Edit;
 
@@ -136,7 +135,7 @@ public static class ExtendAIEdit
                             ["metrics"] = latest?["metrics"],
                             ["usage"] = latest?["usage"],
                             ["config"] = latest?["config"]
-                        },
+                        }.ToJsonElement(),
                         Content = links.Count > 0 ? [.. links] : []
                     };
                 }

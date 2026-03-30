@@ -1,7 +1,5 @@
 using System.ClientModel;
 using System.ComponentModel;
-using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -58,7 +56,7 @@ public static partial class OpenAIVectorStores
             {
                 var response = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
                 {
-                    Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>()
+                    Metadata = new Dictionary<string, object?>()
                     {
                         {"openai", new {
                             file_search = new
@@ -71,7 +69,7 @@ public static partial class OpenAIVectorStores
                                 effort = "low"
                             }
                             } },
-                            }),
+                    }.ToJsonObject(),
                     Temperature = 1,
                     MaxTokens = 8192,
                     ModelPreferences = model.ToModelPreferences(),

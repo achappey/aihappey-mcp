@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;
@@ -30,7 +29,7 @@ public static class OpenAICodeInterpreter
     {
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>()
+            Metadata = new Dictionary<string, object?>()
                 {
                     {"openai", new {
                         code_interpreter = new { type = "auto",
@@ -39,7 +38,7 @@ public static class OpenAICodeInterpreter
                                     effort = reasoningEffort
                                 }
                      } },
-                }),
+                }.ToJsonObject(),
             Temperature = 1,
             MaxTokens = 8192,
             ModelPreferences = model.ToModelPreferences(),

@@ -8,7 +8,6 @@ using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Tools.Mixedbread;
 

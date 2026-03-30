@@ -39,7 +39,7 @@ public static class DocsRouterService
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result ?? new JsonObject()
+                    StructuredContent = (result ?? new JsonObject()).ToJsonElement()
                 };
             });
 

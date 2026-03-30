@@ -1,6 +1,5 @@
 using System.ComponentModel;
-using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
+using System.Text.Json;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
@@ -59,7 +58,7 @@ public static class BergetAIRerank
                     topN,
                     cancellationToken)));
 
-    private static async Task<JsonNode?> RerankDocumentsAsync(
+    private static async Task<JsonElement?> RerankDocumentsAsync(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         string model,

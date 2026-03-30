@@ -1,8 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Nodes;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,9 +62,15 @@ public static class ZAIImages
             user_id = typed.UserId
         };
 
-        JsonNode? response = await client.PostAsync("paas/v4/images/generations", body, null, cancellationToken);
-        var data = response?["data"]?.AsArray() ?? throw new Exception("No image data returned from Z.AI.");
-        if (data.Count == 0)
+        JsonElement? response = await client.PostAsync("paas/v4/images/generations", body, null, cancellationToken);
+        var data = response is { } r &&
+             r.TryGetProperty("data", out var d) &&
+             d.ValueKind == JsonValueKind.Array &&
+             d.GetArrayLength() > 0
+                ? d.EnumerateArray()
+                : throw new Exception("No image data returned from Z.AI.");
+
+        if (!data.Any())
             throw new Exception("No image data returned from Z.AI.");
 
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -76,7 +81,9 @@ public static class ZAIImages
         foreach (var item in data)
         {
             i++;
-            var url = item?["url"]?.GetValue<string>();
+            var url = item.TryGetProperty("url", out var urlEl)
+                    ? urlEl.ToString()
+                    : null;
             if (string.IsNullOrWhiteSpace(url))
                 continue;
 

@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -237,7 +236,7 @@ public static class SmoothTaskTools
             return new CallToolResult
             {
                 Meta = await requestContext.GetToolMeta(),
-                StructuredContent = structured,
+                StructuredContent = (structured).ToJsonElement(),
                 Content = [.. content]
             };
         });

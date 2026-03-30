@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using HtmlAgilityPack;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;

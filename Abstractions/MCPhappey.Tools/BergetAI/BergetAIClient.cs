@@ -1,7 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using Microsoft.KernelMemory.Pipeline;
 
@@ -25,16 +24,28 @@ public class BergetAIClient
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    public async Task<JsonNode?> PostJsonAsync(string path, object body, CancellationToken ct)
+    public async Task<JsonElement?> PostJsonAsync(string path, object body, CancellationToken ct)
     {
         var json = JsonSerializer.Serialize(body, JsonOpts);
-        using var response = await _client.PostAsync(path, new StringContent(json, Encoding.UTF8, MimeTypes.Json), ct);
-        var text = await response.Content.ReadAsStringAsync(ct);
+
+        using var response = await _client.PostAsync(
+            path,
+            new StringContent(json, Encoding.UTF8, MimeTypes.Json),
+            ct);
 
         if (!response.IsSuccessStatusCode)
-            throw new Exception($"{response.StatusCode}: {text}");
+        {
+            var errorText = await response.Content.ReadAsStringAsync(ct);
+            throw new Exception($"{response.StatusCode}: {errorText}");
+        }
 
-        return JsonNode.Parse(text);
+        await using var stream = await response.Content.ReadAsStreamAsync(ct);
+
+        if (stream.CanSeek && stream.Length == 0)
+            return null;
+
+        using var doc = await JsonDocument.ParseAsync(stream, cancellationToken: ct);
+        return doc.RootElement.Clone();
     }
 }
 

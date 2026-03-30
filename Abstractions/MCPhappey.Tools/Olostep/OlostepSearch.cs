@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
@@ -50,7 +49,7 @@ public static class OlostepSearch
                     response,
                     ("id", searchId),
                     ("query", typed.Query),
-                    ("linksCount", linksCount)),
+                    ("linksCount", linksCount)).ToJsonElement(),
                 Content = [summary.ToTextContentBlock()]
             };
         });
@@ -87,7 +86,7 @@ public static class OlostepSearch
                     response,
                     ("id", OlostepHelpers.GetString(response, "id") ?? typed.SearchId),
                     ("query", OlostepHelpers.GetString(response, "query")),
-                    ("linksCount", linksCount)),
+                    ("linksCount", linksCount)).ToJsonElement(),
                 Content = [summary.ToTextContentBlock()]
             };
         });

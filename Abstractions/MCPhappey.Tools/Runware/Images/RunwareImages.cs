@@ -5,7 +5,6 @@ using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Services;
 
 namespace MCPhappey.Tools.Runware.Images;
@@ -30,7 +29,7 @@ public static class RunwareImages
          => await requestContext.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
          {
-             // 🧠 1. Elicit parameters with defaults
+             // ðŸ§  1. Elicit parameters with defaults
              var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
                  new RunwareVectorize
                  {
@@ -44,14 +43,14 @@ public static class RunwareImages
              var client = serviceProvider.GetRequiredService<RunwareClient>();
              var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-             // 🔍 2. Download and encode raster image
+             // ðŸ” 2. Download and encode raster image
              var files = await downloadService.DownloadContentAsync(
                  serviceProvider, requestContext.Server, typed.InputImage, cancellationToken);
 
              var image = files.FirstOrDefault() ?? throw new Exception("Image not found.");
              var dataUri = image.ToDataUri();
 
-             // 🧱 3. Build task payload
+             // ðŸ§± 3. Build task payload
              var task = new
              {
                  taskUUID = Guid.NewGuid().ToString(),
@@ -68,7 +67,7 @@ public static class RunwareImages
 
              var payload = new[] { task };
 
-             // 🚀 4. Send to Runware API
+             // ðŸš€ 4. Send to Runware API
              var resultNode = await client.PostAsync(payload, cancellationToken)
                  ?? throw new Exception("Runware returned no response.");
 
@@ -107,7 +106,7 @@ public static class RunwareImages
 
              return new CallToolResult()
              {
-                 StructuredContent = resultNode,
+                 StructuredContent = (resultNode).ToJsonElement(),
                  Content = uploadedResults
              };
          }));
@@ -149,18 +148,18 @@ public static class RunwareImages
       RequestContext<CallToolRequestParams> requestContext,
       [Description("Optional negative prompt to avoid specific elements.")] string? negativePrompt = null,
       [Description("Image style (e.g. No style, Cinematic, Photographic, Digital Art).")] string style = "No style",
-      [Description("Transformation strength (15–50, higher = more creative).")] int strength = 15,
+      [Description("Transformation strength (15â€“50, higher = more creative).")] int strength = 15,
       [Description("Image width in pixels (divisible by 64).")] int width = 1024,
       [Description("Image height in pixels (divisible by 64).")] int height = 1024,
-      [Description("Number of steps (1–100). Default: 20.")] int steps = 20,
-      [Description("Guidance scale (0–50). Default: 7.")] float cfgScale = 7f,
-      [Description("Number of images to generate (1–4). Default: 1.")] int numberResults = 1,
+      [Description("Number of steps (1â€“100). Default: 20.")] int steps = 20,
+      [Description("Guidance scale (0â€“50). Default: 7.")] float cfgScale = 7f,
+      [Description("Number of images to generate (1â€“4). Default: 1.")] int numberResults = 1,
       [Description("Include cost info in the response.")] bool includeCost = false,
       CancellationToken cancellationToken = default)
       => await requestContext.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
       {
-          // 🧠 1. Elicit missing parameters with defaults
+          // ðŸ§  1. Elicit missing parameters with defaults
           var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
               new RunwarePhotoMaker
               {
@@ -193,7 +192,7 @@ public static class RunwareImages
           if (base64Images.Count == 0)
               throw new Exception("No valid reference images found.");
 
-          // 🧱 3. Build payload
+          // ðŸ§± 3. Build payload
           var task = new
           {
               taskUUID = Guid.NewGuid().ToString(),
@@ -215,7 +214,7 @@ public static class RunwareImages
 
           var payload = new[] { task };
 
-          // 🚀 4. Send to Runware PhotoMaker API
+          // ðŸš€ 4. Send to Runware PhotoMaker API
           var resultNode = await client.PostAsync(payload, cancellationToken)
               ?? throw new Exception("Runware returned no response.");
 
@@ -245,7 +244,7 @@ public static class RunwareImages
 
         [JsonPropertyName("strength")]
         [Range(15, 50)]
-        [Description("Balance between realism and creativity (15–50).")]
+        [Description("Balance between realism and creativity (15â€“50).")]
         public int Strength { get; set; } = 15;
 
         [JsonPropertyName("width")]
@@ -294,17 +293,17 @@ public static class RunwareImages
        RequestContext<CallToolRequestParams> requestContext,
        [Description("Image height in pixels (optional).")] int? height = null,
        [Description("Image width in pixels (optional).")] int? width = null,
-       [Description("Low threshold for Canny (0–255).")] int? lowThresholdCanny = 100,
-       [Description("High threshold for Canny (0–255).")] int? highThresholdCanny = 200,
+       [Description("Low threshold for Canny (0â€“255).")] int? lowThresholdCanny = 100,
+       [Description("High threshold for Canny (0â€“255).")] int? highThresholdCanny = 200,
        [Description("Include hands and face when using OpenPose.")] bool includeHandsAndFaceOpenPose = false,
        [Description("Output format (JPG, PNG, WEBP). Default: JPG.")] string outputFormat = "JPG",
-       [Description("Output quality (20–99). Default: 95.")] int outputQuality = 95,
+       [Description("Output quality (20â€“99). Default: 95.")] int outputQuality = 95,
        [Description("Include cost info in response.")] bool includeCost = false,
        CancellationToken cancellationToken = default)
        => await requestContext.WithExceptionCheck(async () =>
          await requestContext.WithStructuredContent(async () =>
        {
-           // 🧠 1. Elicit missing parameters with defaults
+           // ðŸ§  1. Elicit missing parameters with defaults
            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
                new RunwareControlNetPreprocess
                {
@@ -346,7 +345,7 @@ public static class RunwareImages
 
            var payload = new[] { task };
 
-           // 🚀 4. Send to Runware API
+           // ðŸš€ 4. Send to Runware API
            var resultNode = await client.PostAsync(payload, cancellationToken)
                ?? throw new Exception("Runware returned no response.");
 
@@ -391,7 +390,7 @@ public static class RunwareImages
 
         [JsonPropertyName("outputQuality")]
         [Range(20, 99)]
-        [Description("Output quality (20–99). Default: 95.")]
+        [Description("Output quality (20â€“99). Default: 95.")]
         public int OutputQuality { get; set; } = 95;
 
         [JsonPropertyName("includeCost")]
@@ -425,7 +424,7 @@ public static class RunwareImages
            => await requestContext.WithExceptionCheck(async () =>
            //await requestContext.WithStructuredContent(async () =>
                {
-                   // 🧠 1. Elicit missing parameters with defaults
+                   // ðŸ§  1. Elicit missing parameters with defaults
                    var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
                        new RunwareNewImage
                        {
@@ -460,7 +459,7 @@ public static class RunwareImages
                        seedImageB64 = $"data:{image.MimeType};base64,{base64}";
                    }
 
-                   // 🧱 2. Build task payload
+                   // ðŸ§± 2. Build task payload
                    var task = new
                    {
                        taskUUID = Guid.NewGuid().ToString(),
@@ -480,7 +479,7 @@ public static class RunwareImages
 
                    var payload = new[] { task };
 
-                   // 🚀 3. Call Runware
+                   // ðŸš€ 3. Call Runware
                    var resultNode = await client.PostAsync(payload, cancellationToken)
                        ?? throw new Exception("Runware returned no response.");
 
@@ -520,7 +519,7 @@ public static class RunwareImages
 
                    return new CallToolResult()
                    {
-                       StructuredContent = resultNode,
+                       StructuredContent = (resultNode).ToJsonElement(),
                        Content = uploadedResults
                    };
                });

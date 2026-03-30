@@ -2,7 +2,6 @@ using System.Text;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
-using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Tools.Memory.OneDrive;
 

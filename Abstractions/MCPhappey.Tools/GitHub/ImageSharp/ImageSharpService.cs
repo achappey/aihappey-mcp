@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
@@ -97,7 +96,7 @@ public static class ImageSharpService
                 width = targetWidth,
                 height = targetHeight,
                 mimeType = "image/png"
-            }.ToStructuredContent(),
+            }.ToJsonElement(),
             Content =
             [
                 uploaded!,
@@ -165,7 +164,7 @@ public static class ImageSharpService
                 quality,
                 optimizedSizeKb = optimizedBytes.Length / 1024,
                 mimeType = $"image/{format}"
-            }.ToStructuredContent(),
+            }.ToJsonElement(),
             Content =
             [
                 uploaded!,
@@ -190,7 +189,7 @@ public static class ImageSharpService
         string watermarkText = "Fakton",
            [Description("Font size for text watermark.")]
         float fontSize = 42f,
-           [Description("Opacity (0–1). Default = 0.5")]
+           [Description("Opacity (0Ã¢â‚¬â€œ1). Default = 0.5")]
         float opacity = 0.5f,
            [Description("Position: bottom-right, center, top-left, etc.")]
         string position = "bottom-right",
@@ -298,7 +297,7 @@ public static class ImageSharpService
                 opacity,
                 position,
                 mimeType = "image/png"
-            }.ToStructuredContent(),
+            }.ToJsonElement(),
             Content =
             [
                 uploaded!
@@ -327,7 +326,7 @@ public static class ImageSharpService
         string backgroundColor = "black",
        [Description("Text color (hex or named). Default: white.")]
         string textColor = "white",
-       [Description("Banner opacity 0–1. Default: 0.6")]
+       [Description("Banner opacity 0Ã¢â‚¬â€œ1. Default: 0.6")]
         float opacity = 0.6f,
        CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
@@ -401,7 +400,7 @@ public static class ImageSharpService
                 textColor,
                 opacity,
                 mimeType = "image/png"
-            }.ToStructuredContent(),
+            }.ToJsonElement(),
             Content =
             [
                 uploaded!,
@@ -465,7 +464,7 @@ public static class ImageSharpService
                 width,
                 height,
                 mimeType = "image/png"
-            }.ToStructuredContent(),
+            }.ToJsonElement(),
             Content =
             [
                 uploaded!,
@@ -536,7 +535,7 @@ public static class ImageSharpService
                 cropX = x,
                 cropY = y,
                 mimeType = $"image/{format}"
-            }.ToStructuredContent(),
+            }.ToJsonElement(),
             Content =
             [
                 uploaded!,
@@ -617,7 +616,7 @@ public static class ImageSharpService
                 radius,
                 region,
                 mimeType = $"image/{format}"
-            }.ToStructuredContent(),
+            }.ToJsonElement(),
             Content =
             [
                 uploaded!,
@@ -636,7 +635,7 @@ public static class ImageSharpService
      RequestContext<CallToolRequestParams> requestContext,
      [Description("List of image URLs (SharePoint or OneDrive). Minimum 2, max 6.")]
         string[] imageUrls,
-     [Description("Grid columns (1–3). Default: 2.")]
+     [Description("Grid columns (1Ã¢â‚¬â€œ3). Default: 2.")]
         int columns = 2,
      [Description("Cell size in pixels. Default: 512.")]
         int cellSize = 512,
@@ -669,7 +668,7 @@ public static class ImageSharpService
                 cellSize,
                 padding,
                 mimeType = $"image/{format}"
-            }.ToStructuredContent(),
+            }.ToJsonElement(),
             Content =
             [
                 uploaded!,
@@ -688,7 +687,7 @@ public static class ImageSharpService
        RequestContext<CallToolRequestParams> requestContext,
        [Description("SharePoint folder URL containing images.")]
         string sharepointFolderUrl,
-       [Description("Grid columns (1–3). Default: 2.")]
+       [Description("Grid columns (1Ã¢â‚¬â€œ3). Default: 2.")]
         int columns = 2,
        [Description("Cell size in pixels. Default: 512.")]
         int cellSize = 512,
@@ -724,7 +723,7 @@ public static class ImageSharpService
                 cellSize,
                 padding,
                 mimeType = $"image/{format}"
-            }.ToStructuredContent(),
+            }.ToJsonElement(),
             Content =
             [
                 uploaded!,

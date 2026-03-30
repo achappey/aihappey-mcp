@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;

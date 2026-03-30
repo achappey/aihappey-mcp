@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
@@ -49,7 +50,9 @@ public class SamplingService(PromptService promptService)
             SystemPrompt = systemPrompt,
             ModelPreferences = modelHints?.ToModelPreferences(),
             Temperature = temperature,
-            Metadata = metadata != null ? JsonSerializer.SerializeToElement(metadata) : null
+            Metadata = metadata is null
+                ? null
+                : (JsonObject?)JsonSerializer.SerializeToNode(metadata)
         }, cancellationToken);
     }
 

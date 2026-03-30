@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -87,7 +86,7 @@ public static class VeniceVideo
                     ["resolution"] = typed.Resolution,
                     ["audio"] = typed.Audio,
                     ["quote"] = parsed["quote"]
-                },
+                }.ToJsonElement(),
                 Content =
                 [
                     parsed.ToJsonString().ToTextContentBlock()

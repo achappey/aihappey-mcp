@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using MCPhappey.Auth.Models;
-using MCPhappey.Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.KernelMemory;
 using ModelContextProtocol.Protocol;

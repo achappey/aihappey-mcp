@@ -6,7 +6,6 @@ using Azure.Security.KeyVault.Secrets;
 using MCPhappey.Auth.Extensions;
 using MCPhappey.Auth.Models;
 using MCPhappey.Common;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
@@ -88,7 +87,7 @@ public static class AzureVaultSecrets
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = structured,
+                    StructuredContent = (structured).ToJsonElement(),
                     Content = [$"Azure Key Vault secret '{response.Value.Name}' stored successfully as version '{response.Value.Properties.Version}'.".ToTextContentBlock()]
                 };
             }));
@@ -168,7 +167,7 @@ public static class AzureVaultSecrets
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = structured,
+                    StructuredContent = (structured).ToJsonElement(),
                     Content = [$"Azure Key Vault secret '{response.Value.Name}' version '{response.Value.Version}' properties updated successfully.".ToTextContentBlock()]
                 };
             }));

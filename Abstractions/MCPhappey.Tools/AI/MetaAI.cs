@@ -1,6 +1,4 @@
 using System.ComponentModel;
-using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -90,7 +88,7 @@ public static class MetaAI
                     MaxTokens = 4096,
                     ModelPreferences = modelName?.ToModelPreferences(),
                     Temperature = 1,
-                    Metadata = JsonSerializer.SerializeToElement(metadata),
+                    Metadata = metadata.ToJsonObject(),
                     Messages = [prompt.ToUserSamplingMessage()]
                 });
 

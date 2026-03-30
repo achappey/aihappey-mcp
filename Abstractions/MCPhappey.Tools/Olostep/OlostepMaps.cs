@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
@@ -71,7 +70,7 @@ public static class OlostepMaps
                     response,
                     ("id", mapId),
                     ("urlsCount", urlsCount),
-                    ("cursor", nextCursor)),
+                    ("cursor", nextCursor)).ToJsonElement(),
                 Content = [summary.ToTextContentBlock()]
             };
         });
@@ -108,7 +107,7 @@ public static class OlostepMaps
                     response,
                     ("id", OlostepHelpers.GetString(response, "id") ?? typed.MapId),
                     ("urlsCount", urlsCount),
-                    ("cursor", OlostepHelpers.GetString(response, "cursor"))),
+                    ("cursor", OlostepHelpers.GetString(response, "cursor"))).ToJsonElement(),
                 Content = [summary.ToTextContentBlock()]
             };
         });

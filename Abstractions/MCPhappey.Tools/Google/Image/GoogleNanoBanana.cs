@@ -1,8 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,12 +50,12 @@ public static class GoogleNanoBanana
             MaxTokens = 4096,
             SystemPrompt = "Create a single image according to the prompt",
             ModelPreferences = typed.Model?.ToModelPreferences(),
-            Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>
+            Metadata = new Dictionary<string, object?>
                         {
                             { "google", new {
 
                             } },
-                        })
+                        }.ToJsonObject()
         }, cancellationToken);
 
         return await requestContext.WithUploads(resultContent, serviceProvider, cancellationToken: cancellationToken);

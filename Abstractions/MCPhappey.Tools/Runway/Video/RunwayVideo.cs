@@ -6,7 +6,6 @@ using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using MCPhappey.Common.Extensions;
 using System.Runtime.Serialization;
 
 namespace MCPhappey.Tools.Runway.Video;

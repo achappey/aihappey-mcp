@@ -10,7 +10,6 @@ using ModelContextProtocol.Protocol;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MCPhappey.Core.Services;
-using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Tools.GitHub.FuzzySharp;
 

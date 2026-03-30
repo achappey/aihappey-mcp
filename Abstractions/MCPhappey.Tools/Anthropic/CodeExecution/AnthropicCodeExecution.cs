@@ -1,6 +1,4 @@
 using System.ComponentModel;
-using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -59,7 +57,7 @@ public static class AnthropicCodeExecution
 
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>()
+            Metadata = new Dictionary<string, object?>()
                 {
                     {"anthropic", new {
                         code_execution = new { },
@@ -77,7 +75,7 @@ public static class AnthropicCodeExecution
                             })
                         } : null
                      } },
-                }),
+                }.ToJsonObject(),
             Temperature = 0,
             MaxTokens = maxTokens,
             ModelPreferences = model.ToModelPreferences(),

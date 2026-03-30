@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Tools.Flexprice;
 

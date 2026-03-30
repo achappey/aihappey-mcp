@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Common.Constants;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
@@ -29,7 +28,7 @@ public static class OpenAIDocumentEngine
         // No AI reasoning, just binding data with template (similar to Bind, but without external file fetch)
         return new CallToolResult()
         {
-            StructuredContent = JsonNode.Parse(structuredContent),
+            StructuredContent = (JsonNode.Parse(structuredContent)).ToJsonElement(),
             Meta = await requestContext.GetToolMeta(new Dictionary<string, object>()
             {
                 { ToolMetadata.OpenAI_OutputTemplate, documentTemplateUrl }
@@ -60,7 +59,7 @@ public static class OpenAIDocumentEngine
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
 
-        // 🧠 STEP 1 — Get or create schema using the shared helper
+        // ðŸ§  STEP 1 â€” Get or create schema using the shared helper
         string jsonSchema;
         if (string.IsNullOrEmpty(jsonSchemaUrl))
         {
@@ -79,12 +78,12 @@ public static class OpenAIDocumentEngine
         {
             ModelPreferences = "gpt-5.1".ToModelPreferences(),
             MaxTokens = 4096 * 4,
-            Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>() { { "openai",
+            Metadata = new Dictionary<string, object?>() { { "openai",
                             new {
                                 reasoning = new {
                                     effort = "low"
                                 }
-                            }  } }),
+                            }  } }.ToJsonObject(),
             Messages = [file?.Contents.ToString()!.ToUserSamplingMessage()!,
                 prompt.ToUserSamplingMessage()]
         };
@@ -125,7 +124,7 @@ public static class OpenAIDocumentEngine
         return new CallToolResult()
         {
             Content = [.. finalSampling.Content, result!],
-            StructuredContent = JsonNode.Parse(jsonString ?? string.Empty),
+            StructuredContent = (JsonNode.Parse(jsonString ?? string.Empty)).ToJsonElement(),
             Meta = await requestContext.GetToolMeta(new Dictionary<string, object>()
             {
                 { ToolMetadata.OpenAI_OutputTemplate, documentTemplateUrl}
@@ -133,7 +132,7 @@ public static class OpenAIDocumentEngine
         };
     }));
 
-    [Description("Bind an existing JSON data file to a specific HTML output template for rendering. This tool does not perform any AI reasoning — it simply links structured data with the selected UI template so the document can be viewed or edited in the app.")]
+    [Description("Bind an existing JSON data file to a specific HTML output template for rendering. This tool does not perform any AI reasoning â€” it simply links structured data with the selected UI template so the document can be viewed or edited in the app.")]
     [McpServerTool(
       Title = "Bind existing document data",
       Name = "openai_document_engine_bind",
@@ -153,7 +152,7 @@ public static class OpenAIDocumentEngine
 
         return new()
         {
-            StructuredContent = JsonNode.Parse(file?.Contents.ToString() ?? string.Empty),
+            StructuredContent = (JsonNode.Parse(file?.Contents.ToString() ?? string.Empty)).ToJsonElement(),
             Meta = await requestContext.GetToolMeta(new Dictionary<string, object>()
             {
                 { ToolMetadata.OpenAI_OutputTemplate, documentTemplateUrl }
@@ -180,7 +179,7 @@ public static class OpenAIDocumentEngine
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var uploadService = serviceProvider.GetRequiredService<UploadService>();
 
-        // 1️⃣ Download existing JSON file
+        // 1ï¸âƒ£ Download existing JSON file
         var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, documentUrl, cancellationToken);
         var file = files.FirstOrDefault() ?? throw new FileNotFoundException(documentUrl);
         var json = JsonSerializer.Deserialize<JsonNode>(file.Contents.ToString()) ?? new JsonObject();
@@ -220,14 +219,14 @@ public static class OpenAIDocumentEngine
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-        // 1️⃣ Download both document and schema
+        // 1ï¸âƒ£ Download both document and schema
         var docFiles = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, documentUrl, cancellationToken);
         var schemaFiles = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, jsonSchemaUrl, cancellationToken);
 
         var doc = docFiles.FirstOrDefault()?.Contents.ToString() ?? throw new FileNotFoundException(documentUrl);
         var schema = schemaFiles.FirstOrDefault()?.Contents.ToString() ?? throw new FileNotFoundException(jsonSchemaUrl);
 
-        // 2️⃣ Parse both into JsonNode
+        // 2ï¸âƒ£ Parse both into JsonNode
         var jsonNode = JsonNode.Parse(doc);
         var schemaNode = JsonNode.Parse(schema);
 
@@ -235,7 +234,7 @@ public static class OpenAIDocumentEngine
         // Serialize the System.Text.Json.Nodes.JsonNode back into a JSON string
         var errors = validator.Validate(jsonNode?.ToJsonString() ?? "{}");
 
-        // 4️⃣ Prepare result
+        // 4ï¸âƒ£ Prepare result
         var validationResult = new JsonObject
         {
             ["isValid"] = errors.Count == 0,

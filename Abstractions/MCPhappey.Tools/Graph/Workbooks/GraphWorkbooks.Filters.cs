@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Net.Mime;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Kiota.Abstractions.Serialization;
 using ModelContextProtocol.Protocol;

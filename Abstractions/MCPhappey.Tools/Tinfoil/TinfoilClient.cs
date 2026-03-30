@@ -43,7 +43,7 @@ public class TinfoilClient
         return string.IsNullOrWhiteSpace(text) ? null : JsonNode.Parse(text);
     }
 
-    public async Task<JsonNode?> PostMultipartAsync(string path, MultipartFormDataContent form, CancellationToken ct)
+    public async Task<JsonElement?> PostMultipartAsync(string path, MultipartFormDataContent form, CancellationToken ct)
     {
         using var req = new HttpRequestMessage(HttpMethod.Post, path.TrimStart('/'))
         {
@@ -56,7 +56,7 @@ public class TinfoilClient
         if (!resp.IsSuccessStatusCode)
             throw new Exception($"{resp.StatusCode}: {text}");
 
-        return string.IsNullOrWhiteSpace(text) ? null : JsonNode.Parse(text);
+        return string.IsNullOrWhiteSpace(text) ? null : JsonSerializer.SerializeToElement(text);
     }
 }
 

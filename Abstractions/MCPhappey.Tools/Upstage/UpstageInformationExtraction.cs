@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;

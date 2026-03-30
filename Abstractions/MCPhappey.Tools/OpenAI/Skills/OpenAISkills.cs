@@ -13,7 +13,6 @@ using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Tools.Extensions;
 
 namespace MCPhappey.Tools.OpenAI.Skills;

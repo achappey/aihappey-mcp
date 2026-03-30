@@ -6,7 +6,6 @@ using ModelContextProtocol.Server;
 using ModelContextProtocol.Protocol;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Validation;
-using MCPhappey.Common.Extensions;
 using Markdig;
 using System.Text;
 using System.Net;

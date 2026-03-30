@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -62,7 +61,7 @@ public static class RekaVision
 
                 return new CallToolResult
                 {
-                    StructuredContent = jsonNode,
+                    StructuredContent = (jsonNode).ToJsonElement(),
                     Content = [
                         "Video quick-tag completed successfully.".ToTextContentBlock(),
                         jsonText.ToTextContentBlock()
@@ -164,7 +163,7 @@ public static class RekaVision
 
                 return new CallToolResult
                 {
-                    StructuredContent = jsonNode,
+                    StructuredContent = (jsonNode).ToJsonElement(),
                     Content = [
                         "Video upload request accepted by Reka Vision.".ToTextContentBlock(),
                         jsonText.ToTextContentBlock()
@@ -263,7 +262,7 @@ public static class RekaVision
 
                 return new CallToolResult
                 {
-                    StructuredContent = jsonNode,
+                    StructuredContent = (jsonNode).ToJsonElement(),
                     Content = [
                         "Image upload request accepted by Reka Vision.".ToTextContentBlock(),
                         jsonText.ToTextContentBlock()
@@ -365,7 +364,7 @@ public static class RekaVision
 
                 return new CallToolResult
                 {
-                    StructuredContent = jsonNode,
+                    StructuredContent = (jsonNode).ToJsonElement(),
                     Content = [
                         "Image search completed.".ToTextContentBlock(),
                         jsonText.ToTextContentBlock()
@@ -466,7 +465,7 @@ public static class RekaVision
 
                 return new CallToolResult
                 {
-                    StructuredContent = jsonNode,
+                    StructuredContent = (jsonNode).ToJsonElement(),
                     Content = [
                         "Video search completed.".ToTextContentBlock(),
                         jsonText.ToTextContentBlock()

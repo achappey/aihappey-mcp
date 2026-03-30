@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using DocumentFormat.OpenXml.Wordprocessing;
 using MCPhappey.Common;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;

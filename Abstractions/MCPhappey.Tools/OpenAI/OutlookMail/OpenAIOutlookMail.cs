@@ -1,6 +1,4 @@
 using System.ComponentModel;
-using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -29,7 +27,7 @@ public static class OpenAIOutlookMail
             var oboToken = await serviceProvider.GetOboGraphToken(requestContext.Server);
             var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
             {
-                Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>()
+                Metadata = new Dictionary<string, object?>()
                     {
                         {"openai", new {
                             reasoning = new
@@ -43,7 +41,7 @@ public static class OpenAIOutlookMail
                                 require_approval = "never"
                                 } }
                         } },
-                    }),
+                    }.ToJsonObject(),
                 Temperature = 1,
                 MaxTokens = 8192,
                 ModelPreferences = "gpt-5.1".ToModelPreferences(),

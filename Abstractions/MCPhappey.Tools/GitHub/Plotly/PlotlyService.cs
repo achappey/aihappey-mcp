@@ -2,7 +2,6 @@ using System.ComponentModel;
 using ModelContextProtocol.Server;
 using ModelContextProtocol.Protocol;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Common.Extensions;
 using PON = Plotly.NET;
 using System.Text.Json.Nodes;
 

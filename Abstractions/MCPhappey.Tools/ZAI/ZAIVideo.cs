@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -75,7 +74,9 @@ public static class ZAIVideo
         var createResponse = await client.PostAsync("paas/v4/videos/generations", body, null, cancellationToken)
             ?? throw new Exception("Z.AI did not return a response body.");
 
-        var taskId = createResponse["id"]?.GetValue<string>();
+        var taskId = createResponse
+                .GetProperty("id")
+                .ToString();
         if (string.IsNullOrWhiteSpace(taskId))
             throw new Exception($"Z.AI did not return task id. Response: {createResponse}");
 

@@ -1,11 +1,10 @@
 using System.ComponentModel;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json.Nodes;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
+using System.Text.Json;
 
 namespace MCPhappey.Tools.BergetAI.OCR;
 
@@ -39,22 +38,22 @@ public static class BergetAIOCR
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result ?? new JsonObject()
+                    StructuredContent = (result ?? new JsonElement()).ToJsonElement()
                 };
             });
 
-    private static async Task<JsonNode?> ExecuteOcrAsync(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        string fileUrl,
-        string model,
-        string tableMode,
-        string ocrMethod,
-        bool doOcr,
-        bool doTableStructure,
-        string outputFormat,
-        bool includeImages,
-        CancellationToken cancellationToken)
+    private static async Task<JsonElement?> ExecuteOcrAsync(
+      IServiceProvider serviceProvider,
+      RequestContext<CallToolRequestParams> requestContext,
+      string fileUrl,
+      string model,
+      string tableMode,
+      string ocrMethod,
+      bool doOcr,
+      bool doTableStructure,
+      string outputFormat,
+      bool includeImages,
+      CancellationToken cancellationToken)
     {
         var berget = serviceProvider.GetRequiredService<BergetAIClient>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -69,7 +68,6 @@ public static class BergetAIOCR
             ?? throw new Exception("No file found for Berget AI OCR input.");
 
         var documentUri = file.ToDataUri();
-
         var inputFormat = ResolveInputFormat(file.Filename, file.MimeType);
 
         var body = new
@@ -95,7 +93,6 @@ public static class BergetAIOCR
 
         return await berget.PostJsonAsync("v1/ocr", body, cancellationToken);
     }
-
     private static string ResolveInputFormat(string? filename, string? mimeType)
     {
         var extension = Path.GetExtension(filename ?? string.Empty).TrimStart('.').ToLowerInvariant();

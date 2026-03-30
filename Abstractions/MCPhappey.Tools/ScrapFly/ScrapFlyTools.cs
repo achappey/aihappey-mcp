@@ -2,9 +2,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -323,11 +323,11 @@ public static class ScrapFlyTools
                     explicitContentType: JsonMimeType,
                     cancellationToken: cancellationToken);
 
-                var crawlerUuid = created?["raw"]?["uuid"]?.GetValue<string>()
-                    ?? created?["uuid"]?.GetValue<string>()
+                var crawlerUuid = TryGetString(created, "raw", "uuid")
+                    ?? TryGetString(created, "uuid")
                     ?? throw new InvalidOperationException("ScrapFly crawl did not return a crawler uuid.");
 
-                JsonNode? latestStatus = null;
+                JsonElement? latestStatus = null;
                 while (true)
                 {
                     latestStatus = await SendJsonAsync(
@@ -339,8 +339,8 @@ public static class ScrapFlyTools
                         JsonMimeType,
                         cancellationToken);
 
-                    var isFinished = latestStatus?["raw"]?["is_finished"]?.GetValue<bool>()
-                        ?? latestStatus?["is_finished"]?.GetValue<bool>()
+                    var isFinished = TryGetBoolean(latestStatus, "raw", "is_finished")
+                        ?? TryGetBoolean(latestStatus, "is_finished")
                         ?? false;
 
                     if (isFinished)
@@ -349,14 +349,14 @@ public static class ScrapFlyTools
                     await Task.Delay(TimeSpan.FromSeconds(Math.Max(1, typed.PollIntervalSeconds)), cancellationToken);
                 }
 
-                var isSuccess = latestStatus?["raw"]?["is_success"]?.GetValue<bool?>()
-                    ?? latestStatus?["is_success"]?.GetValue<bool?>();
+                var isSuccess = TryGetBoolean(latestStatus, "raw", "is_success")
+                    ?? TryGetBoolean(latestStatus, "is_success");
 
                 if (isSuccess == false)
                     return new CallToolResult
                     {
-                        StructuredContent = latestStatus,
-                        Content = [ (latestStatus?.ToJsonString() ?? "ScrapFly crawl failed.").ToTextContentBlock() ]
+                        StructuredContent = (latestStatus).ToJsonElement(),
+                        Content = [(latestStatus is JsonElement failureStatus ? failureStatus.GetRawText() : "ScrapFly crawl failed.").ToTextContentBlock()]
                     };
 
                 return typed.ResultType switch
@@ -401,8 +401,8 @@ public static class ScrapFlyTools
                         resourceOnlyOnBinary: true),
                     _ => new CallToolResult
                     {
-                        StructuredContent = latestStatus,
-                        Content = [ (latestStatus?.ToJsonString() ?? "{}").ToTextContentBlock() ]
+                        StructuredContent = (latestStatus).ToJsonElement(),
+                        Content = [(latestStatus is JsonElement latest ? latest.GetRawText() : "{}").ToTextContentBlock()]
                     }
                 };
             }));
@@ -518,42 +518,42 @@ public static class ScrapFlyTools
                 ? uploaded.ToResourceLinkCallToolResponse()
                 : new CallToolResult
                 {
-                    StructuredContent = new JsonObject
+                    StructuredContent = JsonSerializer.SerializeToElement(new
                     {
-                        ["provider"] = "scrapfly",
-                        ["url"] = url,
-                        ["statusCode"] = (int)response.StatusCode,
-                        ["headers"] = ResponseHeadersToJson(response.Headers, response.Content.Headers),
-                        ["output"] = new JsonObject
+                        provider = "scrapfly",
+                        url,
+                        statusCode = (int)response.StatusCode,
+                        headers = ResponseHeadersToJson(response.Headers, response.Content.Headers),
+                        output = new
                         {
-                            ["type"] = "resource",
-                            ["filename"] = uploadName,
-                            ["extension"] = defaultExtension,
-                            ["contentType"] = response.Content.Headers.ContentType?.MediaType
+                            type = "resource",
+                            filename = uploadName,
+                            extension = defaultExtension,
+                            contentType = response.Content.Headers.ContentType?.MediaType
                         }
-                    },
-                    Content = [ uploaded ]
+                    }),
+                    Content = [uploaded]
                 };
         }
 
         var raw = await response.Content.ReadAsStringAsync(cancellationToken);
-        var structured = new JsonObject
+        var structured = JsonSerializer.SerializeToElement(new
         {
-            ["provider"] = "scrapfly",
-            ["url"] = url,
-            ["statusCode"] = (int)response.StatusCode,
-            ["headers"] = ResponseHeadersToJson(response.Headers, response.Content.Headers),
-            ["raw"] = TryParseJson(raw)
-        };
+            provider = "scrapfly",
+            url,
+            statusCode = (int)response.StatusCode,
+            headers = ResponseHeadersToJson(response.Headers, response.Content.Headers),
+            raw = TryParseJson(raw)
+        });
 
         return new CallToolResult
         {
-            StructuredContent = structured,
-            Content = [ raw.ToTextContentBlock() ]
+            StructuredContent = (structured).ToJsonElement(),
+            Content = [raw.ToTextContentBlock()]
         };
     }
-
-    private static async Task<JsonNode> SendJsonAsync(
+    
+    private static async Task<JsonElement> SendJsonAsync(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         HttpMethod method,
@@ -562,16 +562,25 @@ public static class ScrapFlyTools
         string? explicitContentType,
         CancellationToken cancellationToken)
     {
-        using var response = await SendRequestAsync(serviceProvider, method, url, body, JsonMimeType, explicitContentType, cancellationToken);
+        using var response = await SendRequestAsync(
+            serviceProvider,
+            method,
+            url,
+            body,
+            JsonMimeType,
+            explicitContentType,
+            cancellationToken);
+
         var raw = await response.Content.ReadAsStringAsync(cancellationToken);
-        return new JsonObject
+
+        return JsonSerializer.SerializeToElement(new
         {
-            ["provider"] = "scrapfly",
-            ["url"] = url,
-            ["statusCode"] = (int)response.StatusCode,
-            ["headers"] = ResponseHeadersToJson(response.Headers, response.Content.Headers),
-            ["raw"] = TryParseJson(raw)
-        };
+            provider = "scrapfly",
+            url,
+            statusCode = (int)response.StatusCode,
+            headers = ResponseHeadersToJson(response.Headers, response.Content.Headers),
+            raw = TryParseJson(raw)
+        });
     }
 
     private static async Task<HttpResponseMessage> SendRequestAsync(
@@ -630,26 +639,69 @@ public static class ScrapFlyTools
             ? $"{url}&key={Uri.EscapeDataString(apiKey)}"
             : $"{url}?key={Uri.EscapeDataString(apiKey)}";
 
-    private static JsonObject ResponseHeadersToJson(HttpResponseHeaders headers, HttpContentHeaders contentHeaders)
+    private static JsonElement ResponseHeadersToJson(
+     HttpResponseHeaders headers,
+     HttpContentHeaders contentHeaders)
     {
-        var json = new JsonObject();
+        var dict = new Dictionary<string, string>();
+
         foreach (var header in headers)
-            json[header.Key] = string.Join(", ", header.Value);
+            dict[header.Key] = string.Join(", ", header.Value);
+
         foreach (var header in contentHeaders)
-            json[header.Key] = string.Join(", ", header.Value);
-        return json;
+            dict[header.Key] = string.Join(", ", header.Value);
+
+        return JsonSerializer.SerializeToElement(dict);
     }
 
-    private static JsonNode TryParseJson(string raw)
+    private static JsonElement TryParseJson(string raw)
     {
         try
         {
-            return JsonNode.Parse(raw) ?? JsonValue.Create(raw)!;
+            using var doc = JsonDocument.Parse(raw);
+            return doc.RootElement.Clone();
         }
         catch
         {
-            return JsonValue.Create(raw)!;
+            return JsonSerializer.SerializeToElement(raw);
         }
+    }
+
+    private static bool? TryGetBoolean(JsonElement? element, params string[] path)
+    {
+        if (element is null)
+            return null;
+
+        var current = element.Value;
+        foreach (var segment in path)
+        {
+            if (current.ValueKind != JsonValueKind.Object || !current.TryGetProperty(segment, out current))
+                return null;
+        }
+
+        return current.ValueKind switch
+        {
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            _ => null
+        };
+    }
+
+    private static string? TryGetString(JsonElement? element, params string[] path)
+    {
+        if (element is null)
+            return null;
+
+        var current = element.Value;
+        foreach (var segment in path)
+        {
+            if (current.ValueKind != JsonValueKind.Object || !current.TryGetProperty(segment, out current))
+                return null;
+        }
+
+        return current.ValueKind == JsonValueKind.String
+            ? current.GetString()
+            : null;
     }
 
     private static void AddArrayIfAny(JsonObject payload, string propertyName, string? values)

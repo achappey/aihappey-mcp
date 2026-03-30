@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -85,12 +86,13 @@ public static class UpstageDocumentDigitization
             {
                 var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, schemaFileUrl, cancellationToken);
                 if (saveOutput)
-                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
+                    return await requestContext.SaveOutputAsync(serviceProvider, 
+                        BinaryData.FromString(result?.GetRawText() ?? "{}"), "json", cancellationToken: cancellationToken);
 
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result ?? new JsonObject()
+                    StructuredContent = (result ?? new JsonElement()).ToJsonElement()
                 };
             });
 
@@ -137,7 +139,7 @@ public static class UpstageDocumentDigitization
         return raw.Trim('"');
     }
 
-    private static async Task<JsonNode?> ExecuteOcrAsync(
+    private static async Task<JsonElement?> ExecuteOcrAsync(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         string fileUrl,

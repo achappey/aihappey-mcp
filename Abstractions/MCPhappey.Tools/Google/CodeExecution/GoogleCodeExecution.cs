@@ -1,6 +1,4 @@
 using System.ComponentModel;
-using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -49,7 +47,7 @@ public static class GoogleCodeExecution
 
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>()
+            Metadata = new Dictionary<string, object?>()
                 {
                     {"google", new {
                         code_execution = new { },
@@ -57,7 +55,7 @@ public static class GoogleCodeExecution
                             thinkingBudget = -1
                         }
                      } },
-                }),
+                }.ToJsonObject(),
             Temperature = 0,
             MaxTokens = 8192,
             ModelPreferences = model.ToModelPreferences(),

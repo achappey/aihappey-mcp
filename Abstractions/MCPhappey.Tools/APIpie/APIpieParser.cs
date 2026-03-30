@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Net.Http.Headers;
-using System.Text.Json.Nodes;
+using System.Text.Json;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,19 +24,19 @@ public static class APIpieParser
         await requestContext.WithExceptionCheck(async () =>
             {
                 var result = await ExecuteParseAsync(serviceProvider, requestContext, fileUrl, metadata, content, cancellationToken)
-                    ?? new JsonObject();
+                    ?? new JsonElement();
 
                 if (saveOutput)
-                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result.ToJsonString()), "json", cancellationToken: cancellationToken);
+                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(result.GetRawText()), "json", cancellationToken: cancellationToken);
 
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = result
+                    StructuredContent = (result).ToJsonElement()
                 };
             });
 
-    private static async Task<JsonNode?> ExecuteParseAsync(
+    private static async Task<JsonElement?> ExecuteParseAsync(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         string fileUrl,

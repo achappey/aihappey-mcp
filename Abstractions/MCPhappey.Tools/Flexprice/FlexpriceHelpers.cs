@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
 using MCPhappey.Common;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;

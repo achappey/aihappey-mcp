@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +47,7 @@ public static class OpenAIImageTools
 
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = JsonSerializer.SerializeToElement(new Dictionary<string, object>()
+            Metadata = new Dictionary<string, object?>()
             {
                 {"openai", new {
                     reasoning = new
@@ -56,7 +55,7 @@ public static class OpenAIImageTools
                             effort = "low"
                         },
                     } },
-            }),
+            }.ToJsonObject(),
             Temperature = 1,
             MaxTokens = 8192 * 4,
             ModelPreferences = "gpt-5.1".ToModelPreferences(),

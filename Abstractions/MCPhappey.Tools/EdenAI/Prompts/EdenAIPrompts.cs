@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -25,10 +24,10 @@ public static class EdenAIPrompts
        CancellationToken cancellationToken = default)
        => await requestContext.WithExceptionCheck(async () =>
        {
-           // 🧩 Dependencies
+           // ðŸ§© Dependencies
            var eden = serviceProvider.GetRequiredService<EdenAIClient>();
 
-           // 🗑️ Use built-in helper for confirm-delete flow
+           // ðŸ—‘ï¸ Use built-in helper for confirm-delete flow
            return await requestContext.ConfirmAndDeleteAsync<EdenAIDeletePrompt>(
                name,
                async _ =>
@@ -65,7 +64,7 @@ public static class EdenAIPrompts
       CancellationToken cancellationToken = default)
       => await requestContext.WithExceptionCheck(async () =>
       {
-          // 🧠 1. Elicit missing fields
+          // ðŸ§  1. Elicit missing fields
           var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
               new EdenAICallPrompt
               {
@@ -74,10 +73,10 @@ public static class EdenAIPrompts
               },
               cancellationToken);
 
-          // 🧱 2. Dependencies
+          // ðŸ§± 2. Dependencies
           var eden = serviceProvider.GetRequiredService<EdenAIClient>();
 
-          // 🧩 3. Build payload
+          // ðŸ§© 3. Build payload
           var payload = new Dictionary<string, object?>();
 
           if (!string.IsNullOrWhiteSpace(typed.Model))
@@ -89,14 +88,14 @@ public static class EdenAIPrompts
           if (fileUrls is { Count: > 0 })
               payload["file_urls"] = fileUrls.ToArray();
 
-          // 🚀 4. Call endpoint
+          // ðŸš€ 4. Call endpoint
           var resultNode = await eden.PostAsync($"prompts/{typed.Name}/", payload, cancellationToken)
               ?? throw new Exception("Eden AI returned no response.");
 
-          // 🎯 5. Return structured response
+          // ðŸŽ¯ 5. Return structured response
           return new CallToolResult
           {
-              StructuredContent = resultNode
+              StructuredContent = (resultNode).ToJsonElement()
           };
       });
 
@@ -133,7 +132,7 @@ public static class EdenAIPrompts
        => await requestContext.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
        {
-           // 🧠 1. Elicit missing parameters
+           // ðŸ§  1. Elicit missing parameters
            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
                new EdenAINewPrompt
                {
@@ -144,10 +143,10 @@ public static class EdenAIPrompts
                },
                cancellationToken);
 
-           // 🧩 2. Dependencies
+           // ðŸ§© 2. Dependencies
            var eden = serviceProvider.GetRequiredService<EdenAIClient>();
 
-           // 🧱 3. Build payload
+           // ðŸ§± 3. Build payload
            var payload = new Dictionary<string, object?>
            {
                ["name"] = typed.Name,
@@ -161,7 +160,7 @@ public static class EdenAIPrompts
            if (fileUrls != null && fileUrls.Any())
                payload["file_urls"] = fileUrls.ToArray();
 
-           // 🚀 4. Send request
+           // ðŸš€ 4. Send request
            return await eden.PostAsync("prompts/", payload, cancellationToken)
                ?? throw new Exception("Eden AI returned no response.");
        }));

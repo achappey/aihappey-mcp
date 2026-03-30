@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;

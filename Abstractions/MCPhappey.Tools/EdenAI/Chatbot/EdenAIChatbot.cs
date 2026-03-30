@@ -5,7 +5,6 @@ using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
-using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Tools.EdenAI.Chatbot;
 

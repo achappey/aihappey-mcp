@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,8 +44,8 @@ public static class deAPIAnalysis
                     return_result_in_response,
                     cancellationToken);
 
-                var structuredContent = JsonSerializer.SerializeToNode(JsonSerializer.Deserialize<object>(responseText) ?? new { raw = responseText })
-                    ?? new JsonObject();
+                var structuredContent = JsonSerializer.SerializeToElement(
+                        JsonSerializer.Deserialize<object>(responseText) ?? new { raw = responseText });
 
                 if (saveOutput)
                 {
@@ -57,7 +56,7 @@ public static class deAPIAnalysis
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = structuredContent
+                    StructuredContent = (structuredContent).ToJsonElement()
                 };
             });
 
@@ -112,12 +111,21 @@ public static class deAPIAnalysis
 
     private static (string Extension, BinaryData Content) BuildSavedOutput(string responseText, string format)
     {
-        var parsed = JsonNode.Parse(responseText);
-        if (parsed != null)
-            return parsed.ToSavedOutput(format, "text", "result", "output", "content");
+        if (!string.IsNullOrWhiteSpace(responseText))
+        {
+            var trimmed = responseText.TrimStart();
+
+            if (trimmed.StartsWith("{") || trimmed.StartsWith("["))
+            {
+                using var doc = JsonDocument.Parse(responseText);
+                return doc.RootElement.Clone()
+                    .ToSavedOutput(format, "text", "result", "output", "content");
+            }
+        }
 
         var normalizedFormat = (format ?? string.Empty).Trim().ToLowerInvariant();
         var extension = normalizedFormat == "text" ? "txt" : "json";
+
         return (extension, BinaryData.FromString(responseText));
     }
 

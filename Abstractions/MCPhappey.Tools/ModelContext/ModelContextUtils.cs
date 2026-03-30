@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using MCPhappey.Common.Extensions;
 using System.Diagnostics;
 
 namespace MCPhappey.Tools.ModelContext;

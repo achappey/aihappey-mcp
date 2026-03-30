@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using System.Text.Json.Nodes;
+using System.Text.Json;
 using MCPhappey.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
@@ -41,7 +41,7 @@ public static class ZAITools
                     with_links_summary = withLinksSummary
                 };
 
-                JsonNode? response = await client.PostAsync("paas/v4/reader", body, null, cancellationToken);
+                var response = await client.PostAsync("paas/v4/reader", body, null, cancellationToken);
                 return response;
             }));
 
@@ -81,7 +81,7 @@ public static class ZAITools
                         ["Accept-Language"] = acceptLanguage
                     };
 
-                JsonNode? response = await client.PostAsync("paas/v4/web_search", body, headers, cancellationToken);
+                var response = await client.PostAsync("paas/v4/web_search", body, headers, cancellationToken);
                 return response;
             }));
 
@@ -104,28 +104,29 @@ public static class ZAITools
             {
                 var response = await ExecuteLayoutParsingAsync(serviceProvider, model, file, returnCropImages, needLayoutVisualization, startPageId, endPageId, requestId, userId, cancellationToken);
                 if (saveOutput)
-                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(response?.ToJsonString() ?? "{}"), "json", cancellationToken: cancellationToken);
+                    return await requestContext.SaveOutputAsync(serviceProvider, BinaryData.FromString(response?.GetRawText() ?? "{}"), "json", cancellationToken: cancellationToken);
 
                 return new CallToolResult
                 {
                     Meta = await requestContext.GetToolMeta(),
-                    StructuredContent = response ?? new JsonObject()
+                    StructuredContent = (response ?? new JsonElement()).ToJsonElement()
                 };
             });
 
-    private static async Task<JsonNode?> ExecuteLayoutParsingAsync(
-        IServiceProvider serviceProvider,
-        string model,
-        string file,
-        bool? returnCropImages,
-        bool? needLayoutVisualization,
-        int? startPageId,
-        int? endPageId,
-        string? requestId,
-        string? userId,
-        CancellationToken cancellationToken)
+    private static async Task<JsonElement?> ExecuteLayoutParsingAsync(
+      IServiceProvider serviceProvider,
+      string model,
+      string file,
+      bool? returnCropImages,
+      bool? needLayoutVisualization,
+      int? startPageId,
+      int? endPageId,
+      string? requestId,
+      string? userId,
+      CancellationToken cancellationToken)
     {
         var client = serviceProvider.GetRequiredService<ZAIClient>();
+
         var body = new
         {
             model,
@@ -138,6 +139,10 @@ public static class ZAITools
             user_id = userId
         };
 
-        return await client.PostAsync("paas/v4/layout_parsing", body, null, cancellationToken);
+        return await client.PostAsync(
+            "paas/v4/layout_parsing",
+            body,
+            null,
+            cancellationToken);
     }
 }

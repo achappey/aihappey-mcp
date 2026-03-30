@@ -43,7 +43,10 @@ public class GreenPTClient
         return string.IsNullOrWhiteSpace(text) ? null : JsonNode.Parse(text);
     }
 
-    public async Task<JsonNode?> PostMultipartAsync(string path, MultipartFormDataContent form, CancellationToken ct)
+    public async Task<JsonElement?> PostMultipartAsync(
+     string path,
+     MultipartFormDataContent form,
+     CancellationToken ct)
     {
         using var req = new HttpRequestMessage(HttpMethod.Post, path.TrimStart('/'))
         {
@@ -51,13 +54,22 @@ public class GreenPTClient
         };
 
         using var resp = await _client.SendAsync(req, ct);
-        var text = await resp.Content.ReadAsStringAsync(ct);
 
         if (!resp.IsSuccessStatusCode)
-            throw new Exception($"{resp.StatusCode}: {text}");
+        {
+            var errorText = await resp.Content.ReadAsStringAsync(ct);
+            throw new Exception($"{resp.StatusCode}: {errorText}");
+        }
 
-        return string.IsNullOrWhiteSpace(text) ? null : JsonNode.Parse(text);
+        await using var stream = await resp.Content.ReadAsStreamAsync(ct);
+
+        if (stream == null || stream.Length == 0)
+            return null;
+
+        using var doc = await JsonDocument.ParseAsync(stream, cancellationToken: ct);
+        return doc.RootElement.Clone(); // IMPORTANT
     }
+    
 }
 
 public class GreenPTSettings

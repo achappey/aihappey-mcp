@@ -25,13 +25,14 @@ public class ZAIClient
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeTypes.Json));
     }
 
-    public async Task<JsonNode?> PostAsync(
-        string path,
-        object body,
-        IDictionary<string, string>? headers,
-        CancellationToken cancellationToken)
+    public async Task<JsonElement?> PostAsync(
+     string path,
+     object body,
+     IDictionary<string, string>? headers,
+     CancellationToken cancellationToken)
     {
         var json = JsonSerializer.Serialize(body, JsonOpts);
+
         using var request = new HttpRequestMessage(HttpMethod.Post, path.TrimStart('/'))
         {
             Content = new StringContent(json, Encoding.UTF8, MimeTypes.Json)
@@ -40,18 +41,24 @@ public class ZAIClient
         if (headers != null)
         {
             foreach (var header in headers)
-            {
                 request.Headers.TryAddWithoutValidation(header.Key, header.Value);
-            }
         }
 
         using var response = await _client.SendAsync(request, cancellationToken);
-        var text = await response.Content.ReadAsStringAsync(cancellationToken);
 
         if (!response.IsSuccessStatusCode)
-            throw new Exception($"{response.StatusCode}: {text}");
+        {
+            var errorText = await response.Content.ReadAsStringAsync(cancellationToken);
+            throw new Exception($"{response.StatusCode}: {errorText}");
+        }
 
-        return string.IsNullOrWhiteSpace(text) ? null : JsonNode.Parse(text);
+        await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+
+        if (stream.CanSeek && stream.Length == 0)
+            return null;
+
+        using var doc = await JsonDocument.ParseAsync(stream, cancellationToken: cancellationToken);
+        return doc.RootElement.Clone();
     }
 
     public async Task<JsonNode?> GetAsync(
