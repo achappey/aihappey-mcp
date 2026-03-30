@@ -3,6 +3,7 @@ using System.Text;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
@@ -36,9 +37,10 @@ public static class ExcelPlugin
         var uploaded = await graphClient.Upload(
             $"{safe}.xlsx",
             await BinaryData.FromStreamAsync(ms, cancellationToken),
-            cancellationToken);
+            cancellationToken)
+            ?? throw new IOException("OpenXML Excel workbook upload failed.");
 
-        return uploaded?.ToCallToolResult();
+        return uploaded.ToCallToolResult();
     }));
 
     [Description("Add a new empty worksheet to an existing workbook. If sheetName exists, a unique suffix is appended.")]
@@ -60,7 +62,8 @@ public static class ExcelPlugin
         using (var doc = SpreadsheetDocument.Open(ms, true))
         {
             var wb = doc.WorkbookPart ?? throw new InvalidDataException("Missing WorkbookPart");
-            var sheets = wb.Workbook.Sheets ??= new Sheets();
+            var workbook = wb.Workbook ??= new Workbook();
+            var sheets = workbook.Sheets ??= new Sheets();
 
             // Ensure unique name
             var finalName = EnsureUniqueSheetName(sheets, sheetName);
@@ -74,11 +77,13 @@ public static class ExcelPlugin
             uint nextId = sheets.Elements<Sheet>().Select(s => s.SheetId?.Value ?? 0U).DefaultIfEmpty(0U).Max() + 1U;
             var relId = wb.GetIdOfPart(wsp);
             sheets.Append(new Sheet { Name = finalName, SheetId = nextId, Id = relId });
-            wb.Workbook.Save();
+            workbook.Save();
         }
 
-        var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken);
-        return updated?.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
+        var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken)
+            ?? throw new IOException($"OpenXML Excel failed to update workbook at {url}.");
+
+        return updated.ToResourceLinkBlock(updated.Name ?? sheetName).ToCallToolResult();
     }));
 
     [Description("Set a single cell value by A1 address. Types: string | number | bool | date (stored as text).")]
@@ -103,6 +108,7 @@ public static class ExcelPlugin
         using (var doc = SpreadsheetDocument.Open(ms, true))
         {
             var wb = doc.WorkbookPart ?? throw new InvalidDataException("Missing WorkbookPart");
+            var workbook = wb.Workbook ??= new Workbook();
             var (wsp, _sheet) = GetWorksheetPartByNameOrIndex(wb, sheet);
             var cell = InsertCellInWorksheet(wsp, address);
 
@@ -130,12 +136,14 @@ public static class ExcelPlugin
                     break;
             }
 
-            wsp.Worksheet.Save();
-            wb.Workbook.Save();
+            wsp.Worksheet?.Save();
+            workbook.Save();
         }
 
-        var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken);
-        return updated?.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
+        var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken)
+            ?? throw new IOException($"OpenXML Excel failed to update workbook at {url}.");
+
+        return updated.ToResourceLinkBlock(updated.Name ?? Path.GetFileName(url)).ToCallToolResult();
     }));
 
     [Description("Import CSV rows into a worksheet. If clearBefore=true, the sheet is emptied first; otherwise rows are appended.")]
@@ -167,13 +175,15 @@ public static class ExcelPlugin
         using (var doc = SpreadsheetDocument.Open(ms, true))
         {
             var wb = doc.WorkbookPart ?? throw new InvalidDataException("Missing WorkbookPart");
+            var workbook = wb.Workbook ??= new Workbook();
             var (wsp, _sheet) = GetWorksheetPartByNameOrIndex(wb, sheet);
-            var sheetData = wsp.Worksheet.GetFirstChild<SheetData>() ?? wsp.Worksheet.AppendChild(new SheetData());
+            var worksheet = wsp.Worksheet ??= new Worksheet(new SheetData());
+            var sheetData = worksheet.GetFirstChild<SheetData>() ?? worksheet.AppendChild(new SheetData());
 
             if (clearBefore)
             {
-                wsp.Worksheet.RemoveAllChildren<SheetData>();
-                sheetData = wsp.Worksheet.AppendChild(new SheetData());
+                worksheet.RemoveAllChildren<SheetData>();
+                sheetData = worksheet.AppendChild(new SheetData());
             }
 
             // append after last used row
@@ -201,12 +211,14 @@ public static class ExcelPlugin
                 }
             }
 
-            wsp.Worksheet.Save();
-            wb.Workbook.Save();
+            worksheet.Save();
+            workbook.Save();
         }
 
-        var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken);
-        return updated?.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
+        var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken)
+            ?? throw new IOException($"OpenXML Excel failed to update workbook at {url}.");
+
+        return updated.ToResourceLinkBlock(updated.Name ?? Path.GetFileName(url)).ToCallToolResult();
     }));
 
     [Description("Export a worksheet to CSV and upload it as a new .csv file.")]
@@ -239,9 +251,10 @@ public static class ExcelPlugin
         var uploaded = await graphClient.Upload(
             $"{safe}.csv",
             BinaryData.FromString(csv),
-            cancellationToken);
+            cancellationToken)
+            ?? throw new IOException("OpenXML Excel CSV upload failed.");
 
-        return uploaded?.ToCallToolResult();
+        return uploaded.ToCallToolResult();
     }));
 
     // -----------------------------
@@ -266,7 +279,8 @@ public static class ExcelPlugin
 
     private static (WorksheetPart wsp, Sheet sheet) GetWorksheetPartByNameOrIndex(WorkbookPart wb, string selector)
     {
-        var sheets = wb.Workbook.Sheets ?? throw new InvalidDataException("Workbook has no sheets");
+        var workbook = wb.Workbook ?? throw new InvalidDataException("Workbook definition is missing");
+        var sheets = workbook.Sheets ?? throw new InvalidDataException("Workbook has no sheets");
 
         Sheet? sheet = null;
         if (int.TryParse((selector ?? string.Empty).Trim(), out var idx) && idx >= 0)
@@ -279,13 +293,16 @@ public static class ExcelPlugin
         }
 
         sheet ??= sheets.Elements<Sheet>().FirstOrDefault() ?? throw new InvalidDataException("No worksheet found");
-        var wsp = (WorksheetPart)wb.GetPartById(sheet.Id!);
+        var relationshipId = sheet.Id?.Value ?? throw new InvalidDataException($"Worksheet '{sheet.Name?.Value ?? "unknown"}' is missing a relationship id.");
+        var wsp = wb.GetPartById(relationshipId) as WorksheetPart
+            ?? throw new InvalidDataException($"Worksheet '{sheet.Name?.Value ?? relationshipId}' could not be resolved.");
         return (wsp, sheet);
     }
 
     private static Cell InsertCellInWorksheet(WorksheetPart worksheetPart, string addressName)
     {
-        var sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>() ?? worksheetPart.Worksheet.AppendChild(new SheetData());
+        var worksheet = worksheetPart.Worksheet ??= new Worksheet(new SheetData());
+        var sheetData = worksheet.GetFirstChild<SheetData>() ?? worksheet.AppendChild(new SheetData());
 
         var (col, rowIndex) = SplitAddress(addressName);
         var row = sheetData.Elements<Row>().FirstOrDefault(r => r.RowIndex?.Value == rowIndex);
@@ -305,7 +322,11 @@ public static class ExcelPlugin
         Cell? refCell = null;
         foreach (var c in row.Elements<Cell>())
         {
-            var (cCol, _) = SplitAddress(c.CellReference!.Value!);
+            var cellReference = c.CellReference?.Value;
+            if (string.IsNullOrWhiteSpace(cellReference))
+                continue;
+
+            var (cCol, _) = SplitAddress(cellReference);
             if (CompareColumnNames(cCol, col) > 0)
             {
                 refCell = c; break;
@@ -506,14 +527,23 @@ public static class ExcelPlugin
     {
         var table = new List<List<string>>();
         var sst = wb.SharedStringTablePart?.SharedStringTable;
-        var sheetData = wsp.Worksheet.GetFirstChild<SheetData>();
+        var worksheet = wsp.Worksheet;
+        if (worksheet == null)
+            return table;
+
+        var sheetData = worksheet.GetFirstChild<SheetData>();
         if (sheetData == null) return table;
 
         // find max column across rows
         int maxCol = 0;
         foreach (var row in sheetData.Elements<Row>())
         {
-            int cols = row.Elements<Cell>().Select(c => ColumnNameToIndex(new string([.. c.CellReference!.Value!.TakeWhile(char.IsLetter)]))).DefaultIfEmpty(0).Max();
+            int cols = row.Elements<Cell>()
+                .Select(c => c.CellReference?.Value)
+                .Where(reference => !string.IsNullOrWhiteSpace(reference))
+                .Select(reference => ColumnNameToIndex(new string([.. reference!.TakeWhile(char.IsLetter)])))
+                .DefaultIfEmpty(0)
+                .Max();
             if (cols > maxCol) maxCol = cols;
         }
 
@@ -522,7 +552,11 @@ public static class ExcelPlugin
             var line = Enumerable.Repeat(string.Empty, maxCol).ToArray();
             foreach (var cell in row.Elements<Cell>())
             {
-                var (col, _) = SplitAddress(cell.CellReference!);
+                var cellReference = cell.CellReference?.Value;
+                if (string.IsNullOrWhiteSpace(cellReference))
+                    continue;
+
+                var (col, _) = SplitAddress(cellReference);
                 int idx = ColumnNameToIndex(col) - 1;
                 string text = cell.CellValue?.Text ?? string.Empty;
 
@@ -542,4 +576,8 @@ public static class ExcelPlugin
 
         return table;
     }
+
+    private static FileItem GetRequiredDownloadedFile(IEnumerable<FileItem> files, string url, string fileKind)
+        => files.FirstOrDefault()
+            ?? throw new FileNotFoundException($"No {fileKind} found at {url}");
 }

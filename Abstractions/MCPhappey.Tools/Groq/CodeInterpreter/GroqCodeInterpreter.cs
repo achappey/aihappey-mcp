@@ -24,7 +24,7 @@ public static class GroqCodeInterpreter
   {
     var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
     {
-      Metadata = new Dictionary<string, object?>()
+      Metadata = new Dictionary<string, object>()
                 {
                     {"groq", new {
                         code_interpreter = new {

@@ -24,7 +24,7 @@ public static class MistralImages
     {
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = new Dictionary<string, object?>()
+            Metadata = new Dictionary<string, object>()
                 {
                     {"mistral", new {
                         image_generation = new { type = "image_generation" }

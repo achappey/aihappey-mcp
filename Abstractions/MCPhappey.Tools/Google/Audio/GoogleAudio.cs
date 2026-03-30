@@ -53,7 +53,10 @@ public static partial class GoogleAudio
 
             var audioPart = item.Candidates?.FirstOrDefault()?.Content?.Parts.FirstOrDefault();
             var base64 = audioPart?.InlineData?.Data;
-            byte[] pcmBytes = Convert.FromBase64String(base64!);
+            if (string.IsNullOrWhiteSpace(base64))
+                throw new InvalidOperationException("Google Audio did not return audio content.");
+
+            byte[] pcmBytes = Convert.FromBase64String(base64);
 
             using var pcmStream = new MemoryStream(pcmBytes);
             using var mp3Stream = pcmStream.ConvertL16PcmStreamToMp3(24000, 1);
@@ -108,11 +111,17 @@ public static partial class GoogleAudio
         var outputName = $"{filename}.mp3";
         using var uploadStream = new MemoryStream(audio.Data.ToArray());
 
-        var myDrive = await client.Me.Drive.GetAsync(cancellationToken: cancellationToken);
-        var uploadedItem = await client.Drives[myDrive?.Id].Root.ItemWithPath($"/{outputName}")
-            .Content.PutAsync(uploadStream, cancellationToken: cancellationToken);
+        var myDrive = await client.Me.Drive.GetAsync(cancellationToken: cancellationToken)
+            ?? throw new InvalidOperationException("Unable to resolve the current user's drive.");
+        if (string.IsNullOrWhiteSpace(myDrive.Id))
+            throw new InvalidOperationException("Unable to resolve the current user's drive id.");
 
-        return uploadedItem?.WebUrl?.ToTextCallToolResponse();
+        var uploadedItem = await client.Drives[myDrive.Id].Root.ItemWithPath($"/{outputName}")
+            .Content.PutAsync(uploadStream, cancellationToken: cancellationToken)
+            ?? throw new IOException("Google Audio upload failed.");
+
+        return (uploadedItem.WebUrl ?? throw new InvalidOperationException("Uploaded audio item did not expose a WebUrl."))
+            .ToTextCallToolResponse();
     }));
 
 }

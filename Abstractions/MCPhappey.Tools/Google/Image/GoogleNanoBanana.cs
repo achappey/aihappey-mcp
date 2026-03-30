@@ -50,7 +50,7 @@ public static class GoogleNanoBanana
             MaxTokens = 4096,
             SystemPrompt = "Create a single image according to the prompt",
             ModelPreferences = typed.Model?.ToModelPreferences(),
-            Metadata = new Dictionary<string, object?>
+            Metadata = new Dictionary<string, object>
                         {
                             { "google", new {
 

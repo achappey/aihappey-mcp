@@ -29,7 +29,7 @@ public static class OpenAICodeInterpreter
     {
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = new Dictionary<string, object?>()
+            Metadata = new Dictionary<string, object>()
                 {
                     {"openai", new {
                         code_interpreter = new { type = "auto",

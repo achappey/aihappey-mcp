@@ -39,7 +39,7 @@ public static class MetaAI
         );
 
         // Optional: per-provider generation hints (no web_search here)
-        var metadata = new Dictionary<string, object?>
+        var metadata = new Dictionary<string, object>
         {
             ["openai"] = new
             {

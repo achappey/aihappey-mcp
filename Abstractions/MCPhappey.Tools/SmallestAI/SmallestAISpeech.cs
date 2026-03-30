@@ -76,9 +76,10 @@ public static class SmallestAISpeech
                 serviceProvider,
                 uploadName,
                 BinaryData.FromBytes(bytes),
-                cancellationToken);
+                cancellationToken)
+                ?? throw new IOException("Smallest AI upload failed.");
 
-            return uploaded?.ToResourceLinkCallToolResponse();
+            return uploaded.ToResourceLinkCallToolResponse();
         });
 
     private static async Task<string> ResolveInputTextAsync(
@@ -170,7 +171,7 @@ public static class SmallestAISpeech
         var output = new List<byte>(64 * 1024);
         string? currentEvent = null;
 
-        while (!reader.EndOfStream)
+        while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var line = await reader.ReadLineAsync(cancellationToken);

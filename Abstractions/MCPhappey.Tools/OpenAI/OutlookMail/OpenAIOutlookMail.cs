@@ -27,7 +27,7 @@ public static class OpenAIOutlookMail
             var oboToken = await serviceProvider.GetOboGraphToken(requestContext.Server);
             var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
             {
-                Metadata = new Dictionary<string, object?>()
+                Metadata = new Dictionary<string, object>()
                     {
                         {"openai", new {
                             reasoning = new

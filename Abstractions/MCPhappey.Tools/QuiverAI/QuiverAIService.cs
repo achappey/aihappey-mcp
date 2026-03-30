@@ -256,10 +256,12 @@ public static class QuiverAIService
         string? currentEvent = null;
         int? progressCounter = 0;
 
-        while (!reader.EndOfStream)
+        while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var line = await reader.ReadLineAsync(cancellationToken) ?? string.Empty;
+            var line = await reader.ReadLineAsync(cancellationToken);
+            if (line == null)
+                break;
 
             if (string.IsNullOrWhiteSpace(line))
             {

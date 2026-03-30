@@ -56,7 +56,7 @@ public static partial class OpenAIVectorStores
             {
                 var response = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
                 {
-                    Metadata = new Dictionary<string, object?>()
+                    Metadata = new Dictionary<string, object>()
                     {
                         {"openai", new {
                             file_search = new

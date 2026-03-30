@@ -47,7 +47,7 @@ public static class GoogleCodeExecution
 
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = new Dictionary<string, object?>()
+            Metadata = new Dictionary<string, object>()
                 {
                     {"google", new {
                         code_execution = new { },

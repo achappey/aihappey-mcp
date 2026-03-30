@@ -651,7 +651,7 @@ public static class WordPlugin
         return false;
     }
 
-    private static bool TryGetSinglePlainTextNode(Run run, out Text? textNode)
+    private static bool TryGetSinglePlainTextNode(Run run, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out Text? textNode)
     {
         textNode = null;
 

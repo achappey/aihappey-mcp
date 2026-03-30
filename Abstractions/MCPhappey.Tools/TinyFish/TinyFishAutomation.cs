@@ -65,10 +65,12 @@ public static class TinyFishAutomation
             int? progressCounter = 0;
             var dataBuffer = new StringBuilder();
 
-            while (!reader.EndOfStream)
+            while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var line = await reader.ReadLineAsync(cancellationToken) ?? string.Empty;
+                var line = await reader.ReadLineAsync(cancellationToken);
+                if (line == null)
+                    break;
 
                 if (string.IsNullOrWhiteSpace(line))
                 {

@@ -222,13 +222,20 @@ public static class OcrOutputExtensions
         return null;
     }
 
-    private static bool TryGetScalarText(JsonElement element, out string? text)
+    private static bool TryGetScalarText(JsonElement element, out string text)
     {
         switch (element.ValueKind)
         {
             case JsonValueKind.String:
-                text = element.GetString();
-                return !string.IsNullOrWhiteSpace(text);
+                var stringValue = element.GetString();
+                if (!string.IsNullOrWhiteSpace(stringValue))
+                {
+                    text = stringValue;
+                    return true;
+                }
+
+                text = string.Empty;
+                return false;
 
             case JsonValueKind.Number:
             case JsonValueKind.True:
@@ -237,7 +244,7 @@ public static class OcrOutputExtensions
                 return true;
 
             default:
-                text = null;
+                text = string.Empty;
                 return false;
         }
     }

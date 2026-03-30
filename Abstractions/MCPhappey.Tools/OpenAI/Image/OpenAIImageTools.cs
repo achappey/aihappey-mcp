@@ -47,7 +47,7 @@ public static class OpenAIImageTools
 
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = new Dictionary<string, object?>()
+            Metadata = new Dictionary<string, object>()
             {
                 {"openai", new {
                     reasoning = new

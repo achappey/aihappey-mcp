@@ -677,7 +677,7 @@ public static class RelaceRepos
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
-    private static void ValidateRequired(string? value, string parameterName)
+    private static void ValidateRequired([System.Diagnostics.CodeAnalysis.NotNull] string? value, string parameterName)
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new ValidationException($"{parameterName} is required.");

@@ -23,7 +23,7 @@ public static class MistralCodeInterpreter
     {
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = new Dictionary<string, object?>()
+            Metadata = new Dictionary<string, object>()
                 {
                     {"mistral", new {
                         code_interpreter = new { type = "code_interpreter" }

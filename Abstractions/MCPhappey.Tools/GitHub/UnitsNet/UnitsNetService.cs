@@ -128,7 +128,11 @@ public static class UnitsNetService
             throw new Exception($"Unknown or invalid target unit '{targetUnit}' for quantity '{quantity.QuantityInfo.Name}'.");
 
         var converted = quantity.ToUnit(targetUnitEnum);
-        return await Task.FromResult(converted.ToString().ToTextCallToolResponse());
+        var convertedText = converted.ToString();
+        if (string.IsNullOrWhiteSpace(convertedText))
+            throw new InvalidOperationException("UnitsNet returned an empty conversion result.");
+
+        return await Task.FromResult(convertedText.ToTextCallToolResponse());
     });
 
     // PARSE

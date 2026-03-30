@@ -24,19 +24,26 @@ public static class ZstdSharpService
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server,
             fileUrl);
-        var file = files.FirstOrDefault();
+        var file = files.FirstOrDefault() ?? throw new FileNotFoundException($"No downloadable file found at {fileUrl}");
+        var sourceFileName = string.IsNullOrWhiteSpace(file.Filename)
+            ? Path.GetFileName(fileUrl)
+            : file.Filename;
+        if (string.IsNullOrWhiteSpace(sourceFileName))
+            sourceFileName = "compressed";
+
         using var compressor = new global::ZstdSharp.Compressor(level);
-        var compressedSpan = compressor.Wrap(file?.Contents.ToArray());
+        var compressedSpan = compressor.Wrap(file.Contents.ToArray());
 
         var compressedBytes = compressedSpan.ToArray(); // ✅ convert Span<byte> → byte[]
 
         using var ms = new MemoryStream(compressedBytes);
         var uploaded = await graph.Upload(
-            $"{Path.GetFileNameWithoutExtension(file?.Filename)}.zst",
+            $"{Path.GetFileNameWithoutExtension(sourceFileName)}.zst",
             await BinaryData.FromStreamAsync(ms, cancellationToken),
-            cancellationToken);
+            cancellationToken)
+            ?? throw new IOException("ZstdSharp compression upload failed.");
 
-        return uploaded?.ToCallToolResult();
+        return uploaded.ToCallToolResult();
     }));
 
     [Description("Decompress a .zst file from URL using ZstdSharp.")]
@@ -54,19 +61,23 @@ public static class ZstdSharpService
                 var downloadService = serviceProvider.GetRequiredService<DownloadService>();
                 var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server,
                 fileUrl);
-                var file = files.FirstOrDefault();
+                var file = files.FirstOrDefault() ?? throw new FileNotFoundException($"No downloadable file found at {fileUrl}");
+                var outputFileName = string.IsNullOrWhiteSpace(file.Filename)
+                    ? $"{fileName}.bin"
+                    : $"{file.Filename}.bin";
 
                 using var decompressor = new global::ZstdSharp.Decompressor();
-                var decompressedSpan = decompressor.Unwrap(file?.Contents.ToArray());
+                var decompressedSpan = decompressor.Unwrap(file.Contents.ToArray());
                 var decompressedBytes = decompressedSpan.ToArray(); // ✅ convert Span<byte> → byte[]
 
                 using var ms = new MemoryStream(decompressedBytes);
                 var uploaded = await graph.Upload(
-                    $"{file?.Filename}.bin",
+                    outputFileName,
                     await BinaryData.FromStreamAsync(ms, cancellationToken),
-                    cancellationToken);
+                    cancellationToken)
+                    ?? throw new IOException("ZstdSharp decompression upload failed.");
 
-                return uploaded?.ToResourceLinkCallToolResponse();
+                return uploaded.ToResourceLinkCallToolResponse();
             }));
 
 }

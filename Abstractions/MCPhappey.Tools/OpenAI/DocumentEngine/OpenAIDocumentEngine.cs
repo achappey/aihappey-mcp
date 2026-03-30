@@ -78,7 +78,7 @@ public static class OpenAIDocumentEngine
         {
             ModelPreferences = "gpt-5.1".ToModelPreferences(),
             MaxTokens = 4096 * 4,
-            Metadata = new Dictionary<string, object?>() { { "openai",
+            Metadata = new Dictionary<string, object>() { { "openai",
                             new {
                                 reasoning = new {
                                     effort = "low"

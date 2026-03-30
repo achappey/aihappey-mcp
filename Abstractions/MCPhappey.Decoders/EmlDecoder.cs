@@ -68,7 +68,10 @@ public class EmlDecoder : IContentDecoder
                 fileName = part.FileName;
                 mime = part.ContentType?.MimeType ?? mime;
                 await using var ms = new MemoryStream();
-                await part.Content.DecodeToAsync(ms, cancellationToken);
+                var content = part.Content;
+                if (content != null)
+                    await content.DecodeToAsync(ms, cancellationToken);
+
                 bytes = ms.ToArray();
             }
             else if (attachment is MessagePart nested)
@@ -76,7 +79,11 @@ public class EmlDecoder : IContentDecoder
                 fileName = nested.ContentId ?? "attached-message.eml";
                 mime = nested.ContentType?.MimeType ?? "message/rfc822";
                 await using var ms = new MemoryStream();
-                await nested.Message.WriteToAsync(ms, cancellationToken);
+                var content = nested.Message;
+
+                if (content != null)
+                    await content.WriteToAsync(ms, cancellationToken);
+
                 bytes = ms.ToArray();
             }
             else
@@ -176,7 +183,7 @@ public class EmlDecoder : IContentDecoder
                 {
                     builder.AppendLine(textPart.Text);
                 }
-                else if (part is MessagePart msgPart)
+                else if (part is MessagePart msgPart && msgPart.Message != null)
                 {
                     // nested email
                     var nestedText = GetBodyText(msgPart.Message);

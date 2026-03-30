@@ -57,7 +57,7 @@ public static class AnthropicCodeExecution
 
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = new Dictionary<string, object?>()
+            Metadata = new Dictionary<string, object>()
                 {
                     {"anthropic", new {
                         code_execution = new { },

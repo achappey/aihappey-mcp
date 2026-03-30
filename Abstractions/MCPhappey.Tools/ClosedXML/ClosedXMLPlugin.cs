@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Text;
 using ClosedXML.Excel;
+using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
@@ -50,10 +51,11 @@ public static class ClosedXMLPlugin
         var uploaded = await graphClient.Upload(
             $"{fileName}.xlsx",
             await BinaryData.FromStreamAsync(ms, cancellationToken),
-            cancellationToken);
+            cancellationToken)
+            ?? throw new IOException("ClosedXML workbook upload failed.");
 
 
-        return uploaded?.ToCallToolResult();
+        return uploaded.ToCallToolResult();
     }));
 
     [Description("Add a new sheet to an existing Excel workbook.")]
@@ -70,7 +72,8 @@ public static class ClosedXMLPlugin
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-        await using var ms = new MemoryStream(files.First().Contents.ToArray());
+        var file = GetRequiredDownloadedFile(files, fileUrl, "workbook");
+        await using var ms = new MemoryStream(file.Contents.ToArray());
         using var workbook = new XLWorkbook(ms);
 
         workbook.Worksheets.Add(newSheetName);
@@ -79,8 +82,10 @@ public static class ClosedXMLPlugin
         workbook.SaveAs(outStream);
         outStream.Position = 0;
 
-        var uploaded = await graphClient.UploadBinaryDataAsync(fileUrl, await BinaryData.FromStreamAsync(outStream, cancellationToken), cancellationToken);
-        return uploaded?.ToResourceLinkBlock(uploaded.Name!).ToCallToolResult();
+        var uploaded = await graphClient.UploadBinaryDataAsync(fileUrl, await BinaryData.FromStreamAsync(outStream, cancellationToken), cancellationToken)
+            ?? throw new IOException($"ClosedXML failed to update workbook at {fileUrl}.");
+
+        return uploaded.ToResourceLinkBlock(uploaded.Name ?? newSheetName).ToCallToolResult();
     }));
 
     [Description("Set or update a single cell value in an existing workbook.")]
@@ -98,7 +103,8 @@ public static class ClosedXMLPlugin
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-        await using var ms = new MemoryStream(files.First().Contents.ToArray());
+        var file = GetRequiredDownloadedFile(files, fileUrl, "workbook");
+        await using var ms = new MemoryStream(file.Contents.ToArray());
         using var workbook = new XLWorkbook(ms);
 
         workbook.Worksheet(sheetName).Cell(cellAddress).Value = value;
@@ -107,8 +113,10 @@ public static class ClosedXMLPlugin
         workbook.SaveAs(outStream);
         outStream.Position = 0;
 
-        var uploaded = await graphClient.UploadBinaryDataAsync(fileUrl, await BinaryData.FromStreamAsync(outStream, cancellationToken), cancellationToken);
-        return uploaded?.ToResourceLinkBlock(uploaded.Name!).ToCallToolResult();
+        var uploaded = await graphClient.UploadBinaryDataAsync(fileUrl, await BinaryData.FromStreamAsync(outStream, cancellationToken), cancellationToken)
+            ?? throw new IOException($"ClosedXML failed to update workbook at {fileUrl}.");
+
+        return uploaded.ToResourceLinkBlock(uploaded.Name ?? Path.GetFileName(fileUrl)).ToCallToolResult();
     }));
 
     [Description("Read a single cell value or formula result from an Excel sheet.")]
@@ -125,7 +133,8 @@ public static class ClosedXMLPlugin
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-        await using var ms = new MemoryStream(files.First().Contents.ToArray());
+        var file = GetRequiredDownloadedFile(files, fileUrl, "workbook");
+        await using var ms = new MemoryStream(file.Contents.ToArray());
         using var workbook = new XLWorkbook(ms);
 
         var value = workbook.Worksheet(sheetName)
@@ -149,7 +158,8 @@ public static class ClosedXMLPlugin
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-        await using var ms = new MemoryStream(files.First().Contents.ToArray());
+        var file = GetRequiredDownloadedFile(files, fileUrl, "workbook");
+        await using var ms = new MemoryStream(file.Contents.ToArray());
         using var workbook = new XLWorkbook(ms);
 
         var sheetNames = workbook.Worksheets.Select(ws => ws.Name).ToList();
@@ -174,7 +184,8 @@ public static class ClosedXMLPlugin
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-        await using var ms = new MemoryStream(files.First().Contents.ToArray());
+        var file = GetRequiredDownloadedFile(files, fileUrl, "workbook");
+        await using var ms = new MemoryStream(file.Contents.ToArray());
         using var workbook = new XLWorkbook(ms);
         var sheet = workbook.Worksheet(sheetName);
 
@@ -197,9 +208,10 @@ public static class ClosedXMLPlugin
         var uploaded = await graphClient.Upload(
             $"{fileName}.csv",
             await BinaryData.FromStreamAsync(csvStream, cancellationToken),
-            cancellationToken);
+            cancellationToken)
+            ?? throw new IOException("ClosedXML CSV upload failed.");
 
-        return uploaded?.ToCallToolResult();
+        return uploaded.ToCallToolResult();
     }));
 
     [Description("Calculate the numeric sum of a given cell range in an Excel sheet.")]
@@ -216,8 +228,9 @@ public static class ClosedXMLPlugin
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
+        var file = GetRequiredDownloadedFile(files, fileUrl, "workbook");
 
-        await using var ms = new MemoryStream(files.First().Contents.ToArray());
+        await using var ms = new MemoryStream(file.Contents.ToArray());
         using var workbook = new XLWorkbook(ms);
         var worksheet = workbook.Worksheet(sheetName);
         var range = worksheet.Range(rangeAddress);
@@ -243,4 +256,8 @@ public static class ClosedXMLPlugin
             result = sum
         };
     }));
+
+    private static FileItem GetRequiredDownloadedFile(IEnumerable<FileItem> files, string fileUrl, string fileKind)
+        => files.FirstOrDefault()
+            ?? throw new FileNotFoundException($"No {fileKind} found at {fileUrl}");
 }

@@ -27,8 +27,10 @@ public static partial class GraphPlanner
             await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
     {
-        var plan = await graphClient.Planner.Plans[plannerId].GetAsync((config) => { }, cancellationToken);
-        var targetGroup = await graphClient.Groups[groupId].GetAsync((config) => { }, cancellationToken);
+        var plan = await graphClient.Planner.Plans[plannerId].GetAsync((config) => { }, cancellationToken)
+            ?? throw new InvalidOperationException($"Planner plan '{plannerId}' could not be found.");
+        _ = await graphClient.Groups[groupId].GetAsync((config) => { }, cancellationToken)
+            ?? throw new InvalidOperationException($"Target group '{groupId}' could not be found.");
 
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit<GraphCopyPlanner>(
             new GraphCopyPlanner
@@ -49,7 +51,9 @@ public static partial class GraphPlanner
             {
                 Title = typed.Title,
                 Owner = groupId
-            }, cancellationToken: cancellationToken);
+            }, cancellationToken: cancellationToken)
+            ?? throw new InvalidOperationException("Graph did not return the newly created Planner plan.");
+        var newPlanId = newPlan.Id ?? throw new InvalidOperationException("The new Planner plan did not expose an id.");
 
         var bucketMap = new Dictionary<string, string>();
         var bucketsToCopy = buckets?.Value ?? [];
@@ -61,29 +65,39 @@ public static partial class GraphPlanner
                 .PostAsync(new PlannerBucket
                 {
                     Name = bucket.Name,
-                    PlanId = newPlan?.Id
-                }, cancellationToken: cancellationToken);
+                    PlanId = newPlanId
+                }, cancellationToken: cancellationToken)
+                ?? throw new InvalidOperationException($"Graph did not return the copied bucket '{bucket.Name}'.");
 
             var markdown =
                   $"<details><summary>Bucket {bucket.Name} created</summary>\n\n```\n{JsonSerializer.Serialize(newBucket)}\n```\n</details>";
             await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Info);
 
-            bucketMap[bucket?.Id!] = newBucket?.Id!;
+            var sourceBucketId = bucket.Id ?? throw new InvalidOperationException($"Source bucket '{bucket.Name}' does not expose an id.");
+            var newBucketId = newBucket.Id ?? throw new InvalidOperationException($"New bucket '{bucket.Name}' does not expose an id.");
+            bucketMap[sourceBucketId] = newBucketId;
         }
 
         foreach (var task in tasks?.Value ?? [])
         {
+            var sourceTaskId = task.Id ?? throw new InvalidOperationException($"Task '{task.Title}' does not expose an id.");
+            var sourceBucketId = task.BucketId ?? throw new InvalidOperationException($"Task '{task.Title}' is missing a bucket id.");
+            if (!bucketMap.TryGetValue(sourceBucketId, out var targetBucketId))
+                throw new InvalidOperationException($"Could not resolve a copied bucket for source bucket '{sourceBucketId}'.");
+
             var newTask = await graphClient.Planner.Tasks
                 .PostAsync(new PlannerTask
                 {
                     Title = task.Title,
-                    PlanId = newPlan?.Id,
-                    BucketId = bucketMap[task?.BucketId!],
-                    Assignments = task?.Assignments,
-                    StartDateTime = task?.StartDateTime,
-                    DueDateTime = task?.DueDateTime,
-                    PercentComplete = task?.PercentComplete,
-                }, cancellationToken: cancellationToken);
+                    PlanId = newPlanId,
+                    BucketId = targetBucketId,
+                    Assignments = task.Assignments,
+                    StartDateTime = task.StartDateTime,
+                    DueDateTime = task.DueDateTime,
+                    PercentComplete = task.PercentComplete,
+                }, cancellationToken: cancellationToken)
+                ?? throw new InvalidOperationException($"Graph did not return the copied task '{task.Title}'.");
+            var newTaskId = newTask.Id ?? throw new InvalidOperationException($"New task '{task.Title}' does not expose an id.");
 
             var markdown =
                   $"<details><summary>Task {task?.Title} created</summary>\n\n```\n{JsonSerializer.Serialize(newTask)}\n```\n</details>";
@@ -91,7 +105,7 @@ public static partial class GraphPlanner
             await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Info);
 
             // --- GET de ORIGINELE checklist/details ---
-            var oldDetailsUrl = $"https://graph.microsoft.com/beta/planner/tasks/{task.Id}/details";
+            var oldDetailsUrl = $"https://graph.microsoft.com/beta/planner/tasks/{sourceTaskId}/details";
             var oldDetailsResp = await httpClient.GetAsync(oldDetailsUrl, cancellationToken);
             oldDetailsResp.EnsureSuccessStatusCode();
             var oldDetailsContent = await oldDetailsResp.Content.ReadAsStringAsync(cancellationToken);
@@ -120,7 +134,7 @@ public static partial class GraphPlanner
             }
 
             // GET ETag van nieuwe task details
-            var newDetailsUrl = $"https://graph.microsoft.com/beta/planner/tasks/{newTask.Id}/details";
+            var newDetailsUrl = $"https://graph.microsoft.com/beta/planner/tasks/{newTaskId}/details";
             var newDetailsResp = await httpClient.GetAsync(newDetailsUrl, cancellationToken);
             newDetailsResp.EnsureSuccessStatusCode();
             var newEtag = newDetailsResp.Headers.ETag?.Tag;
@@ -146,9 +160,11 @@ public static partial class GraphPlanner
             patchResp.EnsureSuccessStatusCode();
         }
 
-        var newPlanner = await graphClient.Planner.Plans[newPlan?.Id].GetAsync((config) => { }, cancellationToken);
+        var newPlanner = await graphClient.Planner.Plans[newPlanId].GetAsync((config) => { }, cancellationToken)
+            ?? throw new InvalidOperationException($"Could not reload the copied Planner plan '{newPlanId}'.");
+        var newPlannerId = newPlanner.Id ?? throw new InvalidOperationException("The copied Planner plan does not expose an id.");
 
-        return newPlanner.ToJsonContentBlock($"https://graph.microsoft.com/beta/planner/plans/{newPlanner?.Id}").ToCallToolResult();
+        return newPlanner.ToJsonContentBlock($"https://graph.microsoft.com/beta/planner/plans/{newPlannerId}").ToCallToolResult();
     }));
 
 }
