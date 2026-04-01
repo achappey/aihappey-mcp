@@ -7,7 +7,7 @@
     "description": "Allows you to create images based on textual descriptions, leveraging models like Qwen-Image.",
     "icons": [
       {
-        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://regolo.ai&size=128"
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://regolo.ai&size=128"
       }
     ]
   },

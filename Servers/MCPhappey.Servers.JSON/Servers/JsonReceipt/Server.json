@@ -7,7 +7,7 @@
     "description": "Process receipt images/PDFs synchronously with JsonReceipt from SharePoint/OneDrive/HTTPS fileUrl input and return structured JSON extraction output.",
     "icons": [
       {
-        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://jsonreceipts.com&size=256"
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://jsonreceipts.com&size=256"
       }
     ]
   },

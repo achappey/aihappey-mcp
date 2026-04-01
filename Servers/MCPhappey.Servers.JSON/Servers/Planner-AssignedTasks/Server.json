@@ -1,0 +1,23 @@
+{
+    "serverInfo": {
+        "name": "Planner-AssignedTasks",
+        "title": "Planner Assigned Tasks",
+        "version": "1.0.0",
+        "websiteUrl": "https://planner.cloud.microsoft",
+        "description": "Assigned Planner tasks exposed as MCP tasks.",
+        "icons": [
+            {
+                "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Microsoft_Planner_%282024%E2%80%93present%29.svg/1200px-Microsoft_Planner_%282024%E2%80%93present%29.svg.png"
+            }
+        ]
+    },
+    "tasks": {
+        "provider": "MCPhappey.Tools.ModelContext.Tasks.Planner.PlannerAssignedTasksReadThroughProvider, MCPhappey.Tools"
+    },
+    "plugins": [
+        "MCPhappey.Tools.ModelContext.Tasks.Planner.PlannerAssignedTasksTools, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Group.ReadWrite.All"
+    }
+}

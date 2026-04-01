@@ -15,7 +15,7 @@
   </ItemGroup>  
 
 	<ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.4.1-beta.506" />
+    <PackageReference Include="AngleSharp" Version="1.4.1-beta.509" />
     <PackageReference Include="Anthropic.SDK" Version="5.10.0" />
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="CoordinateSharp" Version="3.4.1.1" />

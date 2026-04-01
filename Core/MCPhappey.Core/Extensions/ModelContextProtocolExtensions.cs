@@ -1,12 +1,16 @@
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
+using MCPhappey.Core.Services.Tasks;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
+using ModelContextProtocol;
 using ModelContextProtocol.Protocol;
+using ModelContextProtocol.Server;
 
 namespace MCPhappey.Core.Extensions;
 
+#pragma warning disable MCPEXP001
 public static class ModelContextProtocolExtensions
 {
     public static IMcpServerBuilder WithConfigureSessionOptions(this IMcpServerBuilder mcpBuilder,
@@ -38,7 +42,7 @@ public static class ModelContextProtocolExtensions
                     (server.Server.OBO?.Count > 0 && a.Key == "Authorization"))
                         .ToDictionary(h => h.Key, h => h.Value.ToString());
 
-                 headers.Add("mcp-session-id", Guid.NewGuid().ToString());
+                 ConfigureTaskRuntime(server, opts, headers, ctx.RequestServices);
 
                  if (completionService.CanComplete(server, cancellationToken))
                  {
@@ -105,4 +109,57 @@ public static class ModelContextProtocolExtensions
                  opts.ServerInstructions = server.Server.Instructions;
              };
         });
+
+    private static void ConfigureTaskRuntime(
+        ServerConfig server,
+        McpServerOptions opts,
+        Dictionary<string, string> headers,
+        IServiceProvider requestServices)
+    {
+        var taskOptions = server.Server.Tasks;
+        if (taskOptions == null || string.IsNullOrWhiteSpace(taskOptions.Provider))
+        {
+            return;
+        }
+
+        var pollInterval = TimeSpan.FromMilliseconds(Math.Max(100, taskOptions.PollIntervalMs ?? 1000));
+
+        var runtimeContext = new ExternalTaskRuntimeContext(server, taskOptions, headers, pollInterval);
+        var provider = ExternalTaskRuntimeProviderFactory.Create(requestServices, runtimeContext);
+        opts.TaskStore = provider.CreateTaskStore(runtimeContext);
+
+        opts.Filters.Message.IncomingFilters.Add(next => async (context, cancellationToken) =>
+        {
+            if (context.JsonRpcMessage is JsonRpcRequest request)
+            {
+                if (request.Method == RequestMethods.TasksCancel)
+                {
+                    await context.Server.SendMessageAsync(new JsonRpcError
+                    {
+                        Id = request.Id,
+                        Error = new JsonRpcErrorDetail
+                        {
+                            Code = (int)McpErrorCode.MethodNotFound,
+                            Message = "Method 'tasks/cancel' is not available."
+                        }
+                    }, cancellationToken);
+                    return;
+                }
+            }
+
+            await next(context, cancellationToken);
+        });
+
+        opts.Filters.Message.OutgoingFilters.Add(next => async (context, cancellationToken) =>
+        {
+            if (context.JsonRpcMessage is JsonRpcResponse response)
+            {
+                provider.TryMutateInitializeResult(response, runtimeContext);
+            }
+
+            await next(context, cancellationToken);
+        });
+    }
 }
+#pragma warning restore MCPEXP001
+

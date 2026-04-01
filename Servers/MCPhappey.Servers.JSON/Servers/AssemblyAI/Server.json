@@ -7,7 +7,7 @@
     "description": "Convert audio or video to text and detect speakers, topics and key content.",
     "icons": [
       {
-        "src": "https://yt3.googleusercontent.com/5z_-jPDKLrUlaxA0Ow7BRdIAwbh6YQYrqU3pd8Cm6okahuJ3BaawiEPpdWUhwE98v_j3ugUAbA=s900-c-k-c0x00ffffff-no-rj"
+        "src": "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/assemblyai-color.png"
       }
     ]
   },

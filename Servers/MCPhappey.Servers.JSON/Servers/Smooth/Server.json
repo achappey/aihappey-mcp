@@ -7,7 +7,7 @@
     "description": "Submit and monitor Smooth browser-agent tasks with polling, MCP progress notifications, and upload-first resource link output.",
     "icons": [
       {
-        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://smooth.sh&size=128"
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://smooth.sh&size=128"
       }
     ]
   },

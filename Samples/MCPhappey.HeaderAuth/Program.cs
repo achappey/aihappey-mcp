@@ -117,6 +117,7 @@ using MCPhappey.Tools.Rime;
 using MCPhappey.Tools.Gradium;
 using MCPhappey.Tools.Kirha;
 using MCPhappey.Tools.MemU;
+using MCPhappey.Tools.BlinkUtilities;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -266,6 +267,7 @@ builder.Services
  .AddSmooth(appConfig?.DomainHeaders)
  .AddLLMLayer(appConfig?.DomainHeaders)
  .AddOlostep(appConfig?.DomainHeaders)
+ .AddBlinkUtilities(appConfig?.DomainHeaders)
  .AddWebsearchAPI(appConfig?.DomainHeaders)
  .AddMagisterium(appConfig?.DomainHeaders)
  .AddQomplement(appConfig?.DomainHeaders)

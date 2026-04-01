@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Blink-Utilities",
+        "title": "Blink Utilities",
+        "version": "1.0.0",
+        "websiteUrl": "https://core.blink.new",
+        "description": "Blink Utilities web search and HTTP proxy tools returning structured responses.",
+        "icons": [
+            {
+                "src": "https://blink.new/apple-touch-icon.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.BlinkUtilities.BlinkUtilitiesService, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

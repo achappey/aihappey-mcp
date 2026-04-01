@@ -153,8 +153,23 @@ public class Server
     [JsonPropertyName("toolPrompts")]
     public bool ToolPrompts { get; set; } = true;
 
+    [JsonPropertyName("tasks")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ServerTaskRuntimeOptions? Tasks { get; set; }
+
     [JsonIgnore]
     public McpExtension? McpExtension { get; set; }
+}
+
+public sealed class ServerTaskRuntimeOptions
+{
+    [JsonPropertyName("provider")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Provider { get; set; }
+
+    [JsonPropertyName("pollIntervalMs")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? PollIntervalMs { get; set; }
 }
 
 public class Tool

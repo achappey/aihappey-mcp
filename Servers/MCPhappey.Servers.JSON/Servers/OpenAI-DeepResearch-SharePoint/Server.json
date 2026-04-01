@@ -3,7 +3,7 @@
     "name": "OpenAI-DeepResearch-SharePoint",
     "title": "OpenAI SharePoint DeepResearch",
     "version": "1.0.0",
-    "description": "OpenAI Deep Research compatible SharePoint MCP",
+    "description": "OpenAI Deep Research compatible SharePoint MCP.",
     "icons": [
       {
         "src": "https://cdn.worldvectorlogo.com/logos/microsoft-office-sharepoint-2018-present--1.svg"

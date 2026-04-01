@@ -3,7 +3,7 @@
     "name": "DocumentComparer",
     "title": "Document Comparer",
     "version": "1.0.0",
-    "description": "Shows key differences between two document versions: additions, removals, and important wording changes."
+    "description": "Shows key differences between two document versions based on prompts."
   },
   "plugins": [
     "MCPhappey.Tools.AI.DocumentComparer, MCPhappey.Tools"

@@ -7,7 +7,7 @@
     "description": "Open catalog of AI models across providers. Compare specs, pricing, and capabilities.",
     "icons": [
       {
-        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://modelpedia.dev&size=128"
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://modelpedia.dev&size=128"
       }
     ]
   },

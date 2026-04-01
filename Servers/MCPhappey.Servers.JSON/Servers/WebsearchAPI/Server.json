@@ -7,7 +7,7 @@
     "description": "AI-powered web search and webpage scraping via WebSearchAPI.ai, returning structured search results and extracted page content.",
     "icons": [
       {
-        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://websearchapi.ai&size=128"
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://websearchapi.ai&size=128"
       }
     ]
   },
