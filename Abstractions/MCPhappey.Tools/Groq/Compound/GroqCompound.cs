@@ -26,7 +26,12 @@ public static class GroqCompound
         {
             Metadata = new Dictionary<string, object>()
                 {
-                    {"groq", new {
+                    {"groq", new
+                    {
+                        reasoning = new
+                        {
+                            effort = reasoning
+                        }
                     } },
                 }.ToJsonObject(),
             Temperature = 0,

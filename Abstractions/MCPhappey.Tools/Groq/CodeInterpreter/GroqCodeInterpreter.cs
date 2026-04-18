@@ -27,15 +27,16 @@ public static class GroqCodeInterpreter
       Metadata = new Dictionary<string, object>()
                 {
                     {"groq", new {
-                        code_interpreter = new {
-                          type = "code_interpreter",
-                          container = new {  type= "auto"} },
+                         tools =  new[] {
+                                    new {type = "code_interpreter",
+                                     container = new {  type = "auto"} }
+                                },
                           reasoning = new
                                 {
                                       effort = reasoning
                                 }
                      } },
-                }.ToJsonObject(),
+    }.ToJsonObject(),
       Temperature = 0,
       MaxTokens = 8192,
       ModelPreferences = model.ToModelPreferences(),

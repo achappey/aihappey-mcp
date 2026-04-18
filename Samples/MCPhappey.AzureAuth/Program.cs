@@ -123,6 +123,7 @@ using MCPhappey.Tools.MemU;
 using MCPhappey.Tools.Relace;
 using MCPhappey.Tools.Privatemode;
 using MCPhappey.Tools.BlinkUtilities;
+using MCPhappey.Tools.SyntheticSearch;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -186,12 +187,13 @@ AddApi(builder.Services, appConfig, "api.together.xyz", k => new TogetherSetting
 AddApi(builder.Services, appConfig, "api.groq.com", k => new GroqSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.aimlapi.com", k => new AIMLSettings { ApiKey = k });
 
-builder.Services
-.AddAzureSkills(appConfig?.SkillsStorage)
-.AddMistral(appConfig?.DomainHeaders)
-.AddPerplexity(appConfig?.DomainHeaders)
-.AddParallel(appConfig?.DomainHeaders)
-.AddImagga(appConfig?.DomainHeaders)
+ builder.Services
+ .AddAzureSkills(appConfig?.SkillsStorage)
+ .AddMistral(appConfig?.DomainHeaders)
+ .AddSyntheticSearch(appConfig?.DomainHeaders)
+ .AddPerplexity(appConfig?.DomainHeaders)
+ .AddParallel(appConfig?.DomainHeaders)
+ .AddImagga(appConfig?.DomainHeaders)
  .AddSupadata(appConfig?.DomainHeaders)
  .AddAzuce(appConfig?.DomainHeaders)
  .AddAIsa(appConfig?.DomainHeaders)

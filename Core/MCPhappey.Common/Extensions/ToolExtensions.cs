@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
@@ -10,6 +11,27 @@ namespace MCPhappey.Common.Extensions;
 
 public static class ToolExtensions
 {
+
+    public static CallToolResult WithGatewayCost(
+           this CallToolResult result,
+           decimal? cost)
+    {
+        if (cost is null)
+            return result;
+
+        result.Meta ??= [];
+
+        if (result.Meta["gateway"] is not JsonObject gateway)
+        {
+            gateway = [];
+            result.Meta["gateway"] = gateway;
+        }
+
+        gateway["cost"] = cost;
+
+        return result;
+    }
+
     public static JsonObject ToJsonObject<T>(this T item)
     {
         if (item is JsonObject jsonObject)
@@ -21,7 +43,7 @@ public static class ToolExtensions
         return JsonSerializer.SerializeToNode(item, JsonSerializerOptions.Web)?.AsObject() ?? new JsonObject();
     }
 
- 
+
     public static JsonElement? ToJsonElement(this JsonNode? node)
     {
         if (node is null)
@@ -50,9 +72,12 @@ public static class ToolExtensions
         using var doc = JsonDocument.Parse(string.IsNullOrWhiteSpace(json) ? "{}" : json);
         return doc.RootElement.Clone();
     }
- 
-    public static JsonNode? ToStructuredContent<T>(this T item)
-            => JsonSerializer.SerializeToNode(item, JsonSerializerOptions.Web);
+
+    /* public static JsonNode? ToStructuredContent<T>(this T item)
+             => JsonSerializer.SerializeToNode(item, JsonSerializerOptions.Web);*/
+
+    public static JsonElement? ToStructuredContent<T>(this T item)
+            => JsonSerializer.SerializeToElement(item, JsonSerializerOptions.Web);
 
     public static CallToolResult ToCallToolResponse(this IEnumerable<ContentBlock> content)
         => new()

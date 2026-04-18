@@ -17,8 +17,8 @@
 	<ItemGroup>
     <PackageReference Include="Microsoft.KernelMemory.AI.OpenAI" Version="0.98.250508.3" />
     <PackageReference Include="Microsoft.KernelMemory.MemoryDb.SQLServer" Version="0.98.250508.3" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
-    <PackageReference Include="Microsoft.Graph.Beta" Version="5.132.0-preview" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.6" />
+    <PackageReference Include="Microsoft.Graph.Beta" Version="5.133.0-preview" />
     <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.98.250508.3" />
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.74.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.74.0-preview" />

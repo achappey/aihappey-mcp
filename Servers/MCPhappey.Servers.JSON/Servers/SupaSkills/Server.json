@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "SupaSkills",
+    "title": "SupaSkills",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.supaskills.ai",
+    "description": "Expert skills for Claude, ChatGPT, and any AI. Research-backed domain expertise for engineering, finance, legal, marketing.",
+    "icons": [
+      {
+        "src": "https://www.supaskills.ai/favicon.ico"
+      }
+    ]
+  },
+  "baseMcp": "www.supaskills.ai",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

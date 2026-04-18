@@ -1,9 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
+using MCPhappey.Tools.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -30,7 +28,7 @@ public static class GraphAuthenticationMethodsMe
                 EmailAddress = emailAddress
             }, cancellationToken);
 
-            return await SendGraphRequestAsync(serviceProvider, requestContext, HttpMethod.Post, "me/authentication/emailMethods", new
+            return await serviceProvider.SendGraphRequestAsync(requestContext, HttpMethod.Post, "me/authentication/emailMethods", new
             {
                 emailAddress = typed.EmailAddress
             }, cancellationToken);
@@ -57,7 +55,7 @@ public static class GraphAuthenticationMethodsMe
                 PhoneType = phoneType
             }, cancellationToken);
 
-            return await SendGraphRequestAsync(serviceProvider, requestContext, HttpMethod.Post, "me/authentication/phoneMethods", new
+            return await serviceProvider.SendGraphRequestAsync(requestContext, HttpMethod.Post, "me/authentication/phoneMethods", new
             {
                 phoneNumber = typed.PhoneNumber,
                 phoneType = typed.PhoneType
@@ -84,7 +82,7 @@ public static class GraphAuthenticationMethodsMe
             }, cancellationToken);
 
             var path = $"me/authentication/phoneMethods/{Uri.EscapeDataString(typed.PhoneMethodId)}";
-            return await SendGraphRequestAsync(serviceProvider, requestContext, HttpMethod.Patch, path, new
+            return await serviceProvider.SendGraphRequestAsync(requestContext, HttpMethod.Patch, path, new
             {
                 phoneNumber = typed.PhoneNumber,
                 phoneType = typed.PhoneType
@@ -111,7 +109,7 @@ public static class GraphAuthenticationMethodsMe
                 StartDateTime = startDateTime
             }, cancellationToken);
 
-            return await SendGraphRequestAsync(serviceProvider, requestContext, HttpMethod.Post, "me/authentication/temporaryAccessPassMethods", new
+            return await serviceProvider.SendGraphRequestAsync(requestContext, HttpMethod.Post, "me/authentication/temporaryAccessPassMethods", new
             {
                 lifetimeInMinutes = typed.LifetimeInMinutes,
                 isUsableOnce = typed.IsUsableOnce,
@@ -138,7 +136,8 @@ public static class GraphAuthenticationMethodsMe
 
             var action = typed.EnableSmsSignIn ? "enableSmsSignIn" : "disableSmsSignIn";
             var path = $"me/authentication/phoneMethods/{Uri.EscapeDataString(typed.PhoneMethodId)}/{action}";
-            return await SendGraphRequestAsync(serviceProvider, requestContext, HttpMethod.Post, path, null, cancellationToken);
+            
+            return await serviceProvider.SendGraphRequestAsync(requestContext, HttpMethod.Post, path, null, cancellationToken);
         }));
 
     [Description("Reset the current user's password method by setting a new password.")]
@@ -159,7 +158,8 @@ public static class GraphAuthenticationMethodsMe
             }, cancellationToken);
 
             var path = $"me/authentication/passwordMethods/{Uri.EscapeDataString(typed.PasswordMethodId)}/resetPassword";
-            return await SendGraphRequestAsync(serviceProvider, requestContext, HttpMethod.Post, path, new
+            
+            return await serviceProvider.SendGraphRequestAsync(requestContext, HttpMethod.Post, path, new
             {
                 newPassword = typed.NewPassword
             }, cancellationToken);
@@ -183,46 +183,8 @@ public static class GraphAuthenticationMethodsMe
             }, cancellationToken);
 
             var path = $"me/authentication/{typed.MethodType.Trim('/')}/{Uri.EscapeDataString(typed.MethodId)}";
-            return await SendGraphRequestAsync(serviceProvider, requestContext, HttpMethod.Delete, path, null, cancellationToken);
+            return await serviceProvider.SendGraphRequestAsync(requestContext, HttpMethod.Delete, path, null, cancellationToken);
         }));
-
-    private static async Task<JsonNode?> SendGraphRequestAsync(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        HttpMethod method,
-        string relativePath,
-        object? body,
-        CancellationToken cancellationToken)
-    {
-        var httpClient = await serviceProvider.GetGraphHttpClient(requestContext.Server);
-        using var request = new HttpRequestMessage(method, relativePath);
-
-        if (body is not null)
-        {
-            var json = JsonSerializer.Serialize(body);
-            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-        }
-
-        using var response = await httpClient.SendAsync(request, cancellationToken);
-        var text = await response.Content.ReadAsStringAsync(cancellationToken);
-
-        if (!response.IsSuccessStatusCode)
-            throw new Exception($"{(int)response.StatusCode} {response.StatusCode}: {text}");
-
-        var graphUrl = $"https://graph.microsoft.com/beta/{relativePath.TrimStart('/')}";
-        if (!string.IsNullOrWhiteSpace(text))
-        {
-            return JsonNode.Parse(text);
-        }
-
-        return new
-        {
-            method.Method,
-            Path = relativePath,
-            Status = (int)response.StatusCode,
-            Message = "Operation completed successfully."
-        }.ToStructuredContent();
-    }
 
     [Description("Input for adding an email authentication method for the current user.")]
     private sealed class AddEmailInput

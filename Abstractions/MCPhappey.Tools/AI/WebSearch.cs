@@ -12,7 +12,7 @@ namespace MCPhappey.Tools.AI;
 public static class WebSearch
 {
     private static readonly string[] ModelNames = ["sonar-pro", "gpt-5.4-mini", "gemini-2.5-flash",
-        "claude-haiku-4-5-20251001", "grok-4-fast-non-reasoning", "mistral-medium-latest", "openai/gpt-oss-20b"];
+        "claude-3-haiku-20240307", "grok-4-fast-non-reasoning", "mistral-medium-latest", "openai/gpt-oss-20b"];
     private static readonly string[] AcademicModelNames = ["sonar-reasoning-pro", "gpt-5.1",
         "gemini-2.5-pro",
         "claude-opus-4-1-20250805", "grok-4-fast-reasoning", "mistral-large-latest"];
@@ -97,7 +97,6 @@ public static class WebSearch
        [Description("Search context size. low, medium or high")] string? searchContextSize = "medium",
        CancellationToken cancellationToken = default) =>
        await requestContext.WithExceptionCheck(async () =>
-       await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
@@ -135,43 +134,52 @@ public static class WebSearch
                                 last_updated_after_filter = startDate
                             } },
                             { "google", new {
-                                google_search = new { timeRangeFilter = new {
-                                    startTime = startDate,
-                                    endTime = endDate
-                                } },
-                                thinkingConfig = new {
-                                    thinkingBudget = -1
+                                tools =  new[] {
+                                    new {type = "google_search",
+                                    timeRangeFilter = new {
+                                        startTime = startDate,
+                                        endTime = endDate
+                                    }}
+                                },
+                                generation_config = new
+                                {
+                                     thinking_level = "minimal"
                                 }
                             } },
                             { "openai", new {
-                                web_search = new {
+                                tools =  new[] {
+                                    new {type = "web_search"}
                                 },
                                 reasoning = new {
                                     effort = "low"
                                 }
                             } },
                             { "mistral", new {
-                                web_search_premium = new {
-                                    type = "web_search_premium"
-                                }
+                                 tools =  new[] {
+                                    new {type = "web_search_premium"}
+                                },
                             } },
                             { "groq", new {
-                                browser_search = new {
-                                    type = "browser_search"
+                                  tools =  new[] {
+                                    new {type = "browser_search"}
                                 }
                             } },
                             { "xai", new {
-                                web_search = new {
-                                },
-                                x_search = new {
+                                tools =  new[] {
+                                    new {type = "web_search"},
+                                    new {type = "x_search"}
                                 }
                             } },
                             { "anthropic", new {
-                                web_search = new {
-                                    max_uses = searchContextSize == "low" ? 2 : searchContextSize == "high" ? 6 : 4
-                                },
+                                tools = new[] {
+                                    new {
+                                    type = "web_search",
+                                    max_uses = searchContextSize == "low" ? 2
+                                    : searchContextSize == "high" ? 6 : 4
+                                }},
                                 thinking = new {
-                                    budget_tokens = 1024
+                                    budget_tokens = 1024,
+                                    type = "enabled"
                                 }
                             } },
                         },
@@ -202,13 +210,18 @@ public static class WebSearch
             });
 
         var results = await Task.WhenAll(tasks);
+        var totalCosts = results.Select(a => a?.GetGatewayCost()).OfType<decimal>().Sum();
 
-        // Return only successful results
-        return new MessageResults()
+        return new CallToolResult()
         {
-            Results = results.OfType<CreateMessageResult>()
-        };
-    }));
+            StructuredContent = new
+            {
+                Results = results.OfType<CreateMessageResult>()
+            }.ToStructuredContent(),
+            Meta = await requestContext.GetToolMeta()
+        }
+        .WithGatewayCost(totalCosts);
+    });
 
 
     [Description("Academic web search using multiple AI models in parallel")]
@@ -262,40 +275,48 @@ public static class WebSearch
                         }
                      } },
                     { "google", new {
-                        google_search = new {
-                            timeRangeFilter = new {
-                                    startTime = startDate,
-                                    endTime = endDate
-                                } },
+                            tools =  new[] {
+                                    new {type = "google_search",
+                                    timeRangeFilter = new {
+                                        startTime = startDate,
+                                        endTime = endDate
+                                    }}
+                                },
                         thinkingConfig = new {
                             thinkingBudget = -1
                         }
                      } },
                     { "xai", new {
-                        web_search = new {
-                        },
+                         tools =  new[] {
+                                    new {type = "web_search"}
+                                },
                         reasoning = new {
                          }
                     } },
                     { "mistral", new {
-                                web_search_premium = new {
-                                    type = "web_search_premium"
+                           tools =  new[] {
+                                    new {type = "web_search_premium"}
                                 }
                     } },
                     { "openai", new {
-                        web_search = new {
-                         },
+                        tools =  new[] {
+                                    new {type = "web_search"}
+                                },
                          reasoning = new {
                             effort = "low"
                          }
                      } },
                     { "anthropic", new {
-                        web_search = new {
-                              max_uses = searchContextSize == "low"
+                         tools = new[] {
+                                    new {
+                                    type = "web_search",
+                                    max_uses = searchContextSize == "low"
                                 ? 3 : searchContextSize == "high" ? 7 : 5
-                         },
+                                }},
+
                          thinking = new {
-                            budget_tokens = 2048
+                            budget_tokens = 2048,
+                            type = "enabled"
                          }
                      } },
                     },

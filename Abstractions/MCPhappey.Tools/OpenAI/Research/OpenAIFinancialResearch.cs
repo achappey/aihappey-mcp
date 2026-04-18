@@ -158,7 +158,9 @@ public static class OpenAIFinancialResearch
             metadata: new Dictionary<string, object> {
                 { "openai", new {
                     reasoning = new { effort = "low" },
-                    web_search = new {  }
+                     tools =  new[] {
+                                    new {type = "web_search"}
+                                },
                 } }
             },
             cancellationToken: cancellationToken

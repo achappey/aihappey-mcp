@@ -81,26 +81,64 @@ public static class GraphOutlookMail
         public string Category { get; set; } = default!;
     }
 
+    [Description("Filter e-mails in Outlook using Microsoft Graph OData filter. Exact matching on fields like receivedDateTime, sender, subject. Use for deterministic filtering (dates, sender, flags).")]
+    [McpServerTool(
+        Title = "Filter e-mails in Outlook (exact)",
+        Name = "graph_outlook_mail_filter",
+        OpenWorld = true,
+        Destructive = false,
+        ReadOnly = true)]
+    public static async Task<CallToolResult?> GraphOutlookMail_Filter(
+         RequestContext<CallToolRequestParams> requestContext,
+         [Description("OData filter, e.g. receivedDateTime ge 2026-03-31T00:00:00Z and from/emailAddress/address eq 'user@company.com'")]
+    string filter,
+         [Description("Maximum number of results to return. Defaults to 10.")]
+    int? top = 10,
+         CancellationToken cancellationToken = default) =>
+         await requestContext.WithExceptionCheck(async () =>
+         await requestContext.WithOboGraphClient(async client =>
+         await requestContext.WithStructuredContent(async () =>
+         await client.Me.Messages
+             .GetAsync(opt =>
+             {
+                 opt.QueryParameters.Filter = filter;
+                 opt.QueryParameters.Top = top ?? 10;
+                 opt.QueryParameters.Orderby = ["receivedDateTime DESC"];
+                 opt.QueryParameters.Select =
+                 [
+                     "id",
+                    "subject",
+                    "from",
+                    "bodyPreview",
+                    "receivedDateTime",
+                    "isRead",
+                    "webLink"
+                 ];
+             }, cancellationToken))));
 
-    [Description("Search for e-mails in Outlook using Microsoft Graph. Supports subject, body, sender, and date filters.")]
-    [McpServerTool(Title = "Search e-mails in Outlook",
+
+    [Description("Search e-mails in Outlook using Microsoft Graph search. Fuzzy full-text search across subject, body, sender. Use for keyword queries, not exact date filtering.")]
+    [McpServerTool(
+        Title = "Search e-mails in Outlook (text search)",
         Name = "graph_outlook_mail_search",
-        OpenWorld = true, Destructive = false, ReadOnly = true)]
+        OpenWorld = true,
+        Destructive = false,
+        ReadOnly = true)]
     public static async Task<CallToolResult?> GraphOutlookMail_Search(
-       RequestContext<CallToolRequestParams> requestContext,
-       [Description("Search query, e.g. 'subject:AI from:sender@company.com hasAttachment:true'")] string query,
-       [Description("Maximum number of results to return. Defaults to 10.")] int? top = 10,
-       CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
-        await requestContext.WithOboGraphClient(async client =>
-        await requestContext.WithStructuredContent(async () =>
-        await client.Me.Messages
-                .GetAsync(opt =>
-                {
-                    opt.QueryParameters.Search = $"\"{query}\"";
-                    opt.QueryParameters.Top = top ?? 10;
-                    opt.QueryParameters.Select = ["id", "subject", "from", "bodyPreview", "receivedDateTime", "isRead", "webLink"];
-                }, cancellationToken))));
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Search query, e.g. 'subject:AI from:sender@company.com hasAttachment:true'")] string query,
+        [Description("Maximum number of results to return. Defaults to 10.")] int? top = 10,
+        CancellationToken cancellationToken = default) =>
+         await requestContext.WithExceptionCheck(async () =>
+         await requestContext.WithOboGraphClient(async client =>
+         await requestContext.WithStructuredContent(async () =>
+         await client.Me.Messages
+                 .GetAsync(opt =>
+                 {
+                     opt.QueryParameters.Search = $"\"{query}\"";
+                     opt.QueryParameters.Top = top ?? 10;
+                     opt.QueryParameters.Select = ["id", "subject", "from", "bodyPreview", "receivedDateTime", "isRead", "webLink"];
+                 }, cancellationToken))));
 
     [Description("Set or update the follow-up flag for a mail message in Outlook.")]
     [McpServerTool(Title = "Flag mail for follow-up in Outlook",

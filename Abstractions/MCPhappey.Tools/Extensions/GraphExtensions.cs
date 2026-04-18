@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json;
 using MCPhappey.Core.Extensions;
 using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
@@ -8,6 +10,46 @@ namespace MCPhappey.Tools.Extensions;
 
 public static class GraphExtensions
 {
+
+    public static async Task<JsonElement?> SendGraphRequestAsync(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            HttpMethod method,
+            string relativePath,
+            object? body,
+            CancellationToken cancellationToken)
+    {
+        var httpClient = await serviceProvider.GetGraphHttpClient(requestContext.Server);
+        using var request = new HttpRequestMessage(method, relativePath);
+
+        if (body is not null)
+        {
+            var json = JsonSerializer.Serialize(body);
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+        }
+
+        using var response = await httpClient.SendAsync(request, cancellationToken);
+        var text = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+            throw new Exception($"{(int)response.StatusCode} {response.StatusCode}: {text}");
+
+        var graphUrl = $"https://graph.microsoft.com/beta/{relativePath.TrimStart('/')}";
+        
+        if (!string.IsNullOrWhiteSpace(text))
+        {
+            return JsonElement.Parse(text);
+        }
+
+        return new
+        {
+            method.Method,
+            Path = relativePath,
+            Status = (int)response.StatusCode,
+            Message = "Operation completed successfully."
+        }.ToStructuredContent();
+    }
+
     public static EmailAddress ToEmailAddress(
         this string mail) => new() { Address = mail.Trim() };
 

@@ -153,8 +153,9 @@ public static class OpenAIResearch
                                 reasoning = new {
                                     effort = "low"
                                 },
-                                web_search = new {
-                                }
+                                tools =  new[] {
+                                    new {type = "web_search"}
+                                },
                             }  } },
                             cancellationToken: cancellationToken);
 

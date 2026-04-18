@@ -1,4 +1,6 @@
 using System.Security.Claims;
+using System.Text;
+using System.Text.Json;
 using Microsoft.Identity.Web;
 
 namespace MCPhappey.Common.Extensions;
@@ -11,4 +13,7 @@ public static class HttpExtensions
 
     public static string? GetUserUpn(this IEnumerable<Claim> claims) =>
         claims.FirstOrDefault(a => a.Type == ClaimTypes.Upn)?.Value;
+
+   
+
 }
