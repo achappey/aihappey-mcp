@@ -9,7 +9,8 @@ namespace MCPhappey.Decoders;
 
 public class EmlDecoder : IContentDecoder
 {
-    List<IContentDecoder> defaultDecoders = [new PdfDecoder(), new MsWordDecoder(), new MsExcelDecoder()];
+    List<IContentDecoder> defaultDecoders = [new PdfDecoder(), new MsPowerPointDecoder(),
+        new MsWordDecoder(), new MsExcelDecoder()];
 
     public bool SupportsMimeType(string mimeType)
     {

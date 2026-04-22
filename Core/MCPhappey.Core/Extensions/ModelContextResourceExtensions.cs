@@ -54,6 +54,7 @@ public static partial class ModelContextResourceExtensions
             : null;
     }
 
+    // TODO Add guard for large blobs
     public static async Task<ReadResourceResult?> ToReadResourceResult(
         this ModelContextProtocol.Server.RequestContext<ReadResourceRequestParams> request,
         Dictionary<string, string>? headers = null,

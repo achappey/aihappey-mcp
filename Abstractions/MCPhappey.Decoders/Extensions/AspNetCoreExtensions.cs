@@ -1,4 +1,6 @@
 using Microsoft.KernelMemory;
+using Microsoft.KernelMemory.DataFormats.Office;
+using Microsoft.KernelMemory.DataFormats.Pdf;
 using OpenAI;
 
 namespace MCPhappey.Decoders.Extensions;
@@ -23,6 +25,7 @@ public static class AspNetCoreExtensions
         return builder.WithContentDecoder<EpubDecoder>()
             .WithContentDecoder<JsonDecoder>()
             .WithContentDecoder<RtfDecoder>()
+            .WithContentDecoder<PptmDecoder>()
             .WithContentDecoder<EmlDecoder>()
             .WithContentDecoder<HtmlDecoder>();
     }

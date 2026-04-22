@@ -156,7 +156,6 @@ public static class OpenAIImages
         transparent,  // requires png or webp
 
         [Display(Name = "Opaque")]
-        //[Display(Name = "Opaque")]
         opaque
     }
 
@@ -192,6 +191,10 @@ public static class OpenAIImages
         [EnumMember(Value = "chatgpt-image-latest")]
         [Display(Name = "chatgpt-image-latest")]
         chatgpt_image_latest,
+
+        [EnumMember(Value = "gpt-image-2")]
+        [Display(Name = "gpt-image-2")]
+        gpt_image_2,
 
         [EnumMember(Value = "gpt-image-1.5")]
         [Display(Name = "gpt-image-1.5")]
