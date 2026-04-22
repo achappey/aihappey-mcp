@@ -33,7 +33,7 @@ public static class OpenAISharePoint
                             {
                                 effort = "none"
                             },
-                        mcp_list_tools = new[] { new { type = "mcp",
+                        tools = new[] { new { type = "mcp",
                             server_label = "sharepoint",
                             authorization = oboToken,
                             connector_id = "connector_sharepoint",

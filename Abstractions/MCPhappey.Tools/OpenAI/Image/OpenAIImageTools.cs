@@ -38,11 +38,8 @@ public static class OpenAIImageTools
 
             var file = files.FirstOrDefault();
 
-            imageBlocks.Add(new ImageContentBlock()
-            {
-                Data = file?.Contents,
-                MimeType = file?.MimeType!,
-            }.ToUserSamplingMessage());
+            imageBlocks.Add(
+                ImageContentBlock.FromBytes(file?.Contents, file?.MimeType!).ToUserSamplingMessage());
         }
 
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
@@ -96,11 +93,8 @@ public static class OpenAIImageTools
 
            var file = files.FirstOrDefault();
 
-           imageBlocks.Add(new ImageContentBlock()
-           {
-               Data = file?.Contents,
-               MimeType = file?.MimeType!,
-           }.ToUserSamplingMessage());
+           imageBlocks.Add(
+            ImageContentBlock.FromBytes(file?.Contents, file?.MimeType!).ToUserSamplingMessage());
        }
 
        var startTime = DateTime.UtcNow;

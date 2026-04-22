@@ -53,11 +53,7 @@ public static class GraphUserPhotos
             {
                 Content =
                 [
-                    new ImageContentBlock
-                    {
-                        Data = bytes,
-                        MimeType = string.IsNullOrWhiteSpace(mimeType) ? "image/jpeg" : mimeType
-                    }
+                    ImageContentBlock.FromBytes(bytes, string.IsNullOrWhiteSpace(mimeType) ? "image/jpeg" : mimeType)
                 ]
             };
         });

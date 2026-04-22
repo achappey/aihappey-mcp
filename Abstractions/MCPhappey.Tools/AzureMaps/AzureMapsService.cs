@@ -239,7 +239,9 @@ public static class AzureMapsService
 
      return new CallToolResult
      {
-         Content = [new ImageContentBlock { MimeType = MimeTypes.ImagePng, Data = bytes }]
+         Content = [
+            ImageContentBlock.FromBytes(bytes, MimeTypes.ImagePng)
+            ]
      };
  });
 
@@ -365,10 +367,8 @@ public static class AzureMapsService
 
         return new CallToolResult()
         {
-            Content = [new ImageContentBlock() {
-                MimeType = MimeTypes.ImagePng,
-                Data = bytes
-            }]
+            Content = [
+                ImageContentBlock.FromBytes(bytes, MimeTypes.ImagePng)]
         };
     });
 

@@ -76,6 +76,200 @@ public static class SimplicateExtensions
             .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
     }
 
+    public static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
+        BuildSimplicatePersonElicitOverridesAsync<TDto>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            IReadOnlyCollection<SimplicateElicitFieldOverride> fields,
+            CancellationToken cancellationToken = default)
+        where TDto : class
+        => await serviceProvider.BuildSimplicateSingleSelectLookupElicitOverridesAsync<TDto, SimplicatePersonLookupItem>(
+            requestContext,
+            fields,
+            "/crm/person",
+            "sort=full_name&select=id,full_name",
+            page => $"Downloading Simplicate persons page {page}",
+            item => item.Id,
+            item => item.FullName,
+            "Person id.",
+            cancellationToken);
+
+    public static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
+        BuildSimplicateEmployeeStatusElicitOverridesAsync<TDto>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            IReadOnlyCollection<SimplicateElicitFieldOverride> fields,
+            CancellationToken cancellationToken = default)
+        where TDto : class
+        => await serviceProvider.BuildSimplicateSingleSelectLookupElicitOverridesAsync<TDto, SimplicateIdLabelLookupItem>(
+            requestContext,
+            fields,
+            "/hrm/employeestatus",
+            "sort=label&select=id,label",
+            page => $"Downloading Simplicate employee statuses page {page}",
+            item => item.Id,
+            item => item.Label,
+            "Employee status id.",
+            cancellationToken);
+
+    public static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
+        BuildSimplicateAbsenceTypeElicitOverridesAsync<TDto>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            IReadOnlyCollection<SimplicateElicitFieldOverride> fields,
+            CancellationToken cancellationToken = default)
+        where TDto : class
+        => await serviceProvider.BuildSimplicateSingleSelectLookupElicitOverridesAsync<TDto, SimplicateIdLabelLookupItem>(
+            requestContext,
+            fields,
+            "/hrm/absencetype",
+            "sort=label&select=id,label",
+            page => $"Downloading Simplicate absence types page {page}",
+            item => item.Id,
+            item => item.Label,
+            "Absence type id.",
+            cancellationToken);
+
+    public static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
+        BuildSimplicateLeaveTypeElicitOverridesAsync<TDto>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            IReadOnlyCollection<SimplicateElicitFieldOverride> fields,
+            CancellationToken cancellationToken = default)
+        where TDto : class
+        => await serviceProvider.BuildSimplicateSingleSelectLookupElicitOverridesAsync<TDto, SimplicateIdLabelLookupItem>(
+            requestContext,
+            fields,
+            "/hrm/leavetype",
+            "sort=label&select=id,label",
+            page => $"Downloading Simplicate leave types page {page}",
+            item => item.Id,
+            item => item.Label,
+            "Leave type id.",
+            cancellationToken);
+
+    private static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
+        BuildSimplicateSingleSelectLookupElicitOverridesAsync<TDto, TItem>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            IReadOnlyCollection<SimplicateElicitFieldOverride> fields,
+            string endpoint,
+            string query,
+            Func<int, string> progressMessageFactory,
+            Func<TItem, string?> idSelector,
+            Func<TItem, string?> titleSelector,
+            string fallbackDescription,
+            CancellationToken cancellationToken = default)
+        where TDto : class
+        where TItem : class
+    {
+        if (fields.Count == 0)
+            return new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>(StringComparer.OrdinalIgnoreCase);
+
+        var options = await serviceProvider.TryBuildSimplicateLookupOptionsAsync(
+            requestContext,
+            endpoint,
+            query,
+            progressMessageFactory,
+            idSelector,
+            titleSelector,
+            cancellationToken);
+
+        return fields
+            .Select(field => CreateSingleSelectLookupFieldOverrideDefinition<TDto>(field, options, fallbackDescription))
+            .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static async Task<IReadOnlyCollection<ElicitRequestParams.EnumSchemaOption>>
+        TryBuildSimplicateLookupOptionsAsync<TItem>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            string endpoint,
+            string query,
+            Func<int, string> progressMessageFactory,
+            Func<TItem, string?> idSelector,
+            Func<TItem, string?> titleSelector,
+            CancellationToken cancellationToken = default)
+        where TItem : class
+    {
+        try
+        {
+            var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+            var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+
+            var items = await downloadService.GetAllSimplicatePagesAsync<TItem>(
+                serviceProvider,
+                requestContext.Server,
+                simplicateOptions.GetApiUrl(endpoint),
+                query,
+                progressMessageFactory,
+                requestContext,
+                cancellationToken: cancellationToken);
+
+            return items
+                .Select(item => new
+                {
+                    Id = idSelector(item),
+                    Title = titleSelector(item)
+                })
+                .Where(item => !string.IsNullOrWhiteSpace(item.Id))
+                .GroupBy(item => item.Id!, StringComparer.OrdinalIgnoreCase)
+                .Select(group => group
+                    .OrderByDescending(item => !string.IsNullOrWhiteSpace(item.Title))
+                    .ThenBy(item => item.Title ?? item.Id, StringComparer.OrdinalIgnoreCase)
+                    .First())
+                .OrderBy(item => item.Title ?? item.Id, StringComparer.OrdinalIgnoreCase)
+                .ThenBy(item => item.Id, StringComparer.OrdinalIgnoreCase)
+                .Select(item => new ElicitRequestParams.EnumSchemaOption
+                {
+                    Title = string.IsNullOrWhiteSpace(item.Title) ? item.Id! : item.Title,
+                    Const = item.Id!
+                })
+                .ToArray();
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    private static KeyValuePair<string, ElicitRequestParams.PrimitiveSchemaDefinition>
+        CreateSingleSelectLookupFieldOverrideDefinition<TDto>(
+            SimplicateElicitFieldOverride field,
+            IReadOnlyCollection<ElicitRequestParams.EnumSchemaOption> options,
+            string fallbackDescription)
+        where TDto : class
+    {
+        var property = typeof(TDto).GetProperty(
+            field.PropertyName,
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+
+        var jsonPropertyName = property?.GetJsonPropertyName() ?? field.PropertyName;
+        var title = string.IsNullOrWhiteSpace(field.Title)
+            ? property?.Name ?? field.PropertyName
+            : field.Title;
+        var description = string.IsNullOrWhiteSpace(field.Description)
+            ? property?.GetDescription()
+            : field.Description;
+
+        ElicitRequestParams.PrimitiveSchemaDefinition schema = options.Count > 0
+            ? new ElicitRequestParams.TitledSingleSelectEnumSchema
+            {
+                Title = title,
+                Description = description,
+                Default = field.DefaultValue,
+                OneOf = [.. options]
+            }
+            : new ElicitRequestParams.StringSchema
+            {
+                Title = title,
+                Description = description ?? fallbackDescription,
+                Default = field.DefaultValue
+            };
+
+        return new KeyValuePair<string, ElicitRequestParams.PrimitiveSchemaDefinition>(jsonPropertyName, schema);
+    }
+
     private static KeyValuePair<string, ElicitRequestParams.PrimitiveSchemaDefinition>
         CreateEmployeeFieldOverrideDefinition<TDto>(
             SimplicateElicitFieldOverride field,

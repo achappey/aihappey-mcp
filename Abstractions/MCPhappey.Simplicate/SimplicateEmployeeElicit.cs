@@ -38,3 +38,21 @@ internal sealed class SimplicateEmployeeLookupItem
     [JsonPropertyName("name")]
     public string? Name { get; set; }
 }
+
+internal sealed class SimplicatePersonLookupItem
+{
+    [JsonPropertyName("id")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("full_name")]
+    public string? FullName { get; set; }
+}
+
+internal sealed class SimplicateIdLabelLookupItem
+{
+    [JsonPropertyName("id")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("label")]
+    public string? Label { get; set; }
+}

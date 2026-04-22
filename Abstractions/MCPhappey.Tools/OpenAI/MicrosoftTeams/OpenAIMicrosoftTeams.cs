@@ -33,7 +33,7 @@ public static class OpenAITeams
                             {
                                 effort = "none"
                             },
-                    mcp_list_tools = new[] {
+                    tools = new[] {
                         new {
                             type = "mcp",
                             server_label = "microsoft_teams",

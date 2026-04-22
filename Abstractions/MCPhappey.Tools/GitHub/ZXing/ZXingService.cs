@@ -69,10 +69,6 @@ public static class ZXingService
         bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
         ms.Position = 0;
 
-        return new ImageContentBlock()
-        {
-            Data = ms.ToArray(),
-            MimeType = MimeTypes.ImagePng,
-        }.ToCallToolResult();
+        return ImageContentBlock.FromBytes(ms.ToArray(), MimeTypes.ImagePng).ToCallToolResult();
     });
 }

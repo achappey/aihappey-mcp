@@ -34,7 +34,7 @@ public static class OpenAIOutlookMail
                                 {
                                     effort = "none"
                                 },
-                            mcp_list_tools = new[] { new { type = "mcp",
+                            tools = new[] { new { type = "mcp",
                                 server_label = "outlook_email",
                                 authorization = oboToken,
                                 connector_id = "connector_outlookemail",

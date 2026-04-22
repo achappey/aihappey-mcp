@@ -37,11 +37,8 @@ public static partial class GraphWorkbooks
             .GetAsImageGetResponseAsync(cancellationToken: cancellationToken);
 
         var base64 = imageResponse?.Value ?? throw new Exception("No image data returned from Graph.");
-        return new ImageContentBlock
-        {
-            MimeType = MimeTypes.ImagePng,
-            Data = Convert.FromBase64String(base64)
-        };
+
+        return ImageContentBlock.FromBytes(Convert.FromBase64String(base64), MimeTypes.ImagePng);
     }
 
     [Description("Add a chart to an Excel worksheet using Microsoft Graph.")]

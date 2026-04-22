@@ -41,10 +41,9 @@ public static class GoogleNanoBanana
 
         CreateMessageResult resultContent = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Messages = [..items?.Select(a => new ImageContentBlock() {
-                    MimeType = a.MimeType,
-                    Data = a.Contents.ToArray()
-                }.ToUserSamplingMessage()) ?? [],
+            Messages = [
+                ..items?.Select(a => ImageContentBlock.FromBytes(a.Contents.ToArray(), a.MimeType)
+                    .ToUserSamplingMessage()) ?? [],
                 prompt.ToUserSamplingMessage()],
             IncludeContext = ContextInclusion.ThisServer,
             MaxTokens = 4096,

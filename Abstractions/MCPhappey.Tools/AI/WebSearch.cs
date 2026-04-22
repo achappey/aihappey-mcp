@@ -11,11 +11,11 @@ namespace MCPhappey.Tools.AI;
 
 public static class WebSearch
 {
-    private static readonly string[] ModelNames = ["sonar-pro", "gpt-5.4-mini", "gemini-2.5-flash",
-        "claude-3-haiku-20240307", "grok-4-fast-non-reasoning", "mistral-medium-latest", "openai/gpt-oss-20b"];
+    private static readonly string[] ModelNames = ["sonar-pro", "gpt-5.4-mini", "gemini-3-flash-preview",
+        "claude-haiku-4-5-20251001", "grok-4-fast-non-reasoning", "mistral-medium-latest", "openai/gpt-oss-20b"];
     private static readonly string[] AcademicModelNames = ["sonar-reasoning-pro", "gpt-5.1",
-        "gemini-2.5-pro",
-        "claude-opus-4-1-20250805", "grok-4-fast-reasoning", "mistral-large-latest"];
+        "gemini-3.1-pro-preview",
+        "claude-opus-4-7", "grok-4-fast-reasoning", "mistral-large-latest"];
 
     [Description("Perform a quick web search using Google AI with Google Search grounding.")]
     [McpServerTool(
@@ -35,7 +35,7 @@ public static class WebSearch
     {
         var mcpServer = requestContext.Server;
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
-        var modelName = "gemini-2.5-flash";
+        var modelName = "gemini-3-flash-preview";
 
         var promptArgs = new Dictionary<string, JsonElement>
         {
@@ -58,14 +58,17 @@ public static class WebSearch
             metadata: new Dictionary<string, object>
             {
                 { "google", new {
-                    google_search = new {
-                        timeRangeFilter = new {
-                            startTime = startDate,
-                            endTime = endDate
-                        },
-                        search_context_size = searchContextSize
+                    tools= new object []
+                    {
+                         new {type = "google_search",
+                                    timeRangeFilter = new {
+                                        startTime = startDate,
+                                        endTime = endDate
+                                    },
+                                    search_context_size = searchContextSize
+                                    },
+                        new {type = "google_maps"},
                     },
-                    googleMaps = new { },
                     thinkingConfig = new {
                         thinkingBudget = -1
                     }
@@ -123,6 +126,7 @@ public static class WebSearch
                         "ai-websearch-answer",
                         promptArgs,
                         modelName,
+                        maxTokens: 10000,
                         metadata: new Dictionary<string, object>
                         {
                             { "perplexity", new {
@@ -172,10 +176,19 @@ public static class WebSearch
                             } },
                             { "anthropic", new {
                                 tools = new[] {
-                                    new {
-                                    type = "web_search",
-                                    max_uses = searchContextSize == "low" ? 2
-                                    : searchContextSize == "high" ? 6 : 4
+                                       new {
+                                    type = "web_search_20260209",
+                                    name = "web_search",
+                                    allowed_callers = new string[]{"direct"},
+                                    max_uses = searchContextSize == "low"
+                                ? 2 : searchContextSize == "high" ? 6: 7
+                                },
+                                new {
+                                    type = "web_fetch_20260309",
+                                    name = "web_fetch",
+                                    allowed_callers = new string[]{"direct"},
+                                    max_uses = searchContextSize == "low"
+                                ? 2 : searchContextSize == "high" ? 6 : 4
                                 }},
                                 thinking = new {
                                     budget_tokens = 1024,
@@ -266,6 +279,7 @@ public static class WebSearch
                     "ai-academic-research-answer",
                     promptArgs,
                     modelName,
+                    maxTokens: 10000,
                     metadata: new Dictionary<string, object>
                     {
                     { "perplexity", new {
@@ -309,14 +323,22 @@ public static class WebSearch
                     { "anthropic", new {
                          tools = new[] {
                                     new {
-                                    type = "web_search",
+                                    type = "web_search_20260209",
+                                    name = "web_search",
+                                    allowed_callers = new string[]{"direct"},
+                                    max_uses = searchContextSize == "low"
+                                ? 3 : searchContextSize == "high" ? 7 : 5
+                                },
+                                new {
+                                    type = "web_fetch_20260309",
+                                    name = "web_fetch",
+                                    allowed_callers = new string[]{"direct"},
                                     max_uses = searchContextSize == "low"
                                 ? 3 : searchContextSize == "high" ? 7 : 5
                                 }},
 
                          thinking = new {
-                            budget_tokens = 2048,
-                            type = "enabled"
+                            type = "adaptive"
                          }
                      } },
                     },

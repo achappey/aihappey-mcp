@@ -3,6 +3,7 @@ using ModelContextProtocol.Server;
 using ModelContextProtocol.Protocol;
 using MCPhappey.Core.Extensions;
 using NetBarcode;
+using Microsoft.KernelMemory.Pipeline;
 
 namespace MCPhappey.Tools.GitHub.NetBarcode;
 
@@ -50,11 +51,7 @@ public static class NetBarcodeService
 
             var base64 = barcode.GetByteArray(text);
 
-            blocks.Add(new ImageContentBlock()
-            {
-                Data = base64,
-                MimeType = "image/png"
-            });
+            blocks.Add(ImageContentBlock.FromBytes(base64, MimeTypes.ImagePng));
         }
 
         return blocks.ToCallToolResponse();
@@ -94,11 +91,7 @@ public static class NetBarcodeService
 
               var base64 = barcode.GetByteArray(text);
 
-              return new ImageContentBlock()
-              {
-                  Data = base64,
-                  MimeType = "image/png"
-              }.ToCallToolResult();
+              return ImageContentBlock.FromBytes(base64, MimeTypes.ImagePng).ToCallToolResult();
           });
 
     private static BarcodeType ParseBarcodeType(string input)
