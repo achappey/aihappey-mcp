@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -12,7 +13,7 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentSummarizer
 {
-    private static readonly string[] ModelNames = ["gpt-5.4-mini", 
+    private static readonly string[] ModelNames = ["gpt-5.4-mini",
         "gemini-2.5-flash-lite", "claude-haiku-4-5-20251001", "mistral-small-latest"];
     //command-a-03-2025
 
@@ -67,33 +68,41 @@ public static class DocumentSummarizer
                     var markdown = $"{modelName}\n{additionalCommand}";
                     var startTime = DateTime.UtcNow;
                     var result = await samplingService.GetPromptSample(
-                        serviceProvider,
-                        mcpServer,
-                        "ai-doc-summarizer",
-                        promptArgs,
-                        modelName,
-                        metadata: new Dictionary<string, object>
+                    serviceProvider,
+                    mcpServer,
+                    "ai-doc-summarizer",
+                    promptArgs,
+                    modelName,
+                    metadata: new JsonObject
+                    {
+                        ["google"] = new JsonObject
                         {
-                            { "google", new {
-                                thinkingConfig = new {
-                                    thinkingBudget = -1
-                                }
-                            } },
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            } },
-                            { "mistral", new {
-                            } },
-                            { "anthropic", new {
-                                thinking = new {
-                                    budget_tokens = 1024
-                                }
-                            } },
+                            ["thinkingConfig"] = new JsonObject
+                            {
+                                ["thinkingBudget"] = -1
+                            }
                         },
-                        cancellationToken: cancellationToken
-                    );
+
+                        ["openai"] = new JsonObject
+                        {
+                            ["reasoning"] = new JsonObject
+                            {
+                                ["effort"] = "low"
+                            }
+                        },
+
+                        ["mistral"] = new JsonObject(),
+
+                        ["anthropic"] = new JsonObject
+                        {
+                            ["thinking"] = new JsonObject
+                            {
+                                ["budget_tokens"] = 1024
+                            }
+                        }
+                    },
+                    cancellationToken: cancellationToken
+                );
 
                     var endTime = DateTime.UtcNow;
                     result.Meta?.Add("duration", (endTime - startTime).ToString());

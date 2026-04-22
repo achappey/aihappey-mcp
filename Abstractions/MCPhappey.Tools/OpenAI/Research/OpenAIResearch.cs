@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,16 +37,26 @@ public static class OpenAIResearch
             ["query"] = JsonSerializer.SerializeToElement(researchTopic),
         };
 
-        var querySampling = await samplingService.GetPromptSample<WebSearchPlan>(serviceProvider,
-            requestContext.Server, "web-search-planner", queryArgs,
-                "gpt-5.1",
-                maxTokens: 4096 * 4,
-                metadata: new Dictionary<string, object>() { { "openai", new {
-                                reasoning = new {
-                                    effort = "medium"
-                                }
-                            }  } },
-                            cancellationToken: cancellationToken);
+        var querySampling = await samplingService.GetPromptSample<WebSearchPlan>(
+                 serviceProvider,
+                 requestContext.Server,
+                 "web-search-planner",
+                 queryArgs,
+                 "gpt-5.1",
+                 maxTokens: 4096 * 4,
+                 metadata: new JsonObject
+                 {
+                     ["openai"] = new JsonObject
+                     {
+                         ["reasoning"] = new JsonObject
+                         {
+                             ["effort"] = "medium"
+                         }
+                     }
+                 },
+                 cancellationToken: cancellationToken
+             );
+
         var counter = 1;
 
         if (requestContext.Params?.ProgressToken is not null)
@@ -96,16 +107,25 @@ public static class OpenAIResearch
            {"searchResults", JsonSerializer.SerializeToElement(string.Join("\n\n", searchResults))}
         };
 
-        var reportSampling = await samplingService.GetPromptSample(serviceProvider,
-            requestContext.Server, "write-report", reportArgs,
-            "gpt-5.4-mini",
-            maxTokens: 4096 * 4,
-            metadata: new Dictionary<string, object>() { { "openai", new {
-                                reasoning = new {
-                                    effort = "medium"
-                                }
-                            }  } },
-            cancellationToken: cancellationToken);
+        var reportSampling = await samplingService.GetPromptSample(
+             serviceProvider,
+             requestContext.Server,
+             "write-report",
+             reportArgs,
+             "gpt-5.4-mini",
+             maxTokens: 4096 * 4,
+             metadata: new JsonObject
+             {
+                 ["openai"] = new JsonObject
+                 {
+                     ["reasoning"] = new JsonObject
+                     {
+                         ["effort"] = "medium"
+                     }
+                 }
+             },
+             cancellationToken: cancellationToken
+         );
 
         var result = reportSampling.ToText();
 
@@ -146,18 +166,31 @@ public static class OpenAIResearch
                 {"searchReason", JsonSerializer.SerializeToElement(reason)}
                        };
 
-        var querySampling = await samplingService.GetPromptSample(serviceProvider,
-                 mcpServer, "web-research", values,
-                     "gpt-5.4-mini",
-                     metadata: new Dictionary<string, object>() { { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                },
-                                tools =  new[] {
-                                    new {type = "web_search"}
-                                },
-                            }  } },
-                            cancellationToken: cancellationToken);
+        var querySampling = await samplingService.GetPromptSample(
+                serviceProvider,
+                mcpServer,
+                "web-research",
+                values,
+                "gpt-5.4-mini",
+                metadata: new JsonObject
+                {
+                    ["openai"] = new JsonObject
+                    {
+                        ["reasoning"] = new JsonObject
+                        {
+                            ["effort"] = "low"
+                        },
+                        ["tools"] = new JsonArray
+                        {
+                            new JsonObject
+                            {
+                                ["type"] = "web_search"
+                            }
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken
+            );
 
         return querySampling.ToText();
     }

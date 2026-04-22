@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -58,27 +59,36 @@ public static class DocumentQnA
                         "ai-doc-answer",
                         promptArgs,
                         modelName,
-                        metadata: new Dictionary<string, object>
+                        metadata: new JsonObject
                         {
-                            { "google", new {
-                                thinkingConfig = new {
-                                    thinkingBudget = -1
+                            ["google"] = new JsonObject
+                            {
+                                ["thinkingConfig"] = new JsonObject
+                                {
+                                    ["thinkingBudget"] = -1
                                 }
-                            } },
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
+                            },
+
+                            ["openai"] = new JsonObject
+                            {
+                                ["reasoning"] = new JsonObject
+                                {
+                                    ["effort"] = "low"
                                 }
-                            } },
-                            { "xai", new {
-                                 reasoning = new {
+                            },
+
+                            ["xai"] = new JsonObject
+                            {
+                                ["reasoning"] = new JsonObject()
+                            },
+
+                            ["anthropic"] = new JsonObject
+                            {
+                                ["thinking"] = new JsonObject
+                                {
+                                    ["budget_tokens"] = 2048
                                 }
-                            } },
-                            { "anthropic", new {
-                                thinking = new {
-                                    budget_tokens = 2048
-                                }
-                            } },
+                            }
                         },
                         cancellationToken: cancellationToken
                     );
@@ -160,27 +170,36 @@ public static class DocumentQnA
                     promptArgs,
                     modelName,
                     maxTokens: 16384,
-                    metadata: new Dictionary<string, object>
+                    metadata: new JsonObject
                     {
-                    { "google", new {
-                        thinkingConfig = new {
-                            thinkingBudget = -1
+                        ["google"] = new JsonObject
+                        {
+                            ["thinkingConfig"] = new JsonObject
+                            {
+                                ["thinkingBudget"] = -1
+                            }
+                        },
+
+                        ["xai"] = new JsonObject
+                        {
+                            ["reasoning"] = new JsonObject()
+                        },
+
+                        ["openai"] = new JsonObject
+                        {
+                            ["reasoning"] = new JsonObject
+                            {
+                                ["effort"] = "low"
+                            }
+                        },
+
+                        ["anthropic"] = new JsonObject
+                        {
+                            ["thinking"] = new JsonObject
+                            {
+                                ["budget_tokens"] = 4096
+                            }
                         }
-                     } },
-                    { "xai", new {
-                        reasoning = new {
-                         }
-                    } },
-                    { "openai", new {
-                         reasoning = new {
-                            effort = "low"
-                         }
-                     } },
-                    { "anthropic", new {
-                         thinking = new {
-                            budget_tokens = 4096
-                         }
-                     } },
                     },
                     cancellationToken: cancellationToken
                 );

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -60,36 +61,45 @@ public static class DocumentComparer
                     var markdown = $"{modelName}";
                     var startTime = DateTime.UtcNow;
                     var result = await samplingService.GetPromptSample(
-                        serviceProvider,
-                        mcpServer,
-                        "ai-doc-compare",
-                        promptArgs,
-                        modelName,
-                        maxTokens: 4096 * 4,
-                        metadata: new Dictionary<string, object>
-                        {
-                            { "google", new {
-                                thinkingConfig = new {
-                                    thinkingBudget = -1
+                            serviceProvider,
+                            mcpServer,
+                            "ai-doc-compare",
+                            promptArgs,
+                            modelName,
+                            maxTokens: 4096 * 4,
+                            metadata: new JsonObject
+                            {
+                                ["google"] = new JsonObject
+                                {
+                                    ["thinkingConfig"] = new JsonObject
+                                    {
+                                        ["thinkingBudget"] = -1
+                                    }
+                                },
+
+                                ["openai"] = new JsonObject
+                                {
+                                    ["reasoning"] = new JsonObject
+                                    {
+                                        ["effort"] = "low"
+                                    }
+                                },
+
+                                ["xai"] = new JsonObject
+                                {
+                                    ["reasoning"] = new JsonObject()
+                                },
+
+                                ["anthropic"] = new JsonObject
+                                {
+                                    ["thinking"] = new JsonObject
+                                    {
+                                        ["budget_tokens"] = 4096
+                                    }
                                 }
-                            } },
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            } },
-                            { "xai", new {
-                                reasoning = new {
-                                }
-                            } },
-                            { "anthropic", new {
-                                thinking = new {
-                                    budget_tokens = 4096
-                                }
-                            } },
-                        },
-                        cancellationToken: cancellationToken
-                    );
+                            },
+                            cancellationToken: cancellationToken
+                        );
 
                     var endTime = DateTime.UtcNow;
                     result.Meta?.Add("duration", (endTime - startTime).ToString());

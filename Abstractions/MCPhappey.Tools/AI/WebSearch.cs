@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -50,32 +51,40 @@ public static class WebSearch
         var startTime = DateTime.UtcNow;
 
         var result = await samplingService.GetPromptSample(
-            serviceProvider,
-            mcpServer,
-            "ai-websearch-answer",
-            promptArgs,
-            modelName,
-            metadata: new Dictionary<string, object>
-            {
-                { "google", new {
-                    tools= new object []
-                    {
-                         new {type = "google_search",
-                                    timeRangeFilter = new {
-                                        startTime = startDate,
-                                        endTime = endDate
-                                    },
-                                    search_context_size = searchContextSize
-                                    },
-                        new {type = "google_maps"},
-                    },
-                    thinkingConfig = new {
-                        thinkingBudget = -1
-                    }
-                }}
-            },
-            cancellationToken: cancellationToken
-        );
+                  serviceProvider,
+                  mcpServer,
+                  "ai-websearch-answer",
+                  promptArgs,
+                  modelName,
+                  metadata: new JsonObject
+                  {
+                      ["google"] = new JsonObject
+                      {
+                          ["tools"] = new JsonArray
+                          {
+                            new JsonObject
+                            {
+                                ["type"] = "google_search",
+                                ["timeRangeFilter"] = new JsonObject
+                                {
+                                    ["startTime"] = startDate,
+                                    ["endTime"] = endDate
+                                },
+                                ["search_context_size"] = searchContextSize
+                            },
+                            new JsonObject
+                            {
+                                ["type"] = "google_maps"
+                            }
+                          },
+                          ["thinkingConfig"] = new JsonObject
+                          {
+                              ["thinkingBudget"] = -1
+                          }
+                      }
+                  },
+                  cancellationToken: cancellationToken
+              );
 
         var endTime = DateTime.UtcNow;
         result.Meta?.Add("duration", (endTime - startTime).ToString());
@@ -121,83 +130,112 @@ public static class WebSearch
                     var markdown = $"{modelName}\n{query}";
                     var startTime = DateTime.UtcNow;
                     var result = await samplingService.GetPromptSample(
-                        serviceProvider,
-                        mcpServer,
-                        "ai-websearch-answer",
-                        promptArgs,
-                        modelName,
-                        maxTokens: 10000,
-                        metadata: new Dictionary<string, object>
+                    serviceProvider,
+                    mcpServer,
+                    "ai-websearch-answer",
+                    promptArgs,
+                    modelName,
+                    maxTokens: 10000,
+                    metadata: new JsonObject
+                    {
+                        ["perplexity"] = new JsonObject
                         {
-                            { "perplexity", new {
-                                search_mode = "web",
-                                web_search_options = new {
-                                    search_context_size = searchContextSize
-                                },
-                                last_updated_before_filter = endDate,
-                                last_updated_after_filter = startDate
-                            } },
-                            { "google", new {
-                                tools =  new[] {
-                                    new {type = "google_search",
-                                    timeRangeFilter = new {
-                                        startTime = startDate,
-                                        endTime = endDate
-                                    }}
-                                },
-                                generation_config = new
-                                {
-                                     thinking_level = "minimal"
-                                }
-                            } },
-                            { "openai", new {
-                                tools =  new[] {
-                                    new {type = "web_search"}
-                                },
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            } },
-                            { "mistral", new {
-                                 tools =  new[] {
-                                    new {type = "web_search_premium"}
-                                },
-                            } },
-                            { "groq", new {
-                                  tools =  new[] {
-                                    new {type = "browser_search"}
-                                }
-                            } },
-                            { "xai", new {
-                                tools =  new[] {
-                                    new {type = "web_search"},
-                                    new {type = "x_search"}
-                                }
-                            } },
-                            { "anthropic", new {
-                                tools = new[] {
-                                       new {
-                                    type = "web_search_20260209",
-                                    name = "web_search",
-                                    allowed_callers = new string[]{"direct"},
-                                    max_uses = searchContextSize == "low"
-                                ? 2 : searchContextSize == "high" ? 6: 7
-                                },
-                                new {
-                                    type = "web_fetch_20260309",
-                                    name = "web_fetch",
-                                    allowed_callers = new string[]{"direct"},
-                                    max_uses = searchContextSize == "low"
-                                ? 2 : searchContextSize == "high" ? 6 : 4
-                                }},
-                                thinking = new {
-                                    budget_tokens = 1024,
-                                    type = "enabled"
-                                }
-                            } },
+                            ["search_mode"] = "web",
+                            ["web_search_options"] = new JsonObject
+                            {
+                                ["search_context_size"] = searchContextSize
+                            },
+                            ["last_updated_before_filter"] = endDate,
+                            ["last_updated_after_filter"] = startDate
                         },
-                        cancellationToken: cancellationToken
-                    );
+
+                        ["google"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject
+                                {
+                                    ["type"] = "google_search",
+                                    ["timeRangeFilter"] = new JsonObject
+                                    {
+                                        ["startTime"] = startDate,
+                                        ["endTime"] = endDate
+                                    }
+                                }
+                            },
+                            ["generation_config"] = new JsonObject
+                            {
+                                ["thinking_level"] = "minimal"
+                            }
+                        },
+
+                        ["openai"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject { ["type"] = "web_search" }
+                            },
+                            ["reasoning"] = new JsonObject
+                            {
+                                ["effort"] = "low"
+                            }
+                        },
+
+                        ["mistral"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject { ["type"] = "web_search_premium" }
+                            }
+                        },
+
+                        ["groq"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject { ["type"] = "browser_search" }
+                            }
+                        },
+
+                        ["xai"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject { ["type"] = "web_search" },
+                                new JsonObject { ["type"] = "x_search" }
+                            }
+                        },
+
+                        ["anthropic"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject
+                                {
+                                    ["type"] = "web_search_20260209",
+                                    ["name"] = "web_search",
+                                    ["allowed_callers"] = new JsonArray("direct"),
+                                    ["max_uses"] = searchContextSize == "low" ? 2 :
+                                                searchContextSize == "high" ? 6 : 7
+                                },
+                                new JsonObject
+                                {
+                                    ["type"] = "web_fetch_20260309",
+                                    ["name"] = "web_fetch",
+                                    ["allowed_callers"] = new JsonArray("direct"),
+                                    ["max_uses"] = searchContextSize == "low" ? 2 :
+                                                searchContextSize == "high" ? 6 : 4
+                                }
+                            },
+                            ["thinking"] = new JsonObject
+                            {
+                                ["budget_tokens"] = 1024,
+                                ["type"] = "enabled"
+                            }
+                        }
+                    },
+                    cancellationToken: cancellationToken
+                );
 
                     var endTime = DateTime.UtcNow;
                     result.Meta?.Add("duration", (endTime - startTime).ToString());
@@ -280,67 +318,101 @@ public static class WebSearch
                     promptArgs,
                     modelName,
                     maxTokens: 10000,
-                    metadata: new Dictionary<string, object>
+                    metadata: new JsonObject
                     {
-                    { "perplexity", new {
-                        search_mode = "academic",
-                        web_search_options = new {
-                            search_context_size = searchContextSize
-                        }
-                     } },
-                    { "google", new {
-                            tools =  new[] {
-                                    new {type = "google_search",
-                                    timeRangeFilter = new {
-                                        startTime = startDate,
-                                        endTime = endDate
-                                    }}
-                                },
-                        thinkingConfig = new {
-                            thinkingBudget = -1
-                        }
-                     } },
-                    { "xai", new {
-                         tools =  new[] {
-                                    new {type = "web_search"}
-                                },
-                        reasoning = new {
-                         }
-                    } },
-                    { "mistral", new {
-                           tools =  new[] {
-                                    new {type = "web_search_premium"}
-                                }
-                    } },
-                    { "openai", new {
-                        tools =  new[] {
-                                    new {type = "web_search"}
-                                },
-                         reasoning = new {
-                            effort = "low"
-                         }
-                     } },
-                    { "anthropic", new {
-                         tools = new[] {
-                                    new {
-                                    type = "web_search_20260209",
-                                    name = "web_search",
-                                    allowed_callers = new string[]{"direct"},
-                                    max_uses = searchContextSize == "low"
-                                ? 3 : searchContextSize == "high" ? 7 : 5
-                                },
-                                new {
-                                    type = "web_fetch_20260309",
-                                    name = "web_fetch",
-                                    allowed_callers = new string[]{"direct"},
-                                    max_uses = searchContextSize == "low"
-                                ? 3 : searchContextSize == "high" ? 7 : 5
-                                }},
+                        ["perplexity"] = new JsonObject
+                        {
+                            ["search_mode"] = "academic",
+                            ["web_search_options"] = new JsonObject
+                            {
+                                ["search_context_size"] = searchContextSize
+                            }
+                        },
 
-                         thinking = new {
-                            type = "adaptive"
-                         }
-                     } },
+                        ["google"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject
+                                {
+                                    ["type"] = "google_search",
+                                    ["timeRangeFilter"] = new JsonObject
+                                    {
+                                        ["startTime"] = startDate,
+                                        ["endTime"] = endDate
+                                    }
+                                }
+                            },
+                            ["thinkingConfig"] = new JsonObject
+                            {
+                                ["thinkingBudget"] = -1
+                            }
+                        },
+
+                        ["xai"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject
+                                {
+                                    ["type"] = "web_search"
+                                }
+                            },
+                            ["reasoning"] = new JsonObject()
+                        },
+
+                        ["mistral"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject
+                                {
+                                    ["type"] = "web_search_premium"
+                                }
+                            }
+                        },
+
+                        ["openai"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject
+                                {
+                                    ["type"] = "web_search"
+                                }
+                            },
+                            ["reasoning"] = new JsonObject
+                            {
+                                ["effort"] = "low"
+                            }
+                        },
+
+                        ["anthropic"] = new JsonObject
+                        {
+                            ["tools"] = new JsonArray
+                            {
+                                new JsonObject
+                                {
+                                    ["type"] = "web_search_20260209",
+                                    ["name"] = "web_search",
+                                    ["allowed_callers"] = new JsonArray("direct"),
+                                    ["max_uses"] = searchContextSize == "low" ? 3 :
+                                                searchContextSize == "high" ? 7 : 5
+                                },
+                                new JsonObject
+                                {
+                                    ["type"] = "web_fetch_20260309",
+                                    ["name"] = "web_fetch",
+                                    ["allowed_callers"] = new JsonArray("direct"),
+                                    ["max_uses"] = searchContextSize == "low" ? 3 :
+                                                searchContextSize == "high" ? 7 : 5
+                                }
+                            },
+                            ["thinking"] = new JsonObject
+                            {
+                                ["type"] = "adaptive"
+                            }
+                        }
                     },
                     cancellationToken: cancellationToken
                 );

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -17,24 +18,28 @@ public static class GoogleMapsService
         string model = "gemini-2.5-flash",
           CancellationToken cancellationToken = default)
     {
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
-        {
-            Metadata = new Dictionary<string, object?>()
+     var response = await requestContext.Server.SampleAsync(
+            new CreateMessageRequestParams()
+            {
+                Metadata = new JsonObject
                 {
-                    {"google", new {
-                        googleMaps = new { },
-                        thinkingConfig = new {
-                            thinkingBudget = -1
+                    ["google"] = new JsonObject
+                    {
+                        ["googleMaps"] = new JsonObject(),
+                        ["thinkingConfig"] = new JsonObject
+                        {
+                            ["thinkingBudget"] = -1
                         }
-                     } },
-                }.ToJsonObject(),
-            Temperature = 0,
-            MaxTokens = 8192,
-            ModelPreferences = model.ToModelPreferences(),
-            Messages = [prompt.ToUserSamplingMessage()]
-        }, cancellationToken);
+                    }
+                },
+                Temperature = 0,
+                MaxTokens = 8192,
+                ModelPreferences = model.ToModelPreferences(),
+                Messages = [prompt.ToUserSamplingMessage()]
+            },
+            cancellationToken);
 
-        return respone.Content;
+        return response.Content;
     }
 }
 

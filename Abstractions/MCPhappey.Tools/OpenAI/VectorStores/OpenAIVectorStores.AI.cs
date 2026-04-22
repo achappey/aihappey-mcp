@@ -1,5 +1,6 @@
 using System.ClientModel;
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -54,27 +55,30 @@ public static partial class OpenAIVectorStores
            await serviceProvider.WithVectorStoreOwnerClient<CallToolResult?>(vectorStoreId, async (client, current) =>
            await requestContext.WithStructuredContent(async () =>
             {
-                var response = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
-                {
-                    Metadata = new Dictionary<string, object>()
+                var response = await requestContext.Server.SampleAsync(
+                    new CreateMessageRequestParams()
                     {
-                        {"openai", new {
-                            file_search = new
+                        Metadata = new JsonObject
+                        {
+                            ["openai"] = new JsonObject
                             {
-                                vector_store_ids = new[] { vectorStoreId },
-                                max_num_results = maxNumResults ?? 10
-                            },
-                            reasoning = new
-                            {
-                                effort = "low"
+                                ["file_search"] = new JsonObject
+                                {
+                                    ["vector_store_ids"] = new JsonArray(vectorStoreId),
+                                    ["max_num_results"] = maxNumResults ?? 10
+                                },
+                                ["reasoning"] = new JsonObject
+                                {
+                                    ["effort"] = "low"
+                                }
                             }
-                            } },
-                    }.ToJsonObject(),
-                    Temperature = 1,
-                    MaxTokens = 8192,
-                    ModelPreferences = model.ToModelPreferences(),
-                    Messages = [query.ToUserSamplingMessage()]
-                }, cancellationToken);
+                        },
+                        Temperature = 1,
+                        MaxTokens = 8192,
+                        ModelPreferences = model.ToModelPreferences(),
+                        Messages = [query.ToUserSamplingMessage()]
+                    },
+                    cancellationToken);
 
                 // Return the model’s final content blocks
                 return response;

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -22,23 +23,29 @@ public static class MistralImages
             string model = "mistral-medium-latest",
           CancellationToken cancellationToken = default)
     {
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
-        {
-            Metadata = new Dictionary<string, object>()
-                {
-                    {"mistral", new {
-                        image_generation = new { type = "image_generation" }
-                     } },
-                }.ToJsonObject(),
-            Temperature = 0,
-            MaxTokens = 8192,
-            ModelPreferences = model.ToModelPreferences(),
-            Messages = [prompt.ToUserSamplingMessage()]
-        }, cancellationToken);
+        var response = await requestContext.Server.SampleAsync(
+             new CreateMessageRequestParams()
+             {
+                 Metadata = new JsonObject
+                 {
+                     ["mistral"] = new JsonObject
+                     {
+                         ["image_generation"] = new JsonObject
+                         {
+                             ["type"] = "image_generation"
+                         }
+                     }
+                 },
+                 Temperature = 0,
+                 MaxTokens = 8192,
+                 ModelPreferences = model.ToModelPreferences(),
+                 Messages = [prompt.ToUserSamplingMessage()]
+             },
+             cancellationToken);
 
-        var metadata = respone.Meta?.ToJsonContent("https://api.mistral.ai");
+        var metadata = response.Meta?.ToJsonContent("https://api.mistral.ai");
 
-        return await requestContext.WithUploads(respone, serviceProvider, metadata, cancellationToken);
+        return await requestContext.WithUploads(response, serviceProvider, metadata, cancellationToken);
     }
 }
 

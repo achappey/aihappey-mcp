@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,13 +55,24 @@ public static class OpenAIFinancialResearch
         };
 
         var plan = await sampling.GetPromptSample<WebSearchPlan>(
-            services, ctx.Server, PlannerPrompt, planArgs, PlannerModel,
-            maxTokens: 4096 * 4,
-            metadata: new Dictionary<string, object> {
-                { "openai", new { reasoning = new { effort = "medium" } } }
-            },
-            cancellationToken: cancellationToken
-        );
+             services,
+             ctx.Server,
+             PlannerPrompt,
+             planArgs,
+             PlannerModel,
+             maxTokens: 4096 * 4,
+             metadata: new JsonObject
+             {
+                 ["openai"] = new JsonObject
+                 {
+                     ["reasoning"] = new JsonObject
+                     {
+                         ["effort"] = "medium"
+                     }
+                 }
+             },
+             cancellationToken: cancellationToken
+         );
 
         var searches = plan?.Searches ?? [];
         var totalSteps = (searches.Count) + 4; // searches + analysts(2) + write + verify
@@ -98,13 +110,24 @@ public static class OpenAIFinancialResearch
         };
 
         var writerSample = await sampling.GetPromptSample(
-            services, ctx.Server, WriterPrompt, writerArgs, WriterModel,
-            maxTokens: 4096 * 4,
-            metadata: new Dictionary<string, object> {
-                { "openai", new { reasoning = new { effort = "low" } } }
-            },
-            cancellationToken: cancellationToken
-        );
+              services,
+              ctx.Server,
+              WriterPrompt,
+              writerArgs,
+              WriterModel,
+              maxTokens: 4096 * 4,
+              metadata: new JsonObject
+              {
+                  ["openai"] = new JsonObject
+                  {
+                      ["reasoning"] = new JsonObject
+                      {
+                          ["effort"] = "low"
+                      }
+                  }
+              },
+              cancellationToken: cancellationToken
+          );
 
         // 5) Verification
         await Progress(ctx.Server, progressToken, step++, totalSteps, "Verifying report...", cancellationToken);
@@ -116,12 +139,23 @@ public static class OpenAIFinancialResearch
         };
 
         var verification = await sampling.GetPromptSample(
-            services, ctx.Server, VerifierPrompt, verifyArgs, VerifierModel,
-            metadata: new Dictionary<string, object> {
-                { "openai", new { reasoning = new { effort = "medium" } } }
-            },
-            cancellationToken: cancellationToken
-        );
+                services,
+                ctx.Server,
+                VerifierPrompt,
+                verifyArgs,
+                VerifierModel,
+                metadata: new JsonObject
+                {
+                    ["openai"] = new JsonObject
+                    {
+                        ["reasoning"] = new JsonObject
+                        {
+                            ["effort"] = "medium"
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken
+            );
 
         // Output
         var finalText = BuildFinalText(writerSample?.ToText(),
@@ -154,14 +188,27 @@ public static class OpenAIFinancialResearch
         };
 
         var sample = await sampling.GetPromptSample(
-            services, server, WebSearchPrompt, args, SearchModel,
-            metadata: new Dictionary<string, object> {
-                { "openai", new {
-                    reasoning = new { effort = "low" },
-                     tools =  new[] {
-                                    new {type = "web_search"}
-                                },
-                } }
+            services,
+            server,
+            WebSearchPrompt,
+            args,
+            SearchModel,
+            metadata: new JsonObject
+            {
+                ["openai"] = new JsonObject
+                {
+                    ["reasoning"] = new JsonObject
+                    {
+                        ["effort"] = "low"
+                    },
+                    ["tools"] = new JsonArray
+                    {
+                        new JsonObject
+                        {
+                            ["type"] = "web_search"
+                        }
+                    }
+                }
             },
             cancellationToken: cancellationToken
         );
@@ -184,12 +231,23 @@ public static class OpenAIFinancialResearch
         };
 
         var sample = await sampling.GetPromptSample(
-            services, server, FundamentalsPrompt, args, AnalystsModel,
-            metadata: new Dictionary<string, object> {
-                { "openai", new { reasoning = new { effort = "low" } } }
-            },
-            cancellationToken: cancellationToken
-        );
+              services,
+              server,
+              FundamentalsPrompt,
+              args,
+              AnalystsModel,
+              metadata: new JsonObject
+              {
+                  ["openai"] = new JsonObject
+                  {
+                      ["reasoning"] = new JsonObject
+                      {
+                          ["effort"] = "low"
+                      }
+                  }
+              },
+              cancellationToken: cancellationToken
+          );
 
         return sample.ToText();
     }
@@ -208,10 +266,21 @@ public static class OpenAIFinancialResearch
             ["evidence"] = JsonSerializer.SerializeToElement(string.Join("\n\n", searchResults))
         };
 
-        var sample = await sampling.GetPromptSample(
-            services, server, RiskPrompt, args, AnalystsModel,
-            metadata: new Dictionary<string, object> {
-                { "openai", new { reasoning = new { effort = "low" } } }
+       var sample = await sampling.GetPromptSample(
+            services,
+            server,
+            RiskPrompt,
+            args,
+            AnalystsModel,
+            metadata: new JsonObject
+            {
+                ["openai"] = new JsonObject
+                {
+                    ["reasoning"] = new JsonObject
+                    {
+                        ["effort"] = "low"
+                    }
+                }
             },
             cancellationToken: cancellationToken
         );

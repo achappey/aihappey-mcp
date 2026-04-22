@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -43,22 +44,25 @@ public static class KnowledgeGraph
           };
 
           // STEP 1: Extract Entities
-          var entitiesResult = await samplingService.GetPromptSample<List<Entity>>(
-              serviceProvider,
-              mcpServer,
-              "extract-entities",
-              extractEntitiesArgs,
-              model,
-              metadata: new Dictionary<string, object>
+         var entitiesResult = await samplingService.GetPromptSample<List<Entity>>(
+                serviceProvider,
+                mcpServer,
+                "extract-entities",
+                extractEntitiesArgs,
+                model,
+                metadata: new JsonObject
+                {
+                    ["openai"] = new JsonObject
+                    {
+                        ["reasoning"] = new JsonObject
                         {
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            } },
-                        },
-              maxTokens: 16384,
-              cancellationToken: cancellationToken);
+                            ["effort"] = "low"
+                        }
+                    }
+                },
+                maxTokens: 16384,
+                cancellationToken: cancellationToken
+            );
 
           var extractRelationsArgs = new Dictionary<string, JsonElement>
           {
@@ -68,21 +72,24 @@ public static class KnowledgeGraph
 
           // STEP 2: Extract Relations
           var relationsResult = await samplingService.GetPromptSample<List<Relation>>(
-              serviceProvider,
-              mcpServer,
-              "extract-relations",
-              extractRelationsArgs,
-              model,
-              metadata: new Dictionary<string, object>
+                serviceProvider,
+                mcpServer,
+                "extract-relations",
+                extractRelationsArgs,
+                model,
+                metadata: new JsonObject
+                {
+                    ["openai"] = new JsonObject
+                    {
+                        ["reasoning"] = new JsonObject
                         {
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "medium"
-                                }
-                            } },
-                        },
-              maxTokens: 16384,
-              cancellationToken: cancellationToken);
+                            ["effort"] = "medium"
+                        }
+                    }
+                },
+                maxTokens: 16384,
+                cancellationToken: cancellationToken
+            );
 
           //   var relations = relationsResult.Content ?? new();
           var verifyArg = new Dictionary<string, JsonElement>
@@ -90,47 +97,53 @@ public static class KnowledgeGraph
               ["relations"] = JsonSerializer.SerializeToElement(relationsResult),
               ["entities"] = JsonSerializer.SerializeToElement(entitiesResult)
           };
+
           // STEP 3: Verify Entities & Relations
           var verifyResult = await samplingService.GetPromptSample<VerifiedGraph>(
-              serviceProvider,
-              mcpServer,
-              "verify-graph-data",
-              verifyArg,
-              model,
-              metadata: new Dictionary<string, object>
+                serviceProvider,
+                mcpServer,
+                "verify-graph-data",
+                verifyArg,
+                model,
+                metadata: new JsonObject
+                {
+                    ["openai"] = new JsonObject
+                    {
+                        ["reasoning"] = new JsonObject
                         {
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            } },
-                        },
-              maxTokens: 16384,
-              cancellationToken: cancellationToken);
+                            ["effort"] = "low"
+                        }
+                    }
+                },
+                maxTokens: 16384,
+                cancellationToken: cancellationToken
+            );
 
           var graphResultArgs = new Dictionary<string, JsonElement>
           {
               ["verifiedEntities"] = JsonSerializer.SerializeToElement(verifyResult?.Entities),
               ["verifiedRelations"] = JsonSerializer.SerializeToElement(verifyResult?.Relations)
           };
-          
-          // STEP 4: Compose Final Graph
+
           var graphResult = await samplingService.GetPromptSample<ComposedGraph>(
-              serviceProvider,
-              mcpServer,
-              "compose-final-graph",
-              graphResultArgs,
-              model,
-              metadata: new Dictionary<string, object>
-                        {
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            } },
-                        },
-              maxTokens: 16384,
-              cancellationToken: cancellationToken);
+                 serviceProvider,
+                 mcpServer,
+                 "compose-final-graph",
+                 graphResultArgs,
+                 model,
+                 metadata: new JsonObject
+                 {
+                     ["openai"] = new JsonObject
+                     {
+                         ["reasoning"] = new JsonObject
+                         {
+                             ["effort"] = "low"
+                         }
+                     }
+                 },
+                 maxTokens: 16384,
+                 cancellationToken: cancellationToken
+             );
 
           await mcpServer.SendMessageNotificationAsync("Knowledge graph extraction completed (typed).", LoggingLevel.Info, cancellationToken);
 

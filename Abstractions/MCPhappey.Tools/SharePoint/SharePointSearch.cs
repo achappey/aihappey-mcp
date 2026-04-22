@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -87,7 +88,7 @@ public static class SharePointSearch
         var mcpServer = requestContext.Server;
 
         var allContent = new List<string>();
-        
+
         foreach (var url in urls)
         {
             try
@@ -110,16 +111,21 @@ public static class SharePointSearch
         };
 
         var result = await samplingService.GetPromptSample(
-            serviceProvider, mcpServer, "extract-with-facts", args, "gpt-5.4-mini",
-            metadata: new Dictionary<string, object>()
+            serviceProvider,
+            mcpServer,
+            "extract-with-facts",
+            args,
+            "gpt-5.4-mini",
+            metadata: new JsonObject
+            {
+                ["openai"] = new JsonObject
                 {
-                    {"openai", new {
-                         reasoning = new {
-                            effort = "medium"
-                         }
-                     } },
-
-                },
+                    ["reasoning"] = new JsonObject
+                    {
+                        ["effort"] = "medium"
+                    }
+                }
+            },
             cancellationToken: cancellationToken
         );
 

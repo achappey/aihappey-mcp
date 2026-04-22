@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -22,27 +23,29 @@ public static class GroqCompound
             string reasoning = "medium",
           CancellationToken cancellationToken = default)
     {
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
-        {
-            Metadata = new Dictionary<string, object>()
-                {
-                    {"groq", new
-                    {
-                        reasoning = new
-                        {
-                            effort = reasoning
-                        }
-                    } },
-                }.ToJsonObject(),
-            Temperature = 0,
-            MaxTokens = 8192,
-            ModelPreferences = model.ToModelPreferences(),
-            Messages = [prompt.ToUserSamplingMessage()]
-        }, cancellationToken);
+        var response = await requestContext.Server.SampleAsync(
+             new CreateMessageRequestParams()
+             {
+                 Metadata = new JsonObject
+                 {
+                     ["groq"] = new JsonObject
+                     {
+                         ["reasoning"] = new JsonObject
+                         {
+                             ["effort"] = reasoning
+                         }
+                     }
+                 },
+                 Temperature = 0,
+                 MaxTokens = 8192,
+                 ModelPreferences = model.ToModelPreferences(),
+                 Messages = [prompt.ToUserSamplingMessage()]
+             },
+             cancellationToken);
 
-        var metadata = respone.Meta?.ToJsonContent("https://api.groq.com");
+        var metadata = response.Meta?.ToJsonContent("https://api.groq.com");
 
-        return await requestContext.WithUploads(respone, serviceProvider, metadata, cancellationToken);
+        return await requestContext.WithUploads(response, serviceProvider, metadata, cancellationToken);
     }
 }
 

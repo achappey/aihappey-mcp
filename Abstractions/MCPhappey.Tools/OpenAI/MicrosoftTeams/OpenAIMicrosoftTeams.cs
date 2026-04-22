@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -26,24 +27,27 @@ public static class OpenAITeams
         var oboToken = await serviceProvider.GetOboGraphToken(requestContext.Server);
         var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
         {
-            Metadata = new Dictionary<string, object>()
+            Metadata = new JsonObject
             {
-                {"openai", new {
-                    reasoning = new
-                            {
-                                effort = "none"
-                            },
-                    tools = new[] {
-                        new {
-                            type = "mcp",
-                            server_label = "microsoft_teams",
-                            authorization = oboToken,
-                            connector_id = "connector_microsoftteams",
-                            require_approval = "never"
-                        }
-                    }
-                }},
-            }.ToJsonObject(),
+                ["openai"] = new JsonObject
+                {
+                    ["reasoning"] = new JsonObject
+                    {
+                        ["effort"] = "none"
+                    },
+                    ["tools"] = new JsonArray
+        {
+            new JsonObject
+            {
+                ["type"] = "mcp",
+                ["server_label"] = "microsoft_teams",
+                ["authorization"] = oboToken,
+                ["connector_id"] = "connector_microsoftteams",
+                ["require_approval"] = "never"
+            }
+        }
+                }
+            },
             Temperature = 1,
             MaxTokens = 8192,
             ModelPreferences = "gpt-5.1".ToModelPreferences(),

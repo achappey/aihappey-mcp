@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -55,36 +56,59 @@ public static class AnthropicCodeExecution
             }
         }
 
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
+        var anthropic = new JsonObject
         {
-            Metadata = new Dictionary<string, object>()
-                {
-                    {"anthropic", new {
-                        code_execution = new { },
-                        thinking = thinkingBudget.HasValue ? new {
-                            budget_tokens = thinkingBudget.Value
-                        } : null,
-                        container = skills?.Any() == true ? new
+            ["code_execution"] = new JsonObject()
+        };
+
+        // thinking (optioneel)
+        if (thinkingBudget.HasValue)
+        {
+            anthropic["thinking"] = new JsonObject
+            {
+                ["budget_tokens"] = thinkingBudget.Value
+            };
+        }
+
+        // container + skills (optioneel)
+        if (skills?.Any() == true)
+        {
+            anthropic["container"] = new JsonObject
+            {
+                ["id"] = containerId,
+                ["skills"] = new JsonArray(
+                    skills.Select(a =>
+                        new JsonObject
                         {
-                            id = containerId,
-                            skills = skills.Select(a => new
-                            {
-                                skill_id = a,
-                                type = a.StartsWith("skill_") ? "custom" : "anthropic",
-                                version = "latest"
-                            })
-                        } : null
-                     } },
-                }.ToJsonObject(),
-            Temperature = 0,
-            MaxTokens = maxTokens,
-            ModelPreferences = model.ToModelPreferences(),
-            Messages = [.. attachedLinks.Select(t => t.Contents.ToString().ToUserSamplingMessage()), prompt.ToUserSamplingMessage()]
-        }, cancellationToken);
+                            ["skill_id"] = a,
+                            ["type"] = a.StartsWith("skill_") ? "custom" : "anthropic",
+                            ["version"] = "latest"
+                        }
+                    ).ToArray()
+                )
+            };
+        }
 
-        var metadata = respone.Meta?.ToJsonContent("https://api.anthropic.com");
+        var response = await requestContext.Server.SampleAsync(
+            new CreateMessageRequestParams()
+            {
+                Metadata = new JsonObject
+                {
+                    ["anthropic"] = anthropic
+                },
+                Temperature = 0,
+                MaxTokens = maxTokens,
+                ModelPreferences = model.ToModelPreferences(),
+                Messages = [
+                    .. attachedLinks.Select(t => t.Contents.ToString().ToUserSamplingMessage()),
+            prompt.ToUserSamplingMessage()
+                ]
+            },
+            cancellationToken);
 
-        return await requestContext.WithUploads(respone, serviceProvider, metadata, cancellationToken: cancellationToken);
+        var metadata = response.Meta?.ToJsonContent("https://api.anthropic.com");
+
+        return await requestContext.WithUploads(response, serviceProvider, metadata, cancellationToken: cancellationToken);
     }
 }
 

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -45,26 +46,33 @@ public static class GoogleCodeExecution
             }
         }
 
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
-        {
-            Metadata = new Dictionary<string, object>()
+        var response = await requestContext.Server.SampleAsync(
+            new CreateMessageRequestParams()
+            {
+                Metadata = new JsonObject
                 {
-                    {"google", new {
-                        code_execution = new { },
-                        thinkingConfig = new {
-                            thinkingBudget = -1
+                    ["google"] = new JsonObject
+                    {
+                        ["code_execution"] = new JsonObject(),
+                        ["thinkingConfig"] = new JsonObject
+                        {
+                            ["thinkingBudget"] = -1
                         }
-                     } },
-                }.ToJsonObject(),
-            Temperature = 0,
-            MaxTokens = 8192,
-            ModelPreferences = model.ToModelPreferences(),
-            Messages = [.. attachedLinks.Select(t => t.Contents.ToString().ToUserSamplingMessage()), prompt.ToUserSamplingMessage()]
-        }, cancellationToken);
+                    }
+                },
+                Temperature = 0,
+                MaxTokens = 8192,
+                ModelPreferences = model.ToModelPreferences(),
+                Messages = [
+                    .. attachedLinks.Select(t => t.Contents.ToString().ToUserSamplingMessage()),
+                    prompt.ToUserSamplingMessage()
+                ]
+            },
+            cancellationToken);
 
-        var metadata = respone.Meta?.ToJsonContent("https://generativelanguage.googleapis.com");
+        var metadata = response.Meta?.ToJsonContent("https://generativelanguage.googleapis.com");
 
-        return await requestContext.WithUploads(respone, serviceProvider, metadata, cancellationToken);
+        return await requestContext.WithUploads(response, serviceProvider, metadata, cancellationToken);
     }
 }
 

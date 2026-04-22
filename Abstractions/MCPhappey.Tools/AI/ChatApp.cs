@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using DocumentFormat.OpenXml.Wordprocessing;
 using MCPhappey.Common;
 using MCPhappey.Common.Models;
@@ -27,14 +28,10 @@ public static class ChatApp
         var promptArgs = PromptArguments.Create(
                        ("userMessage", userMessage ?? string.Empty));
 
-        var options = new
+        var meta = new JsonObject
         {
-
-        };
-
-        var meta = new Dictionary<string, object> {
-            { "openai", options },
-            { "pollinations", options },
+            ["openai"] = new JsonObject(),
+            ["pollinations"] = new JsonObject()
         };
 
         // Pick the model you want (same as before or allow config)
@@ -154,10 +151,7 @@ public static class ChatApp
 
         await mcpServer.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: cancellationToken);
 
-        var options = new
-        {
-            reasoning = new { effort = "low" },
-        };
+
 
         const int MaxLength = 60;
 
@@ -169,9 +163,22 @@ public static class ChatApp
         if (currentUser != null)
             args.Add("currentUser", currentUser.ToJsonElement());
 
-        var meta = new Dictionary<string, object> {
-            { "openai", options },
-            { "pollinations", options },
+        var meta = new JsonObject
+        {
+            ["openai"] = new JsonObject
+            {
+                ["reasoning"] = new JsonObject
+                {
+                    ["effort"] = "low"
+                }
+            },
+            ["pollinations"] = new JsonObject
+            {
+                ["reasoning"] = new JsonObject
+                {
+                    ["effort"] = "low"
+                }
+            }
         };
 
         async Task<IEnumerable<ContentBlock>?> SampleAsync() =>

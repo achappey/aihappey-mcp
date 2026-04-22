@@ -17,7 +17,7 @@ public class SamplingService(PromptService promptService)
        string? systemPrompt = null,
        ContextInclusion includeContext = ContextInclusion.None,
        int? maxTokens = 4096,
-       Dictionary<string, object>? metadata = null,
+       JsonObject? metadata = null,
        IEnumerable<SamplingMessage>? messages = null,
        CancellationToken cancellationToken = default) =>
        await GetPromptSample(serviceProvider, mcpServer, name, arguments, modelHint != null ? [modelHint] : null,
@@ -31,7 +31,7 @@ public class SamplingService(PromptService promptService)
         string? systemPrompt = null,
         ContextInclusion includeContext = ContextInclusion.None,
         int? maxTokens = 4096,
-        Dictionary<string, object>? metadata = null,
+        JsonObject? metadata = null,
         IEnumerable<SamplingMessage>? messages = null,
         CancellationToken cancellationToken = default)
     {
@@ -50,9 +50,7 @@ public class SamplingService(PromptService promptService)
             SystemPrompt = systemPrompt,
             ModelPreferences = modelHints?.ToModelPreferences(),
             Temperature = temperature,
-            Metadata = metadata is null
-                ? null
-                : (JsonObject?)JsonSerializer.SerializeToNode(metadata)
+            Metadata = metadata
         }, cancellationToken);
     }
 
@@ -65,7 +63,7 @@ public class SamplingService(PromptService promptService)
         string? systemPrompt = null,
         ContextInclusion includeContext = ContextInclusion.None,
         int? maxTokens = 4096,
-        Dictionary<string, object>? metadata = null,
+        JsonObject? metadata = null,
         CancellationToken cancellationToken = default)
     {
         var promptSample = await GetPromptSample(serviceProvider, mcpServer, name, arguments, modelHint,

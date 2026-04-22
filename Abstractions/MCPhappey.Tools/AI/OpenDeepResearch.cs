@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
@@ -17,7 +18,7 @@ public static class OpenDeepResearch
     [McpServerTool(Title = "Create Research Brief", Name = "open_deepresearch_create_brief", ReadOnly = true)]
     public static async Task<CallToolResult?> OpenDeepResearch_CreateBrief(
            [Description("Research prompt")] string query,
-       //    [Description("List of background document URLs for the research. Max 5 urls.")] List<string> fileUrls,
+           //    [Description("List of background document URLs for the research. Max 5 urls.")] List<string> fileUrls,
            IServiceProvider serviceProvider,
            RequestContext<CallToolRequestParams> requestContext,
            CancellationToken cancellationToken = default) =>
@@ -40,22 +41,24 @@ public static class OpenDeepResearch
             };
 
             var clarification = await samplingService.GetPromptSample<ClarifyWithUserResponse>(
-                serviceProvider,
-                mcpServer,
-                "clarify-with-user-instructions",
-                promptArgs,
-                "gpt-5.1",
-                maxTokens: 4096 * 4,
-                metadata: new Dictionary<string, object>
-                {
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            } },
-                },
-                cancellationToken: cancellationToken
-            );
+                    serviceProvider,
+                    mcpServer,
+                    "clarify-with-user-instructions",
+                    promptArgs,
+                    "gpt-5.1",
+                    maxTokens: 4096 * 4,
+                    metadata: new JsonObject
+                    {
+                        ["openai"] = new JsonObject
+                        {
+                            ["reasoning"] = new JsonObject
+                            {
+                                ["effort"] = "low"
+                            }
+                        }
+                    },
+                    cancellationToken: cancellationToken
+                );
 
             if (clarification?.NeedClarification == true)
             {
@@ -63,22 +66,24 @@ public static class OpenDeepResearch
             }
 
             var researchQuestion = await samplingService.GetPromptSample(
-                       serviceProvider,
-                       mcpServer,
-                       "transform-messages-into-research-topic",
-                       promptArgs,
-                       "gpt-5.1",
-                        maxTokens: 4096 * 4,
-                       metadata: new Dictionary<string, object>
-                       {
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            } },
-                       },
-                       cancellationToken: cancellationToken
-                   );
+                     serviceProvider,
+                     mcpServer,
+                     "transform-messages-into-research-topic",
+                     promptArgs,
+                     "gpt-5.1",
+                     maxTokens: 4096 * 4,
+                     metadata: new JsonObject
+                     {
+                         ["openai"] = new JsonObject
+                         {
+                             ["reasoning"] = new JsonObject
+                             {
+                                 ["effort"] = "low"
+                             }
+                         }
+                     },
+                     cancellationToken: cancellationToken
+                 );
 
             var uploaded = await graphClient.Upload(
                 $"{nameof(OpenDeepResearch_CreateBrief).ToOutputFileName()}.md",

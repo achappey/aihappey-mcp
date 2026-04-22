@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -39,23 +40,25 @@ public static class GoogleNanoBanana
                },
                cancellationToken);
 
-        CreateMessageResult resultContent = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
-        {
-            Messages = [
-                ..items?.Select(a => ImageContentBlock.FromBytes(a.Contents.ToArray(), a.MimeType)
-                    .ToUserSamplingMessage()) ?? [],
-                prompt.ToUserSamplingMessage()],
-            IncludeContext = ContextInclusion.ThisServer,
-            MaxTokens = 4096,
-            SystemPrompt = "Create a single image according to the prompt",
-            ModelPreferences = typed.Model?.ToModelPreferences(),
-            Metadata = new Dictionary<string, object>
-                        {
-                            { "google", new {
-
-                            } },
-                        }.ToJsonObject()
-        }, cancellationToken);
+        CreateMessageResult resultContent = await requestContext.Server.SampleAsync(
+            new CreateMessageRequestParams()
+            {
+                Messages = [
+                    ..items?.Select(a => ImageContentBlock
+                        .FromBytes(a.Contents.ToArray(), a.MimeType)
+                        .ToUserSamplingMessage()) ?? [],
+                    prompt.ToUserSamplingMessage()
+                ],
+                IncludeContext = ContextInclusion.ThisServer,
+                MaxTokens = 4096,
+                SystemPrompt = "Create a single image according to the prompt",
+                ModelPreferences = typed.Model?.ToModelPreferences(),
+                Metadata = new JsonObject
+                {
+                    ["google"] = new JsonObject()
+                }
+            },
+            cancellationToken);
 
         return await requestContext.WithUploads(resultContent, serviceProvider, cancellationToken: cancellationToken);
     });

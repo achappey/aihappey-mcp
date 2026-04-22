@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -58,27 +59,36 @@ public static class DocumentHighlighter
                         "ai-doc-highlights",
                         promptArgs,
                         modelName,
-                        metadata: new Dictionary<string, object>
+                        metadata: new JsonObject
                         {
-                            { "google", new {
-                                thinkingConfig = new {
-                                    thinkingBudget = -1
+                            ["google"] = new JsonObject
+                            {
+                                ["thinkingConfig"] = new JsonObject
+                                {
+                                    ["thinkingBudget"] = -1
                                 }
-                            } },
-                            { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
+                            },
+
+                            ["openai"] = new JsonObject
+                            {
+                                ["reasoning"] = new JsonObject
+                                {
+                                    ["effort"] = "low"
                                 }
-                            } },
-                            { "xai", new {
-                                reasoning = new {
+                            },
+
+                            ["xai"] = new JsonObject
+                            {
+                                ["reasoning"] = new JsonObject()
+                            },
+
+                            ["anthropic"] = new JsonObject
+                            {
+                                ["thinking"] = new JsonObject
+                                {
+                                    ["budget_tokens"] = 1024
                                 }
-                            } },
-                            { "anthropic", new {
-                                thinking = new {
-                                    budget_tokens = 1024
-                                }
-                            } },
+                            }
                         },
                         cancellationToken: cancellationToken
                     );

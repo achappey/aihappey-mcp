@@ -78,14 +78,20 @@ public static class OpenAIDocumentEngine
         {
             ModelPreferences = "gpt-5.1".ToModelPreferences(),
             MaxTokens = 4096 * 4,
-            Metadata = new Dictionary<string, object>() { { "openai",
-                            new {
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            }  } }.ToJsonObject(),
-            Messages = [file?.Contents.ToString()!.ToUserSamplingMessage()!,
-                prompt.ToUserSamplingMessage()]
+            Metadata = new JsonObject
+            {
+                ["openai"] = new JsonObject
+                {
+                    ["reasoning"] = new JsonObject
+                    {
+                        ["effort"] = "low"
+                    }
+                }
+            },
+            Messages = [
+          file?.Contents.ToString()!.ToUserSamplingMessage()!,
+        prompt.ToUserSamplingMessage()
+      ]
         };
 
         var firstSample = await requestContext.Server.SampleAsync(firstRequest, cancellationToken);
@@ -105,16 +111,24 @@ public static class OpenAIDocumentEngine
             finalArgs.Add("userHint", JsonSerializer.SerializeToElement(prompt));
         }
 
-        var finalSampling = await samplingService.GetPromptSample(serviceProvider,
-            requestContext.Server, "convert-to-structure", finalArgs,
-            "gpt-5.1",
-            maxTokens: 4096 * 8,
-            metadata: new Dictionary<string, object>() { { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                }
-                            }  } },
-            cancellationToken: cancellationToken);
+        var finalSampling = await samplingService.GetPromptSample(
+                serviceProvider,
+                requestContext.Server,
+                "convert-to-structure",
+                finalArgs,
+                "gpt-5.1",
+                maxTokens: 4096 * 8,
+                metadata: new JsonObject
+                {
+                    ["openai"] = new JsonObject
+                    {
+                        ["reasoning"] = new JsonObject
+                        {
+                            ["effort"] = "low"
+                        }
+                    }
+                },
+                cancellationToken: cancellationToken);
 
         var jsonString = finalSampling.ToText()?.CleanJson();
 
@@ -319,23 +333,23 @@ public static class OpenAIDocumentEngine
         };
 
         var reportSampling = await samplingService.GetPromptSample(
-            serviceProvider,
-            requestContext.Server,
-            "extract-template-structure",
-            reportArgs,
-            "gpt-5.4-mini",
-            maxTokens: 4096 * 4,
-            metadata: new Dictionary<string, object>()
-            {
-                {
-                    "openai",
-                    new
-                    {
-                        reasoning = new { effort = "high" }
-                    }
-                }
-            },
-            cancellationToken: cancellationToken);
+              serviceProvider,
+              requestContext.Server,
+              "extract-template-structure",
+              reportArgs,
+              "gpt-5.4-mini",
+              maxTokens: 4096 * 4,
+              metadata: new JsonObject
+              {
+                  ["openai"] = new JsonObject
+                  {
+                      ["reasoning"] = new JsonObject
+                      {
+                          ["effort"] = "high"
+                      }
+                  }
+              },
+              cancellationToken: cancellationToken);
 
         return reportSampling.ToText()?.CleanJson() ?? "{}";
     }

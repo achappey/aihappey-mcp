@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -24,33 +25,37 @@ public static class OpenAIOutlookCalendar
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
         var oboToken = await serviceProvider.GetOboGraphToken(requestContext.Server);
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
-        {
-            Metadata = new Dictionary<string, object>()
-            {
-                {"openai", new {
-                    reasoning = new
-                            {
-                               effort = "none"
-                            },
-
-                    tools = new[] {
-                        new {
-                            type = "mcp",
-                            server_label = "outlook_calendar",
-                            authorization = oboToken,
-                            connector_id = "connector_outlookcalendar",
-                            require_approval = "never"
-                        }
+        var response = await requestContext.Server.SampleAsync(
+       new CreateMessageRequestParams()
+       {
+           Metadata = new JsonObject
+           {
+               ["openai"] = new JsonObject
+               {
+                   ["reasoning"] = new JsonObject
+                   {
+                       ["effort"] = "none"
+                   },
+                   ["tools"] = new JsonArray
+                   {
+                    new JsonObject
+                    {
+                        ["type"] = "mcp",
+                        ["server_label"] = "outlook_calendar",
+                        ["authorization"] = oboToken,
+                        ["connector_id"] = "connector_outlookcalendar",
+                        ["require_approval"] = "never"
                     }
-                }},
-            }.ToJsonObject(),
-            Temperature = 1,
-            MaxTokens = 8192,
-            ModelPreferences = "gpt-5.1".ToModelPreferences(),
-            Messages = [prompt.ToUserSamplingMessage()]
-        }, cancellationToken);
+                   }
+               }
+           },
+           Temperature = 1,
+           MaxTokens = 8192,
+           ModelPreferences = "gpt-5.1".ToModelPreferences(),
+           Messages = [prompt.ToUserSamplingMessage()]
+       },
+       cancellationToken);
 
-        return respone.Content;
+        return response.Content;
     }
 }

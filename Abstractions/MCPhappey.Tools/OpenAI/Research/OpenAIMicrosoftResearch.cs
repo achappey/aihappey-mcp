@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -37,16 +38,24 @@ public static class OpenAIMicrosoftResearch
             ["query"] = JsonSerializer.SerializeToElement(researchTopic),
         };
 
-        var querySampling = await samplingService.GetPromptSample<WebSearchPlan>(serviceProvider,
-            requestContext.Server, "microsoft-search-planner", queryArgs,
-                "gpt-5.1",
-                maxTokens: 4096 * 4,
-                metadata: new Dictionary<string, object>() { { "openai", new {
-                                reasoning = new {
-                                    effort = "medium"
-                                }
-                            }  } },
-                            cancellationToken: cancellationToken);
+        var querySampling = await samplingService.GetPromptSample<WebSearchPlan>(
+             serviceProvider,
+             requestContext.Server,
+             "microsoft-search-planner",
+             queryArgs,
+             "gpt-5.1",
+             maxTokens: 4096 * 4,
+             metadata: new JsonObject
+             {
+                 ["openai"] = new JsonObject
+                 {
+                     ["reasoning"] = new JsonObject
+                     {
+                         ["effort"] = "medium"
+                     }
+                 }
+             },
+             cancellationToken: cancellationToken);
         var counter = 1;
 
         if (requestContext.Params?.ProgressToken is not null)
@@ -98,15 +107,23 @@ public static class OpenAIMicrosoftResearch
            {"searchResults", JsonSerializer.SerializeToElement(string.Join("\n\n", searchResults))}
         };
 
-        var reportSampling = await samplingService.GetPromptSample(serviceProvider,
-            requestContext.Server, "write-report", reportArgs,
+        var reportSampling = await samplingService.GetPromptSample(
+            serviceProvider,
+            requestContext.Server,
+            "write-report",
+            reportArgs,
             "gpt-5.4-mini",
             maxTokens: 4096 * 4,
-            metadata: new Dictionary<string, object>() { { "openai", new {
-                                reasoning = new {
-                                    effort = "medium"
-                                }
-                            }  } },
+            metadata: new JsonObject
+            {
+                ["openai"] = new JsonObject
+                {
+                    ["reasoning"] = new JsonObject
+                    {
+                        ["effort"] = "medium"
+                    }
+                }
+            },
             cancellationToken: cancellationToken);
 
         var result = reportSampling.ToText();
@@ -150,38 +167,50 @@ public static class OpenAIMicrosoftResearch
                 {"searchReason", JsonSerializer.SerializeToElement(reason)}
                        };
 
-        var querySampling = await samplingService.GetPromptSample(serviceProvider,
-                 mcpServer, "microsoft-research", values,
-                     "gpt-5.4-mini",
-                     metadata: new Dictionary<string, object>() { { "openai", new {
-                                reasoning = new {
-                                    effort = "low"
-                                },
-                                mcp_list_tools = new[] {
-                                        new {
-                                            type = "mcp",
-                                            server_label = "microsoft_teams",
-                                            authorization = token,
-                                            connector_id = "connector_microsoftteams",
-                                            require_approval = "never"
-                                        },
-                                        new {
-                                            type = "mcp",
-                                            server_label = "outlook_email",
-                                            authorization = token,
-                                            connector_id = "connector_outlookemail",
-                                            require_approval = "never"
-                                        },
-                                        new {
-                                            type = "mcp",
-                                            server_label = "sharepoint",
-                                            authorization = token,
-                                            connector_id = "connector_sharepoint",
-                                            require_approval = "never"
-                                        }
-                                    }
-                            }  } },
-                            cancellationToken: cancellationToken);
+        var querySampling = await samplingService.GetPromptSample(
+     serviceProvider,
+     mcpServer,
+     "microsoft-research",
+     values,
+     "gpt-5.4-mini",
+     metadata: new JsonObject
+     {
+         ["openai"] = new JsonObject
+         {
+             ["reasoning"] = new JsonObject
+             {
+                 ["effort"] = "low"
+             },
+             ["tools"] = new JsonArray
+             {
+                new JsonObject
+                {
+                    ["type"] = "mcp",
+                    ["server_label"] = "microsoft_teams",
+                    ["authorization"] = token,
+                    ["connector_id"] = "connector_microsoftteams",
+                    ["require_approval"] = "never"
+                },
+                new JsonObject
+                {
+                    ["type"] = "mcp",
+                    ["server_label"] = "outlook_email",
+                    ["authorization"] = token,
+                    ["connector_id"] = "connector_outlookemail",
+                    ["require_approval"] = "never"
+                },
+                new JsonObject
+                {
+                    ["type"] = "mcp",
+                    ["server_label"] = "sharepoint",
+                    ["authorization"] = token,
+                    ["connector_id"] = "connector_sharepoint",
+                    ["require_approval"] = "never"
+                }
+             }
+         }
+     },
+     cancellationToken: cancellationToken);
 
         return querySampling.ToText();
     }

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;
@@ -27,35 +28,49 @@ public static class OpenAICodeInterpreter
           CancellationToken cancellationToken = default) =>
           await requestContext.WithExceptionCheck(async () =>
     {
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
+        var openai = new JsonObject
         {
-            Metadata = new Dictionary<string, object>()
+            ["code_interpreter"] = new JsonObject
+            {
+                ["type"] = "auto"
+            },
+            ["reasoning"] = new JsonObject
+            {
+                ["effort"] = reasoningEffort
+            }
+        };
+
+        // container alleen toevoegen als hij bestaat
+        if (!string.IsNullOrEmpty(containerId))
+        {
+            ((JsonObject)openai["code_interpreter"]!)["container"] = containerId;
+        }
+
+        var response = await requestContext.Server.SampleAsync(
+            new CreateMessageRequestParams()
+            {
+                Metadata = new JsonObject
                 {
-                    {"openai", new {
-                        code_interpreter = new { type = "auto",
-                            container = !string.IsNullOrEmpty(containerId) ? containerId : null },
-                        reasoning = new {
-                                    effort = reasoningEffort
-                                }
-                     } },
-                }.ToJsonObject(),
-            Temperature = 1,
-            MaxTokens = 8192,
-            ModelPreferences = model.ToModelPreferences(),
-            Messages = [prompt.ToUserSamplingMessage()]
-        }, cancellationToken);
+                    ["openai"] = openai
+                },
+                Temperature = 1,
+                MaxTokens = 8192,
+                ModelPreferences = model.ToModelPreferences(),
+                Messages = [prompt.ToUserSamplingMessage()]
+            },
+            cancellationToken);
 
         var metadata = new EmbeddedResourceBlock()
         {
             Resource = new TextResourceContents()
             {
-                Text = JsonSerializer.Serialize(respone.Meta),
+                Text = JsonSerializer.Serialize(response.Meta),
                 Uri = "https://api.openai.com",
                 MimeType = MimeTypes.Json
             }
         };
 
-        return await requestContext.WithUploads(respone, serviceProvider, metadata, cancellationToken);
+        return await requestContext.WithUploads(response, serviceProvider, metadata, cancellationToken);
     });
 }
 

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -38,43 +39,37 @@ public static class MetaAI
             cancellationToken: CancellationToken.None
         );
 
-        // Optional: per-provider generation hints (no web_search here)
-        var metadata = new Dictionary<string, object>
+        var metadata = new JsonObject
         {
-            ["openai"] = new
+            ["openai"] = new JsonObject
             {
-                reasoning = new
+                ["reasoning"] = new JsonObject
                 {
-                    effort = "high"
+                    ["effort"] = "high"
                 }
             },
-            ["xai"] = new
+            ["xai"] = new JsonObject(),
+            ["anthropic"] = new JsonObject
             {
-            },
-            ["anthropic"] = new
-            {
-                thinking = new
+                ["thinking"] = new JsonObject
                 {
-                    budget_tokens = 1024
+                    ["budget_tokens"] = 1024
                 }
             },
-            ["google"] = new
+            ["google"] = new JsonObject
             {
-                thinkingConfig = new
+                ["thinkingConfig"] = new JsonObject
                 {
-                    thinkingBudget = -1
+                    ["thinkingBudget"] = -1
                 }
             },
-            ["perplexity"] = new
+            ["perplexity"] = new JsonObject
             {
-                search_mode = "web",
+                ["search_mode"] = "web"
             },
-            ["mistral"] = new
-            {
-
-            }
+            ["mistral"] = new JsonObject()
         };
-
+        
         // Parallel calls per model
         var tasks = ModelNames.Select(async modelName =>
         {
@@ -88,7 +83,7 @@ public static class MetaAI
                     MaxTokens = 4096,
                     ModelPreferences = modelName?.ToModelPreferences(),
                     Temperature = 1,
-                    Metadata = metadata.ToJsonObject(),
+                    Metadata = metadata,
                     Messages = [prompt.ToUserSamplingMessage()]
                 });
 

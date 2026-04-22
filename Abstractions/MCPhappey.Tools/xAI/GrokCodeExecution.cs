@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,21 +43,27 @@ public static class GrokCodeExecution
             }
         }
 
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
-        {
-            Metadata = new Dictionary<string, object?>()
+     var response = await requestContext.Server.SampleAsync(
+            new CreateMessageRequestParams()
+            {
+                Metadata = new JsonObject
                 {
-                    {"xai", new {
-                        code_execution = new { }
-                     } },
-                }.ToJsonObject(),
-            Temperature = 0,
-            MaxTokens = 8192,
-            ModelPreferences = "grok-4-fast-reasoning".ToModelPreferences(),
-            Messages = [.. attachedLinks.Select(t => t.Contents.ToString()?.ToUserSamplingMessage()!), prompt.ToUserSamplingMessage()]
-        }, cancellationToken);
+                    ["xai"] = new JsonObject
+                    {
+                        ["code_execution"] = new JsonObject()
+                    }
+                },
+                Temperature = 0,
+                MaxTokens = 8192,
+                ModelPreferences = "grok-4-fast-reasoning".ToModelPreferences(),
+                Messages = [
+                    ..attachedLinks.Select(t => t.Contents.ToString()?.ToUserSamplingMessage()!),
+                    prompt.ToUserSamplingMessage()
+                ]
+            },
+            cancellationToken);
 
-        return respone.Content;
+        return response.Content;
     }
 }
 

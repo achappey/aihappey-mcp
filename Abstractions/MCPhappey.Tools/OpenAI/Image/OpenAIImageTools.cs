@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -42,24 +43,27 @@ public static class OpenAIImageTools
                 ImageContentBlock.FromBytes(file?.Contents, file?.MimeType!).ToUserSamplingMessage());
         }
 
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
-        {
-            Metadata = new Dictionary<string, object>()
-            {
-                {"openai", new {
-                    reasoning = new
+        var response = await requestContext.Server.SampleAsync(
+                new CreateMessageRequestParams()
+                {
+                    Metadata = new JsonObject
+                    {
+                        ["openai"] = new JsonObject
                         {
-                            effort = "low"
-                        },
-                    } },
-            }.ToJsonObject(),
-            Temperature = 1,
-            MaxTokens = 8192 * 4,
-            ModelPreferences = "gpt-5.1".ToModelPreferences(),
-            Messages = [.. imageBlocks, prompt.ToUserSamplingMessage()]
-        }, cancellationToken);
+                            ["reasoning"] = new JsonObject
+                            {
+                                ["effort"] = "low"
+                            }
+                        }
+                    },
+                    Temperature = 1,
+                    MaxTokens = 8192 * 4,
+                    ModelPreferences = "gpt-5.1".ToModelPreferences(),
+                    Messages = [.. imageBlocks, prompt.ToUserSamplingMessage()]
+                },
+                cancellationToken);
 
-        return respone.Content;
+        return response.Content;
     }
 
     [Description("Describes one or more images.")]
@@ -99,25 +103,25 @@ public static class OpenAIImageTools
 
        var startTime = DateTime.UtcNow;
        var result = await samplingService.GetPromptSample(
-           serviceProvider,
-           mcpServer,
-           "describe-images-in-detail",
-           arguments: promptArgs,
-           modelHint: "gpt-5.4-mini",
-           maxTokens: 8192 * 4,
-           metadata: new Dictionary<string, object>
-           {
-                { "openai", new {
-                      reasoning = new
-                        {
-                            effort = "low"
-                        },
+            serviceProvider,
+            mcpServer,
+            "describe-images-in-detail",
+            arguments: promptArgs,
+            modelHint: "gpt-5.4-mini",
+            maxTokens: 8192 * 4,
+            metadata: new JsonObject
+            {
+                ["openai"] = new JsonObject
+                {
+                    ["reasoning"] = new JsonObject
+                    {
+                        ["effort"] = "low"
                     }
                 }
-           },
-           messages: imageBlocks,
-           cancellationToken: cancellationToken
-       );
+            },
+            messages: imageBlocks,
+            cancellationToken: cancellationToken
+        );
 
        var endTime = DateTime.UtcNow;
        result.Meta?.Add("duration", (endTime - startTime).ToString());
