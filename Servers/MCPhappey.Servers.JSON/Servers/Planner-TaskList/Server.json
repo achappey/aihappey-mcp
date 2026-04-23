@@ -7,7 +7,7 @@
         "description": "Simple todo list abstraction backed by Microsoft Planner.",
         "icons": [
             {
-                "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Microsoft_Planner_%282024%E2%80%93present%29.svg/1200px-Microsoft_Planner_%282024%E2%80%93present%29.svg.png"
+                "src": "https://upload.wikimedia.org/wikipedia/commons/3/39/Microsoft_Planner_%282019-current%29.png"
             }
         ]
     },

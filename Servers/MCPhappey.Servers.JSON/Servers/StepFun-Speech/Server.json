@@ -7,7 +7,7 @@
     "description": "StepFun text-to-speech tools for raw text and fileUrl input with upload + resource-link output.",
     "icons": [
       {
-        "src": "https://pbs.twimg.com/profile_images/1888792150437203968/6U_6SM6S.jpg"
+        "src": "https://avatars.githubusercontent.com/u/178004800?s=280&v=4"
       }
     ]
   },
@@ -18,4 +18,3 @@
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
   }
 }
-
