@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
@@ -69,13 +70,40 @@ public static partial class ModelContextResourceExtensions
 
         request.Services!.WithHeaders(headers);
 
+        string? cursor = null;
+        int? limit = null;
+
+        var meta = request.Params?.Meta; // JsonObject
+
+        if (meta is not null)
+        {
+            if (meta["cursor"] is JsonValue cursorValue)
+            {
+                cursor = cursorValue.GetValue<string>();
+            }
+
+            if (meta["limit"] is JsonValue limitValue)
+            {
+                if (limitValue.TryGetValue<int>(out var i))
+                {
+                    limit = i;
+                }
+                else if (limitValue.TryGetValue<string>(out var s) && int.TryParse(s, out var parsed))
+                {
+                    limit = parsed;
+                }
+            }
+        }
+
         try
         {
             var finalResult = await service.GetServerResource(
                 request.Services!,
                 request.Server,
                 request.Params?.Uri!,
-                cancellationToken);
+                cursor: cursor,
+                limit: limit,
+                cancellationToken: cancellationToken);
 
             var endTime = DateTime.UtcNow;
 

@@ -49,7 +49,6 @@ public static class GraphCopilotRetrieval
             var json = JsonSerializer.Serialize(body);
             using var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // Absolute URL so we never accidentally hit /v1.0/beta/...
             using var resp = await httpClient.PostAsync(
                 "https://graph.microsoft.com/beta/copilot/retrieval",
                 content,

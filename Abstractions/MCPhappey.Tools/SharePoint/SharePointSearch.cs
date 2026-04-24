@@ -55,6 +55,8 @@ public static class SharePointSearch
         OpenWorld = false, ReadOnly = true)]
     public static async Task<CallToolResult> SharePoint_ReadSearchResult(
         [Description("Url to the search result item")] string url,
+        [Description("Optional opaque pagination cursor returned by a previous read.")] string? cursor,
+        [Description("Optional maximum number of lines to return for text-based resources. Defaults to 100.")] int? limit,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
@@ -63,11 +65,22 @@ public static class SharePointSearch
         var mcpServer = requestContext.Server;
 
         var content = await downloadService.ScrapeContentAsync(serviceProvider, mcpServer, url, cancellationToken);
-        var text = string.Join("\n\n", content.Select(c => c.Contents.ToString()));
 
-        return text.ToTextContentBlock().ToCallToolResult();
+        var (pagedItems, nextCursor) = content.ApplyPaging(cursor, limit);
+
+        var result = pagedItems.ToReadResourceResult();
+
+        if (nextCursor is not null)
+        {
+            foreach (var item in result.Contents.OfType<TextResourceContents>())
+            {
+                item.Meta ??= [];
+                item.Meta["nextCursor"] = nextCursor;
+            }
+        }
+
+        return result.ToCallToolResult();
     }
-
 
     [Description("Executes a prompt on Microsoft 365 search results")]
     [McpServerTool(Name = "sharepoint_prompt_search_results",

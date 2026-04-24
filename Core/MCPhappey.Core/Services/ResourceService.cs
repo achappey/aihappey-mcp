@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Nodes;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
@@ -35,6 +36,8 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
     public async Task<ReadResourceResult> GetServerResource(IServiceProvider serviceProvider,
         McpServer mcpServer,
         string uri,
+        string? cursor = null,
+        int? limit = 100,
         CancellationToken cancellationToken = default)
     {
         var serverConfig = serviceProvider.GetServerConfig(mcpServer);
@@ -79,8 +82,7 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
                 }]
                 };
             }
-            else 
-            //if (mcpServer.ServerOptions.ServerInfo?.Name == "OneDrive-HTMLCanvas")
+            else
             {
                 var download = await downloadService.DownloadContentAsync(serviceProvider, mcpServer, uri,
                               cancellationToken);
@@ -106,6 +108,128 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
         var fileItem = await downloadService.ScrapeContentAsync(serviceProvider, mcpServer, uri,
                        cancellationToken);
 
-        return fileItem.ToReadResourceResult();
+        var fileItems = fileItem.ToList();
+        var (pagedItems, nextCursor) = fileItems.ApplyPaging(cursor, limit);
+
+        var result = pagedItems.ToReadResourceResult();
+
+        if (nextCursor is not null)
+        {
+            foreach (var content in result.Contents.OfType<TextResourceContents>())
+            {
+                content.Meta ??= [];
+                content.Meta["nextCursor"] = nextCursor;
+            }
+        }
+
+        return result;
+    }
+
+
+}
+
+
+public static class ResourcePaging
+{
+
+    private static readonly HashSet<string> ExtraTextMimeTypes =
+        [
+            "application/json",
+            "application/xml",
+            "application/javascript",
+            "application/x-javascript",
+            "application/sql",
+            "application/csv"
+        ];
+
+    private static bool IsTextMimeType(string? mimeType)
+    {
+        if (string.IsNullOrWhiteSpace(mimeType))
+            return false;
+
+        if (mimeType.StartsWith("text/", StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return ExtraTextMimeTypes.Contains(mimeType);
+    }
+
+    private static bool CanApplyPaging(IEnumerable<FileItem> items)
+    {
+        var list = items.ToList();
+        return list.Count > 0 && list.All(x => IsTextMimeType(x.MimeType));
+    }
+
+    public static (IReadOnlyList<FileItem> Items, string? NextCursor) ApplyPaging(
+        this IEnumerable<FileItem> items,
+        string? cursor,
+        int? limit)
+    {
+        var list = items.ToList();
+
+        if (!CanApplyPaging(list))
+            return (list, null);
+
+        var startLine = ParseCursor(cursor);
+        var takeLines = Math.Clamp(limit ?? 100, 1, 1000);
+
+        var paged = new List<FileItem>();
+        var currentLine = 0;
+        string? nextCursor = null;
+
+        foreach (var item in list)
+        {
+            var text = item.Contents.ToString();
+            var lines = text.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
+
+            if (currentLine + lines.Length <= startLine)
+            {
+                currentLine += lines.Length;
+                continue;
+            }
+
+            var localStart = Math.Max(0, startLine - currentLine);
+            var remaining = takeLines - paged.Sum(x => x.Contents.ToString().Replace("\r\n", "\n").Replace('\r', '\n').Split('\n').Length);
+
+            if (remaining <= 0)
+                break;
+
+            var slice = lines.Skip(localStart).Take(remaining).ToArray();
+            if (slice.Length > 0)
+            {
+                paged.Add(new FileItem
+                {
+                    Uri = item.Uri,
+                    Filename = item.Filename,
+                    MimeType = item.MimeType,
+                    Contents = BinaryData.FromString(string.Join("\n", slice))
+                });
+            }
+
+            currentLine += lines.Length;
+
+            var takenSoFar = paged.Sum(x => x.Contents.ToString().Replace("\r\n", "\n").Replace('\r', '\n').Split('\n').Length);
+            if (takenSoFar >= takeLines)
+            {
+                nextCursor = $"line:{startLine + takenSoFar}";
+                break;
+            }
+        }
+
+        return (paged.Count > 0 ? paged : [], nextCursor);
+    }
+
+    private static int ParseCursor(string? cursor)
+    {
+        if (string.IsNullOrWhiteSpace(cursor))
+            return 0;
+
+        if (cursor.StartsWith("line:", StringComparison.OrdinalIgnoreCase) &&
+            int.TryParse(cursor[5..], out var line) &&
+            line >= 0)
+        {
+            return line;
+        }
+
+        return 0;
     }
 }
