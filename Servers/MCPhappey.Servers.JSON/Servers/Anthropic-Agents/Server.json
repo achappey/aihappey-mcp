@@ -1,0 +1,20 @@
+{
+    "serverInfo": {
+        "name": "Anthropic-Agents",
+        "title": "Anthropic Agents",
+        "version": "1.0.0",
+        "websiteUrl": "https://docs.anthropic.com/en/api/agents",
+        "description": "Create, update, archive, and manage Anthropic Managed Agents with flat primitive mutation tools. GET discovery is exposed through MCP resources and resource templates.",
+        "icons": [
+            {
+                "src": "https://upload.wikimedia.org/wikipedia/commons/1/14/Anthropic.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Anthropic.Agents.AnthropicAgents, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

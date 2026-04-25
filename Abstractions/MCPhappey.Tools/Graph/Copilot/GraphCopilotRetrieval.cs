@@ -65,5 +65,82 @@ public static class GraphCopilotRetrieval
             return doc.RootElement.Clone();
         })));
 
+    [Description("Perform Microsoft 365 Copilot hybrid search (semantic + lexical) via Microsoft Graph.")]
+    [McpServerTool(
+           Title = "Microsoft 365 Copilot Search",
+           Name = "graph_copilot_search",
+           OpenWorld = false,
+           ReadOnly = true)]
+    public static async Task<CallToolResult?> Graph_CopilotSearch(
+           RequestContext<CallToolRequestParams> requestContext,
+           IServiceProvider serviceProvider,
+           [Description("Natural language query")] string query,
+           [Description("Number of results (1-100)")] int? pageSize = null,
+           [Description("Optional KQL filter expression (path-based etc.)")] string? filterExpression = null,
+           [Description("Include OneDrive results")] bool includeOneDrive = true,
+           [Description("Include SharePoint results")] bool includeSharePoint = true,
+           CancellationToken cancellationToken = default)
+           => await requestContext.WithExceptionCheck(async () =>
+           await requestContext.WithOboGraphClient(async client =>
+           await requestContext.WithStructuredContent(async () =>
+           {
+               var httpClient = await serviceProvider.GetGraphHttpClient(requestContext.Server);
 
+               var size = pageSize ?? 25;
+               if (size < 1) size = 1;
+               if (size > 100) size = 100;
+
+               // Build dataSources object dynamically
+               var dataSources = new Dictionary<string, object>();
+
+               if (includeOneDrive)
+               {
+                   dataSources["oneDrive"] = BuildSource(filterExpression);
+               }
+
+               if (includeSharePoint)
+               {
+                   dataSources["sharePoint"] = BuildSource(filterExpression);
+               }
+
+               var body = new Dictionary<string, object?>
+               {
+                   ["query"] = query,
+                   ["pageSize"] = size,
+                   ["dataSources"] = dataSources
+               };
+
+               var json = JsonSerializer.Serialize(body);
+               using var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+               using var resp = await httpClient.PostAsync(
+                   "https://graph.microsoft.com/beta/copilot/search",
+                   content,
+                   cancellationToken);
+
+               var payload = await resp.Content.ReadAsStringAsync(cancellationToken);
+
+               if (!resp.IsSuccessStatusCode)
+               {
+                   throw new Exception(payload);
+               }
+
+               using var doc = JsonDocument.Parse(payload);
+               return doc.RootElement.Clone();
+           })));
+
+    private static object BuildSource(string? filterExpression)
+    {
+        var source = new Dictionary<string, object>
+        {
+            ["resourceMetadataNames"] = new[] { "title", "author" }
+        };
+
+        if (!string.IsNullOrWhiteSpace(filterExpression))
+        {
+            source["filterExpression"] = filterExpression;
+        }
+
+        return source;
+    }
 }

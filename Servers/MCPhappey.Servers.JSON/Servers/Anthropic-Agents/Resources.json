@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.anthropic.com/v1/agents",
+      "name": "anthropic-agents-list-example",
+      "title": "List Anthropic agents",
+      "description": "List Anthropic Managed Agents for the authenticated account.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

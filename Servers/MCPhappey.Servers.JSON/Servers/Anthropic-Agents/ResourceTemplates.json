@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/agents?created_at[gte]={created_at_gte}&created_at[lte]={created_at_lte}&include_archived={include_archived}&limit={limit}&page={page}",
+      "name": "anthropic-agents-list",
+      "title": "List Anthropic agents with filters",
+      "description": "List Anthropic Managed Agents with optional created_at filters, archive inclusion, and cursor pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/agents/{agent_id}",
+      "name": "anthropic-agent-detail",
+      "title": "Get Anthropic agent detail",
+      "description": "Retrieve the latest version of an Anthropic Managed Agent by agent id.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/agents/{agent_id}?version={version}",
+      "name": "anthropic-agent-detail-versioned",
+      "title": "Get Anthropic agent detail by version",
+      "description": "Retrieve a specific version of an Anthropic Managed Agent by agent id and version number.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/agents/{agent_id}/versions?limit={limit}&page={page}",
+      "name": "anthropic-agent-versions",
+      "title": "List Anthropic agent versions",
+      "description": "List available versions of an Anthropic Managed Agent with cursor pagination.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

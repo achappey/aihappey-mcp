@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/environments?include_archived={include_archived}&limit={limit}&page={page}",
+      "name": "anthropic-environments-list",
+      "title": "List Anthropic environments with filters",
+      "description": "List Anthropic environments with optional archive inclusion and cursor pagination before targeted metadata, networking, host, or package mutations.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/environments/{environment_id}",
+      "name": "anthropic-environment-detail",
+      "title": "Get Anthropic environment detail",
+      "description": "Retrieve a single Anthropic environment by environment id before applying targeted metadata, networking, host, or package mutations.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

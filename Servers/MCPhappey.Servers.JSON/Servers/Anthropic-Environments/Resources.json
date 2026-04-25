@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.anthropic.com/v1/environments",
+      "name": "anthropic-environments-list-example",
+      "title": "List Anthropic environments",
+      "description": "List Anthropic environments for the authenticated account before using the dedicated mutation tools.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

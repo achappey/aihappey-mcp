@@ -14,6 +14,6 @@
     "MCPhappey.Tools.Graph.Copilot.GraphCopilotRetrieval, MCPhappey.Tools"
   ],
   "obo": {
-    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All https://graph.microsoft.com/Files.Read.All https://graph.microsoft.com/ExternalItem.Read.All https://graph.microsoft.com/FileStorageContainer.Selected"
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All https://graph.microsoft.com/Files.Read.All https://graph.microsoft.com/ExternalItem.Read.All https://graph.microsoft.com/FileStorageContainer.Selected https://graph.microsoft.com/OnlineMeetingAiInsight.Read.All"
   }
 }

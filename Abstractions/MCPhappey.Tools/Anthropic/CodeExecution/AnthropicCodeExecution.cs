@@ -101,7 +101,7 @@ public static class AnthropicCodeExecution
                 ModelPreferences = model.ToModelPreferences(),
                 Messages = [
                     .. attachedLinks.Select(t => t.Contents.ToString().ToUserSamplingMessage()),
-            prompt.ToUserSamplingMessage()
+                    prompt.ToUserSamplingMessage()
                 ]
             },
             cancellationToken);

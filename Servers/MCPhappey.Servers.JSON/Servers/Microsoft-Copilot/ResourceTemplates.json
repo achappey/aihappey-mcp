@@ -1,0 +1,30 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/copilot/users/{userId}/onlineMeetings/{onlineMeetingId}/aiInsights",
+      "name": "meeting-aiinsights",
+      "title": "List AI insights for a meeting",
+      "description": "Returns all AI insights (summaries, action items, notes) generated for a Microsoft Teams meeting via Copilot.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/copilot/users/{userId}/onlineMeetings/{onlineMeetingId}/aiInsights/{aiInsightId}",
+      "name": "meeting-aiinsight",
+      "title": "Get AI insight details for a meeting",
+      "description": "Returns detailed AI-generated meeting insights including notes, action items, and transcript-derived mentions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 1.0
+      }
+    }
+  ]
+}
