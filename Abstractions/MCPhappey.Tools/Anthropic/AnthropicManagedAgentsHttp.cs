@@ -11,12 +11,12 @@ namespace MCPhappey.Tools.Anthropic;
 
 internal static class AnthropicManagedAgentsHttp
 {
-    internal const string ApiBaseUrl = "https://api.anthropic.com";
-    internal const string AnthropicVersion = "2023-06-01";
+    internal const string ApiBaseUrl = AnthropicHeaders.ApiBaseUrl;
+    internal const string AnthropicVersion = AnthropicHeaders.AnthropicVersion;
 
     internal static readonly string[] ManagedAgentsBetaFeatures =
     [
-        "managed-agents-2026-04-01"
+        AnthropicHeaders.ManagedAgentsBetaFeature
     ];
 
     internal static HttpClient CreateHttpClient(IServiceProvider serviceProvider, string? anthropicBetaCsv = null)
@@ -25,9 +25,9 @@ internal static class AnthropicManagedAgentsHttp
         var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
         var httpClient = clientFactory.CreateClient();
 
-        httpClient.DefaultRequestHeaders.Add("x-api-key", settings.ApiKey);
-        httpClient.DefaultRequestHeaders.Add("anthropic-version", AnthropicVersion);
-        httpClient.DefaultRequestHeaders.Add("anthropic-beta", BuildBetaHeader(anthropicBetaCsv));
+        httpClient.DefaultRequestHeaders.Add(AnthropicHeaders.ApiKeyHeader, settings.ApiKey);
+        httpClient.DefaultRequestHeaders.Add(AnthropicHeaders.AnthropicVersionHeader, AnthropicVersion);
+        httpClient.DefaultRequestHeaders.Add(AnthropicHeaders.AnthropicBetaHeader, BuildBetaHeader(anthropicBetaCsv));
 
         return httpClient;
     }
@@ -195,11 +195,7 @@ internal static class AnthropicManagedAgentsHttp
 
     internal static string BuildBetaHeader(string? anthropicBetaCsv)
     {
-        var values = new HashSet<string>(ManagedAgentsBetaFeatures, StringComparer.OrdinalIgnoreCase);
-        foreach (var value in ParseDelimited(anthropicBetaCsv))
-            values.Add(value);
-
-        return string.Join(',', values);
+        return AnthropicHeaders.BuildManagedAgentsBetaHeader(anthropicBetaCsv);
     }
 
     private static JsonNode ParseJsonNode(string json)

@@ -23,6 +23,7 @@ using MCPhappey.Tools.Imagga;
 using MCPhappey.Tools.AsyncAI;
 using MCPhappey.Tools.DumplingAI;
 using MCPhappey.Tools.Mem0;
+using MCPhappey.Tools.Anthropic;
 using MCPhappey.Tools.Anthropic.Skills;
 using MCPhappey.Tools.OpenAI.Skills;
 using MCPhappey.Tools.ElevenLabs;
@@ -186,6 +187,8 @@ AddApi(builder.Services, appConfig, "api.x.ai", k => new XAISettings { ApiKey = 
 AddApi(builder.Services, appConfig, "api.together.xyz", k => new TogetherSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.groq.com", k => new GroqSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.aimlapi.com", k => new AIMLSettings { ApiKey = k });
+
+AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 
  builder.Services
  .AddAzureSkills(appConfig?.SkillsStorage)
