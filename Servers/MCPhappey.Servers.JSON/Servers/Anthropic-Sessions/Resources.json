@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.anthropic.com/v1/sessions",
+      "name": "list-anthropic-sessions",
+      "title": "List Anthropic sessions",
+      "description": "List Anthropic sessions owned by the current user. The secure scraper filters the API response by metadata Owners.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

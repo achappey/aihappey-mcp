@@ -6,6 +6,8 @@ using MCPhappey.Tools.OpenAI.Containers;
 using MCPhappey.Tools.OpenAI.Files;
 using MCPhappey.Tools.OpenAI.VectorStores;
 using MCPhappey.Tools.Anthropic.MemoryStores;
+using MCPhappey.Tools.Anthropic.Sessions;
+using MCPhappey.Tools.Anthropic.Vaults;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +25,8 @@ public static class AspNetCoreExtensions
         builder.Services.AddSingleton<IContentScraper, OpenAIFilesScraper>();
         builder.Services.AddSingleton<IContentScraper, ContainerScraper>();
         builder.Services.AddSingleton<IContentScraper, AnthropicMemoryStoresScraper>();
+        builder.Services.AddSingleton<IContentScraper, AnthropicSessionsScraper>();
+        builder.Services.AddSingleton<IContentScraper, AnthropicVaultsScraper>();
 
         return builder;
     }

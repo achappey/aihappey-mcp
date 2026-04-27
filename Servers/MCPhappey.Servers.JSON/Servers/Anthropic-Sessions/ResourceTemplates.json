@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/sessions?agent_id={agentId}&agent_version={agentVersion}&created_at[gt]={createdAtGt}&created_at[gte]={createdAtGte}&created_at[lt]={createdAtLt}&created_at[lte]={createdAtLte}&include_archived={includeArchived}&limit={limit}&order={order}&page={page}",
+      "name": "list-anthropic-sessions-filtered",
+      "title": "List Anthropic sessions with filters",
+      "description": "List Anthropic sessions owned by the current user with optional Anthropic query filters. The secure scraper filters the API response by metadata Owners.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/sessions/{sessionId}",
+      "name": "get-anthropic-session",
+      "title": "Get Anthropic session",
+      "description": "Retrieve an Anthropic session by ID. The secure scraper only returns sessions where the current user is listed in metadata Owners.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/sessions/{sessionId}/resources?limit={limit}&page={page}",
+      "name": "list-anthropic-session-resources",
+      "title": "List Anthropic session resources",
+      "description": "List resources attached to an Anthropic session. The secure scraper requires the current user to be an owner of the parent session.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/sessions/{sessionId}/resources/{resourceId}",
+      "name": "get-anthropic-session-resource",
+      "title": "Get Anthropic session resource",
+      "description": "Retrieve a resource attached to an Anthropic session. The secure scraper requires the current user to be an owner of the parent session.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/sessions/{sessionId}/events?limit={limit}&order={order}&page={page}",
+      "name": "list-anthropic-session-events",
+      "title": "List Anthropic session events",
+      "description": "List events for an Anthropic session. The secure scraper requires the current user to be an owner of the parent session.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
