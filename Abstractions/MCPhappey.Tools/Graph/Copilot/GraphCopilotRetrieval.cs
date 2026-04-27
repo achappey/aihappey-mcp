@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
 using ModelContextProtocol.Protocol;
@@ -10,6 +11,56 @@ namespace MCPhappey.Tools.Graph.Copilot;
 
 public static class GraphCopilotRetrieval
 {
+
+    [Description("Samples Microsoft 365 Copilot via Graph using the provided prompt, with optional timezone and web grounding.")]
+    [McpServerTool(
+       Title = "Microsoft 365 Copilot Sampling",
+       Name = "graph_copilot_sampling",
+       OpenWorld = false,
+       ReadOnly = true)]
+    public static async Task<CallToolResult?> Graph_CopilotSampling(
+       RequestContext<CallToolRequestParams> requestContext,
+       [Description("The prompt to use for sampling")] string prompt,
+       [Description("IANA timezone identifier (e.g. Europe/Amsterdam)")] string timeZone = "Europe/Amsterdam",
+       [Description("Include Web search grounding. When disabled, only Microsoft (OneDrive and SharePoint) company grounding will be used.")] bool? isWebEnabled = true,
+       CancellationToken cancellationToken = default)
+       => await requestContext.WithExceptionCheck(async () =>
+       await requestContext.WithStructuredContent(async () =>
+       {
+           var copilotOptions = new JsonObject
+           {
+               ["locationHint"] = new JsonObject()
+               {
+                   ["timeZone"] = timeZone
+               },
+               ["contextualResources"] = new JsonObject()
+               {
+                   ["webContext"] = new JsonObject()
+                   {
+                       ["isWebEnabled"] = isWebEnabled
+                   }
+               }
+           };
+
+           var response = await requestContext.Server.SampleAsync(
+           new CreateMessageRequestParams()
+           {
+               Metadata = new JsonObject
+               {
+                   ["microsoft"] = copilotOptions
+               },
+               Temperature = 0,
+               MaxTokens = 4096,
+               ModelPreferences = "copilot".ToModelPreferences(),
+               Messages = [
+                    prompt.ToUserSamplingMessage()
+               ]
+           },
+           cancellationToken);
+
+           return response;
+       }));
+
     [Description("Retrieve Microsoft 365 Copilot semantic search results using the Microsoft Graph Retrieval API.")]
     [McpServerTool(
         Title = "Microsoft 365 Copilot Retrieval",
