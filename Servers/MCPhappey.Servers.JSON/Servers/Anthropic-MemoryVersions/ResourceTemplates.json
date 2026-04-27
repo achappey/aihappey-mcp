@@ -1,0 +1,29 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/memory_stores/{memoryStoreId}/memory_versions?limit={limit}&page={page}&memory_id={memoryId}&operation={operation}&session_id={sessionId}&api_key_id={apiKeyId}&created_at[gte]={createdAtGte}&created_at[lte]={createdAtLte}&view={view}",
+      "name": "list-anthropic-memory-versions",
+      "title": "List Anthropic memory versions",
+      "description": "List memory versions in an Anthropic memory store. The secure scraper requires the current user to be an owner of the parent memory store.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/memory_stores/{memoryStoreId}/memory_versions/{memoryVersionId}?view={view}",
+      "name": "get-anthropic-memory-version",
+      "title": "Get Anthropic memory version",
+      "description": "Retrieve an Anthropic memory version. The secure scraper requires the current user to be an owner of the parent memory store.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/memory_stores/{memoryStoreId}",
+      "name": "get-anthropic-memory-store",
+      "title": "Get Anthropic memory store",
+      "description": "Retrieve an Anthropic memory store by ID. The secure scraper only returns stores where the current user is listed in metadata Owners.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

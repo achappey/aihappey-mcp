@@ -1,0 +1,29 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/memory_stores/{memoryStoreId}/memories?limit={limit}&page={page}&path_prefix={pathPrefix}&depth={depth}&order={order}&order_by={orderBy}&view={view}",
+      "name": "list-anthropic-memories",
+      "title": "List Anthropic memories",
+      "description": "List memories in an Anthropic memory store. The secure scraper requires the current user to be an owner of the parent memory store.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/memory_stores/{memoryStoreId}/memories/{memoryId}?view={view}",
+      "name": "get-anthropic-memory",
+      "title": "Get Anthropic memory",
+      "description": "Retrieve a memory from an Anthropic memory store. The secure scraper requires the current user to be an owner of the parent memory store.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

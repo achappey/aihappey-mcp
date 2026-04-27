@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.anthropic.com/v1/memory_stores",
+      "name": "list-anthropic-memory-stores",
+      "title": "List Anthropic memory stores",
+      "description": "List Anthropic memory stores owned by the current user. The secure scraper filters the API response by metadata Owners.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+
