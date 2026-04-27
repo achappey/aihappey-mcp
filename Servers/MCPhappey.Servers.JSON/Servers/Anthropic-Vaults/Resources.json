@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.anthropic.com/v1/vaults",
+      "name": "list-anthropic-vaults",
+      "title": "List Anthropic vaults",
+      "description": "List Anthropic vaults owned by the current user. The secure scraper filters the API response by metadata Owners.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

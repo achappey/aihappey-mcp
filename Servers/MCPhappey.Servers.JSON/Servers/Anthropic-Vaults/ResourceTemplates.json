@@ -1,0 +1,17 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/vaults/{vaultId}",
+      "name": "get-anthropic-vault",
+      "title": "Get Anthropic vault",
+      "description": "Retrieve an Anthropic vault by ID. The secure scraper only returns vaults where the current user is listed in metadata Owners.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+

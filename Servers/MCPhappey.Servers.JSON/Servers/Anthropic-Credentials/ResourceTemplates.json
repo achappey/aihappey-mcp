@@ -1,0 +1,29 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/vaults/{vaultId}/credentials",
+      "name": "list-anthropic-credentials",
+      "title": "List Anthropic credentials",
+      "description": "List credentials in an Anthropic vault. The secure scraper only returns credentials when the current user owns the parent vault.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.anthropic.com/v1/vaults/{vaultId}/credentials/{credentialId}",
+      "name": "get-anthropic-credential",
+      "title": "Get Anthropic credential",
+      "description": "Retrieve a credential in an Anthropic vault. Sensitive fields are not returned by Anthropic, and the secure scraper only returns credentials when the current user owns the parent vault.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
+
