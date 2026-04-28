@@ -22,7 +22,7 @@ public static partial class AnthropicAgents
         [Description("MCP server URL.")] string serverUrl,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -32,7 +32,7 @@ public static partial class AnthropicAgents
                     AgentId = agentId,
                     ServerName = serverName,
                     ServerUrl = serverUrl,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
@@ -44,7 +44,7 @@ public static partial class AnthropicAgents
                 if (string.IsNullOrWhiteSpace(typed.ServerUrl))
                     throw new ValidationException("serverUrl is required.");
 
-                var current = await GetAgentAsync(serviceProvider, typed.AgentId, typed.AnthropicBetaCsv, cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, typed.AgentId,  cancellationToken);
                 var servers = AnthropicManagedAgentsHttp.CloneArray(current["mcp_servers"]);
 
                 RemoveMcpServer(servers, typed.ServerName);
@@ -58,7 +58,7 @@ public static partial class AnthropicAgents
                 var body = CreateVersionedUpdateBody(current);
                 body["mcp_servers"] = servers;
 
-                return await UpdateAgentAsync(serviceProvider, typed.AgentId, typed.AnthropicBetaCsv, body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, typed.AgentId,  body, cancellationToken);
             }));
 
     [Description("Remove an MCP server entry from an Anthropic Managed Agent after explicit typed confirmation.")]
@@ -73,7 +73,7 @@ public static partial class AnthropicAgents
         [Description("MCP server name to remove.")] string serverName,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -81,7 +81,7 @@ public static partial class AnthropicAgents
                 var expected = $"{agentId}:{serverName}";
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
 
-                var current = await GetAgentAsync(serviceProvider, agentId, anthropicBetaCsv, cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
                 var servers = AnthropicManagedAgentsHttp.CloneArray(current["mcp_servers"]);
 
                 if (!RemoveMcpServer(servers, serverName))
@@ -90,6 +90,6 @@ public static partial class AnthropicAgents
                 var body = CreateVersionedUpdateBody(current);
                 body["mcp_servers"] = servers;
 
-                return await UpdateAgentAsync(serviceProvider, agentId, anthropicBetaCsv, body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, agentId,  body, cancellationToken);
             }));
 }

@@ -23,7 +23,7 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Skill type. Allowed values: anthropic or custom.")] string skillType = "anthropic",
         [Description("Optional skill version.")] string? skillVersion = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -34,7 +34,7 @@ public static partial class AnthropicAgents
                     SkillId = skillId,
                     SkillType = skillType,
                     SkillVersion = skillVersion,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
@@ -45,7 +45,7 @@ public static partial class AnthropicAgents
 
                 ValidateSkillType(typed.SkillType);
 
-                var current = await GetAgentAsync(serviceProvider, typed.AgentId, typed.AnthropicBetaCsv, cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, typed.AgentId,  cancellationToken);
                 var skills = AnthropicManagedAgentsHttp.CloneArray(current["skills"]);
 
                 RemoveSkill(skills, typed.SkillId, typed.SkillType);
@@ -64,7 +64,7 @@ public static partial class AnthropicAgents
                 var body = CreateVersionedUpdateBody(current);
                 body["skills"] = skills;
 
-                return await UpdateAgentAsync(serviceProvider, typed.AgentId, typed.AnthropicBetaCsv, body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, typed.AgentId,  body, cancellationToken);
             }));
 
     [Description("Remove a skill from an Anthropic Managed Agent after explicit typed confirmation.")]
@@ -80,7 +80,7 @@ public static partial class AnthropicAgents
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Skill type. Allowed values: anthropic or custom.")] string skillType = "anthropic",
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -90,7 +90,7 @@ public static partial class AnthropicAgents
                 var expected = $"{agentId}:{skillType}:{skillId}";
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
 
-                var current = await GetAgentAsync(serviceProvider, agentId, anthropicBetaCsv, cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
                 var skills = AnthropicManagedAgentsHttp.CloneArray(current["skills"]);
 
                 if (!RemoveSkill(skills, skillId, skillType))
@@ -99,6 +99,6 @@ public static partial class AnthropicAgents
                 var body = CreateVersionedUpdateBody(current);
                 body["skills"] = skills;
 
-                return await UpdateAgentAsync(serviceProvider, agentId, anthropicBetaCsv, body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, agentId,  body, cancellationToken);
             }));
 }

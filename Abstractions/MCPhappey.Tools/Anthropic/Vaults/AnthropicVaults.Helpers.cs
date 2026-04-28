@@ -1,8 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 using MCPhappey.Auth.Extensions;
-using MCPhappey.Common.Extensions;
-using MCPhappey.Tools.Anthropic;
 using ModelContextProtocol.Protocol;
 
 namespace MCPhappey.Tools.Anthropic.Vaults;
@@ -15,21 +13,21 @@ public static partial class AnthropicVaults
     internal static async Task<JsonObject> GetVaultAsync(
         IServiceProvider serviceProvider,
         string vaultId,
-        string? anthropicBetaCsv,
+
         CancellationToken cancellationToken)
         => await AnthropicManagedAgentsHttp.GetJsonObjectAsync(
             serviceProvider,
             $"{BaseUrl}/{Uri.EscapeDataString(NormalizeVaultId(vaultId))}",
-            anthropicBetaCsv,
+
             cancellationToken);
 
     internal static async Task<JsonObject> GetOwnerVaultAsync(
         IServiceProvider serviceProvider,
         string vaultId,
-        string? anthropicBetaCsv,
+
         CancellationToken cancellationToken)
     {
-        var current = await GetVaultAsync(serviceProvider, vaultId, anthropicBetaCsv, cancellationToken);
+        var current = await GetVaultAsync(serviceProvider, vaultId, cancellationToken);
         if (!current.IsOwner(serviceProvider.GetUserId()))
             throw new UnauthorizedAccessException("Only owners can access this Anthropic vault.");
 

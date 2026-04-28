@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Tools.Anthropic.Skills;
@@ -37,10 +36,9 @@ internal static class AnthropicManagedAgentsHttp
         HttpMethod method,
         string url,
         JsonNode? body,
-        string? anthropicBetaCsv,
         CancellationToken cancellationToken)
     {
-        var httpClient = CreateHttpClient(serviceProvider, anthropicBetaCsv);
+        var httpClient = CreateHttpClient(serviceProvider);
 
         using var request = new HttpRequestMessage(method, url);
         if (body is not null)
@@ -63,10 +61,9 @@ internal static class AnthropicManagedAgentsHttp
     internal static async Task<JsonObject> GetJsonObjectAsync(
         IServiceProvider serviceProvider,
         string url,
-        string? anthropicBetaCsv,
         CancellationToken cancellationToken)
     {
-        var node = await SendAsync(serviceProvider, HttpMethod.Get, url, null, anthropicBetaCsv, cancellationToken);
+        var node = await SendAsync(serviceProvider, HttpMethod.Get, url, null, cancellationToken);
         return node as JsonObject
                ?? throw new ValidationException($"Expected a JSON object from '{url}'.");
     }

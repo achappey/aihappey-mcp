@@ -13,13 +13,13 @@ public static partial class AnthropicSessions
         [Description("Session ID to delete.")] string sessionId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedSessionId = NormalizeSessionId(sessionId);
-                await GetOwnerSessionAsync(serviceProvider, normalizedSessionId, anthropicBetaCsv, cancellationToken);
+                await GetOwnerSessionAsync(serviceProvider, normalizedSessionId,  cancellationToken);
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteSessionItem>(requestContext.Server, normalizedSessionId, cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
@@ -27,7 +27,7 @@ public static partial class AnthropicSessions
                     HttpMethod.Delete,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedSessionId)}",
                     null,
-                    anthropicBetaCsv,
+                 
                     cancellationToken);
             }));
 }

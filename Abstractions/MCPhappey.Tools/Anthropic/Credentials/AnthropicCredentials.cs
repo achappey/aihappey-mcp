@@ -19,7 +19,7 @@ public static partial class AnthropicCredentials
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional human-readable credential display name.")] string? displayName = null,
         [Description("Optional metadata JSON object. Owner security is inherited from the parent vault.")] string? metadataJson = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -30,11 +30,11 @@ public static partial class AnthropicCredentials
                     AuthJson = authJson,
                     DisplayName = displayName,
                     MetadataJson = metadataJson,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 var normalizedVaultId = AnthropicVaults.NormalizeVaultId(typed.VaultId);
-                await AnthropicVaults.GetOwnerVaultAsync(serviceProvider, normalizedVaultId, typed.AnthropicBetaCsv, cancellationToken);
+                await AnthropicVaults.GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.AuthJson))
                     throw new ValidationException("authJson is required.");
@@ -61,7 +61,7 @@ public static partial class AnthropicCredentials
                     HttpMethod.Post,
                     BuildCredentialsUrl(normalizedVaultId),
                     body,
-                    typed.AnthropicBetaCsv,
+                    
                     cancellationToken);
             }));
 
@@ -75,7 +75,7 @@ public static partial class AnthropicCredentials
         [Description("Optional credential auth update JSON object. The mcp_server_url is immutable.")] string? authPatchJson = null,
         [Description("Optional updated credential display name. Omit to preserve.")] string? displayName = null,
         [Description("Optional metadata patch JSON object. Set keys to strings to upsert, or null to delete. Owner security is inherited from the parent vault.")] string? metadataPatchJson = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -87,12 +87,12 @@ public static partial class AnthropicCredentials
                     AuthPatchJson = authPatchJson,
                     DisplayName = displayName,
                     MetadataPatchJson = metadataPatchJson,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                    
                 }, cancellationToken);
 
                 var normalizedVaultId = AnthropicVaults.NormalizeVaultId(typed.VaultId);
                 var normalizedCredentialId = AnthropicVaults.NormalizeId(typed.CredentialId, "credentialId");
-                await AnthropicVaults.GetOwnerVaultAsync(serviceProvider, normalizedVaultId, typed.AnthropicBetaCsv, cancellationToken);
+                await AnthropicVaults.GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
 
                 var body = new JsonObject();
 
@@ -125,7 +125,7 @@ public static partial class AnthropicCredentials
                     HttpMethod.Post,
                     BuildCredentialUrl(normalizedVaultId, normalizedCredentialId),
                     body,
-                    typed.AnthropicBetaCsv,
+                    
                     cancellationToken);
             }));
 
@@ -136,7 +136,7 @@ public static partial class AnthropicCredentials
         [Description("Credential ID.")] string credentialId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -145,19 +145,19 @@ public static partial class AnthropicCredentials
                 {
                     VaultId = vaultId,
                     CredentialId = credentialId,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                
                 }, cancellationToken);
 
                 var normalizedVaultId = AnthropicVaults.NormalizeVaultId(typed.VaultId);
                 var normalizedCredentialId = AnthropicVaults.NormalizeId(typed.CredentialId, "credentialId");
-                await AnthropicVaults.GetOwnerVaultAsync(serviceProvider, normalizedVaultId, typed.AnthropicBetaCsv, cancellationToken);
+                await AnthropicVaults.GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
                     serviceProvider,
                     HttpMethod.Post,
                     $"{BuildCredentialUrl(normalizedVaultId, normalizedCredentialId)}/archive",
                     null,
-                    typed.AnthropicBetaCsv,
+                    
                     cancellationToken);
             }));
 
@@ -168,14 +168,14 @@ public static partial class AnthropicCredentials
         [Description("Credential ID.")] string credentialId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedVaultId = AnthropicVaults.NormalizeVaultId(vaultId);
                 var normalizedCredentialId = AnthropicVaults.NormalizeId(credentialId, "credentialId");
-                await AnthropicVaults.GetOwnerVaultAsync(serviceProvider, normalizedVaultId, anthropicBetaCsv, cancellationToken);
+                await AnthropicVaults.GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteCredentialItem>(requestContext.Server, $"{normalizedVaultId}:{normalizedCredentialId}", cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
@@ -183,7 +183,7 @@ public static partial class AnthropicCredentials
                     HttpMethod.Delete,
                     BuildCredentialUrl(normalizedVaultId, normalizedCredentialId),
                     null,
-                    anthropicBetaCsv,
+                
                     cancellationToken);
             }));
 

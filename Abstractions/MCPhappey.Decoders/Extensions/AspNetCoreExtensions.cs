@@ -1,6 +1,4 @@
 using Microsoft.KernelMemory;
-using Microsoft.KernelMemory.DataFormats.Office;
-using Microsoft.KernelMemory.DataFormats.Pdf;
 using OpenAI;
 
 namespace MCPhappey.Decoders.Extensions;

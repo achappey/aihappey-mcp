@@ -19,7 +19,7 @@ public static partial class AnthropicMemories
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional response view. Allowed values: basic or full.")] string? view = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -30,11 +30,11 @@ public static partial class AnthropicMemories
                     Path = path,
                     Content = content,
                     View = view,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 var normalizedMemoryStoreId = AnthropicMemoryStores.NormalizeMemoryStoreId(typed.MemoryStoreId);
-                await AnthropicMemoryStores.GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId, typed.AnthropicBetaCsv, cancellationToken);
+                await AnthropicMemoryStores.GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId,  cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.Path))
                     throw new ValidationException("path is required.");
@@ -49,7 +49,7 @@ public static partial class AnthropicMemories
                 };
 
                 var url = BuildMemoriesUrl(normalizedMemoryStoreId, typed.View);
-                return await AnthropicManagedAgentsHttp.SendAsync(serviceProvider, HttpMethod.Post, url, body, typed.AnthropicBetaCsv, cancellationToken);
+                return await AnthropicManagedAgentsHttp.SendAsync(serviceProvider, HttpMethod.Post, url, body,  cancellationToken);
             }));
 
     [Description("Update a memory in an Anthropic memory store. Only memory store owners can update memories.")]
@@ -63,7 +63,7 @@ public static partial class AnthropicMemories
         [Description("Optional updated memory content. Omit to preserve.")] string? content = null,
         [Description("Optional content SHA256 precondition.")] string? expectedContentSha256 = null,
         [Description("Optional response view. Allowed values: basic or full.")] string? view = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -76,12 +76,12 @@ public static partial class AnthropicMemories
                     Content = content,
                     ExpectedContentSha256 = expectedContentSha256,
                     View = view,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 var normalizedMemoryStoreId = AnthropicMemoryStores.NormalizeMemoryStoreId(typed.MemoryStoreId);
                 var normalizedMemoryId = AnthropicMemoryStores.NormalizeId(typed.MemoryId, "memoryId");
-                await AnthropicMemoryStores.GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId, typed.AnthropicBetaCsv, cancellationToken);
+                await AnthropicMemoryStores.GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId,  cancellationToken);
 
                 var body = new JsonObject();
                 AnthropicMemoryStores.SetStringIfProvided(body, "path", typed.Path);
@@ -97,7 +97,7 @@ public static partial class AnthropicMemories
                 }
 
                 var url = BuildMemoryUrl(normalizedMemoryStoreId, normalizedMemoryId, typed.View);
-                return await AnthropicManagedAgentsHttp.SendAsync(serviceProvider, HttpMethod.Post, url, body, typed.AnthropicBetaCsv, cancellationToken);
+                return await AnthropicManagedAgentsHttp.SendAsync(serviceProvider, HttpMethod.Post, url, body,  cancellationToken);
             }));
 
     [Description("Delete a memory from an Anthropic memory store after explicit typed confirmation. Only memory store owners can delete memories.")]
@@ -108,21 +108,20 @@ public static partial class AnthropicMemories
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional expected content SHA256.")] string? expectedContentSha256 = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedMemoryStoreId = AnthropicMemoryStores.NormalizeMemoryStoreId(memoryStoreId);
                 var normalizedMemoryId = AnthropicMemoryStores.NormalizeId(memoryId, "memoryId");
-                await AnthropicMemoryStores.GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId, anthropicBetaCsv, cancellationToken);
+                await AnthropicMemoryStores.GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId,  cancellationToken);
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteMemoryItem>(requestContext.Server, $"{normalizedMemoryStoreId}:{normalizedMemoryId}", cancellationToken);
 
                 var url = $"{AnthropicMemoryStores.BaseUrl}/{Uri.EscapeDataString(normalizedMemoryStoreId)}/memories/{Uri.EscapeDataString(normalizedMemoryId)}";
                 if (!string.IsNullOrWhiteSpace(expectedContentSha256))
                     url = QueryHelpers.AddQueryString(url, "expected_content_sha256", expectedContentSha256);
 
-                return await AnthropicManagedAgentsHttp.SendAsync(serviceProvider, HttpMethod.Delete, url, null, anthropicBetaCsv, cancellationToken);
+                return await AnthropicManagedAgentsHttp.SendAsync(serviceProvider, HttpMethod.Delete, url, null,  cancellationToken);
             }));
 
     internal static string BuildMemoriesUrl(string memoryStoreId, string? view)

@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
-using MCPhappey.Tools.Anthropic;
 
 namespace MCPhappey.Tools.Anthropic.Environments;
 
@@ -23,18 +22,16 @@ public static partial class AnthropicEnvironments
     private static async Task<JsonObject> GetEnvironmentAsync(
         IServiceProvider serviceProvider,
         string environmentId,
-        string? anthropicBeta,
         CancellationToken cancellationToken)
         => await AnthropicManagedAgentsHttp.GetJsonObjectAsync(
             serviceProvider,
             $"{BaseUrl}/{Uri.EscapeDataString(NormalizeEnvironmentId(environmentId))}",
-            NormalizeAnthropicBeta(anthropicBeta),
+          
             cancellationToken);
 
     private static async Task<JsonNode> UpdateEnvironmentAsync(
         IServiceProvider serviceProvider,
         string environmentId,
-        string? anthropicBeta,
         JsonObject body,
         CancellationToken cancellationToken)
         => await AnthropicManagedAgentsHttp.SendAsync(
@@ -42,7 +39,7 @@ public static partial class AnthropicEnvironments
             HttpMethod.Post,
             $"{BaseUrl}/{Uri.EscapeDataString(NormalizeEnvironmentId(environmentId))}",
             body,
-            NormalizeAnthropicBeta(anthropicBeta),
+          
             cancellationToken);
 
     private static JsonObject CreateConfigPatch()

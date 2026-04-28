@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Core.Services;
-using MCPhappey.Tools.Anthropic;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -14,7 +13,6 @@ public static partial class AnthropicAgents
     private static async Task<JsonObject> GetAgentAsync(
         IServiceProvider serviceProvider,
         string agentId,
-        string? anthropicBetaCsv,
         CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(agentId))
@@ -23,14 +21,12 @@ public static partial class AnthropicAgents
         return await AnthropicManagedAgentsHttp.GetJsonObjectAsync(
             serviceProvider,
             $"{BaseUrl}/{Uri.EscapeDataString(agentId)}",
-            anthropicBetaCsv,
             cancellationToken);
     }
 
     private static async Task<JsonNode> UpdateAgentAsync(
         IServiceProvider serviceProvider,
-        string agentId,
-        string? anthropicBetaCsv,
+        string agentId,        
         JsonObject body,
         CancellationToken cancellationToken)
         => await AnthropicManagedAgentsHttp.SendAsync(
@@ -38,7 +34,6 @@ public static partial class AnthropicAgents
             HttpMethod.Post,
             $"{BaseUrl}/{Uri.EscapeDataString(agentId)}",
             body,
-            anthropicBetaCsv,
             cancellationToken);
 
     private static JsonObject CreateVersionedUpdateBody(JsonObject currentAgent)

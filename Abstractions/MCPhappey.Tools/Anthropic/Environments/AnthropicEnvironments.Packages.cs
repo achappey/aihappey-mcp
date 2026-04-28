@@ -16,9 +16,8 @@ public static partial class AnthropicEnvironments
         [Description("A single apt package entry, optionally including its version syntax.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await AddPackageAsync("apt", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await AddPackageAsync("apt", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Remove a single apt package entry from an Anthropic environment after explicit typed confirmation.")]
     [McpServerTool(Title = "Remove apt package from Anthropic Environment", Name = "anthropic_environments_remove_apt_package", ReadOnly = false, OpenWorld = false, Destructive = true)]
@@ -27,9 +26,8 @@ public static partial class AnthropicEnvironments
         [Description("The exact apt package entry to remove.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await RemovePackageAsync("apt", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await RemovePackageAsync("apt", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Add a single cargo package entry to an Anthropic environment.")]
     [McpServerTool(Title = "Add cargo package to Anthropic Environment", Name = "anthropic_environments_add_cargo_package", ReadOnly = false, OpenWorld = false, Destructive = false)]
@@ -38,9 +36,8 @@ public static partial class AnthropicEnvironments
         [Description("A single cargo package entry, optionally including its version syntax.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await AddPackageAsync("cargo", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await AddPackageAsync("cargo", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Remove a single cargo package entry from an Anthropic environment after explicit typed confirmation.")]
     [McpServerTool(Title = "Remove cargo package from Anthropic Environment", Name = "anthropic_environments_remove_cargo_package", ReadOnly = false, OpenWorld = false, Destructive = true)]
@@ -49,9 +46,8 @@ public static partial class AnthropicEnvironments
         [Description("The exact cargo package entry to remove.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await RemovePackageAsync("cargo", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await RemovePackageAsync("cargo", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Add a single gem package entry to an Anthropic environment.")]
     [McpServerTool(Title = "Add gem package to Anthropic Environment", Name = "anthropic_environments_add_gem_package", ReadOnly = false, OpenWorld = false, Destructive = false)]
@@ -60,9 +56,8 @@ public static partial class AnthropicEnvironments
         [Description("A single gem package entry, optionally including its version syntax.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await AddPackageAsync("gem", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await AddPackageAsync("gem", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Remove a single gem package entry from an Anthropic environment after explicit typed confirmation.")]
     [McpServerTool(Title = "Remove gem package from Anthropic Environment", Name = "anthropic_environments_remove_gem_package", ReadOnly = false, OpenWorld = false, Destructive = true)]
@@ -71,9 +66,8 @@ public static partial class AnthropicEnvironments
         [Description("The exact gem package entry to remove.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await RemovePackageAsync("gem", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await RemovePackageAsync("gem", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Add a single go package entry to an Anthropic environment.")]
     [McpServerTool(Title = "Add go package to Anthropic Environment", Name = "anthropic_environments_add_go_package", ReadOnly = false, OpenWorld = false, Destructive = false)]
@@ -82,9 +76,8 @@ public static partial class AnthropicEnvironments
         [Description("A single go package entry, optionally including its version syntax.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await AddPackageAsync("go", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await AddPackageAsync("go", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Remove a single go package entry from an Anthropic environment after explicit typed confirmation.")]
     [McpServerTool(Title = "Remove go package from Anthropic Environment", Name = "anthropic_environments_remove_go_package", ReadOnly = false, OpenWorld = false, Destructive = true)]
@@ -93,9 +86,8 @@ public static partial class AnthropicEnvironments
         [Description("The exact go package entry to remove.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await RemovePackageAsync("go", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await RemovePackageAsync("go", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Add a single npm package entry to an Anthropic environment.")]
     [McpServerTool(Title = "Add npm package to Anthropic Environment", Name = "anthropic_environments_add_npm_package", ReadOnly = false, OpenWorld = false, Destructive = false)]
@@ -104,9 +96,8 @@ public static partial class AnthropicEnvironments
         [Description("A single npm package entry, optionally including its version syntax.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await AddPackageAsync("npm", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await AddPackageAsync("npm", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Remove a single npm package entry from an Anthropic environment after explicit typed confirmation.")]
     [McpServerTool(Title = "Remove npm package from Anthropic Environment", Name = "anthropic_environments_remove_npm_package", ReadOnly = false, OpenWorld = false, Destructive = true)]
@@ -115,9 +106,8 @@ public static partial class AnthropicEnvironments
         [Description("The exact npm package entry to remove.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await RemovePackageAsync("npm", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await RemovePackageAsync("npm", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Add a single pip package entry to an Anthropic environment.")]
     [McpServerTool(Title = "Add pip package to Anthropic Environment", Name = "anthropic_environments_add_pip_package", ReadOnly = false, OpenWorld = false, Destructive = false)]
@@ -126,9 +116,8 @@ public static partial class AnthropicEnvironments
         [Description("A single pip package entry, optionally including its version syntax.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await AddPackageAsync("pip", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await AddPackageAsync("pip", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     [Description("Remove a single pip package entry from an Anthropic environment after explicit typed confirmation.")]
     [McpServerTool(Title = "Remove pip package from Anthropic Environment", Name = "anthropic_environments_remove_pip_package", ReadOnly = false, OpenWorld = false, Destructive = true)]
@@ -137,9 +126,8 @@ public static partial class AnthropicEnvironments
         [Description("The exact pip package entry to remove.")] string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
-        => await RemovePackageAsync("pip", environmentId, package, serviceProvider, requestContext, anthropicBeta, cancellationToken);
+        => await RemovePackageAsync("pip", environmentId, package, serviceProvider, requestContext, cancellationToken);
 
     private static async Task<CallToolResult?> AddPackageAsync(
         string packageManager,
@@ -147,7 +135,6 @@ public static partial class AnthropicEnvironments
         string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        string? anthropicBeta,
         CancellationToken cancellationToken)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -156,15 +143,14 @@ public static partial class AnthropicEnvironments
                 {
                     EnvironmentId = environmentId,
                     PackageManager = packageManager,
-                    Package = package,
-                    AnthropicBeta = anthropicBeta
+                    Package = package
                 }, cancellationToken);
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
                 ValidatePackageManager(typed.PackageManager);
                 var normalizedPackage = NormalizePackageEntry(typed.Package);
 
-                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, typed.AnthropicBeta, cancellationToken);
+                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, cancellationToken);
                 var packages = EnsurePackagesNode(current);
                 var values = EnsurePackageArray(packages, typed.PackageManager);
                 if (!ContainsValue(values, normalizedPackage))
@@ -181,7 +167,6 @@ public static partial class AnthropicEnvironments
                 return await UpdateEnvironmentAsync(
                     serviceProvider,
                     normalizedEnvironmentId,
-                    typed.AnthropicBeta,
                     body,
                     cancellationToken);
             }));
@@ -192,7 +177,6 @@ public static partial class AnthropicEnvironments
         string package,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        string? anthropicBeta,
         CancellationToken cancellationToken)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -202,7 +186,7 @@ public static partial class AnthropicEnvironments
                 var normalizedPackage = NormalizePackageEntry(package);
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext.Server, $"{normalizedEnvironmentId}:{packageManager}:{normalizedPackage}", cancellationToken);
 
-                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, anthropicBeta, cancellationToken);
+                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, cancellationToken);
                 var packages = EnsurePackagesNode(current);
                 var values = EnsurePackageArray(packages, packageManager);
                 if (!RemoveValue(values, normalizedPackage))
@@ -219,7 +203,6 @@ public static partial class AnthropicEnvironments
                 return await UpdateEnvironmentAsync(
                     serviceProvider,
                     normalizedEnvironmentId,
-                    anthropicBeta,
                     body,
                     cancellationToken);
             }));

@@ -33,8 +33,7 @@ public sealed class AnthropicSessionsScraper : IContentScraper
             serviceProvider,
             HttpMethod.Get,
             url,
-            null,
-            null,
+            null,           
             cancellationToken);
 
         var secured = await SecureResponseAsync(serviceProvider, node, pathSegments, userId, cancellationToken);
@@ -67,7 +66,7 @@ public sealed class AnthropicSessionsScraper : IContentScraper
         var sessionId = pathSegments[2];
         var session = pathSegments.Length == 3
             ? node as JsonObject ?? throw new ValidationException("Expected session object.")
-            : await AnthropicSessions.GetSessionAsync(serviceProvider, sessionId, null, cancellationToken);
+            : await AnthropicSessions.GetSessionAsync(serviceProvider, sessionId, cancellationToken);
 
         if (!session.IsOwner(userId))
             throw new UnauthorizedAccessException("Only owners can read this Anthropic session resource.");

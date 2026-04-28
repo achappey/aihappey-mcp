@@ -1,6 +1,4 @@
 using System.Security.Claims;
-using System.Text;
-using System.Text.Json;
 using Microsoft.Identity.Web;
 
 namespace MCPhappey.Common.Extensions;

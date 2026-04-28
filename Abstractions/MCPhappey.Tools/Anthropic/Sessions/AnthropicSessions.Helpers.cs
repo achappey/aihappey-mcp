@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 using MCPhappey.Auth.Extensions;
-using MCPhappey.Tools.Anthropic;
 
 namespace MCPhappey.Tools.Anthropic.Sessions;
 
@@ -13,21 +12,21 @@ public static partial class AnthropicSessions
     internal static async Task<JsonObject> GetSessionAsync(
         IServiceProvider serviceProvider,
         string sessionId,
-        string? anthropicBetaCsv,
+       
         CancellationToken cancellationToken)
         => await AnthropicManagedAgentsHttp.GetJsonObjectAsync(
             serviceProvider,
             $"{BaseUrl}/{Uri.EscapeDataString(NormalizeSessionId(sessionId))}",
-            anthropicBetaCsv,
+            
             cancellationToken);
 
     internal static async Task<JsonObject> GetOwnerSessionAsync(
         IServiceProvider serviceProvider,
         string sessionId,
-        string? anthropicBetaCsv,
+      
         CancellationToken cancellationToken)
     {
-        var current = await GetSessionAsync(serviceProvider, sessionId, anthropicBetaCsv, cancellationToken);
+        var current = await GetSessionAsync(serviceProvider, sessionId,  cancellationToken);
         if (!current.IsOwner(serviceProvider.GetUserId()))
             throw new UnauthorizedAccessException("Only owners can access this Anthropic session.");
 

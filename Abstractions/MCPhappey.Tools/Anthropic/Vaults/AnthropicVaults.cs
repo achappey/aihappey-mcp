@@ -17,7 +17,7 @@ public static partial class AnthropicVaults
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional metadata JSON object. The Owners entry is controlled by this MCP server.")] string? metadataJson = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -29,7 +29,7 @@ public static partial class AnthropicVaults
                 {
                     DisplayName = displayName,
                     MetadataJson = metadataJson,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.DisplayName))
@@ -49,7 +49,7 @@ public static partial class AnthropicVaults
                     HttpMethod.Post,
                     BaseUrl,
                     body,
-                    typed.AnthropicBetaCsv,
+                    
                     cancellationToken);
             }));
 
@@ -61,7 +61,7 @@ public static partial class AnthropicVaults
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional updated display name. Omit to preserve.")] string? displayName = null,
         [Description("Optional metadata patch JSON object. Set keys to strings to upsert, or null to delete. The Owners entry is preserved.")] string? metadataPatchJson = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -71,11 +71,11 @@ public static partial class AnthropicVaults
                     VaultId = vaultId,
                     DisplayName = displayName,
                     MetadataPatchJson = metadataPatchJson,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 var normalizedVaultId = NormalizeVaultId(typed.VaultId);
-                var current = await GetOwnerVaultAsync(serviceProvider, normalizedVaultId, typed.AnthropicBetaCsv, cancellationToken);
+                var current = await GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
                 var owners = GetOwners(current);
                 var metadataPatch = ParseMetadataPatchJsonOrNull(typed.MetadataPatchJson, nameof(typed.MetadataPatchJson));
 
@@ -100,7 +100,7 @@ public static partial class AnthropicVaults
                     HttpMethod.Post,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedVaultId)}",
                     body,
-                    typed.AnthropicBetaCsv,
+                    
                     cancellationToken);
             }));
 
@@ -111,7 +111,7 @@ public static partial class AnthropicVaults
         [Description("User ID of the owner to add.")] string ownerId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -120,12 +120,12 @@ public static partial class AnthropicVaults
                 {
                     VaultId = vaultId,
                     OwnerId = ownerId,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 var normalizedVaultId = NormalizeVaultId(typed.VaultId);
                 var normalizedOwnerId = NormalizeId(typed.OwnerId, "ownerId");
-                var current = await GetOwnerVaultAsync(serviceProvider, normalizedVaultId, typed.AnthropicBetaCsv, cancellationToken);
+                var current = await GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
                 var owners = GetOwners(current);
 
                 if (!owners.Contains(normalizedOwnerId, StringComparer.OrdinalIgnoreCase))
@@ -144,7 +144,7 @@ public static partial class AnthropicVaults
                     HttpMethod.Post,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedVaultId)}",
                     body,
-                    typed.AnthropicBetaCsv,
+                    
                     cancellationToken);
             }));
 
@@ -154,7 +154,7 @@ public static partial class AnthropicVaults
         [Description("Vault ID to archive.")] string vaultId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -162,18 +162,18 @@ public static partial class AnthropicVaults
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveVaultRequest
                 {
                     VaultId = vaultId,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 var normalizedVaultId = NormalizeVaultId(typed.VaultId);
-                await GetOwnerVaultAsync(serviceProvider, normalizedVaultId, typed.AnthropicBetaCsv, cancellationToken);
+                await GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
                     serviceProvider,
                     HttpMethod.Post,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedVaultId)}/archive",
                     null,
-                    typed.AnthropicBetaCsv,
+                    
                     cancellationToken);
             }));
 
@@ -183,13 +183,13 @@ public static partial class AnthropicVaults
         [Description("Vault ID to delete.")] string vaultId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedVaultId = NormalizeVaultId(vaultId);
-                await GetOwnerVaultAsync(serviceProvider, normalizedVaultId, anthropicBetaCsv, cancellationToken);
+                await GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteVaultItem>(requestContext.Server, normalizedVaultId, cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
@@ -197,7 +197,7 @@ public static partial class AnthropicVaults
                     HttpMethod.Delete,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedVaultId)}",
                     null,
-                    anthropicBetaCsv,
+                 
                     cancellationToken);
             }));
 }

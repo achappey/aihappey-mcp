@@ -3,7 +3,7 @@
     "name": "Microsoft-Copilot",
     "title": "Microsoft Copilot",
     "version": "1.0.0",
-    "description": "Find answers from your Microsoft 365 documents and emails.",
+    "description": "Find answers from your Microsoft 365 documents and emails. Needs a Microsoft 365 Copilot license.",
     "icons": [
       {
         "src": "https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Microsoft_Copilot_Icon.svg/1280px-Microsoft_Copilot_Icon.svg.png"

@@ -21,7 +21,6 @@ public static partial class AnthropicEnvironments
         [Description("Metadata value. Maximum 512 characters.")] string value,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -30,8 +29,7 @@ public static partial class AnthropicEnvironments
                 {
                     EnvironmentId = environmentId,
                     Key = key,
-                    Value = value,
-                    AnthropicBeta = anthropicBeta
+                    Value = value
                 }, cancellationToken);
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
@@ -49,7 +47,7 @@ public static partial class AnthropicEnvironments
                 return await UpdateEnvironmentAsync(
                     serviceProvider,
                     normalizedEnvironmentId,
-                    typed.AnthropicBeta,
+
                     body,
                     cancellationToken);
             }));
@@ -66,7 +64,7 @@ public static partial class AnthropicEnvironments
         [Description("Metadata key to remove.")] string key,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
+
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -86,7 +84,7 @@ public static partial class AnthropicEnvironments
                 return await UpdateEnvironmentAsync(
                     serviceProvider,
                     normalizedEnvironmentId,
-                    anthropicBeta,
+
                     body,
                     cancellationToken);
             }));

@@ -20,7 +20,6 @@ public static partial class AnthropicEnvironments
         [Description("Environment ID.")] string environmentId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -28,7 +27,6 @@ public static partial class AnthropicEnvironments
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveEnvironmentRequest
                 {
                     EnvironmentId = environmentId,
-                    AnthropicBeta = anthropicBeta
                 }, cancellationToken);
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
@@ -43,7 +41,6 @@ public static partial class AnthropicEnvironments
                 return await UpdateEnvironmentAsync(
                     serviceProvider,
                     normalizedEnvironmentId,
-                    typed.AnthropicBeta,
                     body,
                     cancellationToken);
             }));
@@ -61,7 +58,6 @@ public static partial class AnthropicEnvironments
         [Description("Whether outbound access to public package registries is allowed beyond the allowed host list.")] bool allowPackageManagers,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -70,12 +66,11 @@ public static partial class AnthropicEnvironments
                 {
                     EnvironmentId = environmentId,
                     AllowMcpServers = allowMcpServers,
-                    AllowPackageManagers = allowPackageManagers,
-                    AnthropicBeta = anthropicBeta
+                    AllowPackageManagers = allowPackageManagers
                 }, cancellationToken);
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
-                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, typed.AnthropicBeta, cancellationToken);
+                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, cancellationToken);
                 var networking = GetLimitedNetworkingOrDefault(current);
                 var allowedHosts = GetStringValues(networking["allowed_hosts"] as JsonArray, "allowed_hosts");
 
@@ -90,7 +85,6 @@ public static partial class AnthropicEnvironments
                 return await UpdateEnvironmentAsync(
                     serviceProvider,
                     normalizedEnvironmentId,
-                    typed.AnthropicBeta,
                     body,
                     cancellationToken);
             }));
@@ -107,7 +101,6 @@ public static partial class AnthropicEnvironments
         [Description("Hostname or IP address to allow.")] string host,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -115,13 +108,12 @@ public static partial class AnthropicEnvironments
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicEnvironmentAllowedHostMutationRequest
                 {
                     EnvironmentId = environmentId,
-                    Host = host,
-                    AnthropicBeta = anthropicBeta
+                    Host = host
                 }, cancellationToken);
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
                 var normalizedHost = NormalizeAllowedHost(typed.Host);
-                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, typed.AnthropicBeta, cancellationToken);
+                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, cancellationToken);
                 var networking = GetLimitedNetworkingOrDefault(current);
                 var allowedHosts = GetStringValues(networking["allowed_hosts"] as JsonArray, "allowed_hosts");
 
@@ -142,7 +134,6 @@ public static partial class AnthropicEnvironments
                 return await UpdateEnvironmentAsync(
                     serviceProvider,
                     normalizedEnvironmentId,
-                    typed.AnthropicBeta,
                     body,
                     cancellationToken);
             }));
@@ -159,7 +150,6 @@ public static partial class AnthropicEnvironments
         [Description("Hostname or IP address to remove.")] string host,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -168,7 +158,7 @@ public static partial class AnthropicEnvironments
                 var normalizedHost = NormalizeAllowedHost(host);
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext.Server, $"{normalizedEnvironmentId}:{normalizedHost}", cancellationToken);
 
-                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, anthropicBeta, cancellationToken);
+                var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, cancellationToken);
                 var networking = GetExistingLimitedNetworking(current);
                 var allowedHosts = GetStringValues(networking["allowed_hosts"] as JsonArray, "allowed_hosts");
                 if (!allowedHosts.RemoveAll(existing => string.Equals(existing, normalizedHost, StringComparison.OrdinalIgnoreCase)).Equals(0))
@@ -187,7 +177,6 @@ public static partial class AnthropicEnvironments
                     return await UpdateEnvironmentAsync(
                         serviceProvider,
                         normalizedEnvironmentId,
-                        anthropicBeta,
                         body,
                         cancellationToken);
                 }

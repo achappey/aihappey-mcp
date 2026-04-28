@@ -34,7 +34,7 @@ public sealed class AnthropicMemoryStoresScraper : IContentScraper
             HttpMethod.Get,
             url,
             null,
-            null,
+          
             cancellationToken);
 
         var secured = await SecureResponseAsync(serviceProvider, node, pathSegments, userId, cancellationToken);
@@ -67,7 +67,7 @@ public sealed class AnthropicMemoryStoresScraper : IContentScraper
         var memoryStoreId = pathSegments[2];
         var memoryStore = pathSegments.Length == 3
             ? node as JsonObject ?? throw new ValidationException("Expected memory store object.")
-            : await AnthropicMemoryStores.GetMemoryStoreAsync(serviceProvider, memoryStoreId, null, cancellationToken);
+            : await AnthropicMemoryStores.GetMemoryStoreAsync(serviceProvider, memoryStoreId,  cancellationToken);
 
         if (!memoryStore.IsOwner(userId))
             throw new UnauthorizedAccessException("Only owners can read this Anthropic memory resource.");

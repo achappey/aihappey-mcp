@@ -8,11 +8,6 @@ public static partial class AnthropicEnvironments
 {
     public abstract class AnthropicEnvironmentBetaRequestBase
     {
-        [JsonPropertyName("anthropicBeta")]
-        [MaxLength(128)]
-        [RegularExpression(@"^[^,;\r\n]+$", ErrorMessage = "anthropicBeta must be a single value.")]
-        [Description("Optional single extra anthropic-beta header value.")]
-        public string? AnthropicBeta { get; set; }
     }
 
     public abstract class AnthropicEnvironmentMutationRequestBase : AnthropicEnvironmentBetaRequestBase

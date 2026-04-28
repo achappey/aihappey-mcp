@@ -35,9 +35,7 @@ public static partial class AnthropicAgents
         [Description("Optional system prompt.")]
         public string? System { get; set; }
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic update agent request.")]
@@ -78,9 +76,7 @@ public static partial class AnthropicAgents
         [Description("Optional updated system prompt. Provide an empty string to clear.")]
         public string? System { get; set; }
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic archive agent request.")]
@@ -91,9 +87,7 @@ public static partial class AnthropicAgents
         [Description("Agent ID to archive.")]
         public string AgentId { get; set; } = string.Empty;
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic agent skill mutation request.")]
@@ -117,9 +111,7 @@ public static partial class AnthropicAgents
         [Description("Optional skill version.")]
         public string? SkillVersion { get; set; }
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic agent MCP server mutation request.")]
@@ -142,9 +134,7 @@ public static partial class AnthropicAgents
         [Description("MCP server URL.")]
         public string ServerUrl { get; set; } = string.Empty;
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic agent metadata mutation request.")]
@@ -168,9 +158,7 @@ public static partial class AnthropicAgents
         [Description("Metadata value.")]
         public string Value { get; set; } = string.Empty;
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic agent built-in tool mutation request.")]
@@ -194,9 +182,7 @@ public static partial class AnthropicAgents
         [Description("Optional permission policy: always_allow or always_ask.")]
         public string? PermissionPolicy { get; set; }
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic built-in tool defaults request.")]
@@ -215,9 +201,7 @@ public static partial class AnthropicAgents
         [Description("Optional default permission policy: always_allow or always_ask.")]
         public string? PermissionPolicy { get; set; }
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic agent MCP tool mutation request.")]
@@ -246,9 +230,7 @@ public static partial class AnthropicAgents
         [Description("Optional permission policy: always_allow or always_ask.")]
         public string? PermissionPolicy { get; set; }
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic MCP tool defaults request.")]
@@ -272,9 +254,7 @@ public static partial class AnthropicAgents
         [Description("Optional default permission policy: always_allow or always_ask.")]
         public string? PermissionPolicy { get; set; }
 
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
+
     }
 
     [Description("Please confirm the Anthropic agent custom tool mutation request.")]
@@ -303,9 +283,5 @@ public static partial class AnthropicAgents
         [Required]
         [Description("URL of the JSON Schema file for the tool input. SharePoint and OneDrive URLs are supported.")]
         public string FileUrl { get; set; } = string.Empty;
-
-        [JsonPropertyName("anthropicBetaCsv")]
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")]
-        public string? AnthropicBetaCsv { get; set; }
     }
 }

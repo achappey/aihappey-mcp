@@ -22,7 +22,7 @@ public static partial class AnthropicAgents
         [Description("Metadata value. Maximum 512 characters.")] string value,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -32,7 +32,7 @@ public static partial class AnthropicAgents
                     AgentId = agentId,
                     Key = key,
                     Value = value,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                   
                 }, cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
@@ -41,14 +41,14 @@ public static partial class AnthropicAgents
                 ValidateMetadataKey(typed.Key);
                 ValidateMetadataValue(typed.Value);
 
-                var current = await GetAgentAsync(serviceProvider, typed.AgentId, typed.AnthropicBetaCsv, cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, typed.AgentId,  cancellationToken);
                 var body = CreateVersionedUpdateBody(current);
                 body["metadata"] = new JsonObject
                 {
                     [typed.Key] = typed.Value
                 };
 
-                return await UpdateAgentAsync(serviceProvider, typed.AgentId, typed.AnthropicBetaCsv, body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, typed.AgentId,  body, cancellationToken);
             }));
 
     [Description("Remove a single metadata key from an Anthropic Managed Agent after explicit typed confirmation.")]
@@ -63,7 +63,7 @@ public static partial class AnthropicAgents
         [Description("Metadata key to remove.")] string key,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -73,12 +73,12 @@ public static partial class AnthropicAgents
                 var expected = $"{agentId}:{key}";
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
 
-                var current = await GetAgentAsync(serviceProvider, agentId, anthropicBetaCsv, cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
                 var body = CreateVersionedUpdateBody(current);
                 var metadataPatch = new JsonObject();
                 metadataPatch[key] = null;
                 body["metadata"] = metadataPatch;
 
-                return await UpdateAgentAsync(serviceProvider, agentId, anthropicBetaCsv, body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, agentId,  body, cancellationToken);
             }));
 }

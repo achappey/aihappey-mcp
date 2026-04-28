@@ -1,8 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 using MCPhappey.Auth.Extensions;
-using MCPhappey.Common.Extensions;
-using MCPhappey.Tools.Anthropic;
 using ModelContextProtocol.Protocol;
 
 namespace MCPhappey.Tools.Anthropic.MemoryStores;
@@ -15,21 +13,20 @@ public static partial class AnthropicMemoryStores
     internal static async Task<JsonObject> GetMemoryStoreAsync(
         IServiceProvider serviceProvider,
         string memoryStoreId,
-        string? anthropicBetaCsv,
+        
         CancellationToken cancellationToken)
         => await AnthropicManagedAgentsHttp.GetJsonObjectAsync(
             serviceProvider,
             $"{BaseUrl}/{Uri.EscapeDataString(NormalizeMemoryStoreId(memoryStoreId))}",
-            anthropicBetaCsv,
+            
             cancellationToken);
 
     internal static async Task<JsonObject> GetOwnerMemoryStoreAsync(
         IServiceProvider serviceProvider,
-        string memoryStoreId,
-        string? anthropicBetaCsv,
+        string memoryStoreId,       
         CancellationToken cancellationToken)
     {
-        var current = await GetMemoryStoreAsync(serviceProvider, memoryStoreId, anthropicBetaCsv, cancellationToken);
+        var current = await GetMemoryStoreAsync(serviceProvider, memoryStoreId,  cancellationToken);
         if (!current.IsOwner(serviceProvider.GetUserId()))
             throw new UnauthorizedAccessException("Only owners can access this Anthropic memory store.");
 
@@ -89,12 +86,11 @@ public static partial class AnthropicMemoryStores
 
     internal static async Task<CallToolResult?> WithOwnerMemoryStoreAsync(
         IServiceProvider serviceProvider,
-        string memoryStoreId,
-        string? anthropicBetaCsv,
+        string memoryStoreId,     
         Func<JsonObject, Task<CallToolResult?>> func,
         CancellationToken cancellationToken)
     {
-        var current = await GetOwnerMemoryStoreAsync(serviceProvider, memoryStoreId, anthropicBetaCsv, cancellationToken);
+        var current = await GetOwnerMemoryStoreAsync(serviceProvider, memoryStoreId, cancellationToken);
         return await func(current);
     }
 }

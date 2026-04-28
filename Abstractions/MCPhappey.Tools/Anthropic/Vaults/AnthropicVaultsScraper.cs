@@ -34,7 +34,7 @@ public sealed class AnthropicVaultsScraper : IContentScraper
             HttpMethod.Get,
             url,
             null,
-            null,
+          
             cancellationToken);
 
         var secured = await SecureResponseAsync(serviceProvider, node, pathSegments, userId, cancellationToken);
@@ -67,7 +67,7 @@ public sealed class AnthropicVaultsScraper : IContentScraper
         var vaultId = pathSegments[2];
         var vault = pathSegments.Length == 3
             ? node as JsonObject ?? throw new ValidationException("Expected vault object.")
-            : await AnthropicVaults.GetVaultAsync(serviceProvider, vaultId, null, cancellationToken);
+            : await AnthropicVaults.GetVaultAsync(serviceProvider, vaultId,  cancellationToken);
 
         if (!vault.IsOwner(userId))
             throw new UnauthorizedAccessException("Only owners can read this Anthropic vault resource.");

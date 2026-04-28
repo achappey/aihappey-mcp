@@ -4,8 +4,6 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Tools.Anthropic;
-using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -41,7 +39,7 @@ public static partial class AnthropicAgents
         [Description("Optional description.")] string? description = null,
         [Description("Optional model speed. Allowed values: standard or fast.")] string? modelSpeed = null,
         [Description("Optional system prompt.")] string? system = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -52,8 +50,7 @@ public static partial class AnthropicAgents
                     ModelId = modelId,
                     Description = description,
                     ModelSpeed = modelSpeed,
-                    System = system,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                    System = system
                 }, cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.Name))
@@ -73,7 +70,7 @@ public static partial class AnthropicAgents
                     HttpMethod.Post,
                     BaseUrl,
                     body,
-                    typed.AnthropicBetaCsv,
+                    
                     cancellationToken);
             }));
 
@@ -94,7 +91,7 @@ public static partial class AnthropicAgents
         [Description("Optional updated model identifier. Omit to preserve the current model.")] string? modelId = null,
         [Description("Optional updated model speed. Allowed values: standard or fast. Requires modelId when provided.")] string? modelSpeed = null,
         [Description("Optional updated system prompt. Provide an empty string to clear.")] string? system = null,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -107,8 +104,7 @@ public static partial class AnthropicAgents
                     Description = description,
                     ModelId = modelId,
                     ModelSpeed = modelSpeed,
-                    System = system,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                    System = system
                 }, cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
@@ -137,7 +133,7 @@ public static partial class AnthropicAgents
                 else if (!string.IsNullOrWhiteSpace(typed.ModelSpeed))
                     throw new ValidationException("modelId is required when modelSpeed is provided.");
 
-                return await UpdateAgentAsync(serviceProvider, typed.AgentId, typed.AnthropicBetaCsv, body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, typed.AgentId,  body, cancellationToken);
             }));
 
     [Description("Archive an Anthropic Managed Agent. The archive request is confirmed through elicitation before execution.")]
@@ -151,15 +147,14 @@ public static partial class AnthropicAgents
         [Description("Agent ID to archive.")] string agentId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional extra anthropic-beta values as comma, semicolon, or newline separated strings.")] string? anthropicBetaCsv = null,
+        
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveAgentRequest
                 {
-                    AgentId = agentId,
-                    AnthropicBetaCsv = anthropicBetaCsv
+                    AgentId = agentId,                  
                 }, cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
@@ -170,7 +165,7 @@ public static partial class AnthropicAgents
                     HttpMethod.Post,
                     $"{BaseUrl}/{Uri.EscapeDataString(typed.AgentId)}/archive",
                     null,
-                    typed.AnthropicBetaCsv,
+                    
                     cancellationToken);
             }));
 }

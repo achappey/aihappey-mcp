@@ -4,7 +4,6 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Tools.Anthropic;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -38,7 +37,6 @@ public static partial class AnthropicEnvironments
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional description.")] string? description = null,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -46,8 +44,7 @@ public static partial class AnthropicEnvironments
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateEnvironmentRequest
                 {
                     Name = name,
-                    Description = description,
-                    AnthropicBeta = anthropicBeta
+                    Description = description
                 }, cancellationToken);
 
                 var normalizedName = NormalizeEnvironmentName(typed.Name);
@@ -65,7 +62,7 @@ public static partial class AnthropicEnvironments
                     HttpMethod.Post,
                     BaseUrl,
                     body,
-                    NormalizeAnthropicBeta(typed.AnthropicBeta),
+                
                     cancellationToken);
             }));
 
@@ -82,7 +79,6 @@ public static partial class AnthropicEnvironments
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional updated name. Omit to preserve the current name.")] string? name = null,
         [Description("Optional updated description. Provide an empty string to clear.")] string? description = null,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -91,8 +87,7 @@ public static partial class AnthropicEnvironments
                 {
                     EnvironmentId = environmentId,
                     Name = name,
-                    Description = description,
-                    AnthropicBeta = anthropicBeta
+                    Description = description
                 }, cancellationToken);
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
@@ -113,7 +108,6 @@ public static partial class AnthropicEnvironments
                 return await UpdateEnvironmentAsync(
                     serviceProvider,
                     normalizedEnvironmentId,
-                    NormalizeAnthropicBeta(typed.AnthropicBeta),
                     body,
                     cancellationToken);
             }));
@@ -129,15 +123,13 @@ public static partial class AnthropicEnvironments
         [Description("Environment ID to archive.")] string environmentId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveEnvironmentRequest
                 {
-                    EnvironmentId = environmentId,
-                    AnthropicBeta = anthropicBeta
+                    EnvironmentId = environmentId
                 }, cancellationToken);
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
@@ -146,9 +138,8 @@ public static partial class AnthropicEnvironments
                     serviceProvider,
                     HttpMethod.Post,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedEnvironmentId)}/archive",
-                    null,
-                    NormalizeAnthropicBeta(typed.AnthropicBeta),
-                    cancellationToken);
+                    null,                  
+                    cancellationToken: cancellationToken);
             }));
 
     [Description("Delete an Anthropic environment after explicit typed confirmation. The API deletion response is returned as structured JSON content.")]
@@ -162,20 +153,19 @@ public static partial class AnthropicEnvironments
         [Description("Environment ID to delete.")] string environmentId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional single extra anthropic-beta header value.")] string? anthropicBeta = null,
         CancellationToken cancellationToken = default)
         => await requestContext.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedEnvironmentId = NormalizeEnvironmentId(environmentId);
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext.Server, normalizedEnvironmentId, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext.Server, 
+                    normalizedEnvironmentId, cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
                     serviceProvider,
                     HttpMethod.Delete,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedEnvironmentId)}",
-                    null,
-                    NormalizeAnthropicBeta(anthropicBeta),
+                    null,                 
                     cancellationToken);
             }));
 }
