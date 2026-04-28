@@ -15,6 +15,10 @@
       }
     ]
   },
+  "instructions": "Use the read-only ModelContextEditor statistics tools to retrieve static and dynamic MCP server statistics. Do not use custom URI resources for statistics.",
+  "plugins": [
+    "MCPhappey.Servers.SQL.Tools.ModelContextEditor, MCPhappey.Servers.SQL"
+  ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
   }

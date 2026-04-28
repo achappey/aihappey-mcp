@@ -137,7 +137,6 @@ public static class AspNetCoreExtensions
        this IServiceCollection services)
     {
         services.AddSingleton<IContentScraper, DynamicHeaderScraper>();
-        services.AddSingleton<IContentScraper, McpStatisticsScraper>();
         services.AddSingleton<IContentScraper, NominatimScraper>();
 
         return services;

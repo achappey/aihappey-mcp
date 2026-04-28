@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using DocumentFormat.OpenXml.Wordprocessing;
+using System.Reflection;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
@@ -7,6 +7,7 @@ using MCPhappey.Servers.SQL.Extensions;
 using MCPhappey.Servers.SQL.Repositories;
 using MCPhappey.Servers.SQL.Tools.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.KernelMemory.DataFormats;
 using Microsoft.SemanticKernel;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -98,12 +99,179 @@ public static partial class ModelContextEditor
       IServiceProvider serviceProvider,
       RequestContext<CallToolRequestParams> requestContext) =>
       await requestContext.WithExceptionCheck(async () =>
-    {
-        var kernel = serviceProvider.GetRequiredService<Kernel>();
+      await requestContext.WithStructuredContent(async () =>
+      {
+          var kernel = serviceProvider.GetRequiredService<Kernel>();
 
-        return await Task.FromResult(
-                kernel.GetToolsFromType(pluginName, []).ToJsonContentBlock("mcp-editor://tools").ToCallToolResult());
-    });
+          var tools = kernel.GetToolsFromType(pluginName, [])?
+              .Select(t => new
+              {
+                  t.ProtocolTool.Name,
+                  t.ProtocolTool.Title,
+                  t.ProtocolTool.Description,
+                  t.ProtocolTool.InputSchema,
+                  t.ProtocolTool.OutputSchema,
+                  t.ProtocolTool.Annotations
+              })
+              .OrderBy(t => t.Name)
+              .ToList() ?? [];
+
+          return await Task.FromResult(new
+          {
+              plugin = pluginName,
+              tools
+          });
+      }));
+
+    [Description("List all plugins available in the MCP Editor environment.")]
+    [McpServerTool(
+        Title = "List plugins",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_ListPlugins(
+      IServiceProvider serviceProvider,
+      RequestContext<CallToolRequestParams> requestContext,
+      [Description("When true, also include tools belonging to each plugin.")]
+      bool includeTools = false) =>
+      await requestContext.WithExceptionCheck(async () =>
+      await requestContext.WithStructuredContent(async () =>
+      {
+          var repo = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>();
+          var kernel = serviceProvider.GetRequiredService<Kernel>();
+
+          var plugins = repo.GetAllPlugins()
+              .OrderBy(plugin => plugin)
+              .Select(plugin => new
+              {
+                  plugin,
+                  tools = includeTools
+                      ? kernel.GetToolsFromType(plugin, [])?
+                          .Select(t => new
+                          {
+                              t.ProtocolTool.Name,
+                              t.ProtocolTool.Title,
+                              t.ProtocolTool.Description
+                          })
+                          .OrderBy(t => t.Name)
+                          .ToList()
+                      : null
+              })
+              .ToList();
+
+          return await Task.FromResult(new
+          {
+              includeTools,
+              plugins
+          });
+      }));
+
+    [Description("List assemblies loaded on the MCP server that can be used when creating tools. Default System and Microsoft assemblies are excluded, except Microsoft.Graph.")]
+    [McpServerTool(
+        Title = "List MCP assemblies",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_ListAssemblies(
+      RequestContext<CallToolRequestParams> requestContext) =>
+      await requestContext.WithExceptionCheck(async () =>
+      await requestContext.WithStructuredContent(async () =>
+      {
+          var assemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
+              .Select(static file =>
+              {
+                  try
+                  {
+                      var assembly = AssemblyName.GetAssemblyName(file);
+                      return new
+                      {
+                          assembly.Name,
+                          Version = assembly.Version?.ToString()
+                      };
+                  }
+                  catch
+                  {
+                      return null;
+                  }
+              })
+              .Where(assembly => assembly?.Name != null
+                  && !assembly.Name.StartsWith("System", StringComparison.OrdinalIgnoreCase)
+                  && (!assembly.Name.StartsWith("Microsoft", StringComparison.OrdinalIgnoreCase)
+                      || assembly.Name.StartsWith("Microsoft.Graph", StringComparison.OrdinalIgnoreCase)))
+              .OrderBy(assembly => assembly!.Name)
+              .ToList();
+
+          return await Task.FromResult(new
+          {
+              assemblies
+          });
+      }));
+
+    [Description("List content decoders registered in the MCP Editor environment.")]
+    [McpServerTool(
+        Title = "List content decoders",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_ListDecoders(
+      IEnumerable<IContentDecoder> contentDecoders,
+      RequestContext<CallToolRequestParams> requestContext) =>
+      await requestContext.WithExceptionCheck(async () =>
+      await requestContext.WithStructuredContent(async () =>
+      {
+          var decoders = contentDecoders
+              .Select(static decoder => new
+              {
+                  Name = decoder.GetType().Name,
+                  Namespace = decoder.GetType().Namespace,
+                  Assembly = decoder.GetType().Assembly.GetName().Name
+              })
+              .OrderBy(decoder => decoder.Namespace)
+              .ThenBy(decoder => decoder.Name)
+              .ToList();
+
+          return await Task.FromResult(new
+          {
+              decoders
+          });
+      }));
+
+    [Description("List content decoders registered in the MCP Editor environment that support a MIME type.")]
+    [McpServerTool(
+        Title = "List content decoders by MIME type",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> ModelContextEditor_ListDecodersByMimeType(
+      [Description("MIME type to match, for example application/json or text/html.")]
+      string mimeType,
+      IEnumerable<IContentDecoder> contentDecoders,
+      RequestContext<CallToolRequestParams> requestContext) =>
+      await requestContext.WithExceptionCheck(async () =>
+      await requestContext.WithStructuredContent(async () =>
+      {
+          var decoders = contentDecoders
+              .ByMimeType(mimeType)
+              .Select(static decoder => new
+              {
+                  Name = decoder.GetType().Name,
+                  Namespace = decoder.GetType().Namespace,
+                  Assembly = decoder.GetType().Assembly.GetName().Name
+              })
+              .OrderBy(decoder => decoder.Namespace)
+              .ThenBy(decoder => decoder.Name)
+              .ToList();
+
+          return await Task.FromResult(new
+          {
+              mimeType,
+              decoders
+          });
+      }));
 
     [Description("Search tools across all plugins by name or description.")]
     [McpServerTool(

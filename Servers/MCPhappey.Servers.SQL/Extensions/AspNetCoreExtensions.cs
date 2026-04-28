@@ -23,7 +23,6 @@ public static class AspNetCoreExtensions
         builder.Services.AddScoped<IServerDataProvider, SqlServerDataProvider>();
         builder.Services.AddSingleton<IAutoCompletion, EditorCompletion>();
         builder.Services.AddSingleton<IAutoCompletion, DefaultCompletion>();
-        builder.Services.AddSingleton<IContentScraper, McpEditorScraper>();
 
         using var tempProvider = builder.Services.BuildServiceProvider();
         using var scope = tempProvider.CreateScope();

@@ -16,7 +16,7 @@
     ]
   },
   "plugins": ["MCPhappey.Servers.SQL.Tools.ModelContextSecurityEditor, MCPhappey.Servers.SQL"],
-  "instructions": "Only owners can edit servers. Securitygroups are used to limit access to the MCP server. Security groups are recommended on secured servers. Protected resources (like SharePoint, Micosoft Graph and Simplicate resources) can only be used when secured == true on the server.",
+  "instructions": "Only owners can edit servers. Use the read-only ModelContextEditor list/search tools to retrieve editable MCP servers and their metadata. Securitygroups are used to limit access to the MCP server. Security groups are recommended on secured servers. Protected resources (like SharePoint, Micosoft Graph and Simplicate resources) can only be used when secured == true on the server.",
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
   }

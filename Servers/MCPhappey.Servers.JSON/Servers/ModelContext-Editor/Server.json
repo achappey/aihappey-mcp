@@ -15,7 +15,7 @@
       }
     ]
   },
-  "instructions": "Always use the ReadResource tool to retrieve servers, resources, resourceTemplates and prompts. Only use other tools when items need to be created, updated or deleted.",
+  "instructions": "Use the read-only ModelContextEditor list/get/search tools to retrieve servers, resources, resourceTemplates, prompts, plugins, assemblies, decoders and statistics. Use mutation tools only when items need to be created, updated or deleted.",
   "plugins": [
     "MCPhappey.Servers.SQL.Tools.ModelContextEditor, MCPhappey.Servers.SQL"
   ],
