@@ -25,9 +25,9 @@
     <PackageReference Include="Microsoft.KernelMemory.AI.OpenAI" Version="0.98.250508.3" />
     <PackageReference Include="Microsoft.KernelMemory.MemoryDb.SQLServer" Version="0.98.250508.3" />
 		<PackageReference Include="Microsoft.KernelMemory.Core" Version="0.98.250508.3" />
-		<PackageReference Include="Microsoft.SemanticKernel" Version="1.74.0" />
-		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.74.0-preview" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.74.0-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.75.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.75.0-preview" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.75.0-alpha" />
 		<PackageReference Include="ModelContextProtocol.AspNetCore" Version="1.2.0" />		
 		<PackageReference Include="ModelContextProtocol" Version="1.2.0" />		
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.7" />
