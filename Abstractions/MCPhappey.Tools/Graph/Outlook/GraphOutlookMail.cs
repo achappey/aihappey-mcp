@@ -1,11 +1,13 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Graph.Beta;
 using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -14,6 +16,9 @@ namespace MCPhappey.Tools.Graph.Outlook;
 
 public static class GraphOutlookMail
 {
+    private const int DefaultMoveSearchLimit = 25;
+    private const int MaxMoveSearchLimit = 100;
+
     [Description("Add a single category to an existing email message in Outlook (without removing existing ones).")]
     [McpServerTool(
         Title = "Add Category to Email",
@@ -80,6 +85,168 @@ public static class GraphOutlookMail
         [Description("The single category name to add.")]
         public string Category { get; set; } = default!;
     }
+
+    [Description("Move a single Outlook email message to another mail folder in the current user's mailbox. Requires explicit confirmation.")]
+    [McpServerTool(
+        Title = "Move Outlook e-mail to folder",
+        Name = "graph_outlook_mail_move_to_folder",
+        Destructive = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookMail_MoveToFolder(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("The unique message ID of the email to move.")][Required] string messageId,
+        [Description("The destination mail folder ID. Use Microsoft Graph mailFolder IDs, or a well-known folder name such as inbox, archive, deleteditems, junkemail, or sentitems.")][Required] string destinationFolderId,
+        [Description("Optional expected destination folder display name. When supplied, it is validated against the resolved folder.")] string? destinationFolderDisplayName = null,
+        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var destination = await ResolveCurrentUserMailFolderAsync(client, destinationFolderId, destinationFolderDisplayName, cancellationToken);
+            var message = await client.Me.Messages[messageId].GetAsync(requestConfiguration =>
+            {
+                requestConfiguration.QueryParameters.Select = MailMoveMessageSelect;
+            }, cancellationToken) ?? throw new ValidationException($"Message '{messageId}' was not found.");
+
+            var confirmation = new GraphMailMoveConfirmationInput
+            {
+                Confirm = false,
+                Mailbox = "me",
+                MessageCount = 1,
+                DestinationFolderId = destination.Id,
+                DestinationFolderDisplayName = destination.DisplayName,
+                Preview = FormatMovePreview([message])
+            };
+
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(confirmation, cancellationToken);
+            if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
+            if (typed?.Confirm != true) throw new ValidationException("Move was not confirmed.");
+
+            await requestContext.Server.SendProgressNotificationAsync(
+                requestContext,
+                progressCounter: 0,
+                message: $"Moving 1 message to '{destination.DisplayName}'...",
+                total: 1,
+                cancellationToken: cancellationToken);
+
+            var moved = await client.Me.Messages[messageId].Move.PostAsync(
+                new Microsoft.Graph.Beta.Me.Messages.Item.Move.MovePostRequestBody
+                {
+                    DestinationId = destination.Id
+                },
+                cancellationToken: cancellationToken);
+
+            await requestContext.Server.SendProgressNotificationAsync(
+                requestContext,
+                progressCounter: 1,
+                message: $"Moved message '{message.Subject}'.",
+                total: 1,
+                cancellationToken: cancellationToken);
+
+            return new GraphMailMoveResult
+            {
+                Mailbox = "me",
+                DestinationFolderId = destination.Id,
+                DestinationFolderDisplayName = destination.DisplayName,
+                Requested = 1,
+                Attempted = 1,
+                Moved = 1,
+                Failed = 0,
+                Messages =
+                [
+                    new GraphMailMoveItemResult
+                    {
+                        OriginalMessageId = messageId,
+                        MovedMessageId = moved?.Id,
+                        Subject = message.Subject,
+                        From = message.From?.EmailAddress?.Address,
+                        ReceivedDateTime = message.ReceivedDateTime,
+                        Status = "Moved"
+                    }
+                ]
+            };
+        })));
+
+    [Description("Move Outlook email messages matching a safe hybrid search (keywords plus primitive filters) to another mail folder in the current user's mailbox. Requires explicit confirmation after preview.")]
+    [McpServerTool(
+        Title = "Move Outlook e-mails by safe search to folder",
+        Name = "graph_outlook_mail_move_search_to_folder",
+        Destructive = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookMail_MoveSearchToFolder(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("The destination mail folder ID. Use Microsoft Graph mailFolder IDs, or a well-known folder name such as inbox, archive, deleteditems, junkemail, or sentitems.")][Required] string destinationFolderId,
+        [Description("Optional keyword search across the message index. Do not pass OData syntax; this value is escaped and translated server-side.")] string? keywords = null,
+        [Description("Optional exact sender email address filter.")] string? fromAddress = null,
+        [Description("Optional subject contains filter. This is translated to a safe Microsoft Graph contains(subject, ...) filter.")] string? subjectContains = null,
+        [Description("Optional lower bound for receivedDateTime, in ISO 8601 format.")] string? receivedAfter = null,
+        [Description("Optional upper bound for receivedDateTime, in ISO 8601 format.")] string? receivedBefore = null,
+        [Description("When true, only unread messages are moved.")] bool? unreadOnly = null,
+        [Description("When set, filters messages by attachment presence.")] bool? hasAttachments = null,
+        [Description("Optional expected destination folder display name. When supplied, it is validated against the resolved folder.")] string? destinationFolderDisplayName = null,
+        [Description("Maximum number of messages to move. Defaults to 25 and is capped at 100.")] int? maxMessages = DefaultMoveSearchLimit,
+        CancellationToken cancellationToken = default)
+        => await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var query = BuildSafeMailMoveQuery(keywords, fromAddress, subjectContains, receivedAfter, receivedBefore, unreadOnly, hasAttachments, maxMessages);
+            var destination = await ResolveCurrentUserMailFolderAsync(client, destinationFolderId, destinationFolderDisplayName, cancellationToken);
+
+            var messagesResponse = await client.Me.Messages.GetAsync(requestConfiguration =>
+            {
+                requestConfiguration.QueryParameters.Top = query.Top;
+                requestConfiguration.QueryParameters.Select = MailMoveMessageSelect;
+                requestConfiguration.QueryParameters.Orderby = ["receivedDateTime DESC"];
+                if (!string.IsNullOrWhiteSpace(query.Filter))
+                    requestConfiguration.QueryParameters.Filter = query.Filter;
+                else if (!string.IsNullOrWhiteSpace(query.Search))
+                    requestConfiguration.QueryParameters.Search = query.Search;
+            }, cancellationToken);
+
+            var messages = messagesResponse?.Value?.Where(message => !string.IsNullOrWhiteSpace(message.Id)).Take(query.Top).ToList() ?? [];
+            messages = ApplyClientSideKeywordFallback(messages, query).Take(query.Top).ToList();
+
+            if (messages.Count == 0)
+            {
+                return new GraphMailMoveResult
+                {
+                    Mailbox = "me",
+                    DestinationFolderId = destination.Id,
+                    DestinationFolderDisplayName = destination.DisplayName,
+                    Requested = 0,
+                    Attempted = 0,
+                    Moved = 0,
+                    Failed = 0,
+                    Query = query,
+                    Messages = []
+                };
+            }
+
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphMailMoveConfirmationInput
+                {
+                    Confirm = false,
+                    Mailbox = "me",
+                    MessageCount = messages.Count,
+                    DestinationFolderId = destination.Id,
+                    DestinationFolderDisplayName = destination.DisplayName,
+                    Keywords = keywords,
+                    FromAddress = fromAddress,
+                    SubjectContains = subjectContains,
+                    ReceivedAfter = receivedAfter,
+                    ReceivedBefore = receivedBefore,
+                    UnreadOnly = unreadOnly,
+                    HasAttachments = hasAttachments,
+                    Preview = FormatMovePreview(messages.Take(10))
+                },
+                cancellationToken);
+
+            if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
+            if (typed?.Confirm != true) throw new ValidationException("Move was not confirmed.");
+
+            return await MoveCurrentUserMessagesAsync(requestContext, client, messages, destination, query, cancellationToken);
+        })));
 
     [Description("Filter e-mails in Outlook using Microsoft Graph OData filter. Exact matching on fields like receivedDateTime, sender, subject. Use for deterministic filtering (dates, sender, flags).")]
     [McpServerTool(
@@ -455,6 +622,470 @@ public static class GraphOutlookMail
             throw new ValidationException("emailSignatureUrl returned empty content.");
 
         return $"{body ?? string.Empty}{signatureHtml}";
+    }
+
+    internal static readonly string[] MailMoveMessageSelect =
+    [
+        "id",
+        "subject",
+        "from",
+        "receivedDateTime",
+        "isRead",
+        "hasAttachments",
+        "webLink",
+        "bodyPreview"
+    ];
+
+    internal static async Task<MailFolder> ResolveCurrentUserMailFolderAsync(
+        GraphServiceClient client,
+        string destinationFolderId,
+        string? destinationFolderDisplayName,
+        CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(destinationFolderId);
+
+        var folder = await client.Me.MailFolders[NormalizeWellKnownFolderId(destinationFolderId)]
+            .GetAsync(requestConfiguration =>
+            {
+                requestConfiguration.QueryParameters.Select = ["id", "displayName", "parentFolderId", "totalItemCount"];
+            }, cancellationToken)
+            ?? throw new ValidationException($"Destination mail folder '{destinationFolderId}' was not found.");
+
+        ValidateDestinationFolderName(folder, destinationFolderDisplayName);
+        return folder;
+    }
+
+    internal static async Task<MailFolder> ResolveDelegatedMailFolderAsync(
+        GraphServiceClient client,
+        string userId,
+        string destinationFolderId,
+        string? destinationFolderDisplayName,
+        CancellationToken cancellationToken)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(destinationFolderId);
+
+        var folder = await client.Users[userId].MailFolders[NormalizeWellKnownFolderId(destinationFolderId)]
+            .GetAsync(requestConfiguration =>
+            {
+                requestConfiguration.QueryParameters.Select = ["id", "displayName", "parentFolderId", "totalItemCount"];
+            }, cancellationToken)
+            ?? throw new ValidationException($"Destination mail folder '{destinationFolderId}' was not found for mailbox '{userId}'.");
+
+        ValidateDestinationFolderName(folder, destinationFolderDisplayName);
+        return folder;
+    }
+
+    internal static GraphMailMoveQuery BuildSafeMailMoveQuery(
+        string? keywords,
+        string? fromAddress,
+        string? subjectContains,
+        string? receivedAfter,
+        string? receivedBefore,
+        bool? unreadOnly,
+        bool? hasAttachments,
+        int? maxMessages)
+    {
+        var top = Math.Clamp(maxMessages ?? DefaultMoveSearchLimit, 1, MaxMoveSearchLimit);
+        var filterParts = new List<string>();
+
+        if (!string.IsNullOrWhiteSpace(fromAddress))
+        {
+            var trimmed = fromAddress.Trim();
+            if (!new EmailAddressAttribute().IsValid(trimmed))
+                throw new ValidationException("fromAddress must be a valid email address.");
+
+            filterParts.Add($"from/emailAddress/address eq '{EscapeODataString(trimmed)}'");
+        }
+
+        if (!string.IsNullOrWhiteSpace(subjectContains))
+            filterParts.Add($"contains(subject,'{EscapeODataString(TrimAndLimit(subjectContains, 120, nameof(subjectContains)))}')");
+
+        if (TryParseDateTimeOffset(receivedAfter, nameof(receivedAfter), out var receivedAfterDate))
+            filterParts.Add($"receivedDateTime ge {receivedAfterDate:O}");
+
+        if (TryParseDateTimeOffset(receivedBefore, nameof(receivedBefore), out var receivedBeforeDate))
+            filterParts.Add($"receivedDateTime le {receivedBeforeDate:O}");
+
+        if (receivedAfterDate.HasValue && receivedBeforeDate.HasValue && receivedAfterDate > receivedBeforeDate)
+            throw new ValidationException("receivedAfter must be earlier than or equal to receivedBefore.");
+
+        if (unreadOnly == true)
+            filterParts.Add("isRead eq false");
+
+        if (hasAttachments.HasValue)
+            filterParts.Add($"hasAttachments eq {hasAttachments.Value.ToString().ToLowerInvariant()}");
+
+        var normalizedKeywords = NormalizeSearchKeywords(keywords);
+
+        if (string.IsNullOrWhiteSpace(normalizedKeywords) && filterParts.Count == 0)
+            throw new ValidationException("At least one safe search input is required: keywords, fromAddress, subjectContains, receivedAfter, receivedBefore, unreadOnly, or hasAttachments.");
+
+        return new GraphMailMoveQuery
+        {
+            Keywords = normalizedKeywords,
+            Search = string.IsNullOrWhiteSpace(normalizedKeywords) || filterParts.Count > 0 ? null : $"\"{EscapeGraphSearchString(normalizedKeywords)}\"",
+            Filter = filterParts.Count == 0 ? null : string.Join(" and ", filterParts),
+            Top = top,
+            MaxAllowed = MaxMoveSearchLimit,
+            ClientSideKeywordFallback = !string.IsNullOrWhiteSpace(normalizedKeywords) && filterParts.Count > 0
+        };
+    }
+
+    internal static string FormatMovePreview(IEnumerable<Message> messages)
+        => string.Join(Environment.NewLine, messages.Select((message, index) =>
+            $"{index + 1}. {message.Subject ?? "(no subject)"} | from: {message.From?.EmailAddress?.Address ?? "unknown"} | received: {message.ReceivedDateTime:O} | id: {message.Id}"));
+
+    internal static IEnumerable<Message> ApplyClientSideKeywordFallback(IEnumerable<Message> messages, GraphMailMoveQuery query)
+    {
+        if (query.ClientSideKeywordFallback != true || string.IsNullOrWhiteSpace(query.Keywords))
+            return messages;
+
+        var keyword = query.Keywords.Trim();
+        return messages.Where(message =>
+            (message.Subject?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == true)
+            || (message.BodyPreview?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == true)
+            || (message.From?.EmailAddress?.Address?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == true)
+            || (message.From?.EmailAddress?.Name?.Contains(keyword, StringComparison.OrdinalIgnoreCase) == true));
+    }
+
+    internal static async Task<GraphMailMoveResult> MoveCurrentUserMessagesAsync(
+        RequestContext<CallToolRequestParams> requestContext,
+        GraphServiceClient client,
+        IReadOnlyList<Message> messages,
+        MailFolder destination,
+        GraphMailMoveQuery? query,
+        CancellationToken cancellationToken)
+    {
+        var results = new List<GraphMailMoveItemResult>();
+
+        await requestContext.Server.SendProgressNotificationAsync(
+            requestContext,
+            progressCounter: 0,
+            message: $"Moving {messages.Count} message(s) to '{destination.DisplayName}'...",
+            total: messages.Count,
+            cancellationToken: cancellationToken);
+
+        for (var i = 0; i < messages.Count; i++)
+        {
+            var message = messages[i];
+            try
+            {
+                var moved = await client.Me.Messages[message.Id].Move.PostAsync(
+                    new Microsoft.Graph.Beta.Me.Messages.Item.Move.MovePostRequestBody
+                    {
+                        DestinationId = destination.Id
+                    },
+                    cancellationToken: cancellationToken);
+
+                results.Add(new GraphMailMoveItemResult
+                {
+                    OriginalMessageId = message.Id,
+                    MovedMessageId = moved?.Id,
+                    Subject = message.Subject,
+                    From = message.From?.EmailAddress?.Address,
+                    ReceivedDateTime = message.ReceivedDateTime,
+                    Status = "Moved"
+                });
+            }
+            catch (Exception ex)
+            {
+                results.Add(new GraphMailMoveItemResult
+                {
+                    OriginalMessageId = message.Id,
+                    Subject = message.Subject,
+                    From = message.From?.EmailAddress?.Address,
+                    ReceivedDateTime = message.ReceivedDateTime,
+                    Status = "Failed",
+                    Error = ex.Message
+                });
+            }
+
+            await requestContext.Server.SendProgressNotificationAsync(
+                requestContext,
+                progressCounter: i + 1,
+                message: $"Moved {results.Count(result => result.Status == "Moved")}/{messages.Count} message(s) to '{destination.DisplayName}'.",
+                total: messages.Count,
+                cancellationToken: cancellationToken);
+        }
+
+        return BuildMoveResult("me", destination, query, results, messages.Count);
+    }
+
+    internal static async Task<GraphMailMoveResult> MoveDelegatedMessagesAsync(
+        RequestContext<CallToolRequestParams> requestContext,
+        GraphServiceClient client,
+        string userId,
+        IReadOnlyList<Message> messages,
+        MailFolder destination,
+        GraphMailMoveQuery? query,
+        CancellationToken cancellationToken)
+    {
+        var results = new List<GraphMailMoveItemResult>();
+
+        await requestContext.Server.SendProgressNotificationAsync(
+            requestContext,
+            progressCounter: 0,
+            message: $"Moving {messages.Count} message(s) in mailbox '{userId}' to '{destination.DisplayName}'...",
+            total: messages.Count,
+            cancellationToken: cancellationToken);
+
+        for (var i = 0; i < messages.Count; i++)
+        {
+            var message = messages[i];
+            try
+            {
+                var moved = await client.Users[userId].Messages[message.Id].Move.PostAsync(
+                    new Microsoft.Graph.Beta.Users.Item.Messages.Item.Move.MovePostRequestBody
+                    {
+                        DestinationId = destination.Id
+                    },
+                    cancellationToken: cancellationToken);
+
+                results.Add(new GraphMailMoveItemResult
+                {
+                    OriginalMessageId = message.Id,
+                    MovedMessageId = moved?.Id,
+                    Subject = message.Subject,
+                    From = message.From?.EmailAddress?.Address,
+                    ReceivedDateTime = message.ReceivedDateTime,
+                    Status = "Moved"
+                });
+            }
+            catch (Exception ex)
+            {
+                results.Add(new GraphMailMoveItemResult
+                {
+                    OriginalMessageId = message.Id,
+                    Subject = message.Subject,
+                    From = message.From?.EmailAddress?.Address,
+                    ReceivedDateTime = message.ReceivedDateTime,
+                    Status = "Failed",
+                    Error = ex.Message
+                });
+            }
+
+            await requestContext.Server.SendProgressNotificationAsync(
+                requestContext,
+                progressCounter: i + 1,
+                message: $"Moved {results.Count(result => result.Status == "Moved")}/{messages.Count} delegated message(s) to '{destination.DisplayName}'.",
+                total: messages.Count,
+                cancellationToken: cancellationToken);
+        }
+
+        return BuildMoveResult(userId, destination, query, results, messages.Count);
+    }
+
+    private static GraphMailMoveResult BuildMoveResult(
+        string mailbox,
+        MailFolder destination,
+        GraphMailMoveQuery? query,
+        IReadOnlyList<GraphMailMoveItemResult> results,
+        int requested)
+        => new()
+        {
+            Mailbox = mailbox,
+            DestinationFolderId = destination.Id,
+            DestinationFolderDisplayName = destination.DisplayName,
+            Requested = requested,
+            Attempted = results.Count,
+            Moved = results.Count(result => result.Status == "Moved"),
+            Failed = results.Count(result => result.Status == "Failed"),
+            Query = query,
+            Messages = results
+        };
+
+    private static void ValidateDestinationFolderName(MailFolder folder, string? destinationFolderDisplayName)
+    {
+        if (!string.IsNullOrWhiteSpace(destinationFolderDisplayName)
+            && !string.Equals(folder.DisplayName, destinationFolderDisplayName.Trim(), StringComparison.OrdinalIgnoreCase))
+        {
+            throw new ValidationException($"Resolved destination folder name '{folder.DisplayName}' does not match expected name '{destinationFolderDisplayName}'.");
+        }
+    }
+
+    private static string NormalizeWellKnownFolderId(string folderId)
+    {
+        var trimmed = folderId.Trim();
+        return trimmed.ToLowerInvariant() switch
+        {
+            "deleted items" => "deleteditems",
+            "junk email" => "junkemail",
+            "sent items" => "sentitems",
+            "drafts" => "drafts",
+            "inbox" => "inbox",
+            "archive" => "archive",
+            "deleteditems" => "deleteditems",
+            "junkemail" => "junkemail",
+            "sentitems" => "sentitems",
+            _ => trimmed
+        };
+    }
+
+    private static string EscapeODataString(string value) => value.Replace("'", "''", StringComparison.Ordinal);
+
+    private static string EscapeGraphSearchString(string value) => value.Replace("\\", " ", StringComparison.Ordinal).Replace("\"", " ", StringComparison.Ordinal);
+
+    private static string TrimAndLimit(string? value, int maxLength, string parameterName)
+    {
+        var trimmed = value?.Trim();
+        if (string.IsNullOrWhiteSpace(trimmed))
+            throw new ValidationException($"{parameterName} cannot be empty when supplied.");
+
+        if (trimmed.Length > maxLength)
+            throw new ValidationException($"{parameterName} cannot exceed {maxLength} characters.");
+
+        return trimmed;
+    }
+
+    private static string? NormalizeSearchKeywords(string? keywords)
+    {
+        if (string.IsNullOrWhiteSpace(keywords))
+            return null;
+
+        var trimmed = TrimAndLimit(keywords, 120, nameof(keywords));
+        if (trimmed.Contains('$', StringComparison.Ordinal) || trimmed.Contains(';', StringComparison.Ordinal))
+            throw new ValidationException("keywords cannot contain OData or statement-control characters.");
+
+        return trimmed;
+    }
+
+    private static bool TryParseDateTimeOffset(string? value, string parameterName, out DateTimeOffset? dateTimeOffset)
+    {
+        dateTimeOffset = null;
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
+
+        if (!DateTimeOffset.TryParse(value.Trim(), CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var parsed))
+            throw new ValidationException($"{parameterName} must be a valid ISO 8601 date/time.");
+
+        dateTimeOffset = parsed.ToUniversalTime();
+        return true;
+    }
+
+    [Description("Confirm moving Outlook mail messages to a folder.")]
+    public class GraphMailMoveConfirmationInput
+    {
+        [JsonPropertyName("confirm")]
+        [Required]
+        [Description("Set to true only after the user explicitly confirms moving these messages.")]
+        public bool Confirm { get; set; }
+
+        [JsonPropertyName("mailbox")]
+        [Description("Mailbox scope for the move operation.")]
+        public string? Mailbox { get; set; }
+
+        [JsonPropertyName("messageCount")]
+        [Description("Number of messages that will be moved.")]
+        public int MessageCount { get; set; }
+
+        [JsonPropertyName("destinationFolderId")]
+        [Description("Resolved destination folder ID.")]
+        public string? DestinationFolderId { get; set; }
+
+        [JsonPropertyName("destinationFolderDisplayName")]
+        [Description("Resolved destination folder display name.")]
+        public string? DestinationFolderDisplayName { get; set; }
+
+        [JsonPropertyName("keywords")]
+        public string? Keywords { get; set; }
+
+        [JsonPropertyName("fromAddress")]
+        public string? FromAddress { get; set; }
+
+        [JsonPropertyName("subjectContains")]
+        public string? SubjectContains { get; set; }
+
+        [JsonPropertyName("receivedAfter")]
+        public string? ReceivedAfter { get; set; }
+
+        [JsonPropertyName("receivedBefore")]
+        public string? ReceivedBefore { get; set; }
+
+        [JsonPropertyName("unreadOnly")]
+        public bool? UnreadOnly { get; set; }
+
+        [JsonPropertyName("hasAttachments")]
+        public bool? HasAttachments { get; set; }
+
+        [JsonPropertyName("preview")]
+        [Description("Preview of up to ten messages that will be moved.")]
+        public string Preview { get; set; } = string.Empty;
+    }
+
+    public class GraphMailMoveQuery
+    {
+        [JsonPropertyName("keywords")]
+        public string? Keywords { get; set; }
+
+        [JsonPropertyName("search")]
+        public string? Search { get; set; }
+
+        [JsonPropertyName("filter")]
+        public string? Filter { get; set; }
+
+        [JsonPropertyName("top")]
+        public int Top { get; set; }
+
+        [JsonPropertyName("maxAllowed")]
+        public int MaxAllowed { get; set; }
+
+        [JsonPropertyName("clientSideKeywordFallback")]
+        public bool ClientSideKeywordFallback { get; set; }
+    }
+
+    public class GraphMailMoveResult
+    {
+        [JsonPropertyName("mailbox")]
+        public string? Mailbox { get; set; }
+
+        [JsonPropertyName("destinationFolderId")]
+        public string? DestinationFolderId { get; set; }
+
+        [JsonPropertyName("destinationFolderDisplayName")]
+        public string? DestinationFolderDisplayName { get; set; }
+
+        [JsonPropertyName("requested")]
+        public int Requested { get; set; }
+
+        [JsonPropertyName("attempted")]
+        public int Attempted { get; set; }
+
+        [JsonPropertyName("moved")]
+        public int Moved { get; set; }
+
+        [JsonPropertyName("failed")]
+        public int Failed { get; set; }
+
+        [JsonPropertyName("query")]
+        public GraphMailMoveQuery? Query { get; set; }
+
+        [JsonPropertyName("messages")]
+        public IReadOnlyList<GraphMailMoveItemResult> Messages { get; set; } = [];
+    }
+
+    public class GraphMailMoveItemResult
+    {
+        [JsonPropertyName("originalMessageId")]
+        public string? OriginalMessageId { get; set; }
+
+        [JsonPropertyName("movedMessageId")]
+        public string? MovedMessageId { get; set; }
+
+        [JsonPropertyName("subject")]
+        public string? Subject { get; set; }
+
+        [JsonPropertyName("from")]
+        public string? From { get; set; }
+
+        [JsonPropertyName("receivedDateTime")]
+        public DateTimeOffset? ReceivedDateTime { get; set; }
+
+        [JsonPropertyName("status")]
+        public string? Status { get; set; }
+
+        [JsonPropertyName("error")]
+        public string? Error { get; set; }
     }
 
     [Description("Please fill in the draft e-mail details")]
