@@ -84,7 +84,6 @@ public static class GraphOutlookDelegatedMail
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphOutlookMail.GraphMailMoveConfirmationInput
                 {
-                    Confirm = false,
                     Mailbox = userId,
                     MessageCount = 1,
                     DestinationFolderId = destination.Id,
@@ -94,7 +93,7 @@ public static class GraphOutlookDelegatedMail
                 cancellationToken);
 
             if (notAccepted != null) throw new Exception(System.Text.Json.JsonSerializer.Serialize(notAccepted));
-            if (typed?.Confirm != true) throw new ValidationException("Move was not confirmed.");
+            if (typed == null) throw new ValidationException("Move was not confirmed.");
 
             return await GraphOutlookMail.MoveDelegatedMessagesAsync(
                 requestContext,
@@ -166,7 +165,6 @@ public static class GraphOutlookDelegatedMail
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphOutlookMail.GraphMailMoveConfirmationInput
                 {
-                    Confirm = false,
                     Mailbox = userId,
                     MessageCount = messages.Count,
                     DestinationFolderId = destination.Id,
@@ -183,7 +181,7 @@ public static class GraphOutlookDelegatedMail
                 cancellationToken);
 
             if (notAccepted != null) throw new Exception(System.Text.Json.JsonSerializer.Serialize(notAccepted));
-            if (typed?.Confirm != true) throw new ValidationException("Move was not confirmed.");
+            if (typed == null) throw new ValidationException("Move was not confirmed.");
 
             return await GraphOutlookMail.MoveDelegatedMessagesAsync(requestContext, client, userId, messages, destination, query, cancellationToken);
         })));

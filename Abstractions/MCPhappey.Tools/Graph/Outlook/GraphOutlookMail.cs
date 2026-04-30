@@ -110,7 +110,6 @@ public static class GraphOutlookMail
 
             var confirmation = new GraphMailMoveConfirmationInput
             {
-                Confirm = false,
                 Mailbox = "me",
                 MessageCount = 1,
                 DestinationFolderId = destination.Id,
@@ -120,7 +119,7 @@ public static class GraphOutlookMail
 
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(confirmation, cancellationToken);
             if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
-            if (typed?.Confirm != true) throw new ValidationException("Move was not confirmed.");
+            if (typed == null) throw new ValidationException("Move was not confirmed.");
 
             await requestContext.Server.SendProgressNotificationAsync(
                 requestContext,
@@ -226,7 +225,6 @@ public static class GraphOutlookMail
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphMailMoveConfirmationInput
                 {
-                    Confirm = false,
                     Mailbox = "me",
                     MessageCount = messages.Count,
                     DestinationFolderId = destination.Id,
@@ -243,7 +241,7 @@ public static class GraphOutlookMail
                 cancellationToken);
 
             if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
-            if (typed?.Confirm != true) throw new ValidationException("Move was not confirmed.");
+            if (typed == null) throw new ValidationException("Move was not confirmed.");
 
             return await MoveCurrentUserMessagesAsync(requestContext, client, messages, destination, query, cancellationToken);
         })));
@@ -966,11 +964,6 @@ public static class GraphOutlookMail
     [Description("Confirm moving Outlook mail messages to a folder.")]
     public class GraphMailMoveConfirmationInput
     {
-        [JsonPropertyName("confirm")]
-        [Required]
-        [Description("Set to true only after the user explicitly confirms moving these messages.")]
-        public bool Confirm { get; set; }
-
         [JsonPropertyName("mailbox")]
         [Description("Mailbox scope for the move operation.")]
         public string? Mailbox { get; set; }
