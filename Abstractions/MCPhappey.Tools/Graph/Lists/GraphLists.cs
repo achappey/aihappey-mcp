@@ -20,6 +20,8 @@ public static class GraphLists
           string listId,            // ID of the Microsoft List
     //      [Description("More background info around the list item creation")] string comments,
           RequestContext<CallToolRequestParams> requestContext,
+           [Description("Default values for the new list item fields. Use fieldname as key and defaultvalue as value. No nested objects.")]
+            Dictionary<string, object?>? defaultValues = null,
           //     Dictionary<string, object> defaultValues,
           CancellationToken cancellationToken = default) =>
             await requestContext.WithExceptionCheck(async () =>
@@ -46,23 +48,51 @@ public static class GraphLists
             Required = []
         };
 
-        var definitionColumns = columns?.Value?.Where(col => col.Name != "ID" && col.ReadOnly != true)
-            .ToDictionary(a => a.Name!, a => new
+        /*  var definitionColumns = columns?.Value?.Where(col => col.Name != "ID" && col.ReadOnly != true)
+              .ToDictionary(a => a.Name!, a => new
+              {
+                  def = a.ToElicitSchemaDef(),
+                  req = a.Required
+              })
+              .Where(a => a.Value.def != null);*/
+
+        var defaultValuesByName = defaultValues ?? new Dictionary<string, object?>();
+
+        var definitionColumns = columns?.Value?
+            .Where(col => col.Name != "ID" && col.ReadOnly != true && !string.IsNullOrWhiteSpace(col.Name))
+            .Select(col =>
             {
-                def = a.ToElicitSchemaDef(),
-                req = a.Required
+                defaultValuesByName.TryGetValue(col.Name!, out var defaultValue);
+
+                return new
+                {
+                    Name = col.Name!,
+                    Def = col.ToElicitSchemaDef(defaultValue),
+                    col.Required
+                };
             })
-            .Where(a => a.Value.def != null);
+            .Where(x => x.Def != null)
+            .ToList();
 
         foreach (var col in definitionColumns ?? [])
         {
-            request.Properties.Add(col.Key, col.Value.def!);
+            request.Properties.Add(col.Name, col.Def!);
 
-            if (col.Value.req == true)
+            if (col.Required == true)
             {
-                request.Required.Add(col.Key);
+                request.Required.Add(col.Name);
             }
         }
+
+        /*  foreach (var col in definitionColumns ?? [])
+          {
+              request.Properties.Add(col.Key, col.Value.def!);
+
+              if (col.Value.req == true)
+              {
+                  request.Required.Add(col.Key);
+              }
+          }*/
 
         var elicitResult = await requestContext.Server.ElicitAsync(new ElicitRequestParams()
         {
@@ -457,6 +487,21 @@ public static class GraphLists
         [Description("Calendar (events)")]
         [JsonPropertyName("events")]
         events
+    }
+
+    private static void TrySetJsonSchemaDefault(object schemaDef, object? value)
+    {
+        if (value is null) return;
+
+        var additionalDataProp = schemaDef.GetType().GetProperty("AdditionalData");
+        if (additionalDataProp?.GetValue(schemaDef) is not IDictionary<string, object> additionalData)
+        {
+            return;
+        }
+
+        additionalData["default"] = value is JsonElement jsonElement
+            ? jsonElement
+            : JsonSerializer.SerializeToElement(value);
     }
 
 }
