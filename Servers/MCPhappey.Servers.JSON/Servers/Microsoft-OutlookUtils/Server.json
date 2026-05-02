@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OutlookUtils",
+    "title": "Microsoft Outlook Utils",
+    "version": "1.0.0",
+    "websiteUrl": "https://outlook.office.com/mail",
+    "description": "Outlook tools to save e-mail and/or attachments to SharePoint/OneDrive folders.",
+    "icons": [
+      {
+        "src": "https://www.ek.co/wp-content/uploads/2025/04/outlooklogo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Outlook.GraphOutlookUtils, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/Mail.ReadWrite.Shared https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
