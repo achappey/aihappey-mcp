@@ -10,6 +10,9 @@
       }
     ]
   },
+  "plugins": [
+    "MCPhappey.Tools.SharePoint.SharePointREST, MCPhappey.Tools"
+  ],
   "obo": {
     ".sharepoint.com": "https://{tenantName}.sharepoint.com/.default"
   }
