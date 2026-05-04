@@ -17,111 +17,136 @@ namespace MCPhappey.Tools.SharePoint;
 
 public static class SharePointREST
 {
-    [Description("Copy a SharePoint/OneDrive for Business file to a SharePoint list item as an attachment. Optionally recycle the source file afterwards.")]
+    [Description("Copy an existing SharePoint or OneDrive for Business file to a SharePoint list item as an attachment. Use exactly once per source file and target item. Do not repeat after a successful copy. For OneDrive files, sourceSiteUrl must be the full personal site URL, not the tenant root.")]
     [McpServerTool(
-        Title = "Copy SharePoint file to list item attachment",
-        Name = "sharepoint_copy_file_to_list_item_attachment",
-        Destructive = true,
-        OpenWorld = false)]
+      Title = "Copy SharePoint file to list item attachment",
+      Name = "sharepoint_copy_file_to_list_item_attachment",
+      Destructive = true,
+      OpenWorld = false)]
     public static async Task<CallToolResult?> SharePointRest_CopyFileToListItemAttachment(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Source site URL, e.g. https://contoso.sharepoint.com/sites/project or https://contoso-my.sharepoint.com/personal/user_contoso_com")] string? sourceSiteUrl = null,
-        [Description("Source file server-relative URL, e.g. /sites/project/Shared Documents/file.pdf")] string? sourceFileServerRelativeUrl = null,
-        [Description("Target site URL where the SharePoint list exists.")] string? targetSiteUrl = null,
-        [Description("Target SharePoint list title.")] string? targetListTitle = null,
-        [Description("Target SharePoint list item ID.")] int? targetItemId = null,
-        [Description("Optional attachment file name. Defaults to source file name.")] string? attachmentFileName = null,
-        [Description("Recycle source file after successful copy.")] bool deleteSourceAfterCopy = false,
-        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
-        await requestContext.WithStructuredContent(async () =>
-        {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
-                new SharePointCopyFileToListItemAttachmentInput
-                {
-                    SourceSiteUrl = sourceSiteUrl,
-                    SourceFileServerRelativeUrl = sourceFileServerRelativeUrl,
-                    TargetSiteUrl = targetSiteUrl,
-                    TargetListTitle = targetListTitle,
-                    TargetItemId = targetItemId,
-                    AttachmentFileName = attachmentFileName,
-                    DeleteSourceAfterCopy = deleteSourceAfterCopy
-                },
-                cancellationToken);
+      IServiceProvider serviceProvider,
+      RequestContext<CallToolRequestParams> requestContext,
 
-            if (notAccepted != null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+      [Description("Exact SharePoint web URL that owns the source file. For OneDrive, include the full /personal/... path, e.g. https://contoso-my.sharepoint.com/personal/user_contoso_com. Never use only https://contoso-my.sharepoint.com for OneDrive files.")]
+    string? sourceSiteUrl = null,
 
-            typed!.Validate();
+      [Description("Server-relative URL of the source file. It must belong to sourceSiteUrl. For OneDrive this usually starts with /personal/user_contoso_com/..., e.g. /personal/user_contoso_com/Documents/file.pdf.")]
+    string? sourceFileServerRelativeUrl = null,
 
-            var tokenService = serviceProvider.GetRequiredService<HeaderProvider>();
-            if (string.IsNullOrWhiteSpace(tokenService.Bearer))
-                throw new UnauthorizedAccessException("Missing bearer token.");
+      [Description("Exact SharePoint site URL containing the target list, e.g. https://contoso.sharepoint.com/sites/finance.")]
+    string? targetSiteUrl = null,
 
-            var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
-            var oauthSettings = serviceProvider.GetRequiredService<OAuthSettings>();
-            var serverConfig = serviceProvider.GetServerConfig(requestContext.Server);
+      [Description("Exact title of the target SharePoint list.")]
+    string? targetListTitle = null,
 
-            var sourceUri = new Uri(typed.SourceSiteUrl!);
-            var targetUri = new Uri(typed.TargetSiteUrl!);
+      [Description("Existing target SharePoint list item ID. Copy only once to this item after it succeeds.")]
+    int? targetItemId = null,
 
-            using var sourceClient = await httpClientFactory.GetOboHttpClient(
-                tokenService.Bearer,
-                sourceUri.Host,
-                serverConfig!.Server,
-                oauthSettings);
+      [Description("Optional attachment file name to use on the list item. Defaults to the source file name. Must not be reused for the same item unless intentionally replacing/duplicating.")]
+    string? attachmentFileName = null,
 
-            using var targetClient = await httpClientFactory.GetOboHttpClient(
-                tokenService.Bearer,
-                targetUri.Host,
-                serverConfig.Server,
-                oauthSettings);
+      [Description("Recycle the source file only after the attachment copy succeeds. Default false. Use true only when the user explicitly wants the source removed afterwards.")]
+    bool deleteSourceAfterCopy = false,
 
-            var fileName = !string.IsNullOrWhiteSpace(typed.AttachmentFileName)
-                ? typed.AttachmentFileName.Trim()
-                : GetFileNameFromServerRelativeUrl(typed.SourceFileServerRelativeUrl!);
+      CancellationToken cancellationToken = default)
+          => await requestContext.WithExceptionCheck(async () =>
+          await requestContext.WithStructuredContent(async () =>
+          {
+              if (!string.IsNullOrWhiteSpace(sourceSiteUrl)
+            && !string.IsNullOrWhiteSpace(sourceFileServerRelativeUrl)
+            && sourceSiteUrl.Contains("-my.sharepoint.com", StringComparison.OrdinalIgnoreCase)
+            && sourceFileServerRelativeUrl.StartsWith("/personal/", StringComparison.OrdinalIgnoreCase)
+            && !new Uri(sourceSiteUrl).AbsolutePath.StartsWith("/personal/", StringComparison.OrdinalIgnoreCase))
+              {
+                  throw new InvalidOperationException(
+                      "Invalid OneDrive sourceSiteUrl. For files under /personal/..., sourceSiteUrl must include the full personal site path, e.g. https://tenant-my.sharepoint.com/personal/user_domain_com. Do not use the tenant root.");
+              }
 
-            var bytes = await ReadFileAsync(
-                sourceClient,
-                typed.SourceSiteUrl!,
-                typed.SourceFileServerRelativeUrl!,
-                cancellationToken);
+              var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                  new SharePointCopyFileToListItemAttachmentInput
+                  {
+                      SourceSiteUrl = sourceSiteUrl,
+                      SourceFileServerRelativeUrl = sourceFileServerRelativeUrl,
+                      TargetSiteUrl = targetSiteUrl,
+                      TargetListTitle = targetListTitle,
+                      TargetItemId = targetItemId,
+                      AttachmentFileName = attachmentFileName,
+                      DeleteSourceAfterCopy = deleteSourceAfterCopy
+                  },
+                  cancellationToken);
 
-            await AddAttachmentAsync(
-                targetClient,
-                typed.TargetSiteUrl!,
-                typed.TargetListTitle!,
-                typed.TargetItemId!.Value,
-                fileName,
-                bytes,
-                cancellationToken);
+              if (notAccepted != null)
+                  throw new Exception(JsonSerializer.Serialize(notAccepted));
 
-            string? recycleResponse = null;
+              typed!.Validate();
 
-            if (typed.DeleteSourceAfterCopy == true)
-            {
-                recycleResponse = await RecycleFileAsync(
-                    sourceClient,
-                    typed.SourceSiteUrl!,
-                    typed.SourceFileServerRelativeUrl!,
-                    cancellationToken);
-            }
+              var tokenService = serviceProvider.GetRequiredService<HeaderProvider>();
+              if (string.IsNullOrWhiteSpace(tokenService.Bearer))
+                  throw new UnauthorizedAccessException("Missing bearer token.");
 
-            return new
-            {
-                typed.SourceSiteUrl,
-                typed.SourceFileServerRelativeUrl,
-                typed.TargetSiteUrl,
-                typed.TargetListTitle,
-                typed.TargetItemId,
-                AttachmentFileName = fileName,
-                BytesCopied = bytes.Length,
-                SourceRecycled = typed.DeleteSourceAfterCopy == true,
-                RecycleResponse = recycleResponse,
-                Status = "Copied file to list item attachment successfully."
-            };
-        }));
+              var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+              var oauthSettings = serviceProvider.GetRequiredService<OAuthSettings>();
+              var serverConfig = serviceProvider.GetServerConfig(requestContext.Server);
+
+              var sourceUri = new Uri(typed.SourceSiteUrl!);
+              var targetUri = new Uri(typed.TargetSiteUrl!);
+
+              using var sourceClient = await httpClientFactory.GetOboHttpClient(
+                  tokenService.Bearer,
+                  sourceUri.Host,
+                  serverConfig!.Server,
+                  oauthSettings);
+
+              using var targetClient = await httpClientFactory.GetOboHttpClient(
+                  tokenService.Bearer,
+                  targetUri.Host,
+                  serverConfig.Server,
+                  oauthSettings);
+
+              var fileName = !string.IsNullOrWhiteSpace(typed.AttachmentFileName)
+                  ? typed.AttachmentFileName.Trim()
+                  : GetFileNameFromServerRelativeUrl(typed.SourceFileServerRelativeUrl!);
+
+              var bytes = await ReadFileAsync(
+                  sourceClient,
+                  typed.SourceSiteUrl!,
+                  typed.SourceFileServerRelativeUrl!,
+                  cancellationToken);
+
+              await AddAttachmentAsync(
+                  targetClient,
+                  typed.TargetSiteUrl!,
+                  typed.TargetListTitle!,
+                  typed.TargetItemId!.Value,
+                  fileName,
+                  bytes,
+                  cancellationToken);
+
+              string? recycleResponse = null;
+
+              if (typed.DeleteSourceAfterCopy == true)
+              {
+                  recycleResponse = await RecycleFileAsync(
+                      sourceClient,
+                      typed.SourceSiteUrl!,
+                      typed.SourceFileServerRelativeUrl!,
+                      cancellationToken);
+              }
+
+              return new
+              {
+                  typed.SourceSiteUrl,
+                  typed.SourceFileServerRelativeUrl,
+                  typed.TargetSiteUrl,
+                  typed.TargetListTitle,
+                  typed.TargetItemId,
+                  AttachmentFileName = fileName,
+                  BytesCopied = bytes.Length,
+                  SourceRecycled = typed.DeleteSourceAfterCopy == true,
+                  RecycleResponse = recycleResponse,
+                  Status = "Copied file to list item attachment successfully."
+              };
+          }));
 
     private static async Task<byte[]> ReadFileAsync(
         HttpClient client,
