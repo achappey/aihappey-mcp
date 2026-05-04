@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://pixabay.com/api/?q={q}&lang={lang}&id={id}&image_type={image_type}&orientation={orientation}&category={category}&min_width={min_width}&min_height={min_height}&colors={colors}&editors_choice={editors_choice}&safesearch={safesearch}&order={order}&page={page}&per_page={per_page}",
+      "name": "search-images",
+      "title": "Search images",
+      "description": "Search images on Pixabay using supported query parameters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://pixabay.com/api/videos/?q={q}&lang={lang}&id={id}&video_type={video_type}&category={category}&min_width={min_width}&min_height={min_height}&editors_choice={editors_choice}&safesearch={safesearch}&order={order}&page={page}&per_page={per_page}",
+      "name": "search-videos",
+      "title": "Search videos",
+      "description": "Search videos on Pixabay using supported query parameters.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

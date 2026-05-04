@@ -1,0 +1,24 @@
+{
+  "resources": [
+    {
+      "uri": "https://pixabay.com/api/",
+      "name": "images",
+      "title": "Images",
+      "description": "Retrieve images from Pixabay. Returns all images if no query is specified.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uri": "https://pixabay.com/api/videos/",
+      "name": "videos",
+      "title": "Videos",
+      "description": "Retrieve videos from Pixabay. Returns all videos if no query is specified.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

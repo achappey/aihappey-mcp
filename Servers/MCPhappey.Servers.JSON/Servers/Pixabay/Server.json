@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Pixabay",
+    "title": "Pixabay",
+    "version": "1.0.0",
+    "websiteUrl": "https://pixabay.com",
+    "description": "Browse and search free stock photos and videos from Pixabay.",
+    "icons": [
+      {
+        "src": "https://cdn.freebiesupply.com/logos/large/2x/pixabay-logo-png-transparent.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
