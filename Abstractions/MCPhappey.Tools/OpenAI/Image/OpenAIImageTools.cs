@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
@@ -96,7 +97,6 @@ public static class OpenAIImageTools
                imageUrl, cancellationToken);
 
            var file = files.FirstOrDefault();
-
            imageBlocks.Add(
             ImageContentBlock.FromBytes(file?.Contents, file?.MimeType!).ToUserSamplingMessage());
        }
