@@ -1,15 +1,18 @@
 {
   "serverInfo": {
-    "name": "Brave",
-    "title": "Brave",
+    "name": "Brave-NewsSearch",
+    "title": "Brave News Search",
     "version": "1.0.0",
-    "websiteUrl": "https://brave.com",
-    "description": "Privacy-focused web and news search results from Brave.",
+    "websiteUrl": "https://brave.com/search/api",
+    "description": "Privacy-focused Brave news search resources.",
     "icons": [
       {
         "src": "https://upload.wikimedia.org/wikipedia/commons/5/51/Brave_icon_lionface.png"
       }
     ]
+  },
+  "headers": {
+    "x-subscription-token": "[Brave_API_key]"
   },
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read"

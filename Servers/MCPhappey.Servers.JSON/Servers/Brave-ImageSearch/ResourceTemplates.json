@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/images/search?q={searchQuery}&count={count}&country={country}&search_lang={searchLang}&safesearch={safeSearch}&spellcheck={spellcheck}",
+      "name": "brave-image-search",
+      "title": "Brave image search",
+      "description": "Retrieve image results from Brave Search with country, language, count, safe-search, and spellcheck options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

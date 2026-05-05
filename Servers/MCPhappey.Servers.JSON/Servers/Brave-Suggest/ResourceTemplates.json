@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/suggest/search?q={searchQuery}&lang={lang}&country={country}&count={count}&rich={rich}",
+      "name": "brave-suggest-search",
+      "title": "Brave suggest search",
+      "description": "Retrieve intelligent search suggestions from Brave with optional language, country, count, and rich-result options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/local/place_search?q={searchQuery}&latitude={latitude}&longitude={longitude}&radius={radius}&count={count}&country={country}&search_lang={searchLang}&ui_lang={uiLang}&units={units}&safesearch={safeSearch}&spellcheck={spellcheck}",
+      "name": "brave-place-search-by-coordinates",
+      "title": "Brave place search by coordinates",
+      "description": "Find places near coordinates with query, radius, count, locale, units, safe-search, and spellcheck options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/local/place_search?q={searchQuery}&location={location}&count={count}&country={country}&search_lang={searchLang}&ui_lang={uiLang}&units={units}&safesearch={safeSearch}&spellcheck={spellcheck}",
+      "name": "brave-place-search-by-location",
+      "title": "Brave place search by location",
+      "description": "Find places using a location name with query, count, locale, units, safe-search, and spellcheck options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/local/place_search?latitude={latitude}&longitude={longitude}&radius={radius}&count={count}&country={country}&search_lang={searchLang}&ui_lang={uiLang}&units={units}&safesearch={safeSearch}&spellcheck={spellcheck}",
+      "name": "brave-place-explore-by-coordinates",
+      "title": "Brave place explore by coordinates",
+      "description": "Explore general places near coordinates without a specific query.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/local/place_search?location={location}&count={count}&country={country}&search_lang={searchLang}&ui_lang={uiLang}&units={units}&safesearch={safeSearch}&spellcheck={spellcheck}",
+      "name": "brave-place-explore-by-location",
+      "title": "Brave place explore by location",
+      "description": "Explore general places in a named location without a specific query.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

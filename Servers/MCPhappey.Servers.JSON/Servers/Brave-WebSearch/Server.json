@@ -1,0 +1,23 @@
+{
+    "serverInfo": {
+        "name": "Brave-WebSearch",
+        "title": "Brave Web Search",
+        "version": "1.0.0",
+        "websiteUrl": "https://brave.com/search/api",
+        "description": "Privacy-focused Brave web search, local POI enrichment, rich search, and LLM context resources.",
+        "icons": [
+            {
+                "src": "https://upload.wikimedia.org/wikipedia/commons/5/51/Brave_icon_lionface.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Brave.BraveAnswersAPI, MCPhappey.Tools"
+    ],
+    "headers": {
+        "x-subscription-token": "[Brave_API_key]"
+    },
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

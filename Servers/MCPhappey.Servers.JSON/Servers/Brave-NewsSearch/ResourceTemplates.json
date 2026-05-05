@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/news/search?q={searchQuery}&count={count}&offset={offset}&country={country}&search_lang={searchLang}&safesearch={safeSearch}",
+      "name": "brave-news-search",
+      "title": "Brave news search",
+      "description": "Retrieve news articles from Brave Search with pagination, country, language, and safe-search options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

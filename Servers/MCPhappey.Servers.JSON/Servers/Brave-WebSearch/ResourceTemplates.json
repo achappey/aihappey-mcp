@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/web/search?q={searchQuery}&count={count}&offset={offset}&country={country}&search_lang={searchLang}&safesearch={safeSearch}",
+      "name": "brave-web-search",
+      "title": "Brave web search",
+      "description": "Retrieve web search results from Brave Search with pagination, country, language, and safe-search options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/local/pois?ids={poiIds}",
+      "name": "brave-poi-details",
+      "title": "Brave POI details",
+      "description": "Fetch detailed information for one or more Brave place result IDs.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/local/descriptions?ids={poiIds}",
+      "name": "brave-poi-descriptions",
+      "title": "Brave POI descriptions",
+      "description": "Fetch AI-generated descriptions for one or more Brave place result IDs.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/web/rich?callback_key={callbackKey}",
+      "name": "brave-rich-search",
+      "title": "Brave rich search",
+      "description": "Fetch rich vertical search results by callback key returned in a Brave web search response.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/llm/context?q={searchQuery}&country={country}&search_lang={searchLang}&count={count}&freshness={freshness}&maximum_number_of_urls={maximumNumberOfUrls}&maximum_number_of_tokens={maximumNumberOfTokens}&maximum_number_of_snippets={maximumNumberOfSnippets}&maximum_number_of_tokens_per_url={maximumNumberOfTokensPerUrl}&maximum_number_of_snippets_per_url={maximumNumberOfSnippetsPerUrl}&context_threshold_mode={contextThresholdMode}&enable_local={enableLocal}",
+      "name": "brave-llm-context",
+      "title": "Brave LLM context",
+      "description": "Retrieve extracted web context optimized for LLM grounding, agents, and RAG pipelines.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

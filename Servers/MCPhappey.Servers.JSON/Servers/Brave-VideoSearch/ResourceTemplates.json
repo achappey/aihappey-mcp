@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.search.brave.com/res/v1/videos/search?q={searchQuery}&count={count}&offset={offset}&country={country}&search_lang={searchLang}&ui_lang={uiLang}&freshness={freshness}&safesearch={safeSearch}&spellcheck={spellcheck}",
+      "name": "brave-video-search",
+      "title": "Brave video search",
+      "description": "Retrieve video results from Brave Search with pagination, freshness, country, language, and safe-search options.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

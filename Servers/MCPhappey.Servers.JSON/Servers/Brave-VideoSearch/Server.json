@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Brave-VideoSearch",
+    "title": "Brave Video Search",
+    "version": "1.0.0",
+    "websiteUrl": "https://brave.com/search/api",
+    "description": "Privacy-focused Brave video search resources.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/5/51/Brave_icon_lionface.png"
+      }
+    ]
+  },
+  "headers": {
+    "x-subscription-token": "[Brave_API_key]",
+    "accept": "application/json"
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
