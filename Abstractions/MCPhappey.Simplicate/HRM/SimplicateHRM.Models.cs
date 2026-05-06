@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace MCPhappey.Simplicate.HRM;
@@ -453,5 +455,154 @@ public static partial class SimplicateHRM
         [JsonPropertyName("color")]
         public string? Color { get; set; }
     }
+
+    private sealed record LeaveRow(
+        SimplicateLeaveRecord Source,
+        int Year,
+        DateOnly? StartDate,
+        DateOnly? EndDate,
+        bool AffectsBalance);
+
+    public sealed class SimplicateLeaveRecord
+    {
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
+
+        [JsonPropertyName("start_date")]
+        public string? StartDate { get; set; }
+
+        [JsonPropertyName("end_date")]
+        public string? EndDate { get; set; }
+
+        [JsonPropertyName("year")]
+        [JsonConverter(typeof(FlexibleNullableIntConverter))]
+        public int? Year { get; set; }
+
+        [JsonPropertyName("hours")]
+        public double Hours { get; set; }
+
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
+
+        [JsonPropertyName("employee")]
+        public SimplicateEmployeeRef? Employee { get; set; }
+
+        [JsonPropertyName("leavetype")]
+        public SimplicateLeaveTypeRef? LeaveType { get; set; }
+
+        [JsonPropertyName("leave_status")]
+        public SimplicateLeaveStatusRef? LeaveStatus { get; set; }
+
+        [JsonPropertyName("created_at")]
+        public string? CreatedAt { get; set; }
+
+        [JsonPropertyName("updated_at")]
+        public string? UpdatedAt { get; set; }
+
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement>? Extra { get; set; }
+    }
+
+    public sealed class SimplicateEmployeeRef
+    {
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
+
+        [JsonPropertyName("person_id")]
+        public string? PersonId { get; set; }
+
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement>? Extra { get; set; }
+    }
+
+    public sealed class SimplicateLeaveTypeRef
+    {
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
+
+        [JsonPropertyName("label")]
+        public string? Label { get; set; }
+
+        [JsonPropertyName("blocked")]
+        public bool? Blocked { get; set; }
+
+        [JsonPropertyName("color")]
+        public string? Color { get; set; }
+
+        [JsonPropertyName("affects_balance")]
+        public bool? AffectsBalance { get; set; }
+
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement>? Extra { get; set; }
+    }
+
+    public sealed class SimplicateLeaveStatusRef
+    {
+        [JsonPropertyName("id")]
+        public string? Id { get; set; }
+
+        [JsonPropertyName("label")]
+        public string? Label { get; set; }
+
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement>? Extra { get; set; }
+    }
+
+    private sealed class FlexibleNullableIntConverter : JsonConverter<int?>
+    {
+        public override int? Read(
+            ref Utf8JsonReader reader,
+            Type typeToConvert,
+            JsonSerializerOptions options)
+        {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
+            if (reader.TokenType == JsonTokenType.Number)
+            {
+                if (reader.TryGetInt32(out var intValue))
+                    return intValue;
+
+                if (reader.TryGetDouble(out var doubleValue))
+                    return (int)Math.Truncate(doubleValue);
+
+                return null;
+            }
+
+            if (reader.TokenType == JsonTokenType.String)
+            {
+                var value = reader.GetString();
+
+                if (string.IsNullOrWhiteSpace(value))
+                    return null;
+
+                if (int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var intValue))
+                    return intValue;
+
+                if (double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out var doubleValue))
+                    return (int)Math.Truncate(doubleValue);
+
+                return null;
+            }
+
+            reader.Skip();
+            return null;
+        }
+
+        public override void Write(
+            Utf8JsonWriter writer,
+            int? value,
+            JsonSerializerOptions options)
+        {
+            if (value.HasValue)
+                writer.WriteNumberValue(value.Value);
+            else
+                writer.WriteNullValue();
+        }
+    }
+
 }
 
