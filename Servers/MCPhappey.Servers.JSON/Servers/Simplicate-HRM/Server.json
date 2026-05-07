@@ -22,13 +22,7 @@
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
   },
-  "tools": {
-    "simplicate_hrm_get_leave_totals": {
-      "_meta": {
-        "openai/outputTemplate": "ui://widget/leave_totals.html",
-        "openai/widgetAccessible": true
-      }
-    },
+  "tools": {   
     "simplicate_hrm_get_team_employees": {
       "_meta": {
         "openai/outputTemplate": "ui://widget/employees.html",
