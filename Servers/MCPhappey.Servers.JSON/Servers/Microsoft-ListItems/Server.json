@@ -1,9 +1,9 @@
 {
   "serverInfo": {
-    "name": "Microsoft-Lists",
-    "title": "Microsoft Lists",
+    "name": "Microsoft-ListItems",
+    "title": "Microsoft List Items",
     "version": "1.0.0",
-    "description": "Create, update and organize Microsoft Lists to track work and workflows.",
+    "description": "Create, update and organize Microsoft Lists items to track work and workflows.",
     "icons": [
       {
         "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Microsoft_Lists_%282020-present%29.svg/3840px-Microsoft_Lists_%282020-present%29.svg.png"
@@ -11,7 +11,7 @@
     ]
   },
   "plugins": [
-    "MCPhappey.Tools.Graph.Lists.GraphLists, MCPhappey.Tools"
+    "MCPhappey.Tools.Graph.Lists.GraphListItems, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All https://graph.microsoft.com/Sites.Manage.All"
