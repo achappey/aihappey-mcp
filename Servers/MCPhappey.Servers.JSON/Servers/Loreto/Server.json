@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Loreto",
+    "title": "Loreto",
+    "version": "1.0.0",
+    "websiteUrl": "https://loreto.io/",
+    "description": "Generate skills from YouTube videos, webpages or documents.",
+    "icons": [
+      {
+        "src": "https://loreto.io/favicon.svg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Loreto.LoretoSkillGenerator, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

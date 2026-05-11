@@ -120,6 +120,7 @@ using MCPhappey.Tools.Kirha;
 using MCPhappey.Tools.MemU;
 using MCPhappey.Tools.BlinkUtilities;
 using MCPhappey.Tools.SyntheticSearch;
+using MCPhappey.Tools.Loreto;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -218,6 +219,7 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
     .AddLumenfall(appConfig?.DomainHeaders)
     .AddFireworks(appConfig?.DomainHeaders)
 .AddGreenPT(appConfig?.DomainHeaders)
+.AddLoreto(appConfig?.DomainHeaders)
 .AddAPIpie(appConfig?.DomainHeaders)
 .AddAudixa(appConfig?.DomainHeaders)
 .AddDeepgram(appConfig?.DomainHeaders)
