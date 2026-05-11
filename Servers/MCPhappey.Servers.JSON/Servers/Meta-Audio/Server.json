@@ -12,7 +12,6 @@
     "MCPhappey.Tools.StabilityAI.StabilityAIAudioService, MCPhappey.Tools",
     "MCPhappey.Tools.AsyncAI.AsyncAIService, MCPhappey.Tools",
     "MCPhappey.Tools.Azure.Speech.AzureSpeechService, MCPhappey.Tools",
-    "MCPhappey.Tools.AI.AudioPlugin, MCPhappey.Tools",
     "MCPhappey.Tools.Mistral.Audio.AudioPlugin, MCPhappey.Tools",
     "MCPhappey.Tools.ElevenLabs.ElevenLabsAudio, MCPhappey.Tools",
     "MCPhappey.Tools.Groq.Audio.GroqAudio, MCPhappey.Tools",

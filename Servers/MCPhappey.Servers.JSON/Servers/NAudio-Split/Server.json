@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "NAudio-Split",
+    "title": "NAudio Split",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/naudio/NAudio",
+    "description": "Split and merge audio files from SharePoint, OneDrive, or HTTPS URLs for transcription and long-audio workflows: fixed-duration chunks, silence-aware chunks, segment extraction, merging, and JSON manifests.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/11003971?s=280&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.NAudio.NAudioSplit, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

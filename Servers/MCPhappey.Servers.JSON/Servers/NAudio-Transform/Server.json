@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "NAudio-Transform",
+    "title": "NAudio Transform",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/naudio/NAudio",
+    "description": "Transform audio files from SharePoint, OneDrive, or HTTPS URLs: convert to WAV/MP3/AAC/WMA/FLAC, resample, change channels and bit depth, normalize, trim, fade, and preprocess for transcription.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/11003971?s=280&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.NAudio.NAudioTransform, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "NAudio-Render",
+    "title": "NAudio Render",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/naudio/NAudio",
+    "description": "Render audio previews from SharePoint, OneDrive, or HTTPS URLs: waveform PNG, waveform JSON, spectrum PNG/JSON, and short normalized audio preview clips.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/11003971?s=280&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.NAudio.NAudioRender, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

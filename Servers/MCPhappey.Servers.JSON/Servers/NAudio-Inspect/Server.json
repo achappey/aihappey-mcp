@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "NAudio-Inspect",
+    "title": "NAudio Inspect",
+    "version": "1.0.0",
+    "websiteUrl": "https://github.com/naudio/NAudio",
+    "description": "Inspect audio files from SharePoint, OneDrive, or HTTPS URLs: metadata, wave format, duration, peak/RMS levels, clipping, silence regions, and transcription-prep recommendations.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/11003971?s=280&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.GitHub.NAudio.NAudioInspect, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
