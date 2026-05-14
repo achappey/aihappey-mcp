@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.venice.ai/api/v1/crypto/rpc/networks",
+      "name": "venice-crypto-rpc-networks",
+      "title": "Venice crypto RPC networks",
+      "description": "Public list of Venice crypto RPC network slugs that can be used with the Venice crypto RPC tool.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

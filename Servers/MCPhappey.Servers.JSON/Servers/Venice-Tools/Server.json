@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Venice-Tools",
+    "title": "Venice Tools",
+    "version": "1.0.0",
+    "websiteUrl": "https://venice.ai",
+    "description": "Zero Data Retention web & document tools",
+    "icons": [
+      {
+        "src": "https://cryptoast.fr/wp-content/uploads/2025/03/venice-ai-logo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Venice.VeniceTools, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

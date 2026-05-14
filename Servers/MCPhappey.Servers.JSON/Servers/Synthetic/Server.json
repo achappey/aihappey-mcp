@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Synthetic",
+    "title": "Synthetic",
+    "version": "1.0.0",
+    "websiteUrl": "https://dev.synthetic.new",
+    "description": "Synthetic provides a zero-data-retention web search API, meant for use in coding agents.",
+    "icons": [
+      {
+        "src": "https://synthetic.new/logo_with_text_bottom_512.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Synthetic.SyntheticSearch, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
