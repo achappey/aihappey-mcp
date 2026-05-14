@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Wiro",
+    "title": "Wiro",
+    "version": "1.0.0",
+    "websiteUrl": "https://wiro.ai",
+    "description": "Connect AI coding assistants to Wiro's AI models.",
+    "icons": [
+      {
+        "src": "https://wiro.ai/images/logos/logo/icon.png"
+      }
+    ]
+  },
+  "baseMcp": "mcp.wiro.ai",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
