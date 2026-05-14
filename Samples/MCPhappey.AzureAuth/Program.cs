@@ -126,6 +126,7 @@ using MCPhappey.Tools.Privatemode;
 using MCPhappey.Tools.BlinkUtilities;
 using MCPhappey.Tools.SyntheticSearch;
 using MCPhappey.Tools.Loreto;
+using MCPhappey.Tools.AgentMail;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -285,11 +286,12 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
  .AddBlinkUtilities(appConfig?.DomainHeaders)
  .AddWebsearchAPI(appConfig?.DomainHeaders)
  .AddMagisterium(appConfig?.DomainHeaders)
- .AddQomplement(appConfig?.DomainHeaders)
- .AddNimbleWay(appConfig?.DomainHeaders)
- .AddMemU(appConfig?.DomainHeaders)
- .AddCaseDev(appConfig?.DomainHeaders)
- .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)
+  .AddQomplement(appConfig?.DomainHeaders)
+  .AddNimbleWay(appConfig?.DomainHeaders)
+  .AddMemU(appConfig?.DomainHeaders)
+  .AddAgentMail(appConfig?.DomainHeaders)
+  .AddCaseDev(appConfig?.DomainHeaders)
+  .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)
  .AddRijkswaterstaat()
  .AddEuropeanUnionVies();
 

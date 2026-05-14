@@ -1,0 +1,244 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes?limit={limit}&page_token={page_token}",
+            "name": "agentmail-inboxes-list",
+            "title": "AgentMail list inboxes",
+            "description": "List AgentMail inboxes. Optional pagination uses limit and page_token.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}",
+            "name": "agentmail-inboxes-get",
+            "title": "AgentMail get inbox",
+            "description": "Get a single AgentMail inbox by inbox_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/pods/{pod_id}/inboxes?limit={limit}&page_token={page_token}",
+            "name": "agentmail-pods-inboxes-list",
+            "title": "AgentMail list pod inboxes",
+            "description": "List AgentMail inboxes for a pod with optional pagination.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/pods/{pod_id}/inboxes/{inbox_id}",
+            "name": "agentmail-pods-inboxes-get",
+            "title": "AgentMail get pod inbox",
+            "description": "Get a single AgentMail inbox by pod_id and inbox_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/drafts?limit={limit}&page_token={page_token}&labels={labels}&before={before}&after={after}&ascending={ascending}",
+            "name": "agentmail-drafts-list",
+            "title": "AgentMail list drafts",
+            "description": "List AgentMail drafts with optional labels, time range, sort order, and pagination filters.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/drafts/{draft_id}",
+            "name": "agentmail-drafts-get",
+            "title": "AgentMail get draft",
+            "description": "Get an AgentMail draft by draft_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/drafts?limit={limit}&page_token={page_token}&labels={labels}&before={before}&after={after}&ascending={ascending}",
+            "name": "agentmail-inboxes-drafts-list",
+            "title": "AgentMail list inbox drafts",
+            "description": "List drafts in an AgentMail inbox with optional labels, time range, sort order, and pagination filters.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/drafts/{draft_id}",
+            "name": "agentmail-inboxes-drafts-get",
+            "title": "AgentMail get inbox draft",
+            "description": "Get a draft by inbox_id and draft_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/messages?limit={limit}&page_token={page_token}&labels={labels}&before={before}&after={after}&ascending={ascending}&include_spam={include_spam}",
+            "name": "agentmail-inboxes-messages-list",
+            "title": "AgentMail list inbox messages",
+            "description": "List messages in an AgentMail inbox with optional labels, time range, sort order, spam inclusion, and pagination filters.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/messages/{message_id}",
+            "name": "agentmail-inboxes-messages-get",
+            "title": "AgentMail get inbox message",
+            "description": "Get a message by inbox_id and message_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/messages/{message_id}/attachments/{attachment_id}",
+            "name": "agentmail-inboxes-messages-attachment-get",
+            "title": "AgentMail get message attachment",
+            "description": "Get an attachment download descriptor by inbox_id, message_id, and attachment_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/messages/{message_id}/raw",
+            "name": "agentmail-inboxes-messages-raw-get",
+            "title": "AgentMail get raw message",
+            "description": "Get the raw message by inbox_id and message_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/threads?limit={limit}&page_token={page_token}&labels={labels}&before={before}&after={after}&ascending={ascending}&include_spam={include_spam}",
+            "name": "agentmail-inboxes-threads-list",
+            "title": "AgentMail list inbox threads",
+            "description": "List threads in an AgentMail inbox with optional labels, time range, sort order, spam inclusion, and pagination filters.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/threads/{thread_id}",
+            "name": "agentmail-inboxes-threads-get",
+            "title": "AgentMail get inbox thread",
+            "description": "Get a thread by inbox_id and thread_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/threads/{thread_id}/attachments/{attachment_id}",
+            "name": "agentmail-inboxes-threads-attachment-get",
+            "title": "AgentMail get thread attachment",
+            "description": "Get an attachment download descriptor by inbox_id, thread_id, and attachment_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/threads?limit={limit}&page_token={page_token}&labels={labels}&before={before}&after={after}&ascending={ascending}&include_spam={include_spam}",
+            "name": "agentmail-threads-list",
+            "title": "AgentMail list threads",
+            "description": "List AgentMail threads across inboxes with optional filters and pagination.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/threads/{thread_id}",
+            "name": "agentmail-threads-get",
+            "title": "AgentMail get thread",
+            "description": "Get an AgentMail thread by thread_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/threads/{thread_id}/attachments/{attachment_id}",
+            "name": "agentmail-threads-attachment-get",
+            "title": "AgentMail get thread attachment",
+            "description": "Get a thread attachment download descriptor by thread_id and attachment_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/inboxes/{inbox_id}/metrics?event_types={event_types}&start_timestamp={start_timestamp}&end_timestamp={end_timestamp}",
+            "name": "agentmail-inboxes-metrics-list",
+            "title": "AgentMail list inbox metrics",
+            "description": "List message metrics for an inbox over a required time range with optional event type filters.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/api-keys?limit={limit}&page_token={page_token}",
+            "name": "agentmail-api-keys-list",
+            "title": "AgentMail list API keys",
+            "description": "List AgentMail API keys with optional pagination.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        }
+    ]
+}

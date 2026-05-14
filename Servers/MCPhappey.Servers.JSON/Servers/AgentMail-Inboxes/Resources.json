@@ -1,0 +1,52 @@
+{
+    "resources": [
+        {
+            "uri": "https://api.agentmail.to/v0/inboxes?limit=10",
+            "name": "agentmail-inboxes-list-example",
+            "title": "AgentMail list inboxes example",
+            "description": "Example GET request for listing AgentMail inboxes with pagination.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uri": "https://api.agentmail.to/v0/drafts?limit=10",
+            "name": "agentmail-drafts-list-example",
+            "title": "AgentMail list drafts example",
+            "description": "Example GET request for listing AgentMail drafts across inboxes.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uri": "https://api.agentmail.to/v0/threads?limit=10",
+            "name": "agentmail-threads-list-example",
+            "title": "AgentMail list threads example",
+            "description": "Example GET request for listing AgentMail threads across inboxes.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uri": "https://api.agentmail.to/v0/api-keys?limit=10",
+            "name": "agentmail-api-keys-list-example",
+            "title": "AgentMail list API keys example",
+            "description": "Example GET request for listing AgentMail API keys.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        }
+    ]
+}

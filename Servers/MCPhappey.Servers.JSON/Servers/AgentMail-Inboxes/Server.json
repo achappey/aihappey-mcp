@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "AgentMail-Inboxes",
+    "title": "AgentMail Inboxes",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.agentmail.to",
+    "description": "Manage AgentMail inboxes, inbox threads, messages, drafts and API keys.",
+    "icons": [
+      {
+        "src": "https://www.agentmail.to/favicon.ico?favicon.972a31ce.ico"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AgentMail.AgentMailInboxes, MCPhappey.Tools"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "AgentMail-Domains",
+    "title": "AgentMail Domains",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.agentmail.to",
+    "description": "Manage AgentMail sending domains and pod-scoped domains.",
+    "icons": [
+      {
+        "src": "https://www.agentmail.to/favicon.ico?favicon.972a31ce.ico"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.AgentMail.AgentMailDomains, MCPhappey.Tools"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+    "resources": [
+        {
+            "uri": "https://api.agentmail.to/v0/domains?limit=10",
+            "name": "agentmail-domains-list-example",
+            "title": "AgentMail list domains example",
+            "description": "Example GET request for listing AgentMail domains with pagination.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        }
+    ]
+}

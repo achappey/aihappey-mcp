@@ -1,0 +1,52 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/domains?limit={limit}&page_token={page_token}",
+            "name": "agentmail-domains-list",
+            "title": "AgentMail list domains",
+            "description": "List AgentMail domains with optional pagination.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/domains/{domain_id}",
+            "name": "agentmail-domains-get",
+            "title": "AgentMail get domain",
+            "description": "Get an AgentMail domain by domain_id.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/domains/{domain_id}/zone-file",
+            "name": "agentmail-domains-zone-file-get",
+            "title": "AgentMail get domain zone file",
+            "description": "Get the DNS zone file details for an AgentMail domain.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        },
+        {
+            "uriTemplate": "https://api.agentmail.to/v0/pods/{pod_id}/domains?limit={limit}&page_token={page_token}",
+            "name": "agentmail-pods-domains-list",
+            "title": "AgentMail list pod domains",
+            "description": "List AgentMail domains scoped to a pod with optional pagination.",
+            "mimeType": "application/json",
+            "annotations": {
+                "audience": [
+                    "assistant"
+                ]
+            }
+        }
+    ]
+}
