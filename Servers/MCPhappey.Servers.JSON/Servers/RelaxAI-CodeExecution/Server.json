@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "RelaxAI-CodeExecution",
+    "title": "Relax AI Code Execution",
+    "version": "1.0.0",
+    "websiteUrl": "https://relax.ai",
+    "description": "Run Python code through Relax AI's secure Code Execution API. The tool executes snippets in an isolated sandbox for calculations, data analysis, pandas/numpy/scipy workflows, and matplotlib/seaborn plots, returning structured stdout, stderr, exit code, execution time, security scan status, policy violations, and generated plot images.",
+    "icons": [
+      {
+        "src": "https://relax.ai/docs/favicon.svg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.RelaxAI.RelaxAICodeExecution, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
