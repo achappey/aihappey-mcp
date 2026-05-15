@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "footstep",
+    "title": "footstep",
+    "version": "1.0.0",
+    "websiteUrl": "https://footstep.ai",
+    "description": "The geospatial layer for the AI stack. Spatial probability, routing, geocoding, and terrain analytics, ready for the agents and apps.",
+    "icons": [
+      {
+        "src": "https://footstep.ai/assets/logo-long-2.png"
+      }
+    ]
+  },
+  "baseMcp": "mcp.footstep.ai",
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
