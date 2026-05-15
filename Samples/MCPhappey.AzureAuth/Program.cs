@@ -128,6 +128,7 @@ using MCPhappey.Tools.BlinkUtilities;
 using MCPhappey.Tools.SyntheticSearch;
 using MCPhappey.Tools.Loreto;
 using MCPhappey.Tools.AgentMail;
+using MCPhappey.Tools.WebCrawlerAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -292,6 +293,7 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
   .AddNimbleWay(appConfig?.DomainHeaders)
   .AddMemU(appConfig?.DomainHeaders)
   .AddAgentMail(appConfig?.DomainHeaders)
+  .AddWebCrawlerAPI(appConfig?.DomainHeaders)
   .AddCaseDev(appConfig?.DomainHeaders)
   .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)
  .AddRijkswaterstaat()

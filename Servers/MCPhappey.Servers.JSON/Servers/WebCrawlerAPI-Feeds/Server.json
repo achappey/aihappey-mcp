@@ -1,0 +1,26 @@
+{
+  "serverInfo": {
+    "name": "WebCrawlerAPI-Feeds",
+    "title": "WebCrawlerAPI Feeds",
+    "version": "1.0.0",
+    "websiteUrl": "https://webcrawlerapi.com",
+    "description": "Feeds for monitoring website changes. Feeds automatically crawl the specified URL at regular intervals and detect new or changed content.",
+    "icons": [
+      {
+        "src": "https://webcrawlerapi.com/images/logo.svg",
+        "theme": "light"
+      },
+      {
+        "src": "https://webcrawlerapi.com/images/logo_transparent.png",
+        "theme": "dark"
+      }
+    ]
+  },
+  "instructions": "Use WebCrawlerAPI feed tools only for create and management actions: create, pause, resume, force run, webhook resend, and delete. These actions use elicitation for confirmation/input before sending mutating requests and return structuredContent plus text. Use resources and resource templates for all feed GET endpoints including list feeds, get feed details, JSON Feed, and Atom/RSS feed output. Keep tool parameters primitive; do not pass nested objects as tool parameters.",
+  "plugins": [
+    "MCPhappey.Tools.WebCrawlerAPI.WebCrawlerAPIFeeds, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

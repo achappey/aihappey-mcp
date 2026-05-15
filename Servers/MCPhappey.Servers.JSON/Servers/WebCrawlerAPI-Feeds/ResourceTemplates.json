@@ -1,0 +1,25 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://api.webcrawlerapi.com/v2/feed/{id}",
+            "name": "webcrawlerapi-feed-get",
+            "title": "Get WebCrawlerAPI feed",
+            "description": "Retrieve feed details, status, configuration, and recent runs for a specific feed.",
+            "mimeType": "application/json"
+        },
+        {
+            "uriTemplate": "https://api.webcrawlerapi.com/v2/feed/{id}/json?page={page}&page_size={page_size}",
+            "name": "webcrawlerapi-feed-json",
+            "title": "Get WebCrawlerAPI JSON Feed",
+            "description": "Retrieve feed changes in JSON Feed 1.1 format. page defaults to 1 and page_size max is 1000.",
+            "mimeType": "application/feed+json"
+        },
+        {
+            "uriTemplate": "https://api.webcrawlerapi.com/v2/feed/{id}/rss?page={page}&page_size={page_size}",
+            "name": "webcrawlerapi-feed-rss",
+            "title": "Get WebCrawlerAPI Atom feed",
+            "description": "Retrieve feed changes in Atom 1.0 XML format. page defaults to 1 and page_size max is 1000.",
+            "mimeType": "application/atom+xml"
+        }
+    ]
+}

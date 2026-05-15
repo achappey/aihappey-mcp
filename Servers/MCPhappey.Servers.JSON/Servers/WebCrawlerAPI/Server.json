@@ -1,0 +1,26 @@
+{
+  "serverInfo": {
+    "name": "WebCrawlerAPI",
+    "title": "WebCrawlerAPI",
+    "version": "1.0.0",
+    "websiteUrl": "https://webcrawlerapi.com",
+    "description": "Helps to extract data from websites.",
+    "icons": [
+      {
+        "src": "https://webcrawlerapi.com/images/logo.svg",
+        "theme": "light"
+      },
+      {
+        "src": "https://webcrawlerapi.com/images/logo_transparent.png",
+        "theme": "dark"
+      }
+    ]
+  },
+  "instructions": "Use WebCrawlerAPI tools for crawling, scraping, and reading crawl outputs. The crawl tool always waits internally until the async job reaches done or error and returns the final job plus downloaded page content as structuredContent/text content. Use webcrawlerapi_job_markdown_content to retrieve combined markdown for an existing completed job, and webcrawlerapi_job_urls to retrieve discovered URL clusters. Do not expose job polling to users; polling is hidden inside crawl and force-run workflows. Keep tool parameters primitive; comma-separated strings are used for lists such as output formats.",
+  "plugins": [
+    "MCPhappey.Tools.WebCrawlerAPI.WebCrawlerAPIService, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}

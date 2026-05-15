@@ -1,0 +1,25 @@
+{
+    "resources": [
+        {
+            "uri": "https://api.webcrawlerapi.com/v2/feeds",
+            "name": "webcrawlerapi-feeds-list",
+            "title": "List WebCrawlerAPI feeds",
+            "description": "Retrieve all WebCrawlerAPI feeds for the authenticated organization.",
+            "mimeType": "application/json"
+        },
+        {
+            "uri": "https://api.webcrawlerapi.com/v2/feed/example-feed-id/json?page=1&page_size=100",
+            "name": "webcrawlerapi-feed-json-example",
+            "title": "WebCrawlerAPI JSON Feed example",
+            "description": "Example JSON Feed endpoint for feed changes with pagination.",
+            "mimeType": "application/feed+json"
+        },
+        {
+            "uri": "https://api.webcrawlerapi.com/v2/feed/example-feed-id/rss?page=1&page_size=100",
+            "name": "webcrawlerapi-feed-rss-example",
+            "title": "WebCrawlerAPI Atom feed example",
+            "description": "Example Atom feed endpoint for feed changes with pagination.",
+            "mimeType": "application/atom+xml"
+        }
+    ]
+}
