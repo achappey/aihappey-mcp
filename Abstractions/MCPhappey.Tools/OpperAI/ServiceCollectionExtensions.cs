@@ -24,7 +24,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<OpperAIClient>((sp, client) =>
         {
             var settings = sp.GetRequiredService<OpperAISettings>();
-            client.BaseAddress = new Uri("https://api.opper.ai/v2/");
+            client.BaseAddress = new Uri("https://api.opper.ai/v3/");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", settings.ApiKey);
         });
 

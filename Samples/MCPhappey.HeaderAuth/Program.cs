@@ -50,6 +50,7 @@ using MCPhappey.Tools.SPAMhunter;
 using MCPhappey.Tools.Freepik;
 using MCPhappey.Tools.AI302;
 using MCPhappey.Tools.ZAI;
+using MCPhappey.Tools.RelaxAI;
 using MCPhappey.Tools.GreenPT;
 using MCPhappey.Tools.APIpie;
 using MCPhappey.Tools.Audixa;
@@ -214,6 +215,7 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 .AddFreepik(appConfig?.DomainHeaders)
 .AddAI302(appConfig?.DomainHeaders)
     .AddZAI(appConfig?.DomainHeaders)
+    .AddRelaxAI(appConfig?.DomainHeaders)
     .AddNebius(appConfig?.DomainHeaders)
     .AddAICC(appConfig?.DomainHeaders)
     .AddLumaAI(appConfig?.DomainHeaders)

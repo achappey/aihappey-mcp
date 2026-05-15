@@ -1,10 +1,10 @@
 {
   "resources": [
     {
-      "uri": "https://api.opper.ai/v2/models",
+      "uri": "https://api.opper.ai/v3/models",
       "name": "opperai-list-models",
-      "title": "List Opper AI language models",
-      "description": "List all language models available in the Opper platform.",
+      "title": "List Opper AI available models",
+      "description": "List all available models available in the Opper platform.",
       "mimeType": "application/json",
       "annotations": {
         "audience": [

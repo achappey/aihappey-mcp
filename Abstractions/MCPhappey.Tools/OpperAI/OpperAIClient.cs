@@ -14,7 +14,7 @@ public class OpperAIClient
     public OpperAIClient(HttpClient client, OpperAISettings settings)
     {
         _client = client;
-        _client.BaseAddress ??= new Uri("https://api.opper.ai/v2/");
+        _client.BaseAddress ??= new Uri("https://api.opper.ai/v3/");
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", settings.ApiKey);
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeTypes.Json));
     }

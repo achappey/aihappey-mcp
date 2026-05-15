@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "OpperAI-Tools",
+    "title": "Opper AI Tools",
+    "version": "1.0.0",
+    "websiteUrl": "https://opper.ai",
+    "description": "Opper AI web search and fetch tools.",
+    "icons": [
+      {
+        "src": "https://avatars.githubusercontent.com/u/145928785?s=280&v=4"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.OpperAI.Tools.OpperAITools, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
