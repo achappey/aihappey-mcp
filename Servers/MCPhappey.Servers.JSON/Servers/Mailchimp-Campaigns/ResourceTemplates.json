@@ -1,0 +1,76 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{dc}.api.mailchimp.com/3.0/campaigns?fields={fields}&exclude_fields={exclude_fields}&count={count}&offset={offset}&type={type}&status={status}&before_send_time={before_send_time}&since_send_time={since_send_time}&before_create_time={before_create_time}&since_create_time={since_create_time}&list_id={list_id}&folder_id={folder_id}&member_id={member_id}&sort_field={sort_field}&sort_dir={sort_dir}&include_resend_shortcut_eligibility={include_resend_shortcut_eligibility}&include_resend_shortcut_usage={include_resend_shortcut_usage}",
+      "name": "mailchimp-list-campaigns",
+      "title": "Mailchimp list campaigns",
+      "description": "Get all campaigns in a Mailchimp account. Optional parameters: fields, exclude_fields, count (default 10, max 1000), offset, type (regular|plaintext|absplit|rss|variate), status (save|paused|schedule|sending|sent), before_send_time, since_send_time, before_create_time, since_create_time, list_id, folder_id, member_id, sort_field (create_time|send_time), sort_dir (ASC|DESC), include_resend_shortcut_eligibility, and include_resend_shortcut_usage.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{dc}.api.mailchimp.com/3.0/campaigns/{campaign_id}?fields={fields}&exclude_fields={exclude_fields}&include_resend_shortcut_eligibility={include_resend_shortcut_eligibility}&include_resend_shortcut_usage={include_resend_shortcut_usage}",
+      "name": "mailchimp-get-campaign",
+      "title": "Mailchimp campaign info",
+      "description": "Get information about a specific Mailchimp campaign by campaign_id. Optional parameters: fields, exclude_fields, include_resend_shortcut_eligibility, and include_resend_shortcut_usage.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{dc}.api.mailchimp.com/3.0/campaigns/{campaign_id}/content?fields={fields}&exclude_fields={exclude_fields}",
+      "name": "mailchimp-get-campaign-content",
+      "title": "Mailchimp campaign content",
+      "description": "Get the HTML, plain-text, template, and archive content for a specific Mailchimp campaign by campaign_id. Optional parameters: fields and exclude_fields.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{dc}.api.mailchimp.com/3.0/campaigns/{campaign_id}/feedback?fields={fields}&exclude_fields={exclude_fields}",
+      "name": "mailchimp-list-campaign-feedback",
+      "title": "Mailchimp campaign feedback",
+      "description": "List team feedback for a specific Mailchimp campaign by campaign_id. Optional parameters: fields and exclude_fields.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{dc}.api.mailchimp.com/3.0/campaigns/{campaign_id}/feedback/{feedback_id}?fields={fields}&exclude_fields={exclude_fields}",
+      "name": "mailchimp-get-campaign-feedback-message",
+      "title": "Mailchimp campaign feedback message",
+      "description": "Get a specific feedback message from a specific Mailchimp campaign by campaign_id and feedback_id. Optional parameters: fields and exclude_fields.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://{dc}.api.mailchimp.com/3.0/campaigns/{campaign_id}/send-checklist?fields={fields}&exclude_fields={exclude_fields}",
+      "name": "mailchimp-get-campaign-send-checklist",
+      "title": "Mailchimp campaign send checklist",
+      "description": "Review the send checklist for a specific Mailchimp campaign by campaign_id before sending. Optional parameters: fields and exclude_fields.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
