@@ -9,6 +9,7 @@ namespace MCPhappey.Core.Services;
 
 public class SamplingService(PromptService promptService)
 {
+    [Obsolete("Sampling marked deprecated in MCP")]
     public async Task<CreateMessageResult> GetPromptSample(IServiceProvider serviceProvider,
        McpServer mcpServer, string name,
        IReadOnlyDictionary<string, JsonElement>? arguments = null,
@@ -23,17 +24,18 @@ public class SamplingService(PromptService promptService)
        await GetPromptSample(serviceProvider, mcpServer, name, arguments, modelHint != null ? [modelHint] : null,
            temperature, systemPrompt, includeContext, maxTokens, metadata, messages, cancellationToken);
 
+    [Obsolete("Sampling marked deprecated in MCP")]
     public async Task<CreateMessageResult> GetPromptSample(IServiceProvider serviceProvider,
-        McpServer mcpServer, string name,
-        IReadOnlyDictionary<string, JsonElement>? arguments = null,
-        IEnumerable<string>? modelHints = null,
-        float? temperature = null,
-        string? systemPrompt = null,
-        ContextInclusion includeContext = ContextInclusion.None,
-        int? maxTokens = 4096,
-        JsonObject? metadata = null,
-        IEnumerable<SamplingMessage>? messages = null,
-        CancellationToken cancellationToken = default)
+            McpServer mcpServer, string name,
+            IReadOnlyDictionary<string, JsonElement>? arguments = null,
+            IEnumerable<string>? modelHints = null,
+            float? temperature = null,
+            string? systemPrompt = null,
+            ContextInclusion includeContext = ContextInclusion.None,
+            int? maxTokens = 4096,
+            JsonObject? metadata = null,
+            IEnumerable<SamplingMessage>? messages = null,
+            CancellationToken cancellationToken = default)
     {
         var prompt = await promptService.GetServerPrompt(serviceProvider, mcpServer, name,
             arguments, cancellationToken: cancellationToken);
@@ -54,17 +56,18 @@ public class SamplingService(PromptService promptService)
         }, cancellationToken);
     }
 
+    [Obsolete("Sampling marked deprecated in MCP")]
     public async Task<T?> GetPromptSample<T>(IServiceProvider serviceProvider,
-        McpServer mcpServer,
-        string name,
-        IReadOnlyDictionary<string, JsonElement> arguments,
-        string? modelHint = null,
-        float? temperature = null,
-        string? systemPrompt = null,
-        ContextInclusion includeContext = ContextInclusion.None,
-        int? maxTokens = 4096,
-        JsonObject? metadata = null,
-        CancellationToken cancellationToken = default)
+            McpServer mcpServer,
+            string name,
+            IReadOnlyDictionary<string, JsonElement> arguments,
+            string? modelHint = null,
+            float? temperature = null,
+            string? systemPrompt = null,
+            ContextInclusion includeContext = ContextInclusion.None,
+            int? maxTokens = 4096,
+            JsonObject? metadata = null,
+            CancellationToken cancellationToken = default)
     {
         var promptSample = await GetPromptSample(serviceProvider, mcpServer, name, arguments, modelHint,
             temperature, systemPrompt,
