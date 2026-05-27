@@ -69,10 +69,6 @@ public static partial class GraphPlanner
                 }, cancellationToken: cancellationToken)
                 ?? throw new InvalidOperationException($"Graph did not return the copied bucket '{bucket.Name}'.");
 
-            var markdown =
-                  $"<details><summary>Bucket {bucket.Name} created</summary>\n\n```\n{JsonSerializer.Serialize(newBucket)}\n```\n</details>";
-            await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Info);
-
             var sourceBucketId = bucket.Id ?? throw new InvalidOperationException($"Source bucket '{bucket.Name}' does not expose an id.");
             var newBucketId = newBucket.Id ?? throw new InvalidOperationException($"New bucket '{bucket.Name}' does not expose an id.");
             bucketMap[sourceBucketId] = newBucketId;
@@ -98,11 +94,6 @@ public static partial class GraphPlanner
                 }, cancellationToken: cancellationToken)
                 ?? throw new InvalidOperationException($"Graph did not return the copied task '{task.Title}'.");
             var newTaskId = newTask.Id ?? throw new InvalidOperationException($"New task '{task.Title}' does not expose an id.");
-
-            var markdown =
-                  $"<details><summary>Task {task?.Title} created</summary>\n\n```\n{JsonSerializer.Serialize(newTask)}\n```\n</details>";
-
-            await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Info);
 
             // --- GET de ORIGINELE checklist/details ---
             var oldDetailsUrl = $"https://graph.microsoft.com/beta/planner/tasks/{sourceTaskId}/details";

@@ -59,8 +59,7 @@ public static class DocumentSummarizer
         int? progressToken = 1;
 
         var markdown = $"{string.Join(", ", ModelNames)}\n{additionalCommand}";
-        await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: CancellationToken.None);
-
+    
         var tasks = ModelNames.Select(async modelName =>
             {
                 try
@@ -117,12 +116,9 @@ public static class DocumentSummarizer
 
                     return result;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    await requestContext.Server.SendMessageNotificationAsync(
-                        $"{modelName} failed: {ex.Message}",
-                        LoggingLevel.Error
-                    );
+                  
                     return null; // Failure → skip
                 }
             });

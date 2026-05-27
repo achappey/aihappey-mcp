@@ -205,7 +205,7 @@ public static partial class ModelContextServerExtensions
 
         var sizeInKb = binaryData.Length / 1024.0;
         var markdown = $"Upload {filename} ({sizeInKb:F1} KB)";
-        await mcpServer.SendMessageNotificationAsync(markdown, LoggingLevel.Info);
+       
 
         return await client.Upload(filename, binaryData, cancellationToken);
     }

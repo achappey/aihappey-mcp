@@ -122,11 +122,6 @@ public static partial class ModelContextResourceExtensions
         }
         catch (Exception e)
         {
-            var fileMarkdown =
-                $"<details><summary><a href=\"{request.Params?.Uri}\" target=\"blank\">ERROR ReadResource {new Uri(request.Params?.Uri!).Host}</a></summary>\n\n```\n{e.Message}\n```\n</details>";
-
-            await request.Server.SendMessageNotificationAsync(
-                fileMarkdown, LoggingLevel.Error, CancellationToken.None);
 
             return new ReadResourceResult
             {

@@ -43,18 +43,12 @@ public static class OneDriveMemory
      await context.WithExceptionCheck(async () =>
      await context.WithOboGraphClient(async (graph) =>
  {
-     await context.Server.SendMessageNotificationAsync($"Normalizing path: {path}", LoggingLevel.Info, cancellationToken);
-
      // 1) Normalize path and validate leading /memories
      path = Normalize(path);
-
-     await context.Server.SendMessageNotificationAsync($"Normalized path: {path}", LoggingLevel.Info, cancellationToken);
 
      // 2) Resolve drive and ensure root /memories exists
      var drive = await graph.GetDefaultDriveAsync(cancellationToken)
                 ?? throw new Exception("Could not resolve default OneDrive.");
-
-     await context.Server.SendMessageNotificationAsync($"Ensuring root folder: {drive.Id}", LoggingLevel.Debug, cancellationToken);
 
      await graph.EnsureRootFolderExistsAsync(drive.Id!, cancellationToken);
 
@@ -65,8 +59,6 @@ public static class OneDriveMemory
      {
          var folderPart = trimmed[..lastSlash];
 
-         await context.Server.SendMessageNotificationAsync($"Ensuring subfolder: {folderPart}", LoggingLevel.Debug, cancellationToken);
-
          await graph.EnsureFolderExistsAsync(drive.Id!, folderPart, cancellationToken);
      }
 
@@ -76,16 +68,10 @@ public static class OneDriveMemory
 
      if (isDir)
      {
-         await context.Server.SendMessageNotificationAsync($"Reading files: {path}", LoggingLevel.Info, cancellationToken);
-
          var files = await graph.ListFilesAsync(drive.Id!, path, cancellationToken);
-
-         await context.Server.SendMessageNotificationAsync($"Files: {files.Count}", LoggingLevel.Debug, cancellationToken);
 
          return path.ToMemoryListResult(files);
      }
-
-     await context.Server.SendMessageNotificationAsync($"Reading text file: {path}", LoggingLevel.Info, cancellationToken);
 
      // 4) File read
      var content = await graph.ReadTextFileAsync(drive.Id!, path, cancellationToken);
@@ -102,8 +88,6 @@ public static class OneDriveMemory
          if (start <= end)
              content = string.Join("\n", lines.Skip(start - 1).Take(end - start + 1));
      }
-
-     await context.Server.SendMessageNotificationAsync($"Reading text file completed", LoggingLevel.Info, cancellationToken);
 
      return content.ToMemoryTextResult();
  }));

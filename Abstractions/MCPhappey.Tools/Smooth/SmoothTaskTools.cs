@@ -108,7 +108,6 @@ public static class SmoothTaskTools
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
             using var client = serviceProvider.CreateSmoothClient();
 
-            await requestContext.Server.SendMessageNotificationAsync("Submitting Smooth task.", LoggingLevel.Info, cancellationToken);
             var submitResponse = await smoothClient.SubmitTaskAsync(client, payload, cancellationToken);
             var currentTask = submitResponse["r"] as JsonObject ?? throw new InvalidOperationException("Smooth response missing 'r'.");
 
@@ -117,7 +116,6 @@ public static class SmoothTaskTools
                 throw new InvalidOperationException("Smooth response missing task id.");
 
             var status = currentTask["status"]?.GetValue<string>() ?? "unknown";
-            await requestContext.Server.SendMessageNotificationAsync($"Smooth task submitted: {taskId} (status={status}).", LoggingLevel.Info, cancellationToken);
 
             var eventTimestamp = GetLastEventTimestamp(currentTask);
             int? progressCounter = 0;
@@ -147,10 +145,6 @@ public static class SmoothTaskTools
                     {
                         var name = evt["name"]?.GetValue<string>() ?? "event";
                         var payloadText = evt["payload"]?.ToJsonString() ?? "{}";
-                        await requestContext.Server.SendMessageNotificationAsync(
-                            $"Smooth event [{name}] {payloadText}",
-                            LoggingLevel.Info,
-                            cancellationToken);
 
                         var ts = evt["timestamp"]?.GetValue<long?>();
                         if (ts.HasValue && ts.Value > eventTimestamp)
@@ -164,8 +158,6 @@ public static class SmoothTaskTools
                     $"Smooth task {taskId}: {status}",
                     cancellationToken: cancellationToken);
             }
-
-            await requestContext.Server.SendMessageNotificationAsync($"Smooth task {taskId} finished with status={status}.", LoggingLevel.Info, cancellationToken);
 
             var links = new List<ResourceLinkBlock>();
             var sourceUrls = new List<string>();

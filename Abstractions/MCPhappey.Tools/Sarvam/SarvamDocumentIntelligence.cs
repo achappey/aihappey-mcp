@@ -265,11 +265,7 @@ public static class SarvamDocumentIntelligence
                 : null;
 
             poll++;
-            await requestContext.Server.SendMessageNotificationAsync(
-                $"Sarvam Document Intelligence status: {state} (poll #{poll})",
-                LoggingLevel.Info,
-                cancellationToken);
-
+          
             if (state is "Completed" or "PartiallyCompleted" or "Failed")
                 return new SarvamJobState(state, errorMessage);
 

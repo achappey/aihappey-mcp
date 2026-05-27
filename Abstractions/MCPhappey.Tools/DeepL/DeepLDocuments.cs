@@ -122,12 +122,7 @@ public static class DeepLDocuments
             pollCounter++;
             var delaySeconds = secondsRemaining.HasValue
                 ? Math.Clamp(Math.Max(1, secondsRemaining.Value / 4), 1, 10)
-                : 2;
-
-            await requestContext.Server.SendMessageNotificationAsync(
-                $"DeepL document translation in progress ({status ?? "unknown"}, poll #{pollCounter})",
-                LoggingLevel.Info,
-                cancellationToken);
+                : 2;          
 
             await Task.Delay(TimeSpan.FromSeconds(delaySeconds), cancellationToken);
         }

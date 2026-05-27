@@ -44,24 +44,4 @@ public static class NotificationExtensions
 
         return progressCounter;
     }
-
-    public static async Task SendMessageNotificationAsync(
-      this McpServer requestContext,
-      string? message,
-      LoggingLevel loggingLevel = LoggingLevel.Info,
-      CancellationToken cancellationToken = default)
-    {
-        if (loggingLevel.ShouldLog(requestContext.LoggingLevel))
-        {
-            await requestContext.SendNotificationAsync(
-                "notifications/message",
-                new LoggingMessageNotificationParams
-                {
-                    Level = loggingLevel,
-                    Data = JsonSerializer.SerializeToElement(message),
-                },
-                cancellationToken: CancellationToken.None
-            );
-        }
-    }
 }

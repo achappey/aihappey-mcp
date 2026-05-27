@@ -38,12 +38,6 @@ public static class GoogleCodeExecution
                 var data = await downloader.ScrapeContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
                 attachedLinks.AddRange(data);
             }
-
-            if (attachedLinks.Count > 0)
-            {
-                await mcpServer.SendMessageNotificationAsync(
-                    $"Attached {attachedLinks.Count} file(s) for code execution.", LoggingLevel.Info, cancellationToken);
-            }
         }
 
         var response = await requestContext.Server.SampleAsync(

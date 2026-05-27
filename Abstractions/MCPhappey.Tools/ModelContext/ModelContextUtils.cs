@@ -43,10 +43,6 @@ public static class ModelContextUtils
         int times,
           [Description("Optional progress message prefix.")]
         string? messagePrefix = null,
-          [Description("Also send message notifications on each tick (noisy).")]
-        bool sendMessageEachTick = false,
-          [Description("Log level for message notifications.")]
-        LoggingLevel messageLevel = LoggingLevel.Info,
           CancellationToken cancellationToken = default)
           => await requestContext.WithExceptionCheck(async () =>
           {
@@ -57,15 +53,7 @@ public static class ModelContextUtils
               waitSeconds = Math.Clamp(waitSeconds, 0, 3600); // max 1h per tick
               times = Math.Clamp(times, 1, 10_000);
 
-              if (originalWaitSeconds != waitSeconds || originalTimes != times)
-              {
-                  await requestContext.Server.SendMessageNotificationAsync(
-                      $"Clamped inputs: waitSeconds={originalWaitSeconds}→{waitSeconds}, times={originalTimes}→{times}",
-                      LoggingLevel.Warning,
-                      cancellationToken);
-              }
-
-              var prefix = string.IsNullOrWhiteSpace(messagePrefix) ? "Waiting" : messagePrefix.Trim();
+                          var prefix = string.IsNullOrWhiteSpace(messagePrefix) ? "Waiting" : messagePrefix.Trim();
               var sw = Stopwatch.StartNew();
 
               // Optional “start” signal (progress=0)
@@ -75,11 +63,7 @@ public static class ModelContextUtils
                   message: $"{prefix} (starting)",
                   total: times,
                   cancellationToken: cancellationToken);
-
-              await requestContext.Server.SendMessageNotificationAsync(
-                  $"{prefix}: {times}x {waitSeconds}s (progressToken={(requestContext.Params?.ProgressToken is null ? "none" : "present")})",
-                  messageLevel,
-                  cancellationToken);
+           
 
               try
               {
@@ -95,47 +79,20 @@ public static class ModelContextUtils
                           total: times,
                           cancellationToken: cancellationToken);
 
-                      if (sendMessageEachTick)
-                      {
-                          await requestContext.Server.SendMessageNotificationAsync(
-                              msg,
-                              messageLevel,
-                              cancellationToken);
-                      }
+                    
                   }
               }
               catch (OperationCanceledException)
               {
                   var cancelledMsg = $"{prefix}: cancelled after {sw.Elapsed:mm\\:ss}.";
-                  await requestContext.Server.SendMessageNotificationAsync(cancelledMsg, LoggingLevel.Warning, cancellationToken);
                   return cancelledMsg.ToTextContentBlock().ToCallToolResult();
               }
 
               var done = $"{prefix}: done. ({times}x {waitSeconds}s) total elapsed {sw.Elapsed:mm\\:ss}.";
-              await requestContext.Server.SendMessageNotificationAsync(done, messageLevel, cancellationToken);
 
               return done.ToTextContentBlock().ToCallToolResult();
           });
-
-    [Description("Test MCP logging capabilities by send a custom log message")]
-    [McpServerTool(Title = "Send log message",
-       ReadOnly = true,
-       Idempotent = true,
-       OpenWorld = false)]
-    public static async Task<CallToolResult?> ModelContextUtils_SendLogMessage(
-       RequestContext<CallToolRequestParams> requestContext,
-       [Description("Log message")]
-        string logMessage,
-       [Description("Log level")]
-        LoggingLevel loggingLevel,
-       CancellationToken cancellationToken = default) =>
-       await requestContext.WithExceptionCheck(async () =>
-       {
-           await requestContext.Server.SendMessageNotificationAsync(logMessage, loggingLevel, cancellationToken);
-
-           return $"Log message sent. \nLevel: {loggingLevel}\n\nMessage:\n{logMessage}".ToTextContentBlock().ToCallToolResult();
-       });
-
+   
     [Description("Test Elicit capabilites by requesting a form with a single field")]
     [McpServerTool(Title = "Elicit single-field form test",
         ReadOnly = true,

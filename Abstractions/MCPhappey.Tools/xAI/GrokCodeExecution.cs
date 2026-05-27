@@ -35,12 +35,7 @@ public static class GrokCodeExecution
                 var data = await downloader.ScrapeContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
                 attachedLinks.AddRange(data);
             }
-
-            if (attachedLinks.Count > 0)
-            {
-                await requestContext.Server.SendMessageNotificationAsync(
-                    $"Attached {attachedLinks.Count} file(s) for code execution.", LoggingLevel.Info, cancellationToken);
-            }
+           
         }
 
      var response = await requestContext.Server.SampleAsync(

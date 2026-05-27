@@ -32,12 +32,7 @@ public static class MetaAI
         var samplingService = serviceProvider.GetRequiredService<SamplingService>();
 
         // Progress + logging
-        int? progressToken = 1;
-        await mcpServer.SendMessageNotificationAsync(
-            $"Meta-AI: {string.Join(", ", ModelNames)}\n{prompt}",
-            LoggingLevel.Debug,
-            cancellationToken: CancellationToken.None
-        );
+        int? progressToken = 1;        
 
         var metadata = new JsonObject
         {
@@ -101,12 +96,9 @@ public static class MetaAI
 
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await mcpServer.SendMessageNotificationAsync(
-                    $"{modelName} failed: {ex.Message}",
-                    LoggingLevel.Error
-                );
+              
                 return null; // Skip failed
             }
         });

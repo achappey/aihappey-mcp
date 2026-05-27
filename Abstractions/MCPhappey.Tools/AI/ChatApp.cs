@@ -38,9 +38,6 @@ public static class ChatApp
 
         List<string> modelNames = ["gpt-5.4-mini", "openai"];
 
-        var markdown = $"Generating conversation name...\nUser: {userMessage}";
-        await mcpServer.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: cancellationToken);
-
         var result = await samplingService.GetPromptSample(
             serviceProvider,
             mcpServer,
@@ -146,13 +143,7 @@ public static class ChatApp
 
         // Pick the model you want
         List<string> modelNames = ["gpt-5.4-nano", "openai"];
-        // Optional: Logging/notification
-        var markdown = $"Generating welcome message";
-
-        await mcpServer.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: cancellationToken);
-
-
-
+    
         const int MaxLength = 60;
 
         var args = PromptArguments.Create(
@@ -216,11 +207,7 @@ public static class ChatApp
 
         // Pick the model you want
         var modelName = "gpt-5.4-nano"; // or set to your preferred model
-
-        // Optional: Logging/notification
-        var markdown = $"Explain tool call";
-        await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: cancellationToken);
-
+     
         var result = await samplingService.GetPromptSample(
             serviceProvider,
             requestContext.Server,

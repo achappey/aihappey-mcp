@@ -48,12 +48,7 @@ public static class AnthropicCodeExecution
                 var data = await downloader.ScrapeContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
                 attachedLinks.AddRange(data);
             }
-
-            if (attachedLinks.Count > 0)
-            {
-                await mcpServer.SendMessageNotificationAsync(
-                    $"Attached {attachedLinks.Count} file(s) for code execution.", LoggingLevel.Info, cancellationToken);
-            }
+         
         }
 
         var anthropic = new JsonObject

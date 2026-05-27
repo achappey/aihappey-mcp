@@ -35,9 +35,7 @@ public static class KnowledgeGraph
           var content = files.GetTextFiles()
             .Select(a => a.Contents.ToString());
           var documentContent = string.Join("\n\n", content);
-
-          await mcpServer.SendMessageNotificationAsync("Starting typed knowledge graph extraction...", LoggingLevel.Debug, cancellationToken);
-
+      
           var extractEntitiesArgs = new Dictionary<string, JsonElement>
           {
               ["documentContent"] = JsonSerializer.SerializeToElement(documentContent)
@@ -144,8 +142,6 @@ public static class KnowledgeGraph
                  maxTokens: 16384,
                  cancellationToken: cancellationToken
              );
-
-          await mcpServer.SendMessageNotificationAsync("Knowledge graph extraction completed (typed).", LoggingLevel.Info, cancellationToken);
 
           return graphResult;
       }));

@@ -412,7 +412,7 @@ public static class LLMLayerTools
 
         if (parsedNode is not JsonObject parsedObject)
         {
-            await requestContext.Server.SendMessageNotificationAsync($"LLMLayer crawl_stream raw frame: {data}", LoggingLevel.Info, cancellationToken);
+
             return await requestContext.Server.SendProgressNotificationAsync(
                 requestContext,
                 progressCounter,
@@ -457,7 +457,6 @@ public static class LLMLayerTools
                 break;
         }
 
-        await requestContext.Server.SendMessageNotificationAsync(message, level, cancellationToken);
         return await requestContext.Server.SendProgressNotificationAsync(
             requestContext,
             progressCounter,

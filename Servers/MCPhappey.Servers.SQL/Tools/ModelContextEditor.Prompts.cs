@@ -37,8 +37,7 @@ public static partial class ModelContextEditor
         await requestContext.WithStructuredContent(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
-        await requestContext.Server.SendMessageNotificationAsync($"Found server: {server.Name}", LoggingLevel.Info, cancellationToken);
-
+      
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new AddMcpPrompt()
         {
             Name = promptName.Slugify().ToLowerInvariant(),
@@ -48,8 +47,7 @@ public static partial class ModelContextEditor
         }, cancellationToken);
 
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
-        await requestContext.Server.SendMessageNotificationAsync($"Creating prompt: {typed.Name}", LoggingLevel.Info, cancellationToken);
-
+     
         var item = await serverRepository.AddServerPrompt(server.Id, typed.Prompt,
             typed.Name,
             typed.Description,
@@ -60,8 +58,7 @@ public static partial class ModelContextEditor
                 Required = true
             }));
 
-        await requestContext.Server.SendMessageNotificationAsync($"Prompt created. Id: {item.Id}", LoggingLevel.Info, cancellationToken);
-
+      
         return item.ToPromptTemplate();
     }));
 

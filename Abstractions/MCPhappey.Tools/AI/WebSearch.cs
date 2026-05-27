@@ -43,11 +43,6 @@ public static class WebSearch
             ["query"] = JsonSerializer.SerializeToElement(query)
         };
 
-        await requestContext.Server.SendMessageNotificationAsync(
-            $"Google AI search: {query}",
-            LoggingLevel.Debug,
-            cancellationToken: CancellationToken.None);
-
         var startTime = DateTime.UtcNow;
 
         var result = await samplingService.GetPromptSample(
@@ -121,38 +116,36 @@ public static class WebSearch
         int? progressToken = 1;
 
         var markdown = $"{string.Join(", ", ModelNames)}\n{query}";
-        await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: CancellationToken.None);
-
         var tasks = ModelNames.Select(async modelName =>
-            {
-                try
-                {
-                    var markdown = $"{modelName}\n{query}";
-                    var startTime = DateTime.UtcNow;
-                    var result = await samplingService.GetPromptSample(
-                    serviceProvider,
-                    mcpServer,
-                    "ai-websearch-answer",
-                    promptArgs,
-                    modelName,
-                    maxTokens: 10000,
-                    metadata: new JsonObject
-                    {
-                        ["perplexity"] = new JsonObject
-                        {
-                            ["search_mode"] = "web",
-                            ["web_search_options"] = new JsonObject
-                            {
-                                ["search_context_size"] = searchContextSize
-                            },
-                            ["last_updated_before_filter"] = endDate,
-                            ["last_updated_after_filter"] = startDate
-                        },
+           {
+               try
+               {
+                   var markdown = $"{modelName}\n{query}";
+                   var startTime = DateTime.UtcNow;
+                   var result = await samplingService.GetPromptSample(
+                   serviceProvider,
+                   mcpServer,
+                   "ai-websearch-answer",
+                   promptArgs,
+                   modelName,
+                   maxTokens: 10000,
+                   metadata: new JsonObject
+                   {
+                       ["perplexity"] = new JsonObject
+                       {
+                           ["search_mode"] = "web",
+                           ["web_search_options"] = new JsonObject
+                           {
+                               ["search_context_size"] = searchContextSize
+                           },
+                           ["last_updated_before_filter"] = endDate,
+                           ["last_updated_after_filter"] = startDate
+                       },
 
-                        ["google"] = new JsonObject
-                        {
-                            ["tools"] = new JsonArray
-                            {
+                       ["google"] = new JsonObject
+                       {
+                           ["tools"] = new JsonArray
+                           {
                                 new JsonObject
                                 {
                                     ["type"] = "google_search",
@@ -162,54 +155,54 @@ public static class WebSearch
                                         ["endTime"] = endDate
                                     }
                                 }
-                            },
-                            ["generation_config"] = new JsonObject
-                            {
-                                ["thinking_level"] = "minimal"
-                            }
-                        },
+                           },
+                           ["generation_config"] = new JsonObject
+                           {
+                               ["thinking_level"] = "minimal"
+                           }
+                       },
 
-                        ["openai"] = new JsonObject
-                        {
-                            ["tools"] = new JsonArray
-                            {
+                       ["openai"] = new JsonObject
+                       {
+                           ["tools"] = new JsonArray
+                           {
                                 new JsonObject { ["type"] = "web_search" }
-                            },
-                            ["reasoning"] = new JsonObject
-                            {
-                                ["effort"] = "low"
-                            }
-                        },
+                           },
+                           ["reasoning"] = new JsonObject
+                           {
+                               ["effort"] = "low"
+                           }
+                       },
 
-                        ["mistral"] = new JsonObject
-                        {
-                            ["tools"] = new JsonArray
-                            {
+                       ["mistral"] = new JsonObject
+                       {
+                           ["tools"] = new JsonArray
+                           {
                                 new JsonObject { ["type"] = "web_search_premium" }
-                            }
-                        },
+                           }
+                       },
 
-                        ["groq"] = new JsonObject
-                        {
-                            ["tools"] = new JsonArray
-                            {
+                       ["groq"] = new JsonObject
+                       {
+                           ["tools"] = new JsonArray
+                           {
                                 new JsonObject { ["type"] = "browser_search" }
-                            }
-                        },
+                           }
+                       },
 
-                        ["xai"] = new JsonObject
-                        {
-                            ["tools"] = new JsonArray
-                            {
+                       ["xai"] = new JsonObject
+                       {
+                           ["tools"] = new JsonArray
+                           {
                                 new JsonObject { ["type"] = "web_search" },
                                 new JsonObject { ["type"] = "x_search" }
-                            }
-                        },
+                           }
+                       },
 
-                        ["anthropic"] = new JsonObject
-                        {
-                            ["tools"] = new JsonArray
-                            {
+                       ["anthropic"] = new JsonObject
+                       {
+                           ["tools"] = new JsonArray
+                           {
                                 new JsonObject
                                 {
                                     ["type"] = "web_search_20260209",
@@ -226,39 +219,36 @@ public static class WebSearch
                                     ["max_uses"] = searchContextSize == "low" ? 2 :
                                                 searchContextSize == "high" ? 6 : 4
                                 }
-                            },
-                            ["thinking"] = new JsonObject
-                            {
-                                ["budget_tokens"] = 1024,
-                                ["type"] = "enabled"
-                            }
-                        }
-                    },
-                    cancellationToken: cancellationToken
-                );
+                           },
+                           ["thinking"] = new JsonObject
+                           {
+                               ["budget_tokens"] = 1024,
+                               ["type"] = "enabled"
+                           }
+                       }
+                   },
+                   cancellationToken: cancellationToken
+               );
 
-                    var endTime = DateTime.UtcNow;
-                    result.Meta?.Add("duration", (endTime - startTime).ToString());
+                   var endTime = DateTime.UtcNow;
+                   result.Meta?.Add("duration", (endTime - startTime).ToString());
 
-                    progressToken = await requestContext.Server.SendProgressNotificationAsync(
-                        requestContext,
-                        progressToken,
-                        markdown,
-                        ModelNames.Length,
-                        cancellationToken
-                    );
+                   progressToken = await requestContext.Server.SendProgressNotificationAsync(
+                       requestContext,
+                       progressToken,
+                       markdown,
+                       ModelNames.Length,
+                       cancellationToken
+                   );
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    await requestContext.Server.SendMessageNotificationAsync(
-                        $"{modelName} failed: {ex.Message}",
-                        LoggingLevel.Error
-                    );
-                    return null; // Failure → skip
-                }
-            });
+                   return result;
+               }
+               catch (Exception)
+               {
+
+                   return null; // Failure → skip
+               }
+           });
 
         var results = await Task.WhenAll(tasks);
         var totalCosts = results.Select(a => a?.GetGatewayCost()).OfType<decimal>().Sum();
@@ -303,8 +293,7 @@ public static class WebSearch
         int? progressToken = 1;
 
         var markdown = $"{string.Join(", ", AcademicModelNames)}\n{query}";
-        await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug);
-
+       
         var tasks = AcademicModelNames.Select(async modelName =>
         {
             try
@@ -427,12 +416,8 @@ public static class WebSearch
 
                 return result; // Success
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await requestContext.Server.SendMessageNotificationAsync(
-                    $"{modelName} failed: {ex.Message}",
-                    LoggingLevel.Error
-                );
                 return null; // Skip failed
             }
         });

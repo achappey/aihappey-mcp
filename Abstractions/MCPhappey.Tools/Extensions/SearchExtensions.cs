@@ -135,9 +135,8 @@ public static class SearchExtensions
                     results.TryAdd(url, extractFromUrlsWithFactsSampleText ?? string.Empty);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await requestContext.Server.SendMessageNotificationAsync($"Failed to process url {url}: {ex}", LoggingLevel.Warning);
             }
             finally
             {

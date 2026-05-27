@@ -568,13 +568,7 @@ public static partial class AIMLImages
               {
                   var data = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, imagUrl, cancellationToken);
                   attachedLinks.AddRange(data);
-              }
-
-              if (attachedLinks.Count > 0)
-              {
-                  await requestContext.Server.SendMessageNotificationAsync(
-                      $"Attached {attachedLinks.Count} file(s) for image edit.", LoggingLevel.Info, cancellationToken);
-              }
+              }            
 
               // Step 1: Ask user for additional image parameters
               var (typed, notAccepted, _) = await requestContext.Server.TryElicit(

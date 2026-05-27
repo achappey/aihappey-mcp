@@ -355,12 +355,7 @@ public static class QomplementService
 
             var job = await client.GetJsonAsync($"jobs/{Uri.EscapeDataString(jobId)}", cancellationToken) ?? new JsonObject();
             var status = job["status"]?.GetValue<string>() ?? string.Empty;
-            poll++;
-
-            await requestContext.Server.SendMessageNotificationAsync(
-                $"Qomplement job {jobId}: status={status}, poll #{poll}",
-                LoggingLevel.Info,
-                cancellationToken);
+            poll++;          
 
             if (IsTerminalStatus(status))
             {

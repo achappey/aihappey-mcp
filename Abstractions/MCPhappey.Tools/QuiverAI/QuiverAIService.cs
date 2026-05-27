@@ -312,7 +312,7 @@ public static class QuiverAIService
         if (string.Equals(data, "[DONE]", StringComparison.OrdinalIgnoreCase))
         {
             const string doneMsg = "QuiverAI stream completed ([DONE]).";
-            await requestContext.Server.SendMessageNotificationAsync(doneMsg, LoggingLevel.Info, cancellationToken);
+
             return await requestContext.Server.SendProgressNotificationAsync(
                 requestContext,
                 progressCounter,
@@ -333,8 +333,7 @@ public static class QuiverAIService
         if (parsed == null)
         {
             var rawMsg = $"QuiverAI SSE raw {(string.IsNullOrWhiteSpace(eventName) ? "event" : eventName)}: {data}";
-            await requestContext.Server.SendMessageNotificationAsync(rawMsg, LoggingLevel.Info, cancellationToken);
-            return await requestContext.Server.SendProgressNotificationAsync(
+             return await requestContext.Server.SendProgressNotificationAsync(
                 requestContext,
                 progressCounter,
                 "QuiverAI SSE frame received",
@@ -353,7 +352,6 @@ public static class QuiverAIService
             ? $"QuiverAI {type} (id={id}, svgLength={(svg?.Length ?? 0)})."
             : $"QuiverAI {type} (id={id}): {text}";
 
-        await requestContext.Server.SendMessageNotificationAsync(msg, LoggingLevel.Info, cancellationToken);
         return await requestContext.Server.SendProgressNotificationAsync(
             requestContext,
             progressCounter,

@@ -51,9 +51,6 @@ public static class DocumentComparer
 
         int? progressToken = 1;
 
-        var markdown = $"{string.Join(", ", ModelNames)}";
-        await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: CancellationToken.None);
-
         var tasks = ModelNames.Select(async modelName =>
             {
                 try
@@ -116,10 +113,7 @@ public static class DocumentComparer
                 }
                 catch (Exception ex)
                 {
-                    await requestContext.Server.SendMessageNotificationAsync(
-                        $"{modelName} failed: {ex.Message}",
-                        LoggingLevel.Error
-                    );
+
                     return null; // Failure → skip
                 }
             });

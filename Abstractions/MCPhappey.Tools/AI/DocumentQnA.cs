@@ -44,9 +44,6 @@ public static class DocumentQnA
 
         int? progressToken = 1;
 
-        var markdown = $"{string.Join(", ", ModelNames)}\n{question}";
-        await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug, cancellationToken: CancellationToken.None);
-
         var tasks = ModelNames.Select(async modelName =>
             {
                 try
@@ -106,12 +103,9 @@ public static class DocumentQnA
 
                     return result;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    await requestContext.Server.SendMessageNotificationAsync(
-                        $"{modelName} failed: {ex.Message}",
-                        LoggingLevel.Error
-                    );
+
                     return null; // Failure → skip
                 }
             });
@@ -153,9 +147,6 @@ public static class DocumentQnA
         };
 
         int? progressToken = 1;
-
-        var markdown = $"{string.Join(", ", AcademicModelNames)}\n{researchQuestion}";
-        await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug);
 
         var tasks = AcademicModelNames.Select(async modelName =>
         {
@@ -214,12 +205,8 @@ public static class DocumentQnA
 
                 return result; // Success
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                await requestContext.Server.SendMessageNotificationAsync(
-                    $"{modelName} failed: {ex.Message}",
-                    LoggingLevel.Error
-                );
                 return null; // Skip failed
             }
         });

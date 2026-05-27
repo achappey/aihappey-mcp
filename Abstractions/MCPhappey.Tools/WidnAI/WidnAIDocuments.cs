@@ -201,11 +201,7 @@ public static class WidnAIDocuments
             var percentage = node["statusPercentage"]?.GetValue<int?>();
 
             poll++;
-            await requestContext.Server.SendMessageNotificationAsync(
-                $"WidnAI translation status: {status} ({(percentage.HasValue ? $"{percentage.Value}%" : "n/a")}, poll #{poll})",
-                LoggingLevel.Info,
-                cancellationToken);
-
+        
             if (IsFinalStatus(status))
                 return status;
 

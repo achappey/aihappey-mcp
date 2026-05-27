@@ -354,8 +354,7 @@ public static partial class ModelContextEditor
         var userId = serviceProvider.GetUserId();
         if (userId == null) throw new Exception("No user found");
 
-        await requestContext.Server.SendMessageNotificationAsync($"Checking name availability: {serverName}", LoggingLevel.Info, cancellationToken);
-
+       
         var serverExists = await serviceProvider.ServerExists(serverName, cancellationToken);
         if (serverExists) throw new Exception("Servername already in use");
 
@@ -370,8 +369,7 @@ public static partial class ModelContextEditor
             Secured = true,
         }, cancellationToken);
 
-        await requestContext.Server.SendMessageNotificationAsync($"Creating server: {typedResult.Name.Slugify()}", LoggingLevel.Info, cancellationToken);
-
+      
         var server = await serverRepository.CreateServer(new SQL.Models.Server()
         {
             Name = typedResult.Name.Slugify(),
@@ -386,8 +384,7 @@ public static partial class ModelContextEditor
                     }]
         }, cancellationToken);
 
-        await requestContext.Server.SendMessageNotificationAsync($"Server created: {server.Id}", LoggingLevel.Info, cancellationToken);
-
+       
         return new
         {
             server.Name,

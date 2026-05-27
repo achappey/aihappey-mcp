@@ -45,10 +45,8 @@ public static class KrokiDiagrams
         var markdown =
             $"<details><summary>POST <a href=\"{url}\" target=\"blank\">{domain}</a></summary>\n\n```\n{diagramCode}\n```\n</details>";
 
-        await requestContext.Server.SendMessageNotificationAsync(markdown);
-
         using var response = await httpClient.SendAsync(request,
-            HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+     HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 
         var error = await response.ToCallToolResponseOrErrorAsync(cancellationToken);
         if (error != null)

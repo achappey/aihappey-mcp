@@ -36,8 +36,7 @@ public static class EuropeanUnionVIESService
             ["countryCode"] = countryCode,
             ["vatNumber"] = vatNumber
         };
-
-        await NotifyCall(rc, "POST", "/check-vat-number", body.ToJsonString());
+       
         return await eu.PostAsync("check-vat-number", body, ct);
     }));
 
@@ -58,7 +57,6 @@ public static class EuropeanUnionVIESService
         await rc.WithStructuredContent(async () =>
     {
         var eu = sp.GetRequiredService<EuropeanUnionClient>();
-        await NotifyCall(rc, "GET", "/check-status");
         return await eu.GetAsync("check-status", ct);
     }));
 
@@ -86,28 +84,11 @@ public static class EuropeanUnionVIESService
             ["vatNumber"] = vatNumber
         };
 
-        await NotifyCall(rc, "POST", "/check-vat-test-service", body.ToJsonString());
         return await eu.PostAsync("check-vat-test-service", body, ct);
     }));
 
-    // =======================================================
-    // 🧠 Shared trace helpers (keep your rich trace view)
-    // =======================================================
-    private static async Task NotifyCall(
-        RequestContext<CallToolRequestParams> rc,
-        string method,
-        string endpoint,
-        string? json = null)
-    {
-        var domain = new Uri(BaseUrl).Host;
-        var msg = json is null
-            ? $"**{method}** `{domain}{endpoint}`"
-            : $"<details><summary>{method} {domain}{endpoint}</summary>\n\n```json\n{Pretty(json)}\n```\n</details>";
-        await rc.Server.SendMessageNotificationAsync(msg);
-    }
-
     private static readonly JsonSerializerOptions jsonOptions = new() { WriteIndented = true };
-    
+
     private static string Pretty(string json)
     {
         try

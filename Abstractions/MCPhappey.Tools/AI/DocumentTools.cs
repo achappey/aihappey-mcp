@@ -113,12 +113,9 @@ public static class DocumentTools
 
                     return result;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    await mcpServer.SendMessageNotificationAsync(
-                        $"{modelName} failed: {ex.Message}",
-                        LoggingLevel.Error
-                    );
+                   
                     return null;
                 }
             });
@@ -230,12 +227,9 @@ public static class DocumentTools
 
                     return result;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    await mcpServer.SendMessageNotificationAsync(
-                        $"{modelName} failed: {ex.Message}",
-                        LoggingLevel.Error
-                    );
+                
                     return null;
                 }
             });
@@ -350,12 +344,9 @@ public static class DocumentTools
 
                     return result;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    await mcpServer.SendMessageNotificationAsync(
-                        $"{modelName} failed: {ex.Message}",
-                        LoggingLevel.Error
-                    );
+                   
                     return null;
                 }
             });

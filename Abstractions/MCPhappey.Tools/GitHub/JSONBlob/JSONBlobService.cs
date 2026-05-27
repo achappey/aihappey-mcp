@@ -37,10 +37,6 @@ public static class JSONBlobService
         var http = CreateClient(serviceProvider);
         var url = $"{BASE_URL}{API_PREFIX}/jsonBlob";
 
-        // Optional: show call as markdown trace
-        await requestContext.Server.SendMessageNotificationAsync(
-            $"<details><summary>POST <a href=\"{url}\" target=\"_blank\">jsonblob.com</a></summary>\n\n```json\n{data}\n```\n</details>");
-
         using var res = await http.PostAsync(url,
             new StringContent(data, Encoding.UTF8, MimeTypes.Json),
             cancellationToken);
@@ -76,12 +72,9 @@ public static class JSONBlobService
         var http = CreateClient(serviceProvider);
         var url = $"{BASE_URL}{API_PREFIX}/jsonBlob/{blobId}";
 
-        await requestContext.Server.SendMessageNotificationAsync(
-            $"<details><summary>PUT <a href=\"{url}\" target=\"_blank\">jsonblob.com</a></summary>\n\n```json\n{JsonSerializer.Serialize(data, WriteIndented)}\n```\n</details>");
-
         using var res = await http.PutAsync(url,
-            new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, MimeTypes.Json),
-            cancellationToken);
+                 new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, MimeTypes.Json),
+                 cancellationToken);
 
         var error = await res.ToCallToolResponseOrErrorAsync(cancellationToken);
         if (error != null) return error;

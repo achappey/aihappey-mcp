@@ -204,7 +204,6 @@ public static class TinyFishAutomation
 
         if (parsedNode is not JsonObject parsedObject)
         {
-            await requestContext.Server.SendMessageNotificationAsync($"TinyFish SSE raw event: {data}", LoggingLevel.Info, cancellationToken);
             progressCounter = await requestContext.Server.SendProgressNotificationAsync(
                 requestContext,
                 progressCounter,
@@ -264,7 +263,6 @@ public static class TinyFishAutomation
                 break;
         }
 
-        await requestContext.Server.SendMessageNotificationAsync(message, level, cancellationToken);
         progressCounter = await requestContext.Server.SendProgressNotificationAsync(
             requestContext,
             progressCounter,

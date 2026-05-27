@@ -584,12 +584,6 @@ public static class SimplicateExtensions
             if (result?.Data == null)
                 break;
 
-            var markdown =
-                $"<details><summary><a href=\"{url}\" target=\"blank\">{new Uri(url).Host}</a></summary>\n\n```\n{JsonSerializer.Serialize(result)}\n```\n</details>";
-
-            await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug,
-                cancellationToken: cancellationToken);
-
             results.AddRange(result.Data);
 
             if (totalCount == null && result.Metadata != null)
@@ -708,9 +702,6 @@ public static class SimplicateExtensions
 
             var uri = new Uri(url);
             var domain = uri.Host;
-            var markdown =
-                  $"<details><summary><a href=\"{url}\" target=\"blank\">{domain}</a></summary>\n\n```\n{JsonSerializer.Serialize(result)}\n```\n</details>";
-            await requestContext.Server.SendMessageNotificationAsync(markdown, LoggingLevel.Debug);
 
             results.AddRange(result.Data);
 
@@ -980,7 +971,7 @@ public static class SimplicateExtensions
 
         var content = await scraper.PutSimplicateItemAsync(
             serviceProvider, url, mappedObject,
-            requestContext: requestContext, cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();
     }
@@ -1014,27 +1005,10 @@ public static class SimplicateExtensions
     {
         var json = JsonSerializer.Serialize(item, jsonOptions);
 
-        if (LoggingLevel.Debug.ShouldLog(requestContext.Server.LoggingLevel))
-        {
-            await requestContext.Server.SendMessageNotificationAsync(
-                $"<details><summary>POST <code>{baseUrl}</code></summary>\n\n```\n{json}\n```\n</details>",
-                LoggingLevel.Debug
-            );
-        }
-
         // Use your DownloadService to POST (assumes similar signature to ScrapeContentAsync)
         var response = await downloadService.PostContentAsync<T>(
             serviceProvider, baseUrl, json, cancellationToken);
-
-        if (LoggingLevel.Debug.ShouldLog(requestContext.Server.LoggingLevel))
-        {
-            await requestContext.Server.SendMessageNotificationAsync(
-                $"<details><summary>RESPONSE</summary>\n\n```\n{JsonSerializer.Serialize(response,
-                    ResourceExtensions.JsonSerializerOptions)}\n```\n</details>",
-                LoggingLevel.Debug
-            );
-        }
-
+       
         return response.ToJsonContentBlock($"{baseUrl}/{response?.Data.Id}");
     }
 
@@ -1048,38 +1022,19 @@ public static class SimplicateExtensions
         IServiceProvider serviceProvider,
         string baseUrl,
         T item,
-        RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
     {
-        var json = JsonSerializer.Serialize(item, jsonOptions);
-
-        if (LoggingLevel.Debug.ShouldLog(requestContext.Server.LoggingLevel))
-        {
-            await requestContext.Server.SendMessageNotificationAsync(
-                $"<details><summary>PUT <code>{baseUrl}</code></summary>\n\n```\n{json}\n```\n</details>",
-                LoggingLevel.Debug
-            );
-        }
+        var json = JsonSerializer.Serialize(item, jsonOptions);       
 
         // Use your DownloadService to POST (assumes similar signature to ScrapeContentAsync)
         var response = await downloadService.PutContentAsync<T>(
-            serviceProvider, baseUrl, json, cancellationToken);
-
-        if (LoggingLevel.Debug.ShouldLog(requestContext.Server.LoggingLevel))
-        {
-            await requestContext.Server.SendMessageNotificationAsync(
-                $"<details><summary>RESPONSE</summary>\n\n```\n{JsonSerializer.Serialize(response,
-                    ResourceExtensions.JsonSerializerOptions)}\n```\n</details>",
-                LoggingLevel.Debug
-            );
-        }
+            serviceProvider, baseUrl, json, cancellationToken);     
 
         return response.ToJsonContentBlock($"{baseUrl}/{response?.Data.Id}");
     }
 
     public static async Task<CallToolResult?> DeleteSimplicateResourceAsync(
         this IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
         string relativePath,
         string successText,
         CancellationToken cancellationToken = default)
@@ -1089,15 +1044,7 @@ public static class SimplicateExtensions
 
         var scraper = serviceProvider.GetServices<IContentScraper>()
                                      .OfType<SimplicateScraper>()
-                                     .First();
-
-        if (LoggingLevel.Debug.ShouldLog(requestContext.Server.LoggingLevel))
-        {
-            await requestContext.Server.SendMessageNotificationAsync(
-                $"<details><summary>DELETE <code>{url}</code></summary></details>",
-                LoggingLevel.Debug,
-                cancellationToken: cancellationToken);
-        }
+                                     .First();     
 
         await scraper.DeleteContentAsync(serviceProvider, url, cancellationToken);
         return successText.ToTextCallToolResponse();
