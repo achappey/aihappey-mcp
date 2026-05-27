@@ -74,8 +74,7 @@ public static partial class SimplicateCRM
         var content = await scraper.PutSimplicateItemAsync(
             serviceProvider,
             simplicateOptions.GetApiUrl("/crm/person/" + personId),
-            body,
-            requestContext: requestContext,
+            body,   
             cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();
@@ -174,8 +173,7 @@ public static partial class SimplicateCRM
         var content = await scraper.PutSimplicateItemAsync(
             serviceProvider,
             simplicateOptions.GetApiUrl("/crm/person/" + personId),
-            body,
-            requestContext: requestContext,
+            body,         
             cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();
@@ -227,8 +225,7 @@ public static partial class SimplicateCRM
                 await scraper.PutSimplicateItemAsync(
                     serviceProvider,
                     simplicateOptions.GetApiUrl("/crm/person/" + normalizedPersonId),
-                    body,
-                    requestContext: requestContext,
+                    body,                   
                     cancellationToken: ct);
             },
             $"Linked contactperson '{contactPersonId}' deleted from person '{normalizedPersonId}'.",
@@ -282,7 +279,7 @@ public static partial class SimplicateCRM
                     serviceProvider,
                     simplicateOptions.GetApiUrl("/crm/organization/" + normalizedOrganizationId),
                     body,
-                    requestContext: requestContext,
+                    
                     cancellationToken: ct);
             },
             $"Linked contactperson '{contactPersonId}' deleted from organization '{normalizedOrganizationId}'.",
@@ -368,8 +365,7 @@ public static partial class SimplicateCRM
         var content = await scraper.PutSimplicateItemAsync(
             serviceProvider,
             simplicateOptions.GetApiUrl("/crm/person/" + personId),
-            body,
-            requestContext: requestContext,
+            body,          
             cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();
@@ -455,7 +451,6 @@ public static partial class SimplicateCRM
             serviceProvider,
             simplicateOptions.GetApiUrl("/crm/organization/" + organizationId),
             body,
-            requestContext: requestContext,
             cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();
@@ -525,7 +520,6 @@ public static partial class SimplicateCRM
             serviceProvider,
             simplicateOptions.GetApiUrl("/crm/organization/" + organizationId),
             body,
-            requestContext: requestContext,
             cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();
@@ -625,7 +619,6 @@ public static partial class SimplicateCRM
             serviceProvider,
             simplicateOptions.GetApiUrl("/crm/organization/" + organizationId),
             body,
-            requestContext: requestContext,
             cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();

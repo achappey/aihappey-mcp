@@ -494,8 +494,7 @@ public static partial class SimplicateCRM
 
         return await requestContext.ConfirmAndDeleteAsync<ConfirmDeleteSimplicateOrganization>(
             expectedName: normalizedOrganizationId,
-            async ct => await serviceProvider.DeleteSimplicateResourceAsync(
-                requestContext,
+            async ct => await serviceProvider.DeleteSimplicateResourceAsync(            
                 "/crm/organization/" + normalizedOrganizationId,
                 $"Organization '{normalizedOrganizationId}' deleted.",
                 ct),

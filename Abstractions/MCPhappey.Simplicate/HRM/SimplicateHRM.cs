@@ -357,8 +357,7 @@ public static partial class SimplicateHRM
         CancellationToken cancellationToken = default)
         => await requestContext.ConfirmAndDeleteAsync<ConfirmDeleteSimplicateAbsence>(
             expectedName: absenceId,
-            async ct => await serviceProvider.DeleteSimplicateResourceAsync(
-                requestContext,
+            async ct => await serviceProvider.DeleteSimplicateResourceAsync(             
                 "/hrm/absence/" + absenceId,
                 $"Absence '{absenceId}' deleted.",
                 ct),
@@ -522,8 +521,7 @@ public static partial class SimplicateHRM
         CancellationToken cancellationToken = default)
         => await requestContext.ConfirmAndDeleteAsync<ConfirmDeleteSimplicateTimetable>(
             expectedName: timetableId,
-            async ct => await serviceProvider.DeleteSimplicateResourceAsync(
-                requestContext,
+            async ct => await serviceProvider.DeleteSimplicateResourceAsync(                
                 "/hrm/timetable/" + timetableId,
                 $"Timetable '{timetableId}' deleted.",
                 ct),
