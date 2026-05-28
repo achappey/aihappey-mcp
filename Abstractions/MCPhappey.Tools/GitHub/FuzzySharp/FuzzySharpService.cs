@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using ModelContextProtocol.Server;
 using Raffinert.FuzzySharp;
-using Raffinert.FuzzySharp.PreProcess;
 using Raffinert.FuzzySharp.SimilarityRatio;
 using Raffinert.FuzzySharp.SimilarityRatio.Scorer;
 using Raffinert.FuzzySharp.SimilarityRatio.Scorer.StrategySensitive;
@@ -231,8 +230,7 @@ public static class FuzzySharpService
         string b,
         [Description("'Full' or 'None' preprocessing")] string preprocess = "Full")
     {
-        var mode = preprocess.Equals("none", StringComparison.OrdinalIgnoreCase) ? PreprocessMode.None : PreprocessMode.Full;
-        return await Task.FromResult(Fuzz.TokenAbbreviationRatio(a ?? string.Empty, b ?? string.Empty, mode));
+        return await Task.FromResult(Fuzz.TokenAbbreviationRatio(a ?? string.Empty, b ?? string.Empty));
     }
 
     // 10) Partial Token Abbreviation Ratio
@@ -243,8 +241,7 @@ public static class FuzzySharpService
         string b,
         [Description("'Full' or 'None' preprocessing")] string preprocess = "Full")
     {
-        var mode = preprocess.Equals("none", StringComparison.OrdinalIgnoreCase) ? PreprocessMode.None : PreprocessMode.Full;
-        return await Task.FromResult(Fuzz.PartialTokenAbbreviationRatio(a ?? string.Empty, b ?? string.Empty, mode));
+        return await Task.FromResult(Fuzz.PartialTokenAbbreviationRatio(a ?? string.Empty, b ?? string.Empty));
     }
 
     // 11) Weighted Ratio
