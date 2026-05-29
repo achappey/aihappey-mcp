@@ -24,8 +24,6 @@ public class Config
 
     public McpApplicationInsights? ApplicationInsights { get; set; }
 
-    public string? KernelMemoryDatabase { get; set; }
-
     public Dictionary<string, Dictionary<string, string>>? DomainHeaders { get; set; }
 
     public Dictionary<string, McpExtension>? McpExtensions { get; set; }

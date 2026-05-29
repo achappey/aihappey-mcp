@@ -188,17 +188,17 @@ AddApi(builder.Services, appConfig, "api.aimlapi.com", k => new AIMLSettings { A
 
 AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 
- builder.Services
- .AddAzureSkills(appConfig?.SkillsStorage)
- .AddMistral(appConfig?.DomainHeaders)
- .AddSyntheticSearch(appConfig?.DomainHeaders)
- .AddPerplexity(appConfig?.DomainHeaders)
- .AddParallel(appConfig?.DomainHeaders)
- .AddImagga(appConfig?.DomainHeaders)
- .AddSupadata(appConfig?.DomainHeaders)
- .AddAzuce(appConfig?.DomainHeaders)
- .AddAIsa(appConfig?.DomainHeaders)
- .AddRunway(appConfig?.DomainHeaders)
+builder.Services
+.AddAzureSkills(appConfig?.SkillsStorage)
+.AddMistral(appConfig?.DomainHeaders)
+.AddSyntheticSearch(appConfig?.DomainHeaders)
+.AddPerplexity(appConfig?.DomainHeaders)
+.AddParallel(appConfig?.DomainHeaders)
+.AddImagga(appConfig?.DomainHeaders)
+.AddSupadata(appConfig?.DomainHeaders)
+.AddAzuce(appConfig?.DomainHeaders)
+.AddAIsa(appConfig?.DomainHeaders)
+.AddRunway(appConfig?.DomainHeaders)
 .AddReplicate(appConfig?.DomainHeaders)
 .AddPinecone(appConfig?.DomainHeaders)
 .AddCohere(appConfig?.DomainHeaders)
@@ -213,13 +213,13 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 .AddSPAMhunter(appConfig?.DomainHeaders)
 .AddFreepik(appConfig?.DomainHeaders)
 .AddAI302(appConfig?.DomainHeaders)
-    .AddZAI(appConfig?.DomainHeaders)
-    .AddRelaxAI(appConfig?.DomainHeaders)
-    .AddNebius(appConfig?.DomainHeaders)
-    .AddAICC(appConfig?.DomainHeaders)
-    .AddLumaAI(appConfig?.DomainHeaders)
-    .AddLumenfall(appConfig?.DomainHeaders)
-    .AddFireworks(appConfig?.DomainHeaders)
+   .AddZAI(appConfig?.DomainHeaders)
+   .AddRelaxAI(appConfig?.DomainHeaders)
+   .AddNebius(appConfig?.DomainHeaders)
+   .AddAICC(appConfig?.DomainHeaders)
+   .AddLumaAI(appConfig?.DomainHeaders)
+   .AddLumenfall(appConfig?.DomainHeaders)
+   .AddFireworks(appConfig?.DomainHeaders)
 .AddGreenPT(appConfig?.DomainHeaders)
 .AddLoreto(appConfig?.DomainHeaders)
 .AddAPIpie(appConfig?.DomainHeaders)
@@ -252,17 +252,17 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 .AddDeAPI(appConfig?.DomainHeaders)
 .AddImageRouter(appConfig?.DomainHeaders)
 .AddParasail(appConfig?.DomainHeaders)
-    .AddCometAPI(appConfig?.DomainHeaders)
-    .AddMixedbread(appConfig?.DomainHeaders)
+   .AddCometAPI(appConfig?.DomainHeaders)
+   .AddMixedbread(appConfig?.DomainHeaders)
 .AddStepFun(appConfig?.DomainHeaders)
- .AddNoizAI(appConfig?.DomainHeaders)
- .AddGradium(appConfig?.DomainHeaders)
- .AddKugu(appConfig?.DomainHeaders)
+.AddNoizAI(appConfig?.DomainHeaders)
+.AddGradium(appConfig?.DomainHeaders)
+.AddKugu(appConfig?.DomainHeaders)
 .AddMorpheus(appConfig?.DomainHeaders)
- .AddInfomaniak(appConfig?.DomainHeaders)
- .AddDaglo(appConfig?.DomainHeaders)
- .AddDumplingAI(appConfig?.DomainHeaders)
- .AddMonica(appConfig?.DomainHeaders)
+.AddInfomaniak(appConfig?.DomainHeaders)
+.AddDaglo(appConfig?.DomainHeaders)
+.AddDumplingAI(appConfig?.DomainHeaders)
+.AddMonica(appConfig?.DomainHeaders)
 .AddIdeogram(appConfig?.DomainHeaders)
 .AddPicsart(appConfig?.DomainHeaders)
 .AddTinfoil(appConfig?.DomainHeaders)
@@ -273,13 +273,13 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 .AddFishAudio(appConfig?.DomainHeaders)
 .AddCartesia(appConfig?.DomainHeaders)
 .AddTinyFish(appConfig?.DomainHeaders)
- .AddSmooth(appConfig?.DomainHeaders)
- .AddLLMLayer(appConfig?.DomainHeaders)
- .AddOlostep(appConfig?.DomainHeaders)
- .AddBlinkUtilities(appConfig?.DomainHeaders)
- .AddWebsearchAPI(appConfig?.DomainHeaders)
- .AddMagisterium(appConfig?.DomainHeaders)
- .AddQomplement(appConfig?.DomainHeaders)
+.AddSmooth(appConfig?.DomainHeaders)
+.AddLLMLayer(appConfig?.DomainHeaders)
+.AddOlostep(appConfig?.DomainHeaders)
+.AddBlinkUtilities(appConfig?.DomainHeaders)
+.AddWebsearchAPI(appConfig?.DomainHeaders)
+.AddMagisterium(appConfig?.DomainHeaders)
+.AddQomplement(appConfig?.DomainHeaders)
 .AddMemU(appConfig?.DomainHeaders)
 .AddAgentMail(appConfig?.DomainHeaders)
 .AddWebCrawlerAPI(appConfig?.DomainHeaders)
@@ -288,6 +288,7 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
+
 
 if (appConfig?.DomainHeaders is { } headers)
 {
@@ -363,8 +364,9 @@ if (!string.IsNullOrEmpty(apiKey))
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Logging.AddApplicationInsights();
 
-if (!string.IsNullOrEmpty(appConfig?.KernelMemoryDatabase)
-    && openAiClient != null
+
+if (
+    openAiClient != null
     && apiKey != null)
 {
     builder.Services.AddKernelMemoryWithOptions(memoryBuilder =>
@@ -380,20 +382,15 @@ if (!string.IsNullOrEmpty(appConfig?.KernelMemoryDatabase)
                 EmbeddingDimensions = 3072,
                 EmbeddingModel = "text-embedding-3-large"
             })
-            .WithDecoders(openAiClient)
-            .WithSqlServerMemoryDb(new()
-            {
-                ConnectionString = appConfig?.KernelMemoryDatabase!
-            })
-            .WithSearchClientConfig(new()
-            {
-                MaxMatchesCount = int.MaxValue
-            });
+            .WithDecoders(openAiClient);
+
     }, new()
     {
         AllowMixingVolatileAndPersistentData = true
     });
 }
+
+
 /*
 static async Task<string> GetAppTokenAsync(
     string tenantId,
