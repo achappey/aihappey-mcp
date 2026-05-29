@@ -6,7 +6,6 @@
     "description": "Search across multiple engines at once; compare and enrich results in one place."
   },
   "plugins": [
-    "MCPhappey.Tools.AI.WebSearch, MCPhappey.Tools",
     "MCPhappey.Tools.Perplexity.PerplexityPlugin, MCPhappey.Tools",
     "MCPhappey.Tools.SharePoint.SharePointSearch, MCPhappey.Tools",
     "MCPhappey.Tools.OpenAI.SharePoint.OpenAISharePoint, MCPhappey.Tools"

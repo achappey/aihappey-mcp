@@ -42,7 +42,6 @@ using MCPhappey.Tools.Runware;
 using MCPhappey.Tools.Magisterium;
 using MCPhappey.Tools.CaseDev;
 using MCPhappey.Tools.QuiverAI;
-using MCPhappey.Tools.EdenAI;
 using MCPhappey.Tools.Azuce;
 using MCPhappey.Tools.VoyageAI;
 using MCPhappey.Tools.AIML;
@@ -214,7 +213,6 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 .AddAsyncAI(appConfig?.DomainHeaders)
 .AddRunware(appConfig?.DomainHeaders)
 .AddQuiverAI(appConfig?.DomainHeaders)
-.AddEdenAI(appConfig?.DomainHeaders)
 .AddVoyageAI(appConfig?.DomainHeaders)
 .AddAIML(appConfig?.DomainHeaders)
 .AddMiniMax(appConfig?.DomainHeaders)

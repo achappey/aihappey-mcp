@@ -19,8 +19,7 @@
     "MCPhappey.Tools.Runway.Audio.RunwayAudio, MCPhappey.Tools",
     "MCPhappey.Tools.AIML.Audio.AIMLAudio, MCPhappey.Tools",
     "MCPhappey.Tools.Runware.Audio.RunwareAudio, MCPhappey.Tools",
-    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools",
-    "MCPhappey.Tools.EdenAI.Audio.EdenAIAudio, MCPhappey.Tools"
+    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"

@@ -7,7 +7,6 @@
   },
   "instructions": "Use Brave and Perplexity for quick lookups, use AI WebSearch for depth.",
   "plugins": [
-    "MCPhappey.Tools.AI.WebSearch, MCPhappey.Tools",
     "MCPhappey.Tools.Perplexity.PerplexityPlugin, MCPhappey.Tools",
     "MCPhappey.Tools.HTTP.HTTPService, MCPhappey.Tools"
   ],

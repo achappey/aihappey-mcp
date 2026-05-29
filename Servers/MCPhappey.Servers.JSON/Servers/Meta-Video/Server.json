@@ -11,8 +11,7 @@
     "MCPhappey.Tools.OpenAI.Video.OpenAIVideo, MCPhappey.Tools",
     "MCPhappey.Tools.AIML.Video.AIMLVideo, MCPhappey.Tools",
     "MCPhappey.Tools.Runware.Video.RunwareVideo, MCPhappey.Tools",
-    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools",
-    "MCPhappey.Tools.EdenAI.Video.EdenAIVideo, MCPhappey.Tools"
+    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"

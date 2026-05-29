@@ -17,8 +17,7 @@
     "MCPhappey.Tools.AIML.Images.AIMLImages, MCPhappey.Tools",
     "MCPhappey.Tools.Runway.Images.RunwayImages, MCPhappey.Tools",
     "MCPhappey.Tools.Runware.Images.RunwareImages, MCPhappey.Tools",
-    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools",
-    "MCPhappey.Tools.EdenAI.Images.EdenAIImages, MCPhappey.Tools"
+    "MCPhappey.Tools.Runware.Utilities.RunwareUtilities, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
