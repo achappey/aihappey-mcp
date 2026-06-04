@@ -13,8 +13,8 @@
 
 	<ItemGroup>
 	<PackageReference Include="Microsoft.Identity.Client" Version="4.84.2-preview" />
-	<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.18.0" />
-	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.18.0" />
+	<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.19.1" />
+	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.19.1" />
 	</ItemGroup>
 
 </Project>
