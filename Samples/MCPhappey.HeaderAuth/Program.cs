@@ -56,7 +56,6 @@ using MCPhappey.Tools.Audixa;
 using MCPhappey.Tools.Deepgram;
 using MCPhappey.Tools.Gladia;
 using MCPhappey.Tools.ExtendAI;
-using MCPhappey.Tools.ContextualAI;
 using MCPhappey.Tools.Telnyx;
 using MCPhappey.Tools.OpperAI;
 using MCPhappey.Tools.BergetAI;
@@ -227,7 +226,6 @@ builder.Services
 .AddDeepgram(appConfig?.DomainHeaders)
 .AddGladia(appConfig?.DomainHeaders)
 .AddExtendAI(appConfig?.DomainHeaders)
-.AddContextualAI(appConfig?.DomainHeaders)
 .AddTelnyx(appConfig?.DomainHeaders)
 .AddOpperAI(appConfig?.DomainHeaders)
 .AddTensorlake(appConfig?.DomainHeaders)
