@@ -13,44 +13,7 @@ namespace MCPhappey.Tools.AI;
 
 public static class ChatApp
 {
-    [Description("Generate a conversation name from initial user and assistant messages")]
-    [McpServerTool(Title = "Generate conversation name",
-         ReadOnly = true)]
-    public static async Task<IEnumerable<ContentBlock>> ChatApp_GenerateConversationName(
-        [Description("User message")] string userMessage,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        CancellationToken cancellationToken = default)
-    {
-        var mcpServer = requestContext.Server;
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
-
-        var promptArgs = PromptArguments.Create(
-                       ("userMessage", userMessage ?? string.Empty));
-
-        var meta = new JsonObject
-        {
-            ["openai"] = new JsonObject(),
-            ["pollinations"] = new JsonObject()
-        };
-
-        // Pick the model you want (same as before or allow config)
-
-        List<string> modelNames = ["gpt-5.4-mini", "openai"];
-
-        var result = await samplingService.GetPromptSample(
-            serviceProvider,
-            mcpServer,
-            "conversation-name", // prompt template name
-            promptArgs,
-            modelHints: modelNames,
-            metadata: meta,
-            cancellationToken: cancellationToken
-        );
-
-        // Return the result as a single ContentBlock
-        return result.Content;
-    }
+    
 
     [Description("Get MCP server usage statistics")]
     [McpServerTool(Title = "Get server usage statistics",
@@ -125,101 +88,6 @@ public static class ChatApp
         var config = serviceProvider.GetServices<IAutoCompletion>();
 
         return await Task.FromResult(string.Join(",", config.SelectMany(z => z.GetArguments(serviceProvider))).ToTextCallToolResponse());
-    }
-
-    [Description("Generate a very short, friendly welcome message for a chatbot interface")]
-    [McpServerTool(Title = "Generate welcome message",
-        ReadOnly = true)]
-    public static async Task<ContentBlock?> ChatApp_GenerateWelcomeMessage(
-        [Description("Language of the requested welcome message")] string language,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Current date and time")] string? currentDateTime = null,
-        [Description("Current user")] string? currentUser = null,
-        CancellationToken cancellationToken = default)
-    {
-        var mcpServer = requestContext.Server;
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
-
-        // Pick the model you want
-        List<string> modelNames = ["gpt-5.4-nano", "openai"];
-    
-        const int MaxLength = 60;
-
-        var args = PromptArguments.Create(
-                        ("language", language),
-                        ("currentDateTime", currentDateTime ?? DateTime.UtcNow.ToString())
-                    );
-
-        if (currentUser != null)
-            args.Add("currentUser", currentUser.ToJsonElement());
-
-        var meta = new JsonObject
-        {
-            ["openai"] = new JsonObject
-            {
-                ["reasoning"] = new JsonObject
-                {
-                    ["effort"] = "low"
-                }
-            },
-            ["pollinations"] = new JsonObject
-            {
-                ["reasoning"] = new JsonObject
-                {
-                    ["effort"] = "low"
-                }
-            }
-        };
-
-        async Task<IEnumerable<ContentBlock>?> SampleAsync() =>
-            (await samplingService.GetPromptSample(
-                serviceProvider,
-                mcpServer,
-                "welcome-message",
-                arguments: args,
-                modelHints: modelNames,
-                metadata: meta,
-                cancellationToken: cancellationToken
-            ))?.Content;
-
-        var content = await SampleAsync();
-        if (content?.FirstOrDefault() is TextContentBlock textContentBlock && textContentBlock.Text.Length > MaxLength)
-        {
-            // Eén retry; tweede resultaat niet opnieuw checken
-            content = await SampleAsync();
-        }
-
-        return content?.FirstOrDefault();
-    }
-
-    [Description("Explain a tool call to an end user in simple words")]
-    [McpServerTool(Title = "Explain tool call in simple words",
-        ReadOnly = true)]
-    public static async Task<IEnumerable<ContentBlock>> ChatApp_ExplainToolCall(
-       [Description("Stringified json of all toolcall data")] string toolcall,
-       [Description("Language of the requested welcome message")] string language,
-       IServiceProvider serviceProvider,
-       RequestContext<CallToolRequestParams> requestContext,
-       CancellationToken cancellationToken = default)
-    {
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
-
-        // Pick the model you want
-        var modelName = "gpt-5.4-nano"; // or set to your preferred model
-     
-        var result = await samplingService.GetPromptSample(
-            serviceProvider,
-            requestContext.Server,
-            "toolcall-explanation",
-            arguments: PromptArguments.Create(
-                ("language", language),
-                ("toolcall", toolcall)
-            ),
-            modelHint: modelName,
-            cancellationToken: cancellationToken);
-
-        return result.Content;
     }
 }
 
