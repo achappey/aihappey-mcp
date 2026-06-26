@@ -1,4 +1,3 @@
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using Microsoft.AspNetCore.Http;
 using ModelContextProtocol.Protocol;

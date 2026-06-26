@@ -4,8 +4,6 @@ using MCPhappey.Core.Extensions;
 using MCPhappey.Common.Models;
 using Microsoft.KernelMemory.DataFormats.WebPages;
 using MCPhappey.Common;
-using ModelContextProtocol.Protocol;
-using MCPhappey.Common.Extensions;
 
 namespace MCPhappey.Core.Services;
 

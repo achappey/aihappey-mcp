@@ -1,10 +1,8 @@
 using System.ComponentModel;
-using System.Text.Json.Nodes;
 using DocumentFormat.OpenXml.Wordprocessing;
 using MCPhappey.Common;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
