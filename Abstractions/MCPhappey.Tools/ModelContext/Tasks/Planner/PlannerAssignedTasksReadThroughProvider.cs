@@ -10,6 +10,7 @@ using MCPhappey.Core.Services.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol;
+using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.ModelContext.Tasks.Planner;
 
@@ -40,15 +41,17 @@ internal sealed class PlannerAssignedTasksTaskStore(
     IServiceScopeFactory scopeFactory,
     ExternalTaskRuntimeContext runtimeContext) : IMcpTaskStore
 {
-    public Task<McpTask> CreateTaskAsync(
-        McpTaskMetadata taskParams,
+    public event Action<InputResponseReceivedEventArgs>? InputResponseReceived;
+
+    public Task<McpTaskInfo> CreateTaskAsync(
+        //McpTaskMetadata taskParams,
         RequestId requestId,
         JsonRpcRequest request,
         string? sessionId = null,
         CancellationToken cancellationToken = default)
         => throw new InvalidOperationException("CreateTaskAsync is not supported for planner read-through task runtime.");
 
-    public async Task<McpTask?> GetTaskAsync(string taskId, string? sessionId = null, CancellationToken cancellationToken = default)
+    public async Task<McpTaskInfo?> GetTaskAsync(string taskId, string? sessionId = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(taskId))
         {
@@ -80,7 +83,7 @@ internal sealed class PlannerAssignedTasksTaskStore(
         return ToPlannerTask(taskJson, runtimeContext.PollInterval);
     }
 
-    public Task<McpTask> StoreTaskResultAsync(
+    public Task<McpTaskInfo> StoreTaskResultAsync(
         string taskId,
         McpTaskStatus status,
         JsonElement result,
@@ -128,72 +131,72 @@ internal sealed class PlannerAssignedTasksTaskStore(
         return doc.RootElement.Clone();
     }
 
-    public Task<McpTask> UpdateTaskStatusAsync(
+    public Task<McpTaskInfo> UpdateTaskStatusAsync(
         string taskId,
         McpTaskStatus status,
         string? statusMessage,
         string? sessionId = null,
         CancellationToken cancellationToken = default)
         => throw new InvalidOperationException("UpdateTaskStatusAsync is not supported for planner read-through task runtime.");
-
-    public async Task<ListTasksResult> ListTasksAsync(
-        string? cursor = null,
-        string? sessionId = null,
-        CancellationToken cancellationToken = default)
-    {
-        var response = await ExecuteGraphRequestAsync(
-            async http =>
-            {
-                if (string.IsNullOrWhiteSpace(cursor))
+    /*
+        public async Task<ListTasksResult> ListTasksAsync(
+            string? cursor = null,
+            string? sessionId = null,
+            CancellationToken cancellationToken = default)
+        {
+            var response = await ExecuteGraphRequestAsync(
+                async http =>
                 {
-                    return await http.GetAsync(
-                        "me/planner/tasks?$top=50&$select=id,title,percentComplete,createdDateTime,completedDateTime",
-                        cancellationToken);
-                }
+                    if (string.IsNullOrWhiteSpace(cursor))
+                    {
+                        return await http.GetAsync(
+                            "me/planner/tasks?$top=50&$select=id,title,percentComplete,createdDateTime,completedDateTime",
+                            cancellationToken);
+                    }
 
-                if (!Uri.TryCreate(cursor, UriKind.Absolute, out var cursorUri))
-                {
-                    throw new McpProtocolException("Invalid cursor.", McpErrorCode.InvalidParams);
-                }
+                    if (!Uri.TryCreate(cursor, UriKind.Absolute, out var cursorUri))
+                    {
+                        throw new McpProtocolException("Invalid cursor.", McpErrorCode.InvalidParams);
+                    }
 
-                return await http.GetAsync(cursorUri, cancellationToken);
-            },
-            cancellationToken);
+                    return await http.GetAsync(cursorUri, cancellationToken);
+                },
+                cancellationToken);
 
-        if (response.StatusCode == HttpStatusCode.BadRequest)
-        {
-            throw new McpProtocolException("Invalid cursor.", McpErrorCode.InvalidParams);
-        }
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new McpProtocolException("Failed to list tasks.", McpErrorCode.InternalError);
-        }
-
-        var payload = await response.Content.ReadAsStringAsync(cancellationToken);
-        if (JsonNode.Parse(payload) is not JsonObject root)
-        {
-            throw new McpProtocolException("Task list payload is invalid.", McpErrorCode.InternalError);
-        }
-
-        var tasks = new List<McpTask>();
-        if (root["value"] is JsonArray value)
-        {
-            foreach (var item in value.OfType<JsonObject>())
+            if (response.StatusCode == HttpStatusCode.BadRequest)
             {
-                tasks.Add(ToPlannerTask(item, runtimeContext.PollInterval));
+                throw new McpProtocolException("Invalid cursor.", McpErrorCode.InvalidParams);
             }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new McpProtocolException("Failed to list tasks.", McpErrorCode.InternalError);
+            }
+
+            var payload = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (JsonNode.Parse(payload) is not JsonObject root)
+            {
+                throw new McpProtocolException("Task list payload is invalid.", McpErrorCode.InternalError);
+            }
+
+            var tasks = new List<McpTask>();
+            if (root["value"] is JsonArray value)
+            {
+                foreach (var item in value.OfType<JsonObject>())
+                {
+                    tasks.Add(ToPlannerTask(item, runtimeContext.PollInterval));
+                }
+            }
+
+            return new ListTasksResult
+            {
+                Tasks = [.. tasks],
+                NextCursor = root["@odata.nextLink"]?.GetValue<string>()
+            };
         }
 
-        return new ListTasksResult
-        {
-            Tasks = [.. tasks],
-            NextCursor = root["@odata.nextLink"]?.GetValue<string>()
-        };
-    }
-
-    public Task<McpTask> CancelTaskAsync(string taskId, string? sessionId = null, CancellationToken cancellationToken = default)
-        => throw new McpProtocolException("Method 'tasks/cancel' is not available.", McpErrorCode.MethodNotFound);
+        public Task<McpTask> CancelTaskAsync(string taskId, string? sessionId = null, CancellationToken cancellationToken = default)
+            => throw new McpProtocolException("Method 'tasks/cancel' is not available.", McpErrorCode.MethodNotFound);*/
 
     public void Dispose()
     {
@@ -247,7 +250,7 @@ internal sealed class PlannerAssignedTasksTaskStore(
         return JsonNode.Parse(payload) as JsonObject;
     }
 
-    private static McpTask ToPlannerTask(JsonObject taskJson, TimeSpan pollInterval)
+    private static McpTaskInfo ToPlannerTask(JsonObject taskJson, TimeSpan pollInterval)
     {
         var taskId = taskJson["id"]?.GetValue<string>();
         if (string.IsNullOrWhiteSpace(taskId))
@@ -259,15 +262,11 @@ internal sealed class PlannerAssignedTasksTaskStore(
         var completedAt = ParseOffset(taskJson["completedDateTime"]);
         var percent = taskJson["percentComplete"]?.GetValue<int>() ?? 0;
 
-        return new McpTask
+        return new McpTaskInfo(taskId, percent >= 100 ? McpTaskStatus.Completed : McpTaskStatus.Working, createdAt,
+            completedAt ?? createdAt,
+            TimeSpan.MaxValue, (long)pollInterval.TotalMilliseconds, taskJson["title"]?.GetValue<string>())
         {
-            TaskId = taskId,
-            Status = percent >= 100 ? McpTaskStatus.Completed : McpTaskStatus.Working,
-            StatusMessage = taskJson["title"]?.GetValue<string>(),
-            CreatedAt = createdAt,
-            LastUpdatedAt = completedAt ?? createdAt,
-            TimeToLive = TimeSpan.MaxValue,
-            PollInterval = pollInterval
+         
         };
     }
 
@@ -280,6 +279,41 @@ internal sealed class PlannerAssignedTasksTaskStore(
         }
 
         return null;
+    }
+
+    public Task<McpTaskInfo> CreateTaskAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<McpTaskInfo?> GetTaskAsync(string taskId, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SetCompletedAsync(string taskId, JsonElement result, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SetFailedAsync(string taskId, JsonElement error, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> SetCancelledAsync(string taskId, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task ResolveInputRequestsAsync(string taskId, IDictionary<string, InputResponse> inputResponses, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SetInputRequestsAsync(string taskId, IDictionary<string, InputRequest> inputRequests, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 }
 #pragma warning restore MCPEXP001

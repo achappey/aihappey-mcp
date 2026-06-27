@@ -1,5 +1,6 @@
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol;
+using ModelContextProtocol.Server;
 
 namespace MCPhappey.Core.Services.Tasks;
 

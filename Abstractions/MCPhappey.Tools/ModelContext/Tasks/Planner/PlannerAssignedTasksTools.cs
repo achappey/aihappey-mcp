@@ -16,8 +16,7 @@ public static class PlannerAssignedTasksTools
         Name = "planner_assigned_tasks_create_and_assign",
         Title = "Create and assign Planner task",
         OpenWorld = false,
-        Destructive = true,
-        TaskSupport = ToolTaskSupport.Optional)]
+        Destructive = true)]
     public static async Task<CallToolResult?> PlannerAssignedTasks_CreateAndAssign(
         [Description("Microsoft 365 group id that owns the Planner plan.")]
         string groupId,
