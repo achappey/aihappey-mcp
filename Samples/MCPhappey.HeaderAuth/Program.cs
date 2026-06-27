@@ -122,6 +122,7 @@ using MCPhappey.Tools.SyntheticSearch;
 using MCPhappey.Tools.Loreto;
 using MCPhappey.Tools.AgentMail;
 using MCPhappey.Tools.WebCrawlerAPI;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -286,6 +287,18 @@ builder.Services
 .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
+
+var appInsightsConnectionString =
+    builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"];
+
+if (!string.IsNullOrWhiteSpace(appInsightsConnectionString))
+{
+    builder.Services.AddOpenTelemetry()
+        .UseAzureMonitor(options =>
+        {
+            options.ConnectionString = appInsightsConnectionString;
+        });
+}
 
 
 if (appConfig?.DomainHeaders is { } headers)
@@ -516,7 +529,7 @@ if (appConfig?.Simplicate != null)
     servers.ApplySimplicateOrganization(appConfig.Simplicate.Organization);
 }
 
-builder.Services.AddMcpCoreServices(servers, appConfig?.TelemetryDatabase);
+builder.Services.AddMcpCoreServices(servers);
 
 var app = builder.Build();
 app.UseCors("AllowSpecificOrigin");

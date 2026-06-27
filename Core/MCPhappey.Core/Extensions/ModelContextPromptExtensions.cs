@@ -1,8 +1,6 @@
 using System.Text.Json;
-using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
-using MCPhappey.Telemetry;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 
@@ -42,10 +40,7 @@ public static partial class ModelContextPromptExtensions
         CancellationToken cancellationToken = default)
     {
         var service = request.Services!.GetRequiredService<PromptService>();
-        var telemtry = request.Services!.GetService<IMcpTelemetryService>();
-        var userId = request.User?.Claims.GetUserOid();
-        var startTime = DateTime.UtcNow;
-
+    
         request.Services!.WithHeaders(headers);
 
         var prompt = await service.GetServerPrompt(request.Services!, request.Server,
@@ -53,18 +48,7 @@ public static partial class ModelContextPromptExtensions
             request.Params?.Arguments?.AsReadOnly() ?? new Dictionary<string, JsonElement>().AsReadOnly(),
             request,
             cancellationToken);
-
-        var endTime = DateTime.UtcNow;
-
-        if (telemtry != null)
-        {
-            await telemtry.TrackPromptRequestAsync(request.Server.ServerOptions.ServerInfo?.Name!,
-                request.Server.SessionId!,
-                request.Server.ClientInfo?.Name!,
-                request.Server.ClientInfo?.Version!,
-                prompt.GetJsonSizeInBytes(), startTime, endTime, userId, request.User?.Identity?.Name, cancellationToken);
-        }
-
+       
         return prompt;
 
     }

@@ -5,7 +5,6 @@ using System.Text.Json.Serialization;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
-using MCPhappey.Telemetry;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
@@ -153,10 +152,6 @@ public static partial class ModelContextToolExtensions
         Dictionary<string, string>? headers = null,
         CancellationToken cancellationToken = default)
     {
-        var telemtry = request.Services!.GetService<IMcpTelemetryService>();
-        var userId = request.User?.Claims.GetUserOid();
-        var startTime = DateTime.UtcNow;
-
         if (server.Plugins?.Any() != true && server.McpExtension == null) return null;
 
         List<McpServerTool>? tools = [];
@@ -166,19 +161,7 @@ public static partial class ModelContextToolExtensions
             tools.AddRange(kernel.GetToolsFromType(pluginTypeName, icons) ?? []);
         }
 
-        var result = await request.GetCallToolResult(tools, server, headers, cancellationToken: cancellationToken);
-
-        var endTime = DateTime.UtcNow;
-
-        if (telemtry != null)
-        {
-            await telemtry.TrackToolRequestAsync(request.Server.ServerOptions.ServerInfo?.Name!,
-                request.Server.SessionId!,
-                request.Server.ClientInfo?.Name!,
-                request.Server.ClientInfo?.Version!,
-                request.Params?.Name!,
-                result.GetJsonSizeInBytes(), startTime, endTime, userId, request.User?.Identity?.Name, cancellationToken);
-        }
+        var result = await request.GetCallToolResult(tools, server, headers, cancellationToken: cancellationToken);    
 
         return result;
     }

@@ -1,7 +1,6 @@
 using MCPhappey.Common;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
-using MCPhappey.Telemetry.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.KernelMemory.DataFormats.WebPages;
@@ -13,8 +12,7 @@ public static class AspNetCoreExtensions
 {
     public static IServiceCollection AddMcpCoreServices(
         this IServiceCollection services,
-        List<ServerConfig> servers,
-        string? telemetryDatabase = null)
+        List<ServerConfig> servers)
     {
         services.AddHttpContextAccessor();
 
@@ -38,12 +36,7 @@ public static class AspNetCoreExtensions
         services.AddKernel();
 
         services.AddMcpServer()
-            .WithConfigureSessionOptions(servers);
-
-        if (telemetryDatabase != null)
-        {
-            services.AddTelemetryServices(telemetryDatabase);
-        }
+            .WithConfigureSessionOptions(servers);    
 
         return services;
     }

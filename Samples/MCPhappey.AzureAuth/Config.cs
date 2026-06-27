@@ -10,8 +10,6 @@ public class Config
 {
     public string? McpDatabase { get; set; }
 
-    public string? TelemetryDatabase { get; set; }
-
     public string? DarkIcon { get; set; }
 
     public string? LightIcon { get; set; }
