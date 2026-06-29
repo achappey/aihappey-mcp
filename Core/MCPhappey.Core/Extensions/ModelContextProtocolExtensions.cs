@@ -16,6 +16,7 @@ public static class ModelContextProtocolExtensions
     public static IMcpServerBuilder WithConfigureSessionOptions(this IMcpServerBuilder mcpBuilder,
         IEnumerable<ServerConfig> servers) => mcpBuilder.WithHttpTransport(http =>
         {
+            http.Stateless = false;
             http.ConfigureSessionOptions = async (ctx, opts, cancellationToken) =>
              {
                  var kernel = ctx.RequestServices.GetRequiredService<Kernel>();
