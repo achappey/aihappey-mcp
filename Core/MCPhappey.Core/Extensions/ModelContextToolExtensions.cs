@@ -95,6 +95,9 @@ public static partial class ModelContextToolExtensions
         }
         catch (Exception e)
         {
+            if (e is InputRequiredException)
+                throw;
+
             return e.Message.ToErrorCallToolResponse();
         }
     }
@@ -161,7 +164,7 @@ public static partial class ModelContextToolExtensions
             tools.AddRange(kernel.GetToolsFromType(pluginTypeName, icons) ?? []);
         }
 
-        var result = await request.GetCallToolResult(tools, server, headers, cancellationToken: cancellationToken);    
+        var result = await request.GetCallToolResult(tools, server, headers, cancellationToken: cancellationToken);
 
         return result;
     }
@@ -357,18 +360,10 @@ public static partial class ModelContextToolExtensions
                           ElicitationHandler = request.Server.ClientCapabilities?.Elicitation != null
                             ? async (req, cancellationToken) => await request.Server.ElicitAsync(req!, cancellationToken)
                           : null,
-                          RootsHandler = request.Server.ClientCapabilities?.Roots != null
-                            ? async (req, cancellationToken) => await request.Server.RequestRootsAsync(req!, cancellationToken)
-                          : null,
-                          SamplingHandler = request.Server.ClientCapabilities?.Sampling != null
-                            ? async (req, progress, cancellationToken) => await request.Server.SampleAsync(req!, cancellationToken)
-                          : null
                       },
                       Capabilities = new ClientCapabilities()
                       {
-                          Sampling = request.Server.ClientCapabilities?.Sampling,
                           Elicitation = request.Server.ClientCapabilities?.Elicitation,
-                          Roots = request.Server.ClientCapabilities?.Roots
                       }
                   },
                   cancellationToken: cancellationToken);
