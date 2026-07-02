@@ -443,12 +443,12 @@ public static class ModelContextUtils
                     Task.FromResult(result));
             }
 
-              if (!requestContext.Server.IsMrtrSupported)
-               {
-                   return "This tool requires MRTR/input-required support."
-                       .ToTextContentBlock()
-                       .ToCallToolResult();
-               }
+            if (!requestContext.Server.IsMrtrSupported)
+            {
+                return "This tool requires MRTR/input-required support."
+                    .ToTextContentBlock()
+                    .ToCallToolResult();
+            }
 
             var propName = string.IsNullOrWhiteSpace(fieldName)
                 ? "selection"
