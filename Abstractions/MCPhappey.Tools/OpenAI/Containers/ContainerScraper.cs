@@ -5,6 +5,7 @@ using MCPhappey.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Server;
 using OpenAI;
+using OAIC = OpenAI.Containers;
 
 namespace MCPhappey.Tools.OpenAI.Containers;
 
@@ -37,7 +38,10 @@ public class ContainerScraper : IContentScraper
             segments[^1] == "files")
         {
             containerId = segments[2];
-            var files = await client.GetContainerFilesAsync(containerId, cancellationToken: cancellationToken).MaterializeToListAsync(cancellationToken);
+            var files = await client.GetContainerFilesAsync(new OAIC.ContainerFileCollectionOptions()
+            {
+                ContainerId = containerId
+            }, cancellationToken: cancellationToken).MaterializeToListAsync(cancellationToken);
 
             return files.Select(f => f.ToFileItem(url));
         }
