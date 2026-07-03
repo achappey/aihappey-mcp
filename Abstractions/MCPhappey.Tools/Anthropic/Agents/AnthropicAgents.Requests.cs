@@ -284,4 +284,32 @@ public static partial class AnthropicAgents
         [Description("URL of the JSON Schema file for the tool input. SharePoint and OneDrive URLs are supported.")]
         public string FileUrl { get; set; } = string.Empty;
     }
+
+    [Description("Please confirm the Anthropic agent multi-agent roster agent mutation request.")]
+    public sealed class AnthropicAgentMultiagentAgentMutationRequest
+    {
+        [JsonPropertyName("agentId")]
+        [Required]
+        [Description("Coordinator agent ID to mutate.")]
+        public string AgentId { get; set; } = string.Empty;
+
+        [JsonPropertyName("rosterAgentId")]
+        [Required]
+        [Description("Agent ID to add to the coordinator roster.")]
+        public string RosterAgentId { get; set; } = string.Empty;
+
+        [JsonPropertyName("rosterAgentVersion")]
+        [Range(1, int.MaxValue)]
+        [Description("Optional version to pin for the roster agent. Omit to let Anthropic resolve the latest version during update.")]
+        public int? RosterAgentVersion { get; set; }
+    }
+
+    [Description("Please confirm the Anthropic agent multi-agent self roster mutation request.")]
+    public sealed class AnthropicAgentMultiagentSelfMutationRequest
+    {
+        [JsonPropertyName("agentId")]
+        [Required]
+        [Description("Coordinator agent ID to mutate.")]
+        public string AgentId { get; set; } = string.Empty;
+    }
 }

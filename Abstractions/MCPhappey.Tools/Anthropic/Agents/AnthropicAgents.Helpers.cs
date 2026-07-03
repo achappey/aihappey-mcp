@@ -268,6 +268,103 @@ public static partial class AnthropicAgents
             tools.Remove(toolset);
     }
 
+    private static JsonObject EnsureMultiagentCoordinator(JsonObject currentAgent)
+    {
+        var multiagent = AnthropicManagedAgentsHttp.CloneObject(currentAgent["multiagent"]);
+        var type = multiagent["type"]?.GetValue<string>();
+
+        if (!string.IsNullOrWhiteSpace(type)
+            && !string.Equals(type, MultiagentCoordinatorType, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new ValidationException($"Unsupported multiagent type '{type}'. Only '{MultiagentCoordinatorType}' is supported.");
+        }
+
+        multiagent["type"] = MultiagentCoordinatorType;
+        _ = EnsureMultiagentAgentsArray(multiagent);
+
+        return multiagent;
+    }
+
+    private static JsonArray EnsureMultiagentAgentsArray(JsonObject multiagent)
+    {
+        if (multiagent["agents"] is JsonArray agents)
+            return agents;
+
+        agents = new JsonArray();
+        multiagent["agents"] = agents;
+        return agents;
+    }
+
+    private static void ValidateRosterAgent(string? rosterAgentId, int? rosterAgentVersion)
+    {
+        if (string.IsNullOrWhiteSpace(rosterAgentId))
+            throw new ValidationException("rosterAgentId is required.");
+
+        if (rosterAgentVersion.HasValue && rosterAgentVersion.Value < 1)
+            throw new ValidationException("rosterAgentVersion must be at least 1 when provided.");
+    }
+
+    private static bool RemoveMultiagentAgent(JsonArray agents, string rosterAgentId)
+    {
+        var removed = false;
+
+        for (var index = agents.Count - 1; index >= 0; index--)
+        {
+            if (agents[index] is not JsonObject agent)
+                continue;
+
+            if (!string.Equals(agent["type"]?.GetValue<string>(), MultiagentAgentType, StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            if (!string.Equals(agent["id"]?.GetValue<string>(), rosterAgentId, StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            agents.RemoveAt(index);
+            removed = true;
+        }
+
+        return removed;
+    }
+
+    private static bool RemoveMultiagentSelf(JsonArray agents)
+    {
+        var removed = false;
+
+        for (var index = agents.Count - 1; index >= 0; index--)
+        {
+            if (agents[index] is not JsonObject agent)
+                continue;
+
+            if (!string.Equals(agent["type"]?.GetValue<string>(), MultiagentSelfType, StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            agents.RemoveAt(index);
+            removed = true;
+        }
+
+        return removed;
+    }
+
+    private static void ValidateMultiagentRosterLimit(JsonArray agents)
+    {
+        if (agents.Count > MultiagentRosterLimit)
+            throw new ValidationException($"multiagent.agents cannot contain more than {MultiagentRosterLimit} entries.");
+    }
+
+    private static void SetMultiagentOrClear(JsonObject body, JsonObject multiagent)
+    {
+        var agents = EnsureMultiagentAgentsArray(multiagent);
+
+        if (agents.Count > 0)
+        {
+            ValidateMultiagentRosterLimit(agents);
+            body["multiagent"] = multiagent;
+            return;
+        }
+
+        body.Add("multiagent", null);
+    }
+
     private static async Task<JsonObject> LoadCustomToolInputSchemaAsync(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,

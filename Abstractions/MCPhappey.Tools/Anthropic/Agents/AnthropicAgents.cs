@@ -15,6 +15,10 @@ public static partial class AnthropicAgents
     private const string AgentToolsetType = "agent_toolset_20260401";
     private const string McpToolsetType = "mcp_toolset";
     private const string CustomToolType = "custom";
+    private const string MultiagentCoordinatorType = "coordinator";
+    private const string MultiagentAgentType = "agent";
+    private const string MultiagentSelfType = "self";
+    private const int MultiagentRosterLimit = 20;
 
     [Description("Please confirm to delete: {0}")]
     public sealed class AnthropicDeleteAgentItem : IHasName
