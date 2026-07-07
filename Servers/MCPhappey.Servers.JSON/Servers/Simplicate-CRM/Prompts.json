@@ -238,6 +238,28 @@
         "description": "Toont kerncijfers: totaal aantal bedrijven, personen, contactpersonen en gemiddeld aantal contactpersonen per bedrijf. Alles gebaseerd op count-requests met filters.",
         "arguments": []
       }
+    },
+    {
+      "prompt": "Zoek alle actieve contactpersonen met interesse {interesse}, gefilterd op relatiebeheerder {medewerkerNaam}.",
+      "template": {
+        "name": "crm-contactpersonen-op-interesse-en-relatiebeheerder",
+        "title": "Contactpersonen op interesse en relatiebeheerder",
+        "description": "Zoekt actieve contactpersonen op basis van interesse en relatiebeheerder.",
+        "arguments": [
+          {
+            "name": "interesse",
+            "title": "Interesse",
+            "description": "Interesse waarop je wilt zoeken.",
+            "required": true
+          },
+          {
+            "name": "medewerkerNaam",
+            "title": "Naam relatiebeheerder",
+            "description": "Naam van de relatiebeheerder.",
+            "required": true
+          }
+        ]
+      }
     }
   ]
 }

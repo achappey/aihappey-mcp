@@ -14,6 +14,196 @@ namespace MCPhappey.Simplicate.CRM;
 
 public static partial class SimplicateCRM
 {
+    [Description("Get active Simplicate CRM contactperson links for persons owned by a relation manager and tagged with a contact interest.")]
+    [McpServerTool(Title = "Get contactpersons by relation manager and interest in Simplicate",
+        Name = "simplicate_crm_get_contactpersons_by_relation_manager_and_interest",
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> SimplicateCRM_GetContactpersonsByRelationManagerAndInterest(
+        [Description("Exact or partial text value of the person relation manager name.")] string relationManagerName,
+        [Description("The Simplicate contact interest id to match, for example interest:456e8b19c0079647.")] string interestId,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+            var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+
+            var normalizedRelationManagerName = relationManagerName.Trim();
+            var normalizedInterestId = interestId.Trim().EnsurePrefix("interest");
+            var select = "id,full_name,first_name,family_name,email,is_active,relation_manager.,linked_as_contact_to_organization.,linked_as_contact_to_organization.interests.";
+
+            var filters = new List<string>
+            {
+                "q[is_active]=true",
+                $"q[relation_manager.name]=*{Uri.EscapeDataString(normalizedRelationManagerName)}*",
+                $"select={select}",
+                "sort=full_name"
+            };
+
+            var persons = await downloadService.GetAllSimplicatePagesAsync<SimplicatePerson>(
+                serviceProvider,
+                requestContext.Server,
+                simplicateOptions.GetApiUrl("/crm/person"),
+                string.Join("&", filters),
+                page => $"Downloading persons for relation manager '{normalizedRelationManagerName}' page {page}",
+                requestContext,
+                cancellationToken: cancellationToken);
+
+            var contactLinksScanned = 0;
+            var contactLinksWithoutId = 0;
+            var inactiveContactLinksSkipped = 0;
+
+            var matches = persons
+                .SelectMany(person => (person.LinkedAsContactToOrganization ?? [])
+                    .Select(contact => new { Person = person, Contact = contact }))
+                .Select(pair =>
+                {
+                    contactLinksScanned++;
+                    return pair;
+                })
+                .Where(pair =>
+                {
+                    if (!string.IsNullOrWhiteSpace(pair.Contact.Id))
+                        return true;
+
+                    contactLinksWithoutId++;
+                    return false;
+                })
+                .Where(pair =>
+                {
+                    if (pair.Contact.IsActive != false)
+                        return true;
+
+                    inactiveContactLinksSkipped++;
+                    return false;
+                })
+                .Select(pair => new
+                {
+                    pair.Person,
+                    pair.Contact,
+                    MatchingInterests = (pair.Contact.Interests ?? [])
+                        .Where(interest =>
+                            interest.Value &&
+                            string.Equals(interest.Id, normalizedInterestId, StringComparison.OrdinalIgnoreCase))
+                        .ToList()
+                })
+                .Where(pair => pair.MatchingInterests.Count > 0)
+                .ToList();
+
+            var organizationNameMap = await BuildContactpersonOrganizationNameMapAsync(
+                serviceProvider,
+                requestContext,
+                downloadService,
+                simplicateOptions,
+                matches.Select(match => match.Contact.OrganizationId),
+                cancellationToken);
+
+            var contactpersons = matches
+                .Select(pair => new
+                {
+                    contactperson_id = pair.Contact.Id,
+                    person_id = pair.Person.Id,
+                    organization_id = pair.Contact.OrganizationId,
+                    person_name = pair.Person.FullName,
+                    organization_name = ResolveContactpersonOrganizationName(pair.Contact.OrganizationId, organizationNameMap),
+                    work_email = pair.Contact.WorkEmail,
+                    work_function = pair.Contact.WorkFunction,
+                    work_mobile = pair.Contact.WorkMobile,
+                    interests = pair.MatchingInterests.Select(interest => new
+                    {
+                        id = interest.Id,
+                        name = interest.Name,
+                        api_name = interest.ApiName,
+                        value = interest.Value
+                    }).ToList()
+                })
+                .OrderBy(contact => contact.organization_name)
+                .ThenBy(contact => contact.work_email)
+                .ThenBy(contact => contact.person_id)
+                .ToList();
+
+            return new
+            {
+                filters = new
+                {
+                    relation_manager_name = normalizedRelationManagerName,
+                    interest_id = normalizedInterestId,
+                    active_persons_only = true,
+                    active_contact_links_only = true
+                },
+                source = new
+                {
+                    persons_fetched = persons.Count,
+                    persons_with_contact_links = persons.Count(person => person.LinkedAsContactToOrganization?.Count > 0),
+                    contact_links_scanned = contactLinksScanned,
+                    contact_links_without_id = contactLinksWithoutId,
+                    inactive_contact_links_skipped = inactiveContactLinksSkipped
+                },
+                matched_count = contactpersons.Count,
+                contactpersons
+            };
+        }));
+
+    private static async Task<Dictionary<string, string>> BuildContactpersonOrganizationNameMapAsync(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        DownloadService downloadService,
+        SimplicateOptions simplicateOptions,
+        IEnumerable<string?> organizationIds,
+        CancellationToken cancellationToken)
+    {
+        var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var ids = organizationIds
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .Select(id => id!.Trim())
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        foreach (var id in ids)
+        {
+            try
+            {
+                var normalizedId = id.EnsurePrefix("organization");
+                var item = await downloadService.GetSimplicateItemAsync<SimplicateOrganization>(
+                    serviceProvider,
+                    requestContext.Server,
+                    simplicateOptions.GetApiUrl("/crm/organization/" + normalizedId),
+                    cancellationToken);
+
+                var name = item?.Data?.Name;
+                if (string.IsNullOrWhiteSpace(name))
+                    continue;
+
+                map[id] = name.Trim();
+                map[normalizedId] = name.Trim();
+            }
+            catch
+            {
+                // Best effort only; result rows fall back to the organization id when the name cannot be resolved.
+            }
+        }
+
+        return map;
+    }
+
+    private static string? ResolveContactpersonOrganizationName(
+        string? organizationId,
+        IReadOnlyDictionary<string, string> organizationNameMap)
+    {
+        if (string.IsNullOrWhiteSpace(organizationId))
+            return null;
+
+        var normalizedOrganizationId = organizationId.Trim();
+        return organizationNameMap.TryGetValue(normalizedOrganizationId, out var name)
+            ? name
+            : normalizedOrganizationId;
+    }
+
     [Description("Add an organization contact link to an existing person in Simplicate CRM. The client confirms the final work email and job title through elicitation before the person is updated.")]
     [McpServerTool(Title = "Add organization contact to person in Simplicate",
         Name = "simplicate_crm_add_organization_contact_to_person",
@@ -74,7 +264,7 @@ public static partial class SimplicateCRM
         var content = await scraper.PutSimplicateItemAsync(
             serviceProvider,
             simplicateOptions.GetApiUrl("/crm/person/" + personId),
-            body,   
+            body,
             cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();
@@ -173,7 +363,7 @@ public static partial class SimplicateCRM
         var content = await scraper.PutSimplicateItemAsync(
             serviceProvider,
             simplicateOptions.GetApiUrl("/crm/person/" + personId),
-            body,         
+            body,
             cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();
@@ -225,7 +415,7 @@ public static partial class SimplicateCRM
                 await scraper.PutSimplicateItemAsync(
                     serviceProvider,
                     simplicateOptions.GetApiUrl("/crm/person/" + normalizedPersonId),
-                    body,                   
+                    body,
                     cancellationToken: ct);
             },
             $"Linked contactperson '{contactPersonId}' deleted from person '{normalizedPersonId}'.",
@@ -279,7 +469,7 @@ public static partial class SimplicateCRM
                     serviceProvider,
                     simplicateOptions.GetApiUrl("/crm/organization/" + normalizedOrganizationId),
                     body,
-                    
+
                     cancellationToken: ct);
             },
             $"Linked contactperson '{contactPersonId}' deleted from organization '{normalizedOrganizationId}'.",
@@ -365,7 +555,7 @@ public static partial class SimplicateCRM
         var content = await scraper.PutSimplicateItemAsync(
             serviceProvider,
             simplicateOptions.GetApiUrl("/crm/person/" + personId),
-            body,          
+            body,
             cancellationToken: cancellationToken);
 
         return content?.ToCallToolResult();

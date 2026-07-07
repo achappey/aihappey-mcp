@@ -86,6 +86,11 @@ public static partial class SimplicateCRM
         [Description("The person's family name or surname.")]
         public string? FamilyName { get; set; }
 
+        [JsonPropertyName("full_name")]
+        [Required]
+        [Description("The person's full name.")]
+        public string? FullName { get; set; }
+
         [JsonPropertyName("note")]
         [Description("A note or comment about the person.")]
         public string? Note { get; set; }
@@ -132,6 +137,10 @@ public static partial class SimplicateCRM
         [JsonPropertyName("id")]
         [Description("The contact link id.")]
         public string? Id { get; set; }
+
+        [JsonPropertyName("is_active")]
+        [Description("Whether this person-organization contact link is active.")]
+        public bool? IsActive { get; set; }
 
         [JsonPropertyName("work_function")]
         [Description("Job title / work function of the contact person in the organization.")]
