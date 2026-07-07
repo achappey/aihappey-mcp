@@ -12,7 +12,7 @@
     ]
   },
   "plugins": [
-    "MCPhappey.Tools.GitHub.PdfSharp.PdfSharpTools, MCPhappey.Tools"
+    "MCPhappey.Tools.GitHub.AngleSharp.AngleSharpTools, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
