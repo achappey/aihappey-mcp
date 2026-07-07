@@ -269,6 +269,10 @@ public class SimplicateCompletion(
             (value, _) => $"invoices/remindertemplate?q[label]=*{value}*&sort=label&select=label",
             (item, _) => item.Label),
 
+        ["interesse"] = new CompletionSource<SimplicateNameItem>(
+            (value, _) => $"crm/interests",
+            (item, _) => item.Name),
+
     };
 
     public class SimplicateDebtorItem
