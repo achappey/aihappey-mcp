@@ -21,7 +21,7 @@ public static class AgentMailInboxes
         [Description("Optional display name, for example Display Name <username@domain.com>.")] string? displayName = null,
         [Description("Optional client-provided inbox idempotency/reference id.")] string? clientId = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailCreateInboxRequest
@@ -45,7 +45,7 @@ public static class AgentMailInboxes
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailUpdateInboxRequest
@@ -72,7 +72,7 @@ public static class AgentMailInboxes
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             AgentMailHelpers.Require(inboxId, nameof(inboxId));
             var client = serviceProvider.GetRequiredService<AgentMailClient>();
@@ -94,7 +94,7 @@ public static class AgentMailInboxes
         [Description("Optional display name, for example Display Name <username@domain.com>.")] string? displayName = null,
         [Description("Optional client-provided inbox idempotency/reference id.")] string? clientId = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailCreatePodInboxRequest
@@ -120,7 +120,7 @@ public static class AgentMailInboxes
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             AgentMailHelpers.Require(podId, nameof(podId));
             AgentMailHelpers.Require(inboxId, nameof(inboxId));
@@ -142,7 +142,7 @@ public static class AgentMailInboxes
         [Description("Optional labels to add, comma/semicolon/newline separated.")] string? addLabels = null,
         [Description("Optional labels to remove, comma/semicolon/newline separated.")] string? removeLabels = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailUpdateMessageRequest
@@ -200,7 +200,7 @@ public static class AgentMailInboxes
         [Description("Optional JSON array of SendAttachment objects.")] string? attachmentsJson = null,
         [Description("Optional JSON object of custom headers.")] string? headersJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailReplyMessageRequest
@@ -243,7 +243,7 @@ public static class AgentMailInboxes
         [Description("Optional JSON array of SendAttachment objects.")] string? attachmentsJson = null,
         [Description("Optional JSON object of custom headers.")] string? headersJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailReplyAllMessageRequest
@@ -337,7 +337,7 @@ public static class AgentMailInboxes
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             AgentMailHelpers.Require(inboxId, nameof(inboxId));
             AgentMailHelpers.Require(draftId, nameof(draftId));
@@ -359,7 +359,7 @@ public static class AgentMailInboxes
         [Description("Optional labels to add before sending, comma/semicolon/newline separated.")] string? addLabels = null,
         [Description("Optional labels to remove before sending, comma/semicolon/newline separated.")] string? removeLabels = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailSendDraftRequest
@@ -387,7 +387,7 @@ public static class AgentMailInboxes
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             AgentMailHelpers.Require(inboxId, nameof(inboxId));
             AgentMailHelpers.Require(threadId, nameof(threadId));
@@ -406,7 +406,7 @@ public static class AgentMailInboxes
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailCreateApiKeyRequest
@@ -427,7 +427,7 @@ public static class AgentMailInboxes
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             AgentMailHelpers.Require(apiKey, nameof(apiKey));
             var client = serviceProvider.GetRequiredService<AgentMailClient>();
@@ -456,7 +456,7 @@ public static class AgentMailInboxes
         string? attachmentsJson,
         string? headersJson,
         CancellationToken cancellationToken)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailSendMessageRequest
@@ -505,7 +505,7 @@ public static class AgentMailInboxes
         string? sendAt,
         string? clientId,
         CancellationToken cancellationToken)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailDraftRequest

@@ -39,7 +39,7 @@ public static class APIpieData
         [Description("User identifier for billing observability purposes.")]
         string? user = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<APIpieClient>();
@@ -128,7 +128,7 @@ public static class APIpieData
         [Description("User identifier for billing observability purposes.")]
         string? user = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<APIpieClient>();
@@ -233,7 +233,7 @@ public static class APIpieData
         [Description("User identifier for billing observability purposes.")]
         string? user = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<APIpieClient>();
@@ -337,7 +337,7 @@ public static class APIpieData
         [Description("User identifier for billing observability purposes.")]
         string? user = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<APIpieClient>();
@@ -387,7 +387,7 @@ public static class APIpieData
         [Description("User identifier for billing observability purposes.")]
         string? user = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<APIpieClient>();

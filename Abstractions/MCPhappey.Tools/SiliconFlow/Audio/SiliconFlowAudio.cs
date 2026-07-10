@@ -39,7 +39,7 @@ public static class SiliconFlowAudio
         [Description("Output gain from -10 to 10. Default: 0.")] double gain = 0,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(input);
 
@@ -140,7 +140,7 @@ public static class SiliconFlowAudio
         [Description("Transcription model. FunAudioLLM/SenseVoiceSmall or TeleAI/TeleSpeechASR.")] string model = "FunAudioLLM/SenseVoiceSmall",
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

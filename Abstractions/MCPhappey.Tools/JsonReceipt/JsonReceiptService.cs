@@ -24,7 +24,7 @@ public static class JsonReceiptService
         [Description("Receipt file URL (SharePoint/OneDrive/HTTP) to process. Supported formats: JPEG, PNG, WEBP, PDF.")] string fileUrl,
         [Description("Response format: json or xml. Default: json.")] string format = "json",
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequest(fileUrl, format);

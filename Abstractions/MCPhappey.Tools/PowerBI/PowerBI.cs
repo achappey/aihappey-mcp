@@ -22,7 +22,7 @@ public static class PowerBI
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var mcpServer = requestContext.Server;
             PowerBIClient client = await serviceProvider.GetOboPowerBIClient(mcpServer);
@@ -56,7 +56,7 @@ public static class PowerBI
     IServiceProvider serviceProvider,
     RequestContext<CallToolRequestParams> requestContext,
     CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var mcpServer = requestContext.Server;
         var client = await serviceProvider.GetOboPowerBIClient(mcpServer);
@@ -106,7 +106,7 @@ public static class PowerBI
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var mcpServer = requestContext.Server;
         var client = await serviceProvider.GetOboPowerBIClient(mcpServer);

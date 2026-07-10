@@ -17,7 +17,7 @@ public static class GraphAuthenticationMethodsAdmin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new AddEmailInput
@@ -43,7 +43,7 @@ public static class GraphAuthenticationMethodsAdmin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new AddPhoneInput
@@ -71,7 +71,7 @@ public static class GraphAuthenticationMethodsAdmin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new UpdatePhoneInput
@@ -101,7 +101,7 @@ public static class GraphAuthenticationMethodsAdmin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new AddTapInput
@@ -130,7 +130,7 @@ public static class GraphAuthenticationMethodsAdmin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new SetPhoneSmsInput
@@ -154,7 +154,7 @@ public static class GraphAuthenticationMethodsAdmin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new ResetPasswordInput
@@ -180,7 +180,7 @@ public static class GraphAuthenticationMethodsAdmin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new DeleteMethodInput

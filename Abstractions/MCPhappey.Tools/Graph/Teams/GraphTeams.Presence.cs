@@ -22,7 +22,7 @@ public static partial class GraphTeams
         [Description("Status message")] string statusMessage,
         [Description("Message type")] BodyType? messageType = BodyType.Text,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
@@ -75,7 +75,7 @@ public static partial class GraphTeams
         [Description("Activity (Available, InACall, InAConferenceCall, Presenting, Away, etc.)")] string activity,
         [Description("Expiration duration in ISO8601 duration format, e.g. 'PT1H' for 1 hour. Optional.")] string? expirationDuration = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var oauth = serviceProvider.GetService<OAuthSettings>();

@@ -23,7 +23,7 @@ public static class GraphListItems
       [Description("Default values for the list item fields. Use fieldname as key and defaultvalue as value. No nested objects. These override the current item values in the form.")]
       Dictionary<string, object?>? defaultValues = null,
       CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
 {
@@ -253,7 +253,7 @@ public static class GraphListItems
            [Description("Default values for the new list item fields. Use fieldname as key and defaultvalue as value. No nested objects.")]
             Dictionary<string, object?>? defaultValues = null,
           CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
@@ -483,7 +483,7 @@ public static class GraphListItems
             string itemId,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.ConfirmAndDeleteAsync<DeleteSharePointListItem>(
             itemId,

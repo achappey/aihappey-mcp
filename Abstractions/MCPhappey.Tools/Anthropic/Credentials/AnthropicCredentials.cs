@@ -21,7 +21,7 @@ public static partial class AnthropicCredentials
         [Description("Optional metadata JSON object. Owner security is inherited from the parent vault.")] string? metadataJson = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateCredentialRequest
@@ -77,7 +77,7 @@ public static partial class AnthropicCredentials
         [Description("Optional metadata patch JSON object. Set keys to strings to upsert, or null to delete. Owner security is inherited from the parent vault.")] string? metadataPatchJson = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateCredentialRequest
@@ -138,7 +138,7 @@ public static partial class AnthropicCredentials
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveCredentialRequest
@@ -170,7 +170,7 @@ public static partial class AnthropicCredentials
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedVaultId = AnthropicVaults.NormalizeVaultId(vaultId);

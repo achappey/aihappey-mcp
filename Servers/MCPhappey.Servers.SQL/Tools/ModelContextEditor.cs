@@ -33,7 +33,7 @@ public static partial class ModelContextEditor
     [Description("When true, include full server details such as prompts, resources, templates and tools.")]
     bool includeDetails = false,
     CancellationToken cancellationToken = default) =>
-    await requestContext.WithExceptionCheck(async () =>
+    await ModelContextToolExtensions.WithExceptionCheck(async () =>
     await requestContext.WithStructuredContent(async () =>
     {
         var servers = await serviceProvider.GetServers(cancellationToken);
@@ -117,7 +117,7 @@ public static partial class ModelContextEditor
      [Description("Name of the new server")]
         string? newServerName = null,
      CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var serverConfigs = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>();
@@ -347,7 +347,7 @@ public static partial class ModelContextEditor
         [Description("Enable to exclude the MCP server from the MCP registry.")]
         bool? hidden = false,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
@@ -417,7 +417,7 @@ public static partial class ModelContextEditor
         [Description("If the server should be hidden")]
         bool? hidden = null,
       CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
@@ -472,7 +472,7 @@ public static partial class ModelContextEditor
     RequestContext<CallToolRequestParams> requestContext,
     IServiceProvider serviceProvider,
     CancellationToken cancellationToken = default) =>
-    await requestContext.WithExceptionCheck(async () =>
+    await ModelContextToolExtensions.WithExceptionCheck(async () =>
 {
     var repo = serviceProvider.GetRequiredService<ServerRepository>();
 

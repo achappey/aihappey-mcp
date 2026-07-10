@@ -651,7 +651,7 @@ public static class DumplingAIData
         CancellationToken cancellationToken,
         string summary,
         Action? validate = null)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 validate?.Invoke();

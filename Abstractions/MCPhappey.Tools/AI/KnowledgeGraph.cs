@@ -23,7 +23,7 @@ public static class KnowledgeGraph
           RequestContext<CallToolRequestParams> requestContext,
           [Description("Optional model name override. Defaults to a balanced reasoning model.")] string? modelName = null,
           CancellationToken cancellationToken = default) =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext.WithStructuredContent(async () =>
       {
           var samplingService = serviceProvider.GetRequiredService<SamplingService>();

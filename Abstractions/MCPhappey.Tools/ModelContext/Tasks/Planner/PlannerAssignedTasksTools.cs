@@ -29,7 +29,7 @@ public static class PlannerAssignedTasksTools
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(groupId)) throw new ArgumentException("groupId is required.");

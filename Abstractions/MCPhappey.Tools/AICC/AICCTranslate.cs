@@ -25,7 +25,7 @@ public static class AICCTranslate
         [Description("Optional source language code (for example: en).")]
         string? sl = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
@@ -78,7 +78,7 @@ public static class AICCTranslate
         [Description("Optional source language code (for example: en).")]
         string? sl = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(

@@ -32,7 +32,7 @@ public static class ElevenLabsAudio
         [Description("Model name. Default: eleven_multilingual_v2")] string model_id = "eleven_multilingual_v2",
         [Description("Output filename (without extension).")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var settings = serviceProvider.GetRequiredService<ElevenLabsSettings>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -124,7 +124,7 @@ public static class ElevenLabsAudio
         [Description("Optional language code. Auto if null.")] string? language_code = null,
         [Description("File name of resulting transcript.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var settings = serviceProvider.GetRequiredService<ElevenLabsSettings>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();

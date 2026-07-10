@@ -17,7 +17,7 @@ public static class NationaleWoningbouwkaartTools
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = CreateClient(serviceProvider);
@@ -39,7 +39,7 @@ public static class NationaleWoningbouwkaartTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Maximum number of matches to return. Hard-capped at 25.")] int maxResults = 25,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -64,7 +64,7 @@ public static class NationaleWoningbouwkaartTools
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = CreateClient(serviceProvider);
@@ -86,7 +86,7 @@ public static class NationaleWoningbouwkaartTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Maximum number of matches to return. Hard-capped at 25.")] int maxResults = 25,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -111,7 +111,7 @@ public static class NationaleWoningbouwkaartTools
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = CreateClient(serviceProvider);
@@ -133,7 +133,7 @@ public static class NationaleWoningbouwkaartTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Maximum number of matches to return. Hard-capped at 25.")] int maxResults = 25,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);

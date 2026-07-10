@@ -27,7 +27,7 @@ public static class CaseDevAgents
         [Description("Optional sandbox CPU count.")] int? sandboxCpu = null,
         [Description("Optional sandbox memory in MiB.")] int? sandboxMemoryMiB = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new CaseDevCreateAgentRequest
@@ -93,7 +93,7 @@ public static class CaseDevAgents
         [Description("Optional sandbox CPU count.")] int? sandboxCpu = null,
         [Description("Optional sandbox memory in MiB.")] int? sandboxMemoryMiB = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new CaseDevUpdateAgentRequest
@@ -149,7 +149,7 @@ public static class CaseDevAgents
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new ValidationException("id is required.");

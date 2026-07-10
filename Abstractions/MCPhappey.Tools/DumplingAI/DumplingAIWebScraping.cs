@@ -96,7 +96,7 @@ public static class DumplingAIWebScraping
         [Description("Optional filename for base64 file input.")] string? inputFileName = null,
         [Description("Optional MIME type for base64 file input.")] string? inputFileMimeType = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 DumplingAIHelpers.EnsureExclusiveFileInput(fileUrl, inputFileBase64, "extract");
@@ -141,7 +141,7 @@ public static class DumplingAIWebScraping
         JsonObject payload,
         CancellationToken cancellationToken,
         string summary)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<DumplingAIClient>();

@@ -30,7 +30,7 @@ public static class SimplicateCRMContactSync
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional comma-separated Simplicate team names. When provided, contacts from those teams are merged with relation-manager contacts.")] string? teamNamesCsv = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();

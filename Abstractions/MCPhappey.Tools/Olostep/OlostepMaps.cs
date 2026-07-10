@@ -24,7 +24,7 @@ public static class OlostepMaps
         [Description("Exclude URL path patterns as newline-separated or comma-separated glob strings.")] string? exclude_urls = null,
         [Description("Pagination cursor returned by a previous map response.")] string? cursor = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new OlostepCreateMapRequest
@@ -82,7 +82,7 @@ public static class OlostepMaps
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Map identifier returned by Olostep map creation.")] string map_id,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new OlostepGetMapRequest

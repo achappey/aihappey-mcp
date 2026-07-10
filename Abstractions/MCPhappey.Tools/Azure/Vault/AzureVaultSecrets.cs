@@ -30,7 +30,7 @@ public static class AzureVaultSecrets
         [Description("Optional expires-on timestamp in ISO 8601 UTC format.")] string? expiresOnUtc = null,
         [Description("Optional tags as comma-separated key=value pairs.")] string? tagsCsv = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(vaultUri);
@@ -106,7 +106,7 @@ public static class AzureVaultSecrets
         [Description("Optional expires-on timestamp in ISO 8601 UTC format.")] string? expiresOnUtc = null,
         [Description("Optional tags as comma-separated key=value pairs. When provided, replaces the version tags.")] string? tagsCsv = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(vaultUri);

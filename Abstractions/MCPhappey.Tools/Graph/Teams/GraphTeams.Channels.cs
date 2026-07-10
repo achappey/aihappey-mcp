@@ -23,7 +23,7 @@ public static partial class GraphTeams
         [Description("Description of the new channel")]
         string? description = null,
         CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
         var teams = await client.Teams[teamId]
@@ -70,7 +70,7 @@ public static partial class GraphTeams
         [Description("Subject of the message.")] string? subject = null,
         [Description("Content (body) of the message.")] string? content = null,
         CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
     {
         // Vul defaults uit de parameters direct in
@@ -117,7 +117,7 @@ public static partial class GraphTeams
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional extra message after mentions.")] string? content = null,
         CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
     {
         var mentionInfo = new List<(string Id, string DisplayName)>();

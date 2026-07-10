@@ -35,7 +35,7 @@ public static class ParallelService
        [Description("Include full content from each URL.")]
         bool fullContent = false,
        CancellationToken cancellationToken = default) =>
-       await requestContext.WithExceptionCheck(async () =>
+       await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
    {
        if (urls == null || urls.Length == 0)
@@ -101,7 +101,7 @@ public static class ParallelService
        [Description("List of domains to exclude from the search results.")]
         string[]? excludeDomains = null,
        CancellationToken cancellationToken = default) =>
-       await requestContext.WithExceptionCheck(async () =>
+       await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
    {
        ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -167,7 +167,7 @@ public static class ParallelService
         bool? enableEvents = null,
         CancellationToken cancellationToken = default)
         =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         // 1) Validate required field
@@ -261,7 +261,7 @@ public static class ParallelService
        IServiceProvider serviceProvider,
        RequestContext<CallToolRequestParams> requestContext,
        CancellationToken cancellationToken = default) =>
-       await requestContext.WithExceptionCheck(async () =>
+       await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
    {
        // 1) Retrieve settings
@@ -328,7 +328,7 @@ public static class ParallelService
         JsonNode? defaultTaskSpec = null,
           CancellationToken cancellationToken = default)
           =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext.WithStructuredContent(async () =>
       {
           // 1) If primitive fields are missing, elicit them

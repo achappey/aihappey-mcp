@@ -40,7 +40,7 @@ public static class DeepLGlossaries
         [Description("Optional second dictionary entries format: tsv or csv.")]
         string? entriesFormat2 = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new CreateGlossaryRequest
             {
@@ -118,7 +118,7 @@ public static class DeepLGlossaries
         [Description("Optional dictionary entries string.")] string? entries = null,
         [Description("Optional dictionary entries format: tsv or csv.")] string? entriesFormat = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new PatchGlossaryRequest
             {
@@ -186,7 +186,7 @@ public static class DeepLGlossaries
         [Description("Dictionary entries format: tsv or csv.")]
         string entriesFormat = "tsv",
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(new ReplaceDictionaryRequest
             {
@@ -230,7 +230,7 @@ public static class DeepLGlossaries
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ValidateRequired(glossaryId, nameof(glossaryId));
             var deepL = serviceProvider.GetRequiredService<DeepLClient>();
@@ -256,7 +256,7 @@ public static class DeepLGlossaries
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ValidateRequired(glossaryId, nameof(glossaryId));
             ValidateRequired(sourceLang, nameof(sourceLang));

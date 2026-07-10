@@ -63,7 +63,7 @@ public static partial class DataAnalysisPlugin
          [Description("Number of data rows to skip")]
             int? numberOfSkipRows = 0,
          CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(csvFileUrl);
 

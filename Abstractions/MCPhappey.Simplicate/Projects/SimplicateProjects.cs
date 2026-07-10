@@ -24,7 +24,7 @@ public static class SimplicateProjects
     RequestContext<CallToolRequestParams> requestContext,
     [Description("Optional project status label filter.")] ProjectStatusLabel? projectStatusLabel = null,
     CancellationToken cancellationToken = default)
-    => await requestContext.WithExceptionCheck(async ()
+    => await ModelContextToolExtensions.WithExceptionCheck(async ()
     => await requestContext.WithStructuredContent(async () =>
 {
     var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
@@ -73,7 +73,7 @@ public static class SimplicateProjects
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async ()
+        => await ModelContextToolExtensions.WithExceptionCheck(async ()
         => await requestContext.WithStructuredContent(async () =>
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
@@ -114,7 +114,7 @@ public static class SimplicateProjects
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async ()
+        => await ModelContextToolExtensions.WithExceptionCheck(async ()
         => await requestContext.WithStructuredContent(async () =>
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
@@ -272,7 +272,7 @@ public static class SimplicateProjects
             string? date = null,
             ProjectStatusLabel? projectStatusLabel = null,
             CancellationToken cancellationToken = default)
-            => await requestContext.WithExceptionCheck(async ()
+            => await ModelContextToolExtensions.WithExceptionCheck(async ()
             => await requestContext.WithStructuredContent(async () =>
     {
         if (

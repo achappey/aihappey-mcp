@@ -45,7 +45,7 @@ public static partial class AnthropicAgents
         [Description("Optional system prompt.")] string? system = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateAgentRequest
@@ -97,7 +97,7 @@ public static partial class AnthropicAgents
         [Description("Optional updated system prompt. Provide an empty string to clear.")] string? system = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateAgentRequest
@@ -153,7 +153,7 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveAgentRequest

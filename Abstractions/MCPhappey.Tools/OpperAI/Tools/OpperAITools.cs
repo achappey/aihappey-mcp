@@ -17,7 +17,7 @@ public static class OpperAITools
         [Description("Search query.")] string query,
         [Description("Maximum number of search results to return.")] int? maxResults = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -41,7 +41,7 @@ public static class OpperAITools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("URL to fetch and convert to markdown.")] string url,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(url);

@@ -33,7 +33,7 @@ public static partial class OpenAIVectorStores
        [Description("New name (defaults to current).")] string? name = null,
        [Description("New description (defaults to current).")] string? description = null,
        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await serviceProvider.WithVectorStoreOwnerClient<CallToolResult?>(vectorStoreId, async (client, current) =>
             {
                 // Current values
@@ -88,7 +88,7 @@ public static partial class OpenAIVectorStores
       IServiceProvider serviceProvider,
       RequestContext<CallToolRequestParams> requestContext,
       CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await serviceProvider.WithVectorStoreOwnerClient<CallToolResult?>(vectorStoreId, async (client, current) =>
             {
                 var currentName = current.Name;
@@ -136,7 +136,7 @@ public static partial class OpenAIVectorStores
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
         =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await serviceProvider.WithVectorStoreClient(async (client) =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -174,7 +174,7 @@ public static partial class OpenAIVectorStores
        RequestContext<CallToolRequestParams> requestContext,
        [Description("Wait until complete.")] bool? waitUntilCompleted = true,
        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await serviceProvider.WithVectorStoreOwnerClient<CallToolResult>(vectorStoreId, async (client, current) =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -205,7 +205,7 @@ public static partial class OpenAIVectorStores
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await serviceProvider.WithVectorStoreOwnerClient<CallToolResult>(vectorStoreId, async (client, item) =>
             await requestContext.ConfirmAndDeleteAsync<OpenAIDeleteVectorStore>(
                     item?.Name!,

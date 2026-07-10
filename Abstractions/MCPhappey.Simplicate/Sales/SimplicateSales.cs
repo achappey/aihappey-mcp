@@ -112,7 +112,7 @@ public static partial class SimplicateSales
         [Description("Sort descending. Default: true.")] bool descending = true,
         [Description("Return only the top N organizations after sorting. Optional.")] int? top = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async ()
+        => await ModelContextToolExtensions.WithExceptionCheck(async ()
         => await requestContext.WithStructuredContent(async () =>
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();

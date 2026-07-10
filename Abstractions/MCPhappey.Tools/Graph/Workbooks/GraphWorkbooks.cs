@@ -29,7 +29,7 @@ public static partial class GraphWorkbooks
         [Description("Optional worksheet name. If omitted, Excel assigns a name.")]
             string? worksheetName = null,
         CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
@@ -90,7 +90,7 @@ public static partial class GraphWorkbooks
             [Description("Default values for the row form. Format: key is row name, value is default value.")]
         Dictionary<string, string>? defaultValues = null,
             CancellationToken cancellationToken = default)
-              => await requestContext.WithExceptionCheck(async () =>
+              => await ModelContextToolExtensions.WithExceptionCheck(async () =>
                 await requestContext.WithOboGraphClient(async (graphClient) =>
                 await requestContext.WithStructuredContent(async () =>
     {
@@ -159,7 +159,7 @@ public static partial class GraphWorkbooks
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
     {
         var graphClient = await serviceProvider.GetGraphHttpClient(requestContext.Server);

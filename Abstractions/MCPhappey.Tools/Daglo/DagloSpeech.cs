@@ -25,7 +25,7 @@ public static class DagloSpeech
         [Description("Text to synthesize into speech.")] string text,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new DagloSpeechTextToSpeechRequest
@@ -58,7 +58,7 @@ public static class DagloSpeech
         [Description("File URL (SharePoint, OneDrive, HTTP) to extract text from.")] string fileUrl,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

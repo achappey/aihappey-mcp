@@ -29,7 +29,7 @@ public static class DeskbirdPlugin
           RequestContext<CallToolRequestParams> requestContext,
           [Description("The booking ID (UUID) to cancel")] string bookingId,
           CancellationToken cancellationToken = default)
-          => await requestContext.WithExceptionCheck(async () =>
+          => await ModelContextToolExtensions.WithExceptionCheck(async () =>
       {
           var settings = serviceProvider.GetService<DeskbirdSettings>();
 
@@ -83,7 +83,7 @@ public static class DeskbirdPlugin
         [Description("End time (ISO 8601 UTC, e.g. 2025-09-10T16:00:00.000Z)")] DateTime endTime,
         [Description("Anonymous booking (true/false)")] bool isAnonymousBooking = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var settings = serviceProvider.GetService<DeskbirdSettings>();
 

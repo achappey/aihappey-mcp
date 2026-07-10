@@ -46,7 +46,7 @@ public static class DeepgramText
         [Description("Output filename without extension.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var settings = serviceProvider.GetRequiredService<DeepgramSettings>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -135,7 +135,7 @@ public static class DeepgramText
         [Description("Output filename without extension.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
             var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);

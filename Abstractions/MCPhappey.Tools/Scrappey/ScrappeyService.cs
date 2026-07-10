@@ -17,7 +17,7 @@ public static class ScrappeyService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<ScrappeyClient>();
@@ -69,7 +69,7 @@ public static class ScrappeyService
         [Description("Autoparse structure as JSON object string.")] string? structureJson = null,
         [Description("Optional retry count.")][Range(0, 10)] int? retries = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(url);
@@ -128,7 +128,7 @@ public static class ScrappeyService
         [Description("When true, enable human-like mouse movements.")] bool mouseMovements = false,
         [Description("Optional retry count.")][Range(0, 10)] int? retries = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(url);
@@ -168,7 +168,7 @@ public static class ScrappeyService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Session identifier to create or reuse.")] string session,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(session);
@@ -190,7 +190,7 @@ public static class ScrappeyService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Session identifier to destroy.")] string session,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(session);

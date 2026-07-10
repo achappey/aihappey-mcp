@@ -36,7 +36,7 @@ public static class ScrapeDriveService
         [Description("Polling interval in seconds while waiting for completion.")][Range(1, 30)] int pollIntervalSeconds = 2,
         [Description("Maximum wait time in seconds for the async scrape to complete.")][Range(5, 900)] int pollTimeoutSeconds = 180,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(url);

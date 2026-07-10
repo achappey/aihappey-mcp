@@ -24,7 +24,7 @@ public static class ZAITools
         [Description("Include image summary (true/false). Default is false.")] bool? withImagesSummary = false,
         [Description("Include links summary (true/false). Default is false.")] bool? withLinksSummary = false,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<ZAIClient>();
@@ -59,7 +59,7 @@ public static class ZAITools
         [Description("End user ID for abuse monitoring.")] string? userId = null,
         [Description("Accept-Language header (default en-US,en). Optional.")] string? acceptLanguage = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<ZAIClient>();
@@ -100,7 +100,7 @@ public static class ZAITools
         [Description("End user ID for abuse monitoring (6-128 chars). Optional.")] string? userId = null,
         [Description("When true, saves the OCR JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             {
                 var response = await ExecuteLayoutParsingAsync(serviceProvider, model, file, returnCropImages, needLayoutVisualization, startPageId, endPageId, requestId, userId, cancellationToken);
                 if (saveOutput)

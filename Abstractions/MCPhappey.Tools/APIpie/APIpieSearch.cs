@@ -45,7 +45,7 @@ public static class APIpieSearch
         [Description("Tune retrieval process based on AI tool call behavior (valyu only).")]
         bool? is_tool_call = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<APIpieClient>();
@@ -91,7 +91,7 @@ public static class APIpieSearch
         [Description("User identifier for observability and billing.")]
         string? user = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<APIpieClient>();
@@ -127,7 +127,7 @@ public static class APIpieSearch
         [Description("Include summary in scrape response when supported.")]
         bool? summary = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<APIpieClient>();

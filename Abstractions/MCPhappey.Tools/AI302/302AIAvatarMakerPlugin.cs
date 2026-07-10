@@ -32,7 +32,7 @@ public static class AI302AvatarMakerPlugin
         [Description("Model used to optimize avatar description prompts.")] string model = "gpt-4.1",
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var client = serviceProvider.GetRequiredService<AI302Client>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();

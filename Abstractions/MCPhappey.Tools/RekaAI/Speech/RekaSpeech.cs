@@ -36,7 +36,7 @@ public static class RekaSpeech
         [Description("Optional filename stem for uploaded artifacts.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))
@@ -133,7 +133,7 @@ public static class RekaSpeech
         [Description("Optional filename stem for uploaded artifact.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))

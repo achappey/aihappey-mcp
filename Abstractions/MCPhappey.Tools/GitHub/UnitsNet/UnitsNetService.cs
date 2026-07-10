@@ -18,7 +18,7 @@ public static class UnitsNetService
     RequestContext<CallToolRequestParams> requestContext,
     [Description("First quantity (e.g. '50 meters')")] string first,
     [Description("Second quantity (e.g. '10 meters')")] string second)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var q1 = TryParseAnyQuantity(first);
         var q2 = TryParseAnyQuantity(second);
@@ -43,7 +43,7 @@ public static class UnitsNetService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("First quantity (e.g. '5 meters')")] string first,
         [Description("Second quantity (e.g. '2 meters')")] string second)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var q1 = TryParseAnyQuantity(first);
         var q2 = TryParseAnyQuantity(second);
@@ -67,7 +67,7 @@ public static class UnitsNetService
         [Description("From unit (e.g. 'Centimeter')")] string fromUnit,
         [Description("To unit (e.g. 'Meter')")] string toUnit,
         [Description("Value to convert")] double value)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var result = UnitConverter.ConvertByName(value, quantityName, fromUnit, toUnit);
         return await Task.FromResult($"{result:F4}".ToTextCallToolResponse());
@@ -82,7 +82,7 @@ public static class UnitsNetService
     public static async Task<CallToolResult?> GitHubUnitsNet_AutoConvertText(
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Conversion request text (e.g. 'convert 5 liters to gallons')")] string text)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var parts = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         var toIndex = Array.IndexOf(parts, "to");
@@ -119,7 +119,7 @@ public static class UnitsNetService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Quantity with unit (e.g. '10 kilometers', '25 °C', '100 kg')")] string input,
         [Description("Target unit abbreviation or name (e.g. 'miles', '°F', 'pounds')")] string targetUnit)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var quantity = TryParseAnyQuantity(input) ?? throw new Exception($"Invalid quantity format: '{input}'");
 
@@ -145,7 +145,7 @@ public static class UnitsNetService
     public static async Task<CallToolResult?> GitHubUnitsNet_Parse(
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Quantity string (e.g. '5 meters', '120 °F', '3.5 hours')")] string input)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var q = TryParseAnyQuantity(input) ?? throw new Exception($"Invalid quantity format: '{input}'");
         return await Task.FromResult($"{q.Value} {q.Unit}".ToTextCallToolResponse());
@@ -160,7 +160,7 @@ public static class UnitsNetService
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubUnitsNet_ListQuantityTypes(
         RequestContext<CallToolRequestParams> requestContext)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var types = Quantity.Infos.Select(q => q.Name).OrderBy(x => x).ToArray();
         return await Task.FromResult(string.Join("\n", types).ToTextCallToolResponse());
@@ -176,7 +176,7 @@ public static class UnitsNetService
     public static async Task<CallToolResult?> GitHubUnitsNet_ListUnitsForType(
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Quantity type name (e.g. 'Length', 'Temperature', 'Mass')")] string quantityType)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var info = Quantity.Infos.FirstOrDefault(q =>
             string.Equals(q.Name, quantityType, StringComparison.OrdinalIgnoreCase))

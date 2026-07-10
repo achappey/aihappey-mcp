@@ -27,7 +27,7 @@ public static class EuropeanUnionVIESService
         IServiceProvider sp = null!,
         RequestContext<CallToolRequestParams> rc = null!,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var eu = sp.GetRequiredService<EuropeanUnionClient>();
@@ -53,7 +53,7 @@ public static class EuropeanUnionVIESService
         IServiceProvider sp = null!,
         RequestContext<CallToolRequestParams> rc = null!,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var eu = sp.GetRequiredService<EuropeanUnionClient>();
@@ -74,7 +74,7 @@ public static class EuropeanUnionVIESService
         IServiceProvider sp = null!,
         RequestContext<CallToolRequestParams> rc = null!,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var eu = sp.GetRequiredService<EuropeanUnionClient>();

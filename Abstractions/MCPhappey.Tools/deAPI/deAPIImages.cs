@@ -41,7 +41,7 @@ public static class deAPIImages
         [Description("Maximum total wait time in seconds.")][Range(30, 3600)] int maxWaitSeconds = DefaultMaxWaitSeconds,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new deAPIImageGenerateRequest

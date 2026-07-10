@@ -54,7 +54,7 @@ public static class ValyuApi
         [Description("Return URL-only web/news results without content extraction.")]
         bool? urlOnly = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -112,7 +112,7 @@ public static class ValyuApi
         [Description("Optional timeout in seconds.")]
         double? timeout = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var urls = ParseStringArrayOrNull(urlsJson, nameof(urlsJson));

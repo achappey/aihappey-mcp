@@ -25,7 +25,7 @@ public static class WebCrawlerAPIService
         [Description("Respect the website robots.txt file.")] bool respectRobotsTxt = false,
         [Description("Optional maximum crawl depth from the starting URL. 0 crawls only the start page.")][Range(0, 100)] int? maxDepth = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             WebCrawlerAPIHelpers.ValidateRequired(url, nameof(url));
 
@@ -85,7 +85,7 @@ public static class WebCrawlerAPIService
         [Description("Optional comma-separated CSS selectors to remove from output.")] string? cleanSelectors = null,
         [Description("Respect robots.txt and return an error if the URL is disallowed.")] bool respectRobotsTxt = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             WebCrawlerAPIHelpers.ValidateRequired(url, nameof(url));
 
@@ -126,7 +126,7 @@ public static class WebCrawlerAPIService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Existing WebCrawlerAPI crawl job ID.")] string jobId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             WebCrawlerAPIHelpers.ValidateRequired(jobId, nameof(jobId));
 
@@ -152,7 +152,7 @@ public static class WebCrawlerAPIService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Existing completed WebCrawlerAPI crawl job ID created with markdown output.")] string jobId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             WebCrawlerAPIHelpers.ValidateRequired(jobId, nameof(jobId));
 

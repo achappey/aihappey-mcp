@@ -34,7 +34,7 @@ public static class DeepLDocuments
         [Description("Optional DeepL glossary ID.")]
         string? glossaryId = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         if (string.IsNullOrWhiteSpace(fileUrl))
             throw new ArgumentNullException(nameof(fileUrl));

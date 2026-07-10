@@ -28,7 +28,7 @@ public static class QuestPDFService
         [Description("Main body text (plain text).")] string content,
         [Description("Page margin in centimeters (0–5). Default: 2.0")] double marginCm = 2.0,
         [Description("Base font size in points (6–48). Default: 12")] float fontSize = 12f)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("Title is required.", nameof(title));
@@ -88,7 +88,7 @@ public static class QuestPDFService
    [Description("Markdown content to render as the main body.")] string markdown,
    [Description("Page margin in centimeters (0–5). Default: 2.0")] double marginCm = 2.0,
    [Description("Base font size in points (6–48). Default: 12")] float fontSize = 12f)
-   => await requestContext.WithExceptionCheck(async () =>
+   => await ModelContextToolExtensions.WithExceptionCheck(async () =>
    {
        if (string.IsNullOrWhiteSpace(markdown))
            throw new ArgumentException("Markdown content is required.", nameof(markdown));

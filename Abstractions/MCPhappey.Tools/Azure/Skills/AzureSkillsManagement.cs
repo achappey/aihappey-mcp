@@ -57,7 +57,7 @@ public static class AzureSkillsManagement
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<AzureSkillMutationResult>(async () =>
             {
                 var storage = serviceProvider.GetService<AzureSkillsStorageService>()
@@ -93,7 +93,7 @@ public static class AzureSkillsManagement
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<AzureSkillMutationResult>(async () =>
             {
                 var storage = serviceProvider.GetService<AzureSkillsStorageService>()
@@ -127,7 +127,7 @@ public static class AzureSkillsManagement
         RequestContext<CallToolRequestParams> requestContext,
         [Description("The version to set as default.")] string? defaultVersion = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<AzureSkillMutationResult>(async () =>
             {
                 var storage = serviceProvider.GetService<AzureSkillsStorageService>()
@@ -156,7 +156,7 @@ public static class AzureSkillsManagement
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var storage = serviceProvider.GetService<AzureSkillsStorageService>()
                 ?? throw new InvalidOperationException("SkillsStorage is not configured.");
@@ -181,7 +181,7 @@ public static class AzureSkillsManagement
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var storage = serviceProvider.GetService<AzureSkillsStorageService>()
                 ?? throw new InvalidOperationException("SkillsStorage is not configured.");

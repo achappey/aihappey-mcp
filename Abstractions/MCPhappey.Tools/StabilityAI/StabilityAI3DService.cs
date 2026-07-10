@@ -27,7 +27,7 @@ public static class StabilityAI3DService
         [Description("Optional remeshing algorithm: none, quad, triangle")] string remesh = "none",
         [Description("Approximate vertex count (-1 for auto)")] int vertexCount = -1,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 
@@ -93,7 +93,7 @@ public static class StabilityAI3DService
         [Description("Guidance scale (1 – 10)")] double guidanceScale = 3,
         [Description("Seed (0 for random)")] long seed = 0,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

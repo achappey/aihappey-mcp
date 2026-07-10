@@ -17,7 +17,7 @@ public static class KirhaTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional input object as a JSON string. Defaults to an empty object.")] string? inputJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(toolName);

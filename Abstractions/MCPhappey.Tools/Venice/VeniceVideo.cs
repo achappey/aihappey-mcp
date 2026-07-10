@@ -31,7 +31,7 @@ public static class VeniceVideo
         [Description("Optional resolution. Allowed values: 1080p, 720p, 480p.")] string? resolution = "720p",
         [Description("Optional audio toggle for supported models. Default: true.")] bool audio = true,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceVideoQuoteRequest
@@ -108,7 +108,7 @@ public static class VeniceVideo
         [Description("Optional audio toggle for supported models. Default: true.")] bool audio = true,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceVideoTextToVideoRequest
@@ -169,7 +169,7 @@ public static class VeniceVideo
         [Description("Optional audio toggle for supported models. Default: true.")] bool audio = true,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceVideoImageToVideoRequest

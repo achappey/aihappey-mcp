@@ -61,7 +61,7 @@ public static class DumplingAIDeveloperTools
         JsonObject payload,
         CancellationToken cancellationToken,
         string summary)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(payload["code"]?.GetValue<string>()))

@@ -31,7 +31,7 @@ public static class OpenAIImages
      [Description("Background setting: auto (default), transparent, or opaque.")] ImageBackground? background = ImageBackground.auto,
      [Description("Content moderation level: auto (default) or low.")] ImageModerationLevel? moderation = ImageModerationLevel.auto,
      CancellationToken cancellationToken = default) =>
-         await requestContext.WithExceptionCheck(async () =>
+         await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
         var imageInput = new OpenAINewImage
@@ -95,7 +95,7 @@ public static class OpenAIImages
      [Description("Background setting: auto (default), transparent, or opaque.")] ImageBackground? background = ImageBackground.auto,
      [Description("Image quality: auto (default), high, medium or low.")] ImageQuality? quality = ImageQuality.auto,
      CancellationToken cancellationToken = default) =>
-         await requestContext.WithExceptionCheck(async () =>
+         await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();

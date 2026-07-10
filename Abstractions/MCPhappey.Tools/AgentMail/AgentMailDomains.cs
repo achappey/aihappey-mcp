@@ -28,7 +28,7 @@ public static class AgentMailDomains
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             AgentMailHelpers.Require(domainId, nameof(domainId));
             var client = serviceProvider.GetRequiredService<AgentMailClient>();
@@ -46,7 +46,7 @@ public static class AgentMailDomains
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailVerifyDomainRequest
@@ -79,7 +79,7 @@ public static class AgentMailDomains
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             AgentMailHelpers.Require(podId, nameof(podId));
             AgentMailHelpers.Require(domainId, nameof(domainId));
@@ -100,7 +100,7 @@ public static class AgentMailDomains
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailCreateDomainRequest

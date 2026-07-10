@@ -25,7 +25,7 @@ public static class FlexpriceAddons
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceAddonResponse>>(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(
@@ -88,7 +88,7 @@ public static class FlexpriceAddons
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceListAddonsResponse>>(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(
@@ -157,7 +157,7 @@ public static class FlexpriceAddons
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceAddonResponse>>(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(
@@ -210,7 +210,7 @@ public static class FlexpriceAddons
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceSuccessResponse>>(async () =>
             {
                 FlexpriceHelpers.ValidateRequired(id, nameof(id));

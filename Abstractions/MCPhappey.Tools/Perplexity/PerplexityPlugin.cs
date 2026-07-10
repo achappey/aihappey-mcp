@@ -22,7 +22,7 @@ public static class PerplexityPlugin
       [Description("The maximum number of search results to return.")] int maxResults = 10,
       [Description("Controls the maximum number of tokens retrieved from each webpage during search processing. Higher values provide more comprehensive content extraction but may increase processing time.")] int maxTokensPerPage = 1024,
       [Description("Country code to filter search results by geographic location (e.g., 'US', 'GB', 'DE').")] string? country = null,
-      CancellationToken cancellationToken = default) => await requestContext.WithExceptionCheck(async () =>
+      CancellationToken cancellationToken = default) => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var perplexity = serviceProvider.GetRequiredService<PerplexityClient>();

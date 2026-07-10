@@ -34,7 +34,7 @@ public static class ZAITranscriptions
         [Description("Optional unique end-user ID (6-128 chars).")]
         string? userId = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);

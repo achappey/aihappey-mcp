@@ -35,7 +35,7 @@ public static class UpstageInformationExtraction
         [Description("Chunking pages per chunk. 0 disables chunking.")]
         int chunkingPagesPerChunk = 0,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))
@@ -101,7 +101,7 @@ public static class UpstageInformationExtraction
         [Description("Optional system instruction to guide schema generation.")]
         string? systemPrompt = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))
@@ -157,7 +157,7 @@ public static class UpstageInformationExtraction
         [Description("Prebuilt extraction model, e.g. receipt-extraction.")]
         string model,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))

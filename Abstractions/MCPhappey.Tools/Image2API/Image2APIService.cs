@@ -22,7 +22,7 @@ public static class Image2APIService
         [Description("File URL or SharePoint/OneDrive reference to download and extract from.")] string fileUrl,
         [Description("When true, saves the OCR JSON result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             {
                 var result = await ExecuteExtractAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
                 if (saveOutput)

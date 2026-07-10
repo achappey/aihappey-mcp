@@ -24,7 +24,7 @@ public static class SweetCLIService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Email address to receive the 6-digit code.")] string email,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
@@ -78,7 +78,7 @@ public static class SweetCLIService
         [Description("Email used in request-code.")] string email,
         [Description("6-digit verification code.")] string code,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, notAccepted, _) = await requestContext.Server.TryElicit(

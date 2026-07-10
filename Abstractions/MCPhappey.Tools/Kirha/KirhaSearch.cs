@@ -22,7 +22,7 @@ public static class KirhaSearch
         [Description("Include planning details in the response.")] bool includePlanning = false,
         [Description("Enable deterministic tool planning.")] bool useDeterministicToolPlanning = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -52,7 +52,7 @@ public static class KirhaSearch
         [Description("Optional vertical identifier.")] string? verticalId = null,
         [Description("Enable deterministic tool planning.")] bool? useDeterministicToolPlanning = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -81,7 +81,7 @@ public static class KirhaSearch
         [Description("Include planning details in the response.")] bool includePlanning = false,
         [Description("Enable deterministic tool planning.")] bool useDeterministicToolPlanning = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(planId);

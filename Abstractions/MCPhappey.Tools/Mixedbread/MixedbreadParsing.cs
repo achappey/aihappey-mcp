@@ -31,7 +31,7 @@ public static class MixedbreadParsing
         [Description("Optional mode (fast, high_quality).")]
         string? mode = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(fileId);
@@ -80,7 +80,7 @@ public static class MixedbreadParsing
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Parsing job ID.")] string jobId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(jobId);
@@ -111,7 +111,7 @@ public static class MixedbreadParsing
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Parsing job ID.")] string jobId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(jobId))

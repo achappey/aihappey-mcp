@@ -64,7 +64,7 @@ public static partial class HTMLPlugin
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Default values for the replacements. Format: key is argument name (without braces), value is replacement.")] Dictionary<string, string> replacements,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
         var arguments = await GetArguments(sourceUrl, client, cancellationToken);

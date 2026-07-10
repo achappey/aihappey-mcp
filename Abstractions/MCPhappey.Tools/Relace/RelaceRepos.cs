@@ -39,7 +39,7 @@ public static class RelaceRepos
         [Description("Optional extra metadata JSON object. Primitive-only MCP input: pass JSON as string.")] string? metadataJson = null,
         [Description("Enable automatic indexing after create.")] bool autoIndex = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(
@@ -99,7 +99,7 @@ public static class RelaceRepos
         [Description("Optional metadata.description value.")] string? description = null,
         [Description("Optional metadata JSON object string. Primitive-only MCP input.")] string? metadataJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(
@@ -154,7 +154,7 @@ public static class RelaceRepos
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional path inside the repo. Defaults to the source file name.")] string? filePath = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(
@@ -209,7 +209,7 @@ public static class RelaceRepos
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
                 ValidateRequired(repoId, nameof(repoId));
@@ -249,7 +249,7 @@ public static class RelaceRepos
         [Description("Optional token limit. Default: 30000.")] int? tokenLimit = 30000,
         [Description("Include matching file content in results.")] bool includeContent = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
                 ValidateRequired(repoId, nameof(repoId));
@@ -295,7 +295,7 @@ public static class RelaceRepos
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional token lifetime in seconds.")] int? ttlSeconds = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(
@@ -346,7 +346,7 @@ public static class RelaceRepos
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
                 ValidateRequired(token, nameof(token));

@@ -44,7 +44,7 @@ public static class IdeogramImages
         string? characterReferenceImageMaskUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramGenerateRequest
             {
@@ -112,7 +112,7 @@ public static class IdeogramImages
         [Description("Number of images to generate.")] int numImages = 1,
         [Description("Output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramGenerateTransparentRequest
             {
@@ -170,7 +170,7 @@ public static class IdeogramImages
         string? characterReferenceImageMaskUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramEditRequest
             {
@@ -251,7 +251,7 @@ public static class IdeogramImages
         string? characterReferenceImageMaskUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramRemixRequest
             {
@@ -327,7 +327,7 @@ public static class IdeogramImages
         string? styleReferenceImageUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramReframeRequest
             {
@@ -385,7 +385,7 @@ public static class IdeogramImages
         string? styleReferenceImageUrls = null,
         [Description("Output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramReplaceBackgroundRequest
             {
@@ -440,7 +440,7 @@ public static class IdeogramImages
         [Description("Random seed for reproducibility.")] int? seed = null,
         [Description("Output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramUpscaleRequest
             {
@@ -476,7 +476,7 @@ public static class IdeogramImages
         [Description("Describe model version: V_2 or V_3.")] string? describeModelVersion = null,
         [Description("Output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramDescribeRequest
             {

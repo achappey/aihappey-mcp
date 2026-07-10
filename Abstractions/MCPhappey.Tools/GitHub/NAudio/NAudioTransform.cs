@@ -178,7 +178,7 @@ public static class NAudioTransform
         double fadeOutSeconds,
         string? filename,
         CancellationToken cancellationToken)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var format = NAudioShared.NormalizeAudioFormat(outputFormat);
             if (channels is not 0 and not 1 and not 2)

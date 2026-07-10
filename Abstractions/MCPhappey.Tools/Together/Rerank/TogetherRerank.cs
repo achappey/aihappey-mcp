@@ -24,7 +24,7 @@ public static class TogetherRerank
          [Description("Public MCP registry JSON URL (must contain a 'servers' array)")] string registryUrl,
          [Description("The number of top results to return.")] int topN,
          CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var settings = serviceProvider.GetRequiredService<TogetherSettings>();
@@ -86,7 +86,7 @@ public static class TogetherRerank
        IServiceProvider serviceProvider,
        RequestContext<CallToolRequestParams> requestContext,
        CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async ()
+        => await ModelContextToolExtensions.WithExceptionCheck(async ()
         => await requestContext.WithStructuredContent(async () =>
       {
           using var client = serviceProvider.CreateTogetherClient();
@@ -128,7 +128,7 @@ public static class TogetherRerank
         [Description("SharePoint or OneDrive folder with files that should be ranked")] string sharepointFolderUrl,
         [Description("The number of top results to return.")] int topN,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithOboGraphClient(async (graphClient) =>
            await requestContext.WithStructuredContent(async () =>
            {
@@ -148,7 +148,7 @@ public static class TogetherRerank
         [Description("List of file URLs to rerank")] List<string> fileUrls,
         [Description("The number of top results to return.")] int topN,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
            await RerankDocumentsAsync(serviceProvider, requestContext, rerankModel, query, fileUrls, topN, cancellationToken)));
 

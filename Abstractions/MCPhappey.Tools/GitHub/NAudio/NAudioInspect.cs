@@ -16,7 +16,7 @@ public static class NAudioInspect
         [Description("Silence threshold in dBFS for silence detection. Default: -45.")] float silenceThresholdDb = -45f,
         [Description("Minimum silence duration in seconds. Default: 0.75.")] double minimumSilenceSeconds = 0.75,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
@@ -63,7 +63,7 @@ public static class NAudioInspect
         RequestContext<CallToolRequestParams> requestContext,
         [Description("SharePoint, OneDrive, or HTTPS URL of the audio file.")] string fileUrl,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
@@ -78,7 +78,7 @@ public static class NAudioInspect
         RequestContext<CallToolRequestParams> requestContext,
         [Description("SharePoint, OneDrive, or HTTPS URL of the audio file.")] string fileUrl,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
@@ -104,7 +104,7 @@ public static class NAudioInspect
         RequestContext<CallToolRequestParams> requestContext,
         [Description("SharePoint, OneDrive, or HTTPS URL of the audio file.")] string fileUrl,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
@@ -124,7 +124,7 @@ public static class NAudioInspect
         RequestContext<CallToolRequestParams> requestContext,
         [Description("SharePoint, OneDrive, or HTTPS URL of the audio file.")] string fileUrl,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
@@ -154,7 +154,7 @@ public static class NAudioInspect
         [Description("Optional start time in seconds for partial analysis.")] double startSeconds = 0,
         [Description("Optional duration in seconds for partial analysis. 0 means to the end.")] double durationSeconds = 0,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
@@ -172,7 +172,7 @@ public static class NAudioInspect
         RequestContext<CallToolRequestParams> requestContext,
         [Description("SharePoint, OneDrive, or HTTPS URL of the audio file.")] string fileUrl,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
@@ -197,7 +197,7 @@ public static class NAudioInspect
         [Description("Silence threshold in dBFS. Default: -45.")] float thresholdDb = -45f,
         [Description("Minimum silence duration in seconds. Default: 0.75.")] double minimumSilenceSeconds = 0.75,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
@@ -222,7 +222,7 @@ public static class NAudioInspect
         [Description("SharePoint, OneDrive, or HTTPS URL of the audio file.")] string fileUrl,
         [Description("Optional output filename for the JSON report.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
             using var reader = NAudioShared.OpenAudioFile(input.TempPath);

@@ -45,7 +45,7 @@ public static class DagloTranscriptions
         [Description("Maximum wait time in seconds. Default: 1800.")]
         int maxWaitSeconds = 1800,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, notAccepted, _) = await requestContext.Server.TryElicit(

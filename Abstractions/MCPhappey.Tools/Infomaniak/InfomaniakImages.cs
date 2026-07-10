@@ -41,7 +41,7 @@ public static class InfomaniakImages
         int? productId = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var settings = serviceProvider.GetRequiredService<InfomaniakSettings>();
             var resolvedProductId = productId ?? settings.DefaultProductId
@@ -121,7 +121,7 @@ public static class InfomaniakImages
         int? productId = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var settings = serviceProvider.GetRequiredService<InfomaniakSettings>();
             var resolvedProductId = productId ?? settings.DefaultProductId

@@ -30,7 +30,7 @@ public static class MixedbreadStores
         [Description("Optional file_ids JSON array string.")] string? fileIdsJson = null,
         [Description("Optional config JSON string.")] string? configJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(name);
@@ -89,7 +89,7 @@ public static class MixedbreadStores
         [Description("Optional expires_after JSON string.")] string? expiresAfterJson = null,
         [Description("Optional metadata JSON string.")] string? metadataJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(storeIdentifier);
@@ -137,7 +137,7 @@ public static class MixedbreadStores
         [Description("Store identifier (ID or name).")]
         string storeIdentifier,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(storeIdentifier))

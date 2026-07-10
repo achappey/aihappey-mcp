@@ -23,7 +23,7 @@ public static partial class GraphPlanner
      IServiceProvider serviceProvider,
      RequestContext<CallToolRequestParams> requestContext,
      CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
     {
         var plan = await graphClient.Planner.Plans[plannerId].GetAsync((config) => { }, cancellationToken)

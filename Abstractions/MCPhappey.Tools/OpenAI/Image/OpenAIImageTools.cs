@@ -77,8 +77,7 @@ public static class OpenAIImageTools
       RequestContext<CallToolRequestParams> requestContext,
       [Description("Detail level")] ImageDescriptionDetailLevel imageDescriptionDetailLevel = ImageDescriptionDetailLevel.medium,
       CancellationToken cancellationToken = default)
-      => await requestContext.WithExceptionCheck(async ()
-      => await requestContext.WithStructuredContent(async () =>
+      => await ModelContextToolExtensions.WithExceptionCheck(async () => await requestContext.WithStructuredContent(async () =>
    {
        var mcpServer = requestContext.Server;
        var samplingService = serviceProvider.GetRequiredService<SamplingService>();

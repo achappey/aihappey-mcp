@@ -18,7 +18,7 @@ public static class RelaxAICodeExecution
         [Description("Programming language. Only python is currently supported. Default: python.")] string lang = "python",
         [Description("Execution timeout in seconds. Must be between 1 and 30. Default: 30.")] int? timeout = 30,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(code);

@@ -19,7 +19,7 @@ public static partial class SimplicateInvoices
           RequestContext<CallToolRequestParams> requestContext,
           [Description("Payment date (YYY-MM-DD)")] string paymentDate,
           CancellationToken cancellationToken = default) =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext.WithStructuredContent(async () =>
     {
         if (string.IsNullOrWhiteSpace(paymentDate)) throw new ArgumentException(null, nameof(paymentDate));
@@ -79,7 +79,7 @@ public static partial class SimplicateInvoices
       string? toDate = null,
       string? organizationName = null,
       CancellationToken cancellationToken = default) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
     {
         if (string.IsNullOrWhiteSpace(fromDate) && string.IsNullOrWhiteSpace(toDate) && string.IsNullOrWhiteSpace(organizationName))

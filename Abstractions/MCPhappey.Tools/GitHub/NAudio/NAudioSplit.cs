@@ -22,7 +22,7 @@ public static class NAudioSplit
         [Description("Normalize each chunk.")] bool normalize = false,
         [Description("Optional base filename for chunks and manifest.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
             using var reader = NAudioShared.OpenAudioFile(input.TempPath);
@@ -46,7 +46,7 @@ public static class NAudioSplit
         [Description("Normalize each chunk.")] bool normalize = false,
         [Description("Optional base filename for chunks and manifest.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
             using var reader = NAudioShared.OpenAudioFile(input.TempPath);
@@ -68,7 +68,7 @@ public static class NAudioSplit
         [Description("Output format: wav or mp3 are recommended. Default wav.")] string outputFormat = "wav",
         [Description("Optional base filename for chunks and manifest.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
             using var reader = NAudioShared.OpenAudioFile(input.TempPath);
@@ -90,7 +90,7 @@ public static class NAudioSplit
         [Description("Output format: wav, mp3, aac, mp4, wma, flac.")] string outputFormat = "wav",
         [Description("Optional output filename.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
             using var reader = NAudioShared.OpenAudioFile(input.TempPath);
@@ -117,7 +117,7 @@ public static class NAudioSplit
         [Description("Target channels. Default 1 mono.")] int channels = 1,
         [Description("Optional output filename.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             if (fileUrls is null || fileUrls.Count == 0)
                 throw new ArgumentException("Provide at least one audio segment URL.", nameof(fileUrls));
@@ -178,7 +178,7 @@ public static class NAudioSplit
         [Description("Minimum silence duration in seconds. Default 0.75.")] double minimumSilenceSeconds = 0.75,
         [Description("Optional output filename for JSON manifest.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
             using var reader = NAudioShared.OpenAudioFile(input.TempPath);

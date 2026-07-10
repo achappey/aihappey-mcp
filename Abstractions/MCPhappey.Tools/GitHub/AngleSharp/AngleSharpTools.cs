@@ -18,7 +18,7 @@ public static class AngleSharpTools
       [Description("The target URL to download and parse")] string url,
       [Description("CSS selector for the elements to extract")] string selector,
       CancellationToken cancellationToken = default)
-      => await requestContext.WithExceptionCheck(async () =>
+      => await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
   {
       // Download HTML via your existing service (stream-based)

@@ -26,7 +26,7 @@ public static class ExcelPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var safe = SanitizeFileName(fileName);
@@ -51,7 +51,7 @@ public static class ExcelPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var download = serviceProvider.GetRequiredService<DownloadService>();
@@ -97,7 +97,7 @@ public static class ExcelPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var download = serviceProvider.GetRequiredService<DownloadService>();
@@ -156,7 +156,7 @@ public static class ExcelPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var download = serviceProvider.GetRequiredService<DownloadService>();
@@ -230,7 +230,7 @@ public static class ExcelPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var download = serviceProvider.GetRequiredService<DownloadService>();

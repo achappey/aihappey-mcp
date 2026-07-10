@@ -22,7 +22,7 @@ public static partial class ModelContextEditor
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
@@ -72,7 +72,7 @@ public static partial class ModelContextEditor
     public static async Task<CallToolResult?> ModelContextEditor_GetStaticServerStatistics(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var servers = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>()
@@ -109,7 +109,7 @@ public static partial class ModelContextEditor
         [Description("When true, include full server details such as prompts, resources, templates and tools.")]
         bool includeDetails = false,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var defaultIcons = serviceProvider.GetRequiredService<List<ServerIcon>>();

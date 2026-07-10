@@ -32,7 +32,7 @@ public static class WaterDataService
         IServiceProvider sp = null!,
         RequestContext<CallToolRequestParams> rc = null!,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
         {
             var filter = new JsonObject();
@@ -72,7 +72,7 @@ public static class WaterDataService
         IServiceProvider sp = null!,
         RequestContext<CallToolRequestParams> rc = null!,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
         {
             var aquoMetadata = new JsonObject();
@@ -117,7 +117,7 @@ public static class WaterDataService
         IServiceProvider sp = null!,
         RequestContext<CallToolRequestParams> rc = null!,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
         {
             var locatieLijst = new JsonArray(
@@ -158,7 +158,7 @@ public static class WaterDataService
         IServiceProvider sp = null!,
         RequestContext<CallToolRequestParams> rc = null!,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
         {
             var locaties = new JsonArray(

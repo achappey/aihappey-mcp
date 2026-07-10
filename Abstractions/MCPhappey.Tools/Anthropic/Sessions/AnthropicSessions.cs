@@ -15,7 +15,7 @@ public static partial class AnthropicSessions
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedSessionId = NormalizeSessionId(sessionId);

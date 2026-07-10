@@ -42,7 +42,7 @@ public static class AzuceForecast
         [Description("Optional currency symbol for display such as $, £, or €.")] string? currencySymbol = null,
         [Description("Optional ISO 3166-1 alpha-2 country code used for defaults.")] string? countryCode = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRange(latitude, -90, 90, nameof(latitude));

@@ -23,7 +23,7 @@ public static partial class OpenAIContainers
      IServiceProvider serviceProvider,
      RequestContext<CallToolRequestParams> requestContext,
      CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
@@ -51,7 +51,7 @@ public static partial class OpenAIContainers
        [Description("File name with extension. Make you add the correct file extension according to the filetype. No .bin files.")] string filename,
        IServiceProvider serviceProvider,
        RequestContext<CallToolRequestParams> requestContext,
-       CancellationToken cancellationToken = default) => await requestContext.WithExceptionCheck(async () =>
+       CancellationToken cancellationToken = default) => await ModelContextToolExtensions.WithExceptionCheck(async () =>
    {
        var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
 
@@ -75,7 +75,7 @@ public static partial class OpenAIContainers
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
         =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await serviceProvider.WithContainerClient(async (client) =>
         await requestContext.WithStructuredContent(async () =>
         {

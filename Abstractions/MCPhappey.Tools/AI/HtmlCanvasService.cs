@@ -38,7 +38,7 @@ public static class HtmlCanvasService
         RequestContext<CallToolRequestParams> context,
         string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);
@@ -68,7 +68,7 @@ public static class HtmlCanvasService
         RequestContext<CallToolRequestParams> context,
         string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);
@@ -104,7 +104,7 @@ public static class HtmlCanvasService
         RequestContext<CallToolRequestParams> context,
         string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);
@@ -144,7 +144,7 @@ public static class HtmlCanvasService
         RequestContext<CallToolRequestParams> context,
         string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);
@@ -192,7 +192,7 @@ public static class HtmlCanvasService
         string? destinationFolder,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
     {
@@ -260,7 +260,7 @@ public static class HtmlCanvasService
         RequestContext<CallToolRequestParams> context,
         string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);
@@ -309,7 +309,7 @@ public static class HtmlCanvasService
         [Description("Placeholder variable name to replace. You can pass either 'imageBase64' or '{imageBase64}'.")]
     string variableName,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graphClient =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();

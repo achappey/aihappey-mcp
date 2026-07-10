@@ -25,7 +25,7 @@ public static class TodoTaskList
         string listTitle,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -71,7 +71,7 @@ public static class TodoTaskList
         bool completed,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -112,7 +112,7 @@ public static class TodoTaskList
         string title,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -168,7 +168,7 @@ public static class TodoTaskList
         string listId,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {

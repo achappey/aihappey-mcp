@@ -21,7 +21,7 @@ public static class FlexpriceEnvironments
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceEnvironmentResponse>>(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(
@@ -68,7 +68,7 @@ public static class FlexpriceEnvironments
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceEnvironmentResponse>>(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(

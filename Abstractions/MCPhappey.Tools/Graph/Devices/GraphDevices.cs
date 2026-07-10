@@ -14,7 +14,7 @@ public static class GraphDevices
           RequestContext<CallToolRequestParams> requestContext,
           [Description("The device id to retire.")] string deviceId,
           CancellationToken cancellationToken = default) =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext.WithOboGraphClient(async client =>
           await requestContext.WithStructuredContent(async () =>
         {
@@ -53,7 +53,7 @@ public static class GraphDevices
           [Description("The Intune managedDevice ID to delete.")] string deviceId,
           RequestContext<CallToolRequestParams> requestContext,
           CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
     {
         // Fetch a minimal projection to confirm with a human-friendly name
@@ -94,7 +94,7 @@ public static class GraphDevices
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
         {
             if (string.IsNullOrWhiteSpace(entraDeviceId) && string.IsNullOrWhiteSpace(managedDeviceId))

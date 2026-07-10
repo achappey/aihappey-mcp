@@ -42,7 +42,7 @@ public static class LumenfallVideo
         [Description("Maximum total wait time in seconds.")][Range(30, 3600)] int maxWaitSeconds = DefaultMaxWaitSeconds,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new LumenfallVideoGenerateRequest
@@ -162,7 +162,7 @@ public static class LumenfallVideo
         [Description("Lumenfall video id.")] string id,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new LumenfallVideoGetRequest
@@ -210,7 +210,7 @@ public static class LumenfallVideo
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Lumenfall video id.")] string id,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new LumenfallVideoCancelRequest

@@ -42,7 +42,7 @@ public static class RunwayImages
         bool? waitUntilCompleted,
         int? seed = null,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewTextToImage
         {
@@ -89,7 +89,7 @@ public static class RunwayImages
         bool? waitUntilCompleted,
         int? seed,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         if (promptImages == null || !promptImages.Any())
             throw new ValidationException("At least one prompt image is required.");

@@ -31,7 +31,7 @@ public static class WidnAIGlossary
         [Description("Optional glossary items (term + translation).")]
         List<WidnGlossaryItemInput>? items = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new WidnCreateGlossaryRequest
@@ -86,7 +86,7 @@ public static class WidnAIGlossary
         [Description("Optional glossary items (term + translation).")]
         List<WidnGlossaryItemInput>? items = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new WidnUpdateGlossaryRequest
@@ -145,7 +145,7 @@ public static class WidnAIGlossary
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Glossary ID to delete.")] string glossaryId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(glossaryId);
 
@@ -171,7 +171,7 @@ public static class WidnAIGlossary
         [Description("Source term.")] string term,
         [Description("Translated value.")] string translation,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new WidnCreateGlossaryItemRequest
@@ -224,7 +224,7 @@ public static class WidnAIGlossary
         [Description("Source term.")] string term,
         [Description("Translated value.")] string translation,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new WidnUpdateGlossaryItemRequest
@@ -282,7 +282,7 @@ public static class WidnAIGlossary
         [Description("Glossary ID.")] string glossaryId,
         [Description("Item ID.")] string itemId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(glossaryId);
             ArgumentException.ThrowIfNullOrWhiteSpace(itemId);

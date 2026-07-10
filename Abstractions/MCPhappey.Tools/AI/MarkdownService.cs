@@ -30,7 +30,7 @@ public static class MarkdownService
         [Description("Markdown content")] string markdown,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
             {
                 if (string.IsNullOrWhiteSpace(markdown))
@@ -70,7 +70,7 @@ public static class MarkdownService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
             {
                 if (string.IsNullOrWhiteSpace(markdownUrl))
@@ -118,7 +118,7 @@ public static class MarkdownService
         [Description("Markdown content")] string markdown,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
             {
                 if (string.IsNullOrWhiteSpace(markdown))
@@ -147,7 +147,7 @@ public static class MarkdownService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
             {
                 if (string.IsNullOrWhiteSpace(markdownUrl))
@@ -185,7 +185,7 @@ public static class MarkdownService
         [Description("Markdown content")] string markdown,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
             {
                 if (string.IsNullOrWhiteSpace(markdown))
@@ -217,7 +217,7 @@ public static class MarkdownService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
             {
                 if (string.IsNullOrWhiteSpace(markdownUrl))
@@ -339,7 +339,7 @@ public static class MarkdownService
         [Description("Optional: [startLine, endLine] (1-based)")] int[]? view_range = null,
         [Description("Optional: OneDrive Drive ID (defaults to user drive).")] string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var isDir = !path.Contains('.') || path.EndsWith("/");
@@ -388,7 +388,7 @@ public static class MarkdownService
         RequestContext<CallToolRequestParams> context,
         [Description("Optional: OneDrive Drive ID (defaults to user drive).")] string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);
@@ -427,7 +427,7 @@ public static class MarkdownService
         RequestContext<CallToolRequestParams> context,
         [Description("Optional: OneDrive Drive ID (defaults to user drive).")] string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);
@@ -479,7 +479,7 @@ public static class MarkdownService
         RequestContext<CallToolRequestParams> context,
         [Description("Optional: OneDrive Drive ID (defaults to user drive).")] string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);

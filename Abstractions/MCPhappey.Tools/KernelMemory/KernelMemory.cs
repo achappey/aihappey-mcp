@@ -42,7 +42,7 @@ public static class KernelMemory
         [Description("Limit the number of results")]
         int? limit = 10,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var memory = serviceProvider.GetRequiredService<IKernelMemory>();
@@ -77,7 +77,7 @@ public static class KernelMemory
         [Description("Minimum relevance")]
         double? minRelevance = 0,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var memory = serviceProvider.GetRequiredService<IKernelMemory>();
@@ -113,7 +113,7 @@ public static class KernelMemory
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var memory = serviceProvider.GetService<IKernelMemory>();

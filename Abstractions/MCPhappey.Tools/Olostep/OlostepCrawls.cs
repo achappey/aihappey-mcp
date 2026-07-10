@@ -34,7 +34,7 @@ public static class OlostepCrawls
         [Description("Polling interval in seconds when wait_for_completion is true.")] int poll_interval_seconds = 5,
         [Description("Maximum seconds to wait when wait_for_completion is true.")] int max_wait_seconds = 600,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new OlostepCreateCrawlRequest
@@ -150,7 +150,7 @@ public static class OlostepCrawls
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Crawl identifier returned by Olostep crawl creation.")] string crawl_id,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new OlostepGetCrawlRequest
@@ -192,7 +192,7 @@ public static class OlostepCrawls
         [Description("Optional search query used to rank returned pages.")] string? search_query = null,
         [Description("Optional deprecated formats list as newline-separated or comma-separated values such as html or markdown.")] string? formats = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new OlostepGetCrawlPagesRequest

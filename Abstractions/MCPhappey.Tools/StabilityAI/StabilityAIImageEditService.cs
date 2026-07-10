@@ -30,7 +30,7 @@ public static class StabilityAIImageEditService
         [Description("Optional mask growth value in pixels (0–20). Default: 5")] int? growMask = 5,
         [Description("Output filename, without extension")] string? filename = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var downloader = serviceProvider.GetRequiredService<DownloadService>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -114,7 +114,7 @@ public static class StabilityAIImageEditService
           [Description("URL of mask image. White = replace/inpaint, black = keep.")] string maskUrl,
           [Description("Output filename, without extension")] string? filename = null,
           CancellationToken cancellationToken = default) =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           {
               var downloader = serviceProvider.GetRequiredService<DownloadService>();
               var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -211,7 +211,7 @@ public static class StabilityAIImageEditService
            [Description("Down")] int? down = null,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var downloader = serviceProvider.GetRequiredService<DownloadService>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -310,7 +310,7 @@ public static class StabilityAIImageEditService
            [Description("Description of what should replace it. English prompts only.")] string prompt,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var downloader = serviceProvider.GetRequiredService<DownloadService>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -398,7 +398,7 @@ public static class StabilityAIImageEditService
            [Description("Describe the new colors or visual changes. English prompts only.")] string prompt,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var downloader = serviceProvider.GetRequiredService<DownloadService>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -483,7 +483,7 @@ public static class StabilityAIImageEditService
            [Description("URL of the image to process (SharePoint, OneDrive, or public).")] string imageUrl,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var downloader = serviceProvider.GetRequiredService<DownloadService>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

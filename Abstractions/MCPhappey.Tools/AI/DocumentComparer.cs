@@ -30,7 +30,7 @@ public static class DocumentComparer
        IServiceProvider serviceProvider,
        RequestContext<CallToolRequestParams> requestContext,
        CancellationToken cancellationToken = default) =>
-       await requestContext.WithExceptionCheck(async () =>
+       await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;

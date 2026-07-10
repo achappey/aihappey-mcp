@@ -18,7 +18,7 @@ public static class OlostepSearch
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Natural language web search query.")] string query,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new OlostepCreateSearchRequest
@@ -61,7 +61,7 @@ public static class OlostepSearch
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Search identifier returned by Olostep search creation.")] string search_id,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new OlostepGetSearchRequest

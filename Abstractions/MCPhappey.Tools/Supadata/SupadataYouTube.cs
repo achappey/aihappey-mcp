@@ -30,7 +30,7 @@ public static class SupadataYouTube
         [Description("Maximum characters per transcript chunk (only when text=false).")]
         int? chunkSize = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(

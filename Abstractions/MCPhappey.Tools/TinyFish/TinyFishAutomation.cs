@@ -28,7 +28,7 @@ public static class TinyFishAutomation
         [Description("Optional integration name for analytics, for example dify, zapier, n8n.")] string? api_integration = null,
         [Description("Optional feature flag to enable agent memory.")] bool? feature_enable_agent_memory = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(url);
             ArgumentException.ThrowIfNullOrWhiteSpace(goal);

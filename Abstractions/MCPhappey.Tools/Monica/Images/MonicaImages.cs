@@ -39,7 +39,7 @@ public static class MonicaImages
         [Description("Optional Flux Pro safety tolerance (1-6).")][Range(1, 6)] int? safetyTolerance = null,
         [Description("Optional output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new MonicaGenerateImageRequest
@@ -95,7 +95,7 @@ public static class MonicaImages
         [Description("Upscale factor. Monica currently supports only 2.")][Range(2, 2)] int scale = 2,
         [Description("Optional output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new MonicaUpscaleRequest
@@ -140,7 +140,7 @@ public static class MonicaImages
         [Description("Input file URL. SharePoint/OneDrive secure links are supported.")] string fileUrl,
         [Description("Optional output filename base without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new MonicaRemoveBackgroundRequest

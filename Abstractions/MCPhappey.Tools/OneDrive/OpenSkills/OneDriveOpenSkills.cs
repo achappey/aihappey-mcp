@@ -22,7 +22,7 @@ public static class OneDriveOpenSkills
     public static async Task<CallToolResult?> OneDriveOpenSkills_List(
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
     {
@@ -85,7 +85,7 @@ public static class OneDriveOpenSkills
         [Description("Name of the skill folder under /skills.")] string skillName,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         if (string.IsNullOrWhiteSpace(skillName))
@@ -116,7 +116,7 @@ public static class OneDriveOpenSkills
         string relativePath,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         if (string.IsNullOrWhiteSpace(skillName))

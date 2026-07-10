@@ -40,7 +40,7 @@ public static class OneDriveMemory
      RequestContext<CallToolRequestParams> context,
      [Description("Optional: [startLine, endLine]")] int[]? view_range = null,
      CancellationToken cancellationToken = default) =>
-     await context.WithExceptionCheck(async () =>
+     await ModelContextToolExtensions.WithExceptionCheck(async () =>
      await context.WithOboGraphClient(async (graph) =>
  {
      // 1) Normalize path and validate leading /memories
@@ -104,7 +104,7 @@ public static class OneDriveMemory
         string file_text,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async (graph) =>
     {
         path = Normalize(path);
@@ -145,7 +145,7 @@ public static class OneDriveMemory
         string new_str,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async (graph) =>
     {
         path = Normalize(path);
@@ -189,7 +189,7 @@ public static class OneDriveMemory
         string insert_text,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async (graph) =>
     {
         path = Normalize(path);
@@ -245,7 +245,7 @@ public static class OneDriveMemory
         [Description("The full path of the memory to delete.")] string path,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
         {
@@ -279,7 +279,7 @@ public static class OneDriveMemory
         string new_path,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async (graph) =>
     {
         old_path = Normalize(old_path);

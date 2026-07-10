@@ -24,7 +24,7 @@ public static partial class AnthropicAgents
         [Description("Optional version to pin for the roster agent. Omit to let Anthropic resolve the latest version during update.")] int? rosterAgentVersion = null,
 
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMultiagentAgentMutationRequest
@@ -77,7 +77,7 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
 
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMultiagentSelfMutationRequest
@@ -121,7 +121,7 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
 
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(agentId))
@@ -158,7 +158,7 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
 
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(agentId))
@@ -193,7 +193,7 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
 
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(agentId))

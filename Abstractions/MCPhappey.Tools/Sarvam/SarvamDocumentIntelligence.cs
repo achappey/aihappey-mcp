@@ -43,7 +43,7 @@ public static class SarvamDocumentIntelligence
         [Description("Optional output filename without extension. If omitted, an MCP output name is generated.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new SarvamDocumentIntelligenceRequest

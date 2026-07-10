@@ -25,7 +25,7 @@ public static class GreenPTDocuments
         [Description("Extract images from the document. Default true.")] bool? includeImages = null,
         [Description("When true, saves the converted output beside the source file using the same filename plus .LLMs.<ext> when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             {
                 var requestedFormat = ResolveRequestedFormat(toFormats, "md");
                 var result = await ExecuteConvertAsync(serviceProvider, requestContext, fileUrl, toFormats, doOcr, forceOcr, doTableStructure, tableMode, includeImages, cancellationToken);

@@ -34,7 +34,7 @@ public static class GradiumVoices
         [Description("Audio start offset in seconds. Default: 0.")] double start_s = 0,
         [Description("Timeout in seconds. Default: 10.")] double timeout_s = 10,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GradiumCreateVoiceRequest
@@ -106,7 +106,7 @@ public static class GradiumVoices
         [Description("Optional updated start offset in seconds.")] double? start_s = null,
         [Description("Optional numeric rank.")] double? rank = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(voice_uid);
 
@@ -165,7 +165,7 @@ public static class GradiumVoices
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(voice_uid);
 

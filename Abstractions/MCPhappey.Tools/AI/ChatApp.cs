@@ -20,7 +20,7 @@ public static class ChatApp
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var config = serviceProvider.GetService<McpApplicationInsights>();
         var serverList = serviceProvider.GetService<IReadOnlyList<ServerConfig>>();

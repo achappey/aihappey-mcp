@@ -53,7 +53,7 @@ public static partial class GraphWorkbooks
     [Description("The cell range for the chart source data, e.g. 'A1:B10' or 'Sheet1!A1:C20'.")] string? sourceData = null,
     [Description("How the series are organized in the source data: by rows, columns, or auto.")] ChartSeriesBy? seriesBy = null,
     CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (client) =>
         await requestContext.WithStructuredContent(async () =>
     {

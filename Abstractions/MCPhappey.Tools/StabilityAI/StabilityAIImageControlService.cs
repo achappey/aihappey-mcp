@@ -28,7 +28,7 @@ public static class StabilityAIImageControlService
            [Description("Describe what the final refined image should look like. English prompts only.")] string prompt,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var downloader = serviceProvider.GetRequiredService<DownloadService>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -114,7 +114,7 @@ public static class StabilityAIImageControlService
           [Description("Describe what the final image should depict while keeping the same structure. English prompts only.")] string prompt,
           [Description("Output filename without extension.")] string? filename = null,
           CancellationToken cancellationToken = default) =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           {
               var downloader = serviceProvider.GetRequiredService<DownloadService>();
               var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -200,7 +200,7 @@ public static class StabilityAIImageControlService
            [Description("Describe what the output should depict, in the same style as the reference image. English prompts only.")] string prompt,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var downloader = serviceProvider.GetRequiredService<DownloadService>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -289,7 +289,7 @@ public static class StabilityAIImageControlService
            [Description("Optional description of the desired final look. English prompts only.")] string? prompt = null,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var downloader = serviceProvider.GetRequiredService<DownloadService>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

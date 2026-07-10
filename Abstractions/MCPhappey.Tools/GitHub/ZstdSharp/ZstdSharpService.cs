@@ -18,7 +18,7 @@ public static class ZstdSharpService
     [Description("File URL to compress.")] string fileUrl,
     [Description("Compression level (1–22, default 5).")] int level = 5,
     CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graph =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -53,7 +53,7 @@ public static class ZstdSharpService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("URL of the .zst file to decompress.")] string fileUrl,
         CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graph =>
             {
                 var fileName = Path.GetFileNameWithoutExtension(fileUrl);

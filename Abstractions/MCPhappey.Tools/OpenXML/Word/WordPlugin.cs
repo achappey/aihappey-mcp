@@ -30,7 +30,7 @@ public static class WordPlugin
     IServiceProvider serviceProvider,
     RequestContext<CallToolRequestParams> requestContext,
     CancellationToken cancellationToken = default)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
         {
             if (string.IsNullOrWhiteSpace(originalText))
@@ -136,7 +136,7 @@ public static class WordPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -188,7 +188,7 @@ public static class WordPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -248,7 +248,7 @@ public static class WordPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -1009,7 +1009,7 @@ public static class WordPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -1073,7 +1073,7 @@ public static class WordPlugin
            IServiceProvider serviceProvider,
            RequestContext<CallToolRequestParams> requestContext,
            CancellationToken cancellationToken = default)
-           => await requestContext.WithExceptionCheck(async () =>
+           => await ModelContextToolExtensions.WithExceptionCheck(async () =>
                await requestContext.WithOboGraphClient(async (graphClient) =>
            {
                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -1154,7 +1154,7 @@ public static class WordPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithOboGraphClient(async (graphClient) =>
         {
 

@@ -19,7 +19,7 @@ public static class AI302AnswerMachinePlugin
         [Description("Language code, e.g. zh, en, ja.")] string lang = "zh",
         [Description("Whether to request streaming output.")] bool stream = false,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<AI302Client>();

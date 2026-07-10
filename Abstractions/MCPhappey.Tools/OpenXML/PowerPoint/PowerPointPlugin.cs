@@ -119,7 +119,7 @@ public static class PowerPointPlugin
     RequestContext<CallToolRequestParams> requestContext,
     [Description("Optional shape index (omit for auto title/body detection)")] int? shapeIndex = null,
     CancellationToken cancellationToken = default)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     await requestContext.WithOboGraphClient(async graphClient =>
 {
     var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -182,7 +182,7 @@ public static class PowerPointPlugin
     IServiceProvider serviceProvider,
     RequestContext<CallToolRequestParams> requestContext,
     CancellationToken cancellationToken = default)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     await requestContext.WithOboGraphClient(async graphClient =>
     await requestContext.WithStructuredContent(async () =>
         {
@@ -219,7 +219,7 @@ public static class PowerPointPlugin
     IServiceProvider serviceProvider,
     RequestContext<CallToolRequestParams> requestContext,
     CancellationToken cancellationToken = default)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     await requestContext.WithOboGraphClient(async graphClient =>
     await requestContext.WithStructuredContent(async () =>
     {
@@ -268,7 +268,7 @@ public static class PowerPointPlugin
     IServiceProvider serviceProvider,
     RequestContext<CallToolRequestParams> requestContext,
     CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
 {
     var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -343,7 +343,7 @@ public static class PowerPointPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graphClient =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -365,7 +365,7 @@ public static class PowerPointPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graphClient =>
     {
         using var stream = new MemoryStream();
@@ -388,7 +388,7 @@ public static class PowerPointPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graphClient =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -412,7 +412,7 @@ public static class PowerPointPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graphClient =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();

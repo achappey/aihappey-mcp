@@ -19,7 +19,7 @@ public static partial class AnthropicVaults
         [Description("Optional metadata JSON object. The Owners entry is controlled by this MCP server.")] string? metadataJson = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var userId = serviceProvider.GetUserId()
@@ -63,7 +63,7 @@ public static partial class AnthropicVaults
         [Description("Optional metadata patch JSON object. Set keys to strings to upsert, or null to delete. The Owners entry is preserved.")] string? metadataPatchJson = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateVaultRequest
@@ -113,7 +113,7 @@ public static partial class AnthropicVaults
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicVaultOwnerRequest
@@ -156,7 +156,7 @@ public static partial class AnthropicVaults
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveVaultRequest
@@ -185,7 +185,7 @@ public static partial class AnthropicVaults
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedVaultId = NormalizeVaultId(vaultId);

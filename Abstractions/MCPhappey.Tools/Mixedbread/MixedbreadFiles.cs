@@ -26,7 +26,7 @@ public static class MixedbreadFiles
         [Description("File URL to upload (SharePoint/OneDrive/HTTPS supported).")]
         string fileUrl,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
@@ -75,7 +75,7 @@ public static class MixedbreadFiles
         [Description("File URL to upload as the new content (SharePoint/OneDrive/HTTPS supported).")]
         string fileUrl,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(fileId);
@@ -127,7 +127,7 @@ public static class MixedbreadFiles
         RequestContext<CallToolRequestParams> requestContext,
         [Description("File ID to delete.")] string fileId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileId))

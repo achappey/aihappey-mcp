@@ -38,7 +38,7 @@ public static class TogetherCodeInterpreter
         [Description("Optional Together Code Interpreter session id to reuse.")]
         string? sessionId = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 

@@ -37,7 +37,7 @@ public static class SmallestAISpeech
         [Description("Optional pronunciation dictionary IDs, comma-separated.")] string? pronunciation_dicts = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var resolvedText = await ResolveInputTextAsync(serviceProvider, requestContext, text, fileUrl, cancellationToken);
 

@@ -28,7 +28,7 @@ public static class RunwayVideo
         [Description("Wait until the fully completed and upload outputs.")]
         bool? waitUntilCompleted,
         CancellationToken ct = default) =>
-        await rc.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewVideoRequest
         {
@@ -85,7 +85,7 @@ public static class RunwayVideo
         [Description("Wait until the fully completed and upload outputs.")]
         bool? waitUntilCompleted,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         if (promptImages == null || !promptImages.Any())
             throw new ValidationException("At least one prompt image is required.");
@@ -168,7 +168,7 @@ public static class RunwayVideo
         IServiceProvider sp,
         RequestContext<CallToolRequestParams> rc,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewCharacterPerformance
@@ -245,7 +245,7 @@ public static class RunwayVideo
         [Description("Wait until the upscale is fully completed and upload outputs.")]
         bool? waitUntilCompleted,
         CancellationToken ct = default) =>
-        await rc.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var downloadService = sp.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(sp, rc.Server, videoUri, ct);
@@ -296,7 +296,7 @@ public static class RunwayVideo
         [Description("Wait until the fully completed and upload outputs.")]
         bool? waitUntilCompleted,
         CancellationToken ct = default) =>
-         await rc.WithExceptionCheck(async () =>
+         await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewVideoToVideo
         {

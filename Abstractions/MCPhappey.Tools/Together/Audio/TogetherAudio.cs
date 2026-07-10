@@ -34,7 +34,7 @@ public static class TogetherAudio
         [Description("Sample rate in Hz. Default: 44100.")] int sampleRate = 44100,
         [Description("Output filename (without extension).")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             // 1️⃣ Elicit or confirm model input
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
@@ -166,7 +166,7 @@ public static class TogetherAudio
         [Description("Enable speaker diarization.")] bool diarize = true,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 

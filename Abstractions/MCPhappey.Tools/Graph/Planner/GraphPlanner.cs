@@ -25,7 +25,7 @@ public static partial class GraphPlanner
             int? percentComplete = null,
             int? priority = null,
             CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
@@ -68,7 +68,7 @@ public static partial class GraphPlanner
         [Description("Order hint for bucket placement (optional, leave empty for default).")]
         string? orderHint = null,
         CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
@@ -99,7 +99,7 @@ public static partial class GraphPlanner
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {

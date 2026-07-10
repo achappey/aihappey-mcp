@@ -35,7 +35,7 @@ public static class LOVOSpeech
         [Description("Speech speed from 0.05 to 3.0. Default: 1.0.")] double speed = 1,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new LOVOTextToSpeechRequest
@@ -79,7 +79,7 @@ public static class LOVOSpeech
         [Description("Speech speed from 0.05 to 3.0. Default: 1.0.")] double speed = 1,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

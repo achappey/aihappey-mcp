@@ -26,7 +26,7 @@ public static class AI302DocumentEditorPlugin
         [Description("Optional top_p sampling value.")] double? topP = null,
         [Description("Optional temperature sampling value.")] double? temperature = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new AI302DocumentEditorOutlineInput
             {
@@ -76,7 +76,7 @@ public static class AI302DocumentEditorPlugin
         [Description("Optional outline sections as JSON array string. Example: [{\"type\":\"text\",\"content\":\"...\"}]")] string? sectionsJson = null,
         [Description("Illustration mode: only_net, only_ai, or first_net.")] string imgDemo = "only_ai",
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new AI302DocumentEditorArticleInput
             {

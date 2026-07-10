@@ -28,7 +28,7 @@ public static class AI302SearchPlugin
         [Description("Comma-separated whitelist domains, e.g. example.com,news.example.com.")] string? includeDomains = null,
         [Description("Comma-separated blacklist domains, e.g. spam.example.com,ads.example.com.")] string? excludeDomains = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<AI302Client>();

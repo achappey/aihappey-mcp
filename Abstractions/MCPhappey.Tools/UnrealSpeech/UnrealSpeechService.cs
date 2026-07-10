@@ -43,7 +43,7 @@ public static class UnrealSpeechService
         [Description("Output filename without extension.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 
@@ -126,7 +126,7 @@ public static class UnrealSpeechService
         [Description("Output filename without extension.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

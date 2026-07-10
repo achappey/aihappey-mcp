@@ -28,7 +28,7 @@ public static class ReplicateService
         [Description("Wait time (1–60s) for intermediate results.")]
         [Range(1, 60)] int? preferWaitSeconds = null,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var replicate = sp.GetRequiredService<ReplicateClient>();

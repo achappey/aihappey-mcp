@@ -29,7 +29,7 @@ public static class GroqAudio
         [Description("Voice.")] GroqTtsVoice voice,
         [Description("Output filename (without extension).")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var settings = serviceProvider.GetRequiredService<GroqSettings>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -105,7 +105,7 @@ public static class GroqAudio
            [Description("Voice.")] GroqTtsArabicVoice voice,
            [Description("Output filename (without extension).")] string? filename = null,
            CancellationToken cancellationToken = default)
-           => await requestContext.WithExceptionCheck(async () =>
+           => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                ArgumentException.ThrowIfNullOrWhiteSpace(input);
 

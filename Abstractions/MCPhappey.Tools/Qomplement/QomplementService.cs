@@ -42,7 +42,7 @@ public static class QomplementService
         [Description("Maximum wait time in seconds for async polling.")]
         [Range(30, 3600)] int maxWaitSeconds = 900,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var typed = new QomplementExtractRequest
@@ -133,7 +133,7 @@ public static class QomplementService
         [Description("Optional output filename base (without extension).")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var typed = new QomplementFillPdfRequest
@@ -238,7 +238,7 @@ public static class QomplementService
         [Description("Optional output filename base (without extension).")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var typed = new QomplementFillExcelRequest

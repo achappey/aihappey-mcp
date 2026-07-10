@@ -25,7 +25,7 @@ public static class WidnAIQuality
         [Description("Reference translation text.")] string referenceText,
         [Description("Evaluation model. Only xcomet-xl is supported.")] string model = "xcomet-xl",
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var normalizedModel = NormalizeEvaluateModel(model);
 
@@ -84,7 +84,7 @@ public static class WidnAIQuality
         string fileUrl,
         [Description("Evaluation model. Only xcomet-xl is supported.")] string model = "xcomet-xl",
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var normalizedModel = NormalizeEvaluateModel(model);
 
@@ -154,7 +154,7 @@ public static class WidnAIQuality
         string? tone = null,
         [Description("Model: mqm-qe or xcomet-xl. Default: mqm-qe.")] string model = "mqm-qe",
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var normalizedModel = NormalizeEstimateModel(model);
 
@@ -217,7 +217,7 @@ public static class WidnAIQuality
         string? tone = null,
         [Description("Model: mqm-qe or xcomet-xl. Default: mqm-qe.")] string model = "mqm-qe",
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var normalizedModel = NormalizeEstimateModel(model);
 

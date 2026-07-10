@@ -19,7 +19,7 @@ public static partial class AnthropicMemoryStores
         [Description("Optional memory store description.")] string? description = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var userId = serviceProvider.GetUserId()
@@ -65,7 +65,7 @@ public static partial class AnthropicMemoryStores
         [Description("Optional updated description. Provide an empty string to clear.")] string? description = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateMemoryStoreRequest
@@ -113,7 +113,7 @@ public static partial class AnthropicMemoryStores
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicMemoryStoreOwnerRequest
@@ -156,7 +156,7 @@ public static partial class AnthropicMemoryStores
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveMemoryStoreRequest
@@ -185,7 +185,7 @@ public static partial class AnthropicMemoryStores
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedMemoryStoreId = NormalizeMemoryStoreId(memoryStoreId);

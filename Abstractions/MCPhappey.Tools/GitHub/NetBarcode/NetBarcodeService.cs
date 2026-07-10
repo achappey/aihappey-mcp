@@ -28,7 +28,7 @@ public static class NetBarcodeService
     IServiceProvider? serviceProvider = null,
     CancellationToken cancellationToken = default)
     =>
-    await requestContext!.WithExceptionCheck(async () =>
+    await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var type = ParseBarcodeType(barcodeType);
         var items = texts
@@ -76,7 +76,7 @@ public static class NetBarcodeService
           RequestContext<CallToolRequestParams>? requestContext = null,
           IServiceProvider? serviceProvider = null,
           CancellationToken cancellationToken = default) =>
-          await requestContext!.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           {
               // 🧩 Parse to enum (defaults to Code128)
               var type = ParseBarcodeType(barcodeType);

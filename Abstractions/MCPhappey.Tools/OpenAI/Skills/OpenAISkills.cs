@@ -44,7 +44,7 @@ public static class OpenAISkills
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new OpenAINewSkill
@@ -90,7 +90,7 @@ public static class OpenAISkills
         RequestContext<CallToolRequestParams> requestContext,
         [Description("The version number to set as default.")] string? defaultVersion = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
 
@@ -131,7 +131,7 @@ public static class OpenAISkills
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
 
@@ -166,7 +166,7 @@ public static class OpenAISkills
         [Description("Whether the new version should immediately become the default version.")]
         bool? makeDefault = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
 
@@ -227,7 +227,7 @@ public static class OpenAISkills
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
             ArgumentException.ThrowIfNullOrWhiteSpace(version);

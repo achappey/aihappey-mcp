@@ -26,7 +26,7 @@ public static class OpenAICodeInterpreter
           [Description("Optional container id")]
             string? containerId = null,
           CancellationToken cancellationToken = default) =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var openai = new JsonObject
         {

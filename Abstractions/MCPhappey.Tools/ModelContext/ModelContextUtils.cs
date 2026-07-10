@@ -44,7 +44,7 @@ public static class ModelContextUtils
           [Description("Optional progress message prefix.")]
         string? messagePrefix = null,
           CancellationToken cancellationToken = default)
-          => await requestContext.WithExceptionCheck(async () =>
+          => await ModelContextToolExtensions.WithExceptionCheck(async () =>
           {
               // basic guardrails (don’t let a typo hang your server forever)
               var originalWaitSeconds = waitSeconds;
@@ -113,7 +113,7 @@ public static class ModelContextUtils
          [Description("Field value")]
          string? defaultValue = null,
          CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
              await requestContext.WithStructuredContent(async () =>
      {
          var propName = string.IsNullOrWhiteSpace(fieldName) ? "value" : fieldName;
@@ -220,7 +220,7 @@ public static class ModelContextUtils
         string? defaultValue = null,
         CancellationToken cancellationToken = default)
         =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var propName = string.IsNullOrWhiteSpace(fieldName)
@@ -295,7 +295,7 @@ public static class ModelContextUtils
         [Description("Field value")]
     string? defaultValue = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             const string inputKey = "elicit";
 
@@ -430,7 +430,7 @@ public static class ModelContextUtils
         [Description("Default value (must match one of the options)")]
     string? defaultValue = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             const string inputKey = "elicit_enum";
 

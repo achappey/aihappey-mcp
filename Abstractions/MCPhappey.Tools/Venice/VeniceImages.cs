@@ -47,7 +47,7 @@ public static class VeniceImages
         int? seed = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceGenerateImageRequest
@@ -173,7 +173,7 @@ public static class VeniceImages
         double? replication = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceUpscaleImageRequest
@@ -231,7 +231,7 @@ public static class VeniceImages
         [Description("Optional aspect ratio. Example: auto, 1:1, 16:9.")] string? aspect_ratio = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceEditImageRequest
@@ -283,7 +283,7 @@ public static class VeniceImages
         [Description("Model ID for multi-edit endpoint. Default: qwen-edit.")] string modelId = "qwen-edit",
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceMultiEditImageRequest
@@ -337,7 +337,7 @@ public static class VeniceImages
         string fileUrl,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceBackgroundRemoveRequest

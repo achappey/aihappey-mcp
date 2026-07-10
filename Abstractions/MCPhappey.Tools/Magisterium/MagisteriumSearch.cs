@@ -25,7 +25,7 @@ public static class MagisteriumSearch
         [Description("Source category filter: auto, magisterial, or scholarly.")]
         string? category = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);

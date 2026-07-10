@@ -29,7 +29,7 @@ public static class Mem0PersonalService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithStructuredContent(async () =>
         {
             if (page < 1) throw new ArgumentException("Page must be >= 1");
@@ -69,7 +69,7 @@ public static class Mem0PersonalService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithStructuredContent(async () =>
         {
             var userId = serviceProvider.GetUserId();
@@ -111,7 +111,7 @@ public static class Mem0PersonalService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithStructuredContent(async () =>
         {
             var userId = serviceProvider.GetUserId();
@@ -151,7 +151,7 @@ public static class Mem0PersonalService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithStructuredContent(async () =>
         {
             var userId = serviceProvider.GetUserId();
@@ -198,7 +198,7 @@ public static class Mem0PersonalService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithStructuredContent(async () =>
         {
             var mem0Settings = serviceProvider.GetRequiredService<Mem0Settings>();

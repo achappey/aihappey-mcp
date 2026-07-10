@@ -19,7 +19,7 @@ public static class OlostepAnswers
         [Description("Task or question Olostep should answer using web research.")] string task,
         [Description("Optional JSON schema string or plain text description describing the desired result format.")] string? json_format = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new OlostepCreateAnswerRequest
@@ -66,7 +66,7 @@ public static class OlostepAnswers
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Answer identifier returned by Olostep answer creation.")] string answer_id,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new OlostepGetAnswerRequest

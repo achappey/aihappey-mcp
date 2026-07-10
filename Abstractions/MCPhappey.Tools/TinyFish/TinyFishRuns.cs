@@ -25,7 +25,7 @@ public static class TinyFishRuns
         [Description("Array of TinyFish run IDs to fetch (1-100).")]
         string[] run_ids,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithStructuredContent(async () =>
         {
             ValidateRunIds(run_ids);
@@ -62,7 +62,7 @@ public static class TinyFishRuns
         [Description("Array of TinyFish run IDs to cancel (1-100).")]
         string[] run_ids,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithStructuredContent(async () =>
         {
             ValidateRunIds(run_ids);
@@ -98,7 +98,7 @@ public static class TinyFishRuns
         RequestContext<CallToolRequestParams> requestContext,
         [Description("TinyFish run ID to cancel.")] string id,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(id);

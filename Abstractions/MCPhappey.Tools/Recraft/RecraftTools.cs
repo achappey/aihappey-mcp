@@ -28,7 +28,7 @@ public static class RecraftTools
         [Description("Number of images to generate (1-6).")][Range(1, 6)] int n = 1,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftGenerateInput
         {
@@ -76,7 +76,7 @@ public static class RecraftTools
         [Description("Number of images to generate (1-6).")][Range(1, 6)] int n = 1,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftImageToImageInput
         {
@@ -128,7 +128,7 @@ public static class RecraftTools
         [Description("Number of images to generate (1-6).")][Range(1, 6)] int n = 1,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftPromptImageInput
         {
@@ -182,7 +182,7 @@ public static class RecraftTools
         [Description("Number of images to generate (1-6).")][Range(1, 6)] int n = 1,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftPromptImageInput
         {
@@ -232,7 +232,7 @@ public static class RecraftTools
         [Description("Number of images to generate (1-6).")][Range(1, 6)] int n = 1,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftPromptImageInput
         {
@@ -280,7 +280,7 @@ public static class RecraftTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var outputName = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("svg");
         var inputFile = await DownloadSingleAsync(fileUrl, serviceProvider, requestContext, cancellationToken);
@@ -303,7 +303,7 @@ public static class RecraftTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var outputName = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("png");
         var inputFile = await DownloadSingleAsync(fileUrl, serviceProvider, requestContext, cancellationToken);
@@ -326,7 +326,7 @@ public static class RecraftTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var outputName = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("png");
         var inputFile = await DownloadSingleAsync(fileUrl, serviceProvider, requestContext, cancellationToken);
@@ -349,7 +349,7 @@ public static class RecraftTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var outputName = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("png");
         var inputFile = await DownloadSingleAsync(fileUrl, serviceProvider, requestContext, cancellationToken);
@@ -373,7 +373,7 @@ public static class RecraftTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var outputName = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("png");
         var imageFile = await DownloadSingleAsync(fileUrl, serviceProvider, requestContext, cancellationToken);
@@ -403,7 +403,7 @@ public static class RecraftTools
         [Description("Number of images to generate (1-6).")][Range(1, 6)] int n = 1,
         [Description("Output filename prefix without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftVariateInput
         {

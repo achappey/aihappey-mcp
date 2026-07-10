@@ -23,7 +23,7 @@ public static class GraphLists
             [Description("Description of the new list")]
         string? description = null,
             CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent<Microsoft.Graph.Beta.Models.List?>(async () =>
         {
@@ -68,7 +68,7 @@ public static class GraphLists
             [Description("Choices values. Comma seperated list.")]
         string? choices = null,
             CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
         {

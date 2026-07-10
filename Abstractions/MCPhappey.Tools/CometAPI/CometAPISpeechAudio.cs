@@ -47,7 +47,7 @@ public static class CometAPISpeechAudio
         [Description("Speed between 0.25 and 4.0. Default: 1.0.")] double speed = 1.0,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new CometAPISpeechTextToSpeechRequest
@@ -89,7 +89,7 @@ public static class CometAPISpeechAudio
         [Description("Speed between 0.25 and 4.0. Default: 1.0.")] double speed = 1.0,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

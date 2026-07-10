@@ -115,7 +115,7 @@ public static class SpiderCore
         string? returnFormat,
         bool runInBackground,
         CancellationToken cancellationToken)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var settings = serviceProvider.GetRequiredService<SpiderSettings>();

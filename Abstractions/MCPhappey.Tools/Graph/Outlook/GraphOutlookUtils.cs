@@ -32,7 +32,7 @@ public static class GraphOutlookUtils
         [Description("Optional output base filename for the saved e-mail. '.eml' is appended when omitted. Attachment files keep their original names.")] string? filename = null,
         [Description("When true, only attachment files are saved and the .eml message file is skipped.")] bool saveAttachmentsOnly = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
         ArgumentException.ThrowIfNullOrWhiteSpace(destinationFolderUrl);

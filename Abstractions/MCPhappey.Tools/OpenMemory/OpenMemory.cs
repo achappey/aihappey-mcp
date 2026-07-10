@@ -21,7 +21,7 @@ public static class OpenMemory
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var kernelMemory = serviceProvider.GetRequiredService<IKernelMemory>();
         var appSettings = serviceProvider.GetService<OAuthSettings>();
@@ -51,7 +51,7 @@ public static class OpenMemory
         IServiceProvider serviceProvider,
          RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-          => await requestContext.WithExceptionCheck(async () =>
+          => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var kernelMemory = serviceProvider.GetRequiredService<IKernelMemory>();
         var appSettings = serviceProvider.GetRequiredService<OAuthSettings>();
@@ -74,7 +74,7 @@ public static class OpenMemory
         [Description("Minimum relevance")]
         double? minRelevance = 0,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var appSettings = serviceProvider.GetService<OAuthSettings>();
@@ -113,7 +113,7 @@ public static class OpenMemory
       [Description("Limit items")]
         int? limit = 10,
       CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
 
     {
@@ -144,7 +144,7 @@ public static class OpenMemory
         IServiceProvider serviceProvider,
          RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var memory = serviceProvider.GetService<IKernelMemory>();

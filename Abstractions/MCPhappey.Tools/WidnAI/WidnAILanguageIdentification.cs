@@ -22,7 +22,7 @@ public static class WidnAILanguageIdentification
         [Description("Text to identify language for.")] string text,
         [Description("Maximum number of language candidates to return. Default: 1.")] int topResults = 1,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(text);
 

@@ -24,7 +24,7 @@ public static class AzureDocumentIntelligence
         [Description("When true, saves the JSON analysis beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")]
         bool saveOutput = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var result = await AnalyzeDocumentAsync(
             serviceProvider,
@@ -56,7 +56,7 @@ public static class AzureDocumentIntelligence
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
 {
     return await AnalyzeDocumentAsync(

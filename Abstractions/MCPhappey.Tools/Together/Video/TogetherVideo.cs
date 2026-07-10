@@ -23,7 +23,7 @@ public static class TogetherVideo
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
         {
             using var client = serviceProvider.CreateTogetherClient();
@@ -67,7 +67,7 @@ public static class TogetherVideo
         [Description("Filename (without extension).")] string? filename = null,
         [Description("Wait until complete.")] bool? waitUntilComplete = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         //   await requestContext.WithStructuredContent(async () =>
         {
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -148,7 +148,7 @@ public static class TogetherVideo
            IServiceProvider serviceProvider,
            RequestContext<CallToolRequestParams> requestContext,
            CancellationToken cancellationToken = default)
-           => await requestContext.WithExceptionCheck(async () =>
+           => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
            {
                using var client = serviceProvider.CreateTogetherClient();

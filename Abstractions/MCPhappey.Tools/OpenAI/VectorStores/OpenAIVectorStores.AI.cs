@@ -20,7 +20,7 @@ public static partial class OpenAIVectorStores
           [Description("If the query should be rewritten.")] bool? rewriteQuery = false,
           [Description("Maximum number of results.")] int? maxNumOfResults = 10,
           CancellationToken cancellationToken = default) =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await serviceProvider.WithVectorStoreOwnerClient<CallToolResult?>(vectorStoreId, async (client, current) =>
             {
                 var payload = new Dictionary<string, object?>
@@ -51,7 +51,7 @@ public static partial class OpenAIVectorStores
            [Description("Optional model override (defaults to gpt-5.1).")] string? model = "gpt-5.1",
            [Description("Max number of retrieved chunks.")] int? maxNumResults = 10,
            CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await serviceProvider.WithVectorStoreOwnerClient<CallToolResult?>(vectorStoreId, async (client, current) =>
            await requestContext.WithStructuredContent(async () =>
             {

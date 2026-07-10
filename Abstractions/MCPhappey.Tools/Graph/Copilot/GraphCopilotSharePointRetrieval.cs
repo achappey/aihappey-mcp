@@ -23,7 +23,7 @@ public static class GraphCopilotSharePointRetrieval
         [Description("The number of results that are returned in the response. Must be between 1 and 25.")] int? maximumNumberOfResults = null,
         [Description("Optional KQL filterExpression (e.g. path:\"https://contoso.sharepoint.com/sites/HR/\")")] string? filterExpression = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {

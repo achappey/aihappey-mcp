@@ -28,7 +28,7 @@ public static class WebCrawlerAPIFeeds
         [Description("Optional webhook URL for change notifications.")] string? webhookUrl = null,
         [Description("Include unavailable/error pages in feed output.")] bool includeErrors = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new WebCrawlerAPIFeedCreateInput
             {
@@ -133,7 +133,7 @@ public static class WebCrawlerAPIFeeds
         string actionDescription,
         CancellationToken cancellationToken,
         bool waitForJob = false)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new WebCrawlerAPIFeedActionInput
             {

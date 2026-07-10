@@ -39,7 +39,7 @@ public static class SarvamSpeech
         [Description("Optional temperature. Supported for bulbul:v3.")] double? temperature = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new SarvamSpeechTextToSpeechRequest
@@ -102,7 +102,7 @@ public static class SarvamSpeech
         [Description("Optional temperature. Supported for bulbul:v3.")] double? temperature = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

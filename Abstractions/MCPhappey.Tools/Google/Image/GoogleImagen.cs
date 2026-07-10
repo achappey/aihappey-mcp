@@ -31,7 +31,7 @@ public static class GoogleImagen
         [Description("Sample image size. 1K or 2K")]
         string? sampleImageSize = "1K",
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
         var googleAI = serviceProvider.GetRequiredService<Mscc.GenerativeAI.GoogleAI>();

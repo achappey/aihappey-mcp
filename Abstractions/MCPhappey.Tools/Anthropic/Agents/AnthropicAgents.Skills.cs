@@ -25,7 +25,7 @@ public static partial class AnthropicAgents
         [Description("Optional skill version.")] string? skillVersion = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentSkillMutationRequest
@@ -82,7 +82,7 @@ public static partial class AnthropicAgents
         [Description("Skill type. Allowed values: anthropic or custom.")] string skillType = "anthropic",
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ValidateSkillType(skillType);

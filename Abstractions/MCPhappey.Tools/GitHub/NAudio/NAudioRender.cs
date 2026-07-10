@@ -22,7 +22,7 @@ public static class NAudioRender
         [Description("Upload the JSON as an artifact instead of returning only structured content.")] bool upload = false,
         [Description("Optional output filename when upload=true.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
             using var reader = NAudioShared.OpenAudioFile(input.TempPath);
@@ -52,7 +52,7 @@ public static class NAudioRender
         [Description("Upload the JSON as an artifact instead of returning only structured content.")] bool upload = false,
         [Description("Optional output filename when upload=true.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
             using var reader = NAudioShared.OpenAudioFile(input.TempPath);
@@ -82,7 +82,7 @@ public static class NAudioRender
         [Description("Output format: mp3, wav, aac, mp4, wma, flac. Default mp3.")] string outputFormat = "mp3",
         [Description("Optional output filename.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var format = NAudioShared.NormalizeAudioFormat(outputFormat, "mp3");
             using var input = await NAudioShared.DownloadAudioAsync(serviceProvider, requestContext, fileUrl, cancellationToken);

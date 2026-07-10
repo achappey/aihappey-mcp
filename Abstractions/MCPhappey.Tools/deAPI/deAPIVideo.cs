@@ -46,7 +46,7 @@ public static class deAPIVideo
         [Description("Maximum total wait time in seconds.")][Range(30, 3600)] int maxWaitSeconds = DefaultMaxWaitSeconds,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new deAPITextToVideoRequest
@@ -124,7 +124,7 @@ public static class deAPIVideo
         [Description("Number of frames to generate.")] int frames,
         [Description("Frames per second.")] int? fps = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ValidatePriceRequest(model, width, height, steps, frames);
 
@@ -181,7 +181,7 @@ public static class deAPIVideo
         [Description("Maximum total wait time in seconds.")][Range(30, 3600)] int maxWaitSeconds = DefaultMaxWaitSeconds,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new deAPIImageToVideoRequest
@@ -278,7 +278,7 @@ public static class deAPIVideo
         [Description("Number of frames to generate.")] int frames,
         [Description("Frames per second.")] int? fps = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ValidatePriceRequest(model, width, height, steps, frames);
 

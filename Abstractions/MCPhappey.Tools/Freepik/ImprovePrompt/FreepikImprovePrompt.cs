@@ -26,7 +26,7 @@ public static class FreepikImprovePrompt
         [Description("Polling interval in seconds (default 5).")][Range(1, 120)] int pollIntervalSeconds = 5,
         [Description("Maximum polling attempts before timeout (default 60).")][Range(1, 600)] int maxPollAttempts = 60,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var client = serviceProvider.GetRequiredService<FreepikClient>();

@@ -27,7 +27,7 @@ public static class AIsaScholar
         [Description("Year of publication upper bound (1900-2030).")]
         int? asYhi = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -65,7 +65,7 @@ public static class AIsaScholar
         [Description("Year of publication upper bound (1900-2030).")]
         int? asYhi = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -103,7 +103,7 @@ public static class AIsaScholar
         [Description("Year of publication upper bound (1900-2030).")]
         int? asYhi = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -141,7 +141,7 @@ public static class AIsaScholar
         [Description("Detail level: BRIEF, MODERATE, DETAILED.")]
         string? detailLevel = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(searchId);

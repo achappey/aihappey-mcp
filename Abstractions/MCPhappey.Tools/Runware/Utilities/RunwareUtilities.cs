@@ -26,7 +26,7 @@ public static class RunwareUtilities
      [Description("Optional question or instruction for the caption model.")] string? prompt = null,
      [Description("Include cost info in the response.")] bool includeCost = false,
      CancellationToken cancellationToken = default)
-     => await requestContext.WithExceptionCheck(async () =>
+     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithStructuredContent(async () =>
          {
              var client = serviceProvider.GetRequiredService<RunwareClient>();
@@ -77,7 +77,7 @@ public static class RunwareUtilities
       [Description("Include cost info in the response.")]
         bool includeCost = false,
       CancellationToken cancellationToken = default)
-      => await requestContext!.WithExceptionCheck(async () =>
+      => await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext.WithStructuredContent(async () =>
           {
               var client = serviceProvider!.GetRequiredService<RunwareClient>();
@@ -111,7 +111,7 @@ public static class RunwareUtilities
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<RunwareClient>();
@@ -150,7 +150,7 @@ public static class RunwareUtilities
            [Range(1, 100)] int limit = 20,
            [Range(0, int.MaxValue)] int offset = 0,
            CancellationToken cancellationToken = default)
-           => await requestContext.WithExceptionCheck(async () =>
+           => await ModelContextToolExtensions.WithExceptionCheck(async () =>
                await requestContext.WithStructuredContent(async () =>
            {
                var client = serviceProvider!.GetRequiredService<RunwareClient>();

@@ -36,7 +36,7 @@ public static class DeepgramAudio
         [Description("Opt out of Deepgram MIP.")] bool mipOptOut = false,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var settings = serviceProvider.GetRequiredService<DeepgramSettings>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -156,7 +156,7 @@ public static class DeepgramAudio
         [Description("Opt out of Deepgram MIP.")] bool mipOptOut = false,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var settings = serviceProvider.GetRequiredService<DeepgramSettings>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();

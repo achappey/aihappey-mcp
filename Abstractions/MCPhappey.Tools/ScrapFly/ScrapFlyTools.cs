@@ -45,7 +45,7 @@ public static class ScrapFlyTools
         [Description("Optional extraction template string.")] string? extractionTemplate = null,
         [Description("Optional output filename base when uploaded artifacts are created.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var payload = new JsonObject();
@@ -108,7 +108,7 @@ public static class ScrapFlyTools
         [Description("Vision deficiency simulation mode.")] string? visionDeficiency = null,
         [Description("Output filename base.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var query = new Dictionary<string, string?>
@@ -157,7 +157,7 @@ public static class ScrapFlyTools
         [Description("Extraction timeout in seconds.")] int? timeout = null,
         [Description("Optional webhook name.")] string? webhookName = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -231,7 +231,7 @@ public static class ScrapFlyTools
         [Description("Artifact type when resultType=artifact: warc or har.")] string artifactType = "warc",
         [Description("Optional output filename base for uploaded result files.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, notAccepted, _) = await requestContext.Server.TryElicit(

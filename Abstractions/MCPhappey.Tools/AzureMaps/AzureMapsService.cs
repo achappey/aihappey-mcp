@@ -86,7 +86,7 @@ public static class AzureMapsService
      [Description("Map zoom (optional)")]
     int? zoom = null,
      CancellationToken cancellationToken = default)
-     => await requestContext.WithExceptionCheck(async () =>
+     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
  {
      var maps = serviceProvider.GetRequiredService<AzureMapsClient>();
 
@@ -305,7 +305,7 @@ public static class AzureMapsService
         [Description("Map zoom (optional)")] int? zoom = null,
         [Description("Zoom tweak (e.g. -1 to zoom out one level)")] int? zoomAdjust = -1,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var maps = serviceProvider.GetRequiredService<AzureMapsClient>();
 

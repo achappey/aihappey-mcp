@@ -34,7 +34,7 @@ public static class MixedbreadStoreFiles
         string? configJson = null,
         [Description("Optional deprecated experimental JSON string.")] string? experimentalJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(storeIdentifier);
@@ -90,7 +90,7 @@ public static class MixedbreadStoreFiles
         [Description("File identifier (ID or external_id).")]
         string fileIdentifier,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(storeIdentifier))

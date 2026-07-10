@@ -21,7 +21,7 @@ public static class AzureSkillsService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Maximum number of skills to return. Default: 50.")] int limit = 50,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var storage = serviceProvider.GetService<AzureSkillsStorageService>();
@@ -43,7 +43,7 @@ public static class AzureSkillsService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional skill version. When omitted, the latest version is used.")] string? version = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var storage = serviceProvider.GetService<AzureSkillsStorageService>()
@@ -66,7 +66,7 @@ public static class AzureSkillsService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional skill version. When omitted, the latest version is used.")] string? version = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var storage = serviceProvider.GetService<AzureSkillsStorageService>()

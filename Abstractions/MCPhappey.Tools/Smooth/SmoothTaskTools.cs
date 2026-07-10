@@ -72,7 +72,7 @@ public static class SmoothTaskTools
         [Description("Base output filename for uploaded artifacts.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             if (!openSessionOnly && string.IsNullOrWhiteSpace(task))
                 throw new ValidationException("task is required when openSessionOnly is false.");

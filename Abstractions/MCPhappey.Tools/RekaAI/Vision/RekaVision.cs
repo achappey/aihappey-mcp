@@ -32,7 +32,7 @@ public static class RekaVision
         [Description("Video URL to read and quick-tag (SharePoint/OneDrive/HTTPS supported).")]
         string fileUrl,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))
@@ -106,7 +106,7 @@ public static class RekaVision
         [Description("Optional JSON string containing custom chunking config.")]
         string? chunkingConfig = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 EnsurePublicUrl(videoUrl, "videoUrl");
@@ -184,7 +184,7 @@ public static class RekaVision
         [Description("Video ID to delete.")]
         string videoId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(videoId))
@@ -225,7 +225,7 @@ public static class RekaVision
         [Description("Metadata JSON string (required by API). Example: [{\"caption\":\"camera frame\"}]")]
         string metadata,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 EnsurePublicUrl(imageUrl, "imageUrl");
@@ -283,7 +283,7 @@ public static class RekaVision
         [Description("Image ID to delete.")]
         string imageId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(imageId))
@@ -332,7 +332,7 @@ public static class RekaVision
         [Description("Optional similarity score threshold.")]
         double? threshold = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(query))
@@ -411,7 +411,7 @@ public static class RekaVision
         [Description("Generate explanatory report.")]
         bool? generateReport = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(query))

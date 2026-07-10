@@ -41,7 +41,7 @@ public static class deAPISpeech
         [Description("Maximum total wait time in seconds.")][Range(30, 3600)] int maxWaitSeconds = DefaultMaxWaitSeconds,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(text);
 
@@ -87,7 +87,7 @@ public static class deAPISpeech
         [Description("Maximum total wait time in seconds.")][Range(30, 3600)] int maxWaitSeconds = DefaultMaxWaitSeconds,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 
@@ -152,7 +152,7 @@ public static class deAPISpeech
         [Description("Audio output format. Default: flac.")] string format = "flac",
         [Description("Audio sample rate. Default: 24000.")] int sample_rate = 24000,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             if (string.IsNullOrWhiteSpace(text) && (!count_text.HasValue || count_text.Value <= 0))
                 throw new ValidationException("Provide either text or a positive count_text value.");

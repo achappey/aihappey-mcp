@@ -30,7 +30,7 @@ public static class DocumentSummarizer
        [Description("Controls how close to the original text the summary is.")] SummarizeExtractiveness extractiveness = SummarizeExtractiveness.low,
        [Description("A free-form instruction for modifying how the summaries get generated.")] string? additionalCommand = null,
        CancellationToken cancellationToken = default) =>
-       await requestContext.WithExceptionCheck(async () =>
+       await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;

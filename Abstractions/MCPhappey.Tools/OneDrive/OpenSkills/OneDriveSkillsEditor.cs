@@ -105,7 +105,7 @@ public static class OneDriveSkillsEditor
         [Description("Relative path inside the skill folder.")] string relativePath,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
@@ -132,7 +132,7 @@ public static class OneDriveSkillsEditor
         [Description("Name of the skill folder under /skills.")] string skillName,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
         {
@@ -163,7 +163,7 @@ public static class OneDriveSkillsEditor
         [Description("Name of the skill folder under /skills.")] string skillName,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
     {
@@ -210,7 +210,7 @@ public static class OneDriveSkillsEditor
         [Description("Optional metadata lines in key=value format.")] string? metadata,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
     {
@@ -269,7 +269,7 @@ public static class OneDriveSkillsEditor
         [Description("File content to write.")] string? content,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
@@ -328,7 +328,7 @@ public static class OneDriveSkillsEditor
         [Description("Optional updated metadata lines in key=value format.")] string? metadata,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
     {
@@ -385,7 +385,7 @@ public static class OneDriveSkillsEditor
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default) =>
-        await context.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
     {
@@ -440,7 +440,7 @@ public static class OneDriveSkillsEditor
         [Description("Name of the skill folder under /skills.")] string skillName,
         RequestContext<CallToolRequestParams> context,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);

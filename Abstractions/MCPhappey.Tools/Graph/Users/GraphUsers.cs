@@ -18,7 +18,7 @@ public static class GraphUsers
             [Description("Include disabled users. Default is false.")]
             bool includeDisabled = false,
             CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (client) =>
         {
             // Map: Department -> List of user display names (or IDs if displayName is empty)

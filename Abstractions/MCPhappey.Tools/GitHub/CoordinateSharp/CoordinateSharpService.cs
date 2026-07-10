@@ -21,7 +21,7 @@ public static class CoordinateSharpService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Coordinate input (e.g. \"52.0907, 5.1214\" or \"N 47° 36' 22.32\\\" W 122° 19' 55.56\\\"\")")] string input,
         [Description("Optional ISO-8601 date/time for celestial calculations (defaults to now, UTC).")] string? dateTime = null)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var dt = TryParseInstant(dateTime) ?? DateTime.UtcNow;
 
@@ -50,7 +50,7 @@ public static class CoordinateSharpService
         [Description("Coordinate input (string forms accepted).")] string input,
         [Description("Array of target formats, e.g. [\"UTM\",\"MGRS\",\"Decimal\"]")] string[] targets,
         [Description("Optional ISO-8601 date/time (only needed for celestial; safe to omit).")] string? dateTime = null)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var dt = TryParseInstant(dateTime) ?? DateTime.UtcNow;
         var c = TryParseCoordinate(input, dt)
@@ -91,7 +91,7 @@ public static class CoordinateSharpService
         [Description("Origin coordinate")] string from,
         [Description("Destination coordinate")] string to,
         [Description("Distance unit: m|km|mi|nm (default km)")] string? unit = "km")
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var now = DateTime.UtcNow;
         var c1 = TryParseCoordinate(from, now) ?? throw new Exception($"Invalid 'from': {from}");
@@ -139,7 +139,7 @@ public static class CoordinateSharpService
         [Description("Start coordinate (DMS/decimal/etc.)")] string start,
         [Description("Initial bearing in degrees (0..360, from North)")] double bearingDegrees,
         [Description("Distance with unit, e.g. '12.5 km', '4000 m', '3.2 nm'")] string distance)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var now = DateTime.UtcNow;
         var cs = TryParseCoordinate(start, now) ?? throw new Exception($"Invalid 'start': {start}");
@@ -171,7 +171,7 @@ public static class CoordinateSharpService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Coordinate input")] string input,
         [Description("ISO-8601 date/time (defaults to now, UTC)")] string? dateTime = null)
-    => await requestContext.WithExceptionCheck(async () =>
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var dt = TryParseInstant(dateTime) ?? DateTime.UtcNow;
         var c = TryParseCoordinate(input, dt)

@@ -28,7 +28,7 @@ public static class MemUService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var userId = serviceProvider.GetUserId() ?? throw new Exception("Could not resolve current user id from Graph auth context.");
@@ -49,7 +49,7 @@ public static class MemUService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var userId = serviceProvider.GetUserId() ?? throw new Exception("Could not resolve current user id from Graph auth context.");
@@ -69,7 +69,7 @@ public static class MemUService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional AI agent identifier. Leave empty to clear all memories belonging to the current user across agents.")] string? agent_id = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var userId = serviceProvider.GetUserId() ?? throw new Exception("Could not resolve current user id from Graph auth context.");
@@ -88,7 +88,7 @@ public static class MemUService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graph =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -113,7 +113,7 @@ public static class MemUService
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graph =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -136,7 +136,7 @@ public static class MemUService
         [Description("Optional display name for the AI agent.")] string? agent_name = null,
         [Description("Optional display name for the current user. If omitted, Graph profile data is used.")] string? user_name = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graph =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -185,7 +185,7 @@ public static class MemUService
         [Description("Optional display name override for the message sender.")] string? name = null,
         [Description("Optional ISO 8601 timestamp. If omitted, current UTC time is used.")] string? created_at = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graph =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -232,7 +232,7 @@ public static class MemUService
         [Description("Optional display name override for the current user.")] string? user_name = null,
         [Description("Optional ISO 8601 session timestamp override.")] string? session_date = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graph =>
         await requestContext.WithStructuredContent(async () =>
         {

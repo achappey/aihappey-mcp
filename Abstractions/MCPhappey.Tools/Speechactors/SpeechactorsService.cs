@@ -33,7 +33,7 @@ public static class SpeechactorsService
         [Description("Optional pitch in range -50..50.")] int? pitch = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new SpeechactorsTextToSpeechRequest
@@ -81,7 +81,7 @@ public static class SpeechactorsService
         [Description("Optional pitch in range -50..50.")] int? pitch = null,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

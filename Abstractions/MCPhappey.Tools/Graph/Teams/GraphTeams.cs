@@ -25,7 +25,7 @@ public static partial class GraphTeams
         [Description("Description of the new channel")]
         string? description = null,
         CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
             {
@@ -70,7 +70,7 @@ public static partial class GraphTeams
       [Description("Location or meeting room.")] string? location = null,
       [Description("E-mail addresses of attendees (comma separated).")] string? attendees = null,
       CancellationToken cancellationToken = default) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithOboGraphClient(async client =>
       await requestContext.WithStructuredContent(async () =>
   {

@@ -25,7 +25,7 @@ public static class GraphOneNote
         [Description("Page content.")] string content,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-         await requestContext.WithExceptionCheck(async () =>
+         await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithOboGraphClient(async client =>
          await requestContext.WithStructuredContent(async () =>
     {
@@ -58,7 +58,7 @@ public static class GraphOneNote
         [Description("Displayname of the new section.")] string displayName,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-         await requestContext.WithExceptionCheck(async () =>
+         await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithOboGraphClient(async client =>
          await requestContext.WithStructuredContent(async () =>
     {
@@ -94,7 +94,7 @@ public static class GraphOneNote
        [Description("New name of the notebook")] string renameAs,
        RequestContext<CallToolRequestParams> requestContext,
        CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
    {
@@ -126,7 +126,7 @@ public static class GraphOneNote
         string displayName,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {

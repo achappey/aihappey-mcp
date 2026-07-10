@@ -51,7 +51,7 @@ public static class OpenAIDocumentEngine
          [Description("Prompt to guide/steer AI on generating the output file content")] string prompt,
          [Description("Url of the JSON schema file defining the expected data structure in the html template file. Optional, but strongly recommended to improve performance and reduce AI processing costs.")] string? jsonSchemaUrl = null,
          CancellationToken cancellationToken = default) =>
-         await requestContext.WithExceptionCheck(async () =>
+         await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithOboGraphClient(async (client) =>
     {
         var toolMeta = await requestContext.GetToolMeta();
@@ -158,7 +158,7 @@ public static class OpenAIDocumentEngine
       [Description("URL of the HTML output template to use for rendering the document. The file must also be registered as a resource on this server, otherwise it will not render on the client.")] string documentTemplateUrl,
       [Description("URL of the JSON data file containing the structured document content to bind to the template. This file is typically created by the compose tool or stored on OneDrive/SharePoint.")] string jsonDataFileUrl,
       CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var fileInput = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, jsonDataFileUrl, cancellationToken);
@@ -186,7 +186,7 @@ public static class OpenAIDocumentEngine
          [Description("URL of the stored JSON document to patch (for example, a OneDrive or SharePoint file).")] string documentUrl,
          [Description("JSON Patch array containing one or more RFC 6902 operations (e.g., replace, add, remove).")] string patch,
          CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (client) =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -228,7 +228,7 @@ public static class OpenAIDocumentEngine
          [Description("URL of the JSON document to validate. Typically points to a stored file on OneDrive or SharePoint.")] string documentUrl,
          [Description("URL of the JSON Schema file describing the expected structure of the document.")] string jsonSchemaUrl,
          CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -274,7 +274,7 @@ public static class OpenAIDocumentEngine
       IServiceProvider serviceProvider,
       [Description("Url of the document template file to create the JSON schema for")] string documentTemplateUrl,
       CancellationToken cancellationToken = default) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithOboGraphClient(async (client) =>
   {
       var schemaJson = await ExtractSchemaInternal(
@@ -299,7 +299,7 @@ public static class OpenAIDocumentEngine
        IServiceProvider serviceProvider,
        [Description("Url of the document template file to create the JSON schema for")] string documentTemplateUrl,
        CancellationToken cancellationToken = default) =>
-       await requestContext.WithExceptionCheck(async () =>
+       await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
    {
        var schemaJson = await ExtractSchemaInternal(

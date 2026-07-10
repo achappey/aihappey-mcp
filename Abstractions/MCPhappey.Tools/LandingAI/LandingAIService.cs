@@ -30,7 +30,7 @@ public static class LandingAIService
         [Description("Split mode. Use page to split by page. Optional.")]
         string? split = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))
@@ -70,7 +70,7 @@ public static class LandingAIService
         [Description("Model version to use for extraction. Optional.")]
         string? model = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))
@@ -117,7 +117,7 @@ public static class LandingAIService
         [Description("Model version to use for split classification. Optional.")]
         string? model = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))

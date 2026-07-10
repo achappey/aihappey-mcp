@@ -24,7 +24,7 @@ public static partial class GraphWorkbooks
             IServiceProvider serviceProvider,
             RequestContext<CallToolRequestParams> requestContext,
             CancellationToken cancellationToken = default)
-            => await requestContext.WithExceptionCheck(async () =>
+            => await ModelContextToolExtensions.WithExceptionCheck(async () =>
              await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
@@ -167,7 +167,7 @@ public static partial class GraphWorkbooks
         [Description("Second filter value, for ranges (e.g. '2024-07-31')")]
         string? criterion2 = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var mcpServer = requestContext.Server;
         var client = await serviceProvider.GetOboGraphClient(mcpServer);

@@ -24,7 +24,7 @@ public static partial class GoogleAudio
         [Description("Voice option")]
         TtsVoiceOption voice = TtsVoiceOption.Kore,
         CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
             var googleAI = serviceProvider.GetRequiredService<GoogleAI>();
@@ -91,7 +91,7 @@ public static partial class GoogleAudio
            [Description("Voice speaker two")]
                 TtsVoiceOption voiceSpeakerTwo = TtsVoiceOption.Sulafat,
            CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);

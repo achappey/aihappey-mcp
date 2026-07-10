@@ -25,7 +25,7 @@ public static class GraphContactSync
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Microsoft Team/group ID.")] string? groupId = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             if (string.IsNullOrWhiteSpace(groupId))

@@ -41,7 +41,7 @@ public static partial class CanvasService
         [Description("Optional: [startLine, endLine] (1-based)")] int[]? view_range = null,
         [Description("Optional: OneDrive Drive ID. If omitted, the user's default drive is used.")] string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         // If caller passed a directory (ends with / or no dot), treat as dir
@@ -90,7 +90,7 @@ public static partial class CanvasService
         RequestContext<CallToolRequestParams> context,
         [Description("Optional: OneDrive Drive ID. If omitted, the user's default drive is used.")] string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);
@@ -131,7 +131,7 @@ public static partial class CanvasService
         RequestContext<CallToolRequestParams> context,
         [Description("Optional: OneDrive Drive ID. If omitted, the user's default drive is used.")] string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);
@@ -182,7 +182,7 @@ public static partial class CanvasService
         RequestContext<CallToolRequestParams> context,
         [Description("Optional: OneDrive Drive ID. If omitted, the user's default drive is used.")] string? driveId = null,
         CancellationToken cancellationToken = default)
-        => await context.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
     {
         var normalized = Normalize(path);

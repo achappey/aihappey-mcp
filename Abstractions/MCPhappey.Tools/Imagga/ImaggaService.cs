@@ -29,7 +29,7 @@ public static class ImaggaService
        [Description("Confidence threshold for tag filtering (default: 0.0).")] double? threshold = null,
        [Description("Decrease confidence for parent tags (1=yes,0=no).")] int? decreaseParents = null,
        CancellationToken cancellationToken = default)
-       => await requestContext.WithExceptionCheck(async () =>
+       => await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
    {
        var imagga = serviceProvider.GetRequiredService<ImaggaClient>();
@@ -84,7 +84,7 @@ public static class ImaggaService
         [Description("Optional ID to associate the image in search index.")] string? saveId = null,
         [Description("Features type to extract (overall or object).")] string? featuresType = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -140,7 +140,7 @@ public static class ImaggaService
         [Description("Optional language code (default: en).")]
         string? language = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         // Resolve dependencies
@@ -189,7 +189,7 @@ public static class ImaggaService
        [Description("Minimum visual area percentage to preserve (-1 lets the API decide).")] double? rectPercentage = null,
        [Description("Return raster image result (1 = yes, default 0 = coordinates only).")] int? imageResult = null,
        CancellationToken cancellationToken = default) =>
-       await requestContext.WithExceptionCheck(async () =>
+       await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
    {
        // Resolve dependencies

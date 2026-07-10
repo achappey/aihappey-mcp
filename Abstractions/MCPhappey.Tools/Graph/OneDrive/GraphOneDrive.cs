@@ -25,7 +25,7 @@ public static class GraphOneDrive
         [Description("The file contents as a string.")] string content,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
     {
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
@@ -60,7 +60,7 @@ public static class GraphOneDrive
             [Description("The ID of the content type (for Document Set, optional).")]
             string? contentTypeId = null,
             CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
     {
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(

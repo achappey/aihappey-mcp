@@ -47,7 +47,7 @@ public static class GladiaAudio
         [Description("Output filename without extension.")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var settings = serviceProvider.GetRequiredService<GladiaSettings>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();

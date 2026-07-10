@@ -26,7 +26,7 @@ public static class NimbleWayService
         [Description("Optional JSON object string merged into request body for advanced/undocumented fields.")]
         string? payloadJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(agent);
@@ -75,7 +75,7 @@ public static class NimbleWayService
         [Description("Optional JSON object string merged into request body for advanced/undocumented fields.")]
         string? payloadJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -122,7 +122,7 @@ public static class NimbleWayService
         [Description("Optional JSON object string merged into request body for advanced/undocumented fields.")]
         string? payloadJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(url);
@@ -178,7 +178,7 @@ public static class NimbleWayService
         [Description("Optional JSON object string merged into request body for advanced/undocumented fields.")]
         string? payloadJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(url);
@@ -243,7 +243,7 @@ public static class NimbleWayService
         [Description("Optional JSON object string merged into create-crawl request body for advanced/undocumented fields.")]
         string? payloadJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(url);

@@ -39,7 +39,7 @@ public static class CartesiaTranscriptions
         [Description("Include word timestamps in output. Default: true.")]
         bool includeWordTimestamps = true,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, notAccepted, _) = await requestContext.Server.TryElicit(

@@ -24,7 +24,7 @@ public static class AIsaSearch
         [Description("Maximum number of results.")] int? count = null,
         [Description("Optional Querit filters object as JSON string.")] string? filtersJson = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -83,7 +83,7 @@ public static class AIsaSearch
         [Description("Include usage info.")]
         bool? includeUsage = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(query);
@@ -143,7 +143,7 @@ public static class AIsaSearch
         [Description("Include usage info.")]
         bool? includeUsage = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var urls = ParseStringArrayOrNull(urlsJson, nameof(urlsJson));
@@ -200,7 +200,7 @@ public static class AIsaSearch
         double? timeout = null,
         [Description("Include usage info.")] bool? includeUsage = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(url);
@@ -257,7 +257,7 @@ public static class AIsaSearch
         double? timeout = null,
         [Description("Include usage info.")] bool? includeUsage = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(url);

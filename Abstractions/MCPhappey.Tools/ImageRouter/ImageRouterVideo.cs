@@ -34,7 +34,7 @@ public static class ImageRouterVideo
         [Description("Output filename base (without extension).")]
         string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new ImageRouterVideoGenerateRequest

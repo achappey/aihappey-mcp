@@ -62,7 +62,7 @@ public static class SharePointDeepResearch
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Maximum number of results")] int pageSize = 10,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var entityCombinations = new List<EntityType?[]>
@@ -121,7 +121,7 @@ public static class SharePointDeepResearch
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var mcpServer = requestContext.Server;
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();

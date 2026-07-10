@@ -38,7 +38,7 @@ public static class RunwayAudio
         IServiceProvider sp,
         RequestContext<CallToolRequestParams> rc,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewTextToSpeech
@@ -79,7 +79,7 @@ public static class RunwayAudio
         IServiceProvider sp,
         RequestContext<CallToolRequestParams> rc,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewVoiceDubbing
@@ -121,7 +121,7 @@ public static class RunwayAudio
       IServiceProvider sp,
       RequestContext<CallToolRequestParams> rc,
       CancellationToken ct = default)
-      => await rc.WithExceptionCheck(async () =>
+      => await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await rc.WithStructuredContent(async () =>
   {
       var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewVoiceIsolation
@@ -244,7 +244,7 @@ public static class RunwayAudio
         IServiceProvider sp,
         RequestContext<CallToolRequestParams> rc,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewSpeechToSpeech
@@ -331,7 +331,7 @@ public static class RunwayAudio
         IServiceProvider sp,
         RequestContext<CallToolRequestParams> rc,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewSoundEffect

@@ -31,7 +31,7 @@ public static class SupadataUniversal
         [Description("If true, poll until the job is completed. Default: true.")]
         bool waitUntilCompleted = true,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
@@ -95,7 +95,7 @@ public static class SupadataUniversal
         [Description("If true, poll until the job is completed. Default: true.")]
         bool waitUntilCompleted = true,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
@@ -167,7 +167,7 @@ public static class SupadataUniversal
         [Description("If true, poll until the job is completed. Default: true.")]
         bool waitUntilCompleted = true,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(

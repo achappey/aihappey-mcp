@@ -16,7 +16,7 @@ public static class OpenAIFilesPlugin
      IServiceProvider serviceProvider,
      RequestContext<CallToolRequestParams> requestContext,
      CancellationToken cancellationToken = default) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
 

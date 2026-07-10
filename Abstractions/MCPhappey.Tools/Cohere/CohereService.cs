@@ -21,7 +21,7 @@ public static class CohereService
         string sharepointFolderUrl,
         int topN,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await rc.WithOboGraphClient(async graphClient =>
             await rc.WithStructuredContent(async () =>
             {
@@ -40,7 +40,7 @@ public static class CohereService
         List<string> fileUrls,
         int topN,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await rc.WithStructuredContent(async () =>
                 await RerankDocumentsAsync(sp, rc, model, query, fileUrls, topN, ct)));
 

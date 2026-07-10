@@ -42,7 +42,7 @@ public static class GitHubGTranslateService
         string provider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async ()
+        => await ModelContextToolExtensions.WithExceptionCheck(async ()
         => await requestContext.WithStructuredContent(async () =>
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -86,7 +86,7 @@ public static class GitHubGTranslateService
         string provider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async ()
+        => await ModelContextToolExtensions.WithExceptionCheck(async ()
         => await requestContext.WithStructuredContent(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(text);
@@ -124,7 +124,7 @@ public static class GitHubGTranslateService
         string provider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async ()
+        => await ModelContextToolExtensions.WithExceptionCheck(async ()
         => await requestContext.WithStructuredContent(async () =>
         {
             ArgumentNullException.ThrowIfNull(texts);

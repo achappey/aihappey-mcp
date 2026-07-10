@@ -21,7 +21,7 @@ public static partial class AnthropicMemories
         [Description("Optional response view. Allowed values: basic or full.")] string? view = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateMemoryRequest
@@ -65,7 +65,7 @@ public static partial class AnthropicMemories
         [Description("Optional response view. Allowed values: basic or full.")] string? view = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateMemoryRequest
@@ -109,7 +109,7 @@ public static partial class AnthropicMemories
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional expected content SHA256.")] string? expectedContentSha256 = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedMemoryStoreId = AnthropicMemoryStores.NormalizeMemoryStoreId(memoryStoreId);

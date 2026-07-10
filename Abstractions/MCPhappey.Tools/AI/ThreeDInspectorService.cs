@@ -21,7 +21,7 @@ public static class ThreeDInspectorService
         IServiceProvider services,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken ct = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         if (string.IsNullOrWhiteSpace(fileUrl))

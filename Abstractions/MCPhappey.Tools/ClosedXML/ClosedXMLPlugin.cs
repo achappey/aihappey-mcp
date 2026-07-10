@@ -22,7 +22,7 @@ public static class ClosedXMLPlugin
         [Description("Cell values")] Dictionary<string, string>? values = null,
         [Description("Cell formulas")] Dictionary<string, string>? formulas = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         await using var ms = new MemoryStream();
@@ -66,7 +66,7 @@ public static class ClosedXMLPlugin
         RequestContext<CallToolRequestParams> requestContext,
         IServiceProvider serviceProvider,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -98,7 +98,7 @@ public static class ClosedXMLPlugin
         RequestContext<CallToolRequestParams> requestContext,
         IServiceProvider serviceProvider,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -128,7 +128,7 @@ public static class ClosedXMLPlugin
         RequestContext<CallToolRequestParams> requestContext,
         IServiceProvider serviceProvider,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -153,7 +153,7 @@ public static class ClosedXMLPlugin
         RequestContext<CallToolRequestParams> requestContext,
         IServiceProvider serviceProvider,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -179,7 +179,7 @@ public static class ClosedXMLPlugin
      RequestContext<CallToolRequestParams> requestContext,
      IServiceProvider serviceProvider,
      CancellationToken cancellationToken = default)
-     => await requestContext.WithExceptionCheck(async () =>
+     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -223,7 +223,7 @@ public static class ClosedXMLPlugin
         RequestContext<CallToolRequestParams> requestContext,
         IServiceProvider serviceProvider,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();

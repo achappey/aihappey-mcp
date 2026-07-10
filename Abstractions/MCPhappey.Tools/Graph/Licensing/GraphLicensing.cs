@@ -31,7 +31,7 @@ public static class GraphLicensing
         [Description("The user id or UPN.")] string userId,
         [Description("The license SKU id (GUID)." )] string skuId,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -77,7 +77,7 @@ public static class GraphLicensing
         [Description("The user id or UPN.")] string userId,
         [Description("The license SKU id (GUID)." )] string skuId,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -118,7 +118,7 @@ public static class GraphLicensing
             RequestContext<CallToolRequestParams> requestContext,
             string? departmentName = null,
             CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {

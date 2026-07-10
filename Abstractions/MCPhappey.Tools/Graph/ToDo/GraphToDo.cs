@@ -23,7 +23,7 @@ public static class GraphToDo
     RequestContext<CallToolRequestParams> requestContext,
     [Description("Optional display name for the link.")] string? displayName = null,
     CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -63,7 +63,7 @@ public static class GraphToDo
      [Description("Importance (low, normal, high).")] Importance? importance = null,
      [Description("Linked resource URLs.")] IEnumerable<string>? linkedResources = null,
      CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
@@ -121,7 +121,7 @@ public static class GraphToDo
      [Description("The task display name.")] string displayName,
      RequestContext<CallToolRequestParams> requestContext,
      CancellationToken cancellationToken = default) =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {

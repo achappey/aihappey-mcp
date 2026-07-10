@@ -25,7 +25,7 @@ public static class GreenPTScraper
         [Description("When true, remove base64-encoded images from output.")] bool? removeBase64Images = null,
         [Description("When true, enable ad blocking and cookie popup removal.")] bool? blockAds = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<GreenPTClient>();

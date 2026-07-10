@@ -25,7 +25,7 @@ public static class AI302PaperWritingPlugin
         [Description("Polling interval in milliseconds when waitUntilCompleted=true.")] int pollIntervalMs = 2000,
         [Description("Maximum polling attempts when waitUntilCompleted=true.")] int maxPollAttempts = 60,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new AI302PaperCoStormCreateInput
             {
@@ -75,7 +75,7 @@ public static class AI302PaperWritingPlugin
         [Description("Polling interval in milliseconds when waitUntilCompleted=true.")] int pollIntervalMs = 2000,
         [Description("Maximum polling attempts when waitUntilCompleted=true.")] int maxPollAttempts = 60,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new AI302PaperTaskStatusInput
             {
@@ -121,7 +121,7 @@ public static class AI302PaperWritingPlugin
         [Description("Polling interval in milliseconds when waitUntilCompleted=true.")] int pollIntervalMs = 2000,
         [Description("Maximum polling attempts when waitUntilCompleted=true.")] int maxPollAttempts = 60,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new AI302PaperAsyncChatInput
             {
@@ -171,7 +171,7 @@ public static class AI302PaperWritingPlugin
         [Description("Polling interval in milliseconds when waitUntilCompleted=true.")] int pollIntervalMs = 2000,
         [Description("Maximum polling attempts when waitUntilCompleted=true.")] int maxPollAttempts = 60,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new AI302PaperTaskStatusInput
             {

@@ -24,7 +24,7 @@ public static class GraphCopilotRetrieval
        [Description("IANA timezone identifier (e.g. Europe/Amsterdam)")] string timeZone = "Europe/Amsterdam",
        [Description("Include Web search grounding. When disabled, only Microsoft (OneDrive and SharePoint) company grounding will be used.")] bool? isWebEnabled = true,
        CancellationToken cancellationToken = default)
-       => await requestContext.WithExceptionCheck(async () =>
+       => await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
        {
            var copilotOptions = new JsonObject
@@ -75,7 +75,7 @@ public static class GraphCopilotRetrieval
         [Description("The number of results that are returned in the response. Must be between 1 and 25.")] int? maximumNumberOfResults = null,
         [Description("Optional KQL filterExpression (e.g. path:\"https://contoso.sharepoint.com/sites/HR/\")")] string? filterExpression = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -131,7 +131,7 @@ public static class GraphCopilotRetrieval
            [Description("Include OneDrive results")] bool includeOneDrive = true,
            [Description("Include SharePoint results")] bool includeSharePoint = true,
            CancellationToken cancellationToken = default)
-           => await requestContext.WithExceptionCheck(async () =>
+           => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithOboGraphClient(async client =>
            await requestContext.WithStructuredContent(async () =>
            {

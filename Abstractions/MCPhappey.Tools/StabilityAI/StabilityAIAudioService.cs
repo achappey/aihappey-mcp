@@ -27,7 +27,7 @@ public static class StabilityAIAudioService
            [Description("Text prompt describing the desired music or sound (genre, instruments, mood, etc.).")] string prompt,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
@@ -114,7 +114,7 @@ public static class StabilityAIAudioService
            [Description("Text instruction describing how to transform the source audio.")] string prompt,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var downloader = serviceProvider.GetRequiredService<DownloadService>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -210,7 +210,7 @@ public static class StabilityAIAudioService
         [Description("Prompt describing what should be generated in the masked region.")] string prompt,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(audioUrl);
             ArgumentException.ThrowIfNullOrWhiteSpace(prompt);

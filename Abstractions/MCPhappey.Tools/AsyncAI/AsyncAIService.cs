@@ -30,7 +30,7 @@ public static class AsyncAIService
         [Description("Optional bit rate in bps (only for mp3). Defaults to 192000.")]
         int? bitRate = 192000,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var asyncAI = serviceProvider.GetRequiredService<AsyncAIClient>();
@@ -98,7 +98,7 @@ public static class AsyncAIService
       [Description("Return only voices owned by the current user.")] bool? myVoice = null,
       [Description("Pagination cursor (voice id) for next page.")] string? after = null,
       CancellationToken cancellationToken = default) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
   {
       var asyncAI = serviceProvider.GetRequiredService<AsyncAIClient>();
@@ -137,7 +137,7 @@ public static class AsyncAIService
          [Description("Optional bit rate in bps (only for mp3). Defaults to 192000.")]
         int? bitRate = 192000,
          CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithStructuredContent(async () =>
      {
          var asyncAI = serviceProvider.GetRequiredService<AsyncAIClient>();

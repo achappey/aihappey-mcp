@@ -35,7 +35,7 @@ public static class AICCImages
         [Description("Enable watermark when provider supports it.")] bool watermark = false,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new AICCImageGenerateRequest
@@ -105,7 +105,7 @@ public static class AICCImages
         [Description("Enable watermark when provider supports it.")] bool watermark = false,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new AICCImageEditRequest

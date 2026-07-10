@@ -36,7 +36,7 @@ public static class PrivatemodeTranscriptions
         [Description("Response format: json or verbose_json. Default: json.")]
         string responseFormat = "json",
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);

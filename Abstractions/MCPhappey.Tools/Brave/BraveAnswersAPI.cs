@@ -21,7 +21,7 @@ public static class BraveAnswersAPI
        [Description("AI model to use (brave or brave-pro)")] string model = "brave",
        [Description("Search context size (low, medium or high).")] string contextSize = "medium",
        CancellationToken cancellationToken = default)
-       => await requestContext.WithExceptionCheck(async () =>
+       => await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
        {
            var options = new JsonObject
@@ -62,7 +62,7 @@ public static class BraveAnswersAPI
            [Description("AI model to use (brave or brave-pro)")] string model = "brave",
            [Description("Search context size (low, medium or high).")] string contextSize = "medium",
            CancellationToken cancellationToken = default)
-           => await requestContext.WithExceptionCheck(async () =>
+           => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
            {
                var options = new JsonObject

@@ -29,7 +29,7 @@ public static class ExtendAIEdit
         [Description("Maximum wait time in seconds before timeout.")]
         int maxWaitSeconds = 900,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))

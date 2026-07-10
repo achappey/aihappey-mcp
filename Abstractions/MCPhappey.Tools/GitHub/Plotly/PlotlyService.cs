@@ -33,7 +33,7 @@ public static class PlotlyService
         IServiceProvider? serviceProvider = null,
         CancellationToken cancellationToken = default)
         =>
-        await requestContext!.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext!.WithStructuredContent(async () =>
         {
             // Parse inputs
@@ -70,7 +70,7 @@ public static class PlotlyService
             string? seriesName = "Series",
 
         RequestContext<CallToolRequestParams>? requestContext = null) =>
-        await requestContext!.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext!.WithStructuredContent(async () =>
         {
             var x = timestamps.Split(',')

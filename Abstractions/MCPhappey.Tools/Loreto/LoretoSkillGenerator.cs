@@ -29,7 +29,7 @@ public static partial class LoretoSkillGenerator
         [Description("Optional 1-3 sentence hint for generation, max 500 characters.")] string? context = null,
         [Description("Optional follow-up skill names to scaffold. Use comma, newline, or semicolon separated suggested_skill_name / skill_name values. Loreto accepts up to 3.")] string? themesToProcess = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(source);
             ValidateEnums(sourceType, testLanguage);
@@ -57,7 +57,7 @@ public static partial class LoretoSkillGenerator
         [Description("Include Mermaid diagrams in generated SKILL.md files. Default: true.")] bool includeVisuals = true,
         [Description("Optional 1-3 sentence hint for generation, max 500 characters.")] string? context = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
             ValidateTestLanguage(testLanguage);
@@ -85,7 +85,7 @@ public static partial class LoretoSkillGenerator
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var client = serviceProvider.GetRequiredService<LoretoClient>();

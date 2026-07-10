@@ -25,7 +25,7 @@ public static class BergetAIOCR
         [Description("Include images in output. Default: false")] bool includeImages = false,
         [Description("When true, saves the OCR result beside the source file using the same filename plus .LLMs.<ext> when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             {
                 var result = await ExecuteOcrAsync(serviceProvider, requestContext, fileUrl, model, tableMode, ocrMethod, doOcr, doTableStructure, outputFormat, includeImages, cancellationToken);
 

@@ -27,7 +27,7 @@ public static class StabilityAIImageUpscaleService
         [Description("Describe what should stay or be lightly refined in the upscale result. English prompts only.")] string prompt,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var downloader = serviceProvider.GetRequiredService<DownloadService>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -109,7 +109,7 @@ public static class StabilityAIImageUpscaleService
            [Description("URL of the image to upscale (SharePoint, OneDrive, or public).")] string imageUrl,
            [Description("Output filename without extension.")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
            {
                var downloader = serviceProvider.GetRequiredService<DownloadService>();
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

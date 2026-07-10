@@ -37,7 +37,7 @@ public static class SmallestAITranscriptions
         [Description("Enable emotion detection. Default: false.")] bool emotion_detection = false,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new SmallestAITranscriptionRequest

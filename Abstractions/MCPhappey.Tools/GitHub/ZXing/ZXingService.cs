@@ -20,7 +20,7 @@ public static class ZXingService
            RequestContext<CallToolRequestParams> requestContext,
            IServiceProvider serviceProvider,
            [Description("Image URL.")] string imageUrl)
-           => await requestContext.WithExceptionCheck(async () =>
+           => await ModelContextToolExtensions.WithExceptionCheck(async () =>
               await requestContext.WithStructuredContent(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -41,7 +41,7 @@ public static class ZXingService
            [Description("Barcode format (default QR_CODE).")] string format = "QR_CODE",
            [Description("Optional width.")] int width = 300,
            [Description("Optional height.")] int height = 300)
-             => await requestContext.WithExceptionCheck(async () =>
+             => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
 
         var writer = new BarcodeWriterPixelData

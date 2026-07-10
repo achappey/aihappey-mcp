@@ -32,7 +32,7 @@ public static class deAPIAnalysis
         [Description("If true, return OCR result directly in response when supported by the model/endpoint.")] bool return_result_in_response = false,
         [Description("When true, saves the OCR result beside the source file using the same filename plus .LLMs.<ext> when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             {
                 var responseText = await ExecuteImageToTextAsync(
                     serviceProvider,

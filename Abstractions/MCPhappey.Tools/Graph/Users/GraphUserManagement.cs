@@ -16,7 +16,7 @@ public static class GraphUserManagement
         [Description("The user id.")] string userId,
         [Description("The group id.")] string groupId,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -69,7 +69,7 @@ public static class GraphUserManagement
         [Description("Force password change.")] bool? forceChangePasswordNextSignIn = null,
       [Description("The users's password.")] string? password = null,
       CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -197,7 +197,7 @@ public static class GraphUserManagement
         [Description("The users's city.")] string? city = null,
         [Description("Account enabled.")] bool? accountEnabled = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -312,7 +312,7 @@ public static class GraphUserManagement
         string? userId,
     RequestContext<CallToolRequestParams> requestContext,
     CancellationToken cancellationToken = default) =>
-    await requestContext.WithExceptionCheck(async () =>
+    await ModelContextToolExtensions.WithExceptionCheck(async () =>
     await requestContext.WithOboGraphClient(async client =>
     {
         if (string.IsNullOrWhiteSpace(userId))

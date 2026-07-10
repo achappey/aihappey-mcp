@@ -24,7 +24,7 @@ public static class DataversePlugin
           [Description("Name of the table containing the entity")] string tableLogicalName,
           [Description("GUID of the entity to update")] string entityId,
           CancellationToken cancellationToken = default)
-            => await requestContext.WithExceptionCheck(async () =>
+            => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var tokenService = serviceProvider.GetService<HeaderProvider>();
             var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -107,7 +107,7 @@ public static class DataversePlugin
        [Description("Name of the table containing the entity")] string tableLogicalName,
        [Description("Guid of the entity to delete")] string entityId,
        CancellationToken cancellationToken = default)
-           => await requestContext.WithExceptionCheck(async () =>
+           => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var tokenService = serviceProvider.GetService<HeaderProvider>();
         var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -172,7 +172,7 @@ public static class DataversePlugin
         [Description("Name of the table to create the entity in")] string tableLogicalName,
         [Description("Default values for the entity. Format: key is argument name (without braces), value is default value.")] Dictionary<string, string>? replacements = null,
         CancellationToken cancellationToken = default)
-          => await requestContext.WithExceptionCheck(async () =>
+          => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var tokenService = serviceProvider.GetService<HeaderProvider>();
         var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

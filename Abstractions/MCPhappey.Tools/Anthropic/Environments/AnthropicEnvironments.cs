@@ -38,7 +38,7 @@ public static partial class AnthropicEnvironments
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional description.")] string? description = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateEnvironmentRequest
@@ -80,7 +80,7 @@ public static partial class AnthropicEnvironments
         [Description("Optional updated name. Omit to preserve the current name.")] string? name = null,
         [Description("Optional updated description. Provide an empty string to clear.")] string? description = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateEnvironmentRequest
@@ -124,7 +124,7 @@ public static partial class AnthropicEnvironments
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveEnvironmentRequest
@@ -154,7 +154,7 @@ public static partial class AnthropicEnvironments
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedEnvironmentId = NormalizeEnvironmentId(environmentId);

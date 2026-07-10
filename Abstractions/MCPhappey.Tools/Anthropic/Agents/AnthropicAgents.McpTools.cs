@@ -26,7 +26,7 @@ public static partial class AnthropicAgents
         [Description("Optional permission policy. Allowed values: always_allow or always_ask.")] string? permissionPolicy = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMcpToolMutationRequest
@@ -92,7 +92,7 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var expected = $"{agentId}:{mcpServerName}:{toolName}";
@@ -131,7 +131,7 @@ public static partial class AnthropicAgents
         [Description("Optional default permission policy. Allowed values: always_allow or always_ask.")] string? permissionPolicy = null,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMcpToolsetDefaultsRequest
@@ -175,7 +175,7 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
         
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var expected = $"{agentId}:{mcpServerName}:mcp_tool_defaults";

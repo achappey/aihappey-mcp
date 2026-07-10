@@ -21,7 +21,7 @@ public static class PDFDataDocuments
         [Description("Document type such as receipt, invoice, or resume.")] string doc_type,
         [Description("Optional comma-separated list of fields to extract.")] string? fields = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))

@@ -24,7 +24,7 @@ public static class LLMLayerTools
         [Description("Optional recency filter for general/news: hour, day, week, month, year.")] string? recency = null,
         [Description("Optional domain filter list (general only). Prefix with '-' to exclude.")] string[]? domain_filter = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new LLMLayerWebSearchRequest
@@ -83,7 +83,7 @@ public static class LLMLayerTools
         [Description("Include images in markdown output.")] bool include_images = true,
         [Description("Include links in markdown output.")] bool include_links = true,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new LLMLayerScrapeRequest
@@ -144,7 +144,7 @@ public static class LLMLayerTools
         [Description("Maximum number of URLs to return.")] int limit = 5000,
         [Description("Timeout in milliseconds.")] int timeout = 45000,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new LLMLayerMapRequest
@@ -201,7 +201,7 @@ public static class LLMLayerTools
         [Description("YouTube URL.")] string url,
         [Description("Optional language code such as en, es, fr.")] string? language = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new LLMLayerYouTubeTranscriptRequest
@@ -257,7 +257,7 @@ public static class LLMLayerTools
         [Description("Include images in markdown.")] bool include_images = true,
         [Description("Include links in markdown.")] bool include_links = true,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, _, _) = await requestContext.Server.TryElicit(
                 new LLMLayerCrawlStreamRequest

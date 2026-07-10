@@ -32,7 +32,7 @@ public static class JSONBlobService
         [Description("Arbitrary JSON to store as the blob.")]
             string data,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var http = CreateClient(serviceProvider);
         var url = $"{BASE_URL}{API_PREFIX}/jsonBlob";
@@ -66,7 +66,7 @@ public static class JSONBlobService
         [Description("The blobId to update.")] string blobId,
         [Description("New JSON that replaces the stored blob.")] JsonElement data,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         // Elicit typed payload (defensive)
         var http = CreateClient(serviceProvider);
@@ -97,7 +97,7 @@ public static class JSONBlobService
         RequestContext<CallToolRequestParams> requestContext,
         [Description("The blobId to delete.")] string blobId,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         if (string.IsNullOrWhiteSpace(blobId))
             return "blobId is required.".ToErrorCallToolResponse();

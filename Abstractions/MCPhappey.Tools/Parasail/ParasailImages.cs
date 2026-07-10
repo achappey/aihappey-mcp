@@ -38,7 +38,7 @@ public static class ParasailImages
         [Description("Number of batch requests to submit (1-20).")][Range(1, 20)] int batchCount = 1,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new ParasailImageGenerateRequest
@@ -86,7 +86,7 @@ public static class ParasailImages
         [Description("Number of batch requests to submit (1-20).")][Range(1, 20)] int batchCount = 1,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new ParasailImageEditRequest

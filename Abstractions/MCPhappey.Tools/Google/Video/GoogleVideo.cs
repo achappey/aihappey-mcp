@@ -23,7 +23,7 @@ public static class GoogleVideo
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var googleAI = serviceProvider.GetRequiredService<GoogleAI>();
             var googleClient = googleAI.GenerativeModel("gemini-2.5-flash");

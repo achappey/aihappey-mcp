@@ -28,7 +28,7 @@ public static partial class ModelContextEditor
        IServiceProvider serviceProvider,
        RequestContext<CallToolRequestParams> requestContext,
        CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new McpServerPlugin()
@@ -70,7 +70,7 @@ public static partial class ModelContextEditor
       IServiceProvider serviceProvider,
       RequestContext<CallToolRequestParams> requestContext,
       CancellationToken cancellationToken = default) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
         var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new McpServerToolTemplate()
@@ -98,7 +98,7 @@ public static partial class ModelContextEditor
       [Description("Name of the plugin")] string pluginName,
       IServiceProvider serviceProvider,
       RequestContext<CallToolRequestParams> requestContext) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
       {
           var kernel = serviceProvider.GetRequiredService<Kernel>();
@@ -135,7 +135,7 @@ public static partial class ModelContextEditor
       RequestContext<CallToolRequestParams> requestContext,
       [Description("When true, also include tools belonging to each plugin.")]
       bool includeTools = false) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
       {
           var repo = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>();
@@ -176,7 +176,7 @@ public static partial class ModelContextEditor
         OpenWorld = false)]
     public static async Task<CallToolResult?> ModelContextEditor_ListAssemblies(
       RequestContext<CallToolRequestParams> requestContext) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
       {
           var assemblies = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
@@ -219,7 +219,7 @@ public static partial class ModelContextEditor
     public static async Task<CallToolResult?> ModelContextEditor_ListDecoders(
       IEnumerable<IContentDecoder> contentDecoders,
       RequestContext<CallToolRequestParams> requestContext) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
       {
           var decoders = contentDecoders
@@ -251,7 +251,7 @@ public static partial class ModelContextEditor
       string mimeType,
       IEnumerable<IContentDecoder> contentDecoders,
       RequestContext<CallToolRequestParams> requestContext) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
       {
           var decoders = contentDecoders
@@ -285,7 +285,7 @@ public static partial class ModelContextEditor
      RequestContext<CallToolRequestParams> requestContext,
      [Description("Search text used to match tool name or description.")]
     string query) =>
-     await requestContext.WithExceptionCheck(async () =>
+     await ModelContextToolExtensions.WithExceptionCheck(async () =>
      await requestContext.WithStructuredContent(async () =>
      {
          var repo = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>();
@@ -364,7 +364,7 @@ public static partial class ModelContextEditor
     string query,
     [Description("When true, also include tools belonging to the plugin.")]
     bool includeTools = false) =>
-    await requestContext.WithExceptionCheck(async () =>
+    await ModelContextToolExtensions.WithExceptionCheck(async () =>
     await requestContext.WithStructuredContent(async () =>
     {
         var repo = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>();

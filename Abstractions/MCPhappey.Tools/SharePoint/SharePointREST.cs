@@ -49,7 +49,7 @@ public static class SharePointREST
             Dictionary<string, JsonElement>? metadata = null,
 
             CancellationToken cancellationToken = default)
-      => await requestContext.WithExceptionCheck(async () =>
+      => await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
       {
           var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
@@ -177,7 +177,7 @@ public static class SharePointREST
     bool deleteSourceAfterCopy = false,
 
       CancellationToken cancellationToken = default)
-          => await requestContext.WithExceptionCheck(async () =>
+          => await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext.WithStructuredContent(async () =>
           {
               if (!string.IsNullOrWhiteSpace(sourceSiteUrl)

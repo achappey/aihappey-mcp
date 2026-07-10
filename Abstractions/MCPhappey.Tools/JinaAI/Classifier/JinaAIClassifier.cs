@@ -23,7 +23,7 @@ public static class JinaAIClassifier
          [Description("List of labels for classification.")] List<string> labels,
          [Description("SharePoint or OneDrive folder with files to classify.")] string sharepointFolderUrl,
          CancellationToken cancellationToken = default)
-         => await requestContext.WithExceptionCheck(async () =>
+         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
             await requestContext.WithStructuredContent(async () =>
             {
@@ -61,7 +61,7 @@ public static class JinaAIClassifier
         [Description("List of labels for classification.")] List<string> labels,
         [Description("List of file URLs to classify.")] List<string> fileUrls,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
                await ClassifyDocumentsAsync(
                    serviceProvider,

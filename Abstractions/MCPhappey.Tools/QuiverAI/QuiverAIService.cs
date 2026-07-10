@@ -32,7 +32,7 @@ public static class QuiverAIService
         [Description("Use SSE streaming mode. Default: true.")] bool stream = true,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         ValidatePromptRequest(prompt, model, n, top_p, max_output_tokens, temperature, presence_penalty);
 
@@ -66,7 +66,7 @@ public static class QuiverAIService
         [Description("Use SSE streaming mode. Default: true.")] bool stream = true,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         if (string.IsNullOrWhiteSpace(fileUrl))
             throw new ValidationException("fileUrl is required.");

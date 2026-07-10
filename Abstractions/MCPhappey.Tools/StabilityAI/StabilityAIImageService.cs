@@ -28,7 +28,7 @@ public static class StabilityAIImageService
         [Description("Controls the aspect ratio of the generated image.")] AspectRatio? aspectRatio = AspectRatio.Square,
 
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var downloader = serviceProvider.GetRequiredService<DownloadService>();
         var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
@@ -116,7 +116,7 @@ public static class StabilityAIImageService
            RequestContext<CallToolRequestParams> requestContext,
            [Description("Output filename, without extension")] string? filename = null,
            CancellationToken cancellationToken = default) =>
-           await requestContext.WithExceptionCheck(async () =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
        {
            ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
@@ -193,7 +193,7 @@ public static class StabilityAIImageService
         string? fileUrl = null,
         [Description("Output filename, without extension")] string? filename = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var downloader = serviceProvider.GetRequiredService<DownloadService>();
         var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();

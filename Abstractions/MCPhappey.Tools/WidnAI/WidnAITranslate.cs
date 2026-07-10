@@ -40,7 +40,7 @@ public static class WidnAITranslate
         [Description("Optional maximum token count.")]
         int? maxTokens = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(sourceTextJson);
             ArgumentException.ThrowIfNullOrWhiteSpace(sourceLocale);

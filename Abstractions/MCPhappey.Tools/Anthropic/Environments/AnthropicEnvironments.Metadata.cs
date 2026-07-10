@@ -22,7 +22,7 @@ public static partial class AnthropicEnvironments
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicEnvironmentMetadataMutationRequest
@@ -66,7 +66,7 @@ public static partial class AnthropicEnvironments
         RequestContext<CallToolRequestParams> requestContext,
 
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedEnvironmentId = NormalizeEnvironmentId(environmentId);

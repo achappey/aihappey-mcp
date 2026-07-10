@@ -18,7 +18,7 @@ public static class GraphAudit
       [Description("The audit query start date.")] DateTimeOffset? startTime = null,
       [Description("The audit query end date.")] DateTimeOffset? endTime = null,
       CancellationToken cancellationToken = default) =>
-      await requestContext.WithExceptionCheck(async () =>
+      await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithOboGraphClient(async client =>
       await requestContext.WithStructuredContent(async () =>
     {

@@ -29,7 +29,7 @@ public static class AIsaFinancial
         [Description("Maximum number of results (>= 1).")]
         int? limit = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var lineItems = ParseRequiredStringArray(lineItemsJson, nameof(lineItemsJson));
@@ -70,7 +70,7 @@ public static class AIsaFinancial
         [Description("Whether to return historical data. Defaults to false.")]
         bool? historical = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var filters = ParseRequiredArray(filtersJson, nameof(filtersJson));

@@ -29,7 +29,7 @@ public static class InfomaniakReranker
         [Description("The number of top results to return.")] int topN,
         [Description("Infomaniak AI product id. If omitted, tries x-infomaniak-product-id from headers.")] int? productId = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
             await requestContext.WithStructuredContent(async () =>
             {
@@ -57,7 +57,7 @@ public static class InfomaniakReranker
         [Description("The number of top results to return.")] int topN,
         [Description("Infomaniak AI product id. If omitted, tries x-infomaniak-product-id from headers.")] int? productId = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
                 await RerankDocumentsAsync(
                     serviceProvider,

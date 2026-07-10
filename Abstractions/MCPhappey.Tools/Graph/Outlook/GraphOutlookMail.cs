@@ -29,7 +29,7 @@ public static class GraphOutlookMail
         RequestContext<CallToolRequestParams> requestContext,
         [Description("The category name to add. Must match an existing Outlook category name.")] string? category = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -98,7 +98,7 @@ public static class GraphOutlookMail
         [Description("The destination mail folder ID. Use Microsoft Graph mailFolder IDs, or a well-known folder name such as inbox, archive, deleteditems, junkemail, or sentitems.")][Required] string destinationFolderId,
         [Description("Optional expected destination folder display name. When supplied, it is validated against the resolved folder.")] string? destinationFolderDisplayName = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -180,7 +180,7 @@ public static class GraphOutlookMail
          [Description("Maximum number of results to return. Defaults to 10.")]
     int? top = 10,
          CancellationToken cancellationToken = default) =>
-         await requestContext.WithExceptionCheck(async () =>
+         await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithOboGraphClient(async client =>
          await requestContext.WithStructuredContent(async () =>
          await client.Me.Messages
@@ -214,7 +214,7 @@ public static class GraphOutlookMail
         [Description("Search query, e.g. 'subject:AI from:sender@company.com hasAttachment:true'")] string query,
         [Description("Maximum number of results to return. Defaults to 10.")] int? top = 10,
         CancellationToken cancellationToken = default) =>
-         await requestContext.WithExceptionCheck(async () =>
+         await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithOboGraphClient(async client =>
          await requestContext.WithStructuredContent(async () =>
          await client.Me.Messages
@@ -238,7 +238,7 @@ public static class GraphOutlookMail
         [Description("Start date/time for the flag in ISO format (optional).")] string? startDateTime = null,
         [Description("Due date/time for the flag in ISO format (optional).")] string? dueDateTime = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -330,7 +330,7 @@ public static class GraphOutlookMail
        [Description("Reply type: Reply or ReplyAll. Defaults to Reply.")] ReplyTypeEnum? replyType = ReplyTypeEnum.Reply,
        [Description("Content of the reply message.")] string? content = null,
        CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
@@ -393,7 +393,7 @@ public static class GraphOutlookMail
      [Description("Importance.")] Importance? importance = null,
      [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the body.")] string? emailSignatureUrl = null,
      CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -462,7 +462,7 @@ public static class GraphOutlookMail
         [Description("Type of the message body (html or text).")] BodyType? bodyType = null,
         [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the draft body.")] string? emailSignatureUrl = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(

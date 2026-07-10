@@ -30,7 +30,7 @@ public static partial class SimplicateCRM
       [Description("(partial) text value of the relation manager name")] string? relationManager = null,
       [Description("Offset used for pagination")] int? offset = null,
      CancellationToken cancellationToken = default) =>
-     await requestContext.WithExceptionCheck(async () =>
+     await ModelContextToolExtensions.WithExceptionCheck(async () =>
      await requestContext.WithStructuredContent(async () =>
      {
          var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
@@ -94,7 +94,7 @@ public static partial class SimplicateCRM
         [Description("(partial) text value of team name.")] string? teamName = null,
         [Description("(partial) text value of the relation manager name")] string? relationManager = null,
        CancellationToken cancellationToken = default)
-       => await requestContext.WithExceptionCheck(async () =>
+       => await ModelContextToolExtensions.WithExceptionCheck(async () =>
        await requestContext.WithStructuredContent(async () =>
        {
            var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
@@ -145,7 +145,7 @@ public static partial class SimplicateCRM
         [Description("(partial) text value of team name.")] string? teamName = null,
         [Description("(partial) text value of the relation manager name")] string? relationManager = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
      await requestContext.WithStructuredContent(async () =>
     {
         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();

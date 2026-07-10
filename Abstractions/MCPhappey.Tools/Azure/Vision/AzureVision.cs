@@ -22,7 +22,7 @@ public static class AzureVision
       IServiceProvider serviceProvider,
       RequestContext<CallToolRequestParams> requestContext,
       CancellationToken cancellationToken = default)
-      => await requestContext.WithExceptionCheck(async () =>
+      => await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
   {
       var settings = serviceProvider.GetRequiredService<AzureAISettings>();
@@ -64,7 +64,7 @@ public static class AzureVision
         RequestContext<CallToolRequestParams> requestContext,
         [Description("When true, saves the JSON OCR result beside the source file using the same filename plus .LLMs.json when possible, otherwise falls back to the default MCP output location, and returns only a resource link.")] bool saveOutput = false,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var result = await ReadImageResultAsync(imageUrl, serviceProvider, requestContext, cancellationToken);
 

@@ -43,7 +43,7 @@ public static class AnthropicSkills
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
@@ -87,7 +87,7 @@ public static class AnthropicSkills
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var antSettings = serviceProvider.GetRequiredService<AnthropicSettings>();
@@ -128,7 +128,7 @@ public static class AnthropicSkills
           IServiceProvider serviceProvider,
           RequestContext<CallToolRequestParams> requestContext,
           CancellationToken cancellationToken = default) =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext.WithOboGraphClient(async (client) =>
           await requestContext.WithStructuredContent(async () =>
     {
@@ -165,7 +165,7 @@ public static class AnthropicSkills
           IServiceProvider serviceProvider,
           RequestContext<CallToolRequestParams> requestContext,
           CancellationToken cancellationToken = default) =>
-          await requestContext.WithExceptionCheck(async () =>
+          await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext.WithOboGraphClient(async (client) =>
           await requestContext.WithStructuredContent(async () =>
     {

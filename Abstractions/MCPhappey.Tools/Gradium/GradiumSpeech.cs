@@ -33,7 +33,7 @@ public static class GradiumSpeech
         [Description("Return raw audio bytes. Default: true.")] bool only_audio = true,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GradiumTextToSpeechRequest
@@ -81,7 +81,7 @@ public static class GradiumSpeech
         [Description("Return raw audio bytes. Default: true.")] bool only_audio = true,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

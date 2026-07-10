@@ -26,7 +26,7 @@ public static class UpstageDocumentClassification
         [Description("Optional file URL containing split_criteria JSON array.")]
         string? splitCriteriaFileUrl = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 if (string.IsNullOrWhiteSpace(fileUrl))

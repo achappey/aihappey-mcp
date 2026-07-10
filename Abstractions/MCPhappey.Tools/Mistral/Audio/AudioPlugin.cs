@@ -33,7 +33,7 @@ public static partial class AudioPlugin
         [Description("Sampling temperature (0–1). Default: 0.")] double temperature = 0,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(audioUrl);
 

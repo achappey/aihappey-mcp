@@ -30,7 +30,7 @@ public static class RunwayTasks
         IServiceProvider sp,
         RequestContext<CallToolRequestParams> rc,
         CancellationToken ct = default)
-        => await rc.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
         var runway = sp.GetRequiredService<RunwayClient>();

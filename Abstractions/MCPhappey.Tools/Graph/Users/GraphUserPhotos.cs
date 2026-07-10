@@ -22,7 +22,7 @@ public static class GraphUserPhotos
         [Description("Optional Microsoft Entra user id or userPrincipalName to fetch another user's photo. Leave empty for current user.")]
         string? userId = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var mcpServer = requestContext.Server;
             var httpClient = await serviceProvider.GetGraphHttpClient(mcpServer);
@@ -74,7 +74,7 @@ public static class GraphUserPhotos
         [Description("Optional Microsoft Entra user id or userPrincipalName to fetch another user's photo. Leave empty for current user.")]
         string? userId = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graphClient =>
         {
             var mcpServer = requestContext.Server;

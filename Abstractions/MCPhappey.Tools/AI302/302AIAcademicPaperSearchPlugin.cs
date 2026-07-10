@@ -21,7 +21,7 @@ public static class AI302AcademicPaperSearchPlugin
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Comma-separated list of arXiv IDs to filter by.")] string? idList = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<AI302Client>();
@@ -53,7 +53,7 @@ public static class AI302AcademicPaperSearchPlugin
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var client = serviceProvider.GetRequiredService<AI302Client>();

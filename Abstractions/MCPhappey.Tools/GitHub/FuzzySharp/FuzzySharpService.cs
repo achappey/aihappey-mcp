@@ -45,7 +45,7 @@ public static class FuzzySharpService
         [Description("Optional max characters from document (0 = no cap).")] int maxChars = 0,
         CancellationToken cancellationToken = default)
         =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
             var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
@@ -81,7 +81,7 @@ public static class FuzzySharpService
         int maxChars = 0,
         CancellationToken cancellationToken = default)
         =>
-            await requestContext.WithExceptionCheck(async () =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             {
                 var downloadService = serviceProvider.GetRequiredService<DownloadService>();
                 var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
@@ -115,7 +115,7 @@ public static class FuzzySharpService
         int maxChars = 0,
         CancellationToken cancellationToken = default)
     =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
             var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
@@ -155,7 +155,7 @@ public static class FuzzySharpService
         [Description("Optional soft cap of document length in characters (0 = no cap). Helps performance on huge texts.")] int maxChars = 0,
         CancellationToken cancellationToken = default)
     =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
             var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);

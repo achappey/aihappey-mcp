@@ -39,7 +39,7 @@ public static class RimeSpeech
         [Description("Save out-of-vocabulary words for review.")] bool saveOovs = false,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             return await GenerateAndUploadSpeechAsync(
                 serviceProvider,
@@ -83,7 +83,7 @@ public static class RimeSpeech
         [Description("Save out-of-vocabulary words for review.")] bool saveOovs = false,
         [Description("Output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 

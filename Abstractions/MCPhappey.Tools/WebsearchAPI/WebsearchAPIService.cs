@@ -134,7 +134,7 @@ public static class WebsearchAPIService
         string endpoint,
         Action<JsonObject> payloadBuilder,
         CancellationToken cancellationToken)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var settings = serviceProvider.GetRequiredService<WebsearchAPISettings>();

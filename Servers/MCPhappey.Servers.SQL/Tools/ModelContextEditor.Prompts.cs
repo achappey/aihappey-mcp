@@ -33,7 +33,7 @@ public static partial class ModelContextEditor
         [Description("Optional description of the prompt.")]
         string? description = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
@@ -77,7 +77,7 @@ public static partial class ModelContextEditor
         [Description("New value for the title property")] string? newTitle = null,
         [Description("New value for the description property")] string? newDescription = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
@@ -148,7 +148,7 @@ public static partial class ModelContextEditor
        [Description("New value for the prompt required property")] bool? required = null,
        [Description("New value for the prompt description property")] string? newDescription = null,
        CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
@@ -181,7 +181,7 @@ public static partial class ModelContextEditor
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
@@ -211,7 +211,7 @@ public static partial class ModelContextEditor
     IServiceProvider serviceProvider,
     RequestContext<CallToolRequestParams> requestContext,
     CancellationToken cancellationToken = default) =>
-    await requestContext.WithExceptionCheck(async () =>
+    await ModelContextToolExtensions.WithExceptionCheck(async () =>
     await requestContext.WithStructuredContent(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
@@ -239,7 +239,7 @@ public static partial class ModelContextEditor
         [Description("When true, include full prompt templates and arguments.")]
     bool includeDetails = false,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
             var server = await serviceProvider.GetServer(serverName, cancellationToken);

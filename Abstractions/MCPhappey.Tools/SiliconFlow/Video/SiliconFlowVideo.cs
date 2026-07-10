@@ -26,7 +26,7 @@ public static class SiliconFlowVideo
         [Description("Optional random seed.")] int? seed = null,
         [Description("Optional output filename without extension.")] string? filename = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var request = new SiliconFlowNewVideo
             {

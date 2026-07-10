@@ -24,7 +24,7 @@ public static class OpenAIVideo
      [Description("Clip duration in seconds.")] int seconds = 4,
      [Description("Output resolution formatted as width x height. Supported values are: '720x1280', '1280x720', '1024x1792', and '1792x1024'.")] string size = "720x1280",
      CancellationToken cancellationToken = default)
-      => await requestContext.WithExceptionCheck(async () =>
+      => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
     {
         var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
@@ -72,7 +72,7 @@ public static class OpenAIVideo
        RequestContext<CallToolRequestParams> requestContext,
        [Description("Optional filename (without extension) for OneDrive upload. Defaults to the video ID.")] string? filename = null,
        CancellationToken cancellationToken = default)
-       => await requestContext.WithExceptionCheck(async () =>
+       => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();

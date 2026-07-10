@@ -30,7 +30,7 @@ public static class VeniceTools
         [Description("Maximum number of results to return. Allowed range: 1-20. Default: 10.")] int limit = 10,
         [Description("Search provider to use. Allowed values: brave, google. Defaults to brave.")] string search_provider = "brave",
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceWebSearchRequest
@@ -67,7 +67,7 @@ public static class VeniceTools
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Public HTTP or HTTPS URL to scrape.")] string url,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceWebScrapeRequest
@@ -103,7 +103,7 @@ public static class VeniceTools
         [Description("File URL of the document to parse. Secure SharePoint and OneDrive links are supported.")] string fileUrl,
         [Description("Response format from Venice. Allowed values: json, text. Default: json.")] string response_format = "json",
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceTextParserRequest
@@ -168,7 +168,7 @@ public static class VeniceTools
         [Description("JSON-RPC request payload as JSON string. Use a single object or an array of up to 100 JSON-RPC objects.")] string requestJson,
         [Description("Optional idempotency key for safe retries. Allowed characters: letters, numbers, underscore, hyphen. Max length: 255.")] string? idempotency_key = null,
         CancellationToken cancellationToken = default)
-        => await requestContext.WithExceptionCheck(async () =>
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new VeniceCryptoRpcRequest

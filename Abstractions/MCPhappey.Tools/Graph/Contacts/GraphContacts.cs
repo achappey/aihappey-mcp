@@ -50,7 +50,7 @@ public static class GraphContacts
         [Description("Other postal code.")] string? otherPostalCode = null,
         [Description("Other country/region.")] string? otherCountryOrRegion = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -147,7 +147,7 @@ public static class GraphContacts
         [Description("Other postal code.")] string? otherPostalCode = null,
         [Description("Other country/region.")] string? otherCountryOrRegion = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -223,7 +223,7 @@ public static class GraphContacts
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional parent folder id. If provided, a child folder is created.")] string? parentFolderId = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -260,7 +260,7 @@ public static class GraphContacts
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Updated display name.")] string? displayName = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {

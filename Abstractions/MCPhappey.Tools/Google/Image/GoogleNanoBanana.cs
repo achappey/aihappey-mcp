@@ -24,7 +24,7 @@ public static class GoogleNanoBanana
         [Description("Optional image url for image edits. Supports protected links like SharePoint and OneDrive links")]
         string? fileUrl = null,
         CancellationToken cancellationToken = default) =>
-        await requestContext.WithExceptionCheck(async () =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var googleAI = serviceProvider.GetRequiredService<Mscc.GenerativeAI.GoogleAI>();
 

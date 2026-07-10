@@ -21,7 +21,7 @@ public static class KrokiDiagrams
       IServiceProvider serviceProvider,
       RequestContext<CallToolRequestParams> requestContext,
       CancellationToken cancellationToken = default)
-      => await requestContext.WithExceptionCheck(async () =>
+      => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         if (!AllowedTypes.Contains(diagramType))
         {
