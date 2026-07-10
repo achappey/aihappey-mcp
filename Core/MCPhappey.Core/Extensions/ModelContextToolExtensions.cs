@@ -87,18 +87,19 @@ public static partial class ModelContextToolExtensions
         return await Task.FromResult(result);
     }
 
-    public static async Task<CallToolResult?> WithExceptionCheck(this RequestContext<CallToolRequestParams> requestContext, Func<Task<CallToolResult?>> func)
+    public static async Task<CallToolResult?> WithExceptionCheck(Func<Task<CallToolResult?>> func)
     {
         try
         {
             return await func();
         }
+        catch (InputRequiredException)
+        {
+            throw;
+        }
         catch (Exception e)
         {
-            if (e is InputRequiredException)
-                throw;
-
-            return e.Message.ToErrorCallToolResponse();
+            return e.ToString().ToErrorCallToolResponse();
         }
     }
 
