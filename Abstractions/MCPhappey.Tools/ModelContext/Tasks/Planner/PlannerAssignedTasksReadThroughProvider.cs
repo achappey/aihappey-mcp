@@ -9,6 +9,7 @@ using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol;
+using ModelContextProtocol.Extensions.Tasks;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 

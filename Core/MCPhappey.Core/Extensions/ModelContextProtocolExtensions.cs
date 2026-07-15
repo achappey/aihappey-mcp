@@ -127,9 +127,9 @@ public static class ModelContextProtocolExtensions
 
         var runtimeContext = new ExternalTaskRuntimeContext(server, taskOptions, headers, pollInterval);
         var provider = ExternalTaskRuntimeProviderFactory.Create(requestServices, runtimeContext);
-        opts.TaskStore = provider.CreateTaskStore(runtimeContext);
+        //opts.TaskStore = provider.CreateTaskStore(runtimeContext);
 
-        opts.Filters.Message.IncomingFilters.Add(next => async (context, cancellationToken) =>
+        /*opts.Filters.Message.IncomingFilters.Add(next => async (context, cancellationToken) =>
         {
             if (context.JsonRpcMessage is JsonRpcRequest request)
             {
@@ -159,7 +159,7 @@ public static class ModelContextProtocolExtensions
             }
 
             await next(context, cancellationToken);
-        });
+        });*/
     }
 }
 #pragma warning restore MCPEXP001
