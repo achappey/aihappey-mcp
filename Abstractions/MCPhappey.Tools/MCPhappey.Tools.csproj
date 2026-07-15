@@ -15,7 +15,7 @@
   </ItemGroup>  
 
 	<ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.5.3-beta.553" />
+    <PackageReference Include="AngleSharp" Version="1.5.3-beta.556" />
     <PackageReference Include="Anthropic.SDK" Version="5.10.0" />
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="CoordinateSharp" Version="3.4.1.1" />
@@ -41,7 +41,7 @@
     <PackageReference Include="Plotly.NET.CSharp" Version="0.14.0-preview.1" />
     <PackageReference Include="QuestPDF" Version="2026.7.1" />
     <PackageReference Include="QuestPDF.Markdown" Version="1.50.0" />
-    <PackageReference Include="Raffinert.FuzzySharp" Version="5.0.2" />
+    <PackageReference Include="Raffinert.FuzzySharp" Version="5.0.3" />
     <PackageReference Include="RESTCountries.NET" Version="3.6.0" />
     <PackageReference Include="SharpGLTF.Core" Version="1.0.6" />
     <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.6" />
