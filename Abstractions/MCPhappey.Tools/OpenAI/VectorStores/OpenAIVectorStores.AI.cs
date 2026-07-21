@@ -2,6 +2,8 @@ using System.ClientModel;
 using System.ComponentModel;
 using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
+using MCPhappey.Tools.OpenAI.Responses;
+using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -10,18 +12,16 @@ namespace MCPhappey.Tools.OpenAI.VectorStores;
 public static partial class OpenAIVectorStores
 {
     [Description("Search a vector store for relevant chunks based on a query.")]
-    [McpServerTool(Title = "Search a vector store at OpenAI", ReadOnly = true,
-        OpenWorld = false)]
+    [McpServerTool(Title = "Search a vector store at OpenAI", ReadOnly = true, OpenWorld = false)]
     public static async Task<CallToolResult?> OpenAIVectorStores_Search(
-          [Description("The vector store id.")] string vectorStoreId,
-          [Description("The vector store prompt query.")] string query,
-          IServiceProvider serviceProvider,
-          RequestContext<CallToolRequestParams> requestContext,
-          [Description("If the query should be rewritten.")] bool? rewriteQuery = false,
-          [Description("Maximum number of results.")] int? maxNumOfResults = 10,
-          CancellationToken cancellationToken = default) =>
-          await ModelContextToolExtensions.WithExceptionCheck(async () =>
-          await serviceProvider.WithVectorStoreOwnerClient<CallToolResult?>(vectorStoreId, async (client, current) =>
+        [Description("The vector store id.")] string vectorStoreId,
+        [Description("The vector store prompt query.")] string query,
+        IServiceProvider serviceProvider,
+        [Description("If the query should be rewritten.")] bool? rewriteQuery = false,
+        [Description("Maximum number of results.")] int? maxNumOfResults = 10,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+            await serviceProvider.WithVectorStoreOwnerClient<CallToolResult?>(vectorStoreId, async (client, current) =>
             {
                 var payload = new Dictionary<string, object?>
                 {
@@ -31,57 +31,46 @@ public static partial class OpenAIVectorStores
                 };
 
                 var content = BinaryContent.Create(BinaryData.FromObjectAsJson(payload));
-                var searchResult = await client
-                    .SearchVectorStoreAsync(vectorStoreId, content);
-                using var raw = searchResult.GetRawResponse();            // PipelineResponse
-                string json = raw.Content.ToString();         // JSON string
+                var searchResult = await client.SearchVectorStoreAsync(vectorStoreId, content);
+                using var raw = searchResult.GetRawResponse();
 
-                return json.ToJsonCallToolResponse($"{VectorStoreExtensions.BASE_URL}/{vectorStoreId}/search");
+                return raw.Content.ToString().ToJsonCallToolResponse(
+                    $"{VectorStoreExtensions.BASE_URL}/{vectorStoreId}/search");
             }, cancellationToken));
 
-    [Description("Ask a question against an OpenAI vector store using file_search via sampling.")]
-    [McpServerTool(
-           Title = "Ask OpenAI vector store",
-           ReadOnly = true)]
+    [Description("Ask a question against an OpenAI vector store using file search.")]
+    [McpServerTool(Title = "Ask OpenAI vector store", ReadOnly = true)]
     public static async Task<CallToolResult?> OpenAIVectorStores_Ask(
-           [Description("The OpenAI vector store id.")] string vectorStoreId,
-           [Description("Your question / query.")] string query,
-           IServiceProvider serviceProvider,
-           RequestContext<CallToolRequestParams> requestContext,
-           [Description("Optional model override (defaults to gpt-5.1).")] string? model = "gpt-5.1",
-           [Description("Max number of retrieved chunks.")] int? maxNumResults = 10,
-           CancellationToken cancellationToken = default)
-        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
-           await serviceProvider.WithVectorStoreOwnerClient<CallToolResult?>(vectorStoreId, async (client, current) =>
-           await requestContext.WithStructuredContent(async () =>
+        [Description("The OpenAI vector store id.")] string vectorStoreId,
+        [Description("Your question / query.")] string query,
+        IServiceProvider serviceProvider,
+        [Description("Optional OpenAI model override.")] string? model = OpenAIResponsesClient.DefaultModel,
+        [Description("Max number of retrieved chunks.")] int? maxNumResults = 10,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+            await serviceProvider.WithVectorStoreOwnerClient<CallToolResult?>(vectorStoreId, async (client, current) =>
             {
-                var response = await requestContext.Server.SampleAsync(
-                    new CreateMessageRequestParams()
+                ArgumentException.ThrowIfNullOrWhiteSpace(query);
+
+                var responses = serviceProvider.GetRequiredService<OpenAIResponsesClient>();
+                var response = await responses.CreateResponseAsync(new JsonObject
+                {
+                    ["model"] = OpenAIResponsesClient.ResolveModel(model),
+                    ["input"] = query,
+                    ["reasoning"] = new JsonObject { ["effort"] = "low" },
+                    ["tools"] = new JsonArray
                     {
-                        Metadata = new JsonObject
+                        new JsonObject
                         {
-                            ["openai"] = new JsonObject
-                            {
-                                ["file_search"] = new JsonObject
-                                {
-                                    ["vector_store_ids"] = new JsonArray(vectorStoreId),
-                                    ["max_num_results"] = maxNumResults ?? 10
-                                },
-                                ["reasoning"] = new JsonObject
-                                {
-                                    ["effort"] = "low"
-                                }
-                            }
-                        },
-                        Temperature = 1,
-                        MaxTokens = 8192,
-                        ModelPreferences = model.ToModelPreferences(),
-                        Messages = [query.ToUserSamplingMessage()]
-                    },
-                    cancellationToken);
+                            ["type"] = "file_search",
+                            ["vector_store_ids"] = new JsonArray(vectorStoreId),
+                            ["max_num_results"] = maxNumResults ?? 10
+                        }
+                    }
+                }, cancellationToken);
 
-                // Return the model’s final content blocks
-                return response;
-            })));
+                return (OpenAIResponsesClient.GetOutputText(response)
+                    ?? throw new InvalidOperationException("The OpenAI Responses API returned no text output."))
+                    .ToTextCallToolResponse();
+            }, cancellationToken));
 }
-

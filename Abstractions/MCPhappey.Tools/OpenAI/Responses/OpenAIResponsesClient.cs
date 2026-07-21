@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace MCPhappey.Tools.OpenAI.Responses;
@@ -10,10 +11,29 @@ namespace MCPhappey.Tools.OpenAI.Responses;
 /// </summary>
 public sealed class OpenAIResponsesClient(HttpClient httpClient)
 {
+    public const string DefaultModel = "gpt-5.2";
+
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
     public async Task<string> CreateTextResponseAsync(
         OpenAIResponsesRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        var response = await CreateResponseAsync(
+            JsonSerializer.SerializeToNode(request, JsonOptions)!.AsObject(),
+            cancellationToken);
+
+        var outputText = GetOutputText(response);
+        if (string.IsNullOrWhiteSpace(outputText))
+            throw new InvalidOperationException("The OpenAI Responses API returned no text output.");
+
+        return outputText;
+    }
+
+    public async Task<JsonObject> CreateResponseAsync(
+        JsonObject request,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
@@ -33,13 +53,15 @@ public sealed class OpenAIResponsesClient(HttpClient httpClient)
                 response.StatusCode);
         }
 
-        using var document = JsonDocument.Parse(payload);
-        var outputText = GetOutputText(document.RootElement);
-        if (string.IsNullOrWhiteSpace(outputText))
-            throw new InvalidOperationException("The OpenAI Responses API returned no text output.");
-
-        return outputText;
+        return JsonNode.Parse(payload)?.AsObject()
+            ?? throw new InvalidOperationException("The OpenAI Responses API returned an invalid JSON object.");
     }
+
+    public static string? GetOutputText(JsonObject response)
+        => GetOutputText(JsonSerializer.SerializeToElement(response, JsonOptions));
+
+    public static string ResolveModel(string? model)
+        => string.IsNullOrWhiteSpace(model) ? DefaultModel : model;
 
     private static string GetErrorMessage(string payload)
     {
@@ -103,7 +125,7 @@ public sealed class OpenAIResponsesClient(HttpClient httpClient)
 
 public sealed class OpenAIResponsesRequest
 {
-    public string Model { get; init; } = "gpt-5.2";
+    public string Model { get; init; } = OpenAIResponsesClient.DefaultModel;
     public required string Input { get; init; }
     public double Temperature { get; init; } = 1;
     public OpenAIReasoningOptions Reasoning { get; init; } = new();

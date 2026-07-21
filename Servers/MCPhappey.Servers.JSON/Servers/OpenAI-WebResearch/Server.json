@@ -18,5 +18,8 @@
   },
   "plugins": [
     "MCPhappey.Tools.OpenAI.Research.OpenAIResearch, MCPhappey.Tools"
-  ]
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
 }

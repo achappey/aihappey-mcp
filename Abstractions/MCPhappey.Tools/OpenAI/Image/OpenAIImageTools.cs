@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
+using MCPhappey.Tools.OpenAI.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -13,120 +14,114 @@ namespace MCPhappey.Tools.OpenAI.Image;
 
 public static class OpenAIImageTools
 {
-
-    [Description("OpenAI ask multiple images.")]
-    [McpServerTool(Title = "Ask multiple images", Name = "openai_ask_images",
-          Destructive = false,
-          OpenWorld = true,
-          ReadOnly = true)]
+    [Description("Ask OpenAI about multiple images.")]
+    [McpServerTool(Title = "Ask multiple images", Name = "openai_ask_images", Destructive = false, OpenWorld = true, ReadOnly = true)]
     public static async Task<IEnumerable<ContentBlock>> OpenAI_AskImages(
-            [Description("Prompt to execute.")]
-            string prompt,
-           [Description("Image urls. SharePoint/OneDrive linkes are supported")]
-            List<string> imageUrls,
-            IServiceProvider serviceProvider,
-            RequestContext<CallToolRequestParams> requestContext,
-            CancellationToken cancellationToken = default)
+        [Description("Prompt to execute.")] string prompt,
+        [Description("Image URLs. SharePoint/OneDrive links are supported.")] List<string> imageUrls,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional OpenAI model override.")] string? model = OpenAIResponsesClient.DefaultModel,
+        CancellationToken cancellationToken = default)
     {
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+        ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
-        List<SamplingMessage> imageBlocks = [];
+        var response = await serviceProvider.GetRequiredService<OpenAIResponsesClient>().CreateResponseAsync(
+            CreateVisionRequest(
+                OpenAIResponsesClient.ResolveModel(model),
+                prompt,
+                await CreateImageInputAsync(serviceProvider, requestContext.Server, imageUrls, cancellationToken)),
+            cancellationToken);
 
-        foreach (var imageUrl in imageUrls)
-        {
-            var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server,
-                imageUrl, cancellationToken);
-
-            var file = files.FirstOrDefault();
-
-            imageBlocks.Add(
-                ImageContentBlock.FromBytes(file?.Contents, file?.MimeType!).ToUserSamplingMessage());
-        }
-
-        var response = await requestContext.Server.SampleAsync(
-                new CreateMessageRequestParams()
-                {
-                    Metadata = new JsonObject
-                    {
-                        ["openai"] = new JsonObject
-                        {
-                            ["reasoning"] = new JsonObject
-                            {
-                                ["effort"] = "low"
-                            }
-                        }
-                    },
-                    Temperature = 1,
-                    MaxTokens = 8192 * 4,
-                    ModelPreferences = "gpt-5.1".ToModelPreferences(),
-                    Messages = [.. imageBlocks, prompt.ToUserSamplingMessage()]
-                },
-                cancellationToken);
-
-        return response.Content;
+        return [(OpenAIResponsesClient.GetOutputText(response)
+            ?? throw new InvalidOperationException("The OpenAI Responses API returned no text output."))
+            .ToTextContentBlock()];
     }
 
     [Description("Describes one or more images.")]
-    [McpServerTool(
-       Title = "Describe images",
-       Name = "openai_describe_images",
-       ReadOnly = true)]
+    [McpServerTool(Title = "Describe images", Name = "openai_describe_images", ReadOnly = true)]
     public static async Task<CallToolResult?> OpenAI_DescribeImages(
-      [Description("Image urls to describe")] List<string> imageUrls,
-      IServiceProvider serviceProvider,
-      RequestContext<CallToolRequestParams> requestContext,
-      [Description("Detail level")] ImageDescriptionDetailLevel imageDescriptionDetailLevel = ImageDescriptionDetailLevel.medium,
-      CancellationToken cancellationToken = default)
-      => await ModelContextToolExtensions.WithExceptionCheck(async () => await requestContext.WithStructuredContent(async () =>
-   {
-       var mcpServer = requestContext.Server;
-       var samplingService = serviceProvider.GetRequiredService<SamplingService>();
-       var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-       var promptArgs = new Dictionary<string, JsonElement>
-       {
-           ["detailLevel"] = JsonSerializer.SerializeToElement(imageDescriptionDetailLevel.GetEnumMemberValue())
-       };
-
-       List<SamplingMessage> imageBlocks = [];
-
-       foreach (var imageUrl in imageUrls)
-       {
-           var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server,
-               imageUrl, cancellationToken);
-
-           var file = files.FirstOrDefault();
-           imageBlocks.Add(
-            ImageContentBlock.FromBytes(file?.Contents, file?.MimeType!).ToUserSamplingMessage());
-       }
-
-       var startTime = DateTime.UtcNow;
-       var result = await samplingService.GetPromptSample(
-            serviceProvider,
-            mcpServer,
-            "describe-images-in-detail",
-            arguments: promptArgs,
-            modelHint: "gpt-5.4-mini",
-            maxTokens: 8192 * 4,
-            metadata: new JsonObject
-            {
-                ["openai"] = new JsonObject
+        [Description("Image URLs to describe")] List<string> imageUrls,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Detail level")] ImageDescriptionDetailLevel imageDescriptionDetailLevel = ImageDescriptionDetailLevel.medium,
+        [Description("Optional OpenAI model override.")] string? model = OpenAIResponsesClient.DefaultModel,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        {
+            var prompt = await serviceProvider.GetRequiredService<PromptService>().GetServerPrompt(
+                serviceProvider,
+                requestContext.Server,
+                "describe-images-in-detail",
+                new Dictionary<string, JsonElement>
                 {
-                    ["reasoning"] = new JsonObject
-                    {
-                        ["effort"] = "low"
-                    }
+                    ["detailLevel"] = JsonSerializer.SerializeToElement(imageDescriptionDetailLevel.GetEnumMemberValue())
+                },
+                cancellationToken: cancellationToken);
+
+            var response = await serviceProvider.GetRequiredService<OpenAIResponsesClient>().CreateResponseAsync(
+                CreateVisionRequest(
+                    OpenAIResponsesClient.ResolveModel(model),
+                    string.Join("\n\n", prompt.Messages.Select(message => message.Content.ToString())),
+                    await CreateImageInputAsync(serviceProvider, requestContext.Server, imageUrls, cancellationToken)),
+                cancellationToken);
+
+            return (OpenAIResponsesClient.GetOutputText(response)
+                ?? throw new InvalidOperationException("The OpenAI Responses API returned no text output."))
+                .ToTextCallToolResponse();
+        });
+
+    private static JsonObject CreateVisionRequest(string model, string prompt, JsonArray imageInput)
+    {
+        var content = new JsonArray
+        {
+            new JsonObject { ["type"] = "input_text", ["text"] = prompt }
+        };
+
+        foreach (var image in imageInput)
+            content.Add(image);
+
+        return new JsonObject
+        {
+            ["model"] = model,
+            ["reasoning"] = new JsonObject { ["effort"] = "low" },
+            ["input"] = new JsonArray
+            {
+                new JsonObject
+                {
+                    ["role"] = "user",
+                    ["content"] = content
                 }
-            },
-            messages: imageBlocks,
-            cancellationToken: cancellationToken
-        );
+            }
+        };
+    }
 
-       var endTime = DateTime.UtcNow;
-       result.Meta?.Add("duration", (endTime - startTime).ToString());
+    private static async Task<JsonArray> CreateImageInputAsync(
+        IServiceProvider serviceProvider,
+        McpServer server,
+        IEnumerable<string> imageUrls,
+        CancellationToken cancellationToken)
+    {
+        var downloader = serviceProvider.GetRequiredService<DownloadService>();
+        var content = new JsonArray();
 
-       return result;
-   }));
+        foreach (var imageUrl in imageUrls)
+        {
+            var file = (await downloader.DownloadContentAsync(serviceProvider, server, imageUrl, cancellationToken))
+                .FirstOrDefault();
 
+            if (file?.Contents is null || string.IsNullOrWhiteSpace(file.MimeType))
+                throw new InvalidOperationException($"Unable to download image content from '{imageUrl}'.");
+
+            content.Add(new JsonObject
+            {
+                ["type"] = "input_image",
+                ["image_url"] = $"data:{file.MimeType};base64,{Convert.ToBase64String(file.Contents.ToArray())}"
+            });
+        }
+
+        return content;
+    }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ImageDescriptionDetailLevel
@@ -141,4 +136,3 @@ public static class OpenAIImageTools
         detailed
     }
 }
-

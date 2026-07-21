@@ -2,6 +2,8 @@ using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
+using MCPhappey.Tools.OpenAI.Responses;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -10,67 +12,47 @@ namespace MCPhappey.Tools.OpenAI.CodeInterpreter;
 
 public static class OpenAICodeInterpreter
 {
-    [Description("Run a prompt with OpenAI Code interpreter tool.")]
-    [McpServerTool(Title = "OpenAI Code Interpreter", Name = "openai_codeinterpreter_run",
-        Destructive = false,
-        ReadOnly = true)]
+    [Description("Run a prompt with the OpenAI Code Interpreter tool.")]
+    [McpServerTool(Title = "OpenAI Code Interpreter", Name = "openai_codeinterpreter_run", Destructive = false, ReadOnly = true)]
     public static async Task<CallToolResult?> OpenAICodeInterpreter_Run(
-            IServiceProvider serviceProvider,
-          [Description("Prompt to execute (code is allowed).")]
-            string prompt,
-          RequestContext<CallToolRequestParams> requestContext,
-          [Description("Target model (e.g. gpt-5 or gpt-5.4-mini).")]
-            string model = "gpt-5.4-mini",
-          [Description("Reasoning effort level. low, medium, hard ")]
-            string reasoningEffort = "low",
-          [Description("Optional container id")]
-            string? containerId = null,
-          CancellationToken cancellationToken = default) =>
-          await ModelContextToolExtensions.WithExceptionCheck(async () =>
-    {
-        var openai = new JsonObject
+        IServiceProvider serviceProvider,
+        [Description("Prompt to execute (code is allowed).")] string prompt,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional OpenAI model override.")] string? model = OpenAIResponsesClient.DefaultModel,
+        [Description("Reasoning effort level: low, medium, or high.")] string reasoningEffort = "low",
+        [Description("Optional Code Interpreter container id.")] string? containerId = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            ["code_interpreter"] = new JsonObject
-            {
-                ["type"] = "auto"
-            },
-            ["reasoning"] = new JsonObject
-            {
-                ["effort"] = reasoningEffort
-            }
-        };
+            ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
-        // container alleen toevoegen als hij bestaat
-        if (!string.IsNullOrEmpty(containerId))
-        {
-            ((JsonObject)openai["code_interpreter"]!)["container"] = containerId;
-        }
+            var codeInterpreter = new JsonObject { ["type"] = "code_interpreter" };
+            if (!string.IsNullOrWhiteSpace(containerId))
+                codeInterpreter["container"] = containerId;
 
-        var response = await requestContext.Server.SampleAsync(
-            new CreateMessageRequestParams()
+            var response = await serviceProvider.GetRequiredService<OpenAIResponsesClient>().CreateResponseAsync(new JsonObject
             {
-                Metadata = new JsonObject
+                ["model"] = OpenAIResponsesClient.ResolveModel(model),
+                ["input"] = prompt,
+                ["reasoning"] = new JsonObject { ["effort"] = reasoningEffort },
+                ["tools"] = new JsonArray { codeInterpreter }
+            }, cancellationToken);
+
+            var blocks = new List<ContentBlock>();
+            var outputText = OpenAIResponsesClient.GetOutputText(response);
+            if (!string.IsNullOrWhiteSpace(outputText))
+                blocks.Add(outputText.ToTextContentBlock());
+
+            blocks.Add(new EmbeddedResourceBlock
+            {
+                Resource = new TextResourceContents
                 {
-                    ["openai"] = openai
-                },
-                Temperature = 1,
-                MaxTokens = 8192,
-                ModelPreferences = model.ToModelPreferences(),
-                Messages = [prompt.ToUserSamplingMessage()]
-            },
-            cancellationToken);
+                    Text = response.ToJsonString(),
+                    Uri = "https://api.openai.com/v1/responses",
+                    MimeType = MimeTypes.Json
+                }
+            });
 
-        var metadata = new EmbeddedResourceBlock()
-        {
-            Resource = new TextResourceContents()
-            {
-                Text = JsonSerializer.Serialize(response.Meta),
-                Uri = "https://api.openai.com",
-                MimeType = MimeTypes.Json
-            }
-        };
-
-        return await requestContext.WithUploads(response, serviceProvider, metadata, cancellationToken);
-    });
+            return blocks.ToCallToolResponse();
+        });
 }
-

@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
+using MCPhappey.Tools.OpenAI.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol;
@@ -13,209 +14,99 @@ namespace MCPhappey.Tools.OpenAI.Research;
 
 public static class OpenAIMicrosoftResearch
 {
-    [Description("Perform Microsoft research (SharePoint, Teams and Outlook) on a topic. Before you use this tool, always ask the user first for more details so you can craft a detailed research topic for maximum accuracy")]
-    [McpServerTool(Title = "Perform Microsoft research",
-        ReadOnly = true)]
+    [Description("Perform Microsoft research across SharePoint, Teams, and Outlook. Before using this tool, ask for enough detail to craft a precise research topic.")]
+    [McpServerTool(Title = "Perform Microsoft research", ReadOnly = true)]
     public static async Task<CallToolResult> OpenAIResearch_PerformMicrosoftResearch(
-        [Description("Topic for the research")]
-        string researchTopic,
+        [Description("Topic for the research")] string researchTopic,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional OpenAI model override.")] string? model = OpenAIResponsesClient.DefaultModel,
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(researchTopic);
-        var uploadService = serviceProvider.GetRequiredService<UploadService>();
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
-        int? progressCounter = requestContext.Params?.ProgressToken is not null ? 1 : null;
 
-        if (requestContext.Server.ClientCapabilities?.Sampling == null)
-        {
-            return "Sampling is required for this tool".ToErrorCallToolResponse();
-        }
+        var prompts = serviceProvider.GetRequiredService<PromptService>();
+        var responses = serviceProvider.GetRequiredService<OpenAIResponsesClient>();
+        var planningArguments = new Dictionary<string, JsonElement> { ["query"] = JsonSerializer.SerializeToElement(researchTopic) };
+        var planText = await responses.CreatePromptTextResponseAsync(prompts, serviceProvider, requestContext.Server,
+            "microsoft-search-planner", planningArguments, model, "medium", cancellationToken: cancellationToken);
+        var plan = JsonSerializer.Deserialize<WebSearchPlan>(planText.CleanJson()) ?? new WebSearchPlan();
 
-        var queryArgs = new Dictionary<string, JsonElement>()
+        var counter = 1;
+        var total = plan.Searches.Count + 2;
+        await Progress(requestContext, counter, total,
+            $"Expanded to {plan.Searches.Count} queries:\n{string.Join("\n", plan.Searches.Select(search => search.Query))}", cancellationToken);
+
+        var oboToken = await serviceProvider.GetOboGraphToken(requestContext.Server);
+        var searchTasks = plan.Searches.Select(search => GetMicrosoftResearch(
+            responses, prompts, serviceProvider, requestContext, oboToken, counter++, total, search.Query, search.Reason, model, cancellationToken));
+        var searchResults = await Task.WhenAll(searchTasks);
+
+        await Progress(requestContext, counter++, total, "Writing report", cancellationToken);
+        var reportArguments = new Dictionary<string, JsonElement>
         {
             ["query"] = JsonSerializer.SerializeToElement(researchTopic),
+            ["searchResults"] = JsonSerializer.SerializeToElement(string.Join("\n\n", searchResults))
         };
+        var report = await responses.CreatePromptTextResponseAsync(prompts, serviceProvider, requestContext.Server,
+            "write-report", reportArguments, model, "medium", cancellationToken: cancellationToken);
 
-        var querySampling = await samplingService.GetPromptSample<WebSearchPlan>(
-             serviceProvider,
-             requestContext.Server,
-             "microsoft-search-planner",
-             queryArgs,
-             "gpt-5.1",
-             maxTokens: 4096 * 4,
-             metadata: new JsonObject
-             {
-                 ["openai"] = new JsonObject
-                 {
-                     ["reasoning"] = new JsonObject
-                     {
-                         ["effort"] = "medium"
-                     }
-                 }
-             },
-             cancellationToken: cancellationToken);
-        var counter = 1;
-
-        if (requestContext.Params?.ProgressToken is not null)
-        {
-            await requestContext.Server.SendNotificationAsync("notifications/progress", new ProgressNotificationParams()
-            {
-                ProgressToken = requestContext.Params.ProgressToken.Value,
-                Progress = new ProgressNotificationValue()
-                {
-                    Progress = counter,
-                    Message = $"Expanded to {querySampling?.Searches.Count()} queries:\n{string.Join("\n",
-                        querySampling?.Searches.Select(a => a.Query) ?? [])}"
-                },
-            }, cancellationToken: cancellationToken);
-        }
-
-        var queries = querySampling?.Searches.Select(a => $"- {a.Query}: {a.Reason}") ?? [];
-
-        var total = querySampling?.Searches.Count + 2;
-        var oboToken = await serviceProvider.GetOboGraphToken(requestContext.Server);
-
-        var researchTasks = querySampling?.Searches.Select(a => GetMicrosoftResearch(requestContext.Server,
-             samplingService, requestContext, oboToken, counter++, total, serviceProvider,
-             a.Query, a.Reason,
-            cancellationToken));
-
-        var searchResults = await Task.WhenAll(researchTasks ?? []);
-        var resultItems = searchResults
-            .OfType<string>();
-
-        if (requestContext.Params?.ProgressToken is not null)
-        {
-            await requestContext.Server.SendNotificationAsync("notifications/progress", new ProgressNotificationParams()
-            {
-                ProgressToken = requestContext.Params.ProgressToken.Value,
-                Progress = new ProgressNotificationValue()
-                {
-                    Progress = counter++,
-                    Total = total,
-                    Message = $"Writing report"
-                },
-            }, cancellationToken: cancellationToken);
-        }
-
-
-        var reportArgs = new Dictionary<string, JsonElement>()
-        {
-           {"query", JsonSerializer.SerializeToElement(researchTopic)},
-           {"searchResults", JsonSerializer.SerializeToElement(string.Join("\n\n", searchResults))}
-        };
-
-        var reportSampling = await samplingService.GetPromptSample(
-            serviceProvider,
-            requestContext.Server,
-            "write-report",
-            reportArgs,
-            "gpt-5.4-mini",
-            maxTokens: 4096 * 4,
-            metadata: new JsonObject
-            {
-                ["openai"] = new JsonObject
-                {
-                    ["reasoning"] = new JsonObject
-                    {
-                        ["effort"] = "medium"
-                    }
-                }
-            },
-            cancellationToken: cancellationToken);
-
-        var result = reportSampling.ToText();
-
-        if (string.IsNullOrEmpty(result))
-        {
-            return string.Join("\n\n", searchResults).ToTextCallToolResponse();
-        }
-
-        return result.ToTextCallToolResponse();
+        return (string.IsNullOrWhiteSpace(report) ? string.Join("\n\n", searchResults) : report).ToTextCallToolResponse();
     }
 
-    private static async Task<string?> GetMicrosoftResearch(McpServer mcpServer,
-        SamplingService samplingService,
-        RequestContext<CallToolRequestParams> requestContext,
-        string token,
-        int? counter,
-        int? total,
+    private static async Task<string> GetMicrosoftResearch(
+        OpenAIResponsesClient responses,
+        PromptService prompts,
         IServiceProvider serviceProvider,
-        string topic, string reason,
-        CancellationToken cancellationToken = default)
+        RequestContext<CallToolRequestParams> requestContext,
+        string oboToken,
+        int counter,
+        int total,
+        string topic,
+        string reason,
+        string? model,
+        CancellationToken cancellationToken)
     {
-
-        if (requestContext.Params?.ProgressToken is not null)
+        await Progress(requestContext, counter, total, $"Searching: {topic}\nReason: {reason}", cancellationToken);
+        var arguments = new Dictionary<string, JsonElement>
         {
-            await mcpServer.SendNotificationAsync("notifications/progress", new ProgressNotificationParams()
-            {
-                ProgressToken = requestContext.Params.ProgressToken.Value!,
-                Progress = new ProgressNotificationValue()
-                {
-                    Progress = counter!.Value,
-                    Total = total,
-                    Message = $"Searching: {topic}\nReason: {reason}"
-                },
-            }, cancellationToken: CancellationToken.None);
-        }
+            ["searchTerm"] = JsonSerializer.SerializeToElement(topic),
+            ["searchReason"] = JsonSerializer.SerializeToElement(reason)
+        };
 
-        var values = new Dictionary<string, JsonElement>()
-                       {
-                {"searchTerm", JsonSerializer.SerializeToElement(topic)},
-                {"searchReason", JsonSerializer.SerializeToElement(reason)}
-                       };
-
-        var querySampling = await samplingService.GetPromptSample(
-     serviceProvider,
-     mcpServer,
-     "microsoft-research",
-     values,
-     "gpt-5.4-mini",
-     metadata: new JsonObject
-     {
-         ["openai"] = new JsonObject
-         {
-             ["reasoning"] = new JsonObject
-             {
-                 ["effort"] = "low"
-             },
-             ["tools"] = new JsonArray
-             {
-                new JsonObject
-                {
-                    ["type"] = "mcp",
-                    ["server_label"] = "microsoft_teams",
-                    ["authorization"] = token,
-                    ["connector_id"] = "connector_microsoftteams",
-                    ["require_approval"] = "never"
-                },
-                new JsonObject
-                {
-                    ["type"] = "mcp",
-                    ["server_label"] = "outlook_email",
-                    ["authorization"] = token,
-                    ["connector_id"] = "connector_outlookemail",
-                    ["require_approval"] = "never"
-                },
-                new JsonObject
-                {
-                    ["type"] = "mcp",
-                    ["server_label"] = "sharepoint",
-                    ["authorization"] = token,
-                    ["connector_id"] = "connector_sharepoint",
-                    ["require_approval"] = "never"
-                }
-             }
-         }
-     },
-     cancellationToken: cancellationToken);
-
-        return querySampling.ToText();
+        return await responses.CreatePromptTextResponseAsync(prompts, serviceProvider, requestContext.Server,
+            "microsoft-research", arguments, model, "low", CreateMicrosoftTools(oboToken), cancellationToken);
     }
 
-    public class WebSearchItem
+    private static JsonArray CreateMicrosoftTools(string authorization) =>
+    [
+        CreateMicrosoftTool("microsoft_teams", "connector_microsoftteams", authorization),
+        CreateMicrosoftTool("outlook_email", "connector_outlookemail", authorization),
+        CreateMicrosoftTool("sharepoint", "connector_sharepoint", authorization)
+    ];
+
+    private static JsonObject CreateMicrosoftTool(string serverLabel, string connectorId, string authorization) => new()
+    {
+        ["type"] = "mcp",
+        ["server_label"] = serverLabel,
+        ["connector_id"] = connectorId,
+        ["authorization"] = authorization,
+        ["require_approval"] = "never"
+    };
+
+    private static async Task Progress(RequestContext<CallToolRequestParams> context, int progress, int total, string message, CancellationToken cancellationToken)
+    {
+        if (context.Params?.ProgressToken is not { } token)
+            return;
+
+        await context.Server.SendNotificationAsync("notifications/progress", new ProgressNotificationParams
+        {
+            ProgressToken = token,
+            Progress = new ProgressNotificationValue { Progress = progress, Total = total, Message = message }
+        }, cancellationToken: cancellationToken);
+    }
+
+    public sealed class WebSearchItem
     {
         [JsonPropertyName("reason")]
         public string Reason { get; set; } = null!;
@@ -224,11 +115,9 @@ public static class OpenAIMicrosoftResearch
         public string Query { get; set; } = null!;
     }
 
-
-    public class WebSearchPlan
+    public sealed class WebSearchPlan
     {
         [JsonPropertyName("queries")]
         public List<WebSearchItem> Searches { get; set; } = [];
     }
 }
-

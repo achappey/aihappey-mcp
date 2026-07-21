@@ -2,7 +2,9 @@ using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
+using MCPhappey.Tools.OpenAI.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol;
@@ -12,7 +14,6 @@ namespace MCPhappey.Tools.OpenAI.Research;
 
 public static class OpenAIFinancialResearch
 {
-    // === Prompt names (vul je later concreet) ===
     private const string PlannerPrompt = "financial-planner";
     private const string WebSearchPrompt = "financial-web-search";
     private const string FundamentalsPrompt = "fundamentals-analyzer";
@@ -20,307 +21,133 @@ public static class OpenAIFinancialResearch
     private const string WriterPrompt = "financial-writer";
     private const string VerifierPrompt = "financial-verifier";
 
-    // === Model defaults (pas aan naar wens) ===
-    private const string PlannerModel = "gpt-5.1";
-    private const string SearchModel = "gpt-5.4-mini";
-    private const string AnalystsModel = "gpt-5.4-mini";
-    private const string WriterModel = "gpt-5.1";
-    private const string VerifierModel = "gpt-5.4-mini";
-
-    [Description("Perform financial research on a topic. Before you use this tool, always ask the user first for more details so you can craft a detailed research topic for maximum accuracy.")]
+    [Description("Perform financial research on a topic. Before using this tool, ask for enough detail to craft a precise research topic.")]
     [McpServerTool(Title = "Perform financial research", ReadOnly = true, OpenWorld = false)]
     public static async Task<CallToolResult> FinancialResearch_Run(
-       [Description("Research subject or question (e.g. 'Is ASML undervalued after Q3 2025?')")]
-        string topic,
+        [Description("Research subject or question (for example: 'Is ASML undervalued after Q3 2025?')")] string topic,
         IServiceProvider services,
-        RequestContext<CallToolRequestParams> ctx,
+        RequestContext<CallToolRequestParams> context,
+        [Description("Optional OpenAI model override.")] string? model = OpenAIResponsesClient.DefaultModel,
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(topic);
 
-        var sampling = services.GetRequiredService<SamplingService>();
-
-        if (ctx.Server.ClientCapabilities?.Sampling == null)
-            return "Sampling is required for this tool".ToErrorCallToolResponse();
-
-        var progressToken = ctx.Params?.ProgressToken;
+        var prompts = services.GetRequiredService<PromptService>();
+        var responses = services.GetRequiredService<OpenAIResponsesClient>();
+        var progressToken = context.Params?.ProgressToken;
         var step = 1;
+        await Progress(context.Server, progressToken, step++, null, $"Planning searches for: {topic}", cancellationToken);
 
-        // 1) Planning
-        await Progress(ctx.Server, progressToken, step++, null, $"Planning searches for: {topic}", cancellationToken);
+        var plan = await CreateStructuredResponse<WebSearchPlan>(responses, prompts, services, context.Server, PlannerPrompt,
+            new Dictionary<string, JsonElement> { ["query"] = JsonSerializer.SerializeToElement(topic) }, model, "medium", cancellationToken);
+        var searches = plan.Searches;
+        var totalSteps = searches.Count + 4;
+        await Progress(context.Server, progressToken, step++, totalSteps,
+            $"Expanded to {searches.Count} queries:\n{string.Join("\n", searches.Select(search => "- " + search.Query))}", cancellationToken);
 
-        var planArgs = new Dictionary<string, JsonElement>
-        {
-            ["query"] = JsonSerializer.SerializeToElement(topic)
-        };
-
-        var plan = await sampling.GetPromptSample<WebSearchPlan>(
-             services,
-             ctx.Server,
-             PlannerPrompt,
-             planArgs,
-             PlannerModel,
-             maxTokens: 4096 * 4,
-             metadata: new JsonObject
-             {
-                 ["openai"] = new JsonObject
-                 {
-                     ["reasoning"] = new JsonObject
-                     {
-                         ["effort"] = "medium"
-                     }
-                 }
-             },
-             cancellationToken: cancellationToken
-         );
-
-        var searches = plan?.Searches ?? [];
-        var totalSteps = (searches.Count) + 4; // searches + analysts(2) + write + verify
-
-        await Progress(ctx.Server, progressToken, step++, totalSteps,
-            $"Expanded to {searches.Count} queries:\n{string.Join("\n", searches.Select(q => "- " + q.Query))}",
-            cancellationToken);
-
-        // 2) Searching (parallel)
-        await Progress(ctx.Server, progressToken, step, totalSteps, $"Starting web searches...", cancellationToken);
-
-        var searchTasks = searches.Select((s, i) =>
-            GetWebResearch(ctx.Server, sampling, progressToken, step + i, totalSteps, services, s.Query, s.Reason, cancellationToken)
-        );
-
-        var searchResults = (await Task.WhenAll(searchTasks)).Where(t => !string.IsNullOrWhiteSpace(t)).ToList();
+        var searchTasks = searches.Select((search, index) => GetWebResearch(
+            responses, prompts, services, context.Server, progressToken, step + index, totalSteps, search.Query, search.Reason, model, cancellationToken));
+        var searchResults = (await Task.WhenAll(searchTasks)).Where(result => !string.IsNullOrWhiteSpace(result)).ToList();
         step += searches.Count;
 
-        // 3) Analysts (pre-run calls; single call per analyst met geaggregeerde context)
-        await Progress(ctx.Server, progressToken, step++, totalSteps, "Analyzing fundamentals...", cancellationToken);
-        var fundamentalsText = await GetFundamentalsSummary(ctx.Server, sampling, services, topic, searchResults!, cancellationToken);
+        await Progress(context.Server, progressToken, step++, totalSteps, "Analyzing fundamentals...", cancellationToken);
+        var fundamentals = await CreateResponse(responses, prompts, services, context.Server, FundamentalsPrompt, topic, searchResults, model, "low", cancellationToken);
 
-        await Progress(ctx.Server, progressToken, step++, totalSteps, "Analyzing risks...", cancellationToken);
-        var riskText = await GetRiskSummary(ctx.Server, sampling, services, topic, searchResults!, cancellationToken);
+        await Progress(context.Server, progressToken, step++, totalSteps, "Analyzing risks...", cancellationToken);
+        var risks = await CreateResponse(responses, prompts, services, context.Server, RiskPrompt, topic, searchResults, model, "low", cancellationToken);
 
-        // 4) Writing
-        await Progress(ctx.Server, progressToken, step++, totalSteps, "Writing report...", cancellationToken);
+        await Progress(context.Server, progressToken, step++, totalSteps, "Writing report...", cancellationToken);
+        var report = await responses.CreatePromptTextResponseAsync(prompts, services, context.Server, WriterPrompt,
+            new Dictionary<string, JsonElement>
+            {
+                ["query"] = JsonSerializer.SerializeToElement(topic),
+                ["searchResults"] = JsonSerializer.SerializeToElement(string.Join("\n\n", searchResults)),
+                ["fundamentalsSummary"] = JsonSerializer.SerializeToElement(fundamentals),
+                ["riskSummary"] = JsonSerializer.SerializeToElement(risks)
+            }, model, "low", cancellationToken: cancellationToken);
 
-        var writerArgs = new Dictionary<string, JsonElement>
-        {
-            ["query"] = JsonSerializer.SerializeToElement(topic),
-            ["searchResults"] = JsonSerializer.SerializeToElement(string.Join("\n\n", searchResults)),
-            ["fundamentalsSummary"] = JsonSerializer.SerializeToElement(fundamentalsText ?? string.Empty),
-            ["riskSummary"] = JsonSerializer.SerializeToElement(riskText ?? string.Empty)
-        };
+        await Progress(context.Server, progressToken, step++, totalSteps, "Verifying report...", cancellationToken);
+        var verification = await responses.CreatePromptTextResponseAsync(prompts, services, context.Server, VerifierPrompt,
+            new Dictionary<string, JsonElement>
+            {
+                ["report_markdown"] = JsonSerializer.SerializeToElement(report),
+                ["query"] = JsonSerializer.SerializeToElement(topic)
+            }, model, "medium", cancellationToken: cancellationToken);
 
-        var writerSample = await sampling.GetPromptSample(
-              services,
-              ctx.Server,
-              WriterPrompt,
-              writerArgs,
-              WriterModel,
-              maxTokens: 4096 * 4,
-              metadata: new JsonObject
-              {
-                  ["openai"] = new JsonObject
-                  {
-                      ["reasoning"] = new JsonObject
-                      {
-                          ["effort"] = "low"
-                      }
-                  }
-              },
-              cancellationToken: cancellationToken
-          );
-
-        // 5) Verification
-        await Progress(ctx.Server, progressToken, step++, totalSteps, "Verifying report...", cancellationToken);
-
-        var verifyArgs = new Dictionary<string, JsonElement>
-        {
-            ["report_markdown"] = JsonSerializer.SerializeToElement(writerSample.ToText()),
-            ["query"] = JsonSerializer.SerializeToElement(topic)
-        };
-
-        var verification = await sampling.GetPromptSample(
-                services,
-                ctx.Server,
-                VerifierPrompt,
-                verifyArgs,
-                VerifierModel,
-                metadata: new JsonObject
-                {
-                    ["openai"] = new JsonObject
-                    {
-                        ["reasoning"] = new JsonObject
-                        {
-                            ["effort"] = "medium"
-                        }
-                    }
-                },
-                cancellationToken: cancellationToken
-            );
-
-        // Output
-        var finalText = BuildFinalText(writerSample?.ToText(),
-            verification?.ToText(), fundamentalsText, riskText, searchResults!);
-
-        return (string.IsNullOrWhiteSpace(finalText)
-            ? string.Join("\n\n", searchResults)
-            : finalText).ToTextCallToolResponse();
+        var result = BuildFinalText(report, verification, fundamentals, risks, searchResults);
+        return (string.IsNullOrWhiteSpace(result) ? string.Join("\n\n", searchResults) : result).ToTextCallToolResponse();
     }
 
-    // ----------------- Helpers -----------------
-
-    private static async Task<string?> GetWebResearch(
+    private static async Task<WebSearchPlan> CreateStructuredResponse<T>(
+        OpenAIResponsesClient responses,
+        PromptService prompts,
+        IServiceProvider services,
         McpServer server,
-        SamplingService sampling,
+        string promptName,
+        IReadOnlyDictionary<string, JsonElement> arguments,
+        string? model,
+        string effort,
+        CancellationToken cancellationToken) where T : WebSearchPlan, new()
+    {
+        var text = await responses.CreatePromptTextResponseAsync(prompts, services, server, promptName, arguments, model, effort,
+            cancellationToken: cancellationToken);
+        return JsonSerializer.Deserialize<T>(text.CleanJson()) ?? new T();
+    }
+
+    private static async Task<string> GetWebResearch(
+        OpenAIResponsesClient responses,
+        PromptService prompts,
+        IServiceProvider services,
+        McpServer server,
         ProgressToken? progressToken,
         int step,
-        int? total,
-        IServiceProvider services,
+        int total,
         string searchTerm,
         string searchReason,
+        string? model,
         CancellationToken cancellationToken)
     {
         await Progress(server, progressToken, step, total, $"Searching: {searchTerm}\nReason: {searchReason}", cancellationToken);
-
-        var args = new Dictionary<string, JsonElement>
-        {
-            ["searchTerm"] = JsonSerializer.SerializeToElement(searchTerm),
-            ["searchReason"] = JsonSerializer.SerializeToElement(searchReason)
-        };
-
-        var sample = await sampling.GetPromptSample(
-            services,
-            server,
-            WebSearchPrompt,
-            args,
-            SearchModel,
-            metadata: new JsonObject
+        return await responses.CreatePromptTextResponseAsync(prompts, services, server, WebSearchPrompt,
+            new Dictionary<string, JsonElement>
             {
-                ["openai"] = new JsonObject
-                {
-                    ["reasoning"] = new JsonObject
-                    {
-                        ["effort"] = "low"
-                    },
-                    ["tools"] = new JsonArray
-                    {
-                        new JsonObject
-                        {
-                            ["type"] = "web_search"
-                        }
-                    }
-                }
-            },
-            cancellationToken: cancellationToken
-        );
-
-        return sample.ToText();
+                ["searchTerm"] = JsonSerializer.SerializeToElement(searchTerm),
+                ["searchReason"] = JsonSerializer.SerializeToElement(searchReason)
+            }, model, "low", 
+            new JsonArray { new JsonObject { ["type"] = "web_search" } }, cancellationToken);
     }
 
-    private static async Task<string?> GetFundamentalsSummary(
-        McpServer server,
-        SamplingService sampling,
+    private static async Task<string> CreateResponse(
+        OpenAIResponsesClient responses,
+        PromptService prompts,
         IServiceProvider services,
-        string topic,
-        IEnumerable<string> searchResults,
-        CancellationToken cancellationToken)
-    {
-        var args = new Dictionary<string, JsonElement>
-        {
-            ["query"] = JsonSerializer.SerializeToElement(topic),
-            ["evidence"] = JsonSerializer.SerializeToElement(string.Join("\n\n", searchResults))
-        };
-
-        var sample = await sampling.GetPromptSample(
-              services,
-              server,
-              FundamentalsPrompt,
-              args,
-              AnalystsModel,
-              metadata: new JsonObject
-              {
-                  ["openai"] = new JsonObject
-                  {
-                      ["reasoning"] = new JsonObject
-                      {
-                          ["effort"] = "low"
-                      }
-                  }
-              },
-              cancellationToken: cancellationToken
-          );
-
-        return sample.ToText();
-    }
-
-    private static async Task<string?> GetRiskSummary(
         McpServer server,
-        SamplingService sampling,
-        IServiceProvider services,
+        string promptName,
         string topic,
-        IEnumerable<string> searchResults,
-        CancellationToken cancellationToken)
+        IEnumerable<string> evidence,
+        string? model,
+        string effort,
+        CancellationToken cancellationToken) =>
+        await responses.CreatePromptTextResponseAsync(prompts, services, server, promptName,
+            new Dictionary<string, JsonElement>
+            {
+                ["query"] = JsonSerializer.SerializeToElement(topic),
+                ["evidence"] = JsonSerializer.SerializeToElement(string.Join("\n\n", evidence))
+            }, model, effort, cancellationToken: cancellationToken);
+
+    private static async Task Progress(McpServer server, ProgressToken? token, float? progress, int? total, string message, CancellationToken cancellationToken)
     {
-        var args = new Dictionary<string, JsonElement>
+        if (token is null)
+            return;
+
+        await server.SendNotificationAsync("notifications/progress", new ProgressNotificationParams
         {
-            ["query"] = JsonSerializer.SerializeToElement(topic),
-            ["evidence"] = JsonSerializer.SerializeToElement(string.Join("\n\n", searchResults))
-        };
-
-       var sample = await sampling.GetPromptSample(
-            services,
-            server,
-            RiskPrompt,
-            args,
-            AnalystsModel,
-            metadata: new JsonObject
-            {
-                ["openai"] = new JsonObject
-                {
-                    ["reasoning"] = new JsonObject
-                    {
-                        ["effort"] = "low"
-                    }
-                }
-            },
-            cancellationToken: cancellationToken
-        );
-
-        return sample.ToText();
+            ProgressToken = token.Value,
+            Progress = new ProgressNotificationValue { Progress = progress ?? 0, Total = total, Message = message }
+        }, cancellationToken: cancellationToken);
     }
 
-    private static async Task Progress(
-        McpServer server,
-        ProgressToken? token,
-        float? progress,
-        int? total,
-        string message,
-        CancellationToken ct)
-    {
-        if (token is null) return;
-        await server.SendNotificationAsync(
-            "notifications/progress",
-            new ProgressNotificationParams
-            {
-                ProgressToken = token.Value,
-                Progress = new ProgressNotificationValue
-                {
-                    Progress = progress ?? 0,
-                    Total = total,
-                    Message = message
-                }
-            },
-            cancellationToken: ct
-        );
-    }
-
-    private static string BuildFinalText(
-        string? report,
-        string? verification,
-        string? fundamentals,
-        string? risks,
-        IReadOnlyCollection<string> searchResults)
-    {
-        return
+    private static string BuildFinalText(string report, string verification, string fundamentals, string risks, IReadOnlyCollection<string> searchResults) =>
 $@"Report
 
 ===== REPORT =====
@@ -338,11 +165,8 @@ $@"Report
 ===== SOURCED SEARCH NOTES =====
 
 {string.Join("\n\n", searchResults)}";
-    }
 
-    // ----------------- DTOs -----------------
-
-    public class WebSearchItem
+    public sealed class WebSearchItem
     {
         [JsonPropertyName("reason")]
         public string Reason { get; set; } = null!;
@@ -356,6 +180,4 @@ $@"Report
         [JsonPropertyName("queries")]
         public List<WebSearchItem> Searches { get; set; } = [];
     }
-
 }
-
