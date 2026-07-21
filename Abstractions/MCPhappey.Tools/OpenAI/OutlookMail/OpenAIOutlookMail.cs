@@ -1,6 +1,7 @@
 using System.ComponentModel;
-using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
+using MCPhappey.Tools.OpenAI.Responses;
+using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -8,9 +9,6 @@ namespace MCPhappey.Tools.OpenAI.OutlookMail;
 
 public static class OpenAIOutlookMail
 {
-    private static readonly string[] value = ["list_messages", "search_messages", "get_profile",
-            "get_recent_emails", "fetch_message", "fetch_messages_batch"];
-
     [Description("OpenAI Outlook Email connector.")]
     [McpServerTool(Title = "OpenAI Outlook Email connector", Name = "openai_outlook_email",
         Destructive = false,
@@ -19,43 +17,31 @@ public static class OpenAIOutlookMail
     public static async Task<IEnumerable<ContentBlock>> OpenAI_OutlookEmail(
           [Description("Prompt to execute.")]
             string prompt,
-          IServiceProvider serviceProvider,
-          RequestContext<CallToolRequestParams> requestContext,
-          CancellationToken cancellationToken = default)
+           IServiceProvider serviceProvider,
+           RequestContext<CallToolRequestParams> requestContext,
+          [Description("OpenAI model.")] string modelId = "gpt-5.2",
+           CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
         var oboToken = await serviceProvider.GetOboGraphToken(requestContext.Server);
-        var respone = await requestContext.Server.SampleAsync(new CreateMessageRequestParams()
+        var client = serviceProvider.GetRequiredService<OpenAIResponsesClient>();
+        var responseText = await client.CreateTextResponseAsync(new OpenAIResponsesRequest
         {
-                    Metadata = new JsonObject
-                    {
-                        ["openai"] = new JsonObject
-                        {
-                            ["reasoning"] = new JsonObject
-                            {
-                                ["effort"] = "none"
-                            },
-                            ["tools"] = new JsonArray
+            Model = string.IsNullOrWhiteSpace(modelId) ? "gpt-5.2" : modelId,
+            Input = prompt,
+            Tools =
+            [
+                new OpenAIMcpTool
                 {
-                    new JsonObject
-                    {
-                        ["type"] = "mcp",
-                        ["server_label"] = "outlook_email",
-                        ["authorization"] = oboToken,
-                        ["connector_id"] = "connector_outlookemail",
-                        ["require_approval"] = "never"
-                    }
+                    ServerLabel = "outlook_email",
+                    Authorization = oboToken,
+                    ConnectorId = "connector_outlookemail"
                 }
-                }
-            },
-            Temperature = 1,
-            MaxTokens = 8192,
-            ModelPreferences = "gpt-5.1".ToModelPreferences(),
-            Messages = [prompt.ToUserSamplingMessage()]
+            ]
         }, cancellationToken);
 
-        return respone.Content;
+        return [responseText.ToTextContentBlock()];
     }
 }
 
