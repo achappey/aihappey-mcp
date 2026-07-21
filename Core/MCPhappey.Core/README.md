@@ -12,7 +12,6 @@ flowchart TD
         ResourceService
         SamplingService
         TransformService
-        UploadService
     end
     subgraph Extensions
         AspNetCoreExtensions

@@ -191,7 +191,6 @@ public static class OpenAIDocumentEngine
         await requestContext.WithStructuredContent(async () =>
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-        var uploadService = serviceProvider.GetRequiredService<UploadService>();
 
         // 1ï¸âƒ£ Download existing JSON file
         var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, documentUrl, cancellationToken);
