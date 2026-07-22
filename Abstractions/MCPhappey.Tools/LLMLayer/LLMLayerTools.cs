@@ -422,7 +422,7 @@ public static class LLMLayerTools
 
         var type = parsedObject["type"]?.GetValue<string>()?.Trim().ToLowerInvariant() ?? "unknown";
         string message;
-        var level = LoggingLevel.Info;
+       
 
         switch (type)
         {
@@ -434,7 +434,7 @@ public static class LLMLayerTools
                 var title = page?["title"]?.GetValue<string>() ?? "(untitled)";
                 var finalUrl = page?["final_url"]?.GetValue<string>() ?? page?["requested_url"]?.GetValue<string>() ?? "n/a";
                 message = $"LLMLayer crawl page {(pageSuccess ? "success" : "failed")}: {title} ({finalUrl})";
-                level = pageSuccess ? LoggingLevel.Info : LoggingLevel.Warning;
+             
                 break;
 
             case "usage":
@@ -449,7 +449,7 @@ public static class LLMLayerTools
 
             case "error":
                 message = $"LLMLayer crawl fatal error: {parsedObject["error"]?.GetValue<string>()}";
-                level = LoggingLevel.Error;
+               
                 break;
 
             default:

@@ -218,31 +218,26 @@ public static class TinyFishAutomation
             runIdRef(runId);
 
         string message;
-        LoggingLevel level;
 
         switch (type)
         {
             case "STARTED":
                 message = $"TinyFish STARTED (runId={runId ?? "n/a"}).";
-                level = LoggingLevel.Info;
                 break;
 
             case "STREAMING_URL":
                 var streamUrl = parsedObject["streamingUrl"]?.GetValue<string>();
                 streamingUrlRef(streamUrl);
                 message = $"TinyFish STREAMING_URL (runId={runId ?? "n/a"}): {streamUrl}";
-                level = LoggingLevel.Info;
                 break;
 
             case "PROGRESS":
                 var purpose = parsedObject["purpose"]?.GetValue<string>() ?? "Progress update";
                 message = $"TinyFish PROGRESS (runId={runId ?? "n/a"}): {purpose}";
-                level = LoggingLevel.Info;
                 break;
 
             case "HEARTBEAT":
                 message = "TinyFish HEARTBEAT.";
-                level = LoggingLevel.Debug;
                 break;
 
             case "COMPLETE":
@@ -252,14 +247,11 @@ public static class TinyFishAutomation
                 message = string.IsNullOrWhiteSpace(error)
                     ? $"TinyFish COMPLETE (runId={runId ?? "n/a"}) status={status}."
                     : $"TinyFish COMPLETE (runId={runId ?? "n/a"}) status={status}. Error={error}";
-                level = status.Equals("COMPLETED", StringComparison.OrdinalIgnoreCase)
-                    ? LoggingLevel.Info
-                    : LoggingLevel.Warning;
+               
                 break;
 
             default:
-                message = $"TinyFish {type} (runId={runId ?? "n/a"}).";
-                level = LoggingLevel.Info;
+                message = $"TinyFish {type} (runId={runId ?? "n/a"}).";           
                 break;
         }
 
