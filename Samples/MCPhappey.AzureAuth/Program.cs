@@ -47,7 +47,6 @@ using MCPhappey.Tools.Azuce;
 using MCPhappey.Tools.VoyageAI;
 using MCPhappey.Tools.AIML;
 using MCPhappey.Tools.SPAMhunter;
-using MCPhappey.Tools.Freepik;
 using MCPhappey.Tools.AI302;
 using MCPhappey.Tools.ZAI;
 using MCPhappey.Tools.RelaxAI;
@@ -219,7 +218,6 @@ builder.Services
 .AddAIML(appConfig?.DomainHeaders)
 .AddMiniMax(appConfig?.DomainHeaders)
 .AddSPAMhunter(appConfig?.DomainHeaders)
-.AddFreepik(appConfig?.DomainHeaders)
 .AddAI302(appConfig?.DomainHeaders)
    .AddZAI(appConfig?.DomainHeaders)
    .AddRelaxAI(appConfig?.DomainHeaders)
