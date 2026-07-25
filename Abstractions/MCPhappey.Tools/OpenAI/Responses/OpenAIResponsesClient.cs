@@ -11,7 +11,7 @@ namespace MCPhappey.Tools.OpenAI.Responses;
 /// </summary>
 public sealed class OpenAIResponsesClient(HttpClient httpClient)
 {
-    public const string DefaultModel = "gpt-5.2";
+    public const string DefaultModel = "gpt-5.6-luna";
 
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 

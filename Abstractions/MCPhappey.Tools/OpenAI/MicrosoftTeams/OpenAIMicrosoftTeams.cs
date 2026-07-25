@@ -18,7 +18,7 @@ public static class OpenAITeams
            [Description("Prompt to execute.")] string prompt,
            IServiceProvider serviceProvider,
            RequestContext<CallToolRequestParams> requestContext,
-          [Description("OpenAI model.")] string modelId = "gpt-5.2",
+          [Description("OpenAI model.")] string modelId = "gpt-5.6-luna",
            CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
@@ -27,7 +27,7 @@ public static class OpenAITeams
         var client = serviceProvider.GetRequiredService<OpenAIResponsesClient>();
         var responseText = await client.CreateTextResponseAsync(new OpenAIResponsesRequest
         {
-            Model = string.IsNullOrWhiteSpace(modelId) ? "gpt-5.2" : modelId,
+            Model = string.IsNullOrWhiteSpace(modelId) ? "gpt-5.6-luna" : modelId,
             Input = prompt,
             Tools =
             [
