@@ -63,6 +63,25 @@ public class CountryCompletion : IAutoCompletion
                                             .ToList() ?? [];
                 break;
 
+            case "capital":
+                result = RestCountriesService.GetAllCountries()?.SelectMany(a => a.Capital)
+                                            .OfType<string>()
+                                            .Distinct()
+                                            .Take(100)
+                                            .Order()
+                                            .ToList() ?? [];
+                break;
+
+            case "currency":
+                result = RestCountriesService.GetAllCountries()?
+                                            .SelectMany(a => a.Currencies?.Select(z => z.Key) ?? [])
+                                            .OfType<string>()
+                                            .Distinct()
+                                            .Take(100)
+                                            .Order()
+                                            .ToList() ?? [];
+                break;
+
             default:
                 break;
         }

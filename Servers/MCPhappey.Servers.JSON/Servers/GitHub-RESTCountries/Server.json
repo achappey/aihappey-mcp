@@ -15,16 +15,26 @@
     "MCPhappey.Tools.GitHub.RestCountries.CountryService, MCPhappey.Tools"
   ],
   "tools": {
-    "github_rest_countries_get_by_region": {
+    "github_rest_countries_render_countries_widget": {
       "_meta": {
-        "openai/outputTemplate": "ui://widget/countries.html",
-        "openai/widgetAccessible": true
+        "ui": {
+          "resourceUri": "ui://widget/countries.html",
+          "visibility": [
+            "model",
+            "app"
+          ]
+        }
       }
     },
-    "github_rest_countries_get_detail": {
+    "github_rest_countries_render_country_widget": {
       "_meta": {
-        "openai/outputTemplate": "ui://widget/country-detail.html",
-        "openai/widgetAccessible": true
+        "ui": {
+          "resourceUri": "ui://widget/country-detail.html",
+          "visibility": [
+            "model",
+            "app"
+          ]
+        }
       }
     }
   }
