@@ -46,7 +46,7 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
             var resources = await GetServerResources(serverConfig!, cancellationToken);
 
             var widgetResource = resources.Resources
-                .FirstOrDefault(a => a.MimeType?.Equals("text/html+skybridge", StringComparison.OrdinalIgnoreCase) == true
+                .FirstOrDefault(a => a.MimeType?.Equals("text/html;profile=mcp-app", StringComparison.OrdinalIgnoreCase) == true
                     && a.Uri.Equals(uri, StringComparison.OrdinalIgnoreCase));
 
             if (widgetResource != null)
@@ -73,7 +73,7 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
                 {
                     Contents = [new TextResourceContents() {
                     Text = html.Replace("%HOST_URL%", baseUrl),
-                    MimeType = "text/html+skybridge",
+                    MimeType = "text/html;profile=mcp-app",
                     Uri = uri,
                     Meta = new System.Text.Json.Nodes.JsonObject() {
                         ["openai/widgetDescription"] = widgetResource.Description

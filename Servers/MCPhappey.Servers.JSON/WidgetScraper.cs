@@ -30,7 +30,7 @@ public class WidgetScraper() : IContentScraper
         return [ new FileItem() {
            Uri = url,
            Contents = BinaryData.FromString(html),
-           MimeType = "text/html+skybridge"
+           MimeType = "text/html;profile=mcp-app"
         }];
     }
 

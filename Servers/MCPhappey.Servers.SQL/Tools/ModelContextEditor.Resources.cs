@@ -32,7 +32,7 @@ public static partial class ModelContextEditor
         string? title = null,
         [Description("Optional description of the resource.")]
         string? description = null,
-        [Description("Optional mimeType. Use 'text/html+skybridge' for app widget resource. Use 'application/vnd.modelcontextprotocol-registry+json' for mcp registries. Use 'application/vnd.agent+json' and 'application/vnd.agents+json' for agent and agent list resources. Use 'application/vnd.conversation+json' and 'application/vnd.conversations+json' for conversation and conversations list resources.")]
+        [Description("Optional mimeType. Use 'text/html;profile=mcp-app' for mcp app widget resource. Use 'application/vnd.modelcontextprotocol-registry+json' for mcp registries. Use 'application/vnd.agent+json' and 'application/vnd.agents+json' for agent and agent list resources. Use 'application/vnd.conversation+json' and 'application/vnd.conversations+json' for conversation and conversations list resources.")]
         string? mimeType = null,
         [Description("Optional priority of the resource. Between 0 and 1, where 1 is most important and 0 is least important.")]
         float? priority = null,

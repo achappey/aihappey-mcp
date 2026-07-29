@@ -113,7 +113,11 @@ public static class DatabaseExtensions
                 {
                     Meta = new Dictionary<string, object>()
                     {
-                        { ToolMetadata.OpenAI_OutputTemplate, a.OutputTemplate!}
+                        { "ui", new
+                        {
+                            resourceUri = a.OutputTemplate
+                        }
+                        }
                     }
                 }),
             Hidden = server.Hidden
