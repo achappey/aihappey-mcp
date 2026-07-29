@@ -4,7 +4,7 @@
       "uri": "ui://widget/hours-per-month.html",
       "name": "hours-per-month-widget",
       "description": "Hours per month widget that displays hour totals per month of simplicate_hours_get_hour_totals_by_month tool output to in a bar chart.",
-      "mimeType": "text/html+skybridge",
+      "mimeType": "text/html;profile=mcp-app",
       "annotations": {
         "audience": [
           "user"
@@ -15,7 +15,7 @@
       "uri": "ui://widget/hours-per-project.html",
       "name": "hours-per-project-widget",
       "description": "Hours per project widget that displays hour totals per project of simplicate_hours_get_hour_totals_by_project tool output to in a pareto chart.",
-      "mimeType": "text/html+skybridge",
+      "mimeType": "text/html;profile=mcp-app",
       "annotations": {
         "audience": [
           "user"
@@ -26,7 +26,7 @@
       "uri": "ui://widget/hours-per-employee.html",
       "name": "hours-per-employee-widget",
       "description": "Hours per employee widget that displays hour totals per employee of simplicate_hours_get_hour_totals_by_hour_employee tool output to in a pareto chart.",
-      "mimeType": "text/html+skybridge",
+      "mimeType": "text/html;profile=mcp-app",
       "annotations": {
         "audience": [
           "user"
@@ -37,7 +37,7 @@
       "uri": "ui://widget/hours-per-hour-type.html",
       "name": "hours-per-hour-type-widget",
       "description": "Hours per hour type widget that displays hour totals per hour type of simplicate_hours_get_hour_totals_by_hour_type tool output to in a bar chart.",
-      "mimeType": "text/html+skybridge",
+      "mimeType": "text/html;profile=mcp-app",
       "annotations": {
         "audience": [
           "user"

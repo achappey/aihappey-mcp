@@ -1,23 +1,24 @@
 {
   "resources": [
     {
-      "uri": "https://developers.openai.com/apps-sdk/build/mcp-server",
-      "name": "apps-sdk-mcp-server",
-      "title": "Building an MCP Server",
-      "description": "Guide for implementing a Model Context Protocol (MCP) server that exposes tools and data sources to AI apps using the OpenAI Apps SDK.",
-      "mimeType": "application/json",
+      "uri": "https://modelcontextprotocol.io/extensions/apps/overview",
+      "name": "mcp-apps-overview",
+      "title": "MCP Apps overview",
+      "description": "Overview of MCP Apps: interactive, sandboxed HTML interfaces embedded in MCP hosts, with secure bidirectional communication between users, hosts, apps, and server tools.",
+      "mimeType": "text/plain",
       "annotations": {
         "priority": 0.5,
         "audience": [
-          "assistant"
+          "assistant",
+          "user"
         ]
       }
     },
     {
-      "uri": "https://developers.openai.com/apps-sdk/build/custom-ux",
-      "name": "apps-sdk-custom-ux",
-      "title": "Building Custom UX for AI Apps",
-      "description": "Instructions for creating custom user experiences and interactive components within AI apps using the OpenAI Apps SDK.",
+      "uri": "https://modelcontextprotocol.io/extensions/apps/build",
+      "name": "mp-apps-build-guide",
+      "title": "Building MCP Apps",
+      "description": "Step-by-step guide to building, serving, and testing MCP Apps using tools, UI resources, the Ext Apps SDK, TypeScript, and supported MCP hosts.",
       "mimeType": "text/plain",
       "annotations": {
         "priority": 0.7,
@@ -31,7 +32,7 @@
       "uri": "ui://widget/random-companies.html",
       "name": "random-companies-widget",
       "description": "Renders an interactive UI showcasing the random companies returned by openai_app_creator_get_company_list.",
-      "mimeType": "text/html+skybridge",
+      "mimeType": "text/html;profile=mcp-app",
       "annotations": {
         "priority": 0.8,
         "audience": [

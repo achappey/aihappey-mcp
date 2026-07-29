@@ -16,7 +16,7 @@
       "uri": "ui://widget/sharepoint-search-results.html",
       "name": "sharepoint-search-results-widget",
       "description": "Search results widget that displays SharePoint search results.",
-      "mimeType": "text/html+skybridge",
+      "mimeType": "text/html;profile=mcp-app",
       "annotations": {
         "audience": [
           "user"

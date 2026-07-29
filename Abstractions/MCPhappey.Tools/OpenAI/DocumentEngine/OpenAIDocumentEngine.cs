@@ -28,11 +28,8 @@ public static class OpenAIDocumentEngine
         // No AI reasoning, just binding data with template (similar to Bind, but without external file fetch)
         return new CallToolResult()
         {
-            StructuredContent = (JsonNode.Parse(structuredContent)).ToJsonElement(),
-            Meta = await requestContext.GetToolMeta(new Dictionary<string, object>()
-            {
-                { ToolMetadata.OpenAI_OutputTemplate, documentTemplateUrl }
-            })
+            StructuredContent = JsonNode.Parse(structuredContent).ToJsonElement(),
+            Meta = await requestContext.GetToolMeta(ToolMetadata.GetMCPAppUI(documentTemplateUrl))
         };
     }
 
@@ -138,11 +135,8 @@ public static class OpenAIDocumentEngine
         return new CallToolResult()
         {
             Content = [.. finalSampling.Content, result!],
-            StructuredContent = (JsonNode.Parse(jsonString ?? string.Empty)).ToJsonElement(),
-            Meta = await requestContext.GetToolMeta(new Dictionary<string, object>()
-            {
-                { ToolMetadata.OpenAI_OutputTemplate, documentTemplateUrl}
-            })
+            StructuredContent = JsonNode.Parse(jsonString ?? string.Empty).ToJsonElement(),
+            Meta = await requestContext.GetToolMeta(ToolMetadata.GetMCPAppUI(documentTemplateUrl))
         };
     }));
 
@@ -166,11 +160,8 @@ public static class OpenAIDocumentEngine
 
         return new()
         {
-            StructuredContent = (JsonNode.Parse(file?.Contents.ToString() ?? string.Empty)).ToJsonElement(),
-            Meta = await requestContext.GetToolMeta(new Dictionary<string, object>()
-            {
-                { ToolMetadata.OpenAI_OutputTemplate, documentTemplateUrl }
-            })
+            StructuredContent = JsonNode.Parse(file?.Contents.ToString() ?? string.Empty).ToJsonElement(),
+            Meta = await requestContext.GetToolMeta(ToolMetadata.GetMCPAppUI(documentTemplateUrl))
         };
     });
 

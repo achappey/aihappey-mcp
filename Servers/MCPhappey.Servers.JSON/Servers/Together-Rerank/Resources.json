@@ -4,7 +4,7 @@
       "uri": "ui://widget/rerank-sharepoint-files.html",
       "name": "rerank-sharepoint-files-widget",
       "description": "Rerank widget that displays relevant SharePoint files for a query.",
-      "mimeType": "text/html+skybridge",
+      "mimeType": "text/html;profile=mcp-app",
       "annotations": {
         "audience": [
           "assistant"

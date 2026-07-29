@@ -4,17 +4,17 @@ using MCPhappey.Core.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
-namespace MCPhappey.Tools.OpenAI.Apps;
+namespace MCPhappey.Tools.MCP.Apps;
 
-public static class OpenAIApps
+public static class MCPApps
 {
     [Description("Get a random company list with outputTemplate.")]
     [McpServerTool(
          Title = "Get random company list",
-         Name = "openai_apps_get_company_list",
+         Name = "mcp_apps_get_company_list",
          ReadOnly = true,
          OpenWorld = false)]
-    public static async Task<CallToolResult?> OpenAIApps_GetCompanyList(
+    public static async Task<CallToolResult?> MCPApps_GetCompanyList(
          RequestContext<CallToolRequestParams> requestContext,
          [Description("How many people")] int count = 10,
          [Description("Locale code")] string? locale = "en",
@@ -50,7 +50,6 @@ public static class OpenAIApps
         if (seed.HasValue)
         {
             f.Random = new Randomizer(seed.Value);
-            //    f.DateTimeReference = new DateTime(2000, 1, 1);
         }
         return f;
     }

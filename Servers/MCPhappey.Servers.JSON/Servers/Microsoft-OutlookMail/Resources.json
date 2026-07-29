@@ -56,7 +56,7 @@
       "uri": "ui://widget/search-outlook.html",
       "name": "search-outlook-widget",
       "description": "Renders an interactive UI showcasing the emails returned by graph_outlook_mail_search.",
-      "mimeType": "text/html+skybridge",
+      "mimeType": "text/html;profile=mcp-app",
       "annotations": {
         "audience": [
           "user"
