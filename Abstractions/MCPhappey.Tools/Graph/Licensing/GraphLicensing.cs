@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
 using Microsoft.Graph.Beta;
@@ -29,7 +30,7 @@ public static class GraphLicensing
     public static async Task<CallToolResult?> GraphUsers_AssignLicense(
         RequestContext<CallToolRequestParams> requestContext,
         [Description("The user id or UPN.")] string userId,
-        [Description("The license SKU id (GUID)." )] string skuId,
+        [Description("The license SKU id (GUID).")] string skuId,
         CancellationToken cancellationToken = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
@@ -75,7 +76,7 @@ public static class GraphLicensing
     public static async Task<CallToolResult?> GraphUsers_RevokeLicense(
         RequestContext<CallToolRequestParams> requestContext,
         [Description("The user id or UPN.")] string userId,
-        [Description("The license SKU id (GUID)." )] string skuId,
+        [Description("The license SKU id (GUID).")] string skuId,
         CancellationToken cancellationToken = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
@@ -109,93 +110,228 @@ public static class GraphLicensing
         };
     })));
 
-    [Description("Get user SKUs grouped by department. If departmentName is set, only include that department. Users without department are grouped under empty string.")]
-    [McpServerTool(Title = "User SKUs per department", ReadOnly = true,
-        Idempotent = true, Destructive = false,
+
+    [Description("Get user SKUs grouped by department. If departmentName is set, only include that department.")]
+    [McpServerTool(
+        Title = "Get user SKUs per department",
         Name = "graph_users_get_user_skus_per_department",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(UserSkuDepartmentList),
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphUsers_GetUserSkusPerDepartment(
-            RequestContext<CallToolRequestParams> requestContext,
-            string? departmentName = null,
-            CancellationToken cancellationToken = default) =>
-            await ModelContextToolExtensions.WithExceptionCheck(async () =>
-            await requestContext.WithOboGraphClient(async client =>
-            await requestContext.WithStructuredContent(async () =>
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional department name to filter by.")]
+    string? departmentName = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+            await GetUserSkusPerDepartment(
+                client,
+                departmentName,
+                cancellationToken
+            )
+        )));
+
+
+    [Description("Render user SKUs grouped by department in a UI widget.")]
+    [McpServerTool(
+        Title = "User SKUs per department widget",
+        Name = "graph_users_render_user_skus_per_department_widget",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(UserSkuDepartmentList),
+        ReadOnly = true,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphUsers_RenderUserSkusPerDepartmentWidget(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional department name to render.")]
+    string? departmentName = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+            await GetUserSkusPerDepartment(
+                client,
+                departmentName,
+                cancellationToken
+            )
+        )));
+
+
+    private static async Task<UserSkuDepartmentList> GetUserSkusPerDepartment(
+        GraphServiceClient client,
+        string? departmentName,
+        CancellationToken cancellationToken)
     {
         var skuMap = await BuildSkuMap(client, cancellationToken);
-        var result = new Dictionary<string, Dictionary<string, List<string>>>();
 
-        // Only apply department filter if departmentName is provided and non-empty
-        string? filter = "userType eq 'Member' and accountEnabled eq true";
-        if (!string.IsNullOrEmpty(departmentName))
-            filter += $" and department eq '{departmentName.Replace("'", "''")}'"; // SQL-escape any quotes
+        var result = new Dictionary<
+            string,
+            Dictionary<string, List<string>>
+        >(StringComparer.OrdinalIgnoreCase);
 
-        var users = await client
-            .Users
-            .GetAsync(config =>
-            {
-                config.QueryParameters.Filter = filter;
-                config.QueryParameters.Select = ["userPrincipalName", "assignedLicenses", "department"];
-                config.QueryParameters.Top = 999;
-            }, cancellationToken);
+        var filter = "userType eq 'Member' and accountEnabled eq true";
+
+        if (!string.IsNullOrWhiteSpace(departmentName))
+        {
+            // Escape single quotes for the OData filter.
+            var escapedDepartmentName = departmentName.Replace("'", "''");
+
+            filter += $" and department eq '{escapedDepartmentName}'";
+        }
+
+        var users = await client.Users.GetAsync(config =>
+        {
+            config.QueryParameters.Filter = filter;
+            config.QueryParameters.Select =
+            [
+                "userPrincipalName",
+            "assignedLicenses",
+            "department"
+            ];
+            config.QueryParameters.Top = 999;
+        }, cancellationToken);
 
         foreach (var user in users?.Value ?? [])
         {
-            var mail = user.UserPrincipalName;
-            if (string.IsNullOrWhiteSpace(mail)) continue;
-
-            if (string.IsNullOrEmpty(departmentName) && !string.IsNullOrEmpty(user.Department))
+            if (string.IsNullOrWhiteSpace(user.UserPrincipalName))
                 continue;
 
-            var dept = user.Department ?? "(Blank)";
-
-            // Only needed when departmentName is null/empty, otherwise Graph already filtered
-
-            if (!result.TryGetValue(dept, out var dict))
+            if (string.IsNullOrEmpty(departmentName) &&
+                !string.IsNullOrEmpty(user.Department))
             {
-                dict = [];
-                result[dept] = dict;
+                continue;
             }
 
-            var userLicenses = user.AssignedLicenses?
-                .Where(l => l.SkuId != null && skuMap.ContainsKey(l.SkuId.ToString()!))
-                .Select(l => skuMap[l.SkuId.ToString()!])
-                .Distinct()
-                .ToList() ?? [];
+            var licenses = new HashSet<string>(
+                StringComparer.OrdinalIgnoreCase
+            );
 
-            if (userLicenses.Count > 0)
-                dict[mail] = userLicenses;
+            foreach (var assignedLicense in user.AssignedLicenses ?? [])
+            {
+                if (assignedLicense.SkuId is not Guid skuId)
+                    continue;
+
+                if (skuMap.TryGetValue(skuId.ToString(), out var skuPartNumber))
+                    licenses.Add(skuPartNumber);
+            }
+
+            if (licenses.Count == 0)
+                continue;
+
+            var department = string.IsNullOrWhiteSpace(user.Department)
+                ? "(Blank)"
+                : user.Department;
+
+            if (!result.TryGetValue(department, out var departmentUsers))
+            {
+                departmentUsers = new Dictionary<string, List<string>>(
+                    StringComparer.OrdinalIgnoreCase
+                );
+
+                result[department] = departmentUsers;
+            }
+
+            departmentUsers[user.UserPrincipalName] =
+            [
+                .. licenses.OrderBy(
+                sku => sku,
+                StringComparer.OrdinalIgnoreCase
+            )
+            ];
         }
 
-        return new
+        return new UserSkuDepartmentList
         {
-            departments = result.Select(a => new
-            {
-                name = a.Key,
-                users = a.Value.Select(z => new
+            Departments =
+            [
+                .. result
+                .OrderBy(
+                    department => department.Key,
+                    StringComparer.OrdinalIgnoreCase
+                )
+                .Select(department => new UserSkuDepartment
                 {
-                    userId = z.Key,
-                    skus = z.Value
+                    Name = department.Key,
+                    Users =
+                    [
+                        .. department.Value
+                            .OrderBy(
+                                user => user.Key,
+                                StringComparer.OrdinalIgnoreCase
+                            )
+                            .Select(user => new UserSkuUser
+                            {
+                                UserId = user.Key,
+                                Skus = user.Value
+                            })
+                    ]
                 })
-            })
+            ]
         };
-    })));
+    }
 
 
-    private static async Task<Dictionary<string, string>> BuildSkuMap(GraphServiceClient client, CancellationToken cancellationToken)
+    private static async Task<Dictionary<string, string>> BuildSkuMap(
+        GraphServiceClient client,
+        CancellationToken cancellationToken)
     {
-        var skuMap = new Dictionary<string, string>();
-        var skus = await client
-            .SubscribedSkus
-            .GetAsync(config =>
-            {
-                config.QueryParameters.Select = ["skuId", "skuPartNumber"];
-            }, cancellationToken);
+        var skuMap = new Dictionary<string, string>(
+            StringComparer.OrdinalIgnoreCase
+        );
+
+        var skus = await client.SubscribedSkus.GetAsync(config =>
+        {
+            config.QueryParameters.Select =
+            [
+                "skuId",
+            "skuPartNumber"
+            ];
+        }, cancellationToken);
 
         foreach (var sku in skus?.Value ?? [])
-            if (!string.IsNullOrWhiteSpace(sku.SkuPartNumber) && sku.SkuId != null)
-                skuMap[sku.SkuId.ToString()!] = sku.SkuPartNumber!;
+        {
+            if (sku.SkuId is not Guid skuId ||
+                string.IsNullOrWhiteSpace(sku.SkuPartNumber))
+            {
+                continue;
+            }
+
+            skuMap[skuId.ToString()] = sku.SkuPartNumber;
+        }
+
         return skuMap;
     }
 
+
+    public sealed class UserSkuDepartmentList
+    {
+        [JsonPropertyName("departments")]
+        public List<UserSkuDepartment> Departments { get; set; } = [];
+    }
+
+
+    public sealed class UserSkuDepartment
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = default!;
+
+        [JsonPropertyName("users")]
+        public List<UserSkuUser> Users { get; set; } = [];
+    }
+
+
+    public sealed class UserSkuUser
+    {
+        [JsonPropertyName("userId")]
+        public string UserId { get; set; } = default!;
+
+        [JsonPropertyName("skus")]
+        public List<string> Skus { get; set; } = [];
+    }
 }

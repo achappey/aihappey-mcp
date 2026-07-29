@@ -17,10 +17,15 @@
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/LicenseAssignment.ReadWrite.All"
   },
   "tools": {
-    "graph_users_get_user_skus_per_department": {
+    "graph_users_render_user_skus_per_department_widget": {
       "_meta": {
-        "openai/outputTemplate": "ui://widget/department_user_skus.html",
-        "openai/widgetAccessible": true
+        "ui": {
+          "resourceUri": "ui://widget/department_user_skus.html",
+          "visibility": [
+            "model",
+            "app"
+          ]
+        }
       }
     }
   }

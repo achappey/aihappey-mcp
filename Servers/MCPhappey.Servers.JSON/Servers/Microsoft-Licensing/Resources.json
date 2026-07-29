@@ -69,7 +69,7 @@
       "uri": "ui://widget/department_user_skus.html",
       "name": "users-skus-per-department-widget",
       "description": "User SKUs per department widget that presents all tool call output.",
-      "mimeType": "text/html+skybridge",
+      "mimeType": "text/html;profile=mcp-app",
       "annotations": {
         "audience": [
           "user"
