@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}?$select=id,displayName,description,mail,mailEnabled,securityEnabled,groupTypes,visibility,createdDateTime",
+      "name": "group",
+      "title": "Get group",
+      "description": "Gets a Microsoft 365 group or security group by directory object ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}/members?$top=100&$select=id,displayName,userPrincipalName,mail",
+      "name": "group-members",
+      "title": "Get group members",
+      "description": "Lists the direct members of a group.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}/owners?$top=100&$select=id,displayName,userPrincipalName,mail",
+      "name": "group-owners",
+      "title": "Get group owners",
+      "description": "Lists the directory objects that own a group.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/groups/{groupId}/transitiveMembers?$top=100&$select=id,displayName,userPrincipalName,mail",
+      "name": "group-transitive-members",
+      "title": "Get transitive group members",
+      "description": "Lists direct and nested group members transitively.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

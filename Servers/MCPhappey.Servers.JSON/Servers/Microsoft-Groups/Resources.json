@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/groups?$top=100&$select=id,displayName,description,mail,mailEnabled,securityEnabled,groupTypes,visibility,createdDateTime",
+      "name": "groups",
+      "title": "Groups (top 100)",
+      "description": "Lists Microsoft 365 groups and security groups with their principal directory properties.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

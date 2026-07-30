@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Groups",
+    "title": "Microsoft Groups",
+    "websiteUrl": "https://www.microsoft.com/microsoft-365/business/microsoft-365-groups",
+    "version": "1.0.0",
+    "description": "Explore Microsoft 365 and security groups, including their members and owners.",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Group.Read.All https://graph.microsoft.com/GroupMember.Read.All"
+  }
+}
