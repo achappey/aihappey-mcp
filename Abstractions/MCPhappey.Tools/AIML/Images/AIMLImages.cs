@@ -4,7 +4,6 @@ using System.Net.Http.Headers;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Json.More;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -968,7 +967,7 @@ public static partial class AIMLImages
             Content =
             [
                 uploaded,
-                doc.RootElement.ToJsonString().ToJsonContent(BASE_URL)
+                doc.RootElement.GetRawText().ToJsonContent(BASE_URL)
             ]
         };
     });
@@ -1036,7 +1035,7 @@ public static partial class AIMLImages
                    MimeType = "model/gltf-binary",
                    Name = $"{typed.Filename}.glb"
                },
-               doc.RootElement.ToJsonString().ToJsonContent(BASE_URL)
+               doc.RootElement.GetRawText().ToJsonContent(BASE_URL)
            ]
        };
    });
