@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OnlineMeetings",
+    "title": "Microsoft Online Meetings",
+    "websiteUrl": "https://teams.microsoft.com",
+    "version": "1.0.0",
+    "description": "Read the signed-in user's Microsoft Teams online meeting metadata.",
+    "icons": [
+      {
+        "src": "https://www.computerhope.com/jargon/m/microsoft-teams.png"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/OnlineMeetings.Read"
+  }
+}

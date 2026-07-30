@@ -1,0 +1,16 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/onlineMeetings/{onlineMeetingId}",
+      "name": "my-online-meeting",
+      "title": "Get my online meeting",
+      "description": "Gets an online meeting organized by the signed-in user using its Microsoft Graph meeting ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

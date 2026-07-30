@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/roleManagement/directory/roleDefinitions?$top=100&$select=id,displayName,description,isBuiltIn,isEnabled,templateId",
+      "name": "directory-role-definitions",
+      "title": "Directory role definitions (top 100)",
+      "description": "Lists Microsoft Entra built-in and custom directory role definitions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/roleManagement/directory/roleAssignments?$top=100&$select=id,principalId,roleDefinitionId,directoryScopeId,appScopeId,createdDateTime",
+      "name": "directory-role-assignments",
+      "title": "Directory role assignments (top 100)",
+      "description": "Lists active Microsoft Entra directory role assignments.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

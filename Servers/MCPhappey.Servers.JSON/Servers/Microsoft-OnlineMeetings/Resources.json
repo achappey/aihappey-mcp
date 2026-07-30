@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/onlineMeetings?$top=100&$select=id,subject,startDateTime,endDateTime,joinWebUrl,joinMeetingId,videoTeleconferenceId,createdDateTime",
+      "name": "my-online-meetings",
+      "title": "My online meetings (top 100)",
+      "description": "Lists Microsoft Teams online meetings organized by the signed-in user.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

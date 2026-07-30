@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/roleManagement/directory/roleDefinitions/{roleDefinitionId}",
+      "name": "directory-role-definition",
+      "title": "Get directory role definition",
+      "description": "Gets a Microsoft Entra directory role definition by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/roleManagement/directory/roleAssignments/{roleAssignmentId}",
+      "name": "directory-role-assignment",
+      "title": "Get directory role assignment",
+      "description": "Gets an active Microsoft Entra directory role assignment by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/roleManagement/directory/roleAssignmentScheduleInstances?$filter=principalId eq '{principalId}'&$top=100",
+      "name": "role-assignment-schedule-instances-for-principal",
+      "title": "Get active role assignment schedules for principal",
+      "description": "Lists active Privileged Identity Management directory role assignment schedule instances for a principal directory object ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/roleManagement/directory/roleEligibilityScheduleInstances?$filter=principalId eq '{principalId}'&$top=100",
+      "name": "role-eligibility-schedule-instances-for-principal",
+      "title": "Get eligible role schedules for principal",
+      "description": "Lists eligible Privileged Identity Management directory role schedule instances for a principal directory object ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
