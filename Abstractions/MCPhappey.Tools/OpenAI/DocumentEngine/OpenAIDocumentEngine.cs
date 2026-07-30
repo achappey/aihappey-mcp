@@ -5,6 +5,7 @@ using MCPhappey.Common.Constants;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
+using MCPhappey.Tools.OpenAI.Responses;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
@@ -51,10 +52,9 @@ public static class OpenAIDocumentEngine
          await ModelContextToolExtensions.WithExceptionCheck(async () =>
          await requestContext.WithOboGraphClient(async (client) =>
     {
-        var toolMeta = await requestContext.GetToolMeta();
-        var resourceService = serviceProvider.GetRequiredService<ResourceService>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
+        var promptService = serviceProvider.GetRequiredService<PromptService>();
+        var responses = serviceProvider.GetRequiredService<OpenAIResponsesClient>();
 
         // ðŸ§  STEP 1 â€” Get or create schema using the shared helper
         string jsonSchema;
@@ -71,34 +71,21 @@ public static class OpenAIDocumentEngine
         var fileInput = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, inputFileUrl, cancellationToken);
         var file = fileInput.FirstOrDefault();
 
-        var firstRequest = new CreateMessageRequestParams()
+        var firstResponse = await responses.CreateTextResponseAsync(new OpenAIResponsesRequest
         {
-            ModelPreferences = "gpt-5.1".ToModelPreferences(),
-            MaxTokens = 4096 * 4,
-            Metadata = new JsonObject
-            {
-                ["openai"] = new JsonObject
-                {
-                    ["reasoning"] = new JsonObject
-                    {
-                        ["effort"] = "low"
-                    }
-                }
-            },
-            Messages = [
-          file?.Contents.ToString()!.ToUserSamplingMessage()!,
-        prompt.ToUserSamplingMessage()
-      ]
-        };
-
-        var firstSample = await requestContext.Server.SampleAsync(firstRequest, cancellationToken);
+            Model = "gpt-5.1",
+            Input = string.Join("\n\n", new[] { file?.Contents.ToString(), prompt }
+                .Where(value => !string.IsNullOrWhiteSpace(value))),
+            Reasoning = new OpenAIReasoningOptions { Effort = "low" },
+            Tools = []
+        }, cancellationToken);
 
         var finalArgs = new Dictionary<string, JsonElement>()
         {
             {"inputText", JsonSerializer.SerializeToElement( new
             {
                 inputText = file?.Contents.ToString()!,
-                firstReasoning = firstSample.Content
+                firstReasoning = firstResponse
             }) },
             {"jsonStructure", JsonSerializer.SerializeToElement(jsonSchema) },
             };
@@ -108,33 +95,24 @@ public static class OpenAIDocumentEngine
             finalArgs.Add("userHint", JsonSerializer.SerializeToElement(prompt));
         }
 
-        var finalSampling = await samplingService.GetPromptSample(
+        var finalResponse = await responses.CreatePromptTextResponseAsync(
+                promptService,
                 serviceProvider,
                 requestContext.Server,
                 "convert-to-structure",
                 finalArgs,
                 "gpt-5.1",
-                maxTokens: 4096 * 8,
-                metadata: new JsonObject
-                {
-                    ["openai"] = new JsonObject
-                    {
-                        ["reasoning"] = new JsonObject
-                        {
-                            ["effort"] = "low"
-                        }
-                    }
-                },
+                "low",
                 cancellationToken: cancellationToken);
 
-        var jsonString = finalSampling.ToText()?.CleanJson();
+        var jsonString = finalResponse.CleanJson();
 
         var result = await client.Upload("document_data".ToOutputFileName() + ".json",
                   BinaryData.FromString(jsonString!), cancellationToken: cancellationToken);
 
         return new CallToolResult()
         {
-            Content = [.. finalSampling.Content, result!],
+            Content = [finalResponse.ToTextContentBlock(), result!],
             StructuredContent = JsonNode.Parse(jsonString ?? string.Empty).ToJsonElement(),
             Meta = await requestContext.GetToolMeta(ToolMetadata.GetMCPAppUI(documentTemplateUrl))
         };
@@ -300,7 +278,7 @@ public static class OpenAIDocumentEngine
 
 
     /// <summary>
-    /// Internal helper to extract a JSON schema from a document template using the same sampling logic.
+    /// Internal helper to extract a JSON schema from a document template using the OpenAI Responses API.
     /// Used by both CreateSchema (saves to storage) and ExtractSchema (returns inline).
     /// </summary>
     private static async Task<string> ExtractSchemaInternal(
@@ -310,7 +288,8 @@ public static class OpenAIDocumentEngine
         CancellationToken cancellationToken)
     {
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
+        var promptService = serviceProvider.GetRequiredService<PromptService>();
+        var responses = serviceProvider.GetRequiredService<OpenAIResponsesClient>();
 
         var fileInput = await downloadService.DownloadContentAsync(
             serviceProvider, requestContext.Server, documentTemplateUrl, cancellationToken);
@@ -322,26 +301,17 @@ public static class OpenAIDocumentEngine
             {"templateHtmlJs", file.Contents.ToString()!.ToJsonElement()},
         };
 
-        var reportSampling = await samplingService.GetPromptSample(
+        var reportResponse = await responses.CreatePromptTextResponseAsync(
+              promptService,
               serviceProvider,
               requestContext.Server,
               "extract-template-structure",
               reportArgs,
               "gpt-5.4-mini",
-              maxTokens: 4096 * 4,
-              metadata: new JsonObject
-              {
-                  ["openai"] = new JsonObject
-                  {
-                      ["reasoning"] = new JsonObject
-                      {
-                          ["effort"] = "high"
-                      }
-                  }
-              },
+              "high",
               cancellationToken: cancellationToken);
 
-        return reportSampling.ToText()?.CleanJson() ?? "{}";
+        return reportResponse.CleanJson();
     }
 
 }
