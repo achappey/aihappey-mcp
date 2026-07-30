@@ -45,7 +45,6 @@ using MCPhappey.Tools.Azuce;
 using MCPhappey.Tools.VoyageAI;
 using MCPhappey.Tools.AIML;
 using MCPhappey.Tools.SPAMhunter;
-using MCPhappey.Tools.AI302;
 using MCPhappey.Tools.ZAI;
 using MCPhappey.Tools.RelaxAI;
 using MCPhappey.Tools.GreenPT;
@@ -95,7 +94,6 @@ using MCPhappey.Tools.Nebius;
 using MCPhappey.Tools.Supadata;
 using MCPhappey.Tools.LumaAI;
 using MCPhappey.Tools.Lumenfall;
-using MCPhappey.Tools.AICC;
 using MCPhappey.Tools.WisdomGate;
 using MCPhappey.Tools.OCRSpace;
 using MCPhappey.Tools.JsonReceipt;
@@ -214,11 +212,9 @@ builder.Services
 .AddAIML(appConfig?.DomainHeaders)
 .AddMiniMax(appConfig?.DomainHeaders)
 .AddSPAMhunter(appConfig?.DomainHeaders)
-.AddAI302(appConfig?.DomainHeaders)
    .AddZAI(appConfig?.DomainHeaders)
    .AddRelaxAI(appConfig?.DomainHeaders)
    .AddNebius(appConfig?.DomainHeaders)
-   .AddAICC(appConfig?.DomainHeaders)
    .AddLumaAI(appConfig?.DomainHeaders)
    .AddLumenfall(appConfig?.DomainHeaders)
    .AddFireworks(appConfig?.DomainHeaders)
