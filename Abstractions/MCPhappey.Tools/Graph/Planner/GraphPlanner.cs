@@ -12,7 +12,11 @@ namespace MCPhappey.Tools.Graph.Planner;
 public static partial class GraphPlanner
 {
     [Description("Create a new Microsoft Planner task")]
-    [McpServerTool(Title = "Create a new Microsoft Planner task", OpenWorld = false, Destructive = true)]
+    [McpServerTool(Title = "Create a new Microsoft Planner task",
+    OpenWorld = false,
+    UseStructuredContent = true,
+    OutputSchemaType = typeof(PlannerTask),
+    Destructive = true)]
     public static async Task<CallToolResult?> GraphPlanner_CreateTask(
             [Description("Planner id")]
             string plannerId,
@@ -42,8 +46,6 @@ public static partial class GraphPlanner
             cancellationToken
         );
 
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
-
         return await client.Planner.Tasks.PostAsync(new PlannerTask
         {
             Title = typed?.Title,
@@ -58,7 +60,11 @@ public static partial class GraphPlanner
 
 
     [Description("Create a new Planner bucket in a plan")]
-    [McpServerTool(Title = "Create a new Planner bucket in a plan", OpenWorld = false, Destructive = true)]
+    [McpServerTool(Title = "Create a new Planner bucket in a plan",
+    OpenWorld = false,
+    UseStructuredContent = true,
+    OutputSchemaType = typeof(PlannerBucket),
+    Destructive = true)]
     public static async Task<CallToolResult?> GraphPlanner_CreateBucket(
         [Description("Planner id (plan to add bucket to)")]
         string plannerId,
@@ -90,13 +96,16 @@ public static partial class GraphPlanner
     })));
 
     [Description("Create a new Planner plan")]
-    [McpServerTool(Title = "Create a new Planner plan", OpenWorld = false, Destructive = true)]
+    [McpServerTool(Title = "Create a new Planner plan",
+        OpenWorld = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(PlannerPlan),
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphPlanner_CreatePlan(
         [Description("Group id (Microsoft 365 group that will own the plan)")]
         string groupId,
         [Description("Title of the new Planner plan")]
         string planTitle,
-        IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default) =>
             await ModelContextToolExtensions.WithExceptionCheck(async () =>

@@ -12,7 +12,11 @@ namespace MCPhappey.Tools.Graph.Planner;
 public static partial class GraphPlanner
 {
     [Description("Copy a Planner")]
-    [McpServerTool(Title = "Copy a Planner", OpenWorld = false, Destructive = false)]
+    [McpServerTool(Title = "Copy a Planner",
+    OpenWorld = false,
+    UseStructuredContent = true,
+    OutputSchemaType = typeof(PlannerPlan),
+    Destructive = true)]
     public static async Task<CallToolResult?> GraphPlanner_CopyPlan(
         [Description("The id of the original Planner to copy.")]
         string plannerId,
@@ -25,6 +29,7 @@ public static partial class GraphPlanner
      CancellationToken cancellationToken = default) =>
             await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
+            await requestContext.WithStructuredContent(async () =>
     {
         var plan = await graphClient.Planner.Plans[plannerId].GetAsync((config) => { }, cancellationToken)
             ?? throw new InvalidOperationException($"Planner plan '{plannerId}' could not be found.");
@@ -38,8 +43,6 @@ public static partial class GraphPlanner
             },
             cancellationToken
         );
-        if (notAccepted != null) return notAccepted;
-        if (typed == null) return "Invalid result".ToErrorCallToolResponse();
 
         var httpClient = await serviceProvider.GetGraphHttpClient(requestContext.Server);
         var buckets = await graphClient.Planner.Plans[plannerId].Buckets.GetAsync((config) => { }, cancellationToken);
@@ -154,7 +157,7 @@ public static partial class GraphPlanner
             ?? throw new InvalidOperationException($"Could not reload the copied Planner plan '{newPlanId}'.");
         var newPlannerId = newPlanner.Id ?? throw new InvalidOperationException("The copied Planner plan does not expose an id.");
 
-        return newPlanner.ToJsonContentBlock($"https://graph.microsoft.com/beta/planner/plans/{newPlannerId}").ToCallToolResult();
-    }));
+        return newPlanner;
+    })));
 
 }
