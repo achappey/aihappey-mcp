@@ -24,6 +24,7 @@ public static class DatabaseExtensions
           "https://graph.microsoft.com/FileStorageContainer.Selected " +
           "https://graph.microsoft.com/Group.Read.All " +
           "https://graph.microsoft.com/GroupMember.Read.All " +
+          "https://graph.microsoft.com/OnlineMeetingTranscript.Read.All " +
           "https://graph.microsoft.com/RoleManagement.Read.Directory " +
           "https://graph.microsoft.com/RoleAssignmentSchedule.Read.Directory " +
           "https://graph.microsoft.com/RoleEligibilitySchedule.Read.Directory " +
