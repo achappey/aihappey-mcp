@@ -2,11 +2,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
+using MCPhappey.Tools.Google.Interactions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph.Beta;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
-using Mscc.GenerativeAI;
 
 namespace MCPhappey.Tools.Google.Audio;
 
@@ -27,38 +27,29 @@ public static partial class GoogleAudio
          => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
-            var googleAI = serviceProvider.GetRequiredService<GoogleAI>();
+            var interactions = serviceProvider.GetRequiredService<GoogleInteractionsClient>();
 
-            string ttsModel = "gemini-2.5-flash-preview-tts";
-            var modelClient = googleAI.GenerativeModel(ttsModel);
-            var item = await modelClient.GenerateContent(new GenerateContentRequest()
+            string ttsModel = "gemini-3.1-flash-tts-preview";
+            var item = await interactions.CreateInteractionAsync(new GoogleInteractionRequest
             {
                 Model = ttsModel,
-                Contents = [new Content(prompt)],
-                GenerationConfig = new()
+                Input = GoogleInteractionInput.Text(prompt),
+                ResponseModalities = ["audio"],
+                GenerationConfig = new System.Text.Json.Nodes.JsonObject
                 {
-                    ResponseModalities = [ResponseModality.Audio],
-                    SpeechConfig = new()
-                    {
-                        VoiceConfig = new()
+                    ["speech_config"] = new System.Text.Json.Nodes.JsonArray(
+                        new System.Text.Json.Nodes.JsonObject
                         {
-                            PrebuiltVoiceConfig = new()
-                            {
-                                VoiceName = Enum.GetName(voice) ?? TtsVoiceOption.Kore.ToString()
-                            }
-                        }
-                    }
+                            ["voice"] = Enum.GetName(voice) ?? TtsVoiceOption.Kore.ToString()
+                        })
                 }
-            }, cancellationToken: cancellationToken);
+            }, cancellationToken);
 
-            var audioPart = item.Candidates?.FirstOrDefault()?.Content?.Parts.FirstOrDefault();
-            var base64 = audioPart?.InlineData?.Data;
-            if (string.IsNullOrWhiteSpace(base64))
+            var audioPart = GoogleInteractionResponse.GetMedia(item, "audio").FirstOrDefault();
+            if (audioPart is null)
                 throw new InvalidOperationException("Google Audio did not return audio content.");
 
-            byte[] pcmBytes = Convert.FromBase64String(base64);
-
-            using var pcmStream = new MemoryStream(pcmBytes);
+            using var pcmStream = new MemoryStream(audioPart.Data);
             using var mp3Stream = pcmStream.ConvertL16PcmStreamToMp3(24000, 1);
 
             AudioContentBlock audio = new()
@@ -95,15 +86,13 @@ public static partial class GoogleAudio
         await requestContext.WithOboGraphClient(async client =>
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
-        var googleAI = serviceProvider.GetRequiredService<GoogleAI>();
-
         var audio = await GenerateMultiSpeakerAudioAsync(
             prompt,
             nameSpeakerOne,
             nameSpeakerTwo,
             voiceSpeakerOne,
             voiceSpeakerTwo,
-            "gemini-2.5-flash-preview-tts",
+            "gemini-3.1-flash-tts-preview",
             serviceProvider,
             cancellationToken
         );

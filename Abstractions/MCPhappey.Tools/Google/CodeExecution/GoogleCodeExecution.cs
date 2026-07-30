@@ -1,8 +1,8 @@
 using System.ComponentModel;
-using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
+using MCPhappey.Tools.Google.Interactions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -21,12 +21,11 @@ public static class GoogleCodeExecution
           RequestContext<CallToolRequestParams> requestContext,
           [Description("Optional file URLs to download and attach before running the prompt.")]
         string[]? fileUrls = null,
-          [Description("Target model (e.g. gemini-2.5-flash or gemini-2.5-pro).")]
-        string model = "gemini-2.5-flash",
+          [Description("Target model (e.g. gemini-flash-latest, gemini-3.6-flash or gemini-3.1-pro-preview).")]
+        string model = "gemini-flash-latest",
           CancellationToken cancellationToken = default)
     {
-        var mcpServer = requestContext.Server;
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
+        var interactions = serviceProvider.GetRequiredService<GoogleInteractionsClient>();
         var downloader = serviceProvider.GetRequiredService<DownloadService>();
 
         // 1) Download + upload files (optional)
@@ -40,33 +39,29 @@ public static class GoogleCodeExecution
             }
         }
 
-        var response = await requestContext.Server.SampleAsync(
-            new CreateMessageRequestParams()
+        var input = new System.Text.Json.Nodes.JsonArray();
+        foreach (var item in attachedLinks)
+        {
+            input.Add(GoogleInteractionInput.Bytes(
+                item.MimeType?.StartsWith("image/", StringComparison.OrdinalIgnoreCase) == true ? "image" : "document",
+                item.Contents,
+                item.MimeType ?? "application/octet-stream"));
+        }
+        input.Add(GoogleInteractionInput.Text(prompt));
+
+        var response = await interactions.CreateInteractionAsync(new GoogleInteractionRequest
+        {
+            Model = model,
+            Input = input,
+            Tools = [new System.Text.Json.Nodes.JsonObject { ["type"] = "code_execution" }],
+            GenerationConfig = new System.Text.Json.Nodes.JsonObject
             {
-                Metadata = new JsonObject
-                {
-                    ["google"] = new JsonObject
-                    {
-                        ["code_execution"] = new JsonObject(),
-                        ["thinkingConfig"] = new JsonObject
-                        {
-                            ["thinkingBudget"] = -1
-                        }
-                    }
-                },
-                Temperature = 0,
-                MaxTokens = 8192,
-                ModelPreferences = model.ToModelPreferences(),
-                Messages = [
-                    .. attachedLinks.Select(t => t.Contents.ToString().ToUserSamplingMessage()),
-                    prompt.ToUserSamplingMessage()
-                ]
-            },
-            cancellationToken);
+                ["max_output_tokens"] = 8192,
+                ["thinking_level"] = "high"
+            }
+        }, cancellationToken);
 
-        var metadata = response.Meta?.ToJsonContent("https://generativelanguage.googleapis.com");
-
-        return await requestContext.WithUploads(response, serviceProvider, metadata, cancellationToken);
+        return await response.ToToolResultAsync(requestContext, serviceProvider, cancellationToken);
     }
 }
 

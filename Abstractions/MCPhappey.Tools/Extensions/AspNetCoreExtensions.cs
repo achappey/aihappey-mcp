@@ -10,6 +10,8 @@ using MCPhappey.Tools.Anthropic.Sessions;
 using MCPhappey.Tools.Anthropic.Vaults;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using MCPhappey.Tools.Google.Interactions;
+using System.Net.Http.Headers;
 
 namespace MCPhappey.Simplicate.Extensions;
 
@@ -35,8 +37,13 @@ public static class AspNetCoreExtensions
             this WebApplicationBuilder builder,
             string apiKey)
     {
-        Mscc.GenerativeAI.GoogleAI googleAI = new(apiKey);
-        builder.Services.AddSingleton(googleAI);
+        ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
+        builder.Services.AddHttpClient<GoogleInteractionsClient>(client =>
+        {
+            client.BaseAddress = new Uri("https://generativelanguage.googleapis.com/");
+            client.DefaultRequestHeaders.Add("x-goog-api-key", apiKey.Trim());
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        });
 
         return builder;
     }

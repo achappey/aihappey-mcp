@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
+using MCPhappey.Tools.Google.Interactions;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -17,7 +18,7 @@ public static class GoogleNanoBanana
     public static async Task<CallToolResult?> GoogleNanoBanana_CreateImage(
         [Description("Image prompt (only English)")]
         string prompt,
-        [Description("Image model (gemini-2.5-flash-image, gemini-3-pro-image-preview or gemini-3.1-flash-image-preview)")]
+        [Description("Image model (gemini-2.5-flash-image, gemini-3-pro-image, gemini-3.1-flash-image or gemini-3.1-flash-lite-image)")]
         string model,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -26,8 +27,7 @@ public static class GoogleNanoBanana
         CancellationToken cancellationToken = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var googleAI = serviceProvider.GetRequiredService<Mscc.GenerativeAI.GoogleAI>();
-
+        var interactions = serviceProvider.GetRequiredService<GoogleInteractionsClient>();
         var downloader = serviceProvider.GetRequiredService<DownloadService>();
         var items = !string.IsNullOrEmpty(fileUrl) ? await downloader.DownloadContentAsync(serviceProvider,
             requestContext.Server, fileUrl, cancellationToken) : null;
@@ -40,27 +40,21 @@ public static class GoogleNanoBanana
                },
                cancellationToken);
 
-        CreateMessageResult resultContent = await requestContext.Server.SampleAsync(
-            new CreateMessageRequestParams()
-            {
-                Messages = [
-                    ..items?.Select(a => ImageContentBlock
-                        .FromBytes(a.Contents.ToArray(), a.MimeType)
-                        .ToUserSamplingMessage()) ?? [],
-                    prompt.ToUserSamplingMessage()
-                ],
-                IncludeContext = ContextInclusion.ThisServer,
-                MaxTokens = 4096,
-                SystemPrompt = "Create a single image according to the prompt",
-                ModelPreferences = typed.Model?.ToModelPreferences(),
-                Metadata = new JsonObject
-                {
-                    ["google"] = new JsonObject()
-                }
-            },
-            cancellationToken);
+        var input = new JsonArray();
+        foreach (var item in items ?? [])
+            input.Add(GoogleInteractionInput.Bytes("image", item.Contents, item.MimeType));
+        input.Add(GoogleInteractionInput.Text(typed.Prompt));
 
-        return await requestContext.WithUploads(resultContent, serviceProvider, cancellationToken: cancellationToken);
+        var interaction = await interactions.CreateInteractionAsync(new GoogleInteractionRequest
+        {
+            Model = typed.Model,
+            Input = input,
+            SystemInstruction = "Create a single image according to the prompt.",
+            ResponseFormat = new JsonObject { ["type"] = "image", ["mime_type"] = "image/png" },
+            GenerationConfig = new JsonObject { ["max_output_tokens"] = 4096 }
+        }, cancellationToken);
+
+        return await interaction.ToToolResultAsync(requestContext, serviceProvider, cancellationToken);
     });
 
 
@@ -74,8 +68,8 @@ public static class GoogleNanoBanana
 
         [JsonPropertyName("model")]
         [Required]
-        [Description("The image model. gemini-2.5-flash-image, gemini-3-pro-image-preview or gemini-3.1-flash-image-preview.")]
-        public string Model { get; set; } = "gemini-3-pro-image-preview";
+        [Description("The image model. gemini-2.5-flash-image, gemini-3-pro-image, gemini-3.1-flash-image or gemini-3.1-flash-lite-image.")]
+        public string Model { get; set; } = "gemini-3-pro";
     }
 
 }

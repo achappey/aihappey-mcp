@@ -2,7 +2,8 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;
-using Mscc.GenerativeAI;
+using MCPhappey.Tools.Google.Interactions;
+using System.Text.Json.Nodes;
 using NAudio.Lame;
 using NAudio.Wave;
 
@@ -42,51 +43,34 @@ public static partial class GoogleAudio
         IServiceProvider serviceProvider,
         CancellationToken cancellationToken = default)
     {
-        var googleAI = serviceProvider.GetRequiredService<GoogleAI>();
-        var modelClient = googleAI.GenerativeModel(ttsModel);
+        var interactions = serviceProvider.GetRequiredService<GoogleInteractionsClient>();
 
-        var item = await modelClient.GenerateContent(new GenerateContentRequest()
+        var item = await interactions.CreateInteractionAsync(new GoogleInteractionRequest
         {
             Model = ttsModel,
-            Contents = [new Content(prompt)],
-            GenerationConfig = new()
+            Input = GoogleInteractionInput.Text(prompt),
+            ResponseModalities = ["audio"],
+            GenerationConfig = new JsonObject
             {
-                ResponseModalities = [ResponseModality.Audio],
-                SpeechConfig = new()
-                {
-                    MultiSpeakerVoiceConfig = new()
+                ["speech_config"] = new JsonArray(
+                    new JsonObject
                     {
-                        SpeakerVoiceConfigs = [
-                            new() {
-                            Speaker = nameSpeakerOne,
-                            VoiceConfig = new() {
-                                PrebuiltVoiceConfig = new() {
-                                    VoiceName = Enum.GetName(voiceSpeakerOne) ?? TtsVoiceOption.Kore.ToString()
-                                }
-                            }
-                        },
-                        new() {
-                            Speaker = nameSpeakerTwo,
-                            VoiceConfig = new() {
-                                PrebuiltVoiceConfig = new() {
-                                    VoiceName = Enum.GetName(voiceSpeakerTwo) ?? TtsVoiceOption.Sulafat.ToString()
-                                }
-                            }
-                        }
-                        ]
-                    }
-                }
+                        ["speaker"] = nameSpeakerOne,
+                        ["voice"] = Enum.GetName(voiceSpeakerOne) ?? TtsVoiceOption.Kore.ToString()
+                    },
+                    new JsonObject
+                    {
+                        ["speaker"] = nameSpeakerTwo,
+                        ["voice"] = Enum.GetName(voiceSpeakerTwo) ?? TtsVoiceOption.Sulafat.ToString()
+                    })
             }
-        }, cancellationToken: cancellationToken);
+        }, cancellationToken);
 
-        var audioPart = item.Candidates?.FirstOrDefault()?.Content?.Parts.FirstOrDefault();
-        var base64 = audioPart?.InlineData?.Data;
-        if (string.IsNullOrWhiteSpace(base64))
+        var audioPart = GoogleInteractionResponse.GetMedia(item, "audio").FirstOrDefault();
+        if (audioPart is null)
             throw new Exception("No audio data returned.");
 
-        byte[] pcmBytes = Convert.FromBase64String(base64);
-
-        using var pcmStream = new MemoryStream(pcmBytes);
+        using var pcmStream = new MemoryStream(audioPart.Data);
         using var mp3Stream = pcmStream.ConvertL16PcmStreamToMp3(24000, 1);
 
         return new AudioContentBlock
