@@ -1,7 +1,7 @@
 using System.ComponentModel;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
 using ModelContextProtocol.Protocol;
@@ -12,54 +12,174 @@ namespace MCPhappey.Tools.Graph.Copilot;
 public static class GraphCopilotRetrieval
 {
 
-    [Description("Samples Microsoft 365 Copilot via Graph using the provided prompt, with optional timezone and web grounding.")]
+    [Description("Chat with Microsoft 365 Copilot through the streamed Microsoft Graph Chat API, with optional timezone and web grounding.")]
     [McpServerTool(
-       Title = "Microsoft 365 Copilot Sampling",
-       Name = "graph_copilot_sampling",
+       Title = "Microsoft 365 Copilot Chat",
+       Name = "graph_copilot_chat",
        OpenWorld = false,
        ReadOnly = true)]
-    public static async Task<CallToolResult?> Graph_CopilotSampling(
+    public static async Task<CallToolResult?> Graph_CopilotChat(
        RequestContext<CallToolRequestParams> requestContext,
-       [Description("The prompt to use for sampling")] string prompt,
+       IServiceProvider serviceProvider,
+       [Description("The prompt to send to Microsoft 365 Copilot")] string prompt,
        [Description("IANA timezone identifier (e.g. Europe/Amsterdam)")] string timeZone = "Europe/Amsterdam",
        [Description("Include Web search grounding. When disabled, only Microsoft (OneDrive and SharePoint) company grounding will be used.")] bool? isWebEnabled = true,
        CancellationToken cancellationToken = default)
        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+       await requestContext.WithOboGraphClient(async client =>
        await requestContext.WithStructuredContent(async () =>
        {
-           var copilotOptions = new JsonObject
+           var httpClient = await serviceProvider.GetGraphHttpClient(requestContext.Server);
+
+           using var createContent = new StringContent("{}", Encoding.UTF8, "application/json");
+           using var createResponse = await httpClient.PostAsync(
+               "https://graph.microsoft.com/beta/copilot/conversations",
+               createContent,
+               cancellationToken);
+
+           var createPayload = await createResponse.Content.ReadAsStringAsync(cancellationToken);
+           if (!createResponse.IsSuccessStatusCode)
+               throw new InvalidOperationException(
+                   $"Microsoft Copilot create conversation failed ({(int)createResponse.StatusCode}): {createPayload}");
+
+           using var createDocument = JsonDocument.Parse(createPayload);
+           if (!createDocument.RootElement.TryGetProperty("id", out var conversationIdElement)
+               || string.IsNullOrWhiteSpace(conversationIdElement.GetString()))
            {
-               ["locationHint"] = new JsonObject()
+               throw new InvalidOperationException(
+                   "Microsoft Copilot create conversation response did not include an id.");
+           }
+
+           var conversationId = conversationIdElement.GetString()!;
+           var body = new Dictionary<string, object?>
+           {
+               ["message"] = new Dictionary<string, object?>
+               {
+                   ["text"] = prompt
+               },
+               ["locationHint"] = new Dictionary<string, object?>
                {
                    ["timeZone"] = timeZone
                },
-               ["contextualResources"] = new JsonObject()
+               ["contextualResources"] = new Dictionary<string, object?>
                {
-                   ["webContext"] = new JsonObject()
+                   ["webContext"] = new Dictionary<string, object?>
                    {
                        ["isWebEnabled"] = isWebEnabled
                    }
                }
            };
 
-           var response = await requestContext.Server.SampleAsync(
-           new CreateMessageRequestParams()
+           using var chatRequest = new HttpRequestMessage(
+               HttpMethod.Post,
+               $"https://graph.microsoft.com/beta/copilot/conversations/{Uri.EscapeDataString(conversationId)}/chatOverStream")
            {
-               Metadata = new JsonObject
-               {
-                   ["microsoft"] = copilotOptions
-               },
-               Temperature = 0,
-               MaxTokens = 4096,
-               ModelPreferences = "copilot".ToModelPreferences(),
-               Messages = [
-                    prompt.ToUserSamplingMessage()
-               ]
-           },
-           cancellationToken);
+               Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json")
+           };
+           chatRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("text/event-stream"));
 
-           return response;
-       }));
+           using var chatResponse = await httpClient.SendAsync(
+               chatRequest,
+               HttpCompletionOption.ResponseHeadersRead,
+               cancellationToken);
+
+           if (!chatResponse.IsSuccessStatusCode)
+           {
+               var error = await chatResponse.Content.ReadAsStringAsync(cancellationToken);
+               throw new InvalidOperationException(
+                   $"Microsoft Copilot chatOverStream failed ({(int)chatResponse.StatusCode}): {error}");
+           }
+
+           await using var stream = await chatResponse.Content.ReadAsStreamAsync(cancellationToken);
+           using var reader = new StreamReader(stream);
+           var dataBuffer = new StringBuilder();
+           var accumulatedText = string.Empty;
+           JsonElement? lastConversation = null;
+           int? progressCounter = 0;
+
+           async Task FlushEventAsync()
+           {
+               var data = dataBuffer.ToString().Trim();
+               dataBuffer.Clear();
+
+               if (string.IsNullOrWhiteSpace(data)
+                   || string.Equals(data, "[DONE]", StringComparison.OrdinalIgnoreCase))
+                   return;
+
+               JsonElement chunk;
+               try
+               {
+                   chunk = JsonSerializer.Deserialize<JsonElement>(data).Clone();
+               }
+               catch (JsonException)
+               {
+                   return;
+               }
+
+               if (chunk.ValueKind != JsonValueKind.Object)
+                   return;
+
+               lastConversation = chunk;
+               var currentText = ExtractAssistantText(chunk, prompt);
+               if (string.IsNullOrWhiteSpace(currentText)
+                   || string.Equals(currentText, accumulatedText, StringComparison.Ordinal))
+                   return;
+
+               accumulatedText = currentText.StartsWith(accumulatedText, StringComparison.Ordinal)
+                   ? accumulatedText + currentText[accumulatedText.Length..]
+                   : currentText;
+
+               progressCounter = await requestContext.Server.SendProgressNotificationAsync(
+                   requestContext,
+                   progressCounter,
+                   accumulatedText,
+                   cancellationToken: cancellationToken);
+           }
+
+           while (await reader.ReadLineAsync(cancellationToken) is { } line)
+           {
+               if (line.Length == 0)
+               {
+                   await FlushEventAsync();
+                   continue;
+               }
+
+               if (line.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+               {
+                   if (dataBuffer.Length > 0)
+                       dataBuffer.AppendLine();
+
+                   dataBuffer.Append(line[5..].TrimStart());
+               }
+           }
+
+           await FlushEventAsync();
+
+           return lastConversation
+               ?? throw new InvalidOperationException(
+                   "Microsoft Copilot chatOverStream completed without a valid conversation response.");
+       })));
+
+    private static string? ExtractAssistantText(JsonElement conversation, string prompt)
+    {
+        if (!conversation.TryGetProperty("messages", out var messages)
+            || messages.ValueKind != JsonValueKind.Array)
+            return null;
+
+        foreach (var message in messages.EnumerateArray().Reverse())
+        {
+            if (!message.TryGetProperty("text", out var textElement)
+                || textElement.ValueKind != JsonValueKind.String)
+                continue;
+
+            var text = textElement.GetString();
+            if (!string.IsNullOrWhiteSpace(text)
+                && !string.Equals(text, prompt, StringComparison.Ordinal))
+                return text;
+        }
+
+        return null;
+    }
 
     [Description("Retrieve Microsoft 365 Copilot semantic search results using the Microsoft Graph Retrieval API.")]
     [McpServerTool(
