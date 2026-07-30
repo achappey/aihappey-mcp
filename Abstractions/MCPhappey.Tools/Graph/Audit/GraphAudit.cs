@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Text.Json;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
+using Microsoft.Graph.Beta.Models.Security;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -10,7 +11,11 @@ namespace MCPhappey.Tools.Graph.Audit;
 public static class GraphAudit
 {
     [Description("Create a Purview audit log query. Please select a date range less than 6 months.")]
-    [McpServerTool(Title = "Create audit log query", OpenWorld = false, Destructive = true)]
+    [McpServerTool(Title = "Create audit log query",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(AuditLogQuery),
+        OpenWorld = false,
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphAudit_CreateLogQuery(
       RequestContext<CallToolRequestParams> requestContext,
       [Description("The audit query filter.")] string filter,

@@ -23,6 +23,8 @@ public static class GraphLicensing
 
     [Description("Assign a license SKU to a user by SKU ID.")]
     [McpServerTool(Title = "Assign license to user",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(User),
         OpenWorld = false,
         Destructive = true,
         ReadOnly = false,
@@ -57,18 +59,13 @@ public static class GraphLicensing
             RemoveLicenses = []
         };
 
-        await client.Users[typed.UserId].AssignLicense.PostAsync(requestBody, cancellationToken: cancellationToken);
-
-        return new
-        {
-            userId = typed.UserId,
-            skuId = typed.SkuId,
-            action = "assign"
-        };
+        return await client.Users[typed.UserId].AssignLicense.PostAsync(requestBody, cancellationToken: cancellationToken);
     })));
 
     [Description("Revoke a license SKU from a user by SKU ID.")]
     [McpServerTool(Title = "Revoke license from user",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(User),
         OpenWorld = false,
         Destructive = true,
         ReadOnly = false,
@@ -100,14 +97,7 @@ public static class GraphLicensing
             ]
         };
 
-        await client.Users[typed.UserId].AssignLicense.PostAsync(requestBody, cancellationToken: cancellationToken);
-
-        return new
-        {
-            userId = typed.UserId,
-            skuId = typed.SkuId,
-            action = "revoke"
-        };
+        return await client.Users[typed.UserId].AssignLicense.PostAsync(requestBody, cancellationToken: cancellationToken);
     })));
 
 

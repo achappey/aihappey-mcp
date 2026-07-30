@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
+using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -14,7 +15,11 @@ public static class GraphListItems
 {
 
     [Description("Update a Microsoft List item")]
-    [McpServerTool(Title = "Update a Microsoft List item", Destructive = true, OpenWorld = false)]
+    [McpServerTool(Title = "Update a Microsoft List item",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(FieldValueSet),
+        Destructive = true,
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_UpdateListItem(
       string siteId,            // ID of the SharePoint site
       string listId,            // ID of the Microsoft List
@@ -237,14 +242,17 @@ public static class GraphListItems
         .Lists[listId]
         .Items[itemId]
         .Fields
-        .PatchAsync(new Microsoft.Graph.Beta.Models.FieldValueSet
+        .PatchAsync(new FieldValueSet
         {
             AdditionalData = fieldsPayload
         }, cancellationToken: cancellationToken);
 })));
 
     [Description("Create a new Microsoft List item")]
-    [McpServerTool(Title = "Create a new Microsoft List item", Destructive = true,
+    [McpServerTool(Title = "Create a new Microsoft List item",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(ListItem),
+        Destructive = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_CreateListItem(
           string siteId,            // ID of the SharePoint site
@@ -257,10 +265,6 @@ public static class GraphListItems
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
-        //  if (defaultValues == null || !defaultValues.Any())
-        //    {
-        //      throw new Exception("Default values missing.");
-        //   }
 
         var list = await client
               .Sites[siteId]
@@ -276,14 +280,6 @@ public static class GraphListItems
         {
             Required = []
         };
-
-        /*  var definitionColumns = columns?.Value?.Where(col => col.Name != "ID" && col.ReadOnly != true)
-              .ToDictionary(a => a.Name!, a => new
-              {
-                  def = a.ToElicitSchemaDef(),
-                  req = a.Required
-              })
-              .Where(a => a.Value.def != null);*/
 
         var defaultValuesByName = defaultValues ?? new Dictionary<string, object?>();
 
@@ -312,16 +308,6 @@ public static class GraphListItems
                 request.Required.Add(col.Name);
             }
         }
-
-        /*  foreach (var col in definitionColumns ?? [])
-          {
-              request.Properties.Add(col.Key, col.Value.def!);
-
-              if (col.Value.req == true)
-              {
-                  request.Required.Add(col.Key);
-              }
-          }*/
 
         var elicitResult = await requestContext.Server.ElicitAsync(new ElicitRequestParams()
         {
@@ -471,7 +457,7 @@ public static class GraphListItems
                 }
             }, cancellationToken: cancellationToken);
     })));
- 
+
     [Description("Delete a Microsoft List item")]
     [McpServerTool(Title = "Delete a Microsoft List item", Destructive = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_DeleteListItem(
@@ -510,7 +496,7 @@ public static class GraphListItems
         [Required]
         [Description("The ID of the list item to delete.")]
         public string Name { get; set; } = default!;
-    }  
+    }
 
 
 }

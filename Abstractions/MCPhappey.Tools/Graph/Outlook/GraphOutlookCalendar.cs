@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
@@ -13,7 +12,10 @@ namespace MCPhappey.Tools.Graph.Outlook;
 public static class GraphOutlookCalendar
 {
     [Description("Create a new calendar event in the user's Outlook calendar.")]
-    [McpServerTool(Title = "Create Outlook calendar event", Destructive = true)]
+    [McpServerTool(Title = "Create Outlook calendar event",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Event),
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphOutlookCalendar_CreateCalendarEvent(
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Title or subject of the event.")] string? subject = null,
@@ -25,7 +27,6 @@ public static class GraphOutlookCalendar
         [Description("Location or meeting room.")] string? location = null,
         [Description("E-mail addresses of attendees (comma separated).")] string? attendees = null,
         CancellationToken cancellationToken = default) =>
-        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
@@ -43,8 +44,6 @@ public static class GraphOutlookCalendar
             },
             cancellationToken
         );
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
-        if (typed == null) throw new Exception("Something went wrong");
 
         var newEvent = new Event
         {
@@ -78,7 +77,7 @@ public static class GraphOutlookCalendar
         };
 
         return await client.Me.Events.PostAsync(newEvent, cancellationToken: cancellationToken);
-    })));
+    }));
 
     /// <summary>
     /// Data for creating a calendar event.

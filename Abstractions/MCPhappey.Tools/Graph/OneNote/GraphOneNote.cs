@@ -52,6 +52,8 @@ public static class GraphOneNote
     [Description("Create a new OneNote section in a specified notebook.")]
     [McpServerTool(Title = "Create OneNote section",
         Name = "graph_onenote_create_section",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(OnenoteSection),
         Destructive = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphOneNote_CreateSection(
         [Description("The ID of the notebook where the section will be created.")] string notebookId,
@@ -87,6 +89,8 @@ public static class GraphOneNote
     [McpServerTool(Title = "Copy Notebook",
        Name = "graph_onenote_copy_notebook",
        Destructive = true,
+       UseStructuredContent = true,
+       OutputSchemaType = typeof(OnenoteOperation),
        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphOneNote_CopyNotebook(
        [Description("The ID of the notebook where the section will be created.")] string notebookId,
@@ -121,7 +125,10 @@ public static class GraphOneNote
     [Description("Create a new OneNote notebook for the current user.")]
     [McpServerTool(Title = "Create OneNote notebook",
         Name = "graph_onenote_create_notebook",
-        Destructive = true, OpenWorld = false)]
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Notebook),
+        Destructive = true,
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphOneNote_CreateNotebook(
         string displayName,
         RequestContext<CallToolRequestParams> requestContext,
@@ -149,7 +156,9 @@ public static class GraphOneNote
     })));
 
     [Description("Delete a specific OneNote page.")]
-    [McpServerTool(Title = "Delete OneNote page", Name = "graph_onenote_delete_page", Destructive = true)]
+    [McpServerTool(Title = "Delete OneNote page",
+            Name = "graph_onenote_delete_page",
+            Destructive = true)]
     public static async Task<CallToolResult?> GraphOneNote_DeletePage(
         string pageId,
         RequestContext<CallToolRequestParams> requestContext,

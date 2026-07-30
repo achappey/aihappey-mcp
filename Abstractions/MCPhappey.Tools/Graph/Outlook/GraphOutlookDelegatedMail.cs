@@ -14,14 +14,15 @@ public static class GraphOutlookDelegatedMail
     [McpServerTool(
         Title = "Add category to delegated email",
         Destructive = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Message),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphDelegatedMail_AddCategory(
         [Description("Delegated user ID or mailbox address.")] string userId,
         [Description("The unique message ID of the email.")] string messageId,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("The category name to add. Must match an existing Outlook category name.")] string? category = null,
-        CancellationToken cancellationToken = default)
-        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        [Description("The category name to add. Must match an existing Outlook category name.")] string category,
+        CancellationToken cancellationToken = default) =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
@@ -42,20 +43,14 @@ public static class GraphOutlookDelegatedMail
             {
                 current.Add(typed.Category);
 
-                await client.Users[userId].Messages[messageId]
+                return await client.Users[userId].Messages[messageId]
                     .PatchAsync(new Message { Categories = current }, cancellationToken: cancellationToken);
             }
-
-            return new
+            else
             {
-                MessageId = messageId,
-                Added = typed.Category,
-                CurrentCategories = current,
-                Status = current.Contains(typed.Category, StringComparer.OrdinalIgnoreCase)
-                    ? "Category added successfully."
-                    : "Category already existed."
-            };
-        })));
+                throw new ArgumentException("Category already added.", nameof(category));
+            }
+        }));
 
 
     [Description("Move a single email message in a delegated Outlook mailbox to another mail folder in that mailbox. Requires explicit confirmation.")]
@@ -108,14 +103,17 @@ public static class GraphOutlookDelegatedMail
     [Description("Search for e-mails in a delegated Outlook mailbox using Microsoft Graph. Supports subject, body, sender, and date filters.")]
     [McpServerTool(Title = "Search delegated e-mails",
         Name = "graph_outlook_delegated_mail_search",
-        OpenWorld = true, Destructive = false, ReadOnly = true)]
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(MessageCollectionResponse),
+        OpenWorld = true,
+        Destructive = false,
+        ReadOnly = true)]
     public static async Task<CallToolResult?> GraphDelegatedMail_Search(
        [Description("Delegated user ID or mailbox address.")] string userId,
        RequestContext<CallToolRequestParams> requestContext,
        [Description("Search query, e.g. 'subject:AI from:sender@company.com hasAttachment:true'")] string query,
        [Description("Maximum number of results to return. Defaults to 10.")] int? top = 10,
        CancellationToken cancellationToken = default) =>
-        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         await client.Users[userId].Messages
@@ -127,13 +125,15 @@ public static class GraphOutlookDelegatedMail
                         "id", "subject", "from", "bodyPreview",
                         "receivedDateTime", "isRead", "webLink"
                     ];
-                }, cancellationToken))));
+                }, cancellationToken)));
 
 
     [Description("Set or update the follow-up flag for a delegated mail message.")]
     [McpServerTool(Title = "Flag Delegated Mail for Follow-up",
         Idempotent = true,
         Destructive = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Message),
         OpenWorld = true)]
     public static async Task<CallToolResult?> GraphDelegatedMail_FlagMail(
         [Description("Delegated user ID or mailbox address.")] string userId,
@@ -186,11 +186,9 @@ public static class GraphOutlookDelegatedMail
             };
         }
 
-        await client.Users[userId].Messages[messageId].PatchAsync(
+        return await client.Users[userId].Messages[messageId].PatchAsync(
             new Message { Flag = flag },
             cancellationToken: cancellationToken);
-
-        return typed;
     })));
 
 
@@ -299,6 +297,8 @@ public static class GraphOutlookDelegatedMail
     [Description("Create a draft e-mail message in a delegated Outlook mailbox.")]
     [McpServerTool(Title = "Create Delegated Draft E-mail",
         Destructive = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Message),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphDelegatedMail_CreateDraft(
         [Description("Delegated user ID or mailbox address.")] string userId,
@@ -310,7 +310,8 @@ public static class GraphOutlookDelegatedMail
         [Description("Body of the draft e-mail message.")] string? body = null,
         [Description("Type of the message body (html or text).")] BodyType? bodyType = null,
         [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the draft body.")] string? emailSignatureUrl = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithStructuredContent(async () =>
     {
         var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
             new GraphOutlookMail.GraphCreateMailDraft
@@ -352,8 +353,7 @@ public static class GraphOutlookDelegatedMail
         };
 
         var client = await serviceProvider.GetOboGraphClient(requestContext.Server);
-        var createdMessage = await client.Users[userId].Messages.PostAsync(newMessage, cancellationToken: cancellationToken);
-        return createdMessage.ToJsonContentBlock($"https://graph.microsoft.com/beta/users/{userId}/messages/{createdMessage?.Id}")
-            .ToCallToolResult();
-    }
+        
+        return await client.Users[userId].Messages.PostAsync(newMessage, cancellationToken: cancellationToken);
+    });
 }

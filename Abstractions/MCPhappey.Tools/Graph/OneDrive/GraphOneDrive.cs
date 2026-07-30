@@ -15,6 +15,8 @@ public static class GraphOneDrive
     [Description("Uploads a file to the specified OneDrive location.")]
     [McpServerTool(Title = "Upload file to OneDrive",
         Name = "graph_onedrive_upload_file",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(DriveItem),
         Destructive = true,
         Idempotent = true,
         OpenWorld = false)]
@@ -27,6 +29,7 @@ public static class GraphOneDrive
         CancellationToken cancellationToken = default) =>
             await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
+            await requestContext.WithStructuredContent(async () =>
     {
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
               new GraphUploadFile
@@ -37,23 +40,23 @@ public static class GraphOneDrive
               },
               cancellationToken);
 
-        var graphItem = await client.Drives[driveId]
+        return await client.Drives[driveId]
                 .Items["root"].ItemWithPath($"/{typed?.Path}/{typed?.Name}")
                 .Content.PutAsync(BinaryData.FromString(typed?.Content ?? string.Empty).ToStream(),
                    cancellationToken: cancellationToken);
-
-        return graphItem.ToJsonContentBlock($"https://graph.microsoft.com/beta/drives/{driveId}/items/root:/{path}/{filename}:/content")
-         .ToCallToolResult();
-    }));
+    })));
 
     [Description("Create a folder in the specified OneDrive or SharePoint document library.")]
     [McpServerTool(Title = "Create OneDrive/SharePoint folder",
         Name = "graph_onedrive_create_folder",
-        OpenWorld = false, Destructive = true, Idempotent = true)]
+        OpenWorld = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(DriveItem),
+        Destructive = true,
+        Idempotent = true)]
     public static async Task<CallToolResult?> GraphOneDrive_CreateFolder(
             [Description("The OneDrive or SharePoint Drive ID.")] string driveId,
             [Description("The name of the new folder.")] string name,
-            IServiceProvider serviceProvider,
             RequestContext<CallToolRequestParams> requestContext,
             [Description("Folder path within the document library. Leave empty for root. Use slashes for subfolders, e.g. 'Invoices/2025'.")]
             string? parentPath = "",
@@ -62,6 +65,7 @@ public static class GraphOneDrive
             CancellationToken cancellationToken = default) =>
             await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async graphClient =>
+            await requestContext.WithStructuredContent(async () =>
     {
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
         new GraphNewFolder
@@ -70,9 +74,6 @@ public static class GraphOneDrive
             ContentTypeId = contentTypeId,
         },
         cancellationToken);
-
-        if (notAccepted != null) return notAccepted;
-
 
         // Maak de DriveItem voor de folder
         var folderItem = new DriveItem
@@ -113,10 +114,8 @@ public static class GraphOneDrive
             await SetFolderContentType(graphClient, createdFolder, contentTypeId, cancellationToken);
         }
 
-        return createdFolder
-            .ToJsonContentBlock($"https://graph.microsoft.com/beta/drives/{driveId}/items/root:/{typed?.Name}")
-            .ToCallToolResult();
-    }));
+        return createdFolder;
+    })));
 
     // Helper voor contenttype
     private static async Task SetFolderContentType(

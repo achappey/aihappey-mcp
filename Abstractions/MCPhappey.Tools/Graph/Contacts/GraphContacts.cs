@@ -12,7 +12,11 @@ namespace MCPhappey.Tools.Graph.Contacts;
 public static class GraphContacts
 {
     [Description("Create a new Outlook contact for the signed-in user")]
-    [McpServerTool(Title = "Create Outlook contact", Destructive = false, OpenWorld = false)]
+    [McpServerTool(Title = "Create Outlook contact", 
+        Destructive = true, 
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Contact),
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphContacts_CreateContact(
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional contact folder id. If provided, contact is created in that folder.")] string? contactFolderId = null,
@@ -109,7 +113,11 @@ public static class GraphContacts
         })));
 
     [Description("Update an existing Outlook contact")]
-    [McpServerTool(Title = "Update Outlook contact", Destructive = true, OpenWorld = false)]
+    [McpServerTool(Title = "Update Outlook contact", 
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Contact),
+        Destructive = true, 
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphContacts_UpdateContact(
         [Description("The contact id.")] string contactId,
         RequestContext<CallToolRequestParams> requestContext,
@@ -204,7 +212,9 @@ public static class GraphContacts
         })));
 
     [Description("Delete an Outlook contact")]
-    [McpServerTool(Title = "Delete Outlook contact", Destructive = true, OpenWorld = false)]
+    [McpServerTool(Title = "Delete Outlook contact", 
+        Destructive = true, 
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphContacts_DeleteContact(
         [Description("The contact id to delete.")] string contactId,
         RequestContext<CallToolRequestParams> requestContext,
@@ -217,7 +227,11 @@ public static class GraphContacts
             cancellationToken));
 
     [Description("Create a new Outlook contact folder")]
-    [McpServerTool(Title = "Create Outlook contact folder", Destructive = false, OpenWorld = false)]
+    [McpServerTool(Title = "Create Outlook contact folder", 
+        Destructive = false, 
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(ContactFolder),
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphContacts_CreateContactFolder(
         [Description("Display name of the contact folder.")] string displayName,
         RequestContext<CallToolRequestParams> requestContext,
@@ -254,7 +268,11 @@ public static class GraphContacts
         })));
 
     [Description("Update an Outlook contact folder")]
-    [McpServerTool(Title = "Update Outlook contact folder", Destructive = true, OpenWorld = false)]
+    [McpServerTool(Title = "Update Outlook contact folder", 
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(ContactFolder),
+        Destructive = true, 
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphContacts_UpdateContactFolder(
         [Description("The contact folder id.")] string folderId,
         RequestContext<CallToolRequestParams> requestContext,

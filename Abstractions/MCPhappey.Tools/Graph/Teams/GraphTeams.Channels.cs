@@ -100,7 +100,10 @@ public static partial class GraphTeams
 
     [Description("Create a reply to a Teams channel message, mentioning specified users.")]
     [McpServerTool(Title = "Reply in Teams channel with mentions",
-        Destructive = true, OpenWorld = false)]
+        Destructive = true, 
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(ChatMessage),        
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTeams_ReplyWithMentions(
         [Description("ID of the Team.")] string teamId,
         [Description("ID of the Channel.")] string channelId,
@@ -112,6 +115,7 @@ public static partial class GraphTeams
         CancellationToken cancellationToken = default)
          => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
+            await requestContext.WithStructuredContent(async () =>
     {
         var mentionInfo = new List<(string Id, string DisplayName)>();
         foreach (var userId in mentionUserIds)
@@ -125,11 +129,6 @@ public static partial class GraphTeams
         {
             Message = mentionList
         }, cancellationToken: cancellationToken);
-
-        if (elicit.Action != "accept")
-        {
-            return elicit.Action.ToErrorCallToolResponse();
-        }
 
         // Resolve display names for user IDs (helper function, see below)
         var mentions = new List<ChatMessageMention>();
@@ -169,17 +168,12 @@ public static partial class GraphTeams
             Mentions = mentions
         };
 
-        var result = await client.Teams[teamId]
+        return await client.Teams[teamId]
             .Channels[channelId]
             .Messages[messageId]
             .Replies
             .PostAsync(newReply, cancellationToken: cancellationToken);
-
-        return (result ?? newReply)
-            .ToJsonContentBlock($"https://graph.microsoft.com/beta/teams/{teamId}/channels/{channelId}/messages/{messageId}/replies")
-            .ToCallToolResult();
-
-    }));
+    })));
 
 
 }

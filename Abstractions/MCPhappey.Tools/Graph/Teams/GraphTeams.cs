@@ -15,6 +15,8 @@ public static partial class GraphTeams
     [Description("Create a new Microsoft Teams.")]
     [McpServerTool(Title = "Create Microsoft Teams",
         Destructive = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Team),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTeams_CreateTeam(
         [Description("Displayname of the new channel")]
@@ -38,26 +40,29 @@ public static partial class GraphTeams
                 },
                 cancellationToken
             );
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
+                if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
 
-        var newTeam = new Team
-        {
-            Visibility = typed?.Visibility,
-            DisplayName = typed?.DisplayName,
-            Description = typed?.Description,
-            AdditionalData = new Dictionary<string, object>
+                var newTeam = new Team
+                {
+                    Visibility = typed?.Visibility,
+                    DisplayName = typed?.DisplayName,
+                    Description = typed?.Description,
+                    AdditionalData = new Dictionary<string, object>
             {
                 {
                     "template@odata.bind" , "https://graph.microsoft.com/beta/teamsTemplates('standard')"
                 },
             },
-        };
+                };
 
-        return await client.Teams.PostAsync(newTeam, cancellationToken: cancellationToken);
-    })));
+                return await client.Teams.PostAsync(newTeam, cancellationToken: cancellationToken);
+            })));
 
     [Description("Create a new calendar event in the Teams Group calendar.")]
-    [McpServerTool(Title = "Create Teams Group calendar event", Destructive = true)]
+    [McpServerTool(Title = "Create Teams Group calendar event", 
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Event),        
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphTeams_CreateCalendarEvent(
       RequestContext<CallToolRequestParams> requestContext,
       [Description("ID of the Team.")] string teamId,
