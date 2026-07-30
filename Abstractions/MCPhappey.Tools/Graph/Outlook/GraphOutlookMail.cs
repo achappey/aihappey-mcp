@@ -172,6 +172,8 @@ public static class GraphOutlookMail
         Name = "graph_outlook_mail_filter",
         OpenWorld = true,
         Destructive = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(MessageCollectionResponse),
         ReadOnly = true)]
     public static async Task<CallToolResult?> GraphOutlookMail_Filter(
          RequestContext<CallToolRequestParams> requestContext,
@@ -207,6 +209,8 @@ public static class GraphOutlookMail
         Title = "Search e-mails in Outlook (text search)",
         Name = "graph_outlook_mail_search",
         OpenWorld = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(MessageCollectionResponse),
         Destructive = false,
         ReadOnly = true)]
     public static async Task<CallToolResult?> GraphOutlookMail_Search(
@@ -451,6 +455,8 @@ public static class GraphOutlookMail
     [Description("Create a draft e-mail message in the current user's Outlook mailbox.")]
     [McpServerTool(Title = "Create draft e-mail in Outlook",
         Destructive = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Message),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphOutlookMail_CreateDraft(
         IServiceProvider serviceProvider,
@@ -462,8 +468,8 @@ public static class GraphOutlookMail
         [Description("Type of the message body (html or text).")] BodyType? bodyType = null,
         [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the draft body.")] string? emailSignatureUrl = null,
         CancellationToken cancellationToken = default) =>
-        await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
     {
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
             new GraphCreateMailDraft
@@ -477,8 +483,6 @@ public static class GraphOutlookMail
             },
             cancellationToken
         );
-
-        if (notAccepted != null) return notAccepted;
 
         var resolvedBody = await BuildBodyWithOptionalSignatureAsync(
             serviceProvider,
@@ -506,8 +510,7 @@ public static class GraphOutlookMail
                 .ToList() ?? []
         };
 
-        var createdMessage = await client.Me.Messages.PostAsync(newMessage, cancellationToken: cancellationToken);
-        return createdMessage.ToJsonContentBlock($"https://graph.microsoft.com/beta/me/messages/{createdMessage?.Id}").ToCallToolResult();
+        return await client.Me.Messages.PostAsync(newMessage, cancellationToken: cancellationToken);
     }));
 
     internal static async Task<string?> BuildBodyWithOptionalSignatureAsync(

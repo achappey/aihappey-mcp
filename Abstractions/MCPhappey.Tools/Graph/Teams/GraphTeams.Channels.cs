@@ -10,21 +10,23 @@ namespace MCPhappey.Tools.Graph.Teams;
 public static partial class GraphTeams
 {
     [Description("Create a new channel in a Microsoft Teams.")]
-    [McpServerTool(Title = "Create channel in Microsoft Team", Destructive = true,
+    [McpServerTool(Title = "Create channel in Microsoft Team",
+        Destructive = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Channel),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTeams_CreateChannel(
         string teamId,
          [Description("Displayname of the new channel")]
         string displayName,
-        IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Membership type of the new channel ('standard', 'private' or 'shared')")]
         string? membershipType = "standard",
         [Description("Description of the new channel")]
         string? description = null,
-        CancellationToken cancellationToken = default)
-         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        CancellationToken cancellationToken = default) =>
         await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
     {
         var teams = await client.Teams[teamId]
                            .GetAsync(cancellationToken: cancellationToken);
@@ -42,9 +44,6 @@ public static partial class GraphTeams
             cancellationToken
         );
 
-        if (notAccepted != null) return notAccepted;
-        if (typed == null) return "Invalid result".ToErrorCallToolResponse();
-
         var newItem = new Channel
         {
             DisplayName = typed.DisplayName,
@@ -52,16 +51,15 @@ public static partial class GraphTeams
             MembershipType = typed.MembershipType
         };
 
-        var graphItem = await client.Teams[teamId].Channels.PostAsync(newItem, cancellationToken: cancellationToken);
-
-        return (graphItem ?? newItem).ToJsonContentBlock($"https://graph.microsoft.com/beta/teams/{teamId}/channels")
-            .ToCallToolResult();
-
+        return await client.Teams[teamId].Channels.PostAsync(newItem, cancellationToken: cancellationToken);
     }));
 
     [Description("Create a new channel message in a Microsoft Teams channel.")]
     [McpServerTool(Title = "Create message in Teams channel",
-        Destructive = true, OpenWorld = false)]
+        Destructive = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(ChatMessage),
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTeams_CreateChannelMessage(
         [Description("ID of the Team.")] string teamId,
         [Description("ID of the Channel.")] string channelId,
@@ -69,9 +67,9 @@ public static partial class GraphTeams
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Subject of the message.")] string? subject = null,
         [Description("Content (body) of the message.")] string? content = null,
-        CancellationToken cancellationToken = default)
-         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        CancellationToken cancellationToken = default) =>
             await requestContext.WithOboGraphClient(async client =>
+            await requestContext.WithStructuredContent(async () =>
     {
         // Vul defaults uit de parameters direct in
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
@@ -94,15 +92,10 @@ public static partial class GraphTeams
             },
         };
 
-        var graphItem = await client.Teams[teamId]
+        return await client.Teams[teamId]
             .Channels[channelId]
             .Messages
             .PostAsync(newItem, cancellationToken: cancellationToken);
-
-        return (graphItem ?? newItem)
-            .ToJsonContentBlock($"https://graph.microsoft.com/beta/teams/{teamId}/channels/{channelId}/messages")
-            .ToCallToolResult();
-
     }));
 
     [Description("Create a reply to a Teams channel message, mentioning specified users.")]

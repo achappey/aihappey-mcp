@@ -18,6 +18,8 @@ public static class TodoTaskList
     [McpServerTool(
         Title = "Create To Do Task List",
         Name = "todo_task_list_create",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Microsoft.Graph.Beta.Models.TodoTaskList),
         OpenWorld = false,
         Destructive = true)]
     public static async Task<CallToolResult?> TodoTaskList_CreateList(
@@ -39,19 +41,10 @@ public static class TodoTaskList
         if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
         if (typed == null) throw new Exception("Invalid result");
 
-        var list = await client.Me.Todo.Lists.PostAsync(new Microsoft.Graph.Beta.Models.TodoTaskList
+        return await client.Me.Todo.Lists.PostAsync(new Microsoft.Graph.Beta.Models.TodoTaskList
         {
             DisplayName = typed.Title
         }, cancellationToken: cancellationToken);
-
-        var result = new TodoTaskListListResult
-        {
-            ListId = list?.Id ?? string.Empty,
-            Title = list?.DisplayName ?? typed.Title
-        };
-
-        return result.ToJsonContentBlock(string.Format(ListUrlTemplate, list?.Id))
-            .ToCallToolResult();
     })));
 
     [Description("Add a todo item to a To Do Task List.")]
@@ -156,41 +149,34 @@ public static class TodoTaskList
             .ToCallToolResult();
     })));
 
-    [Description("List all todo items in a To Do Task List. Returns only title, description, and completed.")]
+    [Description("List all todo items in a To Do Task List.")]
     [McpServerTool(
         Title = "List To Do Task List items",
         Name = "todo_task_list_list_items",
         OpenWorld = false,
         ReadOnly = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(TodoTaskCollectionResponse),
         Destructive = false)]
     public static async Task<CallToolResult?> TodoTaskList_ListItems(
         [Description("To Do list id")]
         string listId,
         RequestContext<CallToolRequestParams> requestContext,
+        [Description("Number of items")]
+        int? top = 200,
+        [Description("Number of items to skip")]
+        int? skip = 0,
         CancellationToken cancellationToken = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var tasks = await client.Me.Todo.Lists[listId].Tasks.GetAsync(requestConfiguration =>
+        return await client.Me.Todo.Lists[listId].Tasks.GetAsync(requestConfiguration =>
         {
             requestConfiguration.QueryParameters.Select = ["title", "status", "body"];
-            requestConfiguration.QueryParameters.Top = 200;
+            requestConfiguration.QueryParameters.Top = top ?? 200;
+            requestConfiguration.QueryParameters.Skip = skip ?? null;
         }, cancellationToken);
-
-        var results = new List<TodoTaskListItemResult>();
-        foreach (var task in tasks?.Value ?? [])
-        {
-            results.Add(new TodoTaskListItemResult
-            {
-                Title = task.Title ?? string.Empty,
-                Description = task.Body?.Content ?? string.Empty,
-                Completed = task.Status == Microsoft.Graph.Beta.Models.TaskStatus.Completed
-            });
-        }
-
-        return results.ToJsonContentBlock(string.Format(ListUrlTemplate, listId))
-            .ToCallToolResult();
     })));
 
     [Description("Please fill in the To Do Task list details")]

@@ -45,7 +45,10 @@ public static class GraphUserManagement
     })));
 
     [Description("Create a new user")]
-    [McpServerTool(Title = "Create new user", OpenWorld = false)]
+    [McpServerTool(Title = "Create new user",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(User),
+        OpenWorld = false)]
     public static async Task<CallToolResult?> GraphUsers_CreateUser(
       RequestContext<CallToolRequestParams> requestContext,
       [Description("The users's given name.")] string? givenName = null,
@@ -176,6 +179,8 @@ public static class GraphUserManagement
 
     [Description("Update a Microsoft 365 user")]
     [McpServerTool(Title = "Update a user",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(User),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphUsers_UpdateUser(
         [Description("User id to update.")] string userId,
@@ -243,7 +248,7 @@ public static class GraphUserManagement
         {
             user.StreetAddress = typed.StreetAddress;
         }
-        
+
         if (!string.IsNullOrEmpty(typed?.UsageLocation))
         {
             user.UsageLocation = typed.UsageLocation;

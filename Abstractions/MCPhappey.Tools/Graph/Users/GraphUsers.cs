@@ -10,7 +10,11 @@ namespace MCPhappey.Tools.Graph.Users;
 public static class GraphUsers
 {
     [Description("List all users grouped by department.")]
-    [McpServerTool(Title = "Group users by department", OpenWorld = false, ReadOnly = true)]
+    [McpServerTool(Title = "Group users by department",
+        OpenWorld = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(UsersByDepartmentResult),
+        ReadOnly = true)]
     public static async Task<CallToolResult?> GraphUsers_GroupUsersByDepartment(
             RequestContext<CallToolRequestParams> requestContext,
             [Description("Include users without a department (null/empty). Default is false.")]
@@ -18,8 +22,8 @@ public static class GraphUsers
             [Description("Include disabled users. Default is false.")]
             bool includeDisabled = false,
             CancellationToken cancellationToken = default) =>
-            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (client) =>
+            await requestContext.WithStructuredContent(async () =>
         {
             // Map: Department -> List of user display names (or IDs if displayName is empty)
             var map = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
@@ -76,9 +80,39 @@ public static class GraphUsers
                     StringComparer.OrdinalIgnoreCase
                 );
 
-            return ordered
-                .ToJsonContentBlock("https://graph.microsoft.com/beta/users?$select=id,displayName,department")
-                .ToCallToolResult();
+            return new UsersByDepartmentResult
+            {
+                Departments =
+                                   [
+                                       .. map
+                                .OrderBy(
+                                    item => item.Key,
+                                    StringComparer.OrdinalIgnoreCase)
+                                .Select(item => new DepartmentUsers
+                                {
+                                    Department = item.Key,
+                                    Users =
+                                    [
+                                        .. item.Value.OrderBy(
+                                            value => value,
+                                            StringComparer.OrdinalIgnoreCase)
+                                    ]
+                                })
+                                   ]
+            };
         }));
+
+    public sealed class UsersByDepartmentResult
+    {
+        public required List<DepartmentUsers> Departments { get; init; }
+    }
+
+    public sealed class DepartmentUsers
+    {
+        public required string Department { get; init; }
+
+        public required List<string> Users { get; init; }
+    }
+
 
 }

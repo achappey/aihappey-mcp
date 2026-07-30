@@ -22,14 +22,15 @@ public static partial class GraphWorkbooks
     [McpServerTool(
         Title = "Add worksheet to Excel",
         Destructive = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Microsoft.Graph.Beta.Models.WorkbookWorksheet),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_AddWorksheet(
         string excelFileUrl,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional worksheet name. If omitted, Excel assigns a name.")]
             string? worksheetName = null,
-        CancellationToken cancellationToken = default)
-         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        CancellationToken cancellationToken = default) =>
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
@@ -50,26 +51,14 @@ public static partial class GraphWorkbooks
         if (!string.IsNullOrWhiteSpace(typed?.Name))
             addBody.Name = typed?.Name;
 
-        // Add worksheet (Excel plaatst het aan het einde van de bestaande tabs)
-        var newSheet = await client
+        return await client
             .Drives[driveItem!.ParentReference!.DriveId]
             .Items[driveItem.Id]
             .Workbook
             .Worksheets
             .Add
             .PostAsync(addBody, cancellationToken: cancellationToken);
-
-        var workbookGraphUrl =
-            $"https://graph.microsoft.com/beta/drives/{driveItem.ParentReference.DriveId}/items/{driveItem.Id}/workbook";
-
-        return new
-        {
-            worksheetId = newSheet?.Id,
-            name = newSheet?.Name,
-            position = newSheet?.Position,
-            workbookGraphUrl
-        };
-    })));
+    }));
 
     [Description("Please fill in the details to add a worksheet to an Excel workbook.")]
     public class GraphAddWorksheet
@@ -82,6 +71,8 @@ public static partial class GraphWorkbooks
     [Description("Add a new row to an Excel table on OneDrive/SharePoint. Use defaultValues dictionary to add default values to the Excel new row form.")]
     [McpServerTool(
             Title = "Add row to Excel table",
+            UseStructuredContent = true,
+            OutputSchemaType = typeof(Microsoft.Graph.Beta.Models.WorkbookTableRow),
             OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_AddRowToTable(
             string excelFileUrl,
@@ -89,8 +80,7 @@ public static partial class GraphWorkbooks
             RequestContext<CallToolRequestParams> requestContext,
             [Description("Default values for the row form. Format: key is row name, value is default value.")]
         Dictionary<string, string>? defaultValues = null,
-            CancellationToken cancellationToken = default)
-              => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+            CancellationToken cancellationToken = default) =>
                 await requestContext.WithOboGraphClient(async (graphClient) =>
                 await requestContext.WithStructuredContent(async () =>
     {
@@ -144,7 +134,7 @@ public static partial class GraphWorkbooks
 
 
         return newRow;
-    })));
+    }));
 
     private static readonly char[] charArray = [';', ',', '\t', '|'];
 
@@ -167,7 +157,7 @@ public static partial class GraphWorkbooks
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var csvRawFiles = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server,
            csvUrl, cancellationToken);
-        
+
         var csvRaw = csvRawFiles.FirstOrDefault(a => a.MimeType?.Equals("text/csv",
             StringComparison.OrdinalIgnoreCase) == true)?.Contents.ToString();
 
