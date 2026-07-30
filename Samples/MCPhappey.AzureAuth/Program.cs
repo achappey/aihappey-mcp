@@ -13,7 +13,6 @@ using MCPhappey.Core.Services;
 using MCPhappey.Simplicate.Extensions;
 using MCPhappey.Tools.Deskbird;
 using MCPhappey.Tools.Perplexity;
-using MCPhappey.Tools.xAI;
 using MCPhappey.Servers.JSON.Extensions;
 using MCPhappey.Tools.AzureMaps;
 using MCPhappey.Tools.Azure;
@@ -186,7 +185,6 @@ static void AddApi<T>(IServiceCollection services, Config? cfg, string domain, F
 
 AddApi(builder.Services, appConfig, "connect.deskbird.com", k => new DeskbirdSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.stability.ai", k => new StabilityAISettings { ApiKey = k });
-AddApi(builder.Services, appConfig, "api.x.ai", k => new XAISettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.together.xyz", k => new TogetherSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.groq.com", k => new GroqSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.aimlapi.com", k => new AIMLSettings { ApiKey = k });
