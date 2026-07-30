@@ -7,7 +7,31 @@ namespace MCPhappey.Servers.SQL.Extensions;
 public static class DatabaseExtensions
 {
     private static readonly string DEFAULT_SCOPES
-        = "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Directory.ReadWrite.All https://graph.microsoft.com/Sites.ReadWrite.All https://graph.microsoft.com/Contacts.Read https://graph.microsoft.com/Bookmark.Read.All https://graph.microsoft.com/Calendars.Read https://graph.microsoft.com/ChannelMessage.Read.All https://graph.microsoft.com/Chat.Read https://graph.microsoft.com/Mail.Read https://graph.microsoft.com/User.ReadWrite.All https://graph.microsoft.com/Notes.ReadWrite.All https://graph.microsoft.com/Sites.Read.All https://graph.microsoft.com/Files.Read.All https://graph.microsoft.com/ExternalItem.Read.All https://graph.microsoft.com/FileStorageContainer.Selected";
+        = "https://graph.microsoft.com/User.Read " +
+          "https://graph.microsoft.com/Directory.ReadWrite.All " +
+          "https://graph.microsoft.com/Sites.ReadWrite.All " +
+          "https://graph.microsoft.com/Contacts.Read " +
+          "https://graph.microsoft.com/Bookmark.Read.All " +
+          "https://graph.microsoft.com/Calendars.Read " +
+          "https://graph.microsoft.com/ChannelMessage.Read.All " +
+          "https://graph.microsoft.com/Chat.Read " +
+          "https://graph.microsoft.com/Mail.Read " +
+          "https://graph.microsoft.com/User.ReadWrite.All " +
+          "https://graph.microsoft.com/Notes.ReadWrite.All " +
+          "https://graph.microsoft.com/Sites.Read.All " +
+          "https://graph.microsoft.com/Files.Read.All " +
+          "https://graph.microsoft.com/ExternalItem.Read.All " +
+          "https://graph.microsoft.com/FileStorageContainer.Selected " +
+          "https://graph.microsoft.com/Group.Read.All " +
+          "https://graph.microsoft.com/GroupMember.Read.All " +
+          "https://graph.microsoft.com/RoleManagement.Read.Directory " +
+          "https://graph.microsoft.com/RoleAssignmentSchedule.Read.Directory " +
+          "https://graph.microsoft.com/RoleEligibilitySchedule.Read.Directory " +
+          "https://graph.microsoft.com/AccessReview.Read.All " +
+          "https://graph.microsoft.com/EntitlementManagement.Read.All " +
+          "https://graph.microsoft.com/IdentityRiskyUser.Read.All " +
+          "https://graph.microsoft.com/IdentityRiskEvent.Read.All " +
+          "https://graph.microsoft.com/OnlineMeetings.Read";
 
     public static Server ToMcpServer(this Models.Server server, IEnumerable<ServerIcon> defaultIcons)
     {
