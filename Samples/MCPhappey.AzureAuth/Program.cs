@@ -16,7 +16,6 @@ using MCPhappey.Tools.Perplexity;
 using MCPhappey.Servers.JSON.Extensions;
 using MCPhappey.Tools.AzureMaps;
 using MCPhappey.Tools.Azure;
-using MCPhappey.Tools.StabilityAI.Models;
 using MCPhappey.Tools.Azure.DocumentIntelligence;
 using MCPhappey.Tools.Imagga;
 using MCPhappey.Tools.AsyncAI;
@@ -181,7 +180,6 @@ static void AddApi<T>(IServiceCollection services, Config? cfg, string domain, F
 }
 
 AddApi(builder.Services, appConfig, "connect.deskbird.com", k => new DeskbirdSettings { ApiKey = k });
-AddApi(builder.Services, appConfig, "api.stability.ai", k => new StabilityAISettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.groq.com", k => new GroqSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.aimlapi.com", k => new AIMLSettings { ApiKey = k });
 

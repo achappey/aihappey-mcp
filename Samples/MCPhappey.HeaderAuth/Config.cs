@@ -22,8 +22,6 @@ public class Config
 
     public OAuthSettings? OAuth { get; set; }
 
-    public McpApplicationInsights? ApplicationInsights { get; set; }
-
     public Dictionary<string, Dictionary<string, string>>? DomainHeaders { get; set; }
 
     public Dictionary<string, McpExtension>? McpExtensions { get; set; }

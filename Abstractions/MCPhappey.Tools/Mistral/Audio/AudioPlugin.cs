@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
-using MCPhappey.Tools.StabilityAI;
 using MCPhappey.Core.Services;
 using Microsoft.KernelMemory.Pipeline;
+using MCPhappey.Tools.Extensions;
 
 namespace MCPhappey.Tools.Mistral.Audio;
 

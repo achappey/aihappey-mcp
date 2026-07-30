@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
-using MCPhappey.Tools.StabilityAI;
+using MCPhappey.Tools.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.KernelMemory.Pipeline;
 using ModelContextProtocol.Protocol;
