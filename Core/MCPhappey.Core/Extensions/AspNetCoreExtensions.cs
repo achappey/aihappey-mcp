@@ -20,7 +20,6 @@ public static class AspNetCoreExtensions
         services.AddSingleton<DownloadService>();
         services.TryAddSingleton<IMcpExtensionHeaderResolver, DefaultMcpExtensionHeaderResolver>();
         services.AddScoped<PromptService>();
-        services.AddScoped<SamplingService>();
         services.AddScoped<ResourceService>();
         services.AddSingleton<CompletionService>();
         services.AddSingleton<CpuUsageTracker>();
