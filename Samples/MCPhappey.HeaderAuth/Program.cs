@@ -32,7 +32,6 @@ using MCPhappey.Common.Models;
 using MCPhappey.Tools.Groq.Audio;
 using MCPhappey.Tools.Replicate;
 using MCPhappey.Tools.Parallel;
-using MCPhappey.Tools.Together;
 using MCPhappey.Tools.Mistral;
 using MCPhappey.Tools.EuropeanUnion;
 using MCPhappey.Tools.Cohere;
@@ -180,7 +179,6 @@ static void AddApi<T>(IServiceCollection services, Config? cfg, string domain, F
 
 AddApi(builder.Services, appConfig, "connect.deskbird.com", k => new DeskbirdSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.stability.ai", k => new StabilityAISettings { ApiKey = k });
-AddApi(builder.Services, appConfig, "api.together.xyz", k => new TogetherSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.groq.com", k => new GroqSettings { ApiKey = k });
 AddApi(builder.Services, appConfig, "api.aimlapi.com", k => new AIMLSettings { ApiKey = k });
 
@@ -370,10 +368,6 @@ if (!string.IsNullOrEmpty(apiKey))
     });
 }
 
-builder.Services.AddApplicationInsightsTelemetry();
-builder.Logging.AddApplicationInsights();
-
-
 if (
     openAiClient != null
     && apiKey != null)
@@ -490,11 +484,6 @@ builder
 if (!string.IsNullOrEmpty(appConfig?.PrivateKey))
 {
     builder.AddAuthServices(appConfig.PrivateKey);
-}
-
-if (appConfig?.ApplicationInsights != null)
-{
-    builder.Services.AddSingleton(appConfig.ApplicationInsights);
 }
 
 builder.Services.WithHostScrapers(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings);
