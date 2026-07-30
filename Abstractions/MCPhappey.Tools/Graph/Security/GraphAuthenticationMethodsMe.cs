@@ -63,7 +63,11 @@ public static class GraphAuthenticationMethodsMe
         }));
 
     [Description("Update a phone authentication method for the current user.")]
-    [McpServerTool(Title = "Update my phone auth method", Name = "graph_auth_me_update_phone_method", OpenWorld = false, ReadOnly = false, Destructive = true)]
+    [McpServerTool(Title = "Update my phone auth method",
+        Name = "graph_auth_me_update_phone_method",
+        OpenWorld = false,
+        ReadOnly = false,
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphAuthMe_UpdatePhoneMethod(
         [Description("Phone method id.")] string phoneMethodId,
         [Description("Phone number in E.164 format.")] string phoneNumber,
@@ -90,7 +94,11 @@ public static class GraphAuthenticationMethodsMe
         }));
 
     [Description("Create a temporary access pass method for the current user.")]
-    [McpServerTool(Title = "Add my TAP auth method", Name = "graph_auth_me_add_tap_method", OpenWorld = false, ReadOnly = false, Destructive = true)]
+    [McpServerTool(Title = "Add my TAP auth method",
+        Name = "graph_auth_me_add_tap_method",
+        OpenWorld = false,
+        ReadOnly = false,
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphAuthMe_AddTemporaryAccessPassMethod(
         [Description("Lifetime in minutes (10-43200).")]
         int lifetimeInMinutes,
@@ -118,7 +126,11 @@ public static class GraphAuthenticationMethodsMe
         }));
 
     [Description("Enable or disable SMS sign-in on a current-user phone method.")]
-    [McpServerTool(Title = "Set my phone SMS sign-in", Name = "graph_auth_me_set_phone_sms_signin", OpenWorld = false, ReadOnly = false, Destructive = true)]
+    [McpServerTool(Title = "Set my phone SMS sign-in",
+        Name = "graph_auth_me_set_phone_sms_signin",
+        OpenWorld = false,
+        ReadOnly = false,
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphAuthMe_SetPhoneSmsSignin(
         [Description("Phone method id.")] string phoneMethodId,
         [Description("True enables SMS sign-in; false disables it.")] bool enableSmsSignIn,
@@ -136,12 +148,16 @@ public static class GraphAuthenticationMethodsMe
 
             var action = typed.EnableSmsSignIn ? "enableSmsSignIn" : "disableSmsSignIn";
             var path = $"me/authentication/phoneMethods/{Uri.EscapeDataString(typed.PhoneMethodId)}/{action}";
-            
+
             return await serviceProvider.SendGraphRequestAsync(requestContext, HttpMethod.Post, path, null, cancellationToken);
         }));
 
     [Description("Reset the current user's password method by setting a new password.")]
-    [McpServerTool(Title = "Reset my password auth method", Name = "graph_auth_me_reset_password_method", OpenWorld = false, ReadOnly = false, Destructive = true)]
+    [McpServerTool(Title = "Reset my password auth method",
+        Name = "graph_auth_me_reset_password_method",
+        OpenWorld = false,
+        ReadOnly = false,
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphAuthMe_ResetPasswordMethod(
         [Description("Password method id.")] string passwordMethodId,
         [Description("New password value.")] string newPassword,
@@ -158,7 +174,7 @@ public static class GraphAuthenticationMethodsMe
             }, cancellationToken);
 
             var path = $"me/authentication/passwordMethods/{Uri.EscapeDataString(typed.PasswordMethodId)}/resetPassword";
-            
+
             return await serviceProvider.SendGraphRequestAsync(requestContext, HttpMethod.Post, path, new
             {
                 newPassword = typed.NewPassword
@@ -166,7 +182,11 @@ public static class GraphAuthenticationMethodsMe
         }));
 
     [Description("Delete one authentication method from the current user by method type segment and method id.")]
-    [McpServerTool(Title = "Delete my auth method", Name = "graph_auth_me_delete_method", OpenWorld = false, ReadOnly = false, Destructive = true)]
+    [McpServerTool(Title = "Delete my auth method",
+        Name = "graph_auth_me_delete_method",
+        OpenWorld = false,
+        ReadOnly = false,
+        Destructive = true)]
     public static async Task<CallToolResult?> GraphAuthMe_DeleteMethod(
         [Description("Method segment: emailMethods, phoneMethods, fido2Methods, softwareOathMethods, temporaryAccessPassMethods, windowsHelloForBusinessMethods, platformCredentialMethods.")] string methodType,
         [Description("Authentication method id.")] string methodId,

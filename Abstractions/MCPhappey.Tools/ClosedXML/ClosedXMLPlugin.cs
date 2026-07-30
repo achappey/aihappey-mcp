@@ -14,7 +14,11 @@ namespace MCPhappey.Tools.ClosedXML;
 public static class ClosedXMLPlugin
 {
     [Description("Create a new Excel workbook (.xlsx) with a single empty sheet named 'Sheet1'.")]
-    [McpServerTool(Name = "closedxml_new_workbook", ReadOnly = false, OpenWorld = false, Idempotent = false, Destructive = false)]
+    [McpServerTool(Name = "closedxml_new_workbook",
+        ReadOnly = false,
+        OpenWorld = false,
+        Idempotent = false,
+        Destructive = false)]
     public static async Task<CallToolResult?> ClosedXML_NewWorkbook(
         [Description("Filename without .xlsx extension")] string fileName,
         [Description("Name of the sheet")] string sheetName,

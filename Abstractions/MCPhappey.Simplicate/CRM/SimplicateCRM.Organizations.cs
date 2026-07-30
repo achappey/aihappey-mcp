@@ -16,6 +16,8 @@ public static partial class SimplicateCRM
     [McpServerTool(OpenWorld = false,
         ReadOnly = true,
         Destructive = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(SimplicateData<SimplicateOrganization>),
         Name = "simplicate_crm_get_organizations",
         Title = "Get organizations")]
     [Description("Get organizations, filtered by organization filters.")]
@@ -186,13 +188,17 @@ public static partial class SimplicateCRM
 
     [Description("Get my organization profiles")]
     [McpServerTool(
-     Title = "Get my organization profiles",
-     Name = "simplicate_crm_get_my_organization_profiles",
-     OpenWorld = false, ReadOnly = true)]
+        Title = "Get my organization profiles",
+        Name = "simplicate_crm_get_my_organization_profiles",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(SimplicateData<SimplicateMyOrganizationProfile>),
+        OpenWorld = false,
+        ReadOnly = true)]
     public static async Task<CallToolResult?> SimplicateCRM_GetMyOrganzizationProfiles(
          IServiceProvider serviceProvider,
          RequestContext<CallToolRequestParams> requestContext,
-         CancellationToken cancellationToken = default) => await requestContext.WithStructuredContent(async () =>
+         CancellationToken cancellationToken = default) => 
+        await requestContext.WithStructuredContent(async () =>
      {
          var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
          var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -219,10 +225,10 @@ public static partial class SimplicateCRM
 
     [Description("Create a new organization in Simplicate CRM")]
     [McpServerTool(Title = "Create new organization in Simplicate",
-    Destructive = true,
-    ReadOnly = false,
-    Idempotent = false,
-    OpenWorld = false)]
+        Destructive = true,
+        ReadOnly = false,
+        Idempotent = false,
+        OpenWorld = false)]
     public static async Task<CallToolResult?> SimplicateCRM_CreateOrganization(
         [Description("The full name of the organization.")] string name,
         IServiceProvider serviceProvider,
@@ -237,39 +243,39 @@ public static partial class SimplicateCRM
                 requestContext,
                 "/crm/organization",
                 new SimplicateNewOrganization
-               {
-                   Name = name,
-                   Note = note,
-                   LinkedInUrl = linkedInUrl,
-                   Email = email,
-                   IsActive = true,
-                   Url = url,
-                   Industry = industryId,
-                   RelationTypeId = relationTypeId
+                {
+                    Name = name,
+                    Note = note,
+                    LinkedInUrl = linkedInUrl,
+                    Email = email,
+                    IsActive = true,
+                    Url = url,
+                    Industry = industryId,
+                    RelationTypeId = relationTypeId
                 },
                   dto => new
                   {
                       name = dto.Name,
-                     note = dto.Note,
-                     email = dto.Email,
-                     coc_code = dto.CocCode,
+                      note = dto.Note,
+                      email = dto.Email,
+                      coc_code = dto.CocCode,
                       phone = dto.Phone,
                       linkedin_url = dto.LinkedInUrl,
                       vat_number = dto.VatNumber,
                       url = dto.Url,
-                       teams = dto.Teams.BuildSimplicateTeamAssignments(),
-                       industry = !string.IsNullOrEmpty(dto.Industry) ? new
-                       {
-                           id = dto.Industry
-                       } : null,
-                       relation_type = !string.IsNullOrEmpty(dto.RelationTypeId) ? new
-                       {
-                           id = dto.RelationTypeId
-                       } : null,
-                       relation_manager = !string.IsNullOrEmpty(dto.RelationManagerId) ? new
-                       {
-                           id = dto.RelationManagerId
-                       } : null
+                      teams = dto.Teams.BuildSimplicateTeamAssignments(),
+                      industry = !string.IsNullOrEmpty(dto.Industry) ? new
+                      {
+                          id = dto.Industry
+                      } : null,
+                      relation_type = !string.IsNullOrEmpty(dto.RelationTypeId) ? new
+                      {
+                          id = dto.RelationTypeId
+                      } : null,
+                      relation_manager = !string.IsNullOrEmpty(dto.RelationManagerId) ? new
+                      {
+                          id = dto.RelationManagerId
+                      } : null
                   },
                   GetOrganizationWriteElicitOverridesAsync,
                   cancellationToken
@@ -494,7 +500,7 @@ public static partial class SimplicateCRM
 
         return await requestContext.ConfirmAndDeleteAsync<ConfirmDeleteSimplicateOrganization>(
             expectedName: normalizedOrganizationId,
-            async ct => await serviceProvider.DeleteSimplicateResourceAsync(            
+            async ct => await serviceProvider.DeleteSimplicateResourceAsync(
                 "/crm/organization/" + normalizedOrganizationId,
                 $"Organization '{normalizedOrganizationId}' deleted.",
                 ct),

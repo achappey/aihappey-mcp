@@ -13,7 +13,10 @@ namespace MCPhappey.Tools.Azure.Speech;
 public static class AzureSpeechService
 {
     [Description("Convert spoken audio into text using Azure Speech-to-Text.")]
-    [McpServerTool(Title = "Azure Speech to Text", ReadOnly = true)]
+    [McpServerTool(Title = "Azure Speech to Text",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(SpeechRecognitionResult),
+        ReadOnly = true)]
     public static async Task<CallToolResult?> AzureSpeech_ToText(
      [Description("URL of the audio file (prefer .wav PCM).")]
     string audioUrl,
@@ -49,116 +52,8 @@ public static class AzureSpeechService
      pushStream.Close(); // EOF
 
      using var recognizer = new SpeechRecognizer(config, audioConfig);
-     var result = await recognizer.RecognizeOnceAsync();
+     return await recognizer.RecognizeOnceAsync();
 
-     if (result.Reason == ResultReason.RecognizedSpeech)
-         return new { text = result.Text, durationSeconds = result.Duration.TotalSeconds };
-     //  if (result.Reason == ResultReason.NoMatch)
-     //     throw new Exception($"NoMatch: {result.NoMatch?.Reason}");
-     if (result.Reason == ResultReason.Canceled)
-     {
-         var c = CancellationDetails.FromResult(result);
-         throw new Exception($"Canceled: {c.Reason}; ErrorCode={c.ErrorCode}; Details={c.ErrorDetails}");
-     }
-     throw new Exception($"Recognition failed: {result.Reason}");
  }));
-    /*
 
-        [Description("Convert text into synthetic speech using Azure Text-to-Speech")]
-        [McpServerTool(Title = "Azure Text to Speech", ReadOnly = true)]
-        public static async Task<CallToolResult?> AzureSpeech_CreateAudio(
-            [Description("Text to synthesize into speech.")]
-        string text,
-            [Description("Optional voice name (default: en-US-JennyNeural).")]
-        string? voice,
-            IServiceProvider serviceProvider,
-            RequestContext<CallToolRequestParams> requestContext,
-            CancellationToken cancellationToken = default)
-            => await ModelContextToolExtensions.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
-        {
-            var settings = serviceProvider.GetRequiredService<AzureAISettings>();
-            var httpClient = serviceProvider.GetRequiredService<HttpClient>();
-
-            var voiceName = string.IsNullOrWhiteSpace(voice)
-                ? "en-US-JennyNeural"
-                : voice;
-
-            // --- Build SSML payload ---
-            var ssml = $@"
-                    <speak version='1.0' xml:lang='en-US'>
-                    <voice name='{voiceName}'>{System.Security.SecurityElement.Escape(text)}</voice>
-                    </speak>";
-
-            using var request = new HttpRequestMessage(HttpMethod.Post, $"https://{settings.Endpoint}/cognitiveservices/v1");
-            request.Headers.Add("Ocp-Apim-Subscription-Key", settings.ApiKey);
-            request.Headers.Add("User-Agent", "AIhappey/1.0");
-            request.Headers.Add("X-Microsoft-OutputFormat", "audio-16khz-128kbitrate-mono-mp3");
-            request.Content = new StringContent(ssml, Encoding.UTF8, "application/ssml+xml");
-
-            using var response = await httpClient.SendAsync(request, cancellationToken);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var body = await response.Content.ReadAsStringAsync(cancellationToken);
-                throw new Exception($"TTS request failed: {(int)response.StatusCode} {response.ReasonPhrase}\n{body}");
-            }
-
-            var bytes = await response.Content.ReadAsByteArrayAsync(cancellationToken);
-            var base64 = Convert.ToBase64String(bytes);
-
-            return new
-            {
-                audioBase64 = base64,
-                contentType = "audio/mpeg",
-                length = bytes.Length
-            };
-        }));*/
-    /*
-        [Description("Convert text into synthetic speech using Azure Text-to-Speech.")]
-        [McpServerTool(Title = "Azure Text to Speech", ReadOnly = true)]
-        public static async Task<CallToolResult?> AzureSpeech_ToAudio(
-            [Description("Text to synthesize into speech.")]
-            string text,
-            [Description("Optional voice name (default: en-US-JennyNeural).")]
-            string? voice,
-            IServiceProvider serviceProvider,
-            RequestContext<CallToolRequestParams> requestContext,
-            CancellationToken cancellationToken = default)
-            => await ModelContextToolExtensions.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
-        {
-            var settings = serviceProvider.GetRequiredService<AzureAISettings>();
-            var endpoint = new Uri($"https://{settings.Endpoint}/cognitiveservices/v1");
-
-            var config = SpeechConfig.FromEndpoint(
-                new Uri("https://westeurope.tts.speech.microsoft.com/cognitiveservices/v1"),
-                settings.ApiKey // your fakton-azure-ai-beta key
-            );
-
-            //        var config = SpeechConfig.FromEndpoint(endpoint, settings.ApiKey);
-
-            config.SpeechSynthesisVoiceName = voice ?? "en-US-JennyNeural";
-            config.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Audio16Khz128KBitRateMonoMp3);
-
-            using var synthesizer = new SpeechSynthesizer(config);
-            var result = await synthesizer.SpeakTextAsync(text);
-
-            if (result.Reason == ResultReason.SynthesizingAudioCompleted)
-            {
-                var bytes = result.AudioData;
-                var base64 = Convert.ToBase64String(bytes);
-                return new
-                {
-                    audioBase64 = base64,
-                    contentType = "audio/mpeg",
-                    length = bytes.Length
-                };
-            }
-            else
-            {
-                var cancel = SpeechSynthesisCancellationDetails.FromResult(result);
-                throw new Exception($"TTS canceled: Reason={cancel.Reason}; ErrorCode={cancel.ErrorCode}; Details={cancel.ErrorDetails}");
-            }
-        }));*/
 }

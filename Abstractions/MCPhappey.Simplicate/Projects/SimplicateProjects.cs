@@ -64,7 +64,8 @@ public static class SimplicateProjects
 }));
 
 
-    [McpServerTool(OpenWorld = false, ReadOnly = true,
+    [McpServerTool(OpenWorld = false, 
+        ReadOnly = true,
         Destructive = false,
         Name = "simplicate_projects_get_budget_totals_by_cost_type",
         Title = "Get project budget totals by cost type")]
