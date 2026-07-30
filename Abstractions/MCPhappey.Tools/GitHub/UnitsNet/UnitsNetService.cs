@@ -25,7 +25,7 @@ public static class UnitsNetService
         if (q1 is null || q2 is null)
             throw new Exception("Invalid input(s).");
 
-        if (q1.QuantityInfo.Name != q2.QuantityInfo.Name)
+        if (q1.GetQuantityInfo().Name != q2.GetQuantityInfo().Name)
             throw new Exception("Quantities must be of the same type (e.g. both Length, Mass, etc.).");
 
         var ratio = q1.Value / q2.ToUnit(q1.Unit).Value;
@@ -48,7 +48,7 @@ public static class UnitsNetService
         var q1 = TryParseAnyQuantity(first);
         var q2 = TryParseAnyQuantity(second);
         if (q1 is null || q2 is null) throw new Exception("Invalid input(s).");
-        if (q1.QuantityInfo.Name != q2.QuantityInfo.Name) throw new Exception("Quantities must be of the same type.");
+        if (q1.GetQuantityInfo().Name != q2.GetQuantityInfo().Name) throw new Exception("Quantities must be of the same type.");
 
         var sum = q1.Value + q2.ToUnit(q1.Unit).Value;
         return await Task.FromResult($"{sum:F3} {q1.Unit}".ToTextCallToolResponse());
@@ -123,9 +123,9 @@ public static class UnitsNetService
     {
         var quantity = TryParseAnyQuantity(input) ?? throw new Exception($"Invalid quantity format: '{input}'");
 
-        var unitType = quantity.QuantityInfo.UnitType;
+        var unitType = quantity.GetQuantityInfo().UnitType;
         if (!UnitsNetSetup.Default.UnitParser.TryParse(targetUnit, unitType, out var targetUnitEnum))
-            throw new Exception($"Unknown or invalid target unit '{targetUnit}' for quantity '{quantity.QuantityInfo.Name}'.");
+            throw new Exception($"Unknown or invalid target unit '{targetUnit}' for quantity '{quantity.GetQuantityInfo().Name}'.");
 
         var converted = quantity.ToUnit(targetUnitEnum);
         var convertedText = converted.ToString();
