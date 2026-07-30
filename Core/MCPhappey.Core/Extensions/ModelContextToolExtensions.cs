@@ -105,7 +105,11 @@ public static partial class ModelContextToolExtensions
 
     private static readonly JsonSerializerOptions IgnoreNullWebOptions = new(JsonSerializerOptions.Web)
     {
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        Converters =
+        {
+            new JsonStringEnumConverter()
+        }
     };
 
     public static async Task<CallToolResult> WithStructuredContent<T>(this RequestContext<CallToolRequestParams> requestContext,
