@@ -449,9 +449,9 @@ public static class GraphListItems
             .Sites[siteId]
             .Lists[listId]
             .Items
-            .PostAsync(new Microsoft.Graph.Beta.Models.ListItem
+            .PostAsync(new ListItem
             {
-                Fields = new Microsoft.Graph.Beta.Models.FieldValueSet
+                Fields = new FieldValueSet
                 {
                     AdditionalData = fieldsPayload
                 }
