@@ -3,6 +3,7 @@ using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
+using MCPhappey.Tools.Anthropic.Messages;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -35,8 +36,6 @@ public static class AnthropicCodeExecution
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
 
-        var mcpServer = requestContext.Server;
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
         var downloader = serviceProvider.GetRequiredService<DownloadService>();
 
         // 1) Download + upload files (optional)
@@ -51,16 +50,35 @@ public static class AnthropicCodeExecution
          
         }
 
-        var anthropic = new JsonObject
+        var messageContent = new JsonArray();
+        foreach (var attachment in attachedLinks)
         {
-            ["code_execution"] = new JsonObject()
+            var text = attachment.Contents.ToString();
+            if (!string.IsNullOrWhiteSpace(text))
+                messageContent.Add(new JsonObject { ["type"] = "text", ["text"] = text });
+        }
+        messageContent.Add(new JsonObject { ["type"] = "text", ["text"] = prompt });
+
+        var request = new JsonObject
+        {
+            ["model"] = model,
+            ["max_tokens"] = maxTokens,
+            ["messages"] = new JsonArray
+            {
+                new JsonObject { ["role"] = "user", ["content"] = messageContent }
+            },
+            ["tools"] = new JsonArray
+            {
+                new JsonObject { ["type"] = "code_execution_20250825", ["name"] = "code_execution" }
+            }
         };
 
         // thinking (optioneel)
         if (thinkingBudget.HasValue)
         {
-            anthropic["thinking"] = new JsonObject
+            request["thinking"] = new JsonObject
             {
+                ["type"] = "enabled",
                 ["budget_tokens"] = thinkingBudget.Value
             };
         }
@@ -68,7 +86,7 @@ public static class AnthropicCodeExecution
         // container + skills (optioneel)
         if (skills?.Any() == true)
         {
-            anthropic["container"] = new JsonObject
+            request["container"] = new JsonObject
             {
                 ["id"] = containerId,
                 ["skills"] = new JsonArray(
@@ -84,26 +102,28 @@ public static class AnthropicCodeExecution
             };
         }
 
-        var response = await requestContext.Server.SampleAsync(
-            new CreateMessageRequestParams()
-            {
-                Metadata = new JsonObject
-                {
-                    ["anthropic"] = anthropic
-                },
-                Temperature = 0,
-                MaxTokens = maxTokens,
-                ModelPreferences = model.ToModelPreferences(),
-                Messages = [
-                    .. attachedLinks.Select(t => t.Contents.ToString().ToUserSamplingMessage()),
-                    prompt.ToUserSamplingMessage()
-                ]
-            },
-            cancellationToken);
+        var client = serviceProvider.GetRequiredService<AnthropicMessagesClient>();
+        var response = await client.CreateMessageAsync(request,
+            [AnthropicMessagesClient.CodeExecutionBeta, AnthropicMessagesClient.FilesBeta], cancellationToken);
 
-        var metadata = response.Meta?.ToJsonContent("https://api.anthropic.com");
+        List<ContentBlock> blocks = [];
+        var textResult = AnthropicMessagesClient.GetText(response);
+        if (!string.IsNullOrWhiteSpace(textResult))
+            blocks.Add(textResult.ToTextContentBlock());
 
-        return await requestContext.WithUploads(response, serviceProvider, metadata, cancellationToken: cancellationToken);
+        foreach (var fileId in AnthropicMessagesClient.GetGeneratedFileIds(response))
+        {
+            var file = await client.DownloadFileAsync(fileId, cancellationToken);
+            var upload = await requestContext.Server.Upload(serviceProvider,
+                file.Filename, BinaryData.FromBytes(file.Data), cancellationToken);
+            if (upload is not null) blocks.Add(upload);
+        }
+
+        if (response["container"]?["id"]?.GetValue<string>() is { Length: > 0 } id)
+            blocks.Add(new JsonObject { ["containerId"] = id, ["model"] = response["model"]?.GetValue<string>() }
+                .ToJsonContent(AnthropicHeaders.ApiBaseUrl));
+
+        return blocks.ToCallToolResponse();
     }
 }
 

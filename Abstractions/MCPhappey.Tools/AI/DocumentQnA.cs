@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -12,11 +11,6 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentQnA
 {
-    private static readonly string[] ModelNames = ["gpt-5.4-mini",
-        "gemini-2.5-flash", "claude-haiku-4-5-20251001", "grok-4-fast-reasoning"];
-    private static readonly string[] AcademicModelNames = ["gpt-5.2",
-        "gemini-2.5-pro", "claude-opus-4-1-20250805", "grok-4-fast-reasoning"];
-
     [Description("Parallel document qna across multiple AI models.")]
     [McpServerTool(Title = "Document QnA (multi-model)",
         Name = "document_qna_ask",
@@ -31,7 +25,6 @@ public static class DocumentQnA
        await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
         var contents = string.Join("\n\n", files.GetTextFiles().Select(z => z.Contents.ToString()));
@@ -44,60 +37,19 @@ public static class DocumentQnA
 
         int? progressToken = 1;
 
-        var tasks = ModelNames.Select(async modelName =>
+        var tasks = DirectPromptRunner.DocumentModels.Select(async target =>
             {
                 try
                 {
-                    var markdown = $"{modelName}\n{question}";
-                    var startTime = DateTime.UtcNow;
-                    var result = await samplingService.GetPromptSample(
-                        serviceProvider,
-                        mcpServer,
-                        "ai-doc-answer",
-                        promptArgs,
-                        modelName,
-                        metadata: new JsonObject
-                        {
-                            ["google"] = new JsonObject
-                            {
-                                ["thinkingConfig"] = new JsonObject
-                                {
-                                    ["thinkingBudget"] = -1
-                                }
-                            },
-
-                            ["openai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject
-                                {
-                                    ["effort"] = "low"
-                                }
-                            },
-
-                            ["xai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject()
-                            },
-
-                            ["anthropic"] = new JsonObject
-                            {
-                                ["thinking"] = new JsonObject
-                                {
-                                    ["budget_tokens"] = 2048
-                                }
-                            }
-                        },
-                        cancellationToken: cancellationToken
-                    );
-
-                    var endTime = DateTime.UtcNow;
-                    result.Meta?.Add("duration", (endTime - startTime).ToString());
+                    var markdown = $"{target.Model}\n{question}";
+                    var result = await DirectPromptRunner.RunAsync(serviceProvider, mcpServer, target.Provider,
+                        "ai-doc-answer", promptArgs, 8192, "low", 2048, cancellationToken);
 
                     progressToken = await requestContext.Server.SendProgressNotificationAsync(
                         requestContext,
                         progressToken,
                         markdown,
-                        ModelNames.Length,
+                        DirectPromptRunner.DocumentModels.Length,
                         cancellationToken
                     );
 
@@ -115,7 +67,7 @@ public static class DocumentQnA
         // Return only successful results
         return new MessageResults()
         {
-            Results = results.OfType<CreateMessageResult>()
+            Results = results.OfType<ProviderMessageResult>()
         };
     }));
 
@@ -135,7 +87,6 @@ public static class DocumentQnA
        await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
         var contents = string.Join("\n\n", files.GetTextFiles().Select(z => z.Contents.ToString()));
@@ -148,58 +99,19 @@ public static class DocumentQnA
 
         int? progressToken = 1;
 
-        var tasks = AcademicModelNames.Select(async modelName =>
+        var tasks = DirectPromptRunner.DocumentModels.Select(async target =>
         {
             try
             {
-                var markdown = $"{modelName}\n{researchQuestion}";
-
-                var result = await samplingService.GetPromptSample(
-                    serviceProvider,
-                    mcpServer,
-                    "ai-doc-research-answer",
-                    promptArgs,
-                    modelName,
-                    maxTokens: 16384,
-                    metadata: new JsonObject
-                    {
-                        ["google"] = new JsonObject
-                        {
-                            ["thinkingConfig"] = new JsonObject
-                            {
-                                ["thinkingBudget"] = -1
-                            }
-                        },
-
-                        ["xai"] = new JsonObject
-                        {
-                            ["reasoning"] = new JsonObject()
-                        },
-
-                        ["openai"] = new JsonObject
-                        {
-                            ["reasoning"] = new JsonObject
-                            {
-                                ["effort"] = "low"
-                            }
-                        },
-
-                        ["anthropic"] = new JsonObject
-                        {
-                            ["thinking"] = new JsonObject
-                            {
-                                ["budget_tokens"] = 4096
-                            }
-                        }
-                    },
-                    cancellationToken: cancellationToken
-                );
+                var markdown = $"{target.Model}\n{researchQuestion}";
+                var result = await DirectPromptRunner.RunAsync(serviceProvider, mcpServer, target.Provider,
+                    "ai-doc-research-answer", promptArgs, 16384, "low", 4096, cancellationToken);
 
                 progressToken = await requestContext.Server.SendProgressNotificationAsync(
                     requestContext,
                     progressToken,
                     markdown,
-                    AcademicModelNames.Length,
+                    DirectPromptRunner.DocumentModels.Length,
                     cancellationToken
                 );
 
@@ -216,7 +128,7 @@ public static class DocumentQnA
         // Return only successful results
         return new MessageResults()
         {
-            Results = results.OfType<CreateMessageResult>()
+            Results = results.OfType<ProviderMessageResult>()
         };
 
 

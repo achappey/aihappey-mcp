@@ -23,6 +23,7 @@ using MCPhappey.Tools.DumplingAI;
 using MCPhappey.Tools.Mem0;
 using MCPhappey.Tools.Anthropic;
 using MCPhappey.Tools.Anthropic.Skills;
+using MCPhappey.Tools.Anthropic.Messages;
 using MCPhappey.Tools.OpenAI.Responses;
 using MCPhappey.Tools.OpenAI.Skills;
 using MCPhappey.Tools.ElevenLabs;
@@ -344,6 +345,7 @@ if (antApiKey != null)
     {
         ApiKey = antApiKey
     });
+    builder.Services.AddAnthropicMessages();
 }
 
 var apiKey = appConfig?.DomainHeaders?

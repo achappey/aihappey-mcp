@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -12,13 +11,6 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentComparer
 {
-    private static readonly string[] ModelNames = [
-        "gpt-5.2",
-        "gemini-3.1-pro-preview",
-        "claude-opus-4-6",
-        "grok-4.20-0309-reasoning"
-        ];
-
     [Description("Parallel document comparer across multiple AI models.")]
     [McpServerTool(Title = "Document comparer (multi-model)",
         Name = "document_comparer_compare",
@@ -34,7 +26,6 @@ public static class DocumentComparer
        await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, originalFileUrl, cancellationToken);
         var contents = string.Join("\n\n", files.GetTextFiles().Select(z => $"{z.Filename}\n\n{z.Contents}"));
@@ -51,67 +42,25 @@ public static class DocumentComparer
 
         int? progressToken = 1;
 
-        var tasks = ModelNames.Select(async modelName =>
+        var tasks = DirectPromptRunner.DocumentModels.Select(async target =>
             {
                 try
                 {
-                    var markdown = $"{modelName}";
-                    var startTime = DateTime.UtcNow;
-                    var result = await samplingService.GetPromptSample(
-                            serviceProvider,
-                            mcpServer,
-                            "ai-doc-compare",
-                            promptArgs,
-                            modelName,
-                            maxTokens: 4096 * 4,
-                            metadata: new JsonObject
-                            {
-                                ["google"] = new JsonObject
-                                {
-                                    ["thinkingConfig"] = new JsonObject
-                                    {
-                                        ["thinkingBudget"] = -1
-                                    }
-                                },
-
-                                ["openai"] = new JsonObject
-                                {
-                                    ["reasoning"] = new JsonObject
-                                    {
-                                        ["effort"] = "low"
-                                    }
-                                },
-
-                                ["xai"] = new JsonObject
-                                {
-                                    ["reasoning"] = new JsonObject()
-                                },
-
-                                ["anthropic"] = new JsonObject
-                                {
-                                    ["thinking"] = new JsonObject
-                                    {
-                                        ["budget_tokens"] = 4096
-                                    }
-                                }
-                            },
-                            cancellationToken: cancellationToken
-                        );
-
-                    var endTime = DateTime.UtcNow;
-                    result.Meta?.Add("duration", (endTime - startTime).ToString());
+                    var markdown = target.Model;
+                    var result = await DirectPromptRunner.RunAsync(serviceProvider, mcpServer, target.Provider,
+                        "ai-doc-compare", promptArgs, 4096 * 4, "low", 4096, cancellationToken);
 
                     progressToken = await requestContext.Server.SendProgressNotificationAsync(
                         requestContext,
                         progressToken,
                         markdown,
-                        ModelNames.Length,
+                        DirectPromptRunner.DocumentModels.Length,
                         cancellationToken
                     );
 
                     return result;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                     return null; // Failure → skip
@@ -123,7 +72,7 @@ public static class DocumentComparer
         // Return only successful results
         return new MessageResults()
         {
-            Results = results.OfType<CreateMessageResult>()
+            Results = results.OfType<ProviderMessageResult>()
         };
     }));
 

@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -12,13 +11,6 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentTools
 {
-    private static readonly string[] ModelNames_Actions = [
-        "gpt-5.4-mini",
-        "gemini-2.5-flash",
-        "claude-haiku-4-5-20251001",
-        "grok-4-fast-reasoning"
-    ];
-
     [Description("Extract action items from the document using multiple AI models in parallel.")]
     [McpServerTool(
         Title = "Document actions (multi-model)",
@@ -34,7 +26,6 @@ public static class DocumentTools
         await requestContext.WithStructuredContent(async () =>
         {
             var mcpServer = requestContext.Server;
-            var samplingService = serviceProvider.GetRequiredService<SamplingService>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
             var files = await downloadService.ScrapeContentAsync(
                 serviceProvider,
@@ -53,61 +44,18 @@ public static class DocumentTools
 
             int? progressToken = 1;
 
-            var tasks = ModelNames_Actions.Select(async modelName =>
+            var tasks = DirectPromptRunner.DocumentModels.Select(async target =>
             {
                 try
                 {
-                    var startTime = DateTime.UtcNow;
-
-                    var result = await samplingService.GetPromptSample(
-                        serviceProvider,
-                        mcpServer,
-                        "ai-doc-actions",
-                        promptArgs,
-                        modelName,
-                        maxTokens: 4096 * 2,
-                        metadata: new JsonObject
-                        {
-                            ["google"] = new JsonObject
-                            {
-                                ["thinkingConfig"] = new JsonObject
-                                {
-                                    ["thinkingBudget"] = -1
-                                }
-                            },
-
-                            ["openai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject
-                                {
-                                    ["effort"] = "medium"
-                                }
-                            },
-
-                            ["xai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject()
-                            },
-
-                            ["anthropic"] = new JsonObject
-                            {
-                                ["thinking"] = new JsonObject
-                                {
-                                    ["budget_tokens"] = 1024
-                                }
-                            }
-                        },
-                        cancellationToken: cancellationToken
-                    );
-
-                    var endTime = DateTime.UtcNow;
-                    result.Meta?.Add("duration", (endTime - startTime).ToString());
+                    var result = await DirectPromptRunner.RunAsync(serviceProvider, mcpServer, target.Provider,
+                        "ai-doc-actions", promptArgs, 8192, "medium", 1024, cancellationToken);
 
                     progressToken = await mcpServer.SendProgressNotificationAsync(
                         requestContext,
                         progressToken,
-                        modelName,
-                        ModelNames_Actions.Length,
+                        target.Model,
+                        DirectPromptRunner.DocumentModels.Length,
                         cancellationToken
                     );
 
@@ -124,16 +72,9 @@ public static class DocumentTools
 
             return new MessageResults
             {
-                Results = results.OfType<CreateMessageResult>()
+                Results = results.OfType<ProviderMessageResult>()
             };
         }));
-
-    private static readonly string[] ModelNames_Glossary = [
-        "gpt-5.4-mini",
-        "gemini-2.5-flash-lite",
-        "claude-haiku-4-5-20251001",
-        "grok-4-fast-reasoning"
-    ];
 
     [Description("Extract glossary terms from the document using multiple AI models in parallel.")]
     [McpServerTool(
@@ -150,7 +91,6 @@ public static class DocumentTools
         await requestContext.WithStructuredContent(async () =>
         {
             var mcpServer = requestContext.Server;
-            var samplingService = serviceProvider.GetRequiredService<SamplingService>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
             var files = await downloadService.ScrapeContentAsync(
                 serviceProvider,
@@ -167,61 +107,18 @@ public static class DocumentTools
 
             int? progressToken = 1;
 
-            var tasks = ModelNames_Glossary.Select(async modelName =>
+            var tasks = DirectPromptRunner.DocumentModels.Select(async target =>
             {
                 try
                 {
-                    var startTime = DateTime.UtcNow;
-
-                    var result = await samplingService.GetPromptSample(
-                        serviceProvider,
-                        mcpServer,
-                        "ai-doc-glossary",
-                        promptArgs,
-                        modelName,
-                        maxTokens: 4096 * 2,
-                        metadata: new JsonObject
-                        {
-                            ["google"] = new JsonObject
-                            {
-                                ["thinkingConfig"] = new JsonObject
-                                {
-                                    ["thinkingBudget"] = -1
-                                }
-                            },
-
-                            ["openai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject
-                                {
-                                    ["effort"] = "low"
-                                }
-                            },
-
-                            ["xai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject()
-                            },
-
-                            ["anthropic"] = new JsonObject
-                            {
-                                ["thinking"] = new JsonObject
-                                {
-                                    ["budget_tokens"] = 1024
-                                }
-                            }
-                        },
-                        cancellationToken: cancellationToken
-                    );
-
-                    var endTime = DateTime.UtcNow;
-                    result.Meta?.Add("duration", (endTime - startTime).ToString());
+                    var result = await DirectPromptRunner.RunAsync(serviceProvider, mcpServer, target.Provider,
+                        "ai-doc-glossary", promptArgs, 8192, "low", 1024, cancellationToken);
 
                     progressToken = await mcpServer.SendProgressNotificationAsync(
                         requestContext,
                         progressToken,
-                        modelName,
-                        ModelNames_Glossary.Length,
+                        target.Model,
+                        DirectPromptRunner.DocumentModels.Length,
                         cancellationToken
                     );
 
@@ -238,16 +135,9 @@ public static class DocumentTools
 
             return new MessageResults
             {
-                Results = results.OfType<CreateMessageResult>()
+                Results = results.OfType<ProviderMessageResult>()
             };
         }));
-
-    private static readonly string[] ModelNames_Stakeholders = [
-        "gpt-5.4-mini",
-        "gemini-2.5-flash",
-        "claude-haiku-4-5-20251001",
-        "grok-4-fast-reasoning"
-    ];
 
     [Description("Extract stakeholders from the document using multiple AI models in parallel.")]
     [McpServerTool(
@@ -264,7 +154,6 @@ public static class DocumentTools
         await requestContext.WithStructuredContent(async () =>
         {
             var mcpServer = requestContext.Server;
-            var samplingService = serviceProvider.GetRequiredService<SamplingService>();
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
             var files = await downloadService.ScrapeContentAsync(
@@ -284,61 +173,18 @@ public static class DocumentTools
 
             int? progressToken = 1;
 
-            var tasks = ModelNames_Stakeholders.Select(async modelName =>
+            var tasks = DirectPromptRunner.DocumentModels.Select(async target =>
             {
                 try
                 {
-                    var startTime = DateTime.UtcNow;
-
-                    var result = await samplingService.GetPromptSample(
-                        serviceProvider,
-                        mcpServer,
-                        "ai-doc-stakeholders",
-                        promptArgs,
-                        modelName,
-                        maxTokens: 4096 * 2,
-                        metadata: new JsonObject
-                        {
-                            ["google"] = new JsonObject
-                            {
-                                ["thinkingConfig"] = new JsonObject
-                                {
-                                    ["thinkingBudget"] = -1
-                                }
-                            },
-
-                            ["openai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject
-                                {
-                                    ["effort"] = "medium"
-                                }
-                            },
-
-                            ["xai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject()
-                            },
-
-                            ["anthropic"] = new JsonObject
-                            {
-                                ["thinking"] = new JsonObject
-                                {
-                                    ["budget_tokens"] = 2048
-                                }
-                            }
-                        },
-    cancellationToken: cancellationToken
-);
-
-                    var endTime = DateTime.UtcNow;
-                    result.Meta?.Add("duration", (endTime - startTime).ToString());
+                    var result = await DirectPromptRunner.RunAsync(serviceProvider, mcpServer, target.Provider,
+                        "ai-doc-stakeholders", promptArgs, 8192, "medium", 2048, cancellationToken);
 
                     progressToken = await mcpServer.SendProgressNotificationAsync(
                         requestContext,
                         progressToken,
-                        modelName,
-                        ModelNames_Stakeholders.Length,
+                        target.Model,
+                        DirectPromptRunner.DocumentModels.Length,
                         cancellationToken
                     );
 
@@ -355,7 +201,7 @@ public static class DocumentTools
 
             return new MessageResults
             {
-                Results = results.OfType<CreateMessageResult>()
+                Results = results.OfType<ProviderMessageResult>()
             };
         }));
 

@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -12,8 +11,6 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentHighlighter
 {
-    private static readonly string[] ModelNames = ["gpt-5.4-mini", "gemini-2.5-flash", "claude-haiku-4-5-20251001", "grok-4-fast-reasoning"];
-
     [Description("Parallel document highlighter across multiple AI models.")]
     [McpServerTool(Title = "Document highlighter (multi-model)",
         Name = "document_highlighter_summarize",
@@ -28,7 +25,6 @@ public static class DocumentHighlighter
        await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
         var contents = string.Join("\n\n", files.GetTextFiles().Select(z => z.Contents.ToString()));
@@ -44,60 +40,19 @@ public static class DocumentHighlighter
 
         int? progressToken = 1;
        
-        var tasks = ModelNames.Select(async modelName =>
+        var tasks = DirectPromptRunner.DocumentModels.Select(async target =>
             {
                 try
                 {
-                    var markdown = $"{modelName}";
-                    var startTime = DateTime.UtcNow;
-                    var result = await samplingService.GetPromptSample(
-                        serviceProvider,
-                        mcpServer,
-                        "ai-doc-highlights",
-                        promptArgs,
-                        modelName,
-                        metadata: new JsonObject
-                        {
-                            ["google"] = new JsonObject
-                            {
-                                ["thinkingConfig"] = new JsonObject
-                                {
-                                    ["thinkingBudget"] = -1
-                                }
-                            },
-
-                            ["openai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject
-                                {
-                                    ["effort"] = "low"
-                                }
-                            },
-
-                            ["xai"] = new JsonObject
-                            {
-                                ["reasoning"] = new JsonObject()
-                            },
-
-                            ["anthropic"] = new JsonObject
-                            {
-                                ["thinking"] = new JsonObject
-                                {
-                                    ["budget_tokens"] = 1024
-                                }
-                            }
-                        },
-                        cancellationToken: cancellationToken
-                    );
-
-                    var endTime = DateTime.UtcNow;
-                    result.Meta?.Add("duration", (endTime - startTime).ToString());
+                    var markdown = target.Model;
+                    var result = await DirectPromptRunner.RunAsync(serviceProvider, mcpServer, target.Provider,
+                        "ai-doc-highlights", promptArgs, 8192, "low", 1024, cancellationToken);
 
                     progressToken = await requestContext.Server.SendProgressNotificationAsync(
                         requestContext,
                         progressToken,
                         markdown,
-                        ModelNames.Length,
+                        DirectPromptRunner.DocumentModels.Length,
                         cancellationToken
                     );
 
@@ -114,7 +69,7 @@ public static class DocumentHighlighter
         // Return only successful results
         return new MessageResults()
         {
-            Results = results.OfType<CreateMessageResult>()
+            Results = results.OfType<ProviderMessageResult>()
         };
     }));
 

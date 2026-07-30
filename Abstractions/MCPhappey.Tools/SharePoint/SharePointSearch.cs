@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
+using MCPhappey.Tools.OpenAI.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
@@ -115,7 +115,8 @@ public static class SharePointSearch
             }
         }
 
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
+        var promptService = serviceProvider.GetRequiredService<PromptService>();
+        var responses = serviceProvider.GetRequiredService<OpenAIResponsesClient>();
 
         var args = new Dictionary<string, JsonElement>()
         {
@@ -123,25 +124,16 @@ public static class SharePointSearch
             ["question"] = JsonSerializer.SerializeToElement(prompt)
         };
 
-        var result = await samplingService.GetPromptSample(
+        var result = await responses.CreatePromptTextResponseAsync(
+            promptService,
             serviceProvider,
             mcpServer,
             "extract-with-facts",
             args,
-            "gpt-5.4-mini",
-            metadata: new JsonObject
-            {
-                ["openai"] = new JsonObject
-                {
-                    ["reasoning"] = new JsonObject
-                    {
-                        ["effort"] = "medium"
-                    }
-                }
-            },
-            cancellationToken: cancellationToken
-        );
+            "gpt-5.6-luna",
+            "medium",
+            cancellationToken: cancellationToken);
 
-        return result.Content.ToCallToolResult();
+        return result.ToTextContentBlock().ToCallToolResult();
     }
 }

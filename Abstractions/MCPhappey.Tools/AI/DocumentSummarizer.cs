@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -13,10 +12,6 @@ namespace MCPhappey.Tools.AI;
 
 public static class DocumentSummarizer
 {
-    private static readonly string[] ModelNames = ["gpt-5.4-mini",
-        "gemini-2.5-flash-lite", "claude-haiku-4-5-20251001", "mistral-small-latest"];
-    //command-a-03-2025
-
     [Description("Parallel document summarize across multiple AI models.")]
     [McpServerTool(Title = "Document summarizer",
         Name = "document_summarizer_summarize",
@@ -34,7 +29,6 @@ public static class DocumentSummarizer
        await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
-        var samplingService = serviceProvider.GetRequiredService<SamplingService>();
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
         var contents = string.Join("\n\n", files.GetTextFiles().Select(z => z.Contents.ToString()));
@@ -58,59 +52,19 @@ public static class DocumentSummarizer
 
         int? progressToken = 1;
 
-        var markdown = $"{string.Join(", ", ModelNames)}\n{additionalCommand}";
-    
-        var tasks = ModelNames.Select(async modelName =>
+        var tasks = DirectPromptRunner.DocumentModels.Select(async target =>
             {
                 try
                 {
-                    var markdown = $"{modelName}\n{additionalCommand}";
-                    var startTime = DateTime.UtcNow;
-                    var result = await samplingService.GetPromptSample(
-                    serviceProvider,
-                    mcpServer,
-                    "ai-doc-summarizer",
-                    promptArgs,
-                    modelName,
-                    metadata: new JsonObject
-                    {
-                        ["google"] = new JsonObject
-                        {
-                            ["thinkingConfig"] = new JsonObject
-                            {
-                                ["thinkingBudget"] = -1
-                            }
-                        },
-
-                        ["openai"] = new JsonObject
-                        {
-                            ["reasoning"] = new JsonObject
-                            {
-                                ["effort"] = "low"
-                            }
-                        },
-
-                        ["mistral"] = new JsonObject(),
-
-                        ["anthropic"] = new JsonObject
-                        {
-                            ["thinking"] = new JsonObject
-                            {
-                                ["budget_tokens"] = 1024
-                            }
-                        }
-                    },
-                    cancellationToken: cancellationToken
-                );
-
-                    var endTime = DateTime.UtcNow;
-                    result.Meta?.Add("duration", (endTime - startTime).ToString());
+                    var markdown = $"{target.Model}\n{additionalCommand}";
+                    var result = await DirectPromptRunner.RunAsync(serviceProvider, mcpServer, target.Provider,
+                        "ai-doc-summarizer", promptArgs, 8192, "low", 1024, cancellationToken);
 
                     progressToken = await requestContext.Server.SendProgressNotificationAsync(
                         requestContext,
                         progressToken,
                         markdown,
-                        ModelNames.Length,
+                        DirectPromptRunner.DocumentModels.Length,
                         cancellationToken
                     );
 
@@ -128,7 +82,7 @@ public static class DocumentSummarizer
         // Return only successful results
         return new MessageResults()
         {
-            Results = results.OfType<CreateMessageResult>()
+            Results = results.OfType<ProviderMessageResult>()
         };
     }));
 

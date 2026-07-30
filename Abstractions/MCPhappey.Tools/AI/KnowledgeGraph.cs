@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -26,10 +25,9 @@ public static class KnowledgeGraph
           await ModelContextToolExtensions.WithExceptionCheck(async () =>
           await requestContext.WithStructuredContent(async () =>
       {
-          var samplingService = serviceProvider.GetRequiredService<SamplingService>();
           var downloadService = serviceProvider.GetRequiredService<DownloadService>();
           var mcpServer = requestContext.Server;
-          var model = modelName ?? "gpt-5.4-mini";
+          var model = modelName ?? DirectPromptRunner.OpenAIModel;
 
           var files = await downloadService.ScrapeContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
           var content = files.GetTextFiles()
@@ -42,25 +40,9 @@ public static class KnowledgeGraph
           };
 
           // STEP 1: Extract Entities
-         var entitiesResult = await samplingService.GetPromptSample<List<Entity>>(
-                serviceProvider,
-                mcpServer,
-                "extract-entities",
-                extractEntitiesArgs,
-                model,
-                metadata: new JsonObject
-                {
-                    ["openai"] = new JsonObject
-                    {
-                        ["reasoning"] = new JsonObject
-                        {
-                            ["effort"] = "low"
-                        }
-                    }
-                },
-                maxTokens: 16384,
-                cancellationToken: cancellationToken
-            );
+         var entitiesResult = await DirectPromptRunner.RunOpenAITypedAsync<List<Entity>>(
+                serviceProvider, mcpServer, "extract-entities", extractEntitiesArgs,
+                model, "low", 16384, cancellationToken);
 
           var extractRelationsArgs = new Dictionary<string, JsonElement>
           {
@@ -69,25 +51,9 @@ public static class KnowledgeGraph
           };
 
           // STEP 2: Extract Relations
-          var relationsResult = await samplingService.GetPromptSample<List<Relation>>(
-                serviceProvider,
-                mcpServer,
-                "extract-relations",
-                extractRelationsArgs,
-                model,
-                metadata: new JsonObject
-                {
-                    ["openai"] = new JsonObject
-                    {
-                        ["reasoning"] = new JsonObject
-                        {
-                            ["effort"] = "medium"
-                        }
-                    }
-                },
-                maxTokens: 16384,
-                cancellationToken: cancellationToken
-            );
+          var relationsResult = await DirectPromptRunner.RunOpenAITypedAsync<List<Relation>>(
+                serviceProvider, mcpServer, "extract-relations", extractRelationsArgs,
+                model, "medium", 16384, cancellationToken);
 
           //   var relations = relationsResult.Content ?? new();
           var verifyArg = new Dictionary<string, JsonElement>
@@ -97,25 +63,9 @@ public static class KnowledgeGraph
           };
 
           // STEP 3: Verify Entities & Relations
-          var verifyResult = await samplingService.GetPromptSample<VerifiedGraph>(
-                serviceProvider,
-                mcpServer,
-                "verify-graph-data",
-                verifyArg,
-                model,
-                metadata: new JsonObject
-                {
-                    ["openai"] = new JsonObject
-                    {
-                        ["reasoning"] = new JsonObject
-                        {
-                            ["effort"] = "low"
-                        }
-                    }
-                },
-                maxTokens: 16384,
-                cancellationToken: cancellationToken
-            );
+          var verifyResult = await DirectPromptRunner.RunOpenAITypedAsync<VerifiedGraph>(
+                serviceProvider, mcpServer, "verify-graph-data", verifyArg,
+                model, "low", 16384, cancellationToken);
 
           var graphResultArgs = new Dictionary<string, JsonElement>
           {
@@ -123,25 +73,9 @@ public static class KnowledgeGraph
               ["verifiedRelations"] = JsonSerializer.SerializeToElement(verifyResult?.Relations)
           };
 
-          var graphResult = await samplingService.GetPromptSample<ComposedGraph>(
-                 serviceProvider,
-                 mcpServer,
-                 "compose-final-graph",
-                 graphResultArgs,
-                 model,
-                 metadata: new JsonObject
-                 {
-                     ["openai"] = new JsonObject
-                     {
-                         ["reasoning"] = new JsonObject
-                         {
-                             ["effort"] = "low"
-                         }
-                     }
-                 },
-                 maxTokens: 16384,
-                 cancellationToken: cancellationToken
-             );
+          var graphResult = await DirectPromptRunner.RunOpenAITypedAsync<ComposedGraph>(
+                 serviceProvider, mcpServer, "compose-final-graph", graphResultArgs,
+                 model, "low", 16384, cancellationToken);
 
           return graphResult;
       }));
