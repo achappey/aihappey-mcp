@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/identityProtection/riskyUsers?$top=100&$select=id,userDisplayName,userPrincipalName,riskLevel,riskState,riskDetail,riskLastUpdatedDateTime",
+      "name": "risky-users",
+      "title": "Risky users (top 100)",
+      "description": "Lists Microsoft Entra users whose accounts are currently or recently at risk.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/identityProtection/riskDetections?$top=100&$select=id,detectedDateTime,riskEventType,riskLevel,riskState,riskDetail,userDisplayName,userPrincipalName,ipAddress,location",
+      "name": "risk-detections",
+      "title": "Risk detections (top 100)",
+      "description": "Lists Microsoft Entra identity risk detections.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

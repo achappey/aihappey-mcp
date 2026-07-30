@@ -1,0 +1,64 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityGovernance/accessReviews/definitions/{accessReviewDefinitionId}",
+      "name": "access-review-definition",
+      "title": "Get access review definition",
+      "description": "Gets an access review definition by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityGovernance/accessReviews/definitions/{accessReviewDefinitionId}/instances?$top=100",
+      "name": "access-review-instances",
+      "title": "Get access review instances",
+      "description": "Lists the access review instances for a definition.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityGovernance/entitlementManagement/accessPackages/{accessPackageId}",
+      "name": "access-package",
+      "title": "Get access package",
+      "description": "Gets an entitlement-management access package by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityGovernance/entitlementManagement/accessPackageAssignmentPolicies?$filter=accessPackageId eq '{accessPackageId}'&$top=100",
+      "name": "access-package-assignment-policies",
+      "title": "Get access package assignment policies",
+      "description": "Lists assignment policies for an entitlement-management access package.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityGovernance/entitlementManagement/catalogs/{catalogId}",
+      "name": "access-package-catalog",
+      "title": "Get access package catalog",
+      "description": "Gets an entitlement-management catalog by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

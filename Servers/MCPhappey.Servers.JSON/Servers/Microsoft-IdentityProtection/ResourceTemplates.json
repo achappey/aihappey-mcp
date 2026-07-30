@@ -1,0 +1,40 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityProtection/riskyUsers/{riskyUserId}",
+      "name": "risky-user",
+      "title": "Get risky user",
+      "description": "Gets a risky user by directory object ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityProtection/riskDetections/{riskDetectionId}",
+      "name": "risk-detection",
+      "title": "Get risk detection",
+      "description": "Gets an identity risk detection by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/identityProtection/riskyUsers?$filter=riskLevel eq '{riskLevel}'&$top=100",
+      "name": "risky-users-by-risk-level",
+      "title": "Get risky users by risk level",
+      "description": "Lists risky users filtered by a Graph risk level, such as low, medium, high, hidden, or none.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

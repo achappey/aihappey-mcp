@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-IdentityProtection",
+    "title": "Microsoft Identity Protection",
+    "websiteUrl": "https://entra.microsoft.com",
+    "version": "1.0.0",
+    "description": "Review Microsoft Entra risky users and identity risk detections.",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/IdentityRiskyUser.Read.All https://graph.microsoft.com/IdentityRiskEvent.Read.All"
+  }
+}

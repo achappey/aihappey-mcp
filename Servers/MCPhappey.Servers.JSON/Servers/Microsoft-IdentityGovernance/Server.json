@@ -1,0 +1,17 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-IdentityGovernance",
+    "title": "Microsoft Identity Governance",
+    "websiteUrl": "https://entra.microsoft.com",
+    "version": "1.0.0",
+    "description": "Review access reviews and entitlement-management access packages in Microsoft Entra.",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
+  },
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/AccessReview.Read.All https://graph.microsoft.com/EntitlementManagement.Read.All"
+  }
+}

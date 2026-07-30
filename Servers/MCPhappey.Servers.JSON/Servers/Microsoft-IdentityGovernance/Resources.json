@@ -1,0 +1,40 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/identityGovernance/accessReviews/definitions?$top=100&$select=id,displayName,status,createdDateTime,lastModifiedDateTime",
+      "name": "access-review-definitions",
+      "title": "Access review definitions (top 100)",
+      "description": "Lists Microsoft Entra access review definitions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/identityGovernance/entitlementManagement/accessPackages?$top=100&$select=id,displayName,description,createdDateTime,modifiedDateTime,isHidden",
+      "name": "access-packages",
+      "title": "Access packages (top 100)",
+      "description": "Lists entitlement-management access packages.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/identityGovernance/entitlementManagement/catalogs?$top=100&$select=id,displayName,description,state,isExternallyVisible,createdDateTime,modifiedDateTime",
+      "name": "access-package-catalogs",
+      "title": "Access package catalogs (top 100)",
+      "description": "Lists entitlement-management catalogs.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
