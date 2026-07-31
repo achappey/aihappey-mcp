@@ -17,6 +17,8 @@ public static partial class ModelContextEditor
         Title = "Add a resource template to an MCP-server",
         Destructive = true,
         ReadOnly = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(ResourceTemplate),
         Idempotent = false,
         OpenWorld = false)]
     public static async Task<CallToolResult?> ModelContextEditor_AddResourceTemplate(
@@ -73,6 +75,8 @@ public static partial class ModelContextEditor
     [McpServerTool(
         Title = "Update a resource template of an MCP-server",
         Destructive = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(ResourceTemplate),
         ReadOnly = false,
         Idempotent = false,
         OpenWorld = false)]
@@ -162,6 +166,8 @@ public static partial class ModelContextEditor
     [McpServerTool(
         Title = "Get a resource template",
         ReadOnly = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(ResourceTemplate),
         Idempotent = true,
         Destructive = false,
         OpenWorld = false)]

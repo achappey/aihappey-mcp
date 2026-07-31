@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using MCPhappey.Common.Extensions;
+using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Servers.SQL.Extensions;
 using MCPhappey.Servers.SQL.Repositories;
@@ -17,6 +18,8 @@ public static partial class ModelContextEditor
     [McpServerTool(Title = "Add a prompt to an MCP-server",
         Destructive = true,
         ReadOnly = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Common.Models.PromptTemplate),
         Idempotent = false,
         OpenWorld = false)]
     public static async Task<CallToolResult?> ModelContextEditor_AddPrompt(
@@ -37,7 +40,7 @@ public static partial class ModelContextEditor
         await requestContext.WithStructuredContent(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
-      
+
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new AddMcpPrompt()
         {
             Name = promptName.Slugify().ToLowerInvariant(),
@@ -47,7 +50,7 @@ public static partial class ModelContextEditor
         }, cancellationToken);
 
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
-     
+
         var item = await serverRepository.AddServerPrompt(server.Id, typed.Prompt,
             typed.Name,
             typed.Description,
@@ -58,13 +61,15 @@ public static partial class ModelContextEditor
                 Required = true
             }));
 
-      
+
         return item.ToPromptTemplate();
     }));
 
-    [Description("Updates a resource of a MCP-server")]
+    [Description("Updates a prompt of an MCP-server")]
     [McpServerTool(Title = "Update a prompt of an MCP-server",
         Destructive = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Common.Models.PromptTemplate),
         ReadOnly = false,
         Idempotent = false,
         OpenWorld = false)]
@@ -133,9 +138,11 @@ public static partial class ModelContextEditor
         return updated.ToPromptTemplate();
     }));
 
-    [Description("Updates a prompt argument of a MCP-server")]
+    [Description("Updates a prompt argument of an MCP-server")]
     [McpServerTool(Title = "Update a prompt argument of an MCP-server",
         Destructive = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(PromptArgument),
         ReadOnly = false,
         Idempotent = false,
         OpenWorld = false)]
@@ -202,6 +209,8 @@ public static partial class ModelContextEditor
     [McpServerTool(
     Title = "Get a prompt",
     ReadOnly = true,
+    UseStructuredContent = true,
+    OutputSchemaType = typeof(PromptTemplate),
     Idempotent = true,
     Destructive = false,
     OpenWorld = false)]

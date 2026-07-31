@@ -17,6 +17,8 @@ public static partial class ModelContextEditor
         Title = "Add a resource to an MCP-server",
         Destructive = true,
         ReadOnly = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Resource),
         Idempotent = false,
         OpenWorld = false)]
     public static async Task<CallToolResult?> ModelContextEditor_AddResource(
@@ -74,6 +76,8 @@ public static partial class ModelContextEditor
     [McpServerTool(
         Title = "Update a resource of an MCP-server",
         Destructive = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Resource),
         ReadOnly = false,
         Idempotent = false,
         OpenWorld = false)]
@@ -166,6 +170,8 @@ public static partial class ModelContextEditor
     [McpServerTool(
         Title = "Get a resource",
         ReadOnly = true,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Resource),
         Idempotent = true,
         Destructive = false,
         OpenWorld = false)]
