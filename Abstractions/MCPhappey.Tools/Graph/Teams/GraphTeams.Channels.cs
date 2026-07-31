@@ -12,8 +12,6 @@ public static partial class GraphTeams
     [Description("Create a new channel in a Microsoft Teams.")]
     [McpServerTool(Title = "Create channel in Microsoft Team",
         Destructive = true,
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(Channel),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTeams_CreateChannel(
         string teamId,
@@ -56,9 +54,7 @@ public static partial class GraphTeams
 
     [Description("Create a new channel message in a Microsoft Teams channel.")]
     [McpServerTool(Title = "Create message in Teams channel",
-        Destructive = true,
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(ChatMessage),
+        Destructive = true,    
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTeams_CreateChannelMessage(
         [Description("ID of the Team.")] string teamId,
@@ -100,9 +96,7 @@ public static partial class GraphTeams
 
     [Description("Create a reply to a Teams channel message, mentioning specified users.")]
     [McpServerTool(Title = "Reply in Teams channel with mentions",
-        Destructive = true, 
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(ChatMessage),        
+        Destructive = true,     
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTeams_ReplyWithMentions(
         [Description("ID of the Team.")] string teamId,

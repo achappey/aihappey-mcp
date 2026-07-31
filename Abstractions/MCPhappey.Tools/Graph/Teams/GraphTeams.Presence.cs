@@ -17,7 +17,6 @@ public static partial class GraphTeams
     [Description("Set a Teams status message for a user.")]
     [McpServerTool(Title = "Set Teams status message", Destructive = true)]
     public static async Task<CallToolResult?> GraphTeams_SetStatusMessage(
-        IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Status message")] string statusMessage,
         [Description("Message type")] BodyType? messageType = BodyType.Text,

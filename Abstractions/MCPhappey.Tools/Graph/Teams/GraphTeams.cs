@@ -15,13 +15,10 @@ public static partial class GraphTeams
     [Description("Create a new Microsoft Teams.")]
     [McpServerTool(Title = "Create Microsoft Teams",
         Destructive = true,
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(Team),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTeams_CreateTeam(
         [Description("Displayname of the new channel")]
         string displayName,
-        IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         TeamVisibilityType? teamVisibilityType = TeamVisibilityType.Private,
         [Description("Description of the new channel")]
@@ -59,9 +56,7 @@ public static partial class GraphTeams
             })));
 
     [Description("Create a new calendar event in the Teams Group calendar.")]
-    [McpServerTool(Title = "Create Teams Group calendar event", 
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(Event),        
+    [McpServerTool(Title = "Create Teams Group calendar event",
         Destructive = true)]
     public static async Task<CallToolResult?> GraphTeams_CreateCalendarEvent(
       RequestContext<CallToolRequestParams> requestContext,
