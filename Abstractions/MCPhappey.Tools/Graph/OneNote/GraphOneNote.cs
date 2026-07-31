@@ -17,6 +17,8 @@ public static class GraphOneNote
     [Description("Create a new OneNote page in a specified section.")]
     [McpServerTool(Title = "Create OneNote page",
         Name = "graph_onenote_create_page",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(OnenotePage),
         Destructive = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphOneNote_CreatePage(

@@ -51,6 +51,8 @@ public static class TodoTaskList
     [McpServerTool(
         Title = "Add To Do Task List item",
         Name = "todo_task_list_add_item",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(TodoTask),
         OpenWorld = false,
         Destructive = true)]
     public static async Task<CallToolResult?> TodoTaskList_AddItem(
@@ -68,7 +70,7 @@ public static class TodoTaskList
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var newTask = await client.Me.Todo.Lists[listId].Tasks.PostAsync(new TodoTask
+        return await client.Me.Todo.Lists[listId].Tasks.PostAsync(new TodoTask
         {
             Title = title,
             Status = completed ? Microsoft.Graph.Beta.Models.TaskStatus.Completed : Microsoft.Graph.Beta.Models.TaskStatus.NotStarted,
@@ -80,16 +82,6 @@ public static class TodoTaskList
                     Content = description
                 }
         }, cancellationToken: cancellationToken);
-
-        var result = new TodoTaskListItemResult
-        {
-            Title = newTask?.Title ?? title,
-            Description = description ?? string.Empty,
-            Completed = completed
-        };
-
-        return result.ToJsonContentBlock(string.Format(ListUrlTemplate, listId))
-            .ToCallToolResult();
     })));
 
     [Description("Complete all todo items in a To Do Task List that match the given title (case-insensitive).")]

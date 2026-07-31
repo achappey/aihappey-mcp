@@ -23,8 +23,6 @@ public static class GraphLicensing
 
     [Description("Assign a license SKU to a user by SKU ID.")]
     [McpServerTool(Title = "Assign license to user",
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(User),
         OpenWorld = false,
         Destructive = true,
         ReadOnly = false,
@@ -64,8 +62,6 @@ public static class GraphLicensing
 
     [Description("Revoke a license SKU from a user by SKU ID.")]
     [McpServerTool(Title = "Revoke license from user",
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(User),
         OpenWorld = false,
         Destructive = true,
         ReadOnly = false,

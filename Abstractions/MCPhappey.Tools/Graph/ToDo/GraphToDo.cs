@@ -14,6 +14,8 @@ public static class GraphToDo
     [Description("Add a linked resource to an existing Microsoft To Do task")]
     [McpServerTool(
     Title = "Add Linked Resource to To Do task",
+    UseStructuredContent = true,
+    OutputSchemaType = typeof(LinkedResource),
     Destructive = false,
     OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTodo_AddLinkedResource(
@@ -51,7 +53,10 @@ public static class GraphToDo
         })));
 
     [Description("Create a new Microsoft To Do task")]
-    [McpServerTool(Title = "Create Microsoft To Do task", Destructive = false,
+    [McpServerTool(Title = "Create Microsoft To Do task", 
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(TodoTask),
+        Destructive = false,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTodo_CreateTask(
      [Description("ToDo list id")] string listId,
@@ -115,6 +120,8 @@ public static class GraphToDo
 
     [Description("Create a new Microsoft To Do task list")]
     [McpServerTool(Title = "Create Microsoft To Do task list",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(TodoTaskList),
         Destructive = false,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTodo_CreateTaskList(

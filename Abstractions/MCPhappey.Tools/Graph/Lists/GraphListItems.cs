@@ -16,8 +16,6 @@ public static class GraphListItems
 
     [Description("Update a Microsoft List item")]
     [McpServerTool(Title = "Update a Microsoft List item",
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(FieldValueSet),
         Destructive = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_UpdateListItem(
@@ -250,8 +248,6 @@ public static class GraphListItems
 
     [Description("Create a new Microsoft List item")]
     [McpServerTool(Title = "Create a new Microsoft List item",
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(ListItem),
         Destructive = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_CreateListItem(
