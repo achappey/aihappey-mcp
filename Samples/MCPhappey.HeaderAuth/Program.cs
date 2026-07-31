@@ -73,7 +73,6 @@ using MCPhappey.Tools.CometAPI;
 using MCPhappey.Tools.Mixedbread;
 using MCPhappey.Tools.StepFun;
 using MCPhappey.Tools.Kugu;
-using MCPhappey.Tools.Decart;
 using MCPhappey.Tools.Infomaniak;
 using MCPhappey.Tools.Daglo;
 using MCPhappey.Tools.Parasail;
@@ -249,7 +248,6 @@ builder.Services
 .AddPicsart(appConfig?.DomainHeaders)
 .AddTinfoil(appConfig?.DomainHeaders)
 .AddSambaNova(appConfig?.DomainHeaders)
-.AddDecart(appConfig?.DomainHeaders)
 .AddYourVoic(appConfig?.DomainHeaders)
 .AddSmallestAI(appConfig?.DomainHeaders)
 .AddFishAudio(appConfig?.DomainHeaders)
