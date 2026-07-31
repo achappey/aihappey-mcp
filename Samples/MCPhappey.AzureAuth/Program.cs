@@ -45,7 +45,6 @@ using MCPhappey.Tools.Azuce;
 using MCPhappey.Tools.VoyageAI;
 using MCPhappey.Tools.AIML;
 using MCPhappey.Tools.SPAMhunter;
-using MCPhappey.Tools.ZAI;
 using MCPhappey.Tools.RelaxAI;
 using MCPhappey.Tools.GreenPT;
 using MCPhappey.Tools.APIpie;
@@ -69,7 +68,6 @@ using MCPhappey.Tools.MiniMax;
 using MCPhappey.Tools.Speechify;
 using MCPhappey.Tools.Speechactors;
 using MCPhappey.Tools.Verbatik;
-using MCPhappey.Tools.Venice;
 using MCPhappey.Tools.deAPI;
 using MCPhappey.Tools.ImageRouter;
 using MCPhappey.Tools.Runpod;
@@ -94,7 +92,6 @@ using MCPhappey.Tools.Nebius;
 using MCPhappey.Tools.Supadata;
 using MCPhappey.Tools.LumaAI;
 using MCPhappey.Tools.Lumenfall;
-using MCPhappey.Tools.WisdomGate;
 using MCPhappey.Tools.OCRSpace;
 using MCPhappey.Tools.JsonReceipt;
 using MCPhappey.Tools.YourVoic;
@@ -211,7 +208,6 @@ builder.Services
 .AddAIML(appConfig?.DomainHeaders)
 .AddMiniMax(appConfig?.DomainHeaders)
 .AddSPAMhunter(appConfig?.DomainHeaders)
-   .AddZAI(appConfig?.DomainHeaders)
    .AddRelaxAI(appConfig?.DomainHeaders)
    .AddNebius(appConfig?.DomainHeaders)
    .AddLumaAI(appConfig?.DomainHeaders)
@@ -243,8 +239,6 @@ builder.Services
 .AddSpeechactors(appConfig?.DomainHeaders)
 .AddValyu(appConfig?.DomainHeaders)
 .AddVerbatik(appConfig?.DomainHeaders)
-.AddVenice(appConfig?.DomainHeaders)
-.AddWisdomGate(appConfig?.DomainHeaders)
 .AddUnrealSpeech(appConfig?.DomainHeaders)
 .AddDeAPI(appConfig?.DomainHeaders)
 .AddImageRouter(appConfig?.DomainHeaders)
