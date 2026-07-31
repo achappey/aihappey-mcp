@@ -59,7 +59,6 @@ using MCPhappey.Tools.Tinfoil;
 using MCPhappey.Tools.DeepL;
 using MCPhappey.Tools.RekaAI;
 using MCPhappey.Tools.Recraft;
-using MCPhappey.Tools.RegoloAI;
 using MCPhappey.Tools.Scrappey;
 using MCPhappey.Tools.Scaleway;
 using MCPhappey.Tools.SiliconFlow;
@@ -226,7 +225,6 @@ builder.Services
 .AddOCRSpace(appConfig?.DomainHeaders)
 .AddJsonReceipt(appConfig?.DomainHeaders)
 .AddBergetAI(appConfig?.DomainHeaders)
-.AddRegoloAI(appConfig?.DomainHeaders)
 .AddScaleway(appConfig?.DomainHeaders)
 .AddSiliconFlow(appConfig?.DomainHeaders)
 .AddDeepL(appConfig?.DomainHeaders)
