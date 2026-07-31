@@ -11,6 +11,318 @@ namespace MCPhappey.Tools.Graph.Planner;
 
 public static partial class GraphPlanner
 {
+    [Description("Update a Microsoft Planner task")]
+    [McpServerTool(
+           Title = "Update a Microsoft Planner task",
+           OpenWorld = false,
+           UseStructuredContent = true,
+           OutputSchemaType = typeof(PlannerTask),
+           Destructive = true)]
+    public static async Task<CallToolResult?> GraphPlanner_UpdateTask(
+           [Description("Planner task id")]
+        string taskId,
+           RequestContext<CallToolRequestParams> requestContext,
+           [Description("New task title")]
+        string? title = null,
+           [Description("New start date and time")]
+        DateTimeOffset? startDateTime = null,
+           [Description("New due date and time")]
+        DateTimeOffset? dueDateTime = null,
+           [Description("Completion percentage from 0 through 100")]
+        int? percentComplete = null,
+           [Description("Priority from 0 through 10")]
+        int? priority = null,
+           CancellationToken cancellationToken = default) =>
+           await ModelContextToolExtensions.WithExceptionCheck(async () =>
+           await requestContext.WithOboGraphClient(async client =>
+           await requestContext.WithStructuredContent(async () =>
+           {
+               if (title is null &&
+                   startDateTime is null &&
+                   dueDateTime is null &&
+                   percentComplete is null &&
+                   priority is null)
+               {
+                   throw new ArgumentException(
+                       "At least one task property must be provided.");
+               }
+
+               if (percentComplete is < 0 or > 100)
+               {
+                   throw new ArgumentOutOfRangeException(
+                       nameof(percentComplete),
+                       "Percent complete must be between 0 and 100.");
+               }
+
+               if (priority is < 0 or > 10)
+               {
+                   throw new ArgumentOutOfRangeException(
+                       nameof(priority),
+                       "Priority must be between 0 and 10.");
+               }
+
+               var currentTask = await client.Planner.Tasks[taskId]
+                   .GetAsync(cancellationToken: cancellationToken)
+                   ?? throw new InvalidOperationException(
+                       $"Planner task '{taskId}' was not found.");
+
+               var etag = GetPlannerEtag(
+                   currentTask.AdditionalData,
+                   "Planner task");
+
+               return await client.Planner.Tasks[taskId].PatchAsync(
+                   new PlannerTask
+                   {
+                       Title = title,
+                       StartDateTime = startDateTime,
+                       DueDateTime = dueDateTime,
+                       PercentComplete = percentComplete,
+                       Priority = priority
+                   },
+                   config =>
+                   {
+                       config.Headers.Add("If-Match", etag);
+                       config.Headers.Add(
+                           "Prefer",
+                           "return=representation");
+                   },
+                   cancellationToken);
+           })));
+
+
+    [Description("Complete or reopen a Microsoft Planner task")]
+    [McpServerTool(
+        Title = "Complete or reopen a Microsoft Planner task",
+        OpenWorld = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(PlannerTask),
+        Destructive = true)]
+    public static async Task<CallToolResult?> GraphPlanner_SetTaskCompletion(
+        [Description("Planner task id")]
+        string taskId,
+        [Description("True completes the task; false reopens it")]
+        bool completed,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var currentTask = await client.Planner.Tasks[taskId]
+                .GetAsync(cancellationToken: cancellationToken)
+                ?? throw new InvalidOperationException(
+                    $"Planner task '{taskId}' was not found.");
+
+            var etag = GetPlannerEtag(
+                currentTask.AdditionalData,
+                "Planner task");
+
+            return await client.Planner.Tasks[taskId].PatchAsync(
+                new PlannerTask
+                {
+                    PercentComplete = completed ? 100 : 0
+                },
+                config =>
+                {
+                    config.Headers.Add("If-Match", etag);
+                    config.Headers.Add(
+                        "Prefer",
+                        "return=representation");
+                },
+                cancellationToken);
+        })));
+
+
+    [Description("Move a Microsoft Planner task to another bucket")]
+    [McpServerTool(
+        Title = "Move a Microsoft Planner task",
+        OpenWorld = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(PlannerTask),
+        Destructive = true)]
+    public static async Task<CallToolResult?> GraphPlanner_MoveTask(
+        [Description("Planner task id")]
+        string taskId,
+        [Description("Destination Planner bucket id")]
+        string bucketId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            if (string.IsNullOrWhiteSpace(bucketId))
+            {
+                throw new ArgumentException(
+                    "Destination bucket id is required.",
+                    nameof(bucketId));
+            }
+
+            var currentTask = await client.Planner.Tasks[taskId]
+                .GetAsync(cancellationToken: cancellationToken)
+                ?? throw new InvalidOperationException(
+                    $"Planner task '{taskId}' was not found.");
+
+            var etag = GetPlannerEtag(
+                currentTask.AdditionalData,
+                "Planner task");
+
+            return await client.Planner.Tasks[taskId].PatchAsync(
+                new PlannerTask
+                {
+                    BucketId = bucketId
+                },
+                config =>
+                {
+                    config.Headers.Add("If-Match", etag);
+                    config.Headers.Add(
+                        "Prefer",
+                        "return=representation");
+                },
+                cancellationToken);
+        })));
+
+
+    [Description(
+        "Update the description and card preview type of a Microsoft Planner task")]
+    [McpServerTool(
+        Title = "Update Microsoft Planner task details",
+        OpenWorld = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(PlannerTaskDetails),
+        Destructive = true)]
+    public static async Task<CallToolResult?> GraphPlanner_UpdateTaskDetails(
+        [Description("Planner task id")]
+        string taskId,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("New task description")]
+        string? description = null,
+        [Description("New task card preview type")]
+        PlannerPreviewType? previewType = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            if (description is null &&
+                previewType is null)
+            {
+                throw new ArgumentException(
+                    "A description or preview type must be provided.");
+            }
+
+            var currentDetails = await client.Planner.Tasks[taskId]
+                .Details
+                .GetAsync(cancellationToken: cancellationToken)
+                ?? throw new InvalidOperationException(
+                    $"Planner task details for '{taskId}' were not found.");
+
+            var etag = GetPlannerEtag(
+                currentDetails.AdditionalData,
+                "Planner task details");
+
+            return await client.Planner.Tasks[taskId]
+                .Details
+                .PatchAsync(
+                    new PlannerTaskDetails
+                    {
+                        Description = description,
+                        PreviewType = previewType
+                    },
+                    config =>
+                    {
+                        config.Headers.Add("If-Match", etag);
+                        config.Headers.Add(
+                            "Prefer",
+                            "return=representation");
+                    },
+                    cancellationToken);
+        })));
+
+
+    [Description("Rename a Microsoft Planner bucket")]
+    [McpServerTool(
+        Title = "Rename a Microsoft Planner bucket",
+        OpenWorld = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(PlannerBucket),
+        Destructive = true)]
+    public static async Task<CallToolResult?> GraphPlanner_RenameBucket(
+        [Description("Planner bucket id")]
+        string bucketId,
+        [Description("New bucket name")]
+        string name,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(
+                    "Bucket name is required.",
+                    nameof(name));
+            }
+
+            var currentBucket = await client.Planner.Buckets[bucketId]
+                .GetAsync(cancellationToken: cancellationToken)
+                ?? throw new InvalidOperationException(
+                    $"Planner bucket '{bucketId}' was not found.");
+
+            var etag = GetPlannerEtag(
+                currentBucket.AdditionalData,
+                "Planner bucket");
+
+            return await client.Planner.Buckets[bucketId].PatchAsync(
+                new PlannerBucket
+                {
+                    Name = name
+                },
+                config =>
+                {
+                    config.Headers.Add("If-Match", etag);
+                    config.Headers.Add(
+                        "Prefer",
+                        "return=representation");
+                },
+                cancellationToken);
+        })));
+
+
+    private static string GetPlannerEtag(
+        IDictionary<string, object> additionalData,
+        string resourceName)
+    {
+        if (!additionalData.TryGetValue(
+                "@odata.etag",
+                out var etagValue))
+        {
+            throw new InvalidOperationException(
+                $"{resourceName} did not contain an ETag.");
+        }
+
+        var etag = etagValue switch
+        {
+            string value => value,
+
+            JsonElement
+            {
+                ValueKind: JsonValueKind.String
+            } element => element.GetString(),
+
+            _ => etagValue?.ToString()
+        };
+
+        if (string.IsNullOrWhiteSpace(etag))
+        {
+            throw new InvalidOperationException(
+                $"{resourceName} contained an invalid ETag.");
+        }
+
+        return etag;
+    }
+
     [Description("Create a new Microsoft Planner task")]
     [McpServerTool(Title = "Create a new Microsoft Planner task",
     OpenWorld = false,

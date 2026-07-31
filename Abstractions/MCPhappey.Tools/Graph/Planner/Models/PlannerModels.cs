@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.Graph.Beta.Models;
 
 namespace MCPhappey.Tools.Graph.Planner.Models;
 
@@ -58,4 +59,53 @@ public class GraphCopyPlanner
     [Description("The title of the new Planner.")]
     public string Title { get; set; } = default!;
 
+}
+
+
+[Description("Please confirm the Planner task changes")]
+public class GraphUpdatePlannerTask
+{
+    [JsonPropertyName("title")]
+    [Description("New title of the task.")]
+    public string? Title { get; set; }
+
+    [JsonPropertyName("startDateTime")]
+    [Description("New start date and time.")]
+    public DateTimeOffset? StartDateTime { get; set; }
+
+    [JsonPropertyName("dueDateTime")]
+    [Description("New due date and time.")]
+    public DateTimeOffset? DueDateTime { get; set; }
+
+    [JsonPropertyName("percentComplete")]
+    [Description("Completion percentage from 0 through 100.")]
+    [Range(0, 100)]
+    public int? PercentComplete { get; set; }
+
+    [JsonPropertyName("priority")]
+    [Description("Task priority from 0 through 10.")]
+    [Range(0, 10)]
+    public int? Priority { get; set; }
+}
+
+
+[Description("Please confirm the Planner task detail changes")]
+public class GraphUpdatePlannerTaskDetails
+{
+    [JsonPropertyName("description")]
+    [Description("New description of the Planner task.")]
+    public string? Description { get; set; }
+
+    [JsonPropertyName("previewType")]
+    [Description("Content displayed as the task card preview.")]
+    public PlannerPreviewType? PreviewType { get; set; }
+}
+
+
+[Description("Please confirm the Planner bucket changes")]
+public class GraphUpdatePlannerBucket
+{
+    [JsonPropertyName("name")]
+    [Description("New name of the bucket.")]
+    public string? Name { get; set; }
 }
