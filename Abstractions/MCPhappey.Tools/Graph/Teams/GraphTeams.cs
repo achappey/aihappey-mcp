@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
 using Microsoft.Graph.Beta.Models;
@@ -131,7 +130,225 @@ public static partial class GraphTeams
             {
                 teamId
             };
+            }))); 
+
+    [Description("Add one Microsoft Entra user as a member of a Microsoft Team after eliciting the Team and user IDs.")]
+    [McpServerTool(
+        Title = "Add member to Microsoft Team",
+        Name = "graph_teams_add_member",
+        Destructive = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTeams_AddMember(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("ID of the Microsoft Team.")] string teamId,
+        [Description("Microsoft Entra user ID to add as a member.")] string userId,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var typed = await ElicitTeamUserMembershipAsync(
+                requestContext,
+                teamId,
+                userId,
+                cancellationToken);
+
+            await client.Teams[typed.TeamId].Members.PostAsync(
+                CreateTeamUserMembership(typed.UserId, roles: []),
+                cancellationToken: cancellationToken);
+
+            return new
+            {
+                Message = $"User {typed.UserId} was added as a member of Team {typed.TeamId}.",
+                typed.TeamId,
+                typed.UserId,
+                Role = "member"
+            };
         })));
+
+    [Description("Remove one Microsoft Entra user from a Microsoft Team after eliciting the Team and user IDs.")]
+    [McpServerTool(
+        Title = "Remove member from Microsoft Team",
+        Name = "graph_teams_remove_member",
+        Destructive = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTeams_RemoveMember(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("ID of the Microsoft Team.")] string teamId,
+        [Description("Microsoft Entra user ID to remove from the Team.")] string userId,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var typed = await ElicitTeamUserMembershipAsync(
+                requestContext,
+                teamId,
+                userId,
+                cancellationToken);
+            var member = await FindTeamMemberAsync(client, typed.TeamId, typed.UserId, cancellationToken);
+
+            await client.Teams[typed.TeamId].Members[member.Id!].DeleteAsync(
+                cancellationToken: cancellationToken);
+
+            return new
+            {
+                Message = $"User {typed.UserId} was removed from Team {typed.TeamId}.",
+                typed.TeamId,
+                typed.UserId
+            };
+        })));
+
+    [Description("Add one Microsoft Entra user as an owner of a Microsoft Team after eliciting the Team and user IDs.")]
+    [McpServerTool(
+        Title = "Add owner to Microsoft Team",
+        Name = "graph_teams_add_owner",
+        Destructive = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTeams_AddOwner(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("ID of the Microsoft Team.")] string teamId,
+        [Description("Microsoft Entra user ID to add as an owner.")] string userId,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var typed = await ElicitTeamUserMembershipAsync(
+                requestContext,
+                teamId,
+                userId,
+                cancellationToken);
+
+            await client.Teams[typed.TeamId].Members.PostAsync(
+                CreateTeamUserMembership(typed.UserId, roles: ["owner"]),
+                cancellationToken: cancellationToken);
+
+            return new
+            {
+                Message = $"User {typed.UserId} was added as an owner of Team {typed.TeamId}.",
+                typed.TeamId,
+                typed.UserId,
+                Role = "owner"
+            };
+        })));
+
+    [Description("Remove the owner role from one Microsoft Entra user while keeping the user as a Team member.")]
+    [McpServerTool(
+        Title = "Remove owner from Microsoft Team",
+        Name = "graph_teams_remove_owner",
+        Destructive = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTeams_RemoveOwner(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("ID of the Microsoft Team.")] string teamId,
+        [Description("Microsoft Entra user ID to demote to member.")] string userId,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var typed = await ElicitTeamUserMembershipAsync(
+                requestContext,
+                teamId,
+                userId,
+                cancellationToken);
+            var member = await FindTeamMemberAsync(client, typed.TeamId, typed.UserId, cancellationToken);
+
+            if (!member.Roles?.Contains("owner", StringComparer.OrdinalIgnoreCase) ?? true)
+                throw new ValidationException($"User {typed.UserId} is not an owner of Team {typed.TeamId}.");
+
+            member.Roles = [];
+            await client.Teams[typed.TeamId].Members[member.Id!].PatchAsync(
+                member,
+                cancellationToken: cancellationToken);
+
+            return new
+            {
+                Message = $"User {typed.UserId} was demoted from owner to member in Team {typed.TeamId}.",
+                typed.TeamId,
+                typed.UserId,
+                Role = "member"
+            };
+        })));
+
+    [Description("Permanently delete a Microsoft Team after the shared exact-ID deletion confirmation elicitation.")]
+    [McpServerTool(
+        Title = "Delete Microsoft Team",
+        Name = "graph_teams_delete",
+        Destructive = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTeams_DeleteTeam(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("ID of the Microsoft Team to permanently delete.")] string teamId,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.ConfirmAndDeleteAsync<GraphDeleteTeam>(
+            teamId,
+            async ct => await client.Teams[teamId].DeleteAsync(cancellationToken: ct),
+            $"Microsoft Team {teamId} was deleted.",
+            cancellationToken)));
+
+    private static async Task<GraphTeamUserMembership> ElicitTeamUserMembershipAsync(
+        RequestContext<CallToolRequestParams> requestContext,
+        string teamId,
+        string userId,
+        CancellationToken cancellationToken)
+    {
+        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            new GraphTeamUserMembership
+            {
+                TeamId = teamId,
+                UserId = userId
+            },
+            cancellationToken);
+
+        if (notAccepted is not null)
+            throw new Exception(JsonSerializer.Serialize(notAccepted));
+
+        if (typed is null
+            || string.IsNullOrWhiteSpace(typed.TeamId)
+            || string.IsNullOrWhiteSpace(typed.UserId))
+        {
+            throw new ValidationException("Both a Team ID and a Microsoft Entra user ID are required.");
+        }
+
+        return typed;
+    }
+
+    private static AadUserConversationMember CreateTeamUserMembership(
+        string userId,
+        List<string> roles) =>
+        new()
+        {
+            Roles = roles,
+            AdditionalData = new Dictionary<string, object>
+            {
+                ["user@odata.bind"] = $"https://graph.microsoft.com/beta/users('{userId}')"
+            }
+        };
+
+    private static async Task<AadUserConversationMember> FindTeamMemberAsync(
+        Microsoft.Graph.Beta.GraphServiceClient client,
+        string teamId,
+        string userId,
+        CancellationToken cancellationToken)
+    {
+        var members = await client.Teams[teamId].Members.GetAsync(
+            cancellationToken: cancellationToken);
+        var member = members?.Value?
+            .OfType<AadUserConversationMember>()
+            .SingleOrDefault(item => string.Equals(
+                item.UserId,
+                userId,
+                StringComparison.OrdinalIgnoreCase));
+
+        if (member?.Id is null)
+            throw new ValidationException($"User {userId} is not a member of Team {teamId}.");
+
+        return member;
+    }
 
     [Description("Create a new calendar event in the Teams Group calendar.")]
     [McpServerTool(Title = "Create Teams Group calendar event",

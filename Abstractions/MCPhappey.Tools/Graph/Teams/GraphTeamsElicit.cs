@@ -180,3 +180,26 @@ public class GraphEditTeam
     [Description("New visibility of the Team.")]
     public TeamVisibilityType? Visibility { get; set; }
 }
+
+[Description("Please confirm the Microsoft Team and Microsoft Entra user to manage.")]
+public class GraphTeamUserMembership
+{
+    [JsonPropertyName("teamId")]
+    [Required]
+    [Description("ID of the Microsoft Team.")]
+    public string TeamId { get; set; } = string.Empty;
+
+    [JsonPropertyName("userId")]
+    [Required]
+    [Description("Microsoft Entra user ID to add, remove, promote, or demote.")]
+    public string UserId { get; set; } = string.Empty;
+}
+
+[Description("Please type the exact Microsoft Team ID to confirm permanent deletion: {0}")]
+public class GraphDeleteTeam : MCPhappey.Common.Models.IHasName
+{
+    [JsonPropertyName("name")]
+    [Required]
+    [Description("The exact Microsoft Team ID to delete.")]
+    public string Name { get; set; } = string.Empty;
+}
