@@ -1,0 +1,19 @@
+{
+  "serverInfo": {
+    "name": "SharePoint-Pages",
+    "title": "SharePoint Pages",
+    "version": "1.0.0",
+    "description": "Access SharePoint pages.",
+    "icons": [
+      {
+        "src": "https://microsoft-office-courses.co.uk/wp-content/uploads/2022/04/SharePoint.jpg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.SharePoint.SharePointPages, MCPhappey.Tools"
+  ],
+  "obo": {
+    ".sharepoint.com": "https://{tenantName}.sharepoint.com/.default"
+  }
+}
