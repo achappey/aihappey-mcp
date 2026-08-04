@@ -52,8 +52,86 @@ public static partial class GraphTeams
             },
                 };
 
-                return await client.Teams.PostAsync(newTeam, cancellationToken: cancellationToken);
+                var teamItem = await client.Teams.PostAsync(newTeam, cancellationToken: cancellationToken);
+
+                return new
+                {
+                    teamItem?.Id
+                };
             })));
+
+    [Description("Edit an existing Microsoft Team.")]
+    [McpServerTool(
+        Title = "Edit Microsoft Team",
+        Destructive = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTeams_EditTeam(
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("ID of the Team to edit.")]
+            string teamId,
+        [Description("New display name of the Team. Leave empty to keep the current display name.")]
+            string? displayName = null,
+        [Description("New description of the Team. Leave null to keep the current description.")]
+            string? description = null,
+        [Description("New visibility of the Team. Leave null to keep the current visibility.")]
+            TeamVisibilityType? visibility = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+                new GraphEditTeam
+                {
+                    TeamId = teamId,
+                    DisplayName = displayName,
+                    Description = description,
+                    Visibility = visibility
+                },
+                cancellationToken
+            );
+
+            if (notAccepted is not null)
+                throw new Exception(JsonSerializer.Serialize(notAccepted));
+
+            if (typed is null)
+                throw new InvalidOperationException("No Team update data was provided.");
+
+            if (string.IsNullOrWhiteSpace(typed.TeamId))
+                throw new ValidationException("Team ID is required.");
+
+            if (typed.DisplayName is null
+                && typed.Description is null
+                && typed.Visibility is null)
+            {
+                throw new ValidationException(
+                    "At least one property must be provided: displayName, description, or visibility.");
+            }
+
+            if (typed.DisplayName is not null
+                && string.IsNullOrWhiteSpace(typed.DisplayName))
+            {
+                throw new ValidationException(
+                    "Display name cannot be empty or whitespace.");
+            }
+
+            var teamUpdate = new Team
+            {
+                DisplayName = typed.DisplayName,
+                Description = typed.Description,
+                Visibility = typed.Visibility
+            };
+
+            await client.Teams[typed.TeamId].PatchAsync(
+                teamUpdate,
+                cancellationToken: cancellationToken
+            );
+
+            return new
+            {
+                teamId
+            };
+        })));
 
     [Description("Create a new calendar event in the Teams Group calendar.")]
     [McpServerTool(Title = "Create Teams Group calendar event",
@@ -123,46 +201,6 @@ public static partial class GraphTeams
       return await client.Groups[teamId].Events.PostAsync(newEvent, cancellationToken: cancellationToken);
   })));
 
-    /// <summary>
-    /// Data for creating a calendar event.
-    /// </summary>
-    [Description("Fill in the details for the new calendar event.")]
-    public class GraphCreateCalendarEvent
-    {
-        [JsonPropertyName("subject")]
-        [Required]
-        [Description("Title or subject of the event.")]
-        public string Subject { get; set; } = string.Empty;
 
-        [JsonPropertyName("body")]
-        [Description("Description or body of the event.")]
-        public string? Body { get; set; }
 
-        [JsonPropertyName("bodyType")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        [Description("Type of the body content (html or text).")]
-        public BodyType? BodyType { get; set; }
-
-        [JsonPropertyName("startDateTime")]
-        [Required]
-        [Description("Start date and time of the event (yyyy-MM-ddTHH:mm:ss format, e.g., 2025-07-05T13:30:00).")]
-        public string StartDateTime { get; set; } = string.Empty;
-
-        [JsonPropertyName("endDateTime")]
-        [Required]
-        [Description("End date and time of the event (yyyy-MM-ddTHH:mm:ss format, e.g., 2025-07-05T14:30:00).")]
-        public string EndDateTime { get; set; } = string.Empty;
-
-        [JsonPropertyName("timeZone")]
-        [Description("Time zone for the event (e.g., 'W. Europe Standard Time', 'UTC'). Defaults to UTC.")]
-        public string? TimeZone { get; set; }
-
-        [JsonPropertyName("location")]
-        [Description("Location or meeting room for the event.")]
-        public string? Location { get; set; }
-
-        [JsonPropertyName("attendees")]
-        [Description("E-mail addresses of attendees. Use a comma separated list for multiple recipients.")]
-        public string? Attendees { get; set; }
-    }
 }

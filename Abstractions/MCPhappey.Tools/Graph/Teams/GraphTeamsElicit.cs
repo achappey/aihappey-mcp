@@ -113,3 +113,70 @@ public class GraphNewChannelMessage
     public ChatMessageImportance? Importance { get; set; }
 
 }
+
+/// <summary>
+/// Data for creating a calendar event.
+/// </summary>
+[Description("Fill in the details for the new calendar event.")]
+public class GraphCreateCalendarEvent
+{
+    [JsonPropertyName("subject")]
+    [Required]
+    [Description("Title or subject of the event.")]
+    public string Subject { get; set; } = string.Empty;
+
+    [JsonPropertyName("body")]
+    [Description("Description or body of the event.")]
+    public string? Body { get; set; }
+
+    [JsonPropertyName("bodyType")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [Description("Type of the body content (html or text).")]
+    public BodyType? BodyType { get; set; }
+
+    [JsonPropertyName("startDateTime")]
+    [Required]
+    [Description("Start date and time of the event (yyyy-MM-ddTHH:mm:ss format, e.g., 2025-07-05T13:30:00).")]
+    public string StartDateTime { get; set; } = string.Empty;
+
+    [JsonPropertyName("endDateTime")]
+    [Required]
+    [Description("End date and time of the event (yyyy-MM-ddTHH:mm:ss format, e.g., 2025-07-05T14:30:00).")]
+    public string EndDateTime { get; set; } = string.Empty;
+
+    [JsonPropertyName("timeZone")]
+    [Description("Time zone for the event (e.g., 'W. Europe Standard Time', 'UTC'). Defaults to UTC.")]
+    public string? TimeZone { get; set; }
+
+    [JsonPropertyName("location")]
+    [Description("Location or meeting room for the event.")]
+    public string? Location { get; set; }
+
+    [JsonPropertyName("attendees")]
+    [Description("E-mail addresses of attendees. Use a comma separated list for multiple recipients.")]
+    public string? Attendees { get; set; }
+}
+
+
+
+[Description("Fill in the properties to edit on the Microsoft Team.")]
+public class GraphEditTeam
+{
+    [JsonPropertyName("teamId")]
+    [Required]
+    [Description("ID of the Team to edit.")]
+    public string TeamId { get; set; } = string.Empty;
+
+    [JsonPropertyName("displayName")]
+    [Description("New display name of the Team. Leave empty to keep the current display name.")]
+    public string? DisplayName { get; set; }
+
+    [JsonPropertyName("description")]
+    [Description("New description of the Team. Leave null to keep the current description.")]
+    public string? Description { get; set; }
+
+    [JsonPropertyName("visibility")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [Description("New visibility of the Team.")]
+    public TeamVisibilityType? Visibility { get; set; }
+}

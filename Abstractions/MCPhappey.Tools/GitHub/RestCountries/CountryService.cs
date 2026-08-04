@@ -41,8 +41,7 @@ public static class CountryService
         IconSource = ICON_SOURCE,
         UseStructuredContent = true,
         OutputSchemaType = typeof(RESTCountries.NET.Models.Country),
-        ReadOnly = true,
-        OpenWorld = false)]
+        ReadOnly = true,OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubRestCountries_GetDetail(
         [Description("The alpha-2 code of the country")] string cca,
         RequestContext<CallToolRequestParams> requestContext)
