@@ -11,7 +11,7 @@ using ModelContextProtocol.Server;
 
 namespace MCPhappey.Simplicate.Hours;
 
-public static class SimplicateHours
+public static partial class SimplicateHours
 {
     [Description("Create a new hour registration in Simplicate")]
     [McpServerTool(Title = "Create hour registration", OpenWorld = false)]
@@ -109,7 +109,7 @@ public static class SimplicateHours
         [Description("Invoiced status label to filter by. Optional.")] InvoiceStatus? invoiceStatus = null,
         [Description("Project name to filter by. Optional.")] string? projectName = null,
         [Description("Employee name to filter by. Optional.")] string? employeeName = null,
-        CancellationToken cancellationToken = default) => 
+        CancellationToken cancellationToken = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         await GetHourTotalsGroupedBy(
@@ -131,7 +131,7 @@ public static class SimplicateHours
         [Description("Approval status label to filter by. Optional.")] ApprovalStatusLabel? approvalStatusLabel = null,
         [Description("Invoiced status label to filter by. Optional.")] InvoiceStatus? invoiceStatus = null,
         [Description("Employee name to filter by. Optional.")] string? employeeName = null,
-        CancellationToken cancellationToken = default) => 
+        CancellationToken cancellationToken = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         await GetHourTotalsGroupedBy(

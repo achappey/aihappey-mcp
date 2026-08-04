@@ -148,6 +148,47 @@ public static class SimplicateExtensions
             "Leave type id.",
             cancellationToken);
 
+    public static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
+        BuildSimplicateApprovalStatusElicitOverridesAsync<TDto>(
+            this IServiceProvider serviceProvider,
+            RequestContext<CallToolRequestParams> requestContext,
+            IReadOnlyCollection<SimplicateElicitFieldOverride> fields,
+            bool allowClear = false,
+            CancellationToken cancellationToken = default)
+        where TDto : class
+    {
+        if (fields.Count == 0)
+            return new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>(StringComparer.OrdinalIgnoreCase);
+
+        var options = (await serviceProvider.TryBuildSimplicateLookupOptionsAsync<SimplicateIdLabelLookupItem>(
+                requestContext,
+                "/hours/approvalstatus",
+                "sort=label&select=id,label",
+                page => $"Downloading Simplicate approval statuses page {page}",
+                item => item.Id,
+                item => item.Label,
+                cancellationToken))
+            .ToList();
+
+        if (allowClear && options.All(option => !string.Equals(option.Const, "null", StringComparison.OrdinalIgnoreCase)))
+        {
+            options.Insert(0, new ElicitRequestParams.EnumSchemaOption
+            {
+                Title = "No approval status",
+                Const = "null"
+            });
+        }
+
+        return fields
+            .Select(field => CreateSingleSelectLookupFieldOverrideDefinition<TDto>(
+                field,
+                options,
+                allowClear
+                    ? "Approval status id, or the literal string 'null' to clear the status."
+                    : "Approval status id."))
+            .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.OrdinalIgnoreCase);
+    }
+
     private static async Task<IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>>
         BuildSimplicateSingleSelectLookupElicitOverridesAsync<TDto, TItem>(
             this IServiceProvider serviceProvider,

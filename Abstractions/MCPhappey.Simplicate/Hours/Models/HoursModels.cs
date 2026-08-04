@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using MCPhappey.Common.Models;
 using MCPhappey.Simplicate.Extensions;
 
 namespace MCPhappey.Simplicate.Hours.Models;
@@ -17,6 +18,65 @@ public enum ApprovalStatusLabel
 public enum InvoiceStatus
 {
     invoiced
+}
+
+[Description("Please fill in the hour approval details")]
+public sealed class SimplicateHourApprovalWriteModel
+{
+    [JsonPropertyName("date")]
+    [Required]
+    [Description("Approval date in yyyy-MM-dd format.")]
+    public string? Date { get; set; }
+
+    [JsonPropertyName("employee_id")]
+    [Required]
+    [Description("Employee id. The displayed option is the employee name, while the submitted value is the Simplicate employee id.")]
+    public string? EmployeeId { get; set; }
+
+    [JsonPropertyName("approvalstatus_id")]
+    [Required]
+    [Description("Approval status id.")]
+    public string? ApprovalStatusId { get; set; }
+}
+
+public sealed class SimplicateHourApproval
+{
+    [JsonPropertyName("id")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("date")]
+    public string? Date { get; set; }
+
+    [JsonPropertyName("employee")]
+    public SimplicateHourApprovalReference? Employee { get; set; }
+
+    [JsonPropertyName("employee_id")]
+    public string? EmployeeId { get; set; }
+
+    [JsonPropertyName("approvalstatus")]
+    public SimplicateHourApprovalReference? ApprovalStatus { get; set; }
+
+    [JsonPropertyName("approvalstatus_id")]
+    public string? ApprovalStatusId { get; set; }
+}
+
+public sealed class SimplicateHourApprovalReference
+{
+    [JsonPropertyName("id")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
+
+    [JsonPropertyName("label")]
+    public string? Label { get; set; }
+}
+
+[Description("Please confirm deletion of the Simplicate hour approval id: {0}")]
+public sealed class ConfirmDeleteSimplicateHourApproval : IHasName
+{
+    [Description("Hour approval id")]
+    public string Name { get; set; } = string.Empty;
 }
 
 public class SimplicateHourTotals
