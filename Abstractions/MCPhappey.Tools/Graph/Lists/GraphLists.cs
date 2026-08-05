@@ -54,8 +54,8 @@ public static class GraphLists
         })));
 
     [Description("Add a column to a Microsoft List")]
-    [McpServerTool(Title = "Add a column to a Microsoft List", 
-        Destructive = false, 
+    [McpServerTool(Title = "Add a column to a Microsoft List",
+        Destructive = false,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_AddColumn(
             [Description("ID of the SharePoint site (e.g. 'contoso.sharepoint.com,GUID,GUID')")]
@@ -71,6 +71,8 @@ public static class GraphLists
         SharePointColumnType columnType = SharePointColumnType.Text,
             [Description("Choices values. Comma seperated list.")]
         string? choices = null,
+            [Description("Choice displayAs value: dropDownMenu, radioButtons or checkBoxes")]
+        string? choiceSelect = null,
             CancellationToken cancellationToken = default) =>
             await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
@@ -97,7 +99,8 @@ public static class GraphLists
                 );
 
             // Build column based on type (jouw bestaande logic)
-            var columnDef = GetColumnDefinition(typed.Name, typed.DisplayName ?? typed.Name, typed.ColumnType, typed.Choices);
+            var columnDef = GetColumnDefinition(typed.Name, typed.DisplayName ?? typed.Name,
+                typed.ColumnType, typed.Choices, choiceSelect);
 
             return await client.Sites[siteId].Lists[listId].Columns.PostAsync(
                 columnDef,
@@ -146,7 +149,9 @@ public static class GraphLists
         public string? Choices { get; set; }
     }
 
-    private static Microsoft.Graph.Beta.Models.ColumnDefinition GetColumnDefinition(string name, string displayName, SharePointColumnType columnType, string? choices = null)
+    private static Microsoft.Graph.Beta.Models.ColumnDefinition GetColumnDefinition(string name,
+        string displayName, SharePointColumnType columnType, string? choices = null,
+        string? choiceSelect = null)
     {
         var col = new Microsoft.Graph.Beta.Models.ColumnDefinition
         {
@@ -168,7 +173,8 @@ public static class GraphLists
             case SharePointColumnType.Choice:
                 col.Choice = new Microsoft.Graph.Beta.Models.ChoiceColumn
                 {
-                    Choices = choices?.Split(',').Select(x => x.Trim()).ToList() ?? []
+                    Choices = choices?.Split(',').Select(x => x.Trim()).ToList() ?? [],
+                    DisplayAs = choiceSelect ?? "dropDownMenu"
                 };
                 break;
             case SharePointColumnType.DateTime:
