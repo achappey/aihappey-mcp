@@ -81,20 +81,45 @@ public static class HttpExtensions
 
         if (col.Choice != null)
         {
-            return new ElicitRequestParams.TitledSingleSelectEnumSchema
+            var isMultiChoice = col.Choice.DisplayAs == "checkBoxes";
+
+            if (isMultiChoice)
             {
-                Title = title,
-                Description = desc,
-                Default = ToDefaultString(defaultValue),
-                OneOf = col.Choice.Choices?
-                    .Select(a => new ElicitRequestParams.EnumSchemaOption
+                return new ElicitRequestParams.TitledMultiSelectEnumSchema
+                {
+                    Title = title,
+                    Description = desc,
+                    Default = ToDefaultString(defaultValue)?.Split(","),
+                    Items = new()
                     {
-                        Title = a,
-                        Const = a,
-                    })
-                    .ToList()
-                    ?? []
-            };
+                        AnyOf = col.Choice.Choices?
+                        .Select(a => new ElicitRequestParams.EnumSchemaOption
+                        {
+                            Title = a,
+                            Const = a,
+                        })
+                        .ToList()
+                        ?? []
+                    }
+                };
+            }
+            else
+            {
+                return new ElicitRequestParams.TitledSingleSelectEnumSchema
+                {
+                    Title = title,
+                    Description = desc,
+                    Default = ToDefaultString(defaultValue),
+                    OneOf = col.Choice.Choices?
+                        .Select(a => new ElicitRequestParams.EnumSchemaOption
+                        {
+                            Title = a,
+                            Const = a,
+                        })
+                        .ToList()
+                        ?? []
+                };
+            }
         }
 
         if (col.DateTime != null)
