@@ -23,7 +23,7 @@ public static class GraphListItems
       string listId,            // ID of the Microsoft List
       string itemId,            // ID of the Microsoft List item
       RequestContext<CallToolRequestParams> requestContext,
-      [Description("Default values for the list item fields. Use fieldname as key and defaultvalue as value. No nested objects. These override the current item values in the form.")]
+      [Description("Default values for the list item fields. Use fieldname as key and defaultvalue as value. No nested objects. These override the current item values in the form. Use comma seperated strings for multivalue choice columns.")]
       Dictionary<string, object?>? defaultValues = null,
       CancellationToken cancellationToken = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
@@ -202,20 +202,29 @@ public static class GraphListItems
         // ---- Choice (single / multi)
         if (def.Choice != null || (def.AdditionalData?.ContainsKey("multiChoice") == true))
         {
-            var isMulti = def.AdditionalData?.ContainsKey("multiChoice") == true;
+            var isMulti = def.Choice?.DisplayAs == "checkBoxes";
 
             if (isMulti)
             {
-                if (val is IEnumerable<object> many)
+                string[] arr = val switch
                 {
-                    var arr = many.Select(x => x?.ToString())
-                                  .Where(x => !string.IsNullOrWhiteSpace(x))
-                                  .ToArray();
-                    if (arr.Length > 0) fieldsPayload[prop] = arr;
-                }
-                else if (val is string one && !string.IsNullOrWhiteSpace(one))
+                    string one when !string.IsNullOrWhiteSpace(one)
+                        => [one],
+
+                    IEnumerable<object> many
+                        => many
+                            .Select(x => x?.ToString())
+                            .Where(x => !string.IsNullOrWhiteSpace(x))
+                            .Select(x => x!)
+                            .ToArray(),
+
+                    _ => []
+                };
+
+                if (arr.Length > 0)
                 {
-                    fieldsPayload[prop] = new[] { one };
+                    fieldsPayload[$"{prop}@odata.type"] = "Collection(Edm.String)";
+                    fieldsPayload[prop] = arr;
                 }
             }
             else
@@ -254,7 +263,7 @@ public static class GraphListItems
           string siteId,            // ID of the SharePoint site
           string listId,            // ID of the Microsoft List
           RequestContext<CallToolRequestParams> requestContext,
-           [Description("Default values for the new list item fields. Use fieldname as key and defaultvalue as value. No nested objects.")]
+           [Description("Default values for the new list item fields. Use fieldname as key and defaultvalue as value. No nested objects.  Use comma seperated strings for multivalue choice columns.")]
             Dictionary<string, object?>? defaultValues = null,
           CancellationToken cancellationToken = default) =>
             await ModelContextToolExtensions.WithExceptionCheck(async () =>
@@ -277,7 +286,7 @@ public static class GraphListItems
             Required = []
         };
 
-        var defaultValuesByName = defaultValues ?? new Dictionary<string, object?>();
+        var defaultValuesByName = defaultValues ?? [];
 
         var definitionColumns = columns?.Value?
             .Where(col => col.Name != "ID" && col.ReadOnly != true && !string.IsNullOrWhiteSpace(col.Name))
@@ -325,7 +334,6 @@ public static class GraphListItems
 
             object? val = raw;
 
-            // ---- unwrap JsonElement safely
             if (raw is JsonElement je)
             {
                 switch (je.ValueKind)
@@ -411,20 +419,29 @@ public static class GraphListItems
             // ---- Choice (single / multi)
             if (def.Choice != null || (def.AdditionalData?.ContainsKey("multiChoice") == true))
             {
-                var isMulti = def.AdditionalData?.ContainsKey("multiChoice") == true;
+                var isMulti = def.Choice?.DisplayAs == "checkBoxes";
 
                 if (isMulti)
                 {
-                    if (val is IEnumerable<object> many)
+                    string[] arr = val switch
                     {
-                        var arr = many.Select(x => x?.ToString())
-                                      .Where(x => !string.IsNullOrWhiteSpace(x))
-                                      .ToArray();
-                        if (arr.Length > 0) fieldsPayload[prop] = arr;
-                    }
-                    else if (val is string one && !string.IsNullOrWhiteSpace(one))
+                        string one when !string.IsNullOrWhiteSpace(one)
+                            => [one],
+
+                        IEnumerable<object> many
+                            => many
+                                .Select(x => x?.ToString())
+                                .Where(x => !string.IsNullOrWhiteSpace(x))
+                                .Select(x => x!)
+                                .ToArray(),
+
+                        _ => []
+                    };
+
+                    if (arr.Length > 0)
                     {
-                        fieldsPayload[prop] = new[] { one };
+                        fieldsPayload[$"{prop}@odata.type"] = "Collection(Edm.String)";
+                        fieldsPayload[prop] = arr;
                     }
                 }
                 else
