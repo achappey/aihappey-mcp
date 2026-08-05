@@ -82,7 +82,7 @@ public static partial class GraphTeams
         {
             Subject = typed?.Subject,
             Importance = typed?.Importance,
-            Body = new ItemBody
+            Body = new ChatMessageBody
             {
                 Content = typed?.Content,
             },
