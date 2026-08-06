@@ -14,8 +14,10 @@ using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.SharePoint;
 
-public static class SharePointREST
+public static partial class SharePointREST
 {
+
+    
 
     [Description("Copy a raw SharePoint template file from a server-relative URL into a SharePoint document library folder. Useful for copying Content Type Hub template files into an Office template catalog library. Use exactly once per source template and target file unless intentionally overwriting.")]
     [McpServerTool(
