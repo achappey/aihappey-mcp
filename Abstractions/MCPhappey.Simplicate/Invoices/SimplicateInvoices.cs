@@ -25,6 +25,8 @@ public static partial class SimplicateInvoices
            RequestContext<CallToolRequestParams> requestContext,
            [Description("Optional organization name filter")] string? organizationName = null,
            [Description("Optional status label filter")] string? statusLabel = null,
+           [Description("The limit of max allowed results.")] int? limit = null,
+           [Description("The offset to search from.")] int? offset = null,
            CancellationToken cancellationToken = default)
            => await requestContext.WithStructuredContent(async () =>
    {
@@ -42,20 +44,39 @@ public static partial class SimplicateInvoices
        if (!string.IsNullOrWhiteSpace(statusLabel))
            filters.Add($"q[status.label]={Uri.EscapeDataString(statusLabel)}");
 
+       if (limit.HasValue) filters.Add($"limit={limit}");
+       if (offset.HasValue) filters.Add($"offset={offset}");
+
        var filterString = string.Join("&", filters);
-       var invoices = await downloadService.GetAllSimplicatePagesAsync<SimplicateInvoice>(
+
+       if (limit.HasValue && limit.Value <= 100)
+           return await downloadService.GetSimplicatePageAsync<SimplicateInvoice>(
+               serviceProvider,
+               requestContext.Server,
+               $"{baseUrl}?{filterString}&metadata=count",
+               cancellationToken: cancellationToken
+           );
+
+       var items = await downloadService.GetAllSimplicatePagesAsync<SimplicateInvoice>(
            serviceProvider,
            requestContext.Server,
            baseUrl,
            filterString,
-           pageNum => $"Downloading invoices",
+           pageNum => $"Downloading invoices (page {pageNum})",
            requestContext,
            cancellationToken: cancellationToken
        );
 
        return new SimplicateData<SimplicateInvoice>()
        {
-           Data = invoices
+           Data = items.Skip(offset ?? 0).Take(limit ?? int.MaxValue),
+           Metadata = new()
+           {
+               Count = items.Count,
+               Offset = offset ?? null,
+               Limit = limit ?? null
+           }
+
        };
    });
 }
