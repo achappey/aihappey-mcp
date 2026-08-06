@@ -420,9 +420,6 @@ public static partial class SimplicateCRM
         [Description("Organization active.")]
         public bool? IsActive { get; set; }
 
-        [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = [];
-
     }
 
     [Description("Person contact link for an organization")]
