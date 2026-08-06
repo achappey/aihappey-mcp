@@ -87,6 +87,8 @@ public static partial class SimplicateHours
            [Description("Invoiced status label to filter by. Optional.")] InvoiceStatus? invoiceStatus = null,
            [Description("Project name to filter by. Optional.")] string? projectName = null,
            [Description("Employee name to filter by. Optional.")] string? employeeName = null,
+           [Description("The limit of max allowed results.")] int? limit = null,
+           [Description("The offset to search from.")] int? offset = null,
             CancellationToken cancellationToken = default) =>
            await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
@@ -105,23 +107,41 @@ public static partial class SimplicateHours
                if (!string.IsNullOrWhiteSpace(employeeName)) filters.Add($"q[employee.name]=*{Uri.EscapeDataString(employeeName)}*");
                if (approvalStatusLabel.HasValue) filters.Add($"q[approvalstatus.label]=*{Uri.EscapeDataString(approvalStatusLabel.Value.ToString())}*");
                if (invoiceStatus.HasValue) filters.Add($"q[invoice_status]=*{Uri.EscapeDataString(invoiceStatus.Value.ToString())}*");
+               if (limit.HasValue) filters.Add($"limit={limit}");
+               if (offset.HasValue) filters.Add($"offset={offset}");
 
                var filterString = string.Join("&", filters);
 
-               var hours = await downloadService.GetAllSimplicatePagesAsync<SimplicateHourItem>(
+               if (limit.HasValue && limit.Value <= 100)
+                   return await downloadService.GetSimplicatePageAsync<SimplicateHourItem>(
+                       serviceProvider,
+                       requestContext.Server,
+                       $"{baseUrl}?{filterString}&metadata=count",
+                       cancellationToken: cancellationToken
+                   );
+
+               var items = await downloadService.GetAllSimplicatePagesAsync<SimplicateHourItem>(
                    serviceProvider,
                    requestContext.Server,
                    baseUrl,
-                   filterString + "&sort=start_date",
-                   pageNum => $"Downloading hours",
+                   filterString,
+                   pageNum => $"Downloading hours (page {pageNum})",
                    requestContext,
                    cancellationToken: cancellationToken
                );
 
                return new SimplicateData<SimplicateHourItem>()
                {
-                   Data = hours
+                   Data = items.Skip(offset ?? 0).Take(limit ?? int.MaxValue),
+                   Metadata = new()
+                   {
+                       Count = items.Count,
+                       Offset = offset ?? null,
+                       Limit = limit ?? null
+                   }
+
                };
+
            }
         ));
 }
