@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
@@ -12,6 +13,171 @@ namespace MCPhappey.Tools.Graph.OneDrive;
 
 public static class GraphOneDrive
 {
+
+    [Description(
+        "Copy a file between OneDrive or SharePoint document libraries. " +
+        "The destination file may use a different file name.")]
+    [McpServerTool(
+        Title = "Copy OneDrive/SharePoint file",
+        Name = "graph_onedrive_copy_file",
+        Destructive = true,
+        Idempotent = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOneDrive_CopyFile(
+        RequestContext<CallToolRequestParams> requestContext,
+
+        [Description("Drive ID containing the source file.")]
+    string? sourceDriveId = null,
+
+        [Description("Drive item ID of the source file.")]
+    string? sourceItemId = null,
+
+        [Description("Drive ID of the destination document library.")]
+    string? destinationDriveId = null,
+
+        [Description(
+        "Destination folder path relative to the document library root. " +
+        "Leave empty to copy to the root. Example: 'SiteAssets' or 'Documents/Logos'.")]
+    string? destinationFolderPath = null,
+
+        [Description(
+        "File name to use at the destination, including extension. " +
+        "This may differ from the source file name.")]
+    string? destinationFileName = null,
+
+        CancellationToken cancellationToken = default) =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
+            await requestContext.WithOboGraphClient(async graphClient =>
+            await requestContext.WithStructuredContent(async () =>
+            {
+                var (typed, notAccepted, _) =
+                    await requestContext.Server.TryElicit(
+                        new GraphCopyFile
+                        {
+                            SourceDriveId = sourceDriveId,
+                            SourceItemId = sourceItemId,
+                            DestinationDriveId = destinationDriveId,
+                            DestinationFolderPath = destinationFolderPath,
+                            DestinationFileName = destinationFileName
+                        },
+                        cancellationToken);
+
+                if (notAccepted is not null)
+                    throw new Exception(JsonSerializer.Serialize(notAccepted));
+
+                typed!.Validate();
+
+                var sourceItem = await graphClient
+                    .Drives[typed.SourceDriveId!]
+                    .Items[typed.SourceItemId!]
+                    .GetAsync(
+                        requestConfiguration =>
+                        {
+                            requestConfiguration.QueryParameters.Select =
+                            [
+                                "id",
+                            "name",
+                            "size",
+                            "file",
+                            "folder"
+                            ];
+                        },
+                        cancellationToken);
+
+                if (sourceItem is null)
+                    throw new InvalidOperationException(
+                        "Microsoft Graph returned no source file.");
+
+                if (sourceItem.Folder is not null)
+                    throw new ValidationException(
+                        "The source drive item is a folder. This tool only copies files.");
+
+                if (sourceItem.File is null)
+                    throw new ValidationException(
+                        "The source drive item is not a file.");
+
+                var finalFileName =
+                    !string.IsNullOrWhiteSpace(typed.DestinationFileName)
+                        ? typed.DestinationFileName.Trim()
+                        : sourceItem.Name;
+
+                if (string.IsNullOrWhiteSpace(finalFileName))
+                    throw new ValidationException(
+                        "Could not determine the destination file name.");
+
+                await using var sourceStream = await graphClient
+                    .Drives[typed.SourceDriveId!]
+                    .Items[typed.SourceItemId!]
+                    .Content
+                    .GetAsync(cancellationToken: cancellationToken);
+
+                if (sourceStream is null)
+                    throw new InvalidOperationException(
+                        "Microsoft Graph returned no content for the source file.");
+
+                var destinationPath = CombineDrivePath(
+                    typed.DestinationFolderPath,
+                    finalFileName);
+
+                var copiedItem = await graphClient
+                    .Drives[typed.DestinationDriveId!]
+                    .Root
+                    .ItemWithPath(destinationPath)
+                    .Content
+                    .PutAsync(
+                        sourceStream,
+                        cancellationToken: cancellationToken);
+
+                if (copiedItem is null)
+                    throw new InvalidOperationException(
+                        "Microsoft Graph returned no destination drive item.");
+
+                return new
+                {
+                    SourceDriveId = typed.SourceDriveId,
+                    SourceItemId = typed.SourceItemId,
+                    SourceFileName = sourceItem.Name,
+                    SourceSize = sourceItem.Size,
+
+                    DestinationDriveId = typed.DestinationDriveId,
+                    DestinationFolderPath =
+                        NormalizeDriveFolderPath(
+                            typed.DestinationFolderPath),
+
+                    DestinationFileName = finalFileName,
+                    DestinationPath = destinationPath,
+
+                    DestinationItemId = copiedItem.Id,
+                    DestinationWebUrl = copiedItem.WebUrl,
+                    DestinationSize = copiedItem.Size,
+
+                    Status = "Copied file successfully."
+                };
+            })));
+
+    private static string CombineDrivePath(
+        string? folderPath,
+        string fileName)
+    {
+        var normalizedFolderPath =
+            NormalizeDriveFolderPath(folderPath);
+
+        return string.IsNullOrWhiteSpace(normalizedFolderPath)
+            ? fileName
+            : $"{normalizedFolderPath}/{fileName}";
+    }
+
+    private static string NormalizeDriveFolderPath(
+        string? folderPath)
+    {
+        if (string.IsNullOrWhiteSpace(folderPath))
+            return string.Empty;
+
+        return folderPath
+            .Replace('\\', '/')
+            .Trim('/');
+    }
+
     [Description("Uploads a file to the specified OneDrive location.")]
     [McpServerTool(Title = "Upload file to OneDrive",
         Name = "graph_onedrive_upload_file",
@@ -167,5 +333,86 @@ public static class GraphOneDrive
         [JsonPropertyName("contentTypeId")]
         [Description("The id of the content type.")]
         public string? ContentTypeId { get; set; }
+    }
+
+    [Description(
+    "Confirm copying a file between OneDrive or SharePoint document libraries.")]
+    public class GraphCopyFile
+    {
+        [JsonPropertyName("sourceDriveId")]
+        [Required]
+        [Description("Drive ID containing the source file.")]
+        public string? SourceDriveId { get; set; }
+
+        [JsonPropertyName("sourceItemId")]
+        [Required]
+        [Description("Drive item ID of the source file.")]
+        public string? SourceItemId { get; set; }
+
+        [JsonPropertyName("destinationDriveId")]
+        [Required]
+        [Description("Drive ID of the destination document library.")]
+        public string? DestinationDriveId { get; set; }
+
+        [JsonPropertyName("destinationFolderPath")]
+        [Description(
+            "Destination folder path relative to the document library root. " +
+            "Leave empty for root.")]
+        public string? DestinationFolderPath { get; set; }
+
+        [JsonPropertyName("destinationFileName")]
+        [Description(
+            "Optional destination file name including extension. " +
+            "Defaults to the source file name.")]
+        public string? DestinationFileName { get; set; }
+
+        public void Validate()
+        {
+            if (string.IsNullOrWhiteSpace(SourceDriveId))
+                throw new ValidationException(
+                    "sourceDriveId is required.");
+
+            if (string.IsNullOrWhiteSpace(SourceItemId))
+                throw new ValidationException(
+                    "sourceItemId is required.");
+
+            if (string.IsNullOrWhiteSpace(DestinationDriveId))
+                throw new ValidationException(
+                    "destinationDriveId is required.");
+
+            if (!string.IsNullOrWhiteSpace(DestinationFileName))
+            {
+                var fileName = DestinationFileName.Trim();
+
+                if (fileName.Contains('/') ||
+                    fileName.Contains('\\'))
+                {
+                    throw new ValidationException(
+                        "destinationFileName must be a file name only, not a path.");
+                }
+
+                if (fileName is "." or "..")
+                {
+                    throw new ValidationException(
+                        "destinationFileName is invalid.");
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(DestinationFolderPath))
+            {
+                var segments = DestinationFolderPath
+                    .Replace('\\', '/')
+                    .Split(
+                        '/',
+                        StringSplitOptions.RemoveEmptyEntries |
+                        StringSplitOptions.TrimEntries);
+
+                if (segments.Any(segment => segment is "." or ".."))
+                {
+                    throw new ValidationException(
+                        "destinationFolderPath cannot contain '.' or '..' path segments.");
+                }
+            }
+        }
     }
 }
