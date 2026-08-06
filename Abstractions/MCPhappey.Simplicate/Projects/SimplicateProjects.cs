@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -29,6 +28,8 @@ public static class SimplicateProjects
        [Description("Optional project status label filter.")] ProjectStatusLabel? projectStatusLabel = null,
        [Description("Optional project name filter.")] string? projectName = null,
        [Description("Optional project manager name filter.")] string? projectManagerName = null,
+        [Description("The limit of max allowed results.")] int? limit = null,
+        [Description("The offset to search from.")] int? offset = null,
        CancellationToken cancellationToken = default)
        => await ModelContextToolExtensions.WithExceptionCheck(async ()
        => await requestContext.WithStructuredContent(async () =>
@@ -37,7 +38,8 @@ public static class SimplicateProjects
        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
        string baseUrl = simplicateOptions.GetApiUrl("/projects/project");
        var filters = new List<string>();
-
+       if (limit.HasValue) filters.Add($"limit={limit}");
+       if (offset.HasValue) filters.Add($"offset={offset}");
        if (projectStatusLabel.HasValue)
            filters.Add($"q[project_status.label]=*{Uri.EscapeDataString(projectStatusLabel.Value.ToString())}*");
 
@@ -47,20 +49,37 @@ public static class SimplicateProjects
        if (!string.IsNullOrEmpty(projectManagerName))
            filters.Add($"q[project_manager.name]=*{Uri.EscapeDataString(projectManagerName)}*");
 
+
        var filterString = string.Join("&", filters);
-       var projects = await downloadService.GetAllSimplicatePagesAsync<SimplicateProject>(
+
+       if (limit.HasValue && limit.Value <= 100)
+           return await downloadService.GetSimplicatePageAsync<SimplicateProject>(
+               serviceProvider,
+               requestContext.Server,
+               $"{baseUrl}?{filterString}&metadata=count",
+               cancellationToken: cancellationToken
+           );
+
+       var items = await downloadService.GetAllSimplicatePagesAsync<SimplicateProject>(
            serviceProvider,
            requestContext.Server,
            baseUrl,
            filterString,
-           pageNum => $"Downloading projects",
+           pageNum => $"Downloading projects (page {pageNum})",
            requestContext,
            cancellationToken: cancellationToken
        );
 
        return new SimplicateData<SimplicateProject>()
        {
-           Data = projects
+           Data = items.Skip(offset ?? 0).Take(limit ?? int.MaxValue),
+           Metadata = new()
+           {
+               Count = items.Count,
+               Offset = offset ?? null,
+               Limit = limit ?? null
+           }
+
        };
    }));
 
@@ -260,10 +279,6 @@ public static class SimplicateProjects
         [JsonPropertyName("budget")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public SimplicateProjectBudget? Budget { get; set; }
-
-        [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = [];
-
     }
 
     public class SimplicateProjectManager
