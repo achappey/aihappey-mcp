@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace MCPhappey.Simplicate.CRM;
@@ -418,6 +419,10 @@ public static partial class SimplicateCRM
         [JsonPropertyName("is_active")]
         [Description("Organization active.")]
         public bool? IsActive { get; set; }
+
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = [];
+
     }
 
     [Description("Person contact link for an organization")]

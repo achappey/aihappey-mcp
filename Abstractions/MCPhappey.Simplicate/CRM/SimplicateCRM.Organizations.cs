@@ -31,26 +31,13 @@ public static partial class SimplicateCRM
       [Description("Visiting address locality")] string? visitingAddressLocality = null,
       [Description("(partial) text value of the relation manager name")] string? relationManager = null,
       [Description("Offset used for pagination")] int? offset = null,
+      [Description("The limit of max allowed results")] int? limit = null,
      CancellationToken cancellationToken = default) =>
      await ModelContextToolExtensions.WithExceptionCheck(async () =>
      await requestContext.WithStructuredContent(async () =>
      {
          var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
          var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-
-         string select =
-                "id," +
-                "name," +
-                "phone," +
-                "url," +
-                "email," +
-                "linkedin_url," +
-                "coc_code," +
-                "vat_number," +
-                "note," +
-                "industry.," +
-                "relation_type.," +
-                "relation_manager.";
 
          var filters = new List<string>();
 
@@ -75,14 +62,43 @@ public static partial class SimplicateCRM
          if (offset.HasValue)
              filters.Add($"offset={offset.Value}");
 
-         var filterString = string.Join("&", filters) + $"&select={select}&metadata=count,limit,offset&limit=100&sort=-created_at";
+         if (limit.HasValue)
+             filters.Add($"limit={limit.Value}");
 
-         return await downloadService.GetSimplicatePageAsync<SimplicateOrganization>(
-             serviceProvider, requestContext.Server,
-             simplicateOptions.GetApiUrl("/crm/organization") + "?" + filterString,
-             cancellationToken: cancellationToken);
+         var filterString = string.Join("&", filters) + $"&metadata=count,limit,offset&sort=-created_at";
+         string baseUrl = simplicateOptions.GetApiUrl("/crm/organization");
+
+         if (limit.HasValue && limit.Value <= 100)
+             return await downloadService.GetSimplicatePageAsync<SimplicateOrganization>(
+                 serviceProvider,
+                 requestContext.Server,
+                 $"{baseUrl}?{filterString}",
+                 cancellationToken: cancellationToken
+             );
+
+         var items = await downloadService.GetAllSimplicatePagesAsync<SimplicateOrganization>(
+             serviceProvider,
+             requestContext.Server,
+             baseUrl,
+             filterString,
+             pageNum => $"Downloading organizations (page {pageNum})",
+             requestContext,
+             cancellationToken: cancellationToken
+         );
+
+         return new SimplicateData<SimplicateOrganization>()
+         {
+             Data = items.Skip(offset ?? 0).Take(limit ?? int.MaxValue),
+             Metadata = new()
+             {
+                 Count = items.Count,
+                 Offset = offset ?? null,
+                 Limit = limit ?? null
+             }
+
+         };
      }));
-   
+
     [Description("Get my organization profiles")]
     [McpServerTool(
         Title = "Get my organization profiles",
@@ -94,7 +110,7 @@ public static partial class SimplicateCRM
     public static async Task<CallToolResult?> SimplicateCRM_GetMyOrganzizationProfiles(
          IServiceProvider serviceProvider,
          RequestContext<CallToolRequestParams> requestContext,
-         CancellationToken cancellationToken = default) => 
+         CancellationToken cancellationToken = default) =>
         await requestContext.WithStructuredContent(async () =>
      {
          var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
