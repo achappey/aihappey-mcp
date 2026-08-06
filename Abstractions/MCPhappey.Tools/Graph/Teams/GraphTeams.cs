@@ -130,7 +130,7 @@ public static partial class GraphTeams
             {
                 teamId
             };
-            }))); 
+        })));
 
     [Description("Add one Microsoft Entra user as a member of a Microsoft Team after eliciting the Team and user IDs.")]
     [McpServerTool(
@@ -286,7 +286,7 @@ public static partial class GraphTeams
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.ConfirmAndDeleteAsync<GraphDeleteTeam>(
             teamId,
-            async ct => await client.Teams[teamId].DeleteAsync(cancellationToken: ct),
+            async ct => await client.Groups[teamId].DeleteAsync(cancellationToken: ct),
             $"Microsoft Team {teamId} was deleted.",
             cancellationToken)));
 
