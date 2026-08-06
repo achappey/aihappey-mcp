@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -14,140 +15,54 @@ namespace MCPhappey.Simplicate.Projects;
 public static class SimplicateProjects
 {
 
-    [McpServerTool(OpenWorld = false, ReadOnly = true,
-    Destructive = false,
-    Name = "simplicate_projects_get_budget_totals_by_manager",
-    Title = "Get project budget totals by project manager")]
-    [Description("Returns, per project manager, the total budgeted, spent, and invoiced values aggregated across their projects.")]
-    public static async Task<CallToolResult?> SimplicateProjects_GetBudgetTotalsByManager(
-    IServiceProvider serviceProvider,
-    RequestContext<CallToolRequestParams> requestContext,
-    [Description("Optional project status label filter.")] ProjectStatusLabel? projectStatusLabel = null,
-    CancellationToken cancellationToken = default)
-    => await ModelContextToolExtensions.WithExceptionCheck(async ()
-    => await requestContext.WithStructuredContent(async () =>
-{
-    var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
-    var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-    string baseUrl = simplicateOptions.GetApiUrl("/projects/project");
-    string select = "name,project_manager.,budget.";
-    var filters = new List<string>();
+    [McpServerTool(OpenWorld = false,
+       ReadOnly = true,
+       Destructive = false,
+       UseStructuredContent = true,
+       OutputSchemaType = typeof(SimplicateData<SimplicateProject>),
+       Name = "simplicate_projects_get_projects",
+       Title = "Get Simplicate projects")]
+    [Description("Returns projects with optional filters.")]
+    public static async Task<CallToolResult?> SimplicateProjects_GetProjects(
+       IServiceProvider serviceProvider,
+       RequestContext<CallToolRequestParams> requestContext,
+       [Description("Optional project status label filter.")] ProjectStatusLabel? projectStatusLabel = null,
+       [Description("Optional project name filter.")] string? projectName = null,
+       [Description("Optional project manager name filter.")] string? projectManagerName = null,
+       CancellationToken cancellationToken = default)
+       => await ModelContextToolExtensions.WithExceptionCheck(async ()
+       => await requestContext.WithStructuredContent(async () =>
+   {
+       var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+       var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+       string baseUrl = simplicateOptions.GetApiUrl("/projects/project");
+       var filters = new List<string>();
 
-    if (projectStatusLabel.HasValue)
-        filters.Add($"q[project_status.label]=*{Uri.EscapeDataString(projectStatusLabel.Value.ToString())}*");
+       if (projectStatusLabel.HasValue)
+           filters.Add($"q[project_status.label]=*{Uri.EscapeDataString(projectStatusLabel.Value.ToString())}*");
 
-    var filterString = string.Join("&", filters) + $"&select={select}";
-    var projects = await downloadService.GetAllSimplicatePagesAsync<SimplicateProject>(
-        serviceProvider,
-        requestContext.Server,
-        baseUrl,
-        filterString,
-        pageNum => $"Downloading project budgets",
-        requestContext,
-        cancellationToken: cancellationToken
-    );
+       if (!string.IsNullOrEmpty(projectName))
+           filters.Add($"q[name]=*{Uri.EscapeDataString(projectName.ToString())}*");
 
-    return new
-    {
-        project_managers = projects
-            .Where(p => p.ProjectManager?.Name != null)
-            .GroupBy(p => p.ProjectManager!.Name)
-            .Select(g => new
-            {
-                project_manager = g.Key,
-                total_value_budget = g.Sum(p => p.Budget?.Total.ValueBudget ?? 0),
-                total_value_spent = g.Sum(p => p.Budget?.Total.ValueSpent ?? 0),
-                total_value_invoiced = g.Sum(p => p.Budget?.Total.ValueInvoiced ?? 0)
-            })
-            .OrderByDescending(x => x.total_value_budget)
-    };
-}));
+       if (!string.IsNullOrEmpty(projectManagerName))
+           filters.Add($"q[project_manager.name]=*{Uri.EscapeDataString(projectManagerName)}*");
 
+       var filterString = string.Join("&", filters);
+       var projects = await downloadService.GetAllSimplicatePagesAsync<SimplicateProject>(
+           serviceProvider,
+           requestContext.Server,
+           baseUrl,
+           filterString,
+           pageNum => $"Downloading projects",
+           requestContext,
+           cancellationToken: cancellationToken
+       );
 
-    [McpServerTool(OpenWorld = false, 
-        ReadOnly = true,
-        Destructive = false,
-        Name = "simplicate_projects_get_budget_totals_by_cost_type",
-        Title = "Get project budget totals by cost type")]
-    [Description("Returns aggregated totals for all projects, split into hours, costs, and total categories. Ideal for quick portfolio overviews.")]
-    public static async Task<CallToolResult?> SimplicateProjects_GetBudgetTotalsByCostType(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        CancellationToken cancellationToken = default)
-        => await ModelContextToolExtensions.WithExceptionCheck(async ()
-        => await requestContext.WithStructuredContent(async () =>
-    {
-        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-        string baseUrl = simplicateOptions.GetApiUrl("/projects/project");
-        string select = "name,budget.";
-        var projects = await downloadService.GetAllSimplicatePagesAsync<SimplicateProject>(
-            serviceProvider,
-            requestContext.Server,
-            baseUrl,
-            $"select={select}",
-            pageNum => $"Downloading budgets",
-            requestContext,
-            cancellationToken: cancellationToken
-        );
-
-        return new
-        {
-            totals = new
-            {
-                hours_value_budget = projects.Sum(p => p.Budget?.Hours.ValueBudget ?? 0),
-                hours_value_spent = projects.Sum(p => p.Budget?.Hours.ValueSpent ?? 0),
-                costs_value_budget = projects.Sum(p => p.Budget?.Costs.ValueBudget ?? 0),
-                costs_value_spent = projects.Sum(p => p.Budget?.Costs.ValueSpent ?? 0),
-                total_value_budget = projects.Sum(p => p.Budget?.Total.ValueBudget ?? 0),
-                total_value_spent = projects.Sum(p => p.Budget?.Total.ValueSpent ?? 0),
-                total_value_invoiced = projects.Sum(p => p.Budget?.Total.ValueInvoiced ?? 0)
-            }
-        };
-    }));
-
-    [McpServerTool(OpenWorld = false, ReadOnly = true,
-        Destructive = false,
-        Name = "simplicate_projects_get_budget_spent_vs_budget",
-        Title = "Get project spent vs. budget ratios")]
-    [Description("Returns, per project, how much of the budget has been spent (%). Useful for performance charts or burn-down visualizations.")]
-    public static async Task<CallToolResult?> SimplicateProjects_GetBudgetSpentVsBudget(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        CancellationToken cancellationToken = default)
-        => await ModelContextToolExtensions.WithExceptionCheck(async ()
-        => await requestContext.WithStructuredContent(async () =>
-    {
-        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-        string baseUrl = simplicateOptions.GetApiUrl("/projects/project");
-        string select = "name,project_manager.,budget.total.";
-        var projects = await downloadService.GetAllSimplicatePagesAsync<SimplicateProject>(
-            serviceProvider,
-            requestContext.Server,
-            baseUrl,
-            $"select={select}",
-            pageNum => $"Downloading project budgets",
-            requestContext,
-            cancellationToken: cancellationToken
-        );
-
-        return new
-        {
-            projects = projects
-                .Where(p => (p.Budget?.Total.ValueBudget ?? 0) > 0)
-                .Select(p => new
-                {
-                    name = p.Name,
-                    project_manager = p.ProjectManager?.Name,
-                    value_budget = p.Budget!.Total.ValueBudget,
-                    value_spent = p.Budget!.Total.ValueSpent,
-                    spent_ratio = Math.Round(
-                        p.Budget!.Total.ValueSpent / p.Budget!.Total.ValueBudget * 100, 1)
-                })
-                .OrderByDescending(x => x.spent_ratio)
-        };
-    }));
+       return new SimplicateData<SimplicateProject>()
+       {
+           Data = projects
+       };
+   }));
 
     [Description("Create a new project in Simplicate")]
     [McpServerTool(OpenWorld = false, Title = "Create new project in Simplicate")]
@@ -248,74 +163,6 @@ public static class SimplicateProjects
         cancellationToken
     );
 
-    [Description("Get projects grouped by project manager filtered by my organization profile, optionally filtered by date (equal or greater than), project.")]
-    [McpServerTool(OpenWorld = false,
-        Title = "Get projects by project manager",
-        ReadOnly = true)]
-    public static async Task<CallToolResult?> SimplicateProjects_GetProjectNamesByProjectManager(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("My organization profile name of the project filter. Optional.")] string myOrganizationProfileName,
-        [Description("End date for filtering (on or after), format yyyy-MM-dd. Optional.")] string? date = null,
-        [Description("Project status label to filter by. Optional.")] ProjectStatusLabel? projectStatusLabel = null,
-        CancellationToken cancellationToken = default)
-        => await GetProjectsGroupedBy(
-            serviceProvider,
-            requestContext,
-            x => x.ProjectManager?.Name,
-            myOrganizationProfileName, date, projectStatusLabel, cancellationToken);
-
-    private static async Task<CallToolResult?> GetProjectsGroupedBy(
-            IServiceProvider serviceProvider,
-            RequestContext<CallToolRequestParams> requestContext,
-            Func<SimplicateProject, string?> groupKeySelector,
-            string? myOrganizationProfileName = null,
-            string? date = null,
-            ProjectStatusLabel? projectStatusLabel = null,
-            CancellationToken cancellationToken = default)
-            => await ModelContextToolExtensions.WithExceptionCheck(async ()
-            => await requestContext.WithStructuredContent(async () =>
-    {
-        if (
-             string.IsNullOrWhiteSpace(myOrganizationProfileName)
-            && string.IsNullOrWhiteSpace(date))
-            throw new ArgumentException("At least one filter (managerName, date, myOrganizationProfileName) must be provided.");
-
-        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-
-        string baseUrl = simplicateOptions.GetApiUrl("/projects/project");
-        string select = "project_manager.,name";
-        var filters = new List<string>();
-
-        if (!string.IsNullOrWhiteSpace(date))
-            filters.Add($"q[end_date][ge]={Uri.EscapeDataString(date)}");
-
-        if (!string.IsNullOrWhiteSpace(myOrganizationProfileName)) filters.Add($"q[my_organization_profile.organization.name]=*{Uri.EscapeDataString(myOrganizationProfileName)}*");
-        if (projectStatusLabel.HasValue) filters.Add($"q[project_status.label]=*{Uri.EscapeDataString(projectStatusLabel.Value.ToString())}*");
-
-        var filterString = string.Join("&", filters) + $"&select={select}";
-
-        var hours = await downloadService.GetAllSimplicatePagesAsync<SimplicateProject>(
-            serviceProvider,
-            requestContext.Server,
-            baseUrl,
-            filterString,
-            pageNum => $"Downloading projects",
-            requestContext,
-            cancellationToken: cancellationToken
-        );
-
-        return new
-        {
-            hours = hours
-            .GroupBy(x => groupKeySelector(x) ?? string.Empty)
-            .ToDictionary(
-                g => g.Key,
-                g => g.Select(t => t.Name)) ?? []
-        };
-    }));
-
     [Description("Please fill in the project employee details")]
     public class SimplicateAddProjectEmployee
     {
@@ -400,6 +247,9 @@ public static class SimplicateProjects
 
     public class SimplicateProject
     {
+        [JsonPropertyName("id")]
+        public string Id { get; set; } = null!;
+
         [JsonPropertyName("name")]
         public string Name { get; set; } = string.Empty;
 
@@ -410,6 +260,9 @@ public static class SimplicateProjects
         [JsonPropertyName("budget")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public SimplicateProjectBudget? Budget { get; set; }
+
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = [];
 
     }
 
