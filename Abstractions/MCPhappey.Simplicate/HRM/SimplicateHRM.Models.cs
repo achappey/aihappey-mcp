@@ -327,21 +327,6 @@ public static partial class SimplicateHRM
         public string Label { get; set; } = string.Empty;
     }
 
-    public class LeaveTotals
-    {
-        [JsonPropertyName("leaveType")]
-        public string LeaveType { get; set; } = string.Empty;
-
-        [JsonPropertyName("totalDays")]
-        public double TotalDays { get; set; }
-
-        [JsonPropertyName("totalHours")]
-        public double TotalHours { get; set; }
-
-        [JsonPropertyName("totalHoursPlanned")]
-        public double TotalHoursPlanned { get; set; }
-    }
-
     public class SimplicateEmployee
     {
         [JsonPropertyName("id")]
@@ -456,12 +441,28 @@ public static partial class SimplicateHRM
         public string? Color { get; set; }
     }
 
-    private sealed record LeaveRow(
-        SimplicateLeaveRecord Source,
-        int Year,
-        DateOnly? StartDate,
-        DateOnly? EndDate,
-        bool AffectsBalance);
+    public sealed class SimplicateLeaveBalanceRecord
+    {
+        [JsonPropertyName("first_change")]
+        public string? FirstChange { get; set; }
+
+        [JsonPropertyName("last_change")]
+        public string? LastChange { get; set; }
+
+        [JsonPropertyName("year")]
+        [JsonConverter(typeof(FlexibleNullableIntConverter))]
+        public int? Year { get; set; }
+
+        [JsonPropertyName("balance")]
+        public double Balance { get; set; }
+
+        [JsonPropertyName("employee")]
+        public SimplicateEmployeeRef? Employee { get; set; }
+
+        [JsonPropertyName("leavetype")]
+        public SimplicateLeaveTypeRef? LeaveType { get; set; }
+    }
+
 
     public sealed class SimplicateLeaveRecord
     {

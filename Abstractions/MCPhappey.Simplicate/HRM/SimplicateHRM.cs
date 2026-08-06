@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Globalization;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
@@ -14,211 +13,95 @@ namespace MCPhappey.Simplicate.HRM;
 
 public static partial class SimplicateHRM
 {
-    [Description("Get all Simplicate leave hours for one employee grouped by year")]
+    [Description("Get all Simplicate leave balances with optional filters.")]
     [McpServerTool(
-        Title = "Get Simplicate employee leave hours by year",
-        Name = "simplicate_hrm_get_employee_leave_hours_by_year",
-        OpenWorld = false,
-        ReadOnly = true)]
-    public static async Task<CallToolResult?> SimplicateHRM_GetEmployeeLeaveHoursByYear(
-        [Description("Simplicate employee id")] string employeeId,
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        CancellationToken cancellationToken = default) => await requestContext.WithStructuredContent(async () =>
-    {
-        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+      Title = "Get Simplicate employee leave balances",
+      Name = "simplicate_hrm_get_leave_balances",
+      UseStructuredContent = true,
+      OutputSchemaType = typeof(SimplicateData<SimplicateLeaveBalanceRecord>),
+      OpenWorld = false,
+      ReadOnly = true)]
+    public static async Task<CallToolResult?> SimplicateHRM_GetLeaveBalances(
+      IServiceProvider serviceProvider,
+      RequestContext<CallToolRequestParams> requestContext,
+      [Description("Simplicate employee id")] string? employeeId = null,
+      CancellationToken cancellationToken = default) =>
+      await requestContext.WithStructuredContent(async () =>
+  {
+      var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+      var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-        employeeId = employeeId?.Trim() ?? "";
+      var leaveUrl = simplicateOptions.GetApiUrl("/hrm/leavebalance");
 
-        if (string.IsNullOrWhiteSpace(employeeId))
-            throw new ArgumentException("employeeId is required", nameof(employeeId));
+      var filters = new List<string>()
+      {
+      };
 
-        var today = DateOnly.FromDateTime(DateTime.Now);
-        var encodedEmployeeId = Uri.EscapeDataString(employeeId);
+      if (!string.IsNullOrEmpty(employeeId))
+          filters.Add($"q[employee.id]={Uri.EscapeDataString(employeeId)}");
 
-        DateOnly? ParseDate(string? value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                return null;
+      var leaveFilterString = string.Join("&", filters);
 
-            if (DateOnly.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateOnly))
-                return dateOnly;
+      var leaves = await downloadService.GetAllSimplicatePagesAsync<SimplicateLeaveBalanceRecord>(
+          serviceProvider,
+          requestContext.Server,
+          leaveUrl,
+          leaveFilterString,
+          pageNum => $"Downloading Simplicate leave balances page {pageNum}",
+          requestContext,
+          cancellationToken: cancellationToken);
 
-            if (DateTimeOffset.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var dto))
-                return DateOnly.FromDateTime(dto.LocalDateTime);
+      return new SimplicateData<SimplicateLeaveBalanceRecord>()
+      {
+          Data = leaves
+      };
+  });
 
-            if (DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var dateTime))
-                return DateOnly.FromDateTime(dateTime);
+    [Description("Get all Simplicate leaves with optional filters.")]
+    [McpServerTool(
+       Title = "Get Simplicate employee leaves",
+       Name = "simplicate_hrm_get_leaves",
+       UseStructuredContent = true,
+       OutputSchemaType = typeof(SimplicateData<SimplicateLeaveRecord>),
+       OpenWorld = false,
+       ReadOnly = true)]
+    public static async Task<CallToolResult?> SimplicateHRM_GetLeaves(
+       IServiceProvider serviceProvider,
+       RequestContext<CallToolRequestParams> requestContext,
+       [Description("Simplicate employee id")] string? employeeId = null,
+       CancellationToken cancellationToken = default) =>
+       await requestContext.WithStructuredContent(async () =>
+   {
+       var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+       var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-            return null;
-        }
+       var leaveSelect = "id,employee.,leavetype.,leave_status.,start_date,end_date,year,hours,description,created_at,updated_at";
+       var leaveUrl = simplicateOptions.GetApiUrl("/hrm/leave");
 
-        var leaveUrl = simplicateOptions.GetApiUrl("/hrm/leave");
+       var filters = new List<string>()
+       {
+             $"select={leaveSelect}"
+       };
 
-        var leaveSelect = "id,employee.,leavetype.,leave_status.,start_date,end_date,year,hours,description,created_at,updated_at";
+       if (!string.IsNullOrEmpty(employeeId))
+           filters.Add($"q[employee.id]={Uri.EscapeDataString(employeeId)}");
 
-        var leaveFilterString = string.Join("&", new[]
-        {
-            $"q[employee.id]={encodedEmployeeId}",
-            $"select={leaveSelect}"
-        });
+       var leaveFilterString = string.Join("&", filters);
 
-        var leaves = await downloadService.GetAllSimplicatePagesAsync<SimplicateLeaveRecord>(
-            serviceProvider,
-            requestContext.Server,
-            leaveUrl,
-            leaveFilterString,
-            pageNum => $"Downloading Simplicate leave for employee {employeeId} page {pageNum}",
-            requestContext,
-            cancellationToken: cancellationToken);
+       var leaves = await downloadService.GetAllSimplicatePagesAsync<SimplicateLeaveRecord>(
+           serviceProvider,
+           requestContext.Server,
+           leaveUrl,
+           leaveFilterString,
+           pageNum => $"Downloading Simplicate leaves page {pageNum}",
+           requestContext,
+           cancellationToken: cancellationToken);
 
-        var rows = leaves
-            .Where(x => string.Equals(x.Employee?.Id, employeeId, StringComparison.OrdinalIgnoreCase))
-            .Select(x =>
-            {
-                var startDate = ParseDate(x.StartDate);
-                var endDate = ParseDate(x.EndDate);
-                var year = x.Year ?? startDate?.Year;
-
-                return year is null
-                    ? null
-                    : new LeaveRow(
-                        Source: x,
-                        Year: year.Value,
-                        StartDate: startDate,
-                        EndDate: endDate,
-                        AffectsBalance: x.LeaveType?.AffectsBalance == true);
-            })
-            .Where(x => x is not null)
-            .Select(x => x!)
-            .ToList();
-
-        var years = rows
-            .Select(x => x.Year)
-            .Distinct()
-            .OrderBy(x => x)
-            .ToList();
-
-        var yearlyTotals = years.Select(year =>
-        {
-            var yearRows = rows
-                .Where(x => x.Year == year)
-                .OrderBy(x => x.StartDate)
-                .ThenBy(x => x.Source.CreatedAt)
-                .ToList();
-
-            var balanceCredits = yearRows
-                .Where(x => x.AffectsBalance && x.Source.Hours > 0)
-                .ToList();
-
-            var balanceTaken = yearRows
-                .Where(x => x.AffectsBalance && x.Source.Hours < 0)
-                .ToList();
-
-            var allCredits = yearRows
-                .Where(x => x.Source.Hours > 0)
-                .ToList();
-
-            var allTaken = yearRows
-                .Where(x => x.Source.Hours < 0)
-                .ToList();
-
-            double? takenUntilTodayHours = null;
-            double? takenAfterTodayHours = null;
-
-            if (year == today.Year)
-            {
-                takenUntilTodayHours = Math.Round(
-                    -balanceTaken
-                        .Where(x => x.StartDate is not null && x.StartDate.Value <= today)
-                        .Sum(x => x.Source.Hours),
-                    2);
-
-                takenAfterTodayHours = Math.Round(
-                    -balanceTaken
-                        .Where(x => x.StartDate is not null && x.StartDate.Value > today)
-                        .Sum(x => x.Source.Hours),
-                    2);
-            }
-
-            var creditedHours = Math.Round(balanceCredits.Sum(x => x.Source.Hours), 2);
-            var takenHours = Math.Round(-balanceTaken.Sum(x => x.Source.Hours), 2);
-
-            return new
-            {
-                year,
-
-                credited_hours = creditedHours,
-                taken_hours = takenHours,
-                remaining_hours_calculated = Math.Round(creditedHours - takenHours, 2),
-
-                taken_until_today_hours = takenUntilTodayHours,
-                taken_after_today_hours = takenAfterTodayHours,
-
-                all_credited_hours_including_non_balance = Math.Round(allCredits.Sum(x => x.Source.Hours), 2),
-                all_taken_hours_including_non_balance = Math.Round(-allTaken.Sum(x => x.Source.Hours), 2),
-
-                credited_by_leave_type = balanceCredits
-                    .GroupBy(x => new
-                    {
-                        LeaveTypeId = x.Source.LeaveType?.Id ?? "",
-                        LeaveTypeLabel = x.Source.LeaveType?.Label ?? ""
-                    })
-                    .Select(g => new
-                    {
-                        leave_type_id = g.Key.LeaveTypeId,
-                        leave_type = g.Key.LeaveTypeLabel,
-                        credited_hours = Math.Round(g.Sum(x => x.Source.Hours), 2)
-                    })
-                    .OrderBy(x => x.leave_type)
-                    .ToList(),
-
-                taken_by_leave_type = balanceTaken
-                    .GroupBy(x => new
-                    {
-                        LeaveTypeId = x.Source.LeaveType?.Id ?? "",
-                        LeaveTypeLabel = x.Source.LeaveType?.Label ?? ""
-                    })
-                    .Select(g => new
-                    {
-                        leave_type_id = g.Key.LeaveTypeId,
-                        leave_type = g.Key.LeaveTypeLabel,
-                        taken_hours = Math.Round(-g.Sum(x => x.Source.Hours), 2)
-                    })
-                    .OrderBy(x => x.leave_type)
-                    .ToList(),
-
-                non_balance_taken_by_leave_type = yearRows
-                    .Where(x => !x.AffectsBalance && x.Source.Hours < 0)
-                    .GroupBy(x => new
-                    {
-                        LeaveTypeId = x.Source.LeaveType?.Id ?? "",
-                        LeaveTypeLabel = x.Source.LeaveType?.Label ?? ""
-                    })
-                    .Select(g => new
-                    {
-                        leave_type_id = g.Key.LeaveTypeId,
-                        leave_type = g.Key.LeaveTypeLabel,
-                        taken_hours = Math.Round(-g.Sum(x => x.Source.Hours), 2)
-                    })
-                    .OrderBy(x => x.leave_type)
-                    .ToList(),
-            };
-        }).ToList();
-
-        return new
-        {
-            employee_id = employeeId,
-            today = today.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
-            source = "/hrm/leave",
-
-      
-            years = yearlyTotals
-        };
-    });
-
-
+       return new SimplicateData<SimplicateLeaveRecord>()
+       {
+           Data = leaves
+       };
+   });
 
     [Description("Create a new employee in Simplicate HRM")]
     [McpServerTool(
@@ -357,7 +240,7 @@ public static partial class SimplicateHRM
         CancellationToken cancellationToken = default)
         => await requestContext.ConfirmAndDeleteAsync<ConfirmDeleteSimplicateAbsence>(
             expectedName: absenceId,
-            async ct => await serviceProvider.DeleteSimplicateResourceAsync(             
+            async ct => await serviceProvider.DeleteSimplicateResourceAsync(
                 "/hrm/absence/" + absenceId,
                 $"Absence '{absenceId}' deleted.",
                 ct),
@@ -521,41 +404,50 @@ public static partial class SimplicateHRM
         CancellationToken cancellationToken = default)
         => await requestContext.ConfirmAndDeleteAsync<ConfirmDeleteSimplicateTimetable>(
             expectedName: timetableId,
-            async ct => await serviceProvider.DeleteSimplicateResourceAsync(                
+            async ct => await serviceProvider.DeleteSimplicateResourceAsync(
                 "/hrm/timetable/" + timetableId,
                 $"Timetable '{timetableId}' deleted.",
                 ct),
             $"Timetable '{timetableId}' deleted.",
             cancellationToken);
 
-    [Description("Get Simplicate employees")]
+    [Description("Get Simplicate employees with optional filters")]
     [McpServerTool(
        Title = "Get Simplicate employees",
-       Name = "simplicate_hrm_get_team_employees",
+       Name = "simplicate_hrm_get_employees",
+       UseStructuredContent = true,
+       OutputSchemaType = typeof(SimplicateData<SimplicateEmployee>),
        OpenWorld = false, ReadOnly = true)]
-    public static async Task<CallToolResult?> SimplicateHRM_GetTeamEmployees(
-           [Description("Team to get the leave totals for")] string teamName,
+    public static async Task<CallToolResult?> SimplicateHRM_GetEmployees(
            IServiceProvider serviceProvider,
            RequestContext<CallToolRequestParams> requestContext,
+           [Description("Team to get the employees for")] string? teamName = null,
            [Description("Filter on employment status")] string? employmentStatus = "active",
            [Description("Filter on is user")] bool isUser = true,
-           CancellationToken cancellationToken = default) => await requestContext.WithStructuredContent(async () =>
+           CancellationToken cancellationToken = default) =>
+        await requestContext.WithStructuredContent(async () =>
        {
            var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
            var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+
+           var filters = new List<string>()
+           {
+                 $"q[is_user]={isUser.ToString()?.ToLower()}",
+                 "sort=name"
+           };
+
+           if (!string.IsNullOrWhiteSpace(teamName))
+               filters.Add($"q[teams.name]=*{teamName}*");
+
+           if (!string.IsNullOrWhiteSpace(employmentStatus))
+               filters.Add($"q[employment_status]={employmentStatus}");
 
            // 1) Employees (IDs only)
            var employees = await downloadService.GetAllSimplicatePagesAsync<SimplicateEmployee>(
                serviceProvider, requestContext.Server,
                simplicateOptions.GetApiUrl("/hrm/employee"),
-               string.Join("&", new[]
-               {
-                    $"q[employment_status]={employmentStatus}",
-                    $"q[teams.name]=*{teamName}*",
-                    $"q[is_user]={isUser.ToString()?.ToLower()}",
-                    "sort=name"
-               }),
-               page => $"Downloading employees {teamName} page {page}",
+               string.Join("&", filters),
+               page => $"Downloading employees page {page}",
                requestContext, cancellationToken: cancellationToken);
 
            return new SimplicateData<SimplicateEmployee>()
