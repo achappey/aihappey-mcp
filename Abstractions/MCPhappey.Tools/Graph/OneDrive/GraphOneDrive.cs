@@ -281,7 +281,7 @@ public static class GraphOneDrive
 
     [Description("Rename a file or folder in OneDrive or a SharePoint document library.")]
     [McpServerTool(Title = "Rename OneDrive/SharePoint item", Name = "graph_onedrive_rename_item",
-        UseStructuredContent = true, OutputSchemaType = typeof(DriveItem), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphOneDrive_RenameItem(
         [Description("Drive ID containing the item.")] string driveId,
@@ -304,7 +304,7 @@ public static class GraphOneDrive
 
     [Description("Move a file or folder to another folder in the same OneDrive or SharePoint drive.")]
     [McpServerTool(Title = "Move OneDrive/SharePoint item", Name = "graph_onedrive_move_item",
-        UseStructuredContent = true, OutputSchemaType = typeof(DriveItem), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphOneDrive_MoveItem(
         [Description("Drive ID containing the item and destination folder.")] string driveId,
