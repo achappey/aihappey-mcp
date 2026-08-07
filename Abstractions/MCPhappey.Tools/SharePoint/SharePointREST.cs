@@ -16,8 +16,231 @@ namespace MCPhappey.Tools.SharePoint;
 
 public static partial class SharePointREST
 {
+    [Description(
+        "Rename a SharePoint site by updating its display title. " +
+        "This does not change the site URL.")]
+    [McpServerTool(
+        Title = "Rename SharePoint site",
+        Name = "sharepoint_rename_site",
+        Destructive = true,
+        Idempotent = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> SharePointRest_RenameSite(
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
 
-    
+        [Description(
+        "Exact SharePoint site URL, e.g. " +
+        "https://contoso.sharepoint.com/sites/project.")]
+    string? siteUrl = null,
+
+        [Description("New display title for the SharePoint site.")]
+    string? title = null,
+
+        CancellationToken cancellationToken = default)
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) =
+                await requestContext.Server.TryElicit(
+                    new SharePointRenameSiteInput
+                    {
+                        SiteUrl = siteUrl,
+                        Title = title
+                    },
+                    cancellationToken);
+
+            if (notAccepted is not null)
+                throw new Exception(JsonSerializer.Serialize(notAccepted));
+
+            typed!.Validate();
+
+            var tokenService =
+                serviceProvider.GetRequiredService<HeaderProvider>();
+
+            if (string.IsNullOrWhiteSpace(tokenService.Bearer))
+                throw new UnauthorizedAccessException("Missing bearer token.");
+
+            var httpClientFactory =
+                serviceProvider.GetRequiredService<IHttpClientFactory>();
+
+            var oauthSettings =
+                serviceProvider.GetRequiredService<OAuthSettings>();
+
+            var serverConfig =
+                serviceProvider.GetServerConfig(requestContext.Server);
+
+            var siteUri = new Uri(typed.SiteUrl!);
+
+            using var client =
+                await httpClientFactory.GetOboHttpClient(
+                    tokenService.Bearer,
+                    siteUri.Host,
+                    serverConfig!.Server,
+                    oauthSettings);
+
+            var previousTitle = await GetSharePointSiteTitleAsync(
+                client,
+                typed.SiteUrl!,
+                cancellationToken);
+
+            if (string.Equals(
+                    previousTitle,
+                    typed.Title,
+                    StringComparison.Ordinal))
+            {
+                return new
+                {
+                    typed.SiteUrl,
+                    PreviousTitle = previousTitle,
+                    Title = typed.Title,
+                    Updated = false,
+                    Status = "The SharePoint site already has this title."
+                };
+            }
+
+            await UpdateSharePointSiteTitleAsync(
+                client,
+                typed.SiteUrl!,
+                typed.Title!,
+                cancellationToken);
+
+            return new
+            {
+                typed.SiteUrl,
+                PreviousTitle = previousTitle,
+                Title = typed.Title,
+                Updated = true,
+                Status = "Renamed the SharePoint site successfully."
+            };
+        }));
+
+
+    private static async Task<string?> GetSharePointSiteTitleAsync(
+        HttpClient client,
+        string siteUrl,
+        CancellationToken cancellationToken)
+    {
+        var url =
+            $"{siteUrl.TrimEnd('/')}/_api/web?$select=Title";
+
+        using var request = new HttpRequestMessage(
+            HttpMethod.Get,
+            url);
+
+        request.Headers.Accept.ParseAdd(
+            "application/json;odata=nometadata");
+
+        using var response = await client.SendAsync(
+            request,
+            cancellationToken);
+
+        var content = await response.Content.ReadAsStringAsync(
+            cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException(
+                $"Could not retrieve the SharePoint site title " +
+                $"({(int)response.StatusCode} {response.ReasonPhrase}). " +
+                $"Response: {content}");
+        }
+
+        using var document = JsonDocument.Parse(content);
+
+        var root = UnwrapSharePointResponse(
+            document.RootElement);
+
+        return GetOptionalStringProperty(root, "Title");
+    }
+
+    private static async Task UpdateSharePointSiteTitleAsync(
+        HttpClient client,
+        string siteUrl,
+        string title,
+        CancellationToken cancellationToken)
+    {
+        var url =
+            $"{siteUrl.TrimEnd('/')}/_api/web";
+
+        using var request = new HttpRequestMessage(
+            HttpMethod.Post,
+            url);
+
+        request.Headers.Accept.ParseAdd(
+            "application/json;odata=nometadata");
+
+        request.Headers.TryAddWithoutValidation(
+            "IF-MATCH",
+            "*");
+
+        request.Headers.TryAddWithoutValidation(
+            "X-HTTP-Method",
+            "MERGE");
+
+        request.Content = new StringContent(
+            JsonSerializer.Serialize(new
+            {
+                Title = title.Trim()
+            }),
+            System.Text.Encoding.UTF8,
+            "application/json");
+
+        using var response = await client.SendAsync(
+            request,
+            cancellationToken);
+
+        var content = await response.Content.ReadAsStringAsync(
+            cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException(
+                $"Could not rename the SharePoint site " +
+                $"({(int)response.StatusCode} {response.ReasonPhrase}). " +
+                $"Response: {content}");
+        }
+    }
+    [Description("Confirm renaming a SharePoint site.")]
+    public sealed class SharePointRenameSiteInput
+    {
+        [JsonPropertyName("siteUrl")]
+        [Required]
+        public string? SiteUrl { get; set; }
+
+        [JsonPropertyName("title")]
+        [Required]
+        public string? Title { get; set; }
+
+        public void Validate()
+        {
+            if (!Uri.TryCreate(
+                    SiteUrl,
+                    UriKind.Absolute,
+                    out var siteUri) ||
+                siteUri.Scheme != Uri.UriSchemeHttps ||
+                !siteUri.Host.EndsWith(
+                    ".sharepoint.com",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                throw new ValidationException(
+                    "siteUrl must be an absolute SharePoint Online HTTPS URL.");
+            }
+
+            if (string.IsNullOrWhiteSpace(Title))
+            {
+                throw new ValidationException(
+                    "title is required.");
+            }
+
+            if (Title.Length > 255)
+            {
+                throw new ValidationException(
+                    "title may not exceed 255 characters.");
+            }
+        }
+    }
+
 
     [Description("Copy a raw SharePoint template file from a server-relative URL into a SharePoint document library folder. Useful for copying Content Type Hub template files into an Office template catalog library. Use exactly once per source template and target file unless intentionally overwriting.")]
     [McpServerTool(
@@ -25,7 +248,7 @@ public static partial class SharePointREST
             Name = "sharepoint_copy_template_file_to_document_library",
             Destructive = true,
             OpenWorld = false)]
-                public static async Task<CallToolResult?> SharePointRest_CopyTemplateFileToDocumentLibrary(
+    public static async Task<CallToolResult?> SharePointRest_CopyTemplateFileToDocumentLibrary(
             IServiceProvider serviceProvider,
             RequestContext<CallToolRequestParams> requestContext,
 

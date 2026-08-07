@@ -15,6 +15,7 @@ namespace MCPhappey.Tools.SharePoint;
 
 public static partial class SharePointREST
 {
+
     [Description(
         "Copy a SharePoint .spcolor theme file from an absolute URL to the target site's Site Assets library and apply it to the target site. Use exactly once per target site unless intentionally changing or reapplying the theme.")]
     [McpServerTool(
