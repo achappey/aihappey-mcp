@@ -259,8 +259,202 @@ public static partial class GraphWorkbooks
                 async _ => await SendWorkbookNoContentAsync(serviceProvider, requestContext, workbook,
                     HttpMethod.Delete, $"tables/{EscapePath(tableId)}/rows/itemAt(index={rowIndex})",
                     null, cancellationToken),
-                "Excel table row deleted.", cancellationToken);
+                 "Excel table row deleted.", cancellationToken);
+         }));
+
+    [Description("Update a workbook-scoped named item's formula, reference, or comment.")]
+    [McpServerTool(Title = "Update Excel named item", Name = "graph_workbooks_update_named_item",
+        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_UpdateNamedItem(
+        string excelFileUrl, string name, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Replacement A1 reference or formula.")] string? formula = null,
+        [Description("Replacement comment.")] string? comment = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            if (formula is null && comment is null) throw new ValidationException("A formula or comment is required.");
+            var (input, rejected, _) = await requestContext.Server.TryElicit(
+                new UpdateNamedItemInput { Formula = formula, Comment = comment }, cancellationToken);
+            ThrowIfNotAccepted(rejected);
+            var body = new Dictionary<string, object?>();
+            if (input?.Formula is not null) body["formula"] = input.Formula;
+            if (input?.Comment is not null) body["comment"] = input.Comment;
+            var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
+            return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook, HttpMethod.Patch,
+                $"names/{EscapePath(name)}", body, cancellationToken);
+        })));
+
+    [Description("Delete a workbook-scoped named item without changing the cells it referred to.")]
+    [McpServerTool(Title = "Delete Excel named item", Name = "graph_workbooks_delete_named_item",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_DeleteNamedItem(
+        string excelFileUrl, string name, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        {
+            var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
+            return await requestContext.ConfirmAndDeleteAsync<DeleteNamedItemInput>(name,
+                async _ => await SendWorkbookNoContentAsync(serviceProvider, requestContext, workbook,
+                    HttpMethod.Delete, $"names/{EscapePath(name)}", null, cancellationToken),
+                "Excel named item deleted.", cancellationToken);
         }));
+
+    [Description("Add a column to an existing Excel table at an optional zero-based index.")]
+    [McpServerTool(Title = "Add Excel table column", Name = "graph_workbooks_add_table_column",
+        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = false, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_AddTableColumn(
+        string excelFileUrl, string tableId, string name, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional zero-based insertion index. Omit to append.")][Range(0, int.MaxValue)] int? index = null,
+        [Description("Optional one-dimensional JSON array of column values including the header.")] string? valuesJson = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (input, rejected, _) = await requestContext.Server.TryElicit(
+                new AddTableColumnInput { Name = name, Index = index, ValuesJson = valuesJson }, cancellationToken);
+            ThrowIfNotAccepted(rejected);
+            ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
+            var body = new Dictionary<string, object?> { ["name"] = input.Name.Trim() };
+            if (input.Index.HasValue) body["index"] = input.Index.Value;
+            if (input.ValuesJson is not null) body["values"] = WrapColumn(ParseRow(input.ValuesJson));
+            var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
+            return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook, HttpMethod.Post,
+                $"tables/{EscapePath(tableId)}/columns/add", body, cancellationToken);
+        })));
+
+    [Description("Rename an Excel table column or replace all of its values.")]
+    [McpServerTool(Title = "Update Excel table column", Name = "graph_workbooks_update_table_column",
+        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_UpdateTableColumn(
+        string excelFileUrl, string tableId, string columnId, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext, string? name = null, string? valuesJson = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            if (name is null && valuesJson is null) throw new ValidationException("A name or valuesJson is required.");
+            var (input, rejected, _) = await requestContext.Server.TryElicit(
+                new UpdateTableColumnInput { Name = name, ValuesJson = valuesJson }, cancellationToken);
+            ThrowIfNotAccepted(rejected);
+            var body = new Dictionary<string, object?>();
+            if (input?.Name is not null) { ArgumentException.ThrowIfNullOrWhiteSpace(input.Name); body["name"] = input.Name.Trim(); }
+            if (input?.ValuesJson is not null) body["values"] = WrapColumn(ParseRow(input.ValuesJson));
+            var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
+            return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook, HttpMethod.Patch,
+                $"tables/{EscapePath(tableId)}/columns/{EscapePath(columnId)}", body, cancellationToken);
+        })));
+
+    [Description("Delete an Excel table column and its contained values.")]
+    [McpServerTool(Title = "Delete Excel table column", Name = "graph_workbooks_delete_table_column",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_DeleteTableColumn(
+        string excelFileUrl, string tableId, string columnId, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        {
+            var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
+            return await requestContext.ConfirmAndDeleteAsync<DeleteTableColumnInput>($"{tableId}/{columnId}",
+                async _ => await SendWorkbookNoContentAsync(serviceProvider, requestContext, workbook,
+                    HttpMethod.Delete, $"tables/{EscapePath(tableId)}/columns/{EscapePath(columnId)}", null, cancellationToken),
+                "Excel table column deleted.", cancellationToken);
+        }));
+
+    [Description("Update an Excel chart's name, title text, or position.")]
+    [McpServerTool(Title = "Update Excel chart", Name = "graph_workbooks_update_chart",
+        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_UpdateChart(
+        string excelFileUrl, string worksheetId, string chartId, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext, string? name = null, string? titleText = null,
+        double? left = null, double? top = null, double? width = null, double? height = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            if (name is null && titleText is null && left is null && top is null && width is null && height is null)
+                throw new ValidationException("At least one chart field is required.");
+            var (input, rejected, _) = await requestContext.Server.TryElicit(new UpdateChartInput
+            { Name = name, TitleText = titleText, Left = left, Top = top, Width = width, Height = height }, cancellationToken);
+            ThrowIfNotAccepted(rejected);
+            var body = new Dictionary<string, object?>();
+            if (input?.Name is not null) body["name"] = input.Name;
+            if (input?.TitleText is not null) body["title"] = new { text = input.TitleText, visible = true };
+            if (input?.Left is not null) body["left"] = input.Left;
+            if (input?.Top is not null) body["top"] = input.Top;
+            if (input?.Width is not null) body["width"] = input.Width;
+            if (input?.Height is not null) body["height"] = input.Height;
+            var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
+            return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook, HttpMethod.Patch,
+                $"worksheets/{EscapePath(worksheetId)}/charts/{EscapePath(chartId)}", body, cancellationToken);
+        })));
+
+    [Description("Delete a chart from an Excel worksheet.")]
+    [McpServerTool(Title = "Delete Excel chart", Name = "graph_workbooks_delete_chart",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_DeleteChart(
+        string excelFileUrl, string worksheetId, string chartId, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        {
+            var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
+            return await requestContext.ConfirmAndDeleteAsync<DeleteChartInput>(chartId,
+                async _ => await SendWorkbookNoContentAsync(serviceProvider, requestContext, workbook, HttpMethod.Delete,
+                    $"worksheets/{EscapePath(worksheetId)}/charts/{EscapePath(chartId)}", null, cancellationToken),
+                "Excel chart deleted.", cancellationToken);
+        }));
+
+    [Description("Insert blank cells at an Excel range and shift existing cells down or right.")]
+    [McpServerTool(Title = "Insert Excel range", Name = "graph_workbooks_insert_range",
+        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_InsertRange(
+        string excelFileUrl, string worksheetId, string address, WorkbookRangeShift shift,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ExecuteRangeShiftAsync(excelFileUrl, worksheetId, address, shift, "insert", serviceProvider,
+            requestContext, cancellationToken);
+
+    [Description("Delete cells at an Excel range and shift remaining cells up or left.")]
+    [McpServerTool(Title = "Delete Excel range", Name = "graph_workbooks_delete_range",
+        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_DeleteRange(
+        string excelFileUrl, string worksheetId, string address, WorkbookRangeShift shift,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ExecuteRangeShiftAsync(excelFileUrl, worksheetId, address, shift, "delete", serviceProvider,
+            requestContext, cancellationToken);
+
+    private static async Task<CallToolResult?> ExecuteRangeShiftAsync(string excelFileUrl, string worksheetId,
+        string address, WorkbookRangeShift shift, string action, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (input, rejected, _) = await requestContext.Server.TryElicit(
+                new RangeShiftInput { Shift = shift }, cancellationToken);
+            ThrowIfNotAccepted(rejected);
+            var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
+            return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook, HttpMethod.Post,
+                $"{RangePath(worksheetId, address)}/{action}", new { shift = input!.Shift.ToString() }, cancellationToken);
+        })));
+
+    private static JsonElement WrapColumn(JsonElement values)
+    {
+        var rows = values.EnumerateArray().Select(value => new[] { value.Clone() }).ToArray();
+        return JsonSerializer.SerializeToElement(rows);
+    }
 
     private static async Task<WorkbookReference> ResolveWorkbookAsync(
         Microsoft.Graph.Beta.GraphServiceClient client, string excelFileUrl, CancellationToken cancellationToken)
@@ -434,6 +628,51 @@ public static partial class GraphWorkbooks
         public string Name { get; set; } = default!;
     }
 
+    [Description("Please review the Excel named-item changes.")]
+    public sealed class UpdateNamedItemInput
+    {
+        [JsonPropertyName("formula")] public string? Formula { get; set; }
+        [JsonPropertyName("comment")] public string? Comment { get; set; }
+    }
+    [Description("Please confirm the Excel named item to delete: {0}")]
+    public sealed class DeleteNamedItemInput : MCPhappey.Common.Models.IHasName
+    { [Required] public string Name { get; set; } = default!; }
+    [Description("Please review the new Excel table column.")]
+    public sealed class AddTableColumnInput
+    {
+        [Required, JsonPropertyName("name")] public string Name { get; set; } = default!;
+        [JsonPropertyName("index")] public int? Index { get; set; }
+        [JsonPropertyName("valuesJson")] public string? ValuesJson { get; set; }
+    }
+    [Description("Please review the Excel table-column changes.")]
+    public sealed class UpdateTableColumnInput
+    {
+        [JsonPropertyName("name")] public string? Name { get; set; }
+        [JsonPropertyName("valuesJson")] public string? ValuesJson { get; set; }
+    }
+    [Description("Please confirm the Excel table and column to delete: {0}")]
+    public sealed class DeleteTableColumnInput : MCPhappey.Common.Models.IHasName
+    { [Required] public string Name { get; set; } = default!; }
+    [Description("Please review the Excel chart changes.")]
+    public sealed class UpdateChartInput
+    {
+        [JsonPropertyName("name")] public string? Name { get; set; }
+        [JsonPropertyName("titleText")] public string? TitleText { get; set; }
+        [JsonPropertyName("left")] public double? Left { get; set; }
+        [JsonPropertyName("top")] public double? Top { get; set; }
+        [JsonPropertyName("width")] public double? Width { get; set; }
+        [JsonPropertyName("height")] public double? Height { get; set; }
+    }
+    [Description("Please confirm the Excel chart to delete: {0}")]
+    public sealed class DeleteChartInput : MCPhappey.Common.Models.IHasName
+    { [Required] public string Name { get; set; } = default!; }
+    [Description("Please review how the Excel range cells should shift.")]
+    public sealed class RangeShiftInput
+    {
+        [Required, JsonPropertyName("shift"), JsonConverter(typeof(JsonStringEnumConverter))]
+        public WorkbookRangeShift Shift { get; set; }
+    }
+
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum WorkbookRangeClearApplyTo
     {
@@ -443,4 +682,7 @@ public static partial class GraphWorkbooks
         Hyperlinks,
         RemoveHyperlinks
     }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum WorkbookRangeShift { Up, Left, Down, Right }
 }

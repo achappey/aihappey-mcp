@@ -175,6 +175,61 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/tables/{tableId}/columns/{columnId}",
+      "name": "Get Excel table column",
+      "description": "Retrieves one table column by ID or name before it is updated or deleted.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/charts/{chartId}",
+      "name": "Get Excel chart",
+      "description": "Retrieves one chart by ID or name before it is updated or deleted.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/names",
+      "name": "Get worksheet-scoped named items",
+      "description": "Retrieves named items scoped to one Excel worksheet.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/tables/{tableId}/sort",
+      "name": "Get Excel table sort state",
+      "description": "Retrieves the current sort state of one Excel table.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/range(address='{range}')/format",
+      "name": "Get Excel range format",
+      "description": "Retrieves formatting details for an Excel worksheet range.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }
