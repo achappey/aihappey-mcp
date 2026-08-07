@@ -86,6 +86,16 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/mailFolders/{folderId}?$select=id,displayName,parentFolderId,totalItemCount,unreadItemCount,childFolderCount",
+      "name": "outlook-mail-folder-details",
+      "title": "Outlook mail folder details",
+      "description": "Get a mail folder by ID before copying or organizing messages.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
     }
   ]
 }

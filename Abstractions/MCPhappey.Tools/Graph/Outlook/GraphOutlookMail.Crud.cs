@@ -6,6 +6,8 @@ using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
 using Microsoft.Graph.Beta.Models;
+using Microsoft.Graph.Beta.Me.Messages.Item.Copy;
+using Microsoft.Graph.Beta.Me.Messages.Item.Forward;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -14,6 +16,88 @@ namespace MCPhappey.Tools.Graph.Outlook;
 
 public static partial class GraphOutlookMail
 {
+    [Description("Update simple state fields on an Outlook message.")]
+    [McpServerTool(Title = "Update Outlook message state", Name = "graph_outlook_mail_update_message_state",
+        UseStructuredContent = true, OutputSchemaType = typeof(Message), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookMail_UpdateMessageState(
+        [Description("Message ID to update.")] string messageId,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Whether the message is read. Leave empty to keep unchanged.")] bool? isRead = null,
+        [Description("Message importance. Leave empty to keep unchanged.")] Importance? importance = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            if (isRead is null && importance is null)
+                throw new ValidationException("isRead or importance must be provided.");
+
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphMessageStateInput { IsRead = isRead, Importance = importance }, cancellationToken);
+            if (notAccepted is not null) return default(Message);
+            if (typed?.IsRead is null && typed?.Importance is null)
+                throw new ValidationException("isRead or importance must be provided.");
+
+            return await client.Me.Messages[messageId].PatchAsync(new Message
+            {
+                IsRead = typed.IsRead,
+                Importance = typed.Importance
+            }, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Copy an Outlook message to another mail folder.")]
+    [McpServerTool(Title = "Copy Outlook message", Name = "graph_outlook_mail_copy_message",
+        UseStructuredContent = true, OutputSchemaType = typeof(Message), Destructive = false, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookMail_CopyMessage(
+        [Description("Message ID to copy.")] string messageId,
+        [Description("Destination mail folder ID.")] string destinationFolderId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphCopyMessageInput { DestinationFolderId = destinationFolderId }, cancellationToken);
+            if (notAccepted is not null) return default(Message);
+            ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DestinationFolderId);
+
+            return await client.Me.Messages[messageId].Copy.PostAsync(new CopyPostRequestBody
+            {
+                DestinationId = typed.DestinationFolderId.Trim()
+            }, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Forward an Outlook message to explicit recipients with an optional comment.")]
+    [McpServerTool(Title = "Forward Outlook message", Name = "graph_outlook_mail_forward_message",
+        Destructive = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookMail_ForwardMessage(
+        [Description("Message ID to forward.")] string messageId,
+        [Description("Comma-separated recipient e-mail addresses.")] string recipients,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional comment included above the forwarded message.")] string? comment = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphForwardMessageInput { Recipients = recipients, Comment = comment }, cancellationToken);
+            if (notAccepted is not null) return null;
+            ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Recipients);
+
+            await client.Me.Messages[messageId].Forward.PostAsync(new ForwardPostRequestBody
+            {
+                Comment = typed.Comment,
+                ToRecipients = [.. typed.Recipients.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .Select(address => address.ToRecipient())]
+            }, cancellationToken: cancellationToken);
+            return new CallToolResult
+            {
+                Content = [new TextContentBlock { Text = "Outlook message forwarded." }]
+            };
+        }));
+
     [Description("Create a mail folder in the signed-in user's Outlook mailbox.")]
     [McpServerTool(Title = "Create Outlook mail folder",
         Name = "graph_outlook_mail_create_folder",
@@ -321,6 +405,36 @@ public static partial class GraphOutlookMail
         [JsonPropertyName("parentFolderId")]
         [Description("Optional parent mail folder ID.")]
         public string? ParentFolderId { get; set; }
+    }
+
+    [Description("Please review the Outlook message state changes.")]
+    public sealed class GraphMessageStateInput
+    {
+        [JsonPropertyName("isRead")]
+        public bool? IsRead { get; set; }
+
+        [JsonPropertyName("importance")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public Importance? Importance { get; set; }
+    }
+
+    [Description("Please review the Outlook message copy destination.")]
+    public sealed class GraphCopyMessageInput
+    {
+        [Required]
+        [JsonPropertyName("destinationFolderId")]
+        public string DestinationFolderId { get; set; } = default!;
+    }
+
+    [Description("Please review the Outlook message recipients and forward comment.")]
+    public sealed class GraphForwardMessageInput
+    {
+        [Required]
+        [JsonPropertyName("recipients")]
+        public string Recipients { get; set; } = default!;
+
+        [JsonPropertyName("comment")]
+        public string? Comment { get; set; }
     }
 
     [Description("Please fill in the Outlook draft fields to update.")]
