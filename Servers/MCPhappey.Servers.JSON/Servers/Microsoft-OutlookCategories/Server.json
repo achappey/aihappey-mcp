@@ -4,7 +4,12 @@
     "title": "Microsoft Outlook Categories",
     "version": "1.0.0",
     "websiteUrl": "https://outlook.office.com",
-    "description": "Read and manage the signed-in user's Outlook master categories."
+    "description": "Read and manage the signed-in user's Outlook master categories.",
+        "icons": [
+            {
+                "src": "https://www.ek.co/wp-content/uploads/2025/04/outlooklogo.png"
+            }
+        ]
   },
   "plugins": [
     "MCPhappey.Tools.Graph.Outlook.GraphOutlookMasterCategories, MCPhappey.Tools"

@@ -4,7 +4,12 @@
     "title": "Microsoft SharePoint Taxonomy",
     "version": "1.0.0",
     "description": "Read and manage SharePoint taxonomy term sets and terms.",
-    "websiteUrl": "https://admin.microsoft.com/sharepoint"
+    "websiteUrl": "https://admin.microsoft.com/sharepoint",
+    "icons": [
+      {
+        "src": "https://cdn.worldvectorlogo.com/logos/microsoft-office-sharepoint-2018-present--1.svg"
+      }
+    ]
   },
   "plugins": [
     "MCPhappey.Tools.Graph.Taxonomy.GraphTaxonomy, MCPhappey.Tools"

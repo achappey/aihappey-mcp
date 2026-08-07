@@ -1,15 +1,20 @@
 {
-  "serverInfo": {
-    "name": "Microsoft-OutlookCalendarGroups",
-    "title": "Microsoft Outlook Calendar Groups",
-    "version": "1.0.0",
-    "websiteUrl": "https://outlook.office.com/calendar",
-    "description": "Read and manage personal Outlook calendar groups; Microsoft 365 Groups are intentionally excluded."
-  },
-  "plugins": [
-    "MCPhappey.Tools.Graph.Outlook.GraphOutlookCalendarGroups, MCPhappey.Tools"
-  ],
-  "obo": {
-    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Calendars.ReadWrite"
-  }
+    "serverInfo": {
+        "name": "Microsoft-OutlookCalendarGroups",
+        "title": "Microsoft Outlook Calendar Groups",
+        "version": "1.0.0",
+        "websiteUrl": "https://outlook.office.com/calendar",
+        "description": "Read and manage personal Outlook calendar groups; Microsoft 365 Groups are intentionally excluded.",
+        "icons": [
+            {
+                "src": "https://www.ek.co/wp-content/uploads/2025/04/outlooklogo.png"
+            }
+        ]
+    },
+    "plugins": [
+        "MCPhappey.Tools.Graph.Outlook.GraphOutlookCalendarGroups, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Calendars.ReadWrite"
+    }
 }
