@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/me/calendarGroups?$select=id,name,classId,changeKey",
+      "name": "outlook-calendar-groups",
+      "title": "Personal Outlook calendar groups",
+      "description": "List personal Outlook calendar groups. These are not Microsoft 365 Groups.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/me/calendarGroups/{calendarGroupId}?$select=id,name,classId,changeKey",
+      "name": "outlook-calendar-group",
+      "title": "Personal Outlook calendar group",
+      "description": "Get one personal Outlook calendar group by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/me/calendarGroups/{calendarGroupId}/calendars?$select=id,name,color,hexColor,canEdit,canShare,canViewPrivateItems,isDefaultCalendar",
+      "name": "outlook-calendar-group-calendars",
+      "title": "Calendars in personal Outlook calendar group",
+      "description": "List calendars contained by a personal Outlook calendar group.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}
