@@ -1,0 +1,12 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/search/bookmarks?$select=id,displayName,description,webUrl,keywords,categories,languageTags,state",
+      "name": "microsoft-search-bookmarks",
+      "title": "Microsoft Search bookmarks",
+      "description": "List organizational Microsoft Search bookmarks.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    }
+  ]
+}

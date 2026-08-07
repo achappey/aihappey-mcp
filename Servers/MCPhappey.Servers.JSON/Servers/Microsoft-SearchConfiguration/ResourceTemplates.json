@@ -1,0 +1,12 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/search/bookmarks/{bookmarkId}?$select=id,displayName,description,webUrl,keywords,categories,languageTags,state",
+      "name": "microsoft-search-bookmark",
+      "title": "Microsoft Search bookmark",
+      "description": "Get an organizational Microsoft Search bookmark by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    }
+  ]
+}
