@@ -11,6 +11,88 @@ namespace MCPhappey.Tools.Graph.Outlook;
 
 public static class GraphOutlookCalendar
 {
+    [Description("Create a secondary calendar in the signed-in user's Outlook mailbox.")]
+    [McpServerTool(Title = "Create Outlook calendar",
+        Name = "graph_outlook_calendar_create_calendar",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Calendar),
+        Destructive = false,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookCalendar_CreateCalendar(
+        [Description("Name of the new calendar.")] string name,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional hexadecimal calendar color such as #0078D4. Outlook may normalize this value.")] string? hexColor = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphCalendarInput { Name = name, HexColor = hexColor }, cancellationToken);
+
+            if (notAccepted is not null)
+                return default(Calendar);
+
+            ValidateCalendarInput(typed);
+            return await client.Me.Calendars.PostAsync(
+                new Calendar { Name = typed!.Name.Trim(), HexColor = NormalizeHexColor(typed.HexColor) },
+                cancellationToken: cancellationToken);
+        })));
+
+    [Description("Update a secondary calendar in the signed-in user's Outlook mailbox.")]
+    [McpServerTool(Title = "Update Outlook calendar",
+        Name = "graph_outlook_calendar_update_calendar",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Calendar),
+        Destructive = true,
+        Idempotent = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookCalendar_UpdateCalendar(
+        [Description("ID of the calendar to update.")] string calendarId,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("New calendar name. Leave empty to keep unchanged.")] string? name = null,
+        [Description("New hexadecimal calendar color such as #0078D4. Leave empty to keep unchanged.")] string? hexColor = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            if (name is null && hexColor is null)
+                throw new ValidationException("A calendar name or hexadecimal color must be provided.");
+
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphCalendarUpdate { Name = name, HexColor = hexColor }, cancellationToken);
+
+            if (notAccepted is not null)
+                return default(Calendar);
+            if (typed?.Name is not null)
+                ArgumentException.ThrowIfNullOrWhiteSpace(typed.Name);
+
+            return await client.Me.Calendars[calendarId].PatchAsync(
+                new Calendar
+                {
+                    Name = typed?.Name?.Trim(),
+                    HexColor = typed?.HexColor is null ? null : NormalizeHexColor(typed.HexColor)
+                }, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Delete a secondary calendar from the signed-in user's Outlook mailbox. The default calendar cannot be deleted.")]
+    [McpServerTool(Title = "Delete Outlook calendar",
+        Name = "graph_outlook_calendar_delete_calendar",
+        Destructive = true,
+        Idempotent = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookCalendar_DeleteCalendar(
+        [Description("ID of the secondary calendar to delete.")] string calendarId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.ConfirmAndDeleteAsync<GraphDeleteCalendar>(
+            calendarId,
+            async _ => await client.Me.Calendars[calendarId].DeleteAsync(cancellationToken: cancellationToken),
+            "Outlook calendar deleted.", cancellationToken)));
+
     [Description("Create a new calendar event in the user's Outlook calendar.")]
     [McpServerTool(Title = "Create Outlook calendar event",
         UseStructuredContent = true,
@@ -236,6 +318,56 @@ public static class GraphOutlookCalendar
         [Required]
         [Description("The calendar event id.")]
         public string Name { get; set; } = default!;
+    }
+
+    [Description("Please fill in the Outlook calendar details.")]
+    public sealed class GraphCalendarInput
+    {
+        [Required]
+        [JsonPropertyName("name")]
+        [Description("Calendar name.")]
+        public string Name { get; set; } = default!;
+
+        [JsonPropertyName("hexColor")]
+        [Description("Optional hexadecimal calendar color such as #0078D4.")]
+        public string? HexColor { get; set; }
+    }
+
+    [Description("Please fill in the Outlook calendar fields to update.")]
+    public sealed class GraphCalendarUpdate
+    {
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("hexColor")]
+        public string? HexColor { get; set; }
+    }
+
+    [Description("Please confirm the Outlook calendar id to delete: {0}")]
+    public sealed class GraphDeleteCalendar : MCPhappey.Common.Models.IHasName
+    {
+        [Required]
+        public string Name { get; set; } = default!;
+    }
+
+    private static void ValidateCalendarInput(GraphCalendarInput? input)
+    {
+        ArgumentNullException.ThrowIfNull(input);
+        ArgumentException.ThrowIfNullOrWhiteSpace(input.Name);
+        _ = NormalizeHexColor(input.HexColor);
+    }
+
+    private static string? NormalizeHexColor(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return null;
+
+        var normalized = value.Trim();
+        if (normalized.Length != 7 || normalized[0] != '#' ||
+            !normalized[1..].All(Uri.IsHexDigit))
+            throw new ValidationException("Calendar color must use #RRGGBB hexadecimal format.");
+
+        return normalized.ToUpperInvariant();
     }
 
 }
