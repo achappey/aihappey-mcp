@@ -1,0 +1,36 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/pages/microsoft.graph.sitePage",
+      "name": "sharepoint-pages",
+      "title": "List SharePoint pages",
+      "description": "Lists modern SharePoint site pages.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/pages/{pageId}/microsoft.graph.sitePage?$expand=canvasLayout,webParts",
+      "name": "sharepoint-page",
+      "title": "Get SharePoint page",
+      "description": "Gets a modern SharePoint page with its canvas layout and web parts.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/pages/{pageId}/microsoft.graph.sitePage/webParts",
+      "name": "sharepoint-page-web-parts",
+      "title": "List SharePoint page web parts",
+      "description": "Lists all web parts on a modern SharePoint page.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/pages/{pageId}/microsoft.graph.sitePage/canvasLayout",
+      "name": "sharepoint-page-canvas",
+      "title": "Get SharePoint page canvas",
+      "description": "Gets the canvas layout and page content structure for a modern SharePoint page.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}
