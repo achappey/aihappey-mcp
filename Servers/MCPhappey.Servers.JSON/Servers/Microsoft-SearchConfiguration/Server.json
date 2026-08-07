@@ -3,11 +3,12 @@
     "name": "Microsoft-SearchConfiguration",
     "title": "Microsoft Search Configuration",
     "version": "1.0.0",
-    "description": "Read and manage organizational Microsoft Search bookmarks.",
+    "description": "Read and manage organizational Microsoft Search bookmarks, acronyms, and question-and-answer results.",
     "websiteUrl": "https://admin.microsoft.com/Adminportal/Home#/MicrosoftSearch"
   },
   "plugins": [
-    "MCPhappey.Tools.Graph.Search.GraphSearchBookmarks, MCPhappey.Tools"
+    "MCPhappey.Tools.Graph.Search.GraphSearchBookmarks, MCPhappey.Tools",
+    "MCPhappey.Tools.Graph.Search.GraphSearchAnswers, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/SearchConfiguration.ReadWrite.All"

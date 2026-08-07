@@ -7,6 +7,22 @@
       "description": "List organizational Microsoft Search bookmarks.",
       "mimeType": "application/json",
       "annotations": { "audience": [ "assistant" ] }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/search/acronyms?$select=id,displayName,standsFor,description,webUrl,state",
+      "name": "microsoft-search-acronyms",
+      "title": "Microsoft Search acronyms",
+      "description": "List organizational Microsoft Search acronym answers.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/search/qnas?$select=id,displayName,description,webUrl,keywords,languageTags,state",
+      "name": "microsoft-search-qnas",
+      "title": "Microsoft Search Q&As",
+      "description": "List organizational Microsoft Search question-and-answer results.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
     }
   ]
 }
