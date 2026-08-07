@@ -177,7 +177,25 @@ public static partial class GraphOutlookMail
         await requestContext.ConfirmAndDeleteAsync<GraphDeleteMailFolder>(
             folderId,
             async _ => await client.Me.MailFolders[folderId].DeleteAsync(cancellationToken: cancellationToken),
-            "Outlook mail folder deleted.",
+             "Outlook mail folder deleted.",
+             cancellationToken)));
+
+    [Description("Delete an Outlook message from the signed-in user's mailbox.")]
+    [McpServerTool(Title = "Delete Outlook message",
+        Name = "graph_outlook_mail_delete_message",
+        Destructive = true,
+        Idempotent = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookMail_DeleteMessage(
+        [Description("Message ID to delete.")] string messageId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.ConfirmAndDeleteAsync<GraphDeleteMailMessage>(
+            messageId,
+            async _ => await client.Me.Messages[messageId].DeleteAsync(cancellationToken: cancellationToken),
+            "Outlook message deleted.",
             cancellationToken)));
 
     [Description("Update an existing draft e-mail in the signed-in user's Outlook mailbox.")]
@@ -463,6 +481,13 @@ public static partial class GraphOutlookMail
 
     [Description("Please confirm the Outlook mail folder ID to delete: {0}")]
     public sealed class GraphDeleteMailFolder : MCPhappey.Common.Models.IHasName
+    {
+        [Required]
+        public string Name { get; set; } = default!;
+    }
+
+    [Description("Please confirm the Outlook message ID to delete: {0}")]
+    public sealed class GraphDeleteMailMessage : MCPhappey.Common.Models.IHasName
     {
         [Required]
         public string Name { get; set; } = default!;
