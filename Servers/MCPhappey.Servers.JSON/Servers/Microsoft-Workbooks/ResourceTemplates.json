@@ -100,6 +100,17 @@
       }
     },
     {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/names/{name}",
+      "name": "Get Excel named item",
+      "description": "Retrieves one workbook-scoped named item by name before it is used or changed.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/tables/{tableId}/columns",
       "name": "Get Excel table columns",
       "description": "Retrieves all columns from a specific table in the specified Excel file.",

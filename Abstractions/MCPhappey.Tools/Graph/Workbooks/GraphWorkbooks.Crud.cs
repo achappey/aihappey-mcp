@@ -13,6 +13,37 @@ namespace MCPhappey.Tools.Graph.Workbooks;
 
 public static partial class GraphWorkbooks
 {
+    [Description("Create a workbook-scoped named item that refers to an A1-style range or formula.")]
+    [McpServerTool(Title = "Create Excel named item", Name = "graph_workbooks_create_named_item",
+        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement),
+        Destructive = false, Idempotent = false, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphWorkbooks_CreateNamedItem(
+        [Description("OneDrive or SharePoint URL of the Excel workbook.")] string excelFileUrl,
+        [Description("Name of the workbook-scoped item.")] string name,
+        [Description("A1 reference or formula, for example =Sheet1!$A$1:$C$20.")] string reference,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional comment describing the named item.")] string? comment = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new CreateNamedItemInput
+            {
+                Name = name, Reference = reference, Comment = comment
+            }, cancellationToken);
+            ThrowIfNotAccepted(notAccepted);
+            ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
+            ArgumentException.ThrowIfNullOrWhiteSpace(input.Reference);
+
+            var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
+            return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook,
+                HttpMethod.Post, "names/add",
+                new { name = input.Name.Trim(), reference = input.Reference.Trim(), comment = input.Comment },
+                cancellationToken);
+        })));
+
     [Description("Rename a worksheet in an Excel workbook stored in OneDrive or SharePoint.")]
     [McpServerTool(Title = "Rename Excel worksheet", Name = "graph_workbooks_rename_worksheet",
         UseStructuredContent = true, OutputSchemaType = typeof(JsonElement),
@@ -327,6 +358,14 @@ public static partial class GraphWorkbooks
     }
 
     private sealed record WorkbookReference(string DriveId, string ItemId);
+
+    [Description("Please review the Excel named item fields.")]
+    public sealed class CreateNamedItemInput
+    {
+        [Required, JsonPropertyName("name")] public string Name { get; set; } = default!;
+        [Required, JsonPropertyName("reference")] public string Reference { get; set; } = default!;
+        [JsonPropertyName("comment")] public string? Comment { get; set; }
+    }
 
     [Description("Please review the new Excel worksheet name.")]
     public sealed class RenameWorksheetInput
