@@ -15,7 +15,7 @@
     "MCPhappey.Tools.Graph.Outlook.GraphOutlookMail, MCPhappey.Tools"
   ],
   "obo": {
-    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/Mail.Send.Shared https://graph.microsoft.com/Mail.ReadWrite.Shared"
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.ReadWrite https://graph.microsoft.com/Mail.Send.Shared https://graph.microsoft.com/Mail.ReadWrite.Shared https://graph.microsoft.com/Files.Read.All"
   },
   "tools": {
     "graph_outlook_mail_search": {
