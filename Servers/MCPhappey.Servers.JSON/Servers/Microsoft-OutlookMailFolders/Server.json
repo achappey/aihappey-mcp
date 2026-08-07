@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OutlookMailFolders",
+    "title": "Microsoft Outlook Mail Folders",
+    "version": "1.0.0",
+    "websiteUrl": "https://outlook.office.com/mail",
+    "description": "Read and manage the signed-in user's Outlook mail-folder hierarchy."
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Outlook.GraphOutlookMailFolders, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.ReadWrite"
+  }
+}

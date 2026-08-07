@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/me/mailFolders?$select=id,displayName,parentFolderId,childFolderCount,totalItemCount,unreadItemCount,isHidden&includeHiddenFolders=true",
+      "name": "outlook-mail-folders",
+      "title": "Outlook mail folders",
+      "description": "List top-level Outlook mail folders, including hidden folders.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/me/mailFolders/{folderId}?$select=id,displayName,parentFolderId,childFolderCount,totalItemCount,unreadItemCount,isHidden",
+      "name": "outlook-mail-folder",
+      "title": "Outlook mail folder",
+      "description": "Get one Outlook mail folder by ID or well-known name.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/me/mailFolders/{folderId}/childFolders?$select=id,displayName,parentFolderId,childFolderCount,totalItemCount,unreadItemCount,isHidden&includeHiddenFolders=true",
+      "name": "outlook-child-mail-folders",
+      "title": "Outlook child mail folders",
+      "description": "List the direct child folders of an Outlook mail folder.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}
