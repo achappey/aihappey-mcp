@@ -1,0 +1,20 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/drives/{driveId}/items/{itemId}/permissions",
+      "name": "drive-item-permissions",
+      "title": "List drive item permissions",
+      "description": "Lists sharing links and direct permissions for a OneDrive or SharePoint drive item.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/drives/{driveId}/items/{itemId}/permissions/{permissionId}",
+      "name": "drive-item-permission",
+      "title": "Get drive item permission",
+      "description": "Gets one sharing permission for a OneDrive or SharePoint drive item.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

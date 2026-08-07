@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OneDriveSharing",
+    "title": "Microsoft OneDrive Sharing",
+    "version": "1.0.0",
+    "description": "Manage sharing links and direct permissions for OneDrive and SharePoint files and folders.",
+    "websiteUrl": "https://www.microsoft365.com/launch/onedrive",
+    "icons": [
+      {
+        "src": "https://www.aaudxp-cms.aau.dk/media/3sglfyu0/onedrive.png?width=960"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.OneDrive.GraphOneDriveSharing, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Files.ReadWrite.All https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
