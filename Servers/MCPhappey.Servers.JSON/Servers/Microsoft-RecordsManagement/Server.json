@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-RecordsManagement",
+    "title": "Microsoft Purview Records Management",
+    "version": "1.0.0",
+    "websiteUrl": "https://purview.microsoft.com",
+    "description": "Read and manage Microsoft Purview retention labels through delegated Microsoft Graph."
+  },
+  "instructions": "Use ReadResource with the supplied Microsoft Graph resources to list or inspect retention labels. Use tools only to create, update, or delete labels.",
+  "plugins": [
+    "MCPhappey.Tools.Graph.Purview.GraphRetentionLabels, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/RecordsManagement.ReadWrite.All"
+  }
+}

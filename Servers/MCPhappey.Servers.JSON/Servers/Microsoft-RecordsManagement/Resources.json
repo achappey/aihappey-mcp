@@ -1,0 +1,15 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/v1.0/security/labels/retentionLabels?$select=id,displayName,descriptionForUsers,descriptionForAdmins,behaviorDuringRetentionPeriod,actionAfterRetentionPeriod,retentionTrigger,retentionDuration,isInUse",
+      "name": "List Purview retention labels",
+      "description": "Lists Microsoft Purview retention labels and their retention behavior.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

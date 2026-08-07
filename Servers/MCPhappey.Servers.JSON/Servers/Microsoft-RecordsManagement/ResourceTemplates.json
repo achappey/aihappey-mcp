@@ -1,0 +1,26 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/security/labels/retentionLabels/{labelId}",
+      "name": "Get Purview retention label",
+      "description": "Retrieves one Microsoft Purview retention label before it is changed or deleted.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/security/labels/retentionLabels/{labelId}/descriptors",
+      "name": "Get Purview retention-label descriptors",
+      "description": "Retrieves authority, citation, department, file-plan reference, and category descriptors associated with a retention label.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
