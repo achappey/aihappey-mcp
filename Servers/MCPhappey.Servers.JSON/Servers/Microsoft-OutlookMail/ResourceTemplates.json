@@ -74,6 +74,18 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/messages?$filter=isDraft eq true&$top={top}&$select=id,subject,lastModifiedDateTime,toRecipients,ccRecipients,hasAttachments,isDraft",
+      "name": "outlook-drafts",
+      "title": "Outlook draft messages",
+      "description": "List draft messages and their IDs so a file attachment can be added or removed.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }
