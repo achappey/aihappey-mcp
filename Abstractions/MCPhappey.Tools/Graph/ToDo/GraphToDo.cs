@@ -145,7 +145,109 @@ public static class GraphToDo
             {
                 DisplayName = typed?.DisplayName,
             }, cancellationToken: cancellationToken);
-    })));
+    }))); 
+
+    [Description("Update an existing Microsoft To Do task.")]
+    [McpServerTool(Title = "Update Microsoft To Do task", Name = "graph_todo_update_task",
+        UseStructuredContent = true, OutputSchemaType = typeof(TodoTask), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTodo_UpdateTask(
+        [Description("To Do list id.")] string listId,
+        [Description("To Do task id.")] string taskId,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Updated task title.")] string? title = null,
+        [Description("Updated task content.")] string? content = null,
+        [Description("Updated task content type.")] BodyType? contentType = null,
+        [Description("Updated due date.")] DateTime? dueDateTime = null,
+        [Description("Updated importance.")] Importance? importance = null,
+        [Description("Updated task status.")] Microsoft.Graph.Beta.Models.TaskStatus? status = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphUpdateTodoTask
+                {
+                    Title = title,
+                    Content = content,
+                    ContentType = contentType,
+                    DueDateTime = dueDateTime,
+                    Importance = importance,
+                    Status = status
+                }, cancellationToken);
+
+            if (notAccepted is not null)
+                return default(TodoTask);
+
+            var update = new TodoTask
+            {
+                Title = typed?.Title,
+                Importance = typed?.Importance,
+                Status = typed?.Status,
+                Body = typed?.Content is not null || typed?.ContentType is not null
+                    ? new ItemBody { Content = typed?.Content, ContentType = typed?.ContentType }
+                    : null,
+                DueDateTime = typed?.DueDateTime is not null
+                    ? new DateTimeTimeZone
+                    {
+                        DateTime = typed.DueDateTime.Value.ToString("yyyy-MM-ddTHH:mm:ss"),
+                        TimeZone = "UTC"
+                    }
+                    : null
+            };
+
+            return await client.Me.Todo.Lists[listId].Tasks[taskId]
+                .PatchAsync(update, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Delete an existing Microsoft To Do task.")]
+    [McpServerTool(Title = "Delete Microsoft To Do task", Name = "graph_todo_delete_task",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTodo_DeleteTask(
+        [Description("To Do list id.")] string listId,
+        [Description("To Do task id to delete.")] string taskId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.ConfirmAndDeleteAsync<GraphDeleteTodoTask>(
+            taskId,
+            async _ => await client.Me.Todo.Lists[listId].Tasks[taskId].DeleteAsync(cancellationToken: cancellationToken),
+            "To Do task deleted.", cancellationToken));
+
+    [Description("Rename an existing Microsoft To Do task list.")]
+    [McpServerTool(Title = "Update Microsoft To Do task list", Name = "graph_todo_update_task_list",
+        UseStructuredContent = true, OutputSchemaType = typeof(TodoTaskList), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTodo_UpdateTaskList(
+        [Description("To Do task list id.")] string listId,
+        [Description("Updated task list display name.")] string displayName,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphNewTodoTaskList { DisplayName = displayName }, cancellationToken);         
+
+            return await client.Me.Todo.Lists[listId].PatchAsync(
+                new Microsoft.Graph.Beta.Models.TodoTaskList { DisplayName = typed?.DisplayName },
+                cancellationToken: cancellationToken);
+        })));
+
+    [Description("Delete an existing Microsoft To Do task list and its tasks.")]
+    [McpServerTool(Title = "Delete Microsoft To Do task list", Name = "graph_todo_delete_task_list",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTodo_DeleteTaskList(
+        [Description("To Do task list id to delete.")] string listId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.ConfirmAndDeleteAsync<GraphDeleteTodoTaskList>(
+            listId,
+            async _ => await client.Me.Todo.Lists[listId].DeleteAsync(cancellationToken: cancellationToken),
+            "To Do task list deleted.", cancellationToken));
 
     [Description("Please fill in the To Do task details")]
     public class GraphNewTodoTask
@@ -173,6 +275,45 @@ public static class GraphToDo
         [JsonConverter(typeof(JsonStringEnumConverter))]
         [Description("Importance (low, normal, high).")]
         public Importance? Importance { get; set; }
+    }
+
+    [Description("Please fill in the Microsoft To Do task fields to update.")]
+    public class GraphUpdateTodoTask
+    {
+        [JsonPropertyName("title")]
+        public string? Title { get; set; }
+
+        [JsonPropertyName("content")]
+        public string? Content { get; set; }
+
+        [JsonPropertyName("contentType")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public BodyType? ContentType { get; set; }
+
+        [JsonPropertyName("dueDateTime")]
+        public DateTime? DueDateTime { get; set; }
+
+        [JsonPropertyName("importance")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public Importance? Importance { get; set; }
+
+        [JsonPropertyName("status")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public Microsoft.Graph.Beta.Models.TaskStatus? Status { get; set; }
+    }
+
+    [Description("Please confirm the To Do task id to delete: {0}")]
+    public class GraphDeleteTodoTask : MCPhappey.Common.Models.IHasName
+    {
+        [Required]
+        public string Name { get; set; } = default!;
+    }
+
+    [Description("Please confirm the To Do task list id to delete: {0}")]
+    public class GraphDeleteTodoTaskList : MCPhappey.Common.Models.IHasName
+    {
+        [Required]
+        public string Name { get; set; } = default!;
     }
 
     [Description("Please fill in the linked resource details")]
