@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Sites",
+    "title": "Microsoft Sites",
+    "websiteUrl": "https://sharepoint.microsoft.com",
+    "version": "1.0.0",
+    "description": "Microsoft Sites provides tools for managing SharePoint sites, lists, libraries, content types, navigation, files, folders, and site-level configuration.",
+    "icons": [
+      {
+        "src": "https://cdn.worldvectorlogo.com/logos/microsoft-office-sharepoint-2018-present--1.svg"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Sites.GraphSites, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Manage.All"
+  }
+}

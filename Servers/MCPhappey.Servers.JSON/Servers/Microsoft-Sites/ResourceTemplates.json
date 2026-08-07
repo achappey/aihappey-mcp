@@ -1,0 +1,100 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{tenantName}.sharepoint.com:/sites/{siteName}?$select=id,displayName,name,webUrl,description",
+      "name": "get-sharepoint-site",
+      "title": "Get SharePoint site",
+      "description": "Get a SharePoint site by tenant name and site-relative name.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{tenantName}.sharepoint.com:/sites/{siteName}:/lists?$select=id,displayName,name,webUrl,list",
+      "name": "list-sharepoint-site-lists",
+      "title": "List SharePoint site lists",
+      "description": "Get the lists and document libraries available on a SharePoint site.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{tenantName}.sharepoint.com:/sites/{siteName}:/contentTypes?$select=id,name,description,group,parentId,order",
+      "name": "list-sharepoint-site-content-types",
+      "title": "List SharePoint site content types",
+      "description": "Get the content types available in the site content type gallery.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/lists/{listId}?$select=id,displayName,name,webUrl,list",
+      "name": "get-sharepoint-list",
+      "title": "Get SharePoint list",
+      "description": "Get a SharePoint list or document library, including whether content types are enabled.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/lists/{listId}/contentTypes?$select=id,name,description,group,parentId,order,readOnly,sealed",
+      "name": "list-sharepoint-list-content-types",
+      "title": "List SharePoint list content types",
+      "description": "Get all content types configured on a SharePoint list or document library.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/lists/{listId}/columns?$select=id,name,displayName,description,hidden,required,readOnly",
+      "name": "list-sharepoint-list-columns",
+      "title": "List SharePoint list columns",
+      "description": "Get the columns configured on a SharePoint list or document library.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/columns?$select=id,name,displayName,description,hidden,required,readOnly",
+      "name": "list-sharepoint-site-columns",
+      "title": "List SharePoint site columns",
+      "description": "Get reusable site columns available on a SharePoint site.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/drives?$select=id,name,description,webUrl,driveType",
+      "name": "list-sharepoint-site-drives",
+      "title": "List SharePoint document libraries",
+      "description": "Get the document libraries exposed as drives on a SharePoint site.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
