@@ -1,4 +1,7 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Tools.Extensions;
 using Microsoft.Graph.Beta.Models;
@@ -9,6 +12,50 @@ namespace MCPhappey.Tools.Graph.Teams;
 
 public static partial class GraphTeams
 {
+    [Description("Update the display name or description of a Microsoft Teams channel.")]
+    [McpServerTool(Title = "Update Microsoft Teams channel", Name = "graph_teams_update_channel",
+        UseStructuredContent = true, OutputSchemaType = typeof(Channel), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTeams_UpdateChannel(
+        [Description("ID of the Team.")] string teamId,
+        [Description("ID of the Channel.")] string channelId,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("New channel display name. Leave empty to keep unchanged.")] string? displayName = null,
+        [Description("New channel description. Leave empty to keep unchanged.")] string? description = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            if (displayName is null && description is null)
+                throw new ValidationException("A display name or description must be provided.");
+
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphUpdateTeamChannel { DisplayName = displayName, Description = description },
+                cancellationToken);
+            if (notAccepted is not null)
+                throw new Exception(JsonSerializer.Serialize(notAccepted));
+
+            return await client.Teams[teamId].Channels[channelId].PatchAsync(
+                new Channel { DisplayName = typed?.DisplayName, Description = typed?.Description },
+                cancellationToken: cancellationToken);
+        })));
+
+    [Description("Delete a channel from a Microsoft Team.")]
+    [McpServerTool(Title = "Delete Microsoft Teams channel", Name = "graph_teams_delete_channel",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphTeams_DeleteChannel(
+        [Description("ID of the Team.")] string teamId,
+        [Description("ID of the Channel to delete.")] string channelId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.ConfirmAndDeleteAsync<GraphDeleteTeamChannel>(
+            channelId,
+            async _ => await client.Teams[teamId].Channels[channelId].DeleteAsync(cancellationToken: cancellationToken),
+            "Microsoft Teams channel deleted.", cancellationToken)));
+
     [Description("Create a new channel in a Microsoft Teams.")]
     [McpServerTool(Title = "Create channel in Microsoft Team",
         Destructive = true,
@@ -169,5 +216,23 @@ public static partial class GraphTeams
             .PostAsync(newReply, cancellationToken: cancellationToken);
     })));
 
+    [Description("Please fill in the Microsoft Teams channel fields to update.")]
+    public sealed class GraphUpdateTeamChannel
+    {
+        [JsonPropertyName("displayName")]
+        [Description("New channel display name.")]
+        public string? DisplayName { get; set; }
 
+        [JsonPropertyName("description")]
+        [Description("New channel description.")]
+        public string? Description { get; set; }
+    }
+
+    [Description("Please confirm the Microsoft Teams channel id to delete: {0}")]
+    public sealed class GraphDeleteTeamChannel : MCPhappey.Common.Models.IHasName
+    {
+        [Required]
+        [Description("Microsoft Teams channel id.")]
+        public string Name { get; set; } = default!;
+    }
 }
