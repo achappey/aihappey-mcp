@@ -199,6 +199,7 @@ public static partial class GraphOutlookMail
         CancellationToken cancellationToken = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
         {
             var current = await client.Me.Messages[draftId].GetAsync(config =>
             {
@@ -222,7 +223,7 @@ public static partial class GraphOutlookMail
 
             await client.Me.Messages[draftId].Send.PostAsync(cancellationToken: cancellationToken);
             return new { DraftId = draftId, current.Subject, Status = "Sent" };
-        }));
+        })));
 
     [Description("Please fill in the Outlook mail folder details.")]
     public sealed class GraphMailFolderInput
