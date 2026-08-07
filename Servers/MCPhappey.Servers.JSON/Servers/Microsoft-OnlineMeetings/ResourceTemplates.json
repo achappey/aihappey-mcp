@@ -1,6 +1,18 @@
 {
   "resourceTemplates": [
     {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/onlineMeetings/{meetingId}?$select=id,subject,startDateTime,endDateTime,joinWebUrl,joinMeetingId,videoTeleconferenceId,createdDateTime",
+      "name": "online-meeting-details",
+      "title": "Online meeting details",
+      "description": "Get an online meeting by ID before updating or deleting it.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
       "uriTemplate": "https://graph.microsoft.com/beta/me/onlineMeetings/{onlineMeetingId}",
       "name": "my-online-meeting",
       "title": "Get my online meeting",
