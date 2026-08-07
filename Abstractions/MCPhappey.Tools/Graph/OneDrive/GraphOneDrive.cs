@@ -279,6 +279,67 @@ public static class GraphOneDrive
         return createdFolder;
     })));
 
+    [Description("Rename a file or folder in OneDrive or a SharePoint document library.")]
+    [McpServerTool(Title = "Rename OneDrive/SharePoint item", Name = "graph_onedrive_rename_item",
+        UseStructuredContent = true, OutputSchemaType = typeof(DriveItem), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOneDrive_RenameItem(
+        [Description("Drive ID containing the item.")] string driveId,
+        [Description("Drive item ID to rename.")] string itemId,
+        [Description("New file or folder name.")] string name,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphRenameDriveItem { Name = name }, cancellationToken);
+            if (notAccepted is not null)
+                return default(DriveItem);
+
+            return await client.Drives[driveId].Items[itemId].PatchAsync(
+                new DriveItem { Name = typed?.Name }, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Move a file or folder to another folder in the same OneDrive or SharePoint drive.")]
+    [McpServerTool(Title = "Move OneDrive/SharePoint item", Name = "graph_onedrive_move_item",
+        UseStructuredContent = true, OutputSchemaType = typeof(DriveItem), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOneDrive_MoveItem(
+        [Description("Drive ID containing the item and destination folder.")] string driveId,
+        [Description("Drive item ID to move.")] string itemId,
+        [Description("Destination folder drive item ID.")] string destinationFolderId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphMoveDriveItem { DestinationFolderId = destinationFolderId }, cancellationToken);
+            if (notAccepted is not null)
+                return default(DriveItem);
+
+            return await client.Drives[driveId].Items[itemId].PatchAsync(
+                new DriveItem { ParentReference = new ItemReference { Id = typed?.DestinationFolderId } },
+                cancellationToken: cancellationToken);
+        })));
+
+    [Description("Delete a file or folder from OneDrive or a SharePoint document library.")]
+    [McpServerTool(Title = "Delete OneDrive/SharePoint item", Name = "graph_onedrive_delete_item",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOneDrive_DeleteItem(
+        [Description("Drive ID containing the item.")] string driveId,
+        [Description("Drive item ID to delete.")] string itemId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.ConfirmAndDeleteAsync<GraphDeleteDriveItem>(
+            itemId,
+            async _ => await client.Drives[driveId].Items[itemId].DeleteAsync(cancellationToken: cancellationToken),
+            "Drive item deleted.", cancellationToken));
+
     // Helper voor contenttype
     private static async Task SetFolderContentType(
         GraphServiceClient graphClient,
@@ -333,6 +394,32 @@ public static class GraphOneDrive
         [JsonPropertyName("contentTypeId")]
         [Description("The id of the content type.")]
         public string? ContentTypeId { get; set; }
+    }
+
+    [Description("Please provide the new file or folder name.")]
+    public class GraphRenameDriveItem
+    {
+        [JsonPropertyName("name")]
+        [Required]
+        [Description("New file or folder name.")]
+        public string Name { get; set; } = default!;
+    }
+
+    [Description("Please provide the destination folder.")]
+    public class GraphMoveDriveItem
+    {
+        [JsonPropertyName("destinationFolderId")]
+        [Required]
+        [Description("Destination folder drive item ID.")]
+        public string DestinationFolderId { get; set; } = default!;
+    }
+
+    [Description("Please confirm the drive item id to delete: {0}")]
+    public class GraphDeleteDriveItem : MCPhappey.Common.Models.IHasName
+    {
+        [Required]
+        [Description("The drive item id.")]
+        public string Name { get; set; } = default!;
     }
 
     [Description(
