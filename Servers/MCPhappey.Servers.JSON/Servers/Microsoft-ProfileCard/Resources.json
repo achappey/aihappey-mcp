@@ -1,0 +1,12 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/admin/people/profileCardProperties",
+      "name": "microsoft-365-profile-card-properties",
+      "title": "Microsoft 365 profile card properties",
+      "description": "Lists the Microsoft Entra properties configured for Microsoft 365 profile cards.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    }
+  ]
+}

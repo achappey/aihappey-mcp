@@ -1,0 +1,12 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/admin/people/profileCardProperties/{propertyId}",
+      "name": "microsoft-365-profile-card-property",
+      "title": "Microsoft 365 profile card property",
+      "description": "Gets one configured Microsoft 365 profile card property by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    }
+  ]
+}

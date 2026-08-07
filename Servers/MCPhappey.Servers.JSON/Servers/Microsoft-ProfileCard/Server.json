@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-ProfileCard",
+    "title": "Microsoft 365 Profile Card",
+    "version": "1.0.0",
+    "description": "Read and manage the Microsoft Entra properties displayed on Microsoft 365 profile cards.",
+    "websiteUrl": "https://entra.microsoft.com"
+  },
+  "instructions": "Use resources to inspect configured profile card properties. Use tools only to add, update, or remove properties.",
+  "plugins": [
+    "MCPhappey.Tools.Graph.People.GraphProfileCardProperties, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/PeopleSettings.ReadWrite.All"
+  }
+}
