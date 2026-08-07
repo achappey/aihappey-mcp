@@ -9,7 +9,7 @@ using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.Graph.ToDo;
 
-public static class GraphToDo
+public static partial class GraphToDo
 {
     [Description("Add a linked resource to an existing Microsoft To Do task")]
     [McpServerTool(

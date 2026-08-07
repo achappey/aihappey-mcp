@@ -10,6 +10,36 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/todo/lists/{taskListId}/tasks/{taskId}?$select=id,title,status,importance,dueDateTime,body",
+      "name": "todo-task-details",
+      "title": "Microsoft To Do task details",
+      "description": "Get a specific Microsoft To Do task by list ID and task ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/todo/lists/{taskListId}/tasks/{taskId}/checklistItems",
+      "name": "todo-checklist-items",
+      "title": "Microsoft To Do checklist items",
+      "description": "List checklist items on a specific Microsoft To Do task.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/todo/lists/{taskListId}/tasks/{taskId}/checklistItems/{checklistItemId}",
+      "name": "todo-checklist-item-details",
+      "title": "Microsoft To Do checklist item details",
+      "description": "Get one checklist item on a specific Microsoft To Do task.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
     }
   ]
 }
