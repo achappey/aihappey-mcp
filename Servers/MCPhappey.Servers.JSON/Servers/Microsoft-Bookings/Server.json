@@ -3,7 +3,7 @@
     "name": "Microsoft-Bookings",
     "title": "Microsoft Bookings",
     "version": "1.0.0",
-    "description": "List Bookings businesses, appointments and services for scheduling insights.",
+    "description": "Read and manage Microsoft Bookings appointments, services and customers.",
     "websiteUrl": "https://outlook.office.com/bookings",
     "icons": [
       {
@@ -11,6 +11,9 @@
       }
     ]
   },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Bookings.GraphBookings, MCPhappey.Tools"
+  ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Bookings.ReadWrite.All https://graph.microsoft.com/Bookings.Manage.All"
   }

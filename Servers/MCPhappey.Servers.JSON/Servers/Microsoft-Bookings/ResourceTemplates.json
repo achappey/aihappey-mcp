@@ -71,6 +71,30 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/solutions/bookingBusinesses/{businessId}/services/{serviceId}",
+      "name": "get-booking-service",
+      "title": "Get booking service",
+      "description": "Gets a specific service in a booking business.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/solutions/bookingBusinesses/{businessId}/customers/{customerId}",
+      "name": "get-booking-customer",
+      "title": "Get booking customer",
+      "description": "Gets a specific customer in a booking business.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }
