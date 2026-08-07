@@ -1,0 +1,28 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/outlook/masterCategories/{categoryId}?$select=id,displayName,color",
+      "name": "outlook-master-category",
+      "title": "Outlook master category",
+      "description": "Get an Outlook master category by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/mailFolders/inbox/messageRules/{ruleId}?$select=id,displayName,sequence,isEnabled,conditions,actions",
+      "name": "outlook-inbox-rule",
+      "title": "Outlook inbox rule",
+      "description": "Get an Outlook inbox rule by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OutlookSettings",
+    "title": "Microsoft Outlook Settings",
+    "version": "1.0.0",
+    "websiteUrl": "https://outlook.office.com/mail/options",
+    "description": "Manage Outlook master categories and inbox rules through simple delegated Microsoft Graph capabilities.",
+    "icons": [
+      {
+        "src": "https://www.ek.co/wp-content/uploads/2025/04/outlooklogo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Outlook.GraphOutlookSettings, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/MailboxSettings.ReadWrite"
+  }
+}

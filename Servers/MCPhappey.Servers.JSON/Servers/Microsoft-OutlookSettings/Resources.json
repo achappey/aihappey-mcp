@@ -1,0 +1,30 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/outlook/masterCategories?$select=id,displayName,color",
+      "name": "outlook-master-categories",
+      "title": "Outlook master categories",
+      "description": "List the signed-in user's Outlook master categories.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/me/mailFolders/inbox/messageRules?$select=id,displayName,sequence,isEnabled,conditions,actions",
+      "name": "outlook-inbox-rules",
+      "title": "Outlook inbox rules",
+      "description": "List the signed-in user's Outlook inbox rules, conditions, and actions.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
