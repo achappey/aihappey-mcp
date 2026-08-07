@@ -79,6 +79,85 @@ public static class GraphOutlookCalendar
         return await client.Me.Events.PostAsync(newEvent, cancellationToken: cancellationToken);
     }));
 
+    [Description("Update an existing event in the signed-in user's Outlook calendar.")]
+    [McpServerTool(Title = "Update Outlook calendar event",
+        Name = "graph_outlook_calendar_update_event",
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(Event),
+        Destructive = true,
+        Idempotent = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookCalendar_UpdateCalendarEvent(
+        [Description("The calendar event id.")] string eventId,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Updated subject. Leave empty to keep the current value.")] string? subject = null,
+        [Description("Updated body. Leave empty to keep the current value.")] string? body = null,
+        [Description("Updated body content type (html or text). Leave empty to keep the current value.")] BodyType? bodyType = null,
+        [Description("Updated start date and time in yyyy-MM-ddTHH:mm:ss format. Leave empty to keep the current value.")] string? startDateTime = null,
+        [Description("Updated end date and time in yyyy-MM-ddTHH:mm:ss format. Leave empty to keep the current value.")] string? endDateTime = null,
+        [Description("Updated Windows time zone. Leave empty to keep the current value.")] string? timeZone = null,
+        [Description("Updated location. Leave empty to keep the current value.")] string? location = null,
+        [Description("Updated attendee email addresses as comma-separated values. Leave empty to keep the current attendees.")] string? attendees = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphUpdateCalendarEvent
+                {
+                    Subject = subject,
+                    Body = body,
+                    BodyType = bodyType,
+                    StartDateTime = startDateTime,
+                    EndDateTime = endDateTime,
+                    TimeZone = timeZone,
+                    Location = location,
+                    Attendees = attendees
+                }, cancellationToken);
+
+            if (notAccepted is not null)
+                return default(Event);
+
+            var update = new Event
+            {
+                Subject = typed?.Subject,
+                Body = typed?.Body is not null || typed?.BodyType is not null
+                    ? new ItemBody { Content = typed?.Body, ContentType = typed?.BodyType }
+                    : null,
+                Start = typed?.StartDateTime is not null
+                    ? new DateTimeTimeZone { DateTime = typed.StartDateTime, TimeZone = typed.TimeZone ?? "UTC" }
+                    : null,
+                End = typed?.EndDateTime is not null
+                    ? new DateTimeTimeZone { DateTime = typed.EndDateTime, TimeZone = typed.TimeZone ?? "UTC" }
+                    : null,
+                Location = typed?.Location is not null ? new Location { DisplayName = typed.Location } : null,
+                Attendees = typed?.Attendees is not null
+                    ? [.. typed.Attendees.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                        .Select(address => new Attendee { EmailAddress = address.ToEmailAddress(), Type = AttendeeType.Required })]
+                    : null
+            };
+
+            return await client.Me.Events[eventId].PatchAsync(update, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Delete an event from the signed-in user's Outlook calendar.")]
+    [McpServerTool(Title = "Delete Outlook calendar event",
+        Name = "graph_outlook_calendar_delete_event",
+        Destructive = true,
+        Idempotent = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookCalendar_DeleteCalendarEvent(
+        [Description("The calendar event id to delete.")] string eventId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.ConfirmAndDeleteAsync<GraphDeleteCalendarEvent>(
+            eventId,
+            async _ => await client.Me.Events[eventId].DeleteAsync(cancellationToken: cancellationToken),
+            "Calendar event deleted.",
+            cancellationToken));
+
     /// <summary>
     /// Data for creating a calendar event.
     /// </summary>
@@ -120,6 +199,43 @@ public static class GraphOutlookCalendar
         [JsonPropertyName("attendees")]
         [Description("E-mail addresses of attendees. Use a comma separated list for multiple recipients.")]
         public string? Attendees { get; set; }
+    }
+
+    [Description("Please fill in the calendar event fields to update.")]
+    public class GraphUpdateCalendarEvent
+    {
+        [JsonPropertyName("subject")]
+        public string? Subject { get; set; }
+
+        [JsonPropertyName("body")]
+        public string? Body { get; set; }
+
+        [JsonPropertyName("bodyType")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public BodyType? BodyType { get; set; }
+
+        [JsonPropertyName("startDateTime")]
+        public string? StartDateTime { get; set; }
+
+        [JsonPropertyName("endDateTime")]
+        public string? EndDateTime { get; set; }
+
+        [JsonPropertyName("timeZone")]
+        public string? TimeZone { get; set; }
+
+        [JsonPropertyName("location")]
+        public string? Location { get; set; }
+
+        [JsonPropertyName("attendees")]
+        public string? Attendees { get; set; }
+    }
+
+    [Description("Please confirm the calendar event id to delete: {0}")]
+    public class GraphDeleteCalendarEvent : MCPhappey.Common.Models.IHasName
+    {
+        [Required]
+        [Description("The calendar event id.")]
+        public string Name { get; set; } = default!;
     }
 
 }
