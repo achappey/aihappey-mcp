@@ -14,7 +14,7 @@
       }
     },
     {
-      "uri": "https://graph.microsoft.com/beta/me/calendars?$select=id,name,owner",
+      "uri": "https://graph.microsoft.com/beta/me/calendars?$select=id,name,color,hexColor,isDefaultCalendar,canEdit,owner",
       "name": "list-calendars",
       "title": "List calendars",
       "description": "Get all calendars available to the signed-in user, including delegated/shared calendars.",

@@ -35,6 +35,30 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/calendars/{calendarId}?$select=id,name,color,hexColor,isDefaultCalendar,canEdit,owner",
+      "name": "outlook-calendar-details",
+      "title": "Outlook calendar details",
+      "description": "Get an Outlook calendar by ID, including ownership and editability details.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/calendars/{calendarId}/calendarView?startDateTime={startDateTime}&endDateTime={endDateTime}&$select=id,subject,start,end,location,organizer,isOnlineMeeting",
+      "name": "outlook-calendar-events-in-date-range",
+      "title": "Outlook calendar events in date range",
+      "description": "Get events from a specific Outlook calendar between a start and end date/time.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }
