@@ -14,7 +14,8 @@ public static class TokenController
         SigningCredentials signingCredentials,
         IDictionary<string, object>? additionalClaims = null,
         DateTime? expires = null,
-        IEnumerable<string>? roles = null
+        IEnumerable<string>? roles = null,
+        IEnumerable<string>? groups = null
     )
     {
         var handler = new JwtSecurityTokenHandler();
@@ -31,6 +32,16 @@ public static class TokenController
         {
             foreach (var r in roles.Where(r => !string.IsNullOrWhiteSpace(r)))
                 claims.Add(new Claim("roles", r));
+        }
+
+        if (groups != null)
+        {
+            foreach (var group in groups
+                .Where(group => !string.IsNullOrWhiteSpace(group))
+                .Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                claims.Add(new Claim("groups", group));
+            }
         }
 
 
@@ -116,6 +127,9 @@ public static class TokenController
                             ? oauth.Scopes.Split(' ', StringSplitOptions.RemoveEmptyEntries)
                             : scopes.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var roles = jwt1.Claims.Where(c => c.Type == "roles").Select(c => c.Value);
+            // Preserve only direct group claims from the validated OBO subject token.
+            // Never trust act_token or request data as a source of authorization claims.
+            var groups = jwt1.Claims.Where(c => c.Type == "groups").Select(c => c.Value);
             // 0-c) Mint the MCP token, embedding the inbound token as act
             var mcpToken1 = CreateJwt($"{ctx.Request.Scheme}://{ctx.Request.Host}",
                                      sub1!, resource,
@@ -124,9 +138,9 @@ public static class TokenController
                                      new Dictionary<string, object>
                                      {
                                          ["obo"] = subjectTok,   // aud = MCP (for hop-3 OBO)
-                                         ["act"] = actTok,
-                                         ["oid"] = oid1
-                                     }, expires: exp1, roles: roles);
+                                          ["act"] = actTok,
+                                          ["oid"] = oid1
+                                     }, expires: exp1, roles: roles, groups: groups);
 
             return Results.Json(new
             {
@@ -212,12 +226,13 @@ public static class TokenController
 
         var baseUri = $"{ctx.Request.Scheme}://{ctx.Request.Host}";
         var rolesFromSubject = jwt.Claims.Where(c => c.Type == "roles").Select(c => c.Value);
+        var groupsFromSubject = jwt.Claims.Where(c => c.Type == "groups").Select(c => c.Value);
         var mcpToken = CreateJwt(baseUri, sub!, resource, scopes: oauth.Scopes?.Split(" ") ?? [], signingCredentials,
             additionalClaims: new Dictionary<string, object>
             {
                 ["act"] = azureAccessToken!,
                 ["oid"] = oid!
-            }, expires: exp, roles: rolesFromSubject);
+            }, expires: exp, roles: rolesFromSubject, groups: groupsFromSubject);
 
         return Results.Json(new
         {
