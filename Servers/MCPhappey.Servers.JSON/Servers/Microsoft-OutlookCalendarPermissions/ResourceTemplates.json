@@ -1,0 +1,24 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/calendars/{calendarId}/calendarPermissions?$select=id,emailAddress,role,allowedRoles,isRemovable",
+      "name": "outlook-calendar-permissions",
+      "title": "Outlook calendar permissions",
+      "description": "List all sharing permissions and available roles on an Outlook calendar.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/calendars/{calendarId}/calendarPermissions/{permissionId}?$select=id,emailAddress,role,allowedRoles,isRemovable",
+      "name": "outlook-calendar-permission",
+      "title": "Outlook calendar permission",
+      "description": "Get one Outlook calendar sharing permission by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

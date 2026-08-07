@@ -1,0 +1,14 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/calendars?$select=id,name,isDefaultCalendar,canEdit,canShare,owner",
+      "name": "my-shareable-outlook-calendars",
+      "title": "My shareable Outlook calendars",
+      "description": "List signed-in user's calendars and whether each calendar can be edited or shared.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}
