@@ -16,7 +16,7 @@ public static class GraphRetentionLabels
 
     [Description("Create a Microsoft Purview retention label with an explicit retention or deletion behavior.")]
     [McpServerTool(Title = "Create Purview retention label", Name = "graph_purview_retention_labels_create",
-        Destructive = false, OpenWorld = false, UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = false, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphRetentionLabels_Create(
         string displayName,
         string descriptionForUsers,
@@ -52,8 +52,7 @@ public static class GraphRetentionLabels
 
     [Description("Update editable descriptions of a Microsoft Purview retention label. Published or in-use labels have Graph service restrictions.")]
     [McpServerTool(Title = "Update Purview retention label", Name = "graph_purview_retention_labels_update",
-        Destructive = true, Idempotent = true, OpenWorld = false,
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = true, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphRetentionLabels_Update(
         string labelId,
         IServiceProvider serviceProvider,

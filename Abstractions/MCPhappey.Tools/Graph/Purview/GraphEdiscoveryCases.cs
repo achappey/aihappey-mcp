@@ -16,7 +16,8 @@ public static class GraphEdiscoveryCases
 
     [Description("Create a Microsoft Purview eDiscovery case.")]
     [McpServerTool(Title = "Create Purview eDiscovery case", Name = "graph_purview_ediscovery_cases_create",
-        Destructive = false, OpenWorld = false, UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = false, OpenWorld = false)
+        ]
     public static async Task<CallToolResult?> GraphEdiscoveryCases_Create(
         [Description("Display name of the new eDiscovery case.")] string displayName,
         IServiceProvider serviceProvider,
@@ -47,8 +48,7 @@ public static class GraphEdiscoveryCases
 
     [Description("Update the editable metadata of a Microsoft Purview eDiscovery case. Only supplied values are changed.")]
     [McpServerTool(Title = "Update Purview eDiscovery case", Name = "graph_purview_ediscovery_cases_update",
-        Destructive = true, Idempotent = true, OpenWorld = false,
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = true, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphEdiscoveryCases_Update(
         [Description("eDiscovery case ID.")] string caseId,
         IServiceProvider serviceProvider,
