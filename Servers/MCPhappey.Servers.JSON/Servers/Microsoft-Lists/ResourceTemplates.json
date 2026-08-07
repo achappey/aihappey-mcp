@@ -35,6 +35,18 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/sites/{siteId}/lists/{listId}/columns/{columnId}?$select=id,name,displayName,description,required,readOnly,type,choice",
+      "name": "get-list-column-details",
+      "title": "Get list column details",
+      "description": "Get a Microsoft List column by ID before updating or deleting it.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     }
   ]
 }
