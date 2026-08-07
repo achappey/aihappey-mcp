@@ -1,0 +1,20 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/termStore/groups?$select=id,displayName,description,scope,parentSiteId",
+      "name": "taxonomy-groups",
+      "title": "Taxonomy groups",
+      "description": "List groups in the tenant SharePoint taxonomy term store.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    },
+    {
+      "uri": "https://graph.microsoft.com/beta/termStore/sets?$select=id,localizedNames,description,createdDateTime",
+      "name": "taxonomy-term-sets",
+      "title": "Taxonomy term sets",
+      "description": "List term sets in the tenant SharePoint taxonomy term store.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    }
+  ]
+}

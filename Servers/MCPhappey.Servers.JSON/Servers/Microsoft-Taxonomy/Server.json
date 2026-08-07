@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Taxonomy",
+    "title": "Microsoft SharePoint Taxonomy",
+    "version": "1.0.0",
+    "description": "Read and manage SharePoint taxonomy term sets and terms.",
+    "websiteUrl": "https://admin.microsoft.com/sharepoint"
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Taxonomy.GraphTaxonomy, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/TermStore.ReadWrite.All"
+  }
+}

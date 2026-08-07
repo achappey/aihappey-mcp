@@ -1,0 +1,52 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/termStore/groups/{groupId}?$select=id,displayName,description,scope,parentSiteId",
+      "name": "taxonomy-group",
+      "title": "Taxonomy group",
+      "description": "Get a taxonomy group by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/termStore/groups/{groupId}/sets?$select=id,localizedNames,description,createdDateTime",
+      "name": "taxonomy-group-term-sets",
+      "title": "Taxonomy group term sets",
+      "description": "List term sets in a taxonomy group.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/termStore/sets/{setId}?$select=id,localizedNames,description,createdDateTime",
+      "name": "taxonomy-term-set",
+      "title": "Taxonomy term set",
+      "description": "Get a taxonomy term set by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/termStore/sets/{setId}/terms?$select=id,labels,descriptions,createdDateTime,lastModifiedDateTime",
+      "name": "taxonomy-terms",
+      "title": "Taxonomy terms",
+      "description": "List top-level terms in a taxonomy term set.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/termStore/sets/{setId}/terms/{termId}?$select=id,labels,descriptions,createdDateTime,lastModifiedDateTime",
+      "name": "taxonomy-term",
+      "title": "Taxonomy term",
+      "description": "Get a taxonomy term by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/termStore/sets/{setId}/terms/{termId}/children?$select=id,labels,descriptions,createdDateTime,lastModifiedDateTime",
+      "name": "taxonomy-child-terms",
+      "title": "Taxonomy child terms",
+      "description": "List direct children of a taxonomy term.",
+      "mimeType": "application/json",
+      "annotations": { "audience": [ "assistant" ] }
+    }
+  ]
+}
