@@ -11,6 +11,48 @@ namespace MCPhappey.Tools.Graph.Planner;
 
 public static partial class GraphPlanner
 {
+    [Description("Delete a Microsoft Planner task.")]
+    [McpServerTool(Title = "Delete Microsoft Planner task", Name = "graph_planner_delete_task",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphPlanner_DeleteTask(
+        [Description("Planner task id to delete.")] string taskId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        {
+            var current = await client.Planner.Tasks[taskId].GetAsync(cancellationToken: cancellationToken)
+                ?? throw new InvalidOperationException($"Planner task '{taskId}' was not found.");
+            var etag = GetPlannerEtag(current.AdditionalData, "Planner task");
+
+            return await requestContext.ConfirmAndDeleteAsync<GraphDeletePlannerTask>(
+                taskId,
+                async _ => await client.Planner.Tasks[taskId].DeleteAsync(
+                    config => config.Headers.Add("If-Match", etag), cancellationToken),
+                "Planner task deleted.", cancellationToken);
+        }));
+
+    [Description("Delete a Microsoft Planner bucket. The bucket must not contain tasks.")]
+    [McpServerTool(Title = "Delete Microsoft Planner bucket", Name = "graph_planner_delete_bucket",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphPlanner_DeleteBucket(
+        [Description("Planner bucket id to delete.")] string bucketId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        {
+            var current = await client.Planner.Buckets[bucketId].GetAsync(cancellationToken: cancellationToken)
+                ?? throw new InvalidOperationException($"Planner bucket '{bucketId}' was not found.");
+            var etag = GetPlannerEtag(current.AdditionalData, "Planner bucket");
+
+            return await requestContext.ConfirmAndDeleteAsync<GraphDeletePlannerBucket>(
+                bucketId,
+                async _ => await client.Planner.Buckets[bucketId].DeleteAsync(
+                    config => config.Headers.Add("If-Match", etag), cancellationToken),
+                "Planner bucket deleted.", cancellationToken);
+        }));
+
     [Description("Update a Microsoft Planner task")]
     [McpServerTool(
            Title = "Update a Microsoft Planner task",

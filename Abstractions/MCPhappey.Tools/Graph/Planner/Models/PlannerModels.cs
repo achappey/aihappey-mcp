@@ -109,3 +109,19 @@ public class GraphUpdatePlannerBucket
     [Description("New name of the bucket.")]
     public string? Name { get; set; }
 }
+
+[Description("Please confirm the Planner task id to delete: {0}")]
+public sealed class GraphDeletePlannerTask : MCPhappey.Common.Models.IHasName
+{
+    [Required]
+    [Description("Planner task id.")]
+    public string Name { get; set; } = default!;
+}
+
+[Description("Please confirm the Planner bucket id to delete: {0}")]
+public sealed class GraphDeletePlannerBucket : MCPhappey.Common.Models.IHasName
+{
+    [Required]
+    [Description("Planner bucket id.")]
+    public string Name { get; set; } = default!;
+}
