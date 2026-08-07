@@ -1,0 +1,20 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/me/outlook/masterCategories?$select=id,displayName,color",
+      "name": "outlook-master-categories",
+      "title": "Outlook master categories",
+      "description": "List the signed-in user's Outlook master categories.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/me/outlook/masterCategories/{categoryId}?$select=id,displayName,color",
+      "name": "outlook-master-category",
+      "title": "Outlook master category",
+      "description": "Get one Outlook master category by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

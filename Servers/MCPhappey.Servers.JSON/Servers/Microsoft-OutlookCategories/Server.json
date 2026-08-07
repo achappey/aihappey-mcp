@@ -1,0 +1,15 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OutlookCategories",
+    "title": "Microsoft Outlook Categories",
+    "version": "1.0.0",
+    "websiteUrl": "https://outlook.office.com",
+    "description": "Read and manage the signed-in user's Outlook master categories."
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Outlook.GraphOutlookMasterCategories, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/MailboxSettings.ReadWrite"
+  }
+}
