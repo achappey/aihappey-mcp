@@ -9,7 +9,7 @@ using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.Graph.Outlook;
 
-public static class GraphOutlookCalendar
+public static partial class GraphOutlookCalendar
 {
     [Description("Create a calendar group in the signed-in user's Outlook mailbox.")]
     [McpServerTool(Title = "Create Outlook calendar group", Name = "graph_outlook_calendar_create_group",
