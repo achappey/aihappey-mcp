@@ -14,7 +14,7 @@ using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.Graph.Outlook;
 
-public static class GraphOutlookMail
+public static partial class GraphOutlookMail
 {
     private const int DefaultMoveSearchLimit = 25;
     private const int MaxMoveSearchLimit = 100;
