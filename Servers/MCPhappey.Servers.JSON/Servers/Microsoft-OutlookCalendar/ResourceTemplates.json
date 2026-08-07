@@ -59,6 +59,26 @@
           "assistant"
         ]
       }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/calendarGroups/{calendarGroupId}?$select=id,name,classId,changeKey",
+      "name": "outlook-calendar-group-details",
+      "title": "Outlook calendar group details",
+      "description": "Get one Outlook calendar group by ID.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/calendarGroups/{calendarGroupId}/calendars?$select=id,name,color,hexColor,isDefaultCalendar,canEdit,owner",
+      "name": "outlook-calendar-group-calendars",
+      "title": "Calendars in Outlook calendar group",
+      "description": "List calendars contained in a specific Outlook calendar group.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
     }
   ]
 }

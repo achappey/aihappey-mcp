@@ -11,6 +11,62 @@ namespace MCPhappey.Tools.Graph.Outlook;
 
 public static class GraphOutlookCalendar
 {
+    [Description("Create a calendar group in the signed-in user's Outlook mailbox.")]
+    [McpServerTool(Title = "Create Outlook calendar group", Name = "graph_outlook_calendar_create_group",
+        UseStructuredContent = true, OutputSchemaType = typeof(CalendarGroup), Destructive = false, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookCalendar_CreateGroup(
+        [Description("Name of the new calendar group.")] string name,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphCalendarGroupInput { Name = name }, cancellationToken);
+            if (notAccepted is not null) return default(CalendarGroup);
+            ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Name);
+
+            return await client.Me.CalendarGroups.PostAsync(
+                new CalendarGroup { Name = typed.Name.Trim() }, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Rename a calendar group in the signed-in user's Outlook mailbox.")]
+    [McpServerTool(Title = "Rename Outlook calendar group", Name = "graph_outlook_calendar_rename_group",
+        UseStructuredContent = true, OutputSchemaType = typeof(CalendarGroup), Destructive = true,
+        Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookCalendar_RenameGroup(
+        [Description("Calendar group ID to rename.")] string calendarGroupId,
+        [Description("New calendar group name.")] string name,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                new GraphCalendarGroupInput { Name = name }, cancellationToken);
+            if (notAccepted is not null) return default(CalendarGroup);
+            ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Name);
+
+            return await client.Me.CalendarGroups[calendarGroupId].PatchAsync(
+                new CalendarGroup { Name = typed.Name.Trim() }, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Delete a calendar group from the signed-in user's Outlook mailbox.")]
+    [McpServerTool(Title = "Delete Outlook calendar group", Name = "graph_outlook_calendar_delete_group",
+        Destructive = true, Idempotent = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookCalendar_DeleteGroup(
+        [Description("Calendar group ID to delete.")] string calendarGroupId,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.ConfirmAndDeleteAsync<GraphDeleteCalendarGroup>(
+            calendarGroupId,
+            async _ => await client.Me.CalendarGroups[calendarGroupId].DeleteAsync(cancellationToken: cancellationToken),
+            "Outlook calendar group deleted.", cancellationToken)));
+
     [Description("Create a secondary calendar in the signed-in user's Outlook mailbox.")]
     [McpServerTool(Title = "Create Outlook calendar",
         Name = "graph_outlook_calendar_create_calendar",
@@ -345,6 +401,21 @@ public static class GraphOutlookCalendar
 
     [Description("Please confirm the Outlook calendar id to delete: {0}")]
     public sealed class GraphDeleteCalendar : MCPhappey.Common.Models.IHasName
+    {
+        [Required]
+        public string Name { get; set; } = default!;
+    }
+
+    [Description("Please fill in the Outlook calendar group details.")]
+    public sealed class GraphCalendarGroupInput
+    {
+        [Required]
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = default!;
+    }
+
+    [Description("Please confirm the Outlook calendar group id to delete: {0}")]
+    public sealed class GraphDeleteCalendarGroup : MCPhappey.Common.Models.IHasName
     {
         [Required]
         public string Name { get; set; } = default!;
