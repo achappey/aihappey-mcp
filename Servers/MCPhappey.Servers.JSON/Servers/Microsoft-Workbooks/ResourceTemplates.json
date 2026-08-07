@@ -45,6 +45,39 @@
       }
     },
     {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}",
+      "name": "Get Excel worksheet",
+      "description": "Retrieves one worksheet by ID or name before it is renamed or deleted.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/tables/{tableId}",
+      "name": "Get Excel table",
+      "description": "Retrieves one table by ID or name before it is renamed, updated, or deleted.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/tables/{tableId}/rows/itemAt(index={rowIndex})",
+      "name": "Get Excel table row",
+      "description": "Retrieves one table row by its zero-based index before it is updated or deleted.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
       "uriTemplate": "https://graph.microsoft.com/beta/me/drive/items/{itemId}/workbook/worksheets/{worksheetId}/range(address='{range}')",
       "name": "Get Excel cell range",
       "description": "Retrieves a specific cell range (e.g., B2:F20) from a worksheet in the specified Excel file.",
