@@ -1,0 +1,14 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/beta/me/mailboxSettings?$select=automaticRepliesSetting",
+      "name": "my-outlook-automatic-replies",
+      "title": "My Outlook automatic replies",
+      "description": "Get the current automatic reply status, schedule, audience, and messages for the signed-in user's mailbox.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}

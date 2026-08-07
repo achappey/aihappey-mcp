@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-OutlookAutomaticReplies",
+    "title": "Microsoft Outlook Automatic Replies",
+    "version": "1.0.0",
+    "websiteUrl": "https://outlook.office.com/mail/options/mail/automaticReplies",
+    "description": "Configure and inspect automatic replies for the signed-in user's Outlook mailbox.",
+    "icons": [
+      {
+        "src": "https://www.ek.co/wp-content/uploads/2025/04/outlooklogo.png"
+      }
+    ]
+  },
+  "plugins": [
+    "MCPhappey.Tools.Graph.Outlook.GraphOutlookAutomaticReplies, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/MailboxSettings.ReadWrite"
+  }
+}

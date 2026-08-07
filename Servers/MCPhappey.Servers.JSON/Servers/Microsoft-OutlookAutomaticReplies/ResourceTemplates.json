@@ -1,0 +1,14 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userId}/mailboxSettings?$select=automaticRepliesSetting",
+      "name": "outlook-automatic-replies-by-user",
+      "title": "Outlook automatic replies by user",
+      "description": "Get automatic reply settings for a mailbox the signed-in user is permitted to access.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": ["assistant"]
+      }
+    }
+  ]
+}
