@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol;
 using ModelContextProtocol.Extensions.Tasks;
 using ModelContextProtocol.Protocol;
-using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.ModelContext.Tasks.Planner;
 

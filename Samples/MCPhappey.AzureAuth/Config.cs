@@ -2,7 +2,6 @@ using MCPhappey.Auth.Models;
 using MCPhappey.Common.Models;
 using MCPhappey.Simplicate.Options;
 using MCPhappey.Tools.Azure;
-using MCPhappey.Tools.AI;
 
 namespace MCPhappey.WebApi;
 

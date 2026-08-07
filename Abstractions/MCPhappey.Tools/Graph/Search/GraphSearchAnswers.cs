@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Tools.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
