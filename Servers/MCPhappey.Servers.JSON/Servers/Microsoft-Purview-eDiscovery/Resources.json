@@ -1,0 +1,15 @@
+{
+  "resources": [
+    {
+      "uri": "https://graph.microsoft.com/v1.0/security/cases/ediscoveryCases?$select=id,displayName,description,status,externalId,createdDateTime,lastModifiedDateTime&$orderby=lastModifiedDateTime desc",
+      "name": "List Purview eDiscovery cases",
+      "description": "Lists Microsoft Purview eDiscovery cases with their core metadata and status.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}

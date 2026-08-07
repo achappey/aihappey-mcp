@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Microsoft-Purview-eDiscovery",
+    "title": "Microsoft Purview eDiscovery",
+    "version": "1.0.0",
+    "websiteUrl": "https://purview.microsoft.com",
+    "description": "Read and manage Microsoft Purview eDiscovery cases through delegated Microsoft Graph."
+  },
+  "instructions": "Use ReadResource with the supplied Microsoft Graph resources to list or inspect eDiscovery cases. Use tools only to create, update, or delete cases.",
+  "plugins": [
+    "MCPhappey.Tools.Graph.Purview.GraphEdiscoveryCases, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/eDiscovery.ReadWrite.All"
+  }
+}

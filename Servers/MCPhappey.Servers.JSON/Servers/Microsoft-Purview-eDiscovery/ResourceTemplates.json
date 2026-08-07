@@ -1,0 +1,37 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/security/cases/ediscoveryCases/{caseId}",
+      "name": "Get Purview eDiscovery case",
+      "description": "Retrieves one Microsoft Purview eDiscovery case by ID before it is changed or deleted.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/security/cases/ediscoveryCases/{caseId}/custodians",
+      "name": "List eDiscovery case custodians",
+      "description": "Lists custodians belonging to one Microsoft Purview eDiscovery case.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://graph.microsoft.com/v1.0/security/cases/ediscoveryCases/{caseId}/searches",
+      "name": "List eDiscovery case searches",
+      "description": "Lists searches belonging to one Microsoft Purview eDiscovery case.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    }
+  ]
+}
