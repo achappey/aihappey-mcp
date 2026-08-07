@@ -12,7 +12,8 @@
     ]
   },
   "plugins": [
-    "MCPhappey.Tools.Graph.OneNote.GraphOneNote, MCPhappey.Tools"
+    "MCPhappey.Tools.Graph.OneNote.GraphOneNote, MCPhappey.Tools",
+    "MCPhappey.Tools.Graph.OneNote.GraphOneNoteCrud, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All https://graph.microsoft.com/Notes.ReadWrite.All"
