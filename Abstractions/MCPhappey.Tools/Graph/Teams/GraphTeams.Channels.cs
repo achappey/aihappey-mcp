@@ -14,7 +14,7 @@ public static partial class GraphTeams
 {
     [Description("Update the display name or description of a Microsoft Teams channel.")]
     [McpServerTool(Title = "Update Microsoft Teams channel", Name = "graph_teams_update_channel",
-        UseStructuredContent = true, OutputSchemaType = typeof(Channel), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphTeams_UpdateChannel(
         [Description("ID of the Team.")] string teamId,
