@@ -4,7 +4,12 @@
     "title": "Microsoft Purview eDiscovery",
     "version": "1.0.0",
     "websiteUrl": "https://purview.microsoft.com",
-    "description": "Read and manage Microsoft Purview eDiscovery cases through delegated Microsoft Graph."
+    "description": "Read and manage Microsoft Purview eDiscovery cases through delegated Microsoft Graph.",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
   },
   "instructions": "Use ReadResource with the supplied Microsoft Graph resources to list or inspect eDiscovery cases. Use tools only to create, update, or delete cases.",
   "plugins": [

@@ -4,7 +4,12 @@
     "title": "Microsoft Search Configuration",
     "version": "1.0.0",
     "description": "Read and manage organizational Microsoft Search bookmarks, acronyms, and question-and-answer results.",
-    "websiteUrl": "https://admin.microsoft.com/Adminportal/Home#/MicrosoftSearch"
+    "websiteUrl": "https://admin.microsoft.com/Adminportal/Home#/MicrosoftSearch",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
   },
   "plugins": [
     "MCPhappey.Tools.Graph.Search.GraphSearchBookmarks, MCPhappey.Tools",

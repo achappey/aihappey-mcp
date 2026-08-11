@@ -4,7 +4,12 @@
     "title": "Microsoft 365 Profile Card",
     "version": "1.0.0",
     "description": "Read and manage the Microsoft Entra properties displayed on Microsoft 365 profile cards.",
-    "websiteUrl": "https://entra.microsoft.com"
+    "websiteUrl": "https://entra.microsoft.com",
+    "icons": [
+      {
+        "src": "https://companieslogo.com/img/orig/MSFT-a203b22d.png?t=1722952497"
+      }
+    ]
   },
   "instructions": "Use resources to inspect configured profile card properties. Use tools only to add, update, or remove properties.",
   "plugins": [
