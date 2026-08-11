@@ -96,7 +96,7 @@ public static partial class SimplicateCRM
         public string? Note { get; set; }
 
         [JsonPropertyName("email")]
-        [EmailAddress]
+        //  [EmailAddress]
         [Description("The person's primary email address.")]
         public string? Email { get; set; }
 
@@ -106,11 +106,11 @@ public static partial class SimplicateCRM
 
         [JsonPropertyName("website_url")]
         [Description("The person's website URL, if available.")]
-        public Uri? WebsiteUrl { get; set; }
+        public string? WebsiteUrl { get; set; }
 
         [JsonPropertyName("linkedin_url")]
         [Description("LinkedIn url.")]
-        public Uri? LinkedInUrl { get; set; }
+        public string? LinkedInUrl { get; set; }
 
         [JsonPropertyName("relation_manager")]
         public SimplicateRelationManager? RelationManager { get; set; }
@@ -147,7 +147,7 @@ public static partial class SimplicateCRM
         public string? WorkFunction { get; set; }
 
         [JsonPropertyName("work_email")]
-        [EmailAddress]
+        //[EmailAddress]
         [Description("Work email address for this organization contact link.")]
         public string? WorkEmail { get; set; }
 
@@ -200,7 +200,7 @@ public static partial class SimplicateCRM
         public string? WorkFunction { get; set; }
 
         [JsonPropertyName("work_email")]
-        [EmailAddress]
+        //[EmailAddress]
         [Description("Work email address for this organization contact link.")]
         public string? WorkEmail { get; set; }
 
@@ -438,7 +438,7 @@ public static partial class SimplicateCRM
         public string? WorkFunction { get; set; }
 
         [JsonPropertyName("work_email")]
-        [EmailAddress]
+        //[EmailAddress]
         [Description("Work email address for this organization contact link.")]
         public string? WorkEmail { get; set; }
 

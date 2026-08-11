@@ -4,11 +4,92 @@ using MCPhappey.Simplicate.Extensions;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 using MCPhappey.Common.Extensions;
+using MCPhappey.Core.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using MCPhappey.Simplicate.Options;
+using MCPhappey.Core.Services;
 
 namespace MCPhappey.Simplicate.CRM;
 
 public static partial class SimplicateCRM
 {
+
+     [McpServerTool(OpenWorld = false,
+        ReadOnly = true,
+        Destructive = false,
+        UseStructuredContent = true,
+        OutputSchemaType = typeof(SimplicateData<SimplicatePerson>),
+        Name = "simplicate_crm_get_persons",
+        Title = "Get persons")]
+    [Description("Get persons, filtered by persons filters.")]
+    public static async Task<CallToolResult?> SimplicateCRM_GetOrganizations(
+     IServiceProvider serviceProvider,
+     RequestContext<CallToolRequestParams> requestContext,
+      [Description("(partial) Full name.")] string? fullName = null,
+      [Description("Text value of relation type.")] string? relationType = null,
+      [Description("(partial) text value of team name.")] string? teamName = null,
+      [Description("(partial) text value of the relation manager name")] string? relationManager = null,
+      [Description("Offset used for pagination")] int? offset = null,
+      [Description("The limit of max allowed results")] int? limit = null,
+     CancellationToken cancellationToken = default) =>
+     await ModelContextToolExtensions.WithExceptionCheck(async () =>
+     await requestContext.WithStructuredContent(async () =>
+     {
+         var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
+         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+
+         var filters = new List<string>();
+
+         if (!string.IsNullOrWhiteSpace(fullName))
+             filters.Add($"q[full_name]=*{Uri.EscapeDataString(fullName)}*");
+
+         if (!string.IsNullOrWhiteSpace(relationType))
+             filters.Add($"q[relation_type.label]=*{Uri.EscapeDataString(relationType)}*");
+
+         if (!string.IsNullOrWhiteSpace(teamName))
+             filters.Add($"q[teams.name]=*{Uri.EscapeDataString(teamName)}*");
+
+         if (!string.IsNullOrWhiteSpace(relationManager))
+             filters.Add($"q[relation_manager.name]=*{Uri.EscapeDataString(relationManager)}*");
+
+         if (offset.HasValue)
+             filters.Add($"offset={offset.Value}");
+
+         if (limit.HasValue)
+             filters.Add($"limit={limit.Value}");
+
+         var filterString = string.Join("&", filters) + $"&metadata=count,limit,offset&sort=-created_at";
+         string baseUrl = simplicateOptions.GetApiUrl("/crm/person");
+
+         if (limit.HasValue && limit.Value <= 100)
+             return await downloadService.GetSimplicatePageAsync<SimplicatePerson>(
+                 serviceProvider,
+                 requestContext.Server,
+                 $"{baseUrl}?{filterString}",
+                 cancellationToken: cancellationToken
+             );
+
+         var items = await downloadService.GetAllSimplicatePagesAsync<SimplicatePerson>(
+             serviceProvider,
+             requestContext.Server,
+             baseUrl,
+             filterString,
+             pageNum => $"Downloading persons (page {pageNum})",
+             requestContext,
+             cancellationToken: cancellationToken
+         );
+
+         return new SimplicateData<SimplicatePerson>()
+         {
+             Data = items.Skip(offset ?? 0).Take(limit ?? int.MaxValue),
+             Metadata = new()
+             {
+                 Count = items.Count,
+                 Offset = offset ?? null,
+                 Limit = limit ?? null
+             }
+         };
+     }));
 
     [Description("Create a new person in Simplicate CRM")]
     [McpServerTool(Title = "Create new person in Simplicate",
