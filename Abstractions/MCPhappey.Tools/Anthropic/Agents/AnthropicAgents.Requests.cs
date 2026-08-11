@@ -6,6 +6,16 @@ namespace MCPhappey.Tools.Anthropic.Agents;
 
 public static partial class AnthropicAgents
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum AnthropicAgentEffort
+    {
+        low,
+        medium,
+        high,
+        xhigh,
+        max
+    }
+
     [Description("Please confirm the Anthropic create agent request.")]
     public sealed class AnthropicCreateAgentRequest
     {
@@ -29,6 +39,10 @@ public static partial class AnthropicAgents
         [JsonPropertyName("modelSpeed")]
         [Description("Optional model speed: standard or fast.")]
         public string? ModelSpeed { get; set; }
+
+        [JsonPropertyName("modelEffort")]
+        [Description("Optional model effort: low, medium, high, xhigh, or max.")]
+        public AnthropicAgentEffort? ModelEffort { get; set; }
 
         [JsonPropertyName("system")]
         [MaxLength(100000)]
@@ -70,6 +84,10 @@ public static partial class AnthropicAgents
         [JsonPropertyName("modelSpeed")]
         [Description("Optional updated model speed: standard or fast.")]
         public string? ModelSpeed { get; set; }
+
+        [JsonPropertyName("modelEffort")]
+        [Description("Optional updated model effort: low, medium, high, xhigh, or max.")]
+        public AnthropicAgentEffort? ModelEffort { get; set; }
 
         [JsonPropertyName("system")]
         [MaxLength(100000)]

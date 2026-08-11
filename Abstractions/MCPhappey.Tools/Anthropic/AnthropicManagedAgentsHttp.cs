@@ -92,21 +92,32 @@ internal static class AnthropicManagedAgentsHttp
     internal static JsonObject CloneObject(JsonNode? node)
         => node?.DeepClone() as JsonObject ?? new JsonObject();
 
-    internal static JsonNode BuildModelNode(string modelId, string? modelSpeed)
+    internal static JsonNode BuildModelNode(string modelId, string? modelSpeed, string? modelEffort)
     {
         if (string.IsNullOrWhiteSpace(modelId))
             throw new ValidationException("modelId is required.");
 
-        if (string.IsNullOrWhiteSpace(modelSpeed))
+        if (string.IsNullOrWhiteSpace(modelSpeed) && string.IsNullOrWhiteSpace(modelEffort))
             return JsonValue.Create(modelId)!;
 
-        ValidateSpeed(modelSpeed);
+        if (!string.IsNullOrWhiteSpace(modelSpeed))
+            ValidateSpeed(modelSpeed);
 
-        return new JsonObject
+        if (!string.IsNullOrWhiteSpace(modelEffort))
+            ValidateEffort(modelEffort);
+
+        var model = new JsonObject
         {
-            ["id"] = modelId,
-            ["speed"] = modelSpeed
+            ["id"] = modelId
         };
+
+        if (!string.IsNullOrWhiteSpace(modelSpeed))
+            model["speed"] = modelSpeed;
+
+        if (!string.IsNullOrWhiteSpace(modelEffort))
+            model["effort"] = modelEffort;
+
+        return model;
     }
 
     internal static JsonObject? BuildPermissionPolicy(string? permissionPolicy)
@@ -136,6 +147,18 @@ internal static class AnthropicManagedAgentsHttp
             && !string.Equals(speed, "fast", StringComparison.OrdinalIgnoreCase))
         {
             throw new ValidationException("modelSpeed must be 'standard' or 'fast'.");
+        }
+    }
+
+    internal static void ValidateEffort(string effort)
+    {
+        if (!string.Equals(effort, "low", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(effort, "medium", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(effort, "high", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(effort, "xhigh", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(effort, "max", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new ValidationException("modelEffort must be 'low', 'medium', 'high', 'xhigh', or 'max'.");
         }
     }
 

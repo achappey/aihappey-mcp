@@ -40,10 +40,11 @@ public static partial class AnthropicAgents
         [Description("Model identifier such as claude-sonnet-4-6.")] string modelId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional model effort. Omit to use the model default.")] AnthropicAgentEffort? modelEffort = null,
         [Description("Optional description.")] string? description = null,
         [Description("Optional model speed. Allowed values: standard or fast.")] string? modelSpeed = null,
         [Description("Optional system prompt.")] string? system = null,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -54,6 +55,7 @@ public static partial class AnthropicAgents
                     ModelId = modelId,
                     Description = description,
                     ModelSpeed = modelSpeed,
+                    ModelEffort = modelEffort,
                     System = system
                 }, cancellationToken);
 
@@ -63,7 +65,10 @@ public static partial class AnthropicAgents
                 var body = new JsonObject
                 {
                     ["name"] = typed.Name,
-                    ["model"] = AnthropicManagedAgentsHttp.BuildModelNode(typed.ModelId, typed.ModelSpeed)
+                    ["model"] = AnthropicManagedAgentsHttp.BuildModelNode(
+                        typed.ModelId,
+                        typed.ModelSpeed,
+                        typed.ModelEffort?.ToString())
                 };
 
                 SetStringIfProvided(body, "description", typed.Description);
@@ -74,7 +79,7 @@ public static partial class AnthropicAgents
                     HttpMethod.Post,
                     BaseUrl,
                     body,
-                    
+
                     cancellationToken);
             }));
 
@@ -94,8 +99,9 @@ public static partial class AnthropicAgents
         [Description("Optional updated description. Provide an empty string to clear.")] string? description = null,
         [Description("Optional updated model identifier. Omit to preserve the current model.")] string? modelId = null,
         [Description("Optional updated model speed. Allowed values: standard or fast. Requires modelId when provided.")] string? modelSpeed = null,
+        [Description("Optional updated model effort. Requires modelId when provided.")] AnthropicAgentEffort? modelEffort = null,
         [Description("Optional updated system prompt. Provide an empty string to clear.")] string? system = null,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -108,6 +114,7 @@ public static partial class AnthropicAgents
                     Description = description,
                     ModelId = modelId,
                     ModelSpeed = modelSpeed,
+                    ModelEffort = modelEffort,
                     System = system
                 }, cancellationToken);
 
@@ -133,11 +140,14 @@ public static partial class AnthropicAgents
                 if (typed.System is not null) body["system"] = typed.System;
 
                 if (!string.IsNullOrWhiteSpace(typed.ModelId))
-                    body["model"] = AnthropicManagedAgentsHttp.BuildModelNode(typed.ModelId, typed.ModelSpeed);
-                else if (!string.IsNullOrWhiteSpace(typed.ModelSpeed))
-                    throw new ValidationException("modelId is required when modelSpeed is provided.");
+                    body["model"] = AnthropicManagedAgentsHttp.BuildModelNode(
+                        typed.ModelId,
+                        typed.ModelSpeed,
+                        typed.ModelEffort?.ToString());
+                else if (!string.IsNullOrWhiteSpace(typed.ModelSpeed) || typed.ModelEffort is not null)
+                    throw new ValidationException("modelId is required when modelSpeed or modelEffort is provided.");
 
-                return await UpdateAgentAsync(serviceProvider, typed.AgentId,  body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, typed.AgentId, body, cancellationToken);
             }));
 
     [Description("Archive an Anthropic Managed Agent. The archive request is confirmed through elicitation before execution.")]
@@ -151,14 +161,14 @@ public static partial class AnthropicAgents
         [Description("Agent ID to archive.")] string agentId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveAgentRequest
                 {
-                    AgentId = agentId,                  
+                    AgentId = agentId,
                 }, cancellationToken);
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
@@ -169,7 +179,7 @@ public static partial class AnthropicAgents
                     HttpMethod.Post,
                     $"{BaseUrl}/{Uri.EscapeDataString(typed.AgentId)}/archive",
                     null,
-                    
+
                     cancellationToken);
             }));
 }
