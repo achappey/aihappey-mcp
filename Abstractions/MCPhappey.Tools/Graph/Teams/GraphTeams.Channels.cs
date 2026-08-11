@@ -106,7 +106,6 @@ public static partial class GraphTeams
     public static async Task<CallToolResult?> GraphTeams_CreateChannelMessage(
         [Description("ID of the Team.")] string teamId,
         [Description("ID of the Channel.")] string channelId,
-        IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Subject of the message.")] string? subject = null,
         [Description("Content (body) of the message.")] string? content = null,
@@ -150,7 +149,6 @@ public static partial class GraphTeams
         [Description("ID of the Channel.")] string channelId,
         [Description("ID of the message to reply to.")] string messageId,
         [Description("IDs of the users to mention.")] List<string> mentionUserIds,
-        IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional extra message after mentions.")] string? content = null,
         CancellationToken cancellationToken = default)
