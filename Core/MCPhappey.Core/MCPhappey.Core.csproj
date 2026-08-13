@@ -23,7 +23,7 @@
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.79.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.79.0-preview" />
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.79.0-alpha" />
-    <PackageReference Include="ModelContextProtocol.Extensions.Tasks" Version="2.1.0" />
+    <PackageReference Include="ModelContextProtocol.Extensions.Tasks" Version="2.2.0" />
 	</ItemGroup>
 
 </Project>

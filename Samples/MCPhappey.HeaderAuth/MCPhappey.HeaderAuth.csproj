@@ -28,8 +28,8 @@
 		<PackageReference Include="Microsoft.SemanticKernel" Version="1.79.0" />
 		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.79.0-preview" />
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.79.0-alpha" />
-		<PackageReference Include="ModelContextProtocol.AspNetCore" Version="2.1.0" />		
-		<PackageReference Include="ModelContextProtocol" Version="2.1.0" />		
+		<PackageReference Include="ModelContextProtocol.AspNetCore" Version="2.2.0" />		
+		<PackageReference Include="ModelContextProtocol" Version="2.2.0" />		
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.11" />
 	</ItemGroup>
 </Project>
