@@ -1,9 +1,9 @@
 {
   "serverInfo": {
     "name": "OneDrive-SkillsEditor",
-    "title": "OneDrive Skills Editor",
+    "title": "OneDrive Agent Skills Editor",
     "version": "1.0.0",
-    "description": "Create and edit Skills from your personal OneDrive /skills folder.",
+    "description": "Create and edit Agent Skills from your personal OneDrive /skills folder.",
     "icons": [
       {
         "src": "https://www.aaudxp-cms.aau.dk/media/3sglfyu0/onedrive.png?width=960"

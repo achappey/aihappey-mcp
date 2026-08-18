@@ -1,8 +1,9 @@
 {
   "serverInfo": {
     "name": "Skills-Documentation",
-    "title": "Skills Documentation",
+    "title": "Agent Skills Documentation",
     "version": "1.0.0",
+    "websiteUrl": "https://agentskills.io",
     "description": "A simple, open format for giving agents new capabilities and expertise.",
     "icons": [
       {
