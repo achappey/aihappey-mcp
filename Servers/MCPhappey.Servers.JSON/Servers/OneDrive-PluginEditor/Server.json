@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "OneDrive-PluginEditor",
+    "title": "OneDrive Agent Plugin Editor",
+    "version": "1.0.0",
+    "description": "Create and maintain portable Agent Plugins in the user's personal OneDrive /plugins folder.",
+    "icons": [
+      {
+        "src": "https://www.aaudxp-cms.aau.dk/media/3sglfyu0/onedrive.png?width=960"
+      }
+    ]
+  },
+  "instructions": "Author and maintain Agent Plugins v1.0.0 under /plugins in the user's default OneDrive. Keep each plugin folder name equal to its immutable plugin.json name. Use dedicated manifest and MCP entry tools for plugin.json and mcp.json; use package-file tools only for other files. Add Agent Skills only by snapshotting a complete validated OneDrive/SharePoint shared folder or ZIP link into skills/<name>/, and remove skills only through the dedicated skill tool. Inspect after mutations and preserve independent valid components when another component is invalid.",
+  "plugins": [
+    "MCPhappey.Tools.OneDrive.AgentPlugins.OneDriveAgentPluginEditor, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}
