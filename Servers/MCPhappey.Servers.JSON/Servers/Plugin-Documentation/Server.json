@@ -1,0 +1,14 @@
+{
+  "serverInfo": {
+    "name": "Plugin-Documentation",
+    "title": "Agent Plugin Documentation",
+    "version": "1.0.0",
+    "websiteUrl": "https://agent-plugins.org",
+    "description": "A portable package format for reusable components that extend AI agents.",
+    "icons": [
+      {
+        "src": "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://agent-plugins.org&size=128"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "uri": "https://agent-plugins.org/llms.txt",
+      "name": "agent-plugin-llms-txt",
+      "description": "LLM overview page of all Agent Plugin documentation",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
