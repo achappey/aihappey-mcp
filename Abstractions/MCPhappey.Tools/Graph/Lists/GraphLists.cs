@@ -110,8 +110,7 @@ public static class GraphLists
 
     [Description("Update a Microsoft List. Only supplied values are changed.")]
     [McpServerTool(Title = "Update Microsoft List", Name = "graph_lists_update_list",
-        Destructive = true, Idempotent = true, OpenWorld = false,
-        UseStructuredContent = true, OutputSchemaType = typeof(Microsoft.Graph.Beta.Models.List))]
+        Destructive = true, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_UpdateList(
         [Description("ID of the SharePoint site.")] string siteId,
         [Description("ID of the Microsoft List.")] string listId,
@@ -169,8 +168,7 @@ public static class GraphLists
 
     [Description("Update an existing column in a Microsoft List. Only supplied values are changed.")]
     [McpServerTool(Title = "Update Microsoft List column", Name = "graph_lists_update_column",
-        Destructive = true, Idempotent = true, OpenWorld = false,
-        UseStructuredContent = true, OutputSchemaType = typeof(Microsoft.Graph.Beta.Models.ColumnDefinition))]
+        Destructive = true, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_UpdateColumn(
         [Description("ID of the SharePoint site.")] string siteId,
         [Description("ID of the Microsoft List.")] string listId,
