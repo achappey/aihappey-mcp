@@ -349,4 +349,119 @@ public static class UnitsNetService
         return await Task.FromResult(result.ToTextCallToolResponse());
     });
 
+    // COMPARE
+    [Description("Compares two quantities of the same type and returns whether the first is less than, equal to, or greater than the second.")]
+    [McpServerTool(
+        Title = "Compare quantities",
+        Name = "github_unitsnet_compare",
+        ReadOnly = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GitHubUnitsNet_Compare(
+        [Description("First quantity (e.g. '1 meter')")] string first,
+        [Description("Second quantity (e.g. '90 centimeters')")] string second)
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    {
+        var q1 = TryParseAnyQuantity(first)
+            ?? throw new Exception($"Invalid quantity format: '{first}'");
+
+        var q2 = TryParseAnyQuantity(second)
+            ?? throw new Exception($"Invalid quantity format: '{second}'");
+
+        if (q1.GetQuantityInfo().Name != q2.GetQuantityInfo().Name)
+            throw new Exception("Quantities must be of the same type.");
+
+        var q2Value = UnitConverter.Default.ConvertTo(q2, q1.Unit).Value;
+
+        var comparison = q1.Value.CompareTo(q2Value);
+
+        var result = comparison switch
+        {
+            < 0 => "less_than",
+            > 0 => "greater_than",
+            _ => "equal"
+        };
+
+        return await Task.FromResult(result.ToTextCallToolResponse());
+    });
+
+
+    // IS COMPATIBLE
+    [Description("Checks whether two quantities are compatible and can be converted to each other.")]
+    [McpServerTool(
+        Title = "Check quantity compatibility",
+        Name = "github_unitsnet_is_compatible",
+        ReadOnly = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GitHubUnitsNet_IsCompatible(
+        [Description("First quantity (e.g. '5 kg')")] string first,
+        [Description("Second quantity (e.g. '10 lb')")] string second)
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    {
+        var q1 = TryParseAnyQuantity(first);
+        var q2 = TryParseAnyQuantity(second);
+
+        if (q1 is null || q2 is null)
+            throw new Exception("Invalid input(s).");
+
+        var type1 = q1.GetQuantityInfo().Name;
+        var type2 = q2.GetQuantityInfo().Name;
+
+        var compatible = string.Equals(
+            type1,
+            type2,
+            StringComparison.OrdinalIgnoreCase);
+
+        var result = compatible
+            ? $"true ({type1})"
+            : $"false ({type1} vs {type2})";
+
+        return await Task.FromResult(result.ToTextCallToolResponse());
+    });
+
+
+    // CONVERT TO ALL COMPATIBLE UNITS
+    [Description("Converts a quantity to all compatible units of the same quantity type.")]
+    [McpServerTool(
+        Title = "Convert to all compatible units",
+        Name = "github_unitsnet_convert_all",
+        ReadOnly = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GitHubUnitsNet_ConvertAll(
+        [Description("Quantity with unit (e.g. '1 meter', '25 °C', '1 kg')")] string input)
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    {
+        var quantity = TryParseAnyQuantity(input)
+            ?? throw new Exception($"Invalid quantity format: '{input}'");
+
+        var info = quantity.GetQuantityInfo();
+
+        var results = new List<string>();
+
+        foreach (var unitInfo in info.UnitInfos.OrderBy(u => u.Name))
+        {
+            try
+            {
+                var converted = UnitConverter.Default.ConvertTo(
+                    quantity,
+                    unitInfo.Value);
+
+                var abbreviations = UnitsNetSetup.Default.UnitAbbreviations
+                    .GetUnitAbbreviations(unitInfo.Value);
+
+                var unitText = abbreviations.Count > 0
+                    ? abbreviations[0]
+                    : unitInfo.Name;
+
+                results.Add($"{converted.Value:G} {unitText}");
+            }
+            catch
+            {
+                // Skip units that cannot be converted for this value.
+            }
+        }
+
+        return await Task.FromResult(
+            string.Join("\n", results).ToTextCallToolResponse());
+    });
+
 }
