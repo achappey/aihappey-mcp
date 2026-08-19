@@ -15,7 +15,6 @@ public static class UnitsNetService
         ReadOnly = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubUnitsNet_Ratio(
-    RequestContext<CallToolRequestParams> requestContext,
     [Description("First quantity (e.g. '50 meters')")] string first,
     [Description("Second quantity (e.g. '10 meters')")] string second)
     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
@@ -40,7 +39,6 @@ public static class UnitsNetService
         ReadOnly = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubUnitsNet_Add(
-        RequestContext<CallToolRequestParams> requestContext,
         [Description("First quantity (e.g. '5 meters')")] string first,
         [Description("Second quantity (e.g. '2 meters')")] string second)
     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
@@ -62,7 +60,6 @@ public static class UnitsNetService
         ReadOnly = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubUnitsNet_ConvertByName(
-        RequestContext<CallToolRequestParams> requestContext,
         [Description("Quantity type (e.g. 'Length', 'Mass', 'Temperature')")] string quantityName,
         [Description("From unit (e.g. 'Centimeter')")] string fromUnit,
         [Description("To unit (e.g. 'Meter')")] string toUnit,
@@ -80,7 +77,6 @@ public static class UnitsNetService
         ReadOnly = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubUnitsNet_AutoConvertText(
-        RequestContext<CallToolRequestParams> requestContext,
         [Description("Conversion request text (e.g. 'convert 5 liters to gallons')")] string text)
     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
@@ -116,7 +112,6 @@ public static class UnitsNetService
         ReadOnly = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubUnitsNet_Convert(
-        RequestContext<CallToolRequestParams> requestContext,
         [Description("Quantity with unit (e.g. '10 kilometers', '25 °C', '100 kg')")] string input,
         [Description("Target unit abbreviation or name (e.g. 'miles', '°F', 'pounds')")] string targetUnit)
     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
@@ -143,7 +138,6 @@ public static class UnitsNetService
         ReadOnly = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubUnitsNet_Parse(
-        RequestContext<CallToolRequestParams> requestContext,
         [Description("Quantity string (e.g. '5 meters', '120 °F', '3.5 hours')")] string input)
     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
@@ -158,8 +152,7 @@ public static class UnitsNetService
         Name = "github_unitsnet_list_quantity_types",
         ReadOnly = true,
         OpenWorld = false)]
-    public static async Task<CallToolResult?> GitHubUnitsNet_ListQuantityTypes(
-        RequestContext<CallToolRequestParams> requestContext)
+    public static async Task<CallToolResult?> GitHubUnitsNet_ListQuantityTypes()
     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var types = Quantity.Infos.Select(q => q.Name).OrderBy(x => x).ToArray();
@@ -167,14 +160,13 @@ public static class UnitsNetService
     });
 
     // LIST UNITS FOR TYPE
-    [Description("Lists all units available for a specific quantity type (e.g. 'Length').")]
+    [Description("Lists all units available for a specific quantity type, including their abbreviations (e.g. 'Meter (m)', 'Kilometer (km)').")]
     [McpServerTool(
         Title = "List units for type",
         Name = "github_unitsnet_list_units_for_type",
         ReadOnly = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GitHubUnitsNet_ListUnitsForType(
-        RequestContext<CallToolRequestParams> requestContext,
         [Description("Quantity type name (e.g. 'Length', 'Temperature', 'Mass')")] string quantityType)
     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
@@ -182,8 +174,21 @@ public static class UnitsNetService
             string.Equals(q.Name, quantityType, StringComparison.OrdinalIgnoreCase))
             ?? throw new Exception($"Unknown quantity type: {quantityType}");
 
-        var units = info.UnitInfos.Select(u => u.Name).OrderBy(x => x).ToArray();
-        return await Task.FromResult(string.Join("\n", units).ToTextCallToolResponse());
+        var units = info.UnitInfos
+            .OrderBy(u => u.Name)
+            .Select(u =>
+            {
+                var abbreviations = UnitsNetSetup.Default.UnitAbbreviations
+                    .GetUnitAbbreviations(u.Value);
+
+                return abbreviations.Count > 0
+                    ? $"{u.Name} ({string.Join(", ", abbreviations)})"
+                    : u.Name;
+            })
+            .ToArray();
+
+        return await Task.FromResult(
+            string.Join("\n", units).ToTextCallToolResponse());
     });
 
     // -------- Helper --------
@@ -196,4 +201,152 @@ public static class UnitsNetService
         }
         return null;
     }
+
+    // SUBTRACT
+    [Description("Subtracts two quantities of the same type (e.g. '5 m' - '2 m' → '3 m').")]
+    [McpServerTool(
+        Title = "Subtract quantities",
+        Name = "github_unitsnet_subtract",
+        ReadOnly = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GitHubUnitsNet_Subtract(
+        [Description("First quantity (e.g. '5 meters')")] string first,
+        [Description("Second quantity (e.g. '2 meters')")] string second)
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    {
+        var q1 = TryParseAnyQuantity(first);
+        var q2 = TryParseAnyQuantity(second);
+
+        if (q1 is null || q2 is null)
+            throw new Exception("Invalid input(s).");
+
+        if (q1.GetQuantityInfo().Name != q2.GetQuantityInfo().Name)
+            throw new Exception("Quantities must be of the same type.");
+
+        var secondValue = UnitConverter.Default.ConvertTo(q2, q1.Unit).Value;
+        var result = q1.Value - secondValue;
+
+        return await Task.FromResult($"{result:F3} {q1.Unit}".ToTextCallToolResponse());
+    });
+
+
+    // MULTIPLY BY SCALAR
+    [Description("Multiplies a quantity by a numeric factor (e.g. '5 m' × 3 → '15 m').")]
+    [McpServerTool(
+        Title = "Multiply quantity",
+        Name = "github_unitsnet_multiply",
+        ReadOnly = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GitHubUnitsNet_Multiply(
+        [Description("Quantity (e.g. '5 meters')")] string input,
+        [Description("Numeric multiplication factor")] double factor)
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    {
+        var quantity = TryParseAnyQuantity(input)
+            ?? throw new Exception($"Invalid quantity format: '{input}'");
+
+        var result = quantity.Value * factor;
+
+        return await Task.FromResult($"{result:F3} {quantity.Unit}".ToTextCallToolResponse());
+    });
+
+
+    // DIVIDE BY SCALAR
+    [Description("Divides a quantity by a numeric divisor (e.g. '10 m' ÷ 2 → '5 m').")]
+    [McpServerTool(
+        Title = "Divide quantity",
+        Name = "github_unitsnet_divide",
+        ReadOnly = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GitHubUnitsNet_Divide(
+        [Description("Quantity (e.g. '10 meters')")] string input,
+        [Description("Numeric divisor")] double divisor)
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    {
+        if (divisor == 0)
+            throw new DivideByZeroException("Divisor cannot be zero.");
+
+        var quantity = TryParseAnyQuantity(input)
+            ?? throw new Exception($"Invalid quantity format: '{input}'");
+
+        var result = quantity.Value / divisor;
+
+        return await Task.FromResult($"{result:F3} {quantity.Unit}".ToTextCallToolResponse());
+    });
+
+
+    // GET QUANTITY INFO
+    [Description("Returns information about a quantity type, including its available units and abbreviations.")]
+    [McpServerTool(
+        Title = "Get quantity information",
+        Name = "github_unitsnet_get_quantity_info",
+        ReadOnly = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GitHubUnitsNet_GetQuantityInfo(
+        [Description("Quantity type name (e.g. 'Length', 'Mass', 'Temperature')")] string quantityType)
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    {
+        var info = Quantity.Infos.FirstOrDefault(q =>
+            string.Equals(q.Name, quantityType, StringComparison.OrdinalIgnoreCase))
+            ?? throw new Exception($"Unknown quantity type: {quantityType}");
+
+        var lines = info.UnitInfos
+            .OrderBy(u => u.Name)
+            .Select(u =>
+            {
+                var abbreviations = UnitsNetSetup.Default.UnitAbbreviations
+                    .GetUnitAbbreviations(u.Value);
+
+                var abbreviationText = abbreviations.Count > 0
+                    ? $" ({string.Join(", ", abbreviations)})"
+                    : "";
+
+                return $"{u.Name}{abbreviationText}";
+            });
+
+        var result =
+            $"Quantity: {info.Name}\n" +
+            $"Units:\n{string.Join("\n", lines)}";
+
+        return await Task.FromResult(result.ToTextCallToolResponse());
+    });
+
+
+    // GET COMPATIBLE UNITS
+    [Description("Detects a quantity and lists all units it can be converted to (e.g. '10 km' → Meter, Mile, Foot, etc.).")]
+    [McpServerTool(
+        Title = "Get compatible units",
+        Name = "github_unitsnet_get_compatible_units",
+        ReadOnly = true,
+        OpenWorld = false)]
+    public static async Task<CallToolResult?> GitHubUnitsNet_GetCompatibleUnits(
+        [Description("Quantity with unit (e.g. '10 kilometers', '25 °C', '100 kg')")] string input)
+    => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    {
+        var quantity = TryParseAnyQuantity(input)
+            ?? throw new Exception($"Invalid quantity format: '{input}'");
+
+        var info = quantity.GetQuantityInfo();
+
+        var units = info.UnitInfos
+            .OrderBy(u => u.Name)
+            .Select(u =>
+            {
+                var abbreviations = UnitsNetSetup.Default.UnitAbbreviations
+                    .GetUnitAbbreviations(u.Value);
+
+                var abbreviationText = abbreviations.Count > 0
+                    ? $" ({string.Join(", ", abbreviations)})"
+                    : "";
+
+                return $"{u.Name}{abbreviationText}";
+            });
+
+        var result =
+            $"Quantity type: {info.Name}\n" +
+            $"Compatible units:\n{string.Join("\n", units)}";
+
+        return await Task.FromResult(result.ToTextCallToolResponse());
+    });
+
 }
