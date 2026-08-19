@@ -28,7 +28,7 @@ public static class UnitsNetService
         if (q1.GetQuantityInfo().Name != q2.GetQuantityInfo().Name)
             throw new Exception("Quantities must be of the same type (e.g. both Length, Mass, etc.).");
 
-        var ratio = q1.Value / q2.ToUnit(q1.Unit).Value;
+        var ratio = q1.Value / UnitConverter.Default.ConvertTo(q2, q1.Unit).Value;
         return await Task.FromResult($"{ratio:F3}".ToTextCallToolResponse());
     });
 
@@ -50,7 +50,7 @@ public static class UnitsNetService
         if (q1 is null || q2 is null) throw new Exception("Invalid input(s).");
         if (q1.GetQuantityInfo().Name != q2.GetQuantityInfo().Name) throw new Exception("Quantities must be of the same type.");
 
-        var sum = q1.Value + q2.ToUnit(q1.Unit).Value;
+        var sum = q1.Value + UnitConverter.Default.ConvertTo(q2, q1.Unit).Value;
         return await Task.FromResult($"{sum:F3} {q1.Unit}".ToTextCallToolResponse());
     });
 
@@ -127,7 +127,7 @@ public static class UnitsNetService
         if (!UnitsNetSetup.Default.UnitParser.TryParse(targetUnit, unitType, out var targetUnitEnum))
             throw new Exception($"Unknown or invalid target unit '{targetUnit}' for quantity '{quantity.GetQuantityInfo().Name}'.");
 
-        var converted = quantity.ToUnit(targetUnitEnum);
+        var converted = UnitConverter.Default.ConvertTo(quantity, targetUnitEnum);
         var convertedText = converted.ToString();
         if (string.IsNullOrWhiteSpace(convertedText))
             throw new InvalidOperationException("UnitsNet returned an empty conversion result.");
