@@ -14,7 +14,7 @@ public static class GraphProfileCardProperties
 {
     [Description("Add an existing Microsoft Entra user property to the organization's Microsoft 365 profile card.")]
     [McpServerTool(Title = "Create Microsoft 365 profile card property", Name = "graph_profile_card_properties_create",
-        Destructive = false, OpenWorld = false, UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = false, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphProfileCardProperties_Create(
         [Description("Microsoft Entra property name, for example costCenter or extension_{appId}_employeeNumber.")] string directoryPropertyName,
         IServiceProvider serviceProvider,
@@ -37,8 +37,7 @@ public static class GraphProfileCardProperties
 
     [Description("Update the localized annotation label of a Microsoft 365 profile card property.")]
     [McpServerTool(Title = "Update Microsoft 365 profile card property", Name = "graph_profile_card_properties_update",
-        Destructive = false, Idempotent = true, OpenWorld = false,
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = false, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphProfileCardProperties_Update(
         [Description("Profile card property ID returned by Microsoft Graph.")] string propertyId,
         [Description("Localized annotation label.")] string displayName,

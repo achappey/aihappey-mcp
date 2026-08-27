@@ -15,7 +15,6 @@ public static partial class GraphWorkbooks
 {
     [Description("Create a workbook-scoped named item that refers to an A1-style range or formula.")]
     [McpServerTool(Title = "Create Excel named item", Name = "graph_workbooks_create_named_item",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement),
         Destructive = false, Idempotent = false, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_CreateNamedItem(
         [Description("OneDrive or SharePoint URL of the Excel workbook.")] string excelFileUrl,
@@ -46,7 +45,7 @@ public static partial class GraphWorkbooks
 
     [Description("Rename a worksheet in an Excel workbook stored in OneDrive or SharePoint.")]
     [McpServerTool(Title = "Rename Excel worksheet", Name = "graph_workbooks_rename_worksheet",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement),
+      
         Destructive = true, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_RenameWorksheet(
         [Description("OneDrive or SharePoint URL of the Excel workbook.")] string excelFileUrl,
@@ -91,7 +90,7 @@ public static partial class GraphWorkbooks
 
     [Description("Replace the values in an Excel worksheet range with an explicit two-dimensional JSON array.")]
     [McpServerTool(Title = "Update Excel range values", Name = "graph_workbooks_update_range_values",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement),
+      
         Destructive = true, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_UpdateRangeValues(
         [Description("OneDrive or SharePoint URL of the Excel workbook.")] string excelFileUrl,
@@ -117,7 +116,7 @@ public static partial class GraphWorkbooks
 
     [Description("Clear contents, formats, hyperlinks, or all data from an Excel worksheet range.")]
     [McpServerTool(Title = "Clear Excel range", Name = "graph_workbooks_clear_range",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement),
+      
         Destructive = true, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_ClearRange(
         [Description("OneDrive or SharePoint URL of the Excel workbook.")] string excelFileUrl,
@@ -143,7 +142,7 @@ public static partial class GraphWorkbooks
 
     [Description("Create an Excel table over an existing worksheet range.")]
     [McpServerTool(Title = "Create Excel table", Name = "graph_workbooks_create_table",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement),
+       
         Destructive = false, Idempotent = false, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_CreateTable(
         [Description("OneDrive or SharePoint URL of the Excel workbook.")] string excelFileUrl,
@@ -169,8 +168,7 @@ public static partial class GraphWorkbooks
         })));
 
     [Description("Rename an existing table in an Excel workbook.")]
-    [McpServerTool(Title = "Rename Excel table", Name = "graph_workbooks_rename_table",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement),
+    [McpServerTool(Title = "Rename Excel table", Name = "graph_workbooks_rename_table",       
         Destructive = true, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_RenameTable(
         [Description("OneDrive or SharePoint URL of the Excel workbook.")] string excelFileUrl,
@@ -215,7 +213,7 @@ public static partial class GraphWorkbooks
 
     [Description("Replace the values of one row in an Excel table using a zero-based row index.")]
     [McpServerTool(Title = "Update Excel table row", Name = "graph_workbooks_update_table_row",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement),
+      
         Destructive = true, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_UpdateTableRow(
         [Description("OneDrive or SharePoint URL of the Excel workbook.")] string excelFileUrl,
@@ -264,7 +262,7 @@ public static partial class GraphWorkbooks
 
     [Description("Update a workbook-scoped named item's formula, reference, or comment.")]
     [McpServerTool(Title = "Update Excel named item", Name = "graph_workbooks_update_named_item",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_UpdateNamedItem(
         string excelFileUrl, string name, IServiceProvider serviceProvider,
@@ -306,7 +304,7 @@ public static partial class GraphWorkbooks
 
     [Description("Add a column to an existing Excel table at an optional zero-based index.")]
     [McpServerTool(Title = "Add Excel table column", Name = "graph_workbooks_add_table_column",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = false, OpenWorld = false)]
+         Destructive = false, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_AddTableColumn(
         string excelFileUrl, string tableId, string name, IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -331,7 +329,7 @@ public static partial class GraphWorkbooks
 
     [Description("Rename an Excel table column or replace all of its values.")]
     [McpServerTool(Title = "Update Excel table column", Name = "graph_workbooks_update_table_column",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+       Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_UpdateTableColumn(
         string excelFileUrl, string tableId, string columnId, IServiceProvider serviceProvider,
@@ -371,7 +369,7 @@ public static partial class GraphWorkbooks
 
     [Description("Update an Excel chart's name, title text, or position.")]
     [McpServerTool(Title = "Update Excel chart", Name = "graph_workbooks_update_chart",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+       Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_UpdateChart(
         string excelFileUrl, string worksheetId, string chartId, IServiceProvider serviceProvider,
@@ -417,7 +415,7 @@ public static partial class GraphWorkbooks
 
     [Description("Insert blank cells at an Excel range and shift existing cells down or right.")]
     [McpServerTool(Title = "Insert Excel range", Name = "graph_workbooks_insert_range",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true, OpenWorld = false)]
+       Destructive = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_InsertRange(
         string excelFileUrl, string worksheetId, string address, WorkbookRangeShift shift,
         IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
@@ -427,7 +425,7 @@ public static partial class GraphWorkbooks
 
     [Description("Delete cells at an Excel range and shift remaining cells up or left.")]
     [McpServerTool(Title = "Delete Excel range", Name = "graph_workbooks_delete_range",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true, OpenWorld = false)]
+       Destructive = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_DeleteRange(
         string excelFileUrl, string worksheetId, string address, WorkbookRangeShift shift,
         IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,

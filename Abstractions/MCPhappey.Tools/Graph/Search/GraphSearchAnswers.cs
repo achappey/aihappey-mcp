@@ -14,7 +14,7 @@ public static class GraphSearchAnswers
 {
     [Description("Create an organizational acronym answer in Microsoft Search.")]
     [McpServerTool(Title = "Create Microsoft Search acronym", Name = "graph_search_acronyms_create",
-        Destructive = false, OpenWorld = false, UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = false, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphSearchAcronyms_Create(
         [Description("The acronym, abbreviation, or initialism shown in search results.")] string displayName,
         [Description("The expansion or meaning of the acronym.")] string standsFor,
@@ -39,8 +39,7 @@ public static class GraphSearchAnswers
 
     [Description("Update an organizational acronym answer in Microsoft Search. Only supplied values are changed.")]
     [McpServerTool(Title = "Update Microsoft Search acronym", Name = "graph_search_acronyms_update",
-        Destructive = false, Idempotent = true, OpenWorld = false,
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = false, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphSearchAcronyms_Update(
         [Description("Microsoft Search acronym ID.")] string acronymId,
         IServiceProvider serviceProvider,
@@ -85,7 +84,7 @@ public static class GraphSearchAnswers
 
     [Description("Create an organizational question-and-answer result in Microsoft Search.")]
     [McpServerTool(Title = "Create Microsoft Search Q&A", Name = "graph_search_qnas_create",
-        Destructive = false, OpenWorld = false, UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = false, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphSearchQnas_Create(
         [Description("Question or concise title shown in Microsoft Search.")] string displayName,
         [Description("Answer text shown in Microsoft Search.")] string description,
@@ -116,8 +115,7 @@ public static class GraphSearchAnswers
 
     [Description("Update an organizational question-and-answer result in Microsoft Search. Only supplied values are changed.")]
     [McpServerTool(Title = "Update Microsoft Search Q&A", Name = "graph_search_qnas_update",
-        Destructive = false, Idempotent = true, OpenWorld = false,
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement))]
+        Destructive = false, Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphSearchQnas_Update(
         [Description("Microsoft Search Q&A ID.")] string qnaId,
         IServiceProvider serviceProvider,

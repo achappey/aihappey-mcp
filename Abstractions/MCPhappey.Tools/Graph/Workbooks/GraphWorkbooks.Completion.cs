@@ -13,7 +13,7 @@ public static partial class GraphWorkbooks
 {
     [Description("Create a worksheet-scoped Excel named item that refers to a range or formula.")]
     [McpServerTool(Title = "Create worksheet named item", Name = "graph_workbooks_create_worksheet_named_item",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = false, OpenWorld = false)]
+        Destructive = false, OpenWorld = false)]
     public static async Task<CallToolResult?> CreateWorksheetNamedItem(
         string excelFileUrl, string worksheetId, string name, string reference,
         IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
@@ -35,7 +35,7 @@ public static partial class GraphWorkbooks
 
     [Description("Update a worksheet's visibility or zero-based position in an Excel workbook.")]
     [McpServerTool(Title = "Update Excel worksheet properties", Name = "graph_workbooks_update_worksheet_properties",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> UpdateWorksheetProperties(
         string excelFileUrl, string worksheetId, IServiceProvider serviceProvider,
@@ -60,7 +60,7 @@ public static partial class GraphWorkbooks
 
     [Description("Replace formulas in an Excel worksheet range with a two-dimensional JSON array.")]
     [McpServerTool(Title = "Update Excel range formulas", Name = "graph_workbooks_update_range_formulas",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> UpdateRangeFormulas(
         string excelFileUrl, string worksheetId, string address, string formulasJson,
@@ -71,7 +71,7 @@ public static partial class GraphWorkbooks
 
     [Description("Update basic formatting for an Excel worksheet range.")]
     [McpServerTool(Title = "Update Excel range format", Name = "graph_workbooks_update_range_format",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> UpdateRangeFormat(
         string excelFileUrl, string worksheetId, string address, IServiceProvider serviceProvider,
@@ -112,7 +112,7 @@ public static partial class GraphWorkbooks
 
     [Description("Apply a sort to an Excel table using zero-based column indexes.")]
     [McpServerTool(Title = "Sort Excel table", Name = "graph_workbooks_sort_table",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true, OpenWorld = false)]
+        Destructive = true, OpenWorld = false)]
     public static async Task<CallToolResult?> SortTable(
         string excelFileUrl, string tableId, string fieldsJson, IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext, bool matchCase = false,
@@ -133,7 +133,7 @@ public static partial class GraphWorkbooks
 
     [Description("Clear the current sort from an Excel table.")]
     [McpServerTool(Title = "Clear Excel table sort", Name = "graph_workbooks_clear_table_sort",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> ClearTableSort(
         string excelFileUrl, string tableId, IServiceProvider serviceProvider,
@@ -143,7 +143,7 @@ public static partial class GraphWorkbooks
 
     [Description("Apply a values filter to one Excel table column.")]
     [McpServerTool(Title = "Apply Excel table-column values filter", Name = "graph_workbooks_apply_table_column_filter",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true, OpenWorld = false)]
+        Destructive = true, OpenWorld = false)]
     public static async Task<CallToolResult?> ApplyTableColumnFilter(
         string excelFileUrl, string tableId, string columnId, string valuesJson,
         IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
@@ -164,7 +164,7 @@ public static partial class GraphWorkbooks
 
     [Description("Clear the filter from one Excel table column.")]
     [McpServerTool(Title = "Clear Excel table-column filter", Name = "graph_workbooks_clear_table_column_filter",
-        UseStructuredContent = true, OutputSchemaType = typeof(JsonElement), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> ClearTableColumnFilter(
         string excelFileUrl, string tableId, string columnId, IServiceProvider serviceProvider,
