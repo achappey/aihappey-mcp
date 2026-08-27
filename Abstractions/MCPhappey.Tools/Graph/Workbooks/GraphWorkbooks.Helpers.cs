@@ -6,7 +6,7 @@ namespace MCPhappey.Tools.Graph.Workbooks;
 public static partial class GraphWorkbooks
 {
    
-    static IDictionary<string, object?> ExtractValues(object? content)
+    private static IDictionary<string, object?> ExtractValues(object? content)
     {
         if (content is IDictionary<string, object?> dict) return dict;
 
@@ -31,7 +31,7 @@ public static partial class GraphWorkbooks
         return new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
     }
 
-    static object? FromJsonElement(JsonElement el) => el.ValueKind switch
+    private static object? FromJsonElement(JsonElement el) => el.ValueKind switch
     {
         JsonValueKind.Null => null,
         JsonValueKind.True => true,
@@ -45,7 +45,7 @@ public static partial class GraphWorkbooks
         _ => el.GetRawText(),
     };
 
-    static bool TryParseDate(string? s, out object? value)
+    private static bool TryParseDate(string? s, out object? value)
     {
         value = null;
         if (string.IsNullOrWhiteSpace(s)) return false;
@@ -54,7 +54,7 @@ public static partial class GraphWorkbooks
         return false;
     }
 
-    static UntypedNode ToUntyped(object? v) => v switch
+    private static UntypedNode ToUntyped(object? v) => v switch
     {
         null => new UntypedNull(),
         bool b => new UntypedBoolean(b),
@@ -68,7 +68,7 @@ public static partial class GraphWorkbooks
         _ => new UntypedString(v.ToString() ?? string.Empty),
     };
 
-    static UntypedArray BuildValuesNode(IReadOnlyList<string> columns, IDictionary<string, object?> values)
+    private static UntypedArray BuildValuesNode(IReadOnlyList<string> columns, IDictionary<string, object?> values)
     {
         var rowNodes = new List<UntypedNode>(columns.Count);
         foreach (var col in columns)

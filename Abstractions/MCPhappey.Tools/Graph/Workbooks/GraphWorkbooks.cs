@@ -22,8 +22,6 @@ public static partial class GraphWorkbooks
     [McpServerTool(
         Title = "Add worksheet to Excel",
         Destructive = true,
-        UseStructuredContent = true,
-        OutputSchemaType = typeof(Microsoft.Graph.Beta.Models.WorkbookWorksheet),
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_AddWorksheet(
         string excelFileUrl,
@@ -71,8 +69,6 @@ public static partial class GraphWorkbooks
     [Description("Add a new row to an Excel table on OneDrive/SharePoint. Use defaultValues dictionary to add default values to the Excel new row form.")]
     [McpServerTool(
             Title = "Add row to Excel table",
-            UseStructuredContent = true,
-            OutputSchemaType = typeof(Microsoft.Graph.Beta.Models.WorkbookTableRow),
             OpenWorld = false)]
     public static async Task<CallToolResult?> GraphWorkbooks_AddRowToTable(
             string excelFileUrl,
