@@ -236,10 +236,25 @@ public class GraphCompletion : IAutoCompletion
                 break;
             case "userPrincipalName":
                 // UPN/email; returns userPrincipalName for autocompletion
+                if (string.IsNullOrWhiteSpace(argValue))
+                {
+                    var suggestedPeople = await client.Me.People.GetAsync(requestConfiguration =>
+                    {
+                        requestConfiguration.QueryParameters.Top = 100;
+                        requestConfiguration.QueryParameters.Select = ["userPrincipalName"];
+                    }, cancellationToken);
+
+                    result = suggestedPeople?.Value?
+                                .Select(person => person.UserPrincipalName)
+                                .OfType<string>()
+                                .Take(100)
+                                .ToList() ?? [];
+                    break;
+                }
+
                 var userNameUsers = await client.Users.GetAsync(requestConfiguration =>
                 {
-                    if (!string.IsNullOrWhiteSpace(argValue))
-                        requestConfiguration.QueryParameters.Filter = $"startswith(userPrincipalName,'{argValue.Replace("'", "''")}')";
+                    requestConfiguration.QueryParameters.Filter = $"startswith(userPrincipalName,'{argValue.Replace("'", "''")}')";
                     requestConfiguration.QueryParameters.Top = 100;
                     requestConfiguration.QueryParameters.Select = ["userPrincipalName"];
                 }, cancellationToken);
@@ -255,10 +270,25 @@ public class GraphCompletion : IAutoCompletion
 
             case "userDisplayName":
                 // DisplayName; returns DisplayName for autocompletion
+                if (string.IsNullOrWhiteSpace(argValue))
+                {
+                    var suggestedPeople = await client.Me.People.GetAsync(requestConfiguration =>
+                    {
+                        requestConfiguration.QueryParameters.Top = 100;
+                        requestConfiguration.QueryParameters.Select = ["displayName"];
+                    }, cancellationToken);
+
+                    result = suggestedPeople?.Value?
+                                .Select(person => person.DisplayName)
+                                .OfType<string>()
+                                .Take(100)
+                                .ToList() ?? [];
+                    break;
+                }
+
                 var displayNameUsers = await client.Users.GetAsync(requestConfiguration =>
                 {
-                    if (!string.IsNullOrWhiteSpace(argValue))
-                        requestConfiguration.QueryParameters.Filter = $"startswith(displayName,'{argValue.Replace("'", "''")}')";
+                    requestConfiguration.QueryParameters.Filter = $"startswith(displayName,'{argValue.Replace("'", "''")}')";
                     requestConfiguration.QueryParameters.Top = 100;
                     requestConfiguration.QueryParameters.Select = ["displayName"];
                 }, cancellationToken);
