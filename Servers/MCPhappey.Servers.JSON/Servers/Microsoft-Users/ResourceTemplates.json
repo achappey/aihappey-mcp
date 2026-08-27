@@ -1,7 +1,7 @@
 {
   "resourceTemplates": [
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}?$select=id,displayName,userPrincipalName,mail,otherMails,preferredLanguage,employeeId,hireDate,mobilePhone,givenName,surname,userType,aboutMe,jobTitle,department,officeLocation,companyName,accountEnabled,createdDateTime,signInActivity,onPremisesExtensionAttributes&$expand=manager($select=id,displayName,userPrincipalName)",
+      "uriTemplate": "https://graph.microsoft.com/beta/users/{userPrincipalName}?$select=id,displayName,userPrincipalName,mail,otherMails,preferredLanguage,employeeId,employeeHireDate,mobilePhone,givenName,surname,userType,aboutMe,jobTitle,department,officeLocation,companyName,accountEnabled,createdDateTime,signInActivity,onPremisesExtensionAttributes&$expand=manager($select=id,displayName,userPrincipalName)",
       "name": "user-details",
       "title": "User details",
       "description": "Full profile + manager via $expand, including sign-in activity and on-prem extension attributes (beta).",
