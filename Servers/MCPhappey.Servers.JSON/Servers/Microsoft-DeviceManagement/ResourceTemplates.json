@@ -62,7 +62,7 @@
       }
     },
     {
-      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=userPrincipalName eq '{upn}' and complianceState ne 'compliant'&$top=100&$select=id,deviceName,complianceState,lastSyncDateTime,operatingSystem,osVersion,serialNumber",
+      "uriTemplate": "https://graph.microsoft.com/beta/deviceManagement/managedDevices?$filter=userPrincipalName eq '{userPrincipalName}' and complianceState ne 'compliant'&$top=100&$select=id,deviceName,complianceState,lastSyncDateTime,operatingSystem,osVersion,serialNumber",
       "name": "user-noncompliant-devices",
       "title": "User’s non-compliant devices",
       "description": "Quick triage: all non-compliant devices of a specific user.",

@@ -19,15 +19,15 @@
       }
     },
     {
-      "prompt": "For the user with username {userName}, show all assigned licenses and which service plans are active.",
+      "prompt": "For the user with User Principal Name {userPrincipalName}, show all assigned licenses and which service plans are active.",
       "template": {
         "name": "user-license-details",
         "title": "User license details",
         "description": "Displays the full license and service plan details for a specific user.",
         "arguments": [
           {
-            "name": "userName",
-            "description": "The username or user principal name of the user.",
+            "name": "userPrincipalName",
+            "description": "The User Principal Name (UPN) of the user.",
             "required": true
           }
         ]
