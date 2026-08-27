@@ -13,7 +13,7 @@ public static class GraphSharePointPages
 {
     [Description("Create a draft modern SharePoint site page with a title and optional introductory text.")]
     [McpServerTool(Title = "Create SharePoint draft page", Name = "graph_sharepoint_pages_create",
-        UseStructuredContent = true, OutputSchemaType = typeof(BaseSitePage), Destructive = false,
+        Destructive = false,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphSharePointPages_CreateDraft(
         [Description("Microsoft Graph site ID.")] string siteId,
@@ -55,7 +55,7 @@ public static class GraphSharePointPages
 
     [Description("Update the metadata of a modern SharePoint site page.")]
     [McpServerTool(Title = "Update SharePoint page metadata", Name = "graph_sharepoint_pages_update",
-        UseStructuredContent = true, OutputSchemaType = typeof(BaseSitePage), Destructive = true,
+        Destructive = true,
         Idempotent = true, OpenWorld = false)]
     public static async Task<CallToolResult?> GraphSharePointPages_Update(
         [Description("Microsoft Graph site ID.")] string siteId,
@@ -94,7 +94,7 @@ public static class GraphSharePointPages
 
     [Description("Append a text web part to a modern SharePoint site page.")]
     [McpServerTool(Title = "Add text to SharePoint page", Name = "graph_sharepoint_pages_add_text_web_part",
-        UseStructuredContent = true, OutputSchemaType = typeof(WebPart), Destructive = true,
+        Destructive = true,
         OpenWorld = false)]
     public static async Task<CallToolResult?> GraphSharePointPages_AddTextWebPart(
         [Description("Microsoft Graph site ID.")] string siteId,
