@@ -11,7 +11,6 @@
       }
     ]
   },
-  "instructions": "Use resources to inspect configured profile card properties. Use tools only to add, update, or remove properties.",
   "plugins": [
     "MCPhappey.Tools.Graph.People.GraphProfileCardProperties, MCPhappey.Tools"
   ],

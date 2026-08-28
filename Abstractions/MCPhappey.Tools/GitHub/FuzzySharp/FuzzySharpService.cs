@@ -175,7 +175,7 @@ public static class FuzzySharpService
     // 1) Simple Ratio
     [Description("Levenshtein-based similarity (0-100).")]
     [McpServerTool(Title = "Fuzzy ratio", Name = "fuzzysharp_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_Ratio(
+    public static async Task<double> Fuzzy_Ratio(
         [Description("Left string")] string a,
         [Description("Right string")] string b) =>
         await Task.FromResult(Fuzz.Ratio(a ?? string.Empty, b ?? string.Empty));
@@ -183,49 +183,49 @@ public static class FuzzySharpService
     // 2) Partial Ratio
     [Description("Best partial match similarity (0-100).")]
     [McpServerTool(Title = "Fuzzy partial ratio", Name = "fuzzysharp_partial_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_PartialRatio(string a, string b) =>
+    public static async Task<double> Fuzzy_PartialRatio(string a, string b) =>
         await Task.FromResult(Fuzz.PartialRatio(a ?? string.Empty, b ?? string.Empty));
 
     // 3) Token Sort Ratio
     [Description("Ignores word order by sorting tokens (0-100).")]
     [McpServerTool(Title = "Token sort ratio", Name = "fuzzysharp_token_sort_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_TokenSortRatio(string a, string b) =>
+    public static async Task<double> Fuzzy_TokenSortRatio(string a, string b) =>
         await Task.FromResult(Fuzz.TokenSortRatio(a ?? string.Empty, b ?? string.Empty));
 
     // 4) Partial Token Sort Ratio
     [Description("Partial token sort similarity (0-100).")]
     [McpServerTool(Title = "Partial token sort ratio", Name = "fuzzysharp_partial_token_sort_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_PartialTokenSortRatio(string a, string b) =>
+    public static async Task<double> Fuzzy_PartialTokenSortRatio(string a, string b) =>
         await Task.FromResult(Fuzz.PartialTokenSortRatio(a ?? string.Empty, b ?? string.Empty));
 
     // 5) Token Set Ratio
     [Description("Set-based token comparison (handles duplicates, 0-100).")]
     [McpServerTool(Title = "Token set ratio", Name = "fuzzysharp_token_set_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_TokenSetRatio(string a, string b) =>
+    public static async Task<double> Fuzzy_TokenSetRatio(string a, string b) =>
         await Task.FromResult(Fuzz.TokenSetRatio(a ?? string.Empty, b ?? string.Empty));
 
     // 6) Partial Token Set Ratio
     [Description("Partial token set similarity (0-100).")]
     [McpServerTool(Title = "Partial token set ratio", Name = "fuzzysharp_partial_token_set_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_PartialTokenSetRatio(string a, string b) =>
+    public static async Task<double> Fuzzy_PartialTokenSetRatio(string a, string b) =>
         await Task.FromResult(Fuzz.PartialTokenSetRatio(a ?? string.Empty, b ?? string.Empty));
 
     // 7) Token Initialism Ratio
     [Description("Match initialisms (e.g., 'NASA' vs full name).")]
     [McpServerTool(Title = "Token initialism ratio", Name = "fuzzysharp_token_initialism_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_TokenInitialismRatio(string a, string b) =>
+    public static async Task<double> Fuzzy_TokenInitialismRatio(string a, string b) =>
         await Task.FromResult(Fuzz.TokenInitialismRatio(a ?? string.Empty, b ?? string.Empty));
 
     // 8) Partial Token Initialism Ratio
     [Description("Partial initialism matching (0-100).")]
     [McpServerTool(Title = "Partial token initialism ratio", Name = "fuzzysharp_partial_token_initialism_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_PartialTokenInitialismRatio(string a, string b) =>
+    public static async Task<double> Fuzzy_PartialTokenInitialismRatio(string a, string b) =>
         await Task.FromResult(Fuzz.PartialTokenInitialismRatio(a ?? string.Empty, b ?? string.Empty));
 
     // 9) Token Abbreviation Ratio (with preprocess mode)
     [Description("Abbreviation-aware ratio (supports PreprocessMode).")]
     [McpServerTool(Title = "Token abbreviation ratio", Name = "fuzzysharp_token_abbreviation_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_TokenAbbreviationRatio(
+    public static async Task<double> Fuzzy_TokenAbbreviationRatio(
         string a,
         string b,
         [Description("'Full' or 'None' preprocessing")] string preprocess = "Full")
@@ -236,7 +236,7 @@ public static class FuzzySharpService
     // 10) Partial Token Abbreviation Ratio
     [Description("Partial abbreviation-aware ratio (supports PreprocessMode).")]
     [McpServerTool(Title = "Partial token abbreviation ratio", Name = "fuzzysharp_partial_token_abbreviation_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_PartialTokenAbbreviationRatio(
+    public static async Task<double> Fuzzy_PartialTokenAbbreviationRatio(
         string a,
         string b,
         [Description("'Full' or 'None' preprocessing")] string preprocess = "Full")
@@ -247,7 +247,7 @@ public static class FuzzySharpService
     // 11) Weighted Ratio
     [Description("Composite scorer mixing multiple strategies (0-100).")]
     [McpServerTool(Title = "Weighted ratio", Name = "fuzzysharp_weighted_ratio", ReadOnly = true, OpenWorld = false)]
-    public static async Task<int> Fuzzy_WeightedRatio(string a, string b) =>
+    public static async Task<double> Fuzzy_WeightedRatio(string a, string b) =>
         await Task.FromResult(Fuzz.WeightedRatio(a ?? string.Empty, b ?? string.Empty));
 
 }
