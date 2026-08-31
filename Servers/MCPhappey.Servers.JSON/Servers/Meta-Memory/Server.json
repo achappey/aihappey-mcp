@@ -8,7 +8,6 @@
   "plugins": [
     "MCPhappey.Tools.Memory.OneDrive.OneDriveMemory, MCPhappey.Tools",
     "MCPhappey.Tools.OpenMemory.OpenMemory, MCPhappey.Tools",
-    "MCPhappey.Tools.KernelMemory.KernelMemory, MCPhappey.Tools",
     "MCPhappey.Tools.Mem0.Mem0SharedService, MCPhappey.Tools",
     "MCPhappey.Tools.Mem0.Mem0PersonalService, MCPhappey.Tools",
     "MCPhappey.Tools.Mem0.Mem0FeedbackService, MCPhappey.Tools"
