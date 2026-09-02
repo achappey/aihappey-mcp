@@ -29,7 +29,7 @@ public class AudioDecoder(OpenAIClient openAIClient, string _mimeType, string ex
 
     private async Task<FileContent> DecodeAsync(Stream data, CancellationToken cancellationToken, string filename)
     {
-        AudioClient audioClient = openAIClient.GetAudioClient("gpt-4o-transcribe");
+        AudioClient audioClient = openAIClient.GetAudioClient("gpt-transcribe");
 
         // Transcribe
         var transcript = await audioClient.TranscribeAudioAsync(

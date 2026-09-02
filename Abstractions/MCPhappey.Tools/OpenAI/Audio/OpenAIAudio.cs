@@ -103,7 +103,7 @@ public static class OpenAIAudio
             throw new ArgumentException(url);
         }
 
-        var audioClient = openAiClient.GetAudioClient("gpt-4o-transcribe");
+        var audioClient = openAiClient.GetAudioClient("gpt-transcribe");
         var item = await audioClient.CreateTranscriptionText(download.Contents,
                          download.Filename,
                          new OAI.Audio.AudioTranscriptionOptions()
