@@ -79,8 +79,7 @@ public static class FuzzySharpService
         [Description("Minimum score threshold (default = 80).")] int threshold = 80,
         string? scorer = null,
         int maxChars = 0,
-        CancellationToken cancellationToken = default)
-        =>
+        CancellationToken cancellationToken = default) =>
             await ModelContextToolExtensions.WithExceptionCheck(async () =>
             {
                 var downloadService = serviceProvider.GetRequiredService<DownloadService>();
