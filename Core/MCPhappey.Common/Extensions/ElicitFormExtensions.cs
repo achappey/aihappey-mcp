@@ -93,7 +93,7 @@ public static class ElicitFormExtensions
         return new ElicitRequestParams
         {
             Message = description,
-           // ElicitationId = Guid.NewGuid().ToString(),
+            // ElicitationId = Guid.NewGuid().ToString(),
             RequestedSchema = new ElicitRequestParams.RequestSchema
             {
                 Properties = properties,
@@ -206,13 +206,25 @@ public static class ElicitFormExtensions
                 Default = defaultValue?.ToString(),
                 Description = desc
             },
-            Type t when t == typeof(DateTime) || t == typeof(DateTime?) => new ElicitRequestParams.StringSchema
+            Type t when
+            t == typeof(DateTime) ||
+            t == typeof(DateTime?) ||
+            t == typeof(DateTimeOffset) ||
+            t == typeof(DateTimeOffset?)
+            => new ElicitRequestParams.StringSchema
             {
                 Title = title,
                 Format = "date-time",
-                Default = defaultValue is DateTime dt
-                    ? DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToString("O")
-                    : defaultValue,
+                Default = defaultValue switch
+                {
+                    DateTime dt =>
+                        DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToString("O"),
+
+                    DateTimeOffset dto =>
+                        dto.ToString("O"),
+
+                    _ => defaultValue
+                },
                 Description = desc
             },
             Type t when t == typeof(bool) || t == typeof(bool?) => new ElicitRequestParams.BooleanSchema
