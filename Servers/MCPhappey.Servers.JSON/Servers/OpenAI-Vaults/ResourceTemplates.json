@@ -1,0 +1,36 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.openai.com/v1/vaults?after={after}&limit={limit}&order={order}&status={status}",
+      "name": "openai-vaults-list-paged",
+      "title": "List OpenAI vaults with filters",
+      "description": "List OpenAI vaults using pagination, order, and active or archived status.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://api.openai.com/v1/vaults/{vault_id}",
+      "name": "openai-vault-detail",
+      "title": "Get OpenAI vault",
+      "description": "Retrieve an OpenAI vault by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://api.openai.com/v1/vaults/{vault_id}/credentials?after={after}&limit={limit}&order={order}&status={status}",
+      "name": "openai-vault-credentials-list",
+      "title": "List OpenAI vault credentials",
+      "description": "List non-secret credential metadata in a vault using pagination, order, and status filters.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://api.openai.com/v1/vaults/{vault_id}/credentials/{credential_id}",
+      "name": "openai-vault-credential-detail",
+      "title": "Get OpenAI vault credential metadata",
+      "description": "Retrieve credential metadata without secret values.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

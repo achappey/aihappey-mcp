@@ -1,0 +1,20 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.openai.com/v1/agents?after={after}&limit={limit}&order={order}",
+      "name": "openai-agents-list-paged",
+      "title": "List OpenAI agents with pagination",
+      "description": "List reusable OpenAI agents using an after cursor, page limit, and asc or desc order.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://api.openai.com/v1/agents/{agent_id}",
+      "name": "openai-agent-detail",
+      "title": "Get OpenAI agent",
+      "description": "Retrieve a reusable OpenAI agent by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

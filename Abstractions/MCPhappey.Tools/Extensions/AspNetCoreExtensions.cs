@@ -2,6 +2,7 @@ using MCPhappey.Common;
 using MCPhappey.Tools.GitHub.RestCountries;
 using MCPhappey.Tools.Graph;
 using MCPhappey.Tools.OpenAI;
+using MCPhappey.Tools.OpenAI.AgentsApi;
 using MCPhappey.Tools.OpenAI.Containers;
 using MCPhappey.Tools.OpenAI.Files;
 using MCPhappey.Tools.OpenAI.VectorStores;
@@ -26,6 +27,7 @@ public static class AspNetCoreExtensions
         builder.Services.AddSingleton<IContentScraper, VectorStoreScraper>();
         builder.Services.AddSingleton<IContentScraper, OpenAIFilesScraper>();
         builder.Services.AddSingleton<IContentScraper, ContainerScraper>();
+        builder.Services.AddSingleton<IContentScraper, OpenAIAgentsApiScraper>();
         builder.Services.AddSingleton<IContentScraper, AnthropicMemoryStoresScraper>();
         builder.Services.AddSingleton<IContentScraper, AnthropicSessionsScraper>();
         builder.Services.AddSingleton<IContentScraper, AnthropicVaultsScraper>();

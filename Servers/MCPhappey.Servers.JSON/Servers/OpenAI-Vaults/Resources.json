@@ -1,0 +1,12 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.openai.com/v1/vaults",
+      "name": "openai-vaults-list",
+      "title": "List OpenAI vaults",
+      "description": "List vaults in the configured OpenAI project.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

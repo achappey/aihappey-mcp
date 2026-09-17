@@ -1,0 +1,12 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.openai.com/v1/agents",
+      "name": "openai-agents-list",
+      "title": "List OpenAI agents",
+      "description": "List reusable agents in the configured OpenAI project.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}
