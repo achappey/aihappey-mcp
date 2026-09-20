@@ -67,7 +67,7 @@ public static class GraphLists
             [Description("Column display name")]
         string? columnDisplayName,
             RequestContext<CallToolRequestParams> requestContext,
-            [Description("Column type (e.g. text, number, boolean, dateTime, choice, hyperlink)")]
+            [Description("SharePoint column type")]
         SharePointColumnType columnType = SharePointColumnType.Text,
             [Description("Choices values. Comma seperated list.")]
         string? choices = null,
@@ -318,22 +318,62 @@ public static class GraphLists
             case SharePointColumnType.Text:
                 col.Text = new Microsoft.Graph.Beta.Models.TextColumn();
                 break;
+
+            case SharePointColumnType.MultiLineText:
+                col.Text = new Microsoft.Graph.Beta.Models.TextColumn
+                {
+                    AllowMultipleLines = true,
+                    TextType = "plain"
+                };
+                break;
+
             case SharePointColumnType.Number:
                 col.Number = new Microsoft.Graph.Beta.Models.NumberColumn();
                 break;
+
+            case SharePointColumnType.Percentage:
+                col.Number = new Microsoft.Graph.Beta.Models.NumberColumn
+                {
+                    DisplayAs = "percentage"
+                };
+                break;
+
+            case SharePointColumnType.Currency:
+                col.Currency = new Microsoft.Graph.Beta.Models.CurrencyColumn
+                {
+                    Locale = "en-US"
+                };
+                break;
+
             case SharePointColumnType.YesNo:
                 col.Boolean = new Microsoft.Graph.Beta.Models.BooleanColumn();
                 break;
+
             case SharePointColumnType.Choice:
                 col.Choice = new Microsoft.Graph.Beta.Models.ChoiceColumn
                 {
-                    Choices = choices?.Split(',').Select(x => x.Trim()).ToList() ?? [],
+                    Choices = choices?
+                        .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => x.Trim())
+                        .ToList() ?? [],
                     DisplayAs = choiceSelect ?? "dropDownMenu"
                 };
                 break;
-            case SharePointColumnType.DateTime:
-                col.DateTime = new Microsoft.Graph.Beta.Models.DateTimeColumn();
+
+            case SharePointColumnType.DateOnly:
+                col.DateTime = new Microsoft.Graph.Beta.Models.DateTimeColumn
+                {
+                    Format = "dateOnly"
+                };
                 break;
+
+            case SharePointColumnType.DateTime:
+                col.DateTime = new Microsoft.Graph.Beta.Models.DateTimeColumn
+                {
+                    Format = "dateTime"
+                };
+                break;
+
             case SharePointColumnType.Hyperlink:
                 col.HyperlinkOrPicture =
                     new Microsoft.Graph.Beta.Models.HyperlinkOrPictureColumn
@@ -342,9 +382,17 @@ public static class GraphLists
                     };
                 break;
 
-            // Add more types as needed
+            case SharePointColumnType.Picture:
+                col.HyperlinkOrPicture =
+                    new Microsoft.Graph.Beta.Models.HyperlinkOrPictureColumn
+                    {
+                        IsPicture = true
+                    };
+                break;
+
             default:
-                throw new NotImplementedException("Unsupported column type");
+                throw new NotImplementedException(
+                    $"Unsupported column type: {columnType}");
         }
 
         return col;
@@ -355,17 +403,36 @@ public static class GraphLists
     {
         [Description("Text (single line)")]
         Text,
+
+        [Description("Text (multiple lines)")]
+        MultiLineText,
+
         [Description("Number")]
         Number,
+
+        [Description("Percentage")]
+        Percentage,
+
+        [Description("Currency")]
+        Currency,
+
         [Description("Yes/No (boolean)")]
         YesNo,
-        [Description("Choice (dropdown)")]
+
+        [Description("Choice")]
         Choice,
+
+        [Description("Date")]
+        DateOnly,
+
         [Description("Date/Time")]
         DateTime,
+
         [Description("Hyperlink")]
-        Hyperlink
-        // Add more as needed
+        Hyperlink,
+
+        [Description("Picture")]
+        Picture
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
