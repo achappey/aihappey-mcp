@@ -47,7 +47,7 @@ Example registry discovery URL:
 
 Prerequisite:
 
-- **.NET 9 SDK**
+- **.NET 10 SDK**
 
 Run HeaderAuth sample:
 
