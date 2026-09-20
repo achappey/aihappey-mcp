@@ -8,6 +8,7 @@ using MCPhappey.Tools.Extensions;
 using Microsoft.Graph.Beta.Models;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
+using Microsoft.Kiota.Abstractions.Serialization;
 
 namespace MCPhappey.Tools.Graph.Lists;
 
@@ -15,40 +16,50 @@ public static class GraphListItems
 {
 
     [Description("Update a Microsoft List item")]
-    [McpServerTool(Title = "Update a Microsoft List item",
-        Destructive = true,
-        OpenWorld = false)]
+    [McpServerTool(
+    Title = "Update a Microsoft List item",
+    Destructive = true,
+    OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_UpdateListItem(
-      string siteId,            // ID of the SharePoint site
-      string listId,            // ID of the Microsoft List
-      string itemId,            // ID of the Microsoft List item
-      RequestContext<CallToolRequestParams> requestContext,
-      [Description("Default values for the list item fields. Use fieldname as key and defaultvalue as value. No nested objects. These override the current item values in the form. Use comma seperated strings for multivalue choice columns.")]
-      Dictionary<string, object?>? defaultValues = null,
-      CancellationToken cancellationToken = default) =>
-        await ModelContextToolExtensions.WithExceptionCheck(async () =>
-        await requestContext.WithOboGraphClient(async client =>
-        await requestContext.WithStructuredContent(async () =>
+    string siteId,
+    string listId,
+    string itemId,
+    RequestContext<CallToolRequestParams> requestContext,
+    [Description("Default values for the list item fields. Use fieldname as key and defaultvalue as value. No nested objects. These override the current item values in the form. Use comma seperated strings for multivalue choice columns.")]
+    Dictionary<string, object?>? defaultValues = null,
+    CancellationToken cancellationToken = default) =>
+    await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    await requestContext.WithOboGraphClient(async client =>
+    await requestContext.WithStructuredContent(async () =>
 {
     var list = await client
-          .Sites[siteId]
-          .Lists[listId]
-          .GetAsync(cancellationToken: cancellationToken);
+        .Sites[siteId]
+        .Lists[listId]
+        .GetAsync(cancellationToken: cancellationToken);
 
     var item = await client
-          .Sites[siteId]
-          .Lists[listId]
-          .Items[itemId]
-          .GetAsync(requestConfiguration =>
-          {
-              requestConfiguration.QueryParameters.Expand = ["fields"];
-          }, cancellationToken: cancellationToken);
+        .Sites[siteId]
+        .Lists[listId]
+        .Items[itemId]
+        .GetAsync(
+            requestConfiguration =>
+            {
+                requestConfiguration.QueryParameters.Expand = ["fields"];
+            },
+            cancellationToken: cancellationToken);
 
     var columns = await client
-           .Sites[siteId]
-           .Lists[listId]
-           .Columns
-           .GetAsync(cancellationToken: cancellationToken);
+        .Sites[siteId]
+        .Lists[listId]
+        .Columns
+        .GetAsync(
+            requestConfiguration =>
+            {
+                requestConfiguration.Headers.Add(
+                    "Prefer",
+                    "apiversion=2.1");
+            },
+            cancellationToken);
 
     ElicitRequestParams.RequestSchema request = new()
     {
@@ -57,7 +68,8 @@ public static class GraphListItems
 
     var defaultValuesByName = new Dictionary<string, object?>();
 
-    foreach (var kv in item?.Fields?.AdditionalData ?? new Dictionary<string, object>())
+    foreach (var kv in item?.Fields?.AdditionalData
+             ?? new Dictionary<string, object>())
     {
         defaultValuesByName[kv.Key] = kv.Value;
     }
@@ -68,10 +80,15 @@ public static class GraphListItems
     }
 
     var definitionColumns = columns?.Value?
-        .Where(col => col.Name != "ID" && col.ReadOnly != true && !string.IsNullOrWhiteSpace(col.Name))
+        .Where(col =>
+            col.Name != "ID" &&
+            col.ReadOnly != true &&
+            !string.IsNullOrWhiteSpace(col.Name))
         .Select(col =>
         {
-            defaultValuesByName.TryGetValue(col.Name!, out var defaultValue);
+            defaultValuesByName.TryGetValue(
+                col.Name!,
+                out var defaultValue);
 
             return new
             {
@@ -93,11 +110,18 @@ public static class GraphListItems
         }
     }
 
-    var (values, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams()
-    {
-        RequestedSchema = request,
-        Message = list?.DisplayName ?? list?.Name ?? "Update SharePoint list item"
-    }, defaultValuesByName, cancellationToken);
+    var (values, _) =
+        await requestContext.Server.TryElicitForm(
+            new ElicitRequestParams
+            {
+                RequestedSchema = request,
+                Message =
+                    list?.DisplayName ??
+                    list?.Name ??
+                    "Update SharePoint list item"
+            },
+            defaultValuesByName,
+            cancellationToken);
 
     var defsByName = (columns?.Value ?? [])
         .Where(c => !string.IsNullOrWhiteSpace(c.Name))
@@ -105,9 +129,13 @@ public static class GraphListItems
 
     var fieldsPayload = new Dictionary<string, object>();
 
+    // Required for SharePoint Hyperlink/Picture fields.
+    var hasHyperlinkOrPicture = false;
+
     foreach (var prop in request.Properties.Keys)
     {
-        if (!values.TryGetValue(prop, out var raw)) continue;
+        if (!values.TryGetValue(prop, out var raw))
+            continue;
 
         object? val = raw;
 
@@ -119,23 +147,39 @@ public static class GraphListItems
                 case JsonValueKind.Null:
                 case JsonValueKind.Undefined:
                     continue;
+
                 case JsonValueKind.String:
                     var s = je.GetString();
-                    if (string.IsNullOrWhiteSpace(s)) continue;
+
+                    if (string.IsNullOrWhiteSpace(s))
+                        continue;
+
                     val = s;
                     break;
+
                 case JsonValueKind.Array:
-                    var seq = je.EnumerateArray()
-                                .Select(x => x.ValueKind == JsonValueKind.String ? x.GetString() : x.ToString())
-                                .Where(x => !string.IsNullOrWhiteSpace(x))
-                                .ToList();
-                    if (seq.Count == 0) continue;
+                    var seq = je
+                        .EnumerateArray()
+                        .Select(x =>
+                            x.ValueKind == JsonValueKind.String
+                                ? x.GetString()
+                                : x.ToString())
+                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                        .ToList();
+
+                    if (seq.Count == 0)
+                        continue;
+
                     val = seq;
                     break;
+
                 case JsonValueKind.Number:
-                    if (je.TryGetInt64(out var i)) val = i;
-                    else if (je.TryGetDouble(out var d)) val = d;
+                    if (je.TryGetInt64(out var i))
+                        val = i;
+                    else if (je.TryGetDouble(out var d))
+                        val = d;
                     break;
+
                 case JsonValueKind.True:
                 case JsonValueKind.False:
                     val = je.GetBoolean();
@@ -145,16 +189,25 @@ public static class GraphListItems
 
         if (!defsByName.TryGetValue(prop, out var def))
         {
-            if (val is string s2 && string.IsNullOrWhiteSpace(s2)) continue;
+            if (val is string s2 &&
+                string.IsNullOrWhiteSpace(s2))
+            {
+                continue;
+            }
+
             fieldsPayload[prop] = val!;
             continue;
         }
 
-        // ---- Date/DateTime
+        // ---- Date / DateTime
         if (def.DateTime != null)
         {
             var fmtStr = def.DateTime.Format?.ToString();
-            var isDateOnly = string.Equals(fmtStr, "dateOnly", StringComparison.OrdinalIgnoreCase);
+
+            var isDateOnly = string.Equals(
+                fmtStr,
+                "dateOnly",
+                StringComparison.OrdinalIgnoreCase);
 
             string? isoOut = null;
 
@@ -163,53 +216,86 @@ public static class GraphListItems
                 if (isDateOnly)
                 {
                     if (DateOnly.TryParse(ds, out var d))
+                    {
                         isoOut = d.ToString("yyyy-MM-dd");
-                    else if (DateTimeOffset.TryParse(ds, out var dto))
-                        isoOut = dto.Date.ToString("yyyy-MM-dd");
+                    }
+                    else if (DateTimeOffset.TryParse(
+                                 ds,
+                                 out var dto))
+                    {
+                        isoOut =
+                            dto.Date.ToString("yyyy-MM-dd");
+                    }
                 }
                 else
                 {
-                    if (DateTimeOffset.TryParse(ds, out var dto))
-                        isoOut = dto.ToUniversalTime().ToString("o");
-                    else if (DateTime.TryParse(ds, out var dt))
-                        isoOut = DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToString("o");
+                    if (DateTimeOffset.TryParse(
+                            ds,
+                            out var dto))
+                    {
+                        isoOut = dto
+                            .ToUniversalTime()
+                            .ToString("o");
+                    }
+                    else if (DateTime.TryParse(
+                                 ds,
+                                 out var dt))
+                    {
+                        isoOut = DateTime
+                            .SpecifyKind(
+                                dt,
+                                DateTimeKind.Utc)
+                            .ToString("o");
+                    }
                 }
             }
             else if (val is DateTime dt)
             {
                 isoOut = isDateOnly
                     ? dt.Date.ToString("yyyy-MM-dd")
-                    : DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToString("o");
+                    : DateTime
+                        .SpecifyKind(
+                            dt,
+                            DateTimeKind.Utc)
+                        .ToString("o");
             }
             else if (val is DateTimeOffset dto)
             {
                 isoOut = isDateOnly
                     ? dto.Date.ToString("yyyy-MM-dd")
-                    : dto.ToUniversalTime().ToString("o");
+                    : dto
+                        .ToUniversalTime()
+                        .ToString("o");
             }
 
             if (!string.IsNullOrWhiteSpace(isoOut))
+            {
                 fieldsPayload[prop] = isoOut;
+            }
 
             continue;
         }
 
         // ---- Choice (single / multi)
-        if (def.Choice != null || (def.AdditionalData?.ContainsKey("multiChoice") == true))
+        if (def.Choice != null ||
+            def.AdditionalData?.ContainsKey("multiChoice") == true)
         {
-            var isMulti = def.Choice?.DisplayAs == "checkBoxes";
+            var isMulti =
+                def.Choice?.DisplayAs == "checkBoxes";
 
             if (isMulti)
             {
                 string[] arr = val switch
                 {
-                    string one when !string.IsNullOrWhiteSpace(one)
+                    string one
+                        when !string.IsNullOrWhiteSpace(one)
                         => [one],
 
                     IEnumerable<object> many
                         => many
                             .Select(x => x?.ToString())
-                            .Where(x => !string.IsNullOrWhiteSpace(x))
+                            .Where(x =>
+                                !string.IsNullOrWhiteSpace(x))
                             .Select(x => x!)
                             .ToArray(),
 
@@ -218,263 +304,439 @@ public static class GraphListItems
 
                 if (arr.Length > 0)
                 {
-                    fieldsPayload[$"{prop}@odata.type"] = "Collection(Edm.String)";
+                    fieldsPayload[$"{prop}@odata.type"] =
+                        "Collection(Edm.String)";
+
                     fieldsPayload[prop] = arr;
                 }
             }
             else
             {
-                if (val is string one && !string.IsNullOrWhiteSpace(one))
+                if (val is string one &&
+                    !string.IsNullOrWhiteSpace(one))
+                {
                     fieldsPayload[prop] = one;
+                }
+            }
+
+            continue;
+        }
+
+        // ---- Hyperlink / Picture
+        // ---- Hyperlink / Picture
+        if (def.HyperlinkOrPicture != null)
+        {
+            if (val is string url &&
+                !string.IsNullOrWhiteSpace(url))
+            {
+                fieldsPayload[prop] =
+                    new UntypedObject(
+                        new Dictionary<string, UntypedNode>
+                        {
+                            ["Description"] = new UntypedString(url),
+                            ["Url"] = new UntypedString(url)
+                        });
+
+                hasHyperlinkOrPicture = true;
             }
 
             continue;
         }
 
         // ---- Default: keep non-empty
-        if (val is string s3 && string.IsNullOrWhiteSpace(s3)) continue;
+        if (val is string s3 &&
+            string.IsNullOrWhiteSpace(s3))
+        {
+            continue;
+        }
+
         fieldsPayload[prop] = val!;
     }
 
     if (fieldsPayload.Count == 0)
+    {
         throw new Exception("No field values supplied.");
+    }
 
     return await client
         .Sites[siteId]
         .Lists[listId]
         .Items[itemId]
         .Fields
-        .PatchAsync(new FieldValueSet
-        {
-            AdditionalData = fieldsPayload
-        }, cancellationToken: cancellationToken);
+        .PatchAsync(
+            new FieldValueSet
+            {
+                AdditionalData = fieldsPayload
+            },
+            requestConfiguration =>
+            {
+                if (hasHyperlinkOrPicture)
+                {
+                    requestConfiguration.Headers.Add(
+                        "Prefer",
+                        "apiversion=2.1");
+                }
+            },
+            cancellationToken);
 })));
 
     [Description("Create a new Microsoft List item")]
-    [McpServerTool(Title = "Create a new Microsoft List item",
-        Destructive = true,
-        OpenWorld = false)]
+    [McpServerTool(
+     Title = "Create a new Microsoft List item",
+     Destructive = true,
+     OpenWorld = false)]
     public static async Task<CallToolResult?> GraphLists_CreateListItem(
-          string siteId,            // ID of the SharePoint site
-          string listId,            // ID of the Microsoft List
-          RequestContext<CallToolRequestParams> requestContext,
-           [Description("Default values for the new list item fields. Use fieldname as key and defaultvalue as value. No nested objects.  Use comma seperated strings for multivalue choice columns.")]
-            Dictionary<string, object?>? defaultValues = null,
-          CancellationToken cancellationToken = default) =>
-            await ModelContextToolExtensions.WithExceptionCheck(async () =>
-            await requestContext.WithOboGraphClient(async client =>
-            await requestContext.WithStructuredContent<object>(async () =>
-    {
+     string siteId,
+     string listId,
+     RequestContext<CallToolRequestParams> requestContext,
+     [Description("Default values for the new list item fields. Use fieldname as key and defaultvalue as value. No nested objects. Use comma seperated strings for multivalue choice columns.")]
+    Dictionary<string, object?>? defaultValues = null,
+     CancellationToken cancellationToken = default) =>
+     await ModelContextToolExtensions.WithExceptionCheck(async () =>
+     await requestContext.WithOboGraphClient(async client =>
+     await requestContext.WithStructuredContent<object>(async () =>
+ {
+     var list = await client
+         .Sites[siteId]
+         .Lists[listId]
+         .GetAsync(cancellationToken: cancellationToken);
 
-        var list = await client
-              .Sites[siteId]
-              .Lists[listId].GetAsync(cancellationToken: cancellationToken);
+     var columns = await client
+         .Sites[siteId]
+         .Lists[listId]
+         .Columns
+         .GetAsync(
+             requestConfiguration =>
+             {
+                 requestConfiguration.Headers.Add(
+                     "Prefer",
+                     "apiversion=2.1");
+             },
+             cancellationToken);
 
-        var columns = await client
-               .Sites[siteId]
-               .Lists[listId]
-               .Columns
-               .GetAsync(cancellationToken: cancellationToken);
+     ElicitRequestParams.RequestSchema request = new()
+     {
+         Required = []
+     };
 
-        ElicitRequestParams.RequestSchema request = new()
-        {
-            Required = []
-        };
+     var defaultValuesByName = defaultValues ?? [];
 
-        var defaultValuesByName = defaultValues ?? [];
+     var definitionColumns = columns?.Value?
+         .Where(col =>
+             col.Name != "ID" &&
+             col.ReadOnly != true &&
+             !string.IsNullOrWhiteSpace(col.Name))
+         .Select(col =>
+         {
+             defaultValuesByName.TryGetValue(
+                 col.Name!,
+                 out var defaultValue);
 
-        var definitionColumns = columns?.Value?
-            .Where(col => col.Name != "ID" && col.ReadOnly != true && !string.IsNullOrWhiteSpace(col.Name))
-            .Select(col =>
-            {
-                defaultValuesByName.TryGetValue(col.Name!, out var defaultValue);
+             return new
+             {
+                 Name = col.Name!,
+                 Def = col.ToElicitSchemaDef(defaultValue),
+                 col.Required
+             };
+         })
+         .Where(x => x.Def != null)
+         .ToList();
 
-                return new
-                {
-                    Name = col.Name!,
-                    Def = col.ToElicitSchemaDef(defaultValue),
-                    col.Required
-                };
-            })
-            .Where(x => x.Def != null)
-            .ToList();
+     foreach (var col in definitionColumns ?? [])
+     {
+         request.Properties.Add(col.Name, col.Def!);
 
-        foreach (var col in definitionColumns ?? [])
-        {
-            request.Properties.Add(col.Name, col.Def!);
+         if (col.Required == true)
+         {
+             request.Required.Add(col.Name);
+         }
+     }
 
-            if (col.Required == true)
-            {
-                request.Required.Add(col.Name);
-            }
-        }
+     var missingRequiredValues = request.Required
+         .Where(name =>
+             !defaultValuesByName.TryGetValue(
+                 name,
+                 out var value) ||
+             value is null)
+         .ToArray();
 
-        var missingRequiredValues = request.Required
-            .Where(name => !defaultValuesByName.TryGetValue(name, out var value) || value is null)
-            .ToArray();
+     if (requestContext.Server.ClientCapabilities?.Elicitation == null &&
+         missingRequiredValues.Length > 0)
+     {
+         return new
+         {
+             Message =
+                 $"This client does not support elicitation. " +
+                 $"Provide values for required fields: " +
+                 $"{string.Join(", ", missingRequiredValues)}."
+         };
+     }
 
-        if (requestContext.Server.ClientCapabilities?.Elicitation == null && missingRequiredValues.Length > 0)
-        {
-            return new
-            {
-                Message = $"This client does not support elicitation. Provide values for required fields: {string.Join(", ", missingRequiredValues)}."
-            };
-        }
+     var (values, _) =
+         await requestContext.Server.TryElicitForm(
+             new ElicitRequestParams
+             {
+                 RequestedSchema = request,
+                 Message =
+                     list?.DisplayName ??
+                     list?.Name ??
+                     "New SharePoint list item"
+             },
+             defaultValuesByName,
+             cancellationToken);
 
-        var (values, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams()
-        {
-            RequestedSchema = request,
-            Message = list?.DisplayName ?? list?.Name ?? "New SharePoint list item"
-        }, defaultValuesByName, cancellationToken);
+     var defsByName = (columns?.Value ?? [])
+         .Where(c => !string.IsNullOrWhiteSpace(c.Name))
+         .ToDictionary(c => c.Name!, c => c);
 
-        var defsByName = (columns?.Value ?? [])
-            .Where(c => !string.IsNullOrWhiteSpace(c.Name))
-            .ToDictionary(c => c.Name!, c => c);
+     var fieldsPayload = new Dictionary<string, object>();
 
-        var fieldsPayload = new Dictionary<string, object>();
+     // Required for SharePoint Hyperlink/Picture fields.
+     var hasHyperlinkOrPicture = false;
 
-        foreach (var prop in request.Properties.Keys)
-        {
-            if (!values.TryGetValue(prop, out var raw)) continue;
+     foreach (var prop in request.Properties.Keys)
+     {
+         if (!values.TryGetValue(prop, out var raw))
+             continue;
 
-            object? val = raw;
+         object? val = raw;
 
-            if (raw is JsonElement je)
-            {
-                switch (je.ValueKind)
-                {
-                    case JsonValueKind.Null:
-                    case JsonValueKind.Undefined:
-                        continue;
-                    case JsonValueKind.String:
-                        var s = je.GetString();
-                        if (string.IsNullOrWhiteSpace(s)) continue;
-                        val = s;
-                        break;
-                    case JsonValueKind.Array:
-                        var seq = je.EnumerateArray()
-                                    .Select(x => x.ValueKind == JsonValueKind.String ? x.GetString() : x.ToString())
-                                    .Where(x => !string.IsNullOrWhiteSpace(x))
-                                    .ToList();
-                        if (seq.Count == 0) continue;
-                        val = seq;
-                        break;
-                    case JsonValueKind.Number:
-                        if (je.TryGetInt64(out var i)) val = i;
-                        else if (je.TryGetDouble(out var d)) val = d;
-                        break;
-                    case JsonValueKind.True:
-                    case JsonValueKind.False:
-                        val = je.GetBoolean();
-                        break;
-                }
-            }
+         // ---- unwrap JsonElement safely
+         if (raw is JsonElement je)
+         {
+             switch (je.ValueKind)
+             {
+                 case JsonValueKind.Null:
+                 case JsonValueKind.Undefined:
+                     continue;
 
-            if (!defsByName.TryGetValue(prop, out var def))
-            {
-                if (val is string s2 && string.IsNullOrWhiteSpace(s2)) continue;
-                fieldsPayload[prop] = val!;
-                continue;
-            }
+                 case JsonValueKind.String:
+                     var s = je.GetString();
 
-            // ---- Date/DateTime
-            if (def.DateTime != null)
-            {
-                var fmtStr = def.DateTime.Format?.ToString(); // SDK may expose enum or string
-                var isDateOnly = string.Equals(fmtStr, "dateOnly", StringComparison.OrdinalIgnoreCase);
+                     if (string.IsNullOrWhiteSpace(s))
+                         continue;
 
-                string? isoOut = null;
+                     val = s;
+                     break;
 
-                if (val is string ds)
-                {
-                    if (isDateOnly)
-                    {
-                        if (DateOnly.TryParse(ds, out var d))
-                            isoOut = d.ToString("yyyy-MM-dd");
-                        else if (DateTimeOffset.TryParse(ds, out var dto))
-                            isoOut = dto.Date.ToString("yyyy-MM-dd");
-                    }
-                    else
-                    {
-                        if (DateTimeOffset.TryParse(ds, out var dto))
-                            isoOut = dto.ToUniversalTime().ToString("o");
-                        else if (DateTime.TryParse(ds, out var dt))
-                            isoOut = DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToString("o");
-                    }
-                }
-                else if (val is DateTime dt)
-                {
-                    isoOut = isDateOnly
-                        ? dt.Date.ToString("yyyy-MM-dd")
-                        : DateTime.SpecifyKind(dt, DateTimeKind.Utc).ToString("o");
-                }
-                else if (val is DateTimeOffset dto)
-                {
-                    isoOut = isDateOnly
-                        ? dto.Date.ToString("yyyy-MM-dd")
-                        : dto.ToUniversalTime().ToString("o");
-                }
+                 case JsonValueKind.Array:
+                     var seq = je
+                         .EnumerateArray()
+                         .Select(x =>
+                             x.ValueKind == JsonValueKind.String
+                                 ? x.GetString()
+                                 : x.ToString())
+                         .Where(x => !string.IsNullOrWhiteSpace(x))
+                         .ToList();
 
-                if (!string.IsNullOrWhiteSpace(isoOut))
-                    fieldsPayload[prop] = isoOut;
+                     if (seq.Count == 0)
+                         continue;
 
-                continue;
-            }
+                     val = seq;
+                     break;
 
-            // ---- Choice (single / multi)
-            if (def.Choice != null || (def.AdditionalData?.ContainsKey("multiChoice") == true))
-            {
-                var isMulti = def.Choice?.DisplayAs == "checkBoxes";
+                 case JsonValueKind.Number:
+                     if (je.TryGetInt64(out var i))
+                         val = i;
+                     else if (je.TryGetDouble(out var d))
+                         val = d;
+                     break;
 
-                if (isMulti)
-                {
-                    string[] arr = val switch
-                    {
-                        string one when !string.IsNullOrWhiteSpace(one)
-                            => [one],
+                 case JsonValueKind.True:
+                 case JsonValueKind.False:
+                     val = je.GetBoolean();
+                     break;
+             }
+         }
 
-                        IEnumerable<object> many
-                            => many
-                                .Select(x => x?.ToString())
-                                .Where(x => !string.IsNullOrWhiteSpace(x))
-                                .Select(x => x!)
-                                .ToArray(),
+         if (!defsByName.TryGetValue(prop, out var def))
+         {
+             if (val is string s2 &&
+                 string.IsNullOrWhiteSpace(s2))
+             {
+                 continue;
+             }
 
-                        _ => []
-                    };
+             fieldsPayload[prop] = val!;
+             continue;
+         }
 
-                    if (arr.Length > 0)
-                    {
-                        fieldsPayload[$"{prop}@odata.type"] = "Collection(Edm.String)";
-                        fieldsPayload[prop] = arr;
-                    }
-                }
-                else
-                {
-                    if (val is string one && !string.IsNullOrWhiteSpace(one))
-                        fieldsPayload[prop] = one;
-                }
+         // ---- Date / DateTime
+         if (def.DateTime != null)
+         {
+             var fmtStr = def.DateTime.Format?.ToString();
 
-                continue;
-            }
+             var isDateOnly = string.Equals(
+                 fmtStr,
+                 "dateOnly",
+                 StringComparison.OrdinalIgnoreCase);
 
-            // ---- Default: keep non-empty
-            if (val is string s3 && string.IsNullOrWhiteSpace(s3)) continue;
-            fieldsPayload[prop] = val!;
-        }
+             string? isoOut = null;
 
-        return await client
-            .Sites[siteId]
-            .Lists[listId]
-            .Items
-            .PostAsync(new ListItem
-            {
-                Fields = new FieldValueSet
-                {
-                    AdditionalData = fieldsPayload
-                }
-            }, cancellationToken: cancellationToken);
-    })));
+             if (val is string ds)
+             {
+                 if (isDateOnly)
+                 {
+                     if (DateOnly.TryParse(ds, out var d))
+                     {
+                         isoOut =
+                             d.ToString("yyyy-MM-dd");
+                     }
+                     else if (DateTimeOffset.TryParse(
+                                  ds,
+                                  out var dto))
+                     {
+                         isoOut =
+                             dto.Date.ToString("yyyy-MM-dd");
+                     }
+                 }
+                 else
+                 {
+                     if (DateTimeOffset.TryParse(
+                             ds,
+                             out var dto))
+                     {
+                         isoOut = dto
+                             .ToUniversalTime()
+                             .ToString("o");
+                     }
+                     else if (DateTime.TryParse(
+                                  ds,
+                                  out var dt))
+                     {
+                         isoOut = DateTime
+                             .SpecifyKind(
+                                 dt,
+                                 DateTimeKind.Utc)
+                             .ToString("o");
+                     }
+                 }
+             }
+             else if (val is DateTime dt)
+             {
+                 isoOut = isDateOnly
+                     ? dt.Date.ToString("yyyy-MM-dd")
+                     : DateTime
+                         .SpecifyKind(
+                             dt,
+                             DateTimeKind.Utc)
+                         .ToString("o");
+             }
+             else if (val is DateTimeOffset dto)
+             {
+                 isoOut = isDateOnly
+                     ? dto.Date.ToString("yyyy-MM-dd")
+                     : dto
+                         .ToUniversalTime()
+                         .ToString("o");
+             }
+
+             if (!string.IsNullOrWhiteSpace(isoOut))
+             {
+                 fieldsPayload[prop] = isoOut;
+             }
+
+             continue;
+         }
+
+         // ---- Choice (single / multi)
+         if (def.Choice != null ||
+             def.AdditionalData?.ContainsKey("multiChoice") == true)
+         {
+             var isMulti =
+                 def.Choice?.DisplayAs == "checkBoxes";
+
+             if (isMulti)
+             {
+                 string[] arr = val switch
+                 {
+                     string one
+                         when !string.IsNullOrWhiteSpace(one)
+                         => [one],
+
+                     IEnumerable<object> many
+                         => many
+                             .Select(x => x?.ToString())
+                             .Where(x =>
+                                 !string.IsNullOrWhiteSpace(x))
+                             .Select(x => x!)
+                             .ToArray(),
+
+                     _ => []
+                 };
+
+                 if (arr.Length > 0)
+                 {
+                     fieldsPayload[$"{prop}@odata.type"] =
+                         "Collection(Edm.String)";
+
+                     fieldsPayload[prop] = arr;
+                 }
+             }
+             else
+             {
+                 if (val is string one &&
+                     !string.IsNullOrWhiteSpace(one))
+                 {
+                     fieldsPayload[prop] = one;
+                 }
+             }
+
+             continue;
+         }
+         
+         // ---- Hyperlink / Picture
+         if (def.HyperlinkOrPicture != null)
+         {
+             if (val is string url &&
+                 !string.IsNullOrWhiteSpace(url))
+             {
+                 fieldsPayload[prop] =
+                     new UntypedObject(
+                         new Dictionary<string, UntypedNode>
+                         {
+                             ["Description"] = new UntypedString(url),
+                             ["Url"] = new UntypedString(url)
+                         });
+
+                 hasHyperlinkOrPicture = true;
+             }
+
+             continue;
+         }
+         // ---- Default: keep non-empty
+         if (val is string s3 &&
+             string.IsNullOrWhiteSpace(s3))
+         {
+             continue;
+         }
+
+         fieldsPayload[prop] = val!;
+     }
+
+     return await client
+         .Sites[siteId]
+         .Lists[listId]
+         .Items
+         .PostAsync(
+             new ListItem
+             {
+                 Fields = new FieldValueSet
+                 {
+                     AdditionalData = fieldsPayload
+                 }
+             },
+             requestConfiguration =>
+             {
+                 if (hasHyperlinkOrPicture)
+                 {
+                     requestConfiguration.Headers.Add(
+                         "Prefer",
+                         "apiversion=2.1");
+                 }
+             },
+             cancellationToken);
+ })));
 
     [Description("Delete a Microsoft List item")]
     [McpServerTool(Title = "Delete a Microsoft List item", Destructive = true, OpenWorld = false)]
