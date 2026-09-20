@@ -104,6 +104,16 @@ public static class GraphLists
 
             return await client.Sites[siteId].Lists[listId].Columns.PostAsync(
                 columnDef,
+                  requestConfiguration =>
+                    {
+                        if (typed.ColumnType is SharePointColumnType.Hyperlink
+                            or SharePointColumnType.Picture)
+                        {
+                            requestConfiguration.Headers.Add(
+                                "Prefer",
+                                "apiversion=2.1");
+                        }
+                    },
                 cancellationToken: cancellationToken
             );
         })));
