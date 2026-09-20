@@ -44,6 +44,9 @@ internal static class FlexpriceHelpers
         CancellationToken cancellationToken = default)
         where TConfirm : class, IHasName, new()
     {
+        if (requestContext.Server.ClientCapabilities?.Elicitation == null)
+            return;
+
         var result = await requestContext.Server.GetElicitResponse<TConfirm>(expectedName, cancellationToken);
 
         if (result?.Action != "accept")

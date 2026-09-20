@@ -68,7 +68,7 @@ public static partial class OpenAIAgents
             var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentUpdateScalarRequest
             {
                 AgentId = agentId,
-                Model = model,
+                Model = model ?? string.Empty,
                 Name = name,
                 Instructions = instructions,
                 ClearName = clearName,

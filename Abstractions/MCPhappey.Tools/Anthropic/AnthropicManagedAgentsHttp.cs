@@ -74,6 +74,9 @@ internal static class AnthropicManagedAgentsHttp
         CancellationToken cancellationToken)
         where TConfirm : class, IHasName, new()
     {
+
+        if(server.ClientCapabilities?.Elicitation == null) 
+            return;
         var dto = await server.GetElicitResponse<TConfirm>(expectedName, cancellationToken);
 
         if (dto?.Action != "accept")

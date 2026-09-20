@@ -310,6 +310,12 @@ public static class ElicitFormExtensions
         CancellationToken ct = default)
          where TConfirm : class, IHasName, new()
     {
+        if (ctx.Server.ClientCapabilities?.Elicitation == null)
+        {
+            await deleteAction(ct);
+            return successText.ToTextCallToolResponse();
+        }
+
         var dto = await ctx.Server.GetElicitResponse<TConfirm>(expectedName, ct);
 
         if (dto?.Action != "accept")

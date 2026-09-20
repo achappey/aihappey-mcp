@@ -20,6 +20,9 @@ public static class ElicitExtensions
      CancellationToken cancellationToken = default)
      where T : class, new()
     {
+        if (mcpServer.ClientCapabilities?.Elicitation == null)
+            return (elicitRequest, null, null);
+
         var elicitParams = ElicitFormExtensions.CreateElicitRequestParamsForType(elicitRequest, propertyOverrides);
         var result = await mcpServer.ElicitAsync(elicitParams, cancellationToken);
         if (result?.Action != "accept")
@@ -32,7 +35,12 @@ public static class ElicitExtensions
     public static async Task<ElicitResult?> GetElicitResponse<T>(this McpServer mcpServer,
         string? message = null,
         CancellationToken cancellationToken = default) where T : new()
-            => await mcpServer.ElicitAsync(
-                    ElicitFormExtensions.CreateElicitRequestParamsForType<T>(default!, message),
-                    cancellationToken: cancellationToken);
+    {
+        if (mcpServer.ClientCapabilities?.Elicitation == null)
+            return null;
+
+        return await mcpServer.ElicitAsync(
+            ElicitFormExtensions.CreateElicitRequestParamsForType<T>(default!, message),
+            cancellationToken: cancellationToken);
+    }
 }

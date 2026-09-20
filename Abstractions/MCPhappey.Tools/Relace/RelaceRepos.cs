@@ -614,6 +614,9 @@ public static class RelaceRepos
         string expectedValue,
         CancellationToken cancellationToken)
     {
+        if (requestContext.Server.ClientCapabilities?.Elicitation == null)
+            return;
+
         var result = await requestContext.Server.GetElicitResponse<RelaceDeleteConfirmation>(expectedValue, cancellationToken);
         if (result?.Action != "accept")
             throw new ValidationException($"Deletion confirmation was not accepted for '{expectedValue}'.");

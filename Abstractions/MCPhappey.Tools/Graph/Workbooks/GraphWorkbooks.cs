@@ -94,30 +94,37 @@ public static partial class GraphWorkbooks
             throw new Exception($"defaultValues missing. Please provide some default values. Column names: {string.Join(",", columns ?? [])}");
         }
 
-        // 2. Vraag de gebruiker om input per kolom (elicit)
-        var elicited = await requestContext.Server.ElicitAsync(new ElicitRequestParams()
+        IDictionary<string, object?> valuesDict = defaultValues
+            .ToDictionary(pair => pair.Key, pair => (object?)pair.Value, StringComparer.OrdinalIgnoreCase);
+
+        if (requestContext.Server.ClientCapabilities?.Elicitation != null)
         {
-            Message = "Please fill in the values of the Excel table",
-            RequestedSchema = new ElicitRequestParams.RequestSchema()
+            // 2. Vraag de gebruiker om input per kolom (elicit)
+            var elicited = await requestContext.Server.ElicitAsync(new ElicitRequestParams()
             {
-                Properties = columns?.ToDictionary(
-                        a => a,
-                        a => (ElicitRequestParams.PrimitiveSchemaDefinition)new ElicitRequestParams.StringSchema
-                        {
-                            Title = a,
-                            Default = defaultValues?.ContainsKey(a) == true ? defaultValues[a] : null
-                        }
-                    ) ?? [],
+                Message = "Please fill in the values of the Excel table",
+                RequestedSchema = new ElicitRequestParams.RequestSchema()
+                {
+                    Properties = columns?.ToDictionary(
+                            a => a,
+                            a => (ElicitRequestParams.PrimitiveSchemaDefinition)new ElicitRequestParams.StringSchema
+                            {
+                                Title = a,
+                                Default = defaultValues.ContainsKey(a) ? defaultValues[a] : null
+                            }
+                        ) ?? [],
+                }
+
+            }, cancellationToken);
+
+            if (elicited.Action != "accept")
+            {
+                throw new Exception(elicited.Action);
             }
 
-        }, cancellationToken);
-
-        if (elicited.Action != "accept")
-        {
-            throw new Exception(elicited.Action);
+            valuesDict = ExtractValues(elicited.Content);
         }
 
-        var valuesDict = ExtractValues(elicited.Content);
         var valuesNode = BuildValuesNode(columns!, valuesDict);
 
         var newRow = await graphClient.Drives[driveItem?.ParentReference?.DriveId]
