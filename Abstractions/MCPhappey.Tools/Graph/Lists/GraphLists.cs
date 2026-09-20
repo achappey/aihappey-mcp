@@ -67,7 +67,7 @@ public static class GraphLists
             [Description("Column display name")]
         string? columnDisplayName,
             RequestContext<CallToolRequestParams> requestContext,
-            [Description("Column type (e.g. text, number, boolean, dateTime, choice)")]
+            [Description("Column type (e.g. text, number, boolean, dateTime, choice, hyperlink)")]
         SharePointColumnType columnType = SharePointColumnType.Text,
             [Description("Choices values. Comma seperated list.")]
         string? choices = null,
@@ -334,6 +334,14 @@ public static class GraphLists
             case SharePointColumnType.DateTime:
                 col.DateTime = new Microsoft.Graph.Beta.Models.DateTimeColumn();
                 break;
+            case SharePointColumnType.Hyperlink:
+                col.HyperlinkOrPicture =
+                    new Microsoft.Graph.Beta.Models.HyperlinkOrPictureColumn
+                    {
+                        IsPicture = false
+                    };
+                break;
+
             // Add more types as needed
             default:
                 throw new NotImplementedException("Unsupported column type");
@@ -354,7 +362,9 @@ public static class GraphLists
         [Description("Choice (dropdown)")]
         Choice,
         [Description("Date/Time")]
-        DateTime
+        DateTime,
+        [Description("Hyperlink")]
+        Hyperlink
         // Add more as needed
     }
 
