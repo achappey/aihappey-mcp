@@ -6,6 +6,31 @@ namespace MCPhappey.Common.Extensions;
 
 public static class ElicitExtensions
 {
+    public static async Task<(Dictionary<string, JsonElement> values, ElicitResult? elicitResult)> TryElicitForm(
+        this McpServer mcpServer,
+        ElicitRequestParams elicitRequest,
+        IReadOnlyDictionary<string, object?>? fallbackValues = null,
+        CancellationToken cancellationToken = default)
+    {
+        if (mcpServer.ClientCapabilities?.Elicitation == null)
+        {
+            var values = fallbackValues?
+                .Where(item => item.Value is not null)
+                .ToDictionary(
+                    item => item.Key,
+                    item => JsonSerializer.SerializeToElement(item.Value, JsonSerializerOptions.Web))
+                ?? [];
+
+            return (values, null);
+        }
+
+        var result = await mcpServer.ElicitAsync(elicitRequest, cancellationToken);
+        if (result?.Action != "accept")
+            throw new Exception($"Elicit not completed: {result?.Action}\n\n{JsonSerializer.Serialize(result, JsonSerializerOptions.Web)}");
+
+        return (result.Content?.ToDictionary() ?? [], result);
+    }
+
     public static async Task<(T typedResult, CallToolResult? notAccepted, ElicitResult? elicitResult)> TryElicit<T>(
      this McpServer mcpServer,
      T elicitRequest,

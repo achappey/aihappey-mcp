@@ -43,7 +43,7 @@ public static class AgentService
         RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
-            await requestContext.WithStructuredContent(async () =>
+            await requestContext.WithStructuredContent<object>(async () =>
             {
                 if (string.IsNullOrWhiteSpace(question))
                     throw new ArgumentException("Question is required.", nameof(question));
@@ -58,6 +58,17 @@ public static class AgentService
 
                 if (cleaned.Length == 0)
                     throw new ArgumentException("At least one option is required.", nameof(options));
+
+                if (requestContext.Server.ClientCapabilities?.Elicitation == null)
+                {
+                    return new
+                    {
+                        Action = "input-required",
+                        Message = "This client does not support elicitation, so no selection could be collected.",
+                        Question = question,
+                        Options = cleaned
+                    };
+                }
 
                 const string fieldName = "selection";
 
@@ -86,7 +97,11 @@ public static class AgentService
                 };
 
                 // Returns ElicitResult; wrapper will serialize it as structured tool output.
-                return await requestContext.Server.ElicitAsync(elicitRequest, cancellationToken: cancellationToken);
+                var (_, elicitResult) = await requestContext.Server.TryElicitForm(
+                    elicitRequest,
+                    cancellationToken: cancellationToken);
+
+                return elicitResult;
             }));
 
     [Description("Signal that the agent task is finished. This is a lightweight tool that returns a structured completion payload.")]

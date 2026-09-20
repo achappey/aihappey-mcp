@@ -94,13 +94,11 @@ public static partial class GraphWorkbooks
             throw new Exception($"defaultValues missing. Please provide some default values. Column names: {string.Join(",", columns ?? [])}");
         }
 
-        IDictionary<string, object?> valuesDict = defaultValues
+        var fallbackValues = defaultValues
             .ToDictionary(pair => pair.Key, pair => (object?)pair.Value, StringComparer.OrdinalIgnoreCase);
 
-        if (requestContext.Server.ClientCapabilities?.Elicitation != null)
-        {
-            // 2. Vraag de gebruiker om input per kolom (elicit)
-            var elicited = await requestContext.Server.ElicitAsync(new ElicitRequestParams()
+        var (values, _) = await requestContext.Server.TryElicitForm(
+            new ElicitRequestParams
             {
                 Message = "Please fill in the values of the Excel table",
                 RequestedSchema = new ElicitRequestParams.RequestSchema()
@@ -114,16 +112,9 @@ public static partial class GraphWorkbooks
                             }
                         ) ?? [],
                 }
+            }, fallbackValues, cancellationToken);
 
-            }, cancellationToken);
-
-            if (elicited.Action != "accept")
-            {
-                throw new Exception(elicited.Action);
-            }
-
-            valuesDict = ExtractValues(elicited.Content);
-        }
+        IDictionary<string, object?> valuesDict = ExtractValues(values);
 
         var valuesNode = BuildValuesNode(columns!, valuesDict);
 

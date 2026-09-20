@@ -23,6 +23,8 @@ public static class DataversePlugin
           [Description("Name of the dynamics host (e.g. companyName.crm4.dynamics.com)")] string dynamicsHost,
           [Description("Name of the table containing the entity")] string tableLogicalName,
           [Description("GUID of the entity to update")] string entityId,
+          [Description("Values to update. Required when the client does not support elicitation. Format: key is the Dataverse logical field name, value is the new value.")]
+          Dictionary<string, object?>? replacements = null,
           CancellationToken cancellationToken = default)
             => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
@@ -62,8 +64,14 @@ public static class DataversePlugin
             var properties = await attributes
                 .MapMetadataToElicit(dynamicsHost, httpClient, tableLogicalName, cancellationToken);
 
-            var availableItems = attributes.Where(z => currentRecord.TryGetProperty(z.LogicalName, out var jsonElement)).Select(z => z.LogicalName);
-            var promptResult = await requestContext.Server.ElicitAsync(new ElicitRequestParams
+            var fallbackValues = replacements ?? [];
+            if (requestContext.Server.ClientCapabilities?.Elicitation == null && fallbackValues.Count == 0)
+            {
+                return "This client does not support elicitation. Provide at least one value in replacements."
+                    .ToTextCallToolResponse();
+            }
+
+            var (answers, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams
             {
                 Message = $"Update values for the {tableLogicalName} item (ID {entityId}). Fields left blank will remain unchanged.",
                 RequestedSchema = new ElicitRequestParams.RequestSchema
@@ -73,9 +81,7 @@ public static class DataversePlugin
                             .Where(a => a.RequiredLevel.Value == "ApplicationRequired")
                             .Select(a => a.LogicalName ?? a.SchemaName)]
                 }
-            }, cancellationToken);
-
-            var answers = promptResult.Content ?? new Dictionary<string, JsonElement>();
+            }, fallbackValues, cancellationToken);
 
             // --- Build payload only with changed fields ------------------------------------------------
             var payload = await answers.MapElicitToPayload(metadata.Attributes, httpClient, dynamicsHost, tableLogicalName, cancellationToken);
@@ -200,7 +206,17 @@ public static class DataversePlugin
             return "Error".ToErrorCallToolResponse();
         }
 
-        var result = await requestContext.Server.ElicitAsync(new ElicitRequestParams()
+        var fallbackValues = replacements?
+            .ToDictionary(item => item.Key, item => (object?)item.Value)
+            ?? [];
+
+        if (requestContext.Server.ClientCapabilities?.Elicitation == null && fallbackValues.Count == 0)
+        {
+            return "This client does not support elicitation. Provide the entity values in replacements."
+                .ToTextCallToolResponse();
+        }
+
+        var (answers, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams()
         {
             Message = $"Please fill in the details for the {tableLogicalName} item",
             RequestedSchema = new ElicitRequestParams.RequestSchema()
@@ -213,9 +229,7 @@ public static class DataversePlugin
                         .Where(a => a.RequiredLevel.Value == "ApplicationRequired")
                         .Select(a => a.LogicalName ?? a.SchemaName)]
             },
-        }, cancellationToken);
-
-        var answers = result.Content ?? new Dictionary<string, JsonElement>();
+        }, fallbackValues, cancellationToken);
         var payload = await answers.MapElicitToPayload(metadata.Attributes, httpClient, dynamicsHost, tableLogicalName, cancellationToken: cancellationToken);
         var createUri = $"https://{dynamicsHost}{DataversePluginExtensions.API_URL}{metadata.EntitySetName}";
 

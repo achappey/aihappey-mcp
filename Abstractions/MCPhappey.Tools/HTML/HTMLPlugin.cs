@@ -67,24 +67,38 @@ public static partial class HTMLPlugin
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
-        var arguments = await GetArguments(sourceUrl, client, cancellationToken);
-        var values = await requestContext.Server.ElicitAsync(
+        var arguments = (await GetArguments(sourceUrl, client, cancellationToken))?.ToArray() ?? [];
+        var fallbackValues = replacements?
+            .ToDictionary(item => item.Key, item => (object?)item.Value)
+            ?? [];
+        var missingArguments = arguments
+            .Where(argument => !fallbackValues.TryGetValue(argument, out var value)
+                || string.IsNullOrWhiteSpace(value?.ToString()))
+            .ToArray();
+
+        if (requestContext.Server.ClientCapabilities?.Elicitation == null && missingArguments.Length > 0)
+        {
+            return $"This client does not support elicitation. Provide replacement values for: {string.Join(", ", missingArguments)}."
+                .ToTextCallToolResponse();
+        }
+
+        var (values, _) = await requestContext.Server.TryElicitForm(
             new ElicitRequestParams
             {
                 Message = "Please fill in the values of the HTML template",
                 RequestedSchema = new ElicitRequestParams.RequestSchema
                 {
-                    Properties = arguments?.ToDictionary(
+                    Properties = arguments.ToDictionary(
                         a => a,
                         a => (ElicitRequestParams.PrimitiveSchemaDefinition)new ElicitRequestParams.StringSchema
                         {
                             Title = a,
                             Default = replacements?.ContainsKey(a) == true ? replacements[a] : null
                         }
-                    ) ?? [],
-                    Required = arguments?.ToList()
+                    ),
+                    Required = arguments.ToList()
                 }
-            }, cancellationToken);
+            }, fallbackValues, cancellationToken);
 
         var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
               new HtmlNewFile { Name = newFilename },
@@ -102,7 +116,7 @@ public static partial class HTMLPlugin
             html = await reader.ReadToEndAsync(cancellationToken);
 
         // 2. Replace all {argument} tags
-        foreach (var pair in values?.Content?.ToList() ?? [])
+        foreach (var pair in values)
             html = html.Replace($"{{{pair.Key}}}", pair.Value.ToString() ?? string.Empty);
 
         var graphItem = await requestContext.Server.Upload(serviceProvider,

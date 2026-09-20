@@ -93,16 +93,11 @@ public static class GraphListItems
         }
     }
 
-    var elicitResult = await requestContext.Server.ElicitAsync(new ElicitRequestParams()
+    var (values, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams()
     {
         RequestedSchema = request,
         Message = list?.DisplayName ?? list?.Name ?? "Update SharePoint list item"
-    }, cancellationToken: cancellationToken);
-
-    var values = elicitResult?.Content;
-
-    if (values is null)
-        throw new Exception("No values returned.");
+    }, defaultValuesByName, cancellationToken);
 
     var defsByName = (columns?.Value ?? [])
         .Where(c => !string.IsNullOrWhiteSpace(c.Name))
@@ -268,7 +263,7 @@ public static class GraphListItems
           CancellationToken cancellationToken = default) =>
             await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async client =>
-            await requestContext.WithStructuredContent(async () =>
+            await requestContext.WithStructuredContent<object>(async () =>
     {
 
         var list = await client
@@ -314,13 +309,23 @@ public static class GraphListItems
             }
         }
 
-        var elicitResult = await requestContext.Server.ElicitAsync(new ElicitRequestParams()
+        var missingRequiredValues = request.Required
+            .Where(name => !defaultValuesByName.TryGetValue(name, out var value) || value is null)
+            .ToArray();
+
+        if (requestContext.Server.ClientCapabilities?.Elicitation == null && missingRequiredValues.Length > 0)
+        {
+            return new
+            {
+                Message = $"This client does not support elicitation. Provide values for required fields: {string.Join(", ", missingRequiredValues)}."
+            };
+        }
+
+        var (values, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams()
         {
             RequestedSchema = request,
             Message = list?.DisplayName ?? list?.Name ?? "New SharePoint list item"
-        }, cancellationToken: cancellationToken);
-
-        var values = elicitResult?.Content;
+        }, defaultValuesByName, cancellationToken);
 
         var defsByName = (columns?.Value ?? [])
             .Where(c => !string.IsNullOrWhiteSpace(c.Name))
@@ -330,7 +335,7 @@ public static class GraphListItems
 
         foreach (var prop in request.Properties.Keys)
         {
-            if (!values!.TryGetValue(prop, out var raw)) continue;
+            if (!values.TryGetValue(prop, out var raw)) continue;
 
             object? val = raw;
 

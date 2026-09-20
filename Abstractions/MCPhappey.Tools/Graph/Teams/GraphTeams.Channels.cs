@@ -163,12 +163,6 @@ public static partial class GraphTeams
             mentionInfo.Add((userId, user?.DisplayName ?? userId));
         }
 
-        var mentionList = string.Join("\n", mentionInfo.Select(x => $"- {x.DisplayName}"));
-        var elicit = await requestContext.Server.ElicitAsync(new ElicitRequestParams()
-        {
-            Message = mentionList
-        }, cancellationToken: cancellationToken);
-
         // Resolve display names for user IDs (helper function, see below)
         var mentions = new List<ChatMessageMention>();
         var mentionTags = new List<string>();
