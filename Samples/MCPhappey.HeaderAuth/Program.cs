@@ -99,7 +99,6 @@ using MCPhappey.Tools.Olostep;
 using MCPhappey.Tools.LLMLayer;
 using MCPhappey.Tools.Smooth;
 using MCPhappey.Tools.WebsearchAPI;
-using MCPhappey.Tools.AIsa;
 using MCPhappey.Tools.NimbleWay;
 using MCPhappey.Tools.Qomplement;
 using MCPhappey.Tools.Tensorlake;
@@ -186,7 +185,6 @@ builder.Services
 .AddImagga(appConfig?.DomainHeaders)
 .AddSupadata(appConfig?.DomainHeaders)
 .AddAzuce(appConfig?.DomainHeaders)
-.AddAIsa(appConfig?.DomainHeaders)
 .AddRunway(appConfig?.DomainHeaders)
 .AddReplicate(appConfig?.DomainHeaders)
 .AddPinecone(appConfig?.DomainHeaders)
