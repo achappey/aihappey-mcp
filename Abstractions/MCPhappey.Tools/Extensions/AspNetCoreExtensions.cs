@@ -2,7 +2,6 @@ using MCPhappey.Common;
 using MCPhappey.Tools.GitHub.RestCountries;
 using MCPhappey.Tools.Graph;
 using MCPhappey.Tools.OpenAI;
-using MCPhappey.Tools.OpenAI.AgentsApi;
 using MCPhappey.Tools.OpenAI.Containers;
 using MCPhappey.Tools.OpenAI.Files;
 using MCPhappey.Tools.OpenAI.VectorStores;
