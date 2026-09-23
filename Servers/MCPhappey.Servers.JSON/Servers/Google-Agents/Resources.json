@@ -1,0 +1,12 @@
+{
+  "resources": [
+    {
+      "uri": "https://generativelanguage.googleapis.com/v1beta/agents",
+      "name": "google-agents-list",
+      "title": "List Google agents",
+      "description": "List Gemini Agents for the configured Google API key.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

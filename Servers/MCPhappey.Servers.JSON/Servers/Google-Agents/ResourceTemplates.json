@@ -1,0 +1,20 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://generativelanguage.googleapis.com/v1beta/agents?page_size={page_size}&page_token={page_token}&parent={parent}",
+      "name": "google-agents-list-paged",
+      "title": "List Google agents with pagination",
+      "description": "List Gemini Agents with page size, page token, and optional parent.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://generativelanguage.googleapis.com/v1beta/agents/{agent_id}",
+      "name": "google-agent-detail",
+      "title": "Get Google agent",
+      "description": "Retrieve a Gemini Agent by ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

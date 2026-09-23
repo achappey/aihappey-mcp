@@ -12,6 +12,7 @@ using MCPhappey.Tools.Anthropic.Vaults;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using MCPhappey.Tools.Google.Interactions;
+using MCPhappey.Tools.Google.Agents;
 using System.Net.Http.Headers;
 
 namespace MCPhappey.Simplicate.Extensions;
@@ -27,7 +28,6 @@ public static class AspNetCoreExtensions
         builder.Services.AddSingleton<IContentScraper, VectorStoreScraper>();
         builder.Services.AddSingleton<IContentScraper, OpenAIFilesScraper>();
         builder.Services.AddSingleton<IContentScraper, ContainerScraper>();
-        builder.Services.AddSingleton<IContentScraper, OpenAIAgentsApiScraper>();
         builder.Services.AddSingleton<IContentScraper, AnthropicMemoryStoresScraper>();
         builder.Services.AddSingleton<IContentScraper, AnthropicSessionsScraper>();
         builder.Services.AddSingleton<IContentScraper, AnthropicVaultsScraper>();
@@ -41,6 +41,12 @@ public static class AspNetCoreExtensions
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
         builder.Services.AddHttpClient<GoogleInteractionsClient>(client =>
+        {
+            client.BaseAddress = new Uri("https://generativelanguage.googleapis.com/");
+            client.DefaultRequestHeaders.Add("x-goog-api-key", apiKey.Trim());
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        });
+        builder.Services.AddHttpClient<GoogleAgentsClient>(client =>
         {
             client.BaseAddress = new Uri("https://generativelanguage.googleapis.com/");
             client.DefaultRequestHeaders.Add("x-goog-api-key", apiKey.Trim());

@@ -1,0 +1,16 @@
+{
+  "serverInfo": {
+    "name": "Google-AgentEditor",
+    "title": "Google Agent Editor",
+    "version": "1.0.0",
+    "websiteUrl": "https://ai.google.dev/api/agents",
+    "description": "Author, validate, and deploy complex Gemini Agent JSON drafts stored in the user's OneDrive."
+  },
+  "instructions": "Maintain one validated agent.json document per draft under /google-agents/{draftName}/agent.json in the user's default OneDrive. Use focused scalar, source, environment, network, function, search, and MCP-server tools rather than raw JSON parameters. Inspect before deployment. Deployment posts the validated draft to Google but leaves the OneDrive draft unchanged.",
+  "plugins": [
+    "MCPhappey.Tools.Google.AgentEditor.GoogleAgentEditor, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

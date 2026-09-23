@@ -31,10 +31,17 @@ internal static class OneDriveAgentPluginStorage
         this GraphServiceClient graph,
         string driveId,
         CancellationToken cancellationToken)
+        => await graph.ListFoldersAsync(driveId, RootFolderName, cancellationToken);
+
+    internal static async Task<IReadOnlyList<DriveItem>> ListFoldersAsync(
+        this GraphServiceClient graph,
+        string driveId,
+        string rootFolderName,
+        CancellationToken cancellationToken)
     {
-        await graph.EnsurePluginFolderAsync(driveId, RootFolderName, cancellationToken);
-        var root = await graph.Drives[driveId].Root.ItemWithPath(RootFolderName).GetAsync(cancellationToken: cancellationToken)
-            ?? throw new InvalidOperationException("Could not resolve /plugins in OneDrive.");
+        await graph.EnsurePluginFolderAsync(driveId, rootFolderName, cancellationToken);
+        var root = await graph.Drives[driveId].Root.ItemWithPath(rootFolderName).GetAsync(cancellationToken: cancellationToken)
+            ?? throw new InvalidOperationException($"Could not resolve /{rootFolderName} in OneDrive.");
         return (await ListChildrenPagedAsync(graph, driveId, root.Id!, cancellationToken))
             .Where(item => item.Folder is not null && !string.IsNullOrWhiteSpace(item.Name))
             .OrderBy(item => item.Name, StringComparer.OrdinalIgnoreCase)

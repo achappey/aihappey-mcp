@@ -1,0 +1,21 @@
+{
+  "serverInfo": {
+    "name": "Google-Agents",
+    "title": "Google Agents",
+    "version": "1.0.0",
+    "websiteUrl": "https://ai.google.dev/api/agents",
+    "description": "Create and delete Gemini Agents with simple primitive tools. GET discovery is exposed through MCP resources; use Google Agent Editor for complex environment and tool lists.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png"
+      }
+    ]
+  },
+  "instructions": "Use primitive create variants for straightforward Google Agents. Use the optional file-based create only for complete payloads stored in SharePoint or OneDrive. Use Google-AgentEditor to assemble complex source, network, environment-variable, function, and MCP-server lists. The beta Google API documented here has no update endpoint.",
+  "plugins": [
+    "MCPhappey.Tools.Google.Agents.GoogleAgents, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All"
+  }
+}
