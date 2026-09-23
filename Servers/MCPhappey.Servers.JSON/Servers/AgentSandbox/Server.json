@@ -1,0 +1,23 @@
+{
+  "serverInfo": {
+    "name": "AgentSandbox",
+    "title": "Agent Sandbox",
+    "version": "1.0.0",
+    "websiteUrl": "https://agentsandbox.co",
+    "description": "Execute Python or Bash in isolated one-shot or persistent sandboxes, manage sessions, and upload, inject, download, or delete files. Read operations are exposed as MCP resources; mutations are exposed as tools.",
+    "icons": [
+      {
+        "src": "https://agentsandbox.co/favicon.ico"
+      }
+    ]
+  },
+  "instructions": "Use agentsandbox_execute for one-shot execution or provide a session ID for a persistent workspace. Upload accepts HTTPS, SharePoint, and OneDrive file URLs. Use resources to list sessions and files or retrieve execution, session, and file content. Session and file deletion require explicit typed confirmation.",
+  "plugins": [
+    "MCPhappey.Tools.AgentSandbox.AgentSandboxExecution, MCPhappey.Tools",
+    "MCPhappey.Tools.AgentSandbox.AgentSandboxSessions, MCPhappey.Tools",
+    "MCPhappey.Tools.AgentSandbox.AgentSandboxFiles, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  }
+}

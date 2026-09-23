@@ -117,6 +117,7 @@ using MCPhappey.Tools.SyntheticSearch;
 using MCPhappey.Tools.Loreto;
 using MCPhappey.Tools.AgentMail;
 using MCPhappey.Tools.WebCrawlerAPI;
+using MCPhappey.Tools.AgentSandbox;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -204,6 +205,7 @@ builder.Services
 .AddAIML(appConfig?.DomainHeaders)
 .AddMiniMax(appConfig?.DomainHeaders)
 .AddSPAMhunter(appConfig?.DomainHeaders)
+   .AddAgentSandbox(appConfig?.DomainHeaders)
    .AddRelaxAI(appConfig?.DomainHeaders)
    .AddNebius(appConfig?.DomainHeaders)
    .AddLumaAI(appConfig?.DomainHeaders)

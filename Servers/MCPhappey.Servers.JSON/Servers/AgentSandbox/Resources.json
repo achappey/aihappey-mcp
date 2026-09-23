@@ -1,0 +1,20 @@
+{
+  "resources": [
+    {
+      "uri": "https://api.agentsandbox.co/v1/sessions",
+      "name": "agentsandbox-sessions-list",
+      "title": "List active AgentSandbox sessions",
+      "description": "List all active persistent sandbox sessions owned by the configured AgentSandbox account.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uri": "https://api.agentsandbox.co/v1/files",
+      "name": "agentsandbox-files-list",
+      "title": "List AgentSandbox files",
+      "description": "List the first page of files owned by the configured AgentSandbox account using the API defaults.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

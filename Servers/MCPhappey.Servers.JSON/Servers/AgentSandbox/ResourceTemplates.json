@@ -1,0 +1,36 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://api.agentsandbox.co/v1/executions/{execution_id}",
+      "name": "agentsandbox-execution-detail",
+      "title": "Get AgentSandbox execution log",
+      "description": "Retrieve a detailed execution log, including the submitted code, output, return code, timing, and generated-file count.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://api.agentsandbox.co/v1/sessions/{session_id}",
+      "name": "agentsandbox-session-detail",
+      "title": "Get AgentSandbox session",
+      "description": "Retrieve information about a persistent AgentSandbox session.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://api.agentsandbox.co/v1/files?limit={limit}&offset={offset}",
+      "name": "agentsandbox-files-list-paged",
+      "title": "List AgentSandbox files with pagination",
+      "description": "List owned AgentSandbox files using a limit from 1 through 100 and a zero-based offset.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://api.agentsandbox.co/v1/files/{file_id}",
+      "name": "agentsandbox-file-download",
+      "title": "Download AgentSandbox file",
+      "description": "Download the raw bytes of an owned AgentSandbox file using its file ID.",
+      "mimeType": "application/octet-stream",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}
