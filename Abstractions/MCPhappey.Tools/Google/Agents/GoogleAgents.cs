@@ -20,7 +20,7 @@ public static class GoogleAgents
         public string Name { get; set; } = string.Empty;
     }
 
-    [Description("Create a basic Google Agent from primitive fields. Use Google Agent Editor for complex environments and tool lists.")]
+    [Description("Create a managed Google Agent. Supply a unique ID; baseAgent defaults to antigravity-preview-09-2026. Omit model for Google's default (gemini-3.8-flash). For web search set googleWebSearch=true. Use Google Agent Editor for complex environments and tool lists.")]
     [McpServerTool(Title = "Create Google Agent", Name = "google_agents_create", ReadOnly = false, OpenWorld = false, Destructive = false)]
     public static async Task<CallToolResult?> Create(
         IServiceProvider services,
@@ -161,11 +161,10 @@ public static class GoogleAgents
         long? maxTotalTokens)
     {
         if (maxTotalTokens < 1) throw new ValidationException("maxTotalTokens must be positive.");
-        var body = new JsonObject();
+        var body = new JsonObject { ["base_agent"] = baseAgent ?? GoogleAgentDocument.SupportedBaseAgent };
         Add(body, "id", id);
         Add(body, "description", description);
         Add(body, "system_instruction", systemInstruction);
-        Add(body, "base_agent", baseAgent);
         if (model is not null || maxTotalTokens is not null)
         {
             var config = new JsonObject { ["type"] = "antigravity" };

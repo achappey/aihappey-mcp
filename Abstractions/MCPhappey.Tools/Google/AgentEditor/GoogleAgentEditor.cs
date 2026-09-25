@@ -36,7 +36,7 @@ public static partial class GoogleAgentEditor
             return new { root = $"/{RootFolder}", drafts = folders.Select(item => new { name = item.Name, webUrl = item.WebUrl }) };
         })));
 
-    [Description("Create a minimal, valid Google Agent JSON draft from primitive scalar fields.")]
+    [Description("Create a managed Google Agent draft. The draft name becomes the agent ID unless id is supplied; baseAgent defaults to antigravity-preview-09-2026. Omit model to use Google's default.")]
     [McpServerTool(Title = "Create Google Agent Draft", Name = "google_agent_editor_create", ReadOnly = false, Idempotent = false, OpenWorld = false, Destructive = false)]
     public static async Task<CallToolResult?> Create(
         string draftName,
@@ -59,10 +59,10 @@ public static partial class GoogleAgentEditor
             if (await graph.GetItemByPathOrNullAsync(drive.Id!, DraftRoot(name), cancellationToken) is not null)
                 throw new ValidationException($"Google Agent draft '{name}' already exists.");
             var document = new JsonObject();
-            GoogleAgents.Add(document, "id", id);
+            document["id"] = id ?? name;
             GoogleAgents.Add(document, "description", description);
             GoogleAgents.Add(document, "system_instruction", systemInstruction);
-            GoogleAgents.Add(document, "base_agent", baseAgent);
+            document["base_agent"] = baseAgent ?? GoogleAgentDocument.SupportedBaseAgent;
             if (model is not null || maxTotalTokens is not null)
             {
                 var config = new JsonObject { ["type"] = "antigravity" };
@@ -87,8 +87,9 @@ public static partial class GoogleAgentEditor
             var drive = await graph.GetDefaultDriveAsync(cancellationToken)
                 ?? throw new InvalidOperationException("Could not resolve default OneDrive.");
             var document = await ReadRequiredAsync(graph, drive.Id!, draftName, cancellationToken);
-            var diagnostics = GoogleAgentDocument.Validate(document);
-            return new { draftName = RequireDraftName(draftName), valid = diagnostics.Count == 0, diagnostics, document };
+            var effectiveDocument = GoogleAgentDocument.ForDeployment(document, RequireDraftName(draftName));
+            var diagnostics = GoogleAgentDocument.Validate(effectiveDocument);
+            return new { draftName = RequireDraftName(draftName), valid = diagnostics.Count == 0, diagnostics, document, effectiveDocument };
         })));
 
     [Description("Read the raw, formatted agent.json file for a Google Agent draft.")]
@@ -154,7 +155,8 @@ public static partial class GoogleAgentEditor
             var drive = await graph.GetDefaultDriveAsync(cancellationToken)
                 ?? throw new InvalidOperationException("Could not resolve default OneDrive.");
             var document = await ReadRequiredAsync(graph, drive.Id!, draftName, cancellationToken);
-            return await GoogleAgents.CreateValidatedAsync(services, document, cancellationToken);
+            return await GoogleAgents.CreateValidatedAsync(services,
+                GoogleAgentDocument.ForDeployment(document, RequireDraftName(draftName)), cancellationToken);
         })));
 
     [Description("Delete a Google Agent draft from OneDrive after explicit typed confirmation. This does not delete a deployed Google Agent.")]

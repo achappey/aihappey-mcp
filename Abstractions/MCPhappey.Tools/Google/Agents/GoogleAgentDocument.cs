@@ -6,8 +6,21 @@ namespace MCPhappey.Tools.Google.Agents;
 
 internal static class GoogleAgentDocument
 {
+    internal const string SupportedBaseAgent = "antigravity-preview-09-2026";
+    private static readonly HashSet<string> SupportedModels =
+        ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite"];
+    private static readonly string[] ReservedPrefixes =
+        ["antigravity-", "veo-", "omni-", "lyria-", "imagen-", "gemma-", "gemini-", "google-", "youtube-", "android-", "chrome-", "pixel-", "waze-", "fitbit-", "nest-", "kaggle-"];
     private static readonly HashSet<string> AgentFields =
         ["id", "description", "system_instruction", "base_agent", "base_environment", "agent_config", "tools"];
+
+    internal static JsonObject ForDeployment(JsonObject draft, string draftName)
+    {
+        var document = (JsonObject)draft.DeepClone();
+        if (document["id"] is null) document["id"] = draftName;
+        if (document["base_agent"] is null) document["base_agent"] = SupportedBaseAgent;
+        return document;
+    }
 
     internal static JsonObject Parse(string json, string source)
     {
@@ -29,10 +42,13 @@ internal static class GoogleAgentDocument
             if (!AgentFields.Contains(property.Key))
                 errors.Add($"Unknown agent field '{property.Key}'.");
 
-        ValidateOptionalString(document, "id", errors);
+        ValidateRequiredString(document, "id", errors, "Agent");
+        if (ReadString(document, "id") is string id && id.StartsWithAny(ReservedPrefixes))
+            errors.Add("Agent.id cannot start with a reserved Google prefix.");
         ValidateOptionalString(document, "description", errors);
         ValidateOptionalString(document, "system_instruction", errors);
-        ValidateOptionalString(document, "base_agent", errors);
+        if (ReadString(document, "base_agent") != SupportedBaseAgent)
+            errors.Add($"Agent.base_agent must be '{SupportedBaseAgent}'.");
 
         if (document["agent_config"] is JsonNode configNode)
         {
@@ -42,6 +58,8 @@ internal static class GoogleAgentDocument
             {
                 ValidateDiscriminator(config, "type", "antigravity", "agent_config", errors);
                 ValidateOptionalString(config, "model", errors, "agent_config.");
+                if (ReadString(config, "model") is string model && !SupportedModels.Contains(model))
+                    errors.Add($"agent_config.model '{model}' is not supported for managed agents. Omit it to use Google's default or choose: {string.Join(", ", SupportedModels.Order())}.");
                 ValidateOptionalIntegerString(config, "max_total_tokens", errors);
             }
         }
@@ -251,4 +269,7 @@ internal static class GoogleAgentDocument
 
     private static string? ReadString(JsonObject value, string field)
         => value[field] is JsonValue node && node.TryGetValue<string>(out var text) ? text : null;
+
+    private static bool StartsWithAny(this string value, IEnumerable<string> prefixes)
+        => prefixes.Any(prefix => value.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 }

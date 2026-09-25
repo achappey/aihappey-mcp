@@ -7,11 +7,11 @@
     "description": "Create and delete Gemini Agents with simple primitive tools. GET discovery is exposed through MCP resources; use Google Agent Editor for complex environment and tool lists.",
     "icons": [
       {
-        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/gemini-color.png"
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Google-gemini-icon.svg/250px-Google-gemini-icon.svg.png"
       }
     ]
   },
-  "instructions": "Use primitive create variants for straightforward Google Agents. Use the optional file-based create only for complete payloads stored in SharePoint or OneDrive. Use Google-AgentEditor to assemble complex source, network, environment-variable, function, and MCP-server lists. The beta Google API documented here has no update endpoint.",
+  "instructions": "To create a minimal web-search managed agent, use google_agents_create with a unique id, googleWebSearch=true, and optional systemInstruction. baseAgent defaults to antigravity-preview-09-2026; omit model to use Google's default managed-agent model. gemini-2.5-flash is not supported for managed agents. Use the optional file-based create only for complete payloads stored in SharePoint or OneDrive. Use Google-AgentEditor to assemble complex source, network, environment-variable, function, and MCP-server lists. Local validation does not guarantee Google API acceptance. The beta Google API documented here has no update endpoint.",
   "plugins": [
     "MCPhappey.Tools.Google.Agents.GoogleAgents, MCPhappey.Tools"
   ],

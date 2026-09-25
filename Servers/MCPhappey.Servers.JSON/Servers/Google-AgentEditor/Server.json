@@ -4,9 +4,14 @@
     "title": "Google Agent Editor",
     "version": "1.0.0",
     "websiteUrl": "https://ai.google.dev/api/agents",
-    "description": "Author, validate, and deploy complex Gemini Agent JSON drafts stored in the user's OneDrive."
+    "description": "Author, validate, and deploy complex Gemini Agent JSON drafts stored in the user's OneDrive.",
+    "icons": [
+      {
+        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Google-gemini-icon.svg/250px-Google-gemini-icon.svg.png"
+      }
+    ]
   },
-  "instructions": "Maintain one validated agent.json document per draft under /google-agents/{draftName}/agent.json in the user's default OneDrive. Use focused scalar, source, environment, network, function, search, and MCP-server tools rather than raw JSON parameters. Inspect before deployment. Deployment posts the validated draft to Google but leaves the OneDrive draft unchanged.",
+  "instructions": "Maintain one validated agent.json document per draft under /google-agents/{draftName}/agent.json in the user's default OneDrive. A new draft defaults id to draftName and base_agent to antigravity-preview-09-2026; existing drafts missing these values receive the same defaults in the deployment request without changing the stored draft. For a minimal web-search agent, create a uniquely named draft, enable google_search with web_search, inspect, then deploy. Omit model to use Google's default managed-agent model; gemini-2.5-flash is not supported. Inspect validates the effective deployment payload locally, not Google API acceptance. Use focused scalar, source, environment, network, function, search, and MCP-server tools rather than raw JSON parameters.",
   "plugins": [
     "MCPhappey.Tools.Google.AgentEditor.GoogleAgentEditor, MCPhappey.Tools"
   ],
