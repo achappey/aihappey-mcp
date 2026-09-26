@@ -73,7 +73,7 @@ public static class OpenAIDocumentEngine
 
         var firstResponse = await responses.CreateTextResponseAsync(new OpenAIResponsesRequest
         {
-            Model = "gpt-5.1",
+            Model = "gpt-6-sol",
             Input = string.Join("\n\n", new[] { file?.Contents.ToString(), prompt }
                 .Where(value => !string.IsNullOrWhiteSpace(value))),
             Reasoning = new OpenAIReasoningOptions { Effort = "low" },
@@ -101,7 +101,7 @@ public static class OpenAIDocumentEngine
                 requestContext.Server,
                 "convert-to-structure",
                 finalArgs,
-                "gpt-5.1",
+                "gpt-6-luna",
                 "low",
                 cancellationToken: cancellationToken);
 

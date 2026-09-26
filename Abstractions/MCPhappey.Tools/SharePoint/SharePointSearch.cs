@@ -130,7 +130,7 @@ public static class SharePointSearch
             mcpServer,
             "extract-with-facts",
             args,
-            "gpt-5.6-luna",
+            "gpt-6-luna",
             "medium",
             cancellationToken: cancellationToken);
 
