@@ -22,6 +22,7 @@ public class AttributeMetadata
     public string AttributeType { get; set; } = default!;
     public RequiredLevel RequiredLevel { get; set; } = default!;
     public bool IsValidForCreate { get; set; }
+    public bool IsValidForUpdate { get; set; }
     public bool IsPrimaryId { get; set; }
     public bool IsLogical { get; set; }
 

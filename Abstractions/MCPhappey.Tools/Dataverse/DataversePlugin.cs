@@ -58,18 +58,19 @@ public static class DataversePlugin
             var currentRecord = await retrieveRes.Content.ReadFromJsonAsync<JsonElement>(cancellationToken);
 
             // --- Build Elicit form with current values pre‑filled --------------------------------------
-            var attributes = metadata.Attributes
-                .GetSupportedAttributes();
+            var attributes = metadata.Attributes.GetSupportedAttributes(forCreate: false).ToArray();
 
-            var properties = await attributes
-                .MapMetadataToElicit(dynamicsHost, httpClient, tableLogicalName, cancellationToken);
-
-            var fallbackValues = replacements ?? [];
+            var (fallbackValues, lookupTargets) = await (replacements ?? [])
+                .NormalizeReplacementsAsync(attributes, httpClient, dynamicsHost, tableLogicalName, cancellationToken);
             if (requestContext.Server.ClientCapabilities?.Elicitation == null && fallbackValues.Count == 0)
             {
                 return "This client does not support elicitation. Provide at least one value in replacements."
                     .ToTextCallToolResponse();
             }
+
+            var properties = requestContext.Server.ClientCapabilities?.Elicitation != null
+                ? await attributes.MapMetadataToElicit(dynamicsHost, httpClient, tableLogicalName, cancellationToken, fallbackValues)
+                : [];
 
             var (answers, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams
             {
@@ -77,14 +78,12 @@ public static class DataversePlugin
                 RequestedSchema = new ElicitRequestParams.RequestSchema
                 {
                     Properties = properties,
-                    Required = [.. attributes
-                            .Where(a => a.RequiredLevel.Value == "ApplicationRequired")
-                            .Select(a => a.LogicalName ?? a.SchemaName)]
+                    Required = []
                 }
             }, fallbackValues, cancellationToken);
 
             // --- Build payload only with changed fields ------------------------------------------------
-            var payload = await answers.MapElicitToPayload(metadata.Attributes, httpClient, dynamicsHost, tableLogicalName, cancellationToken);
+            var payload = await answers.MapElicitToPayload(attributes, httpClient, dynamicsHost, tableLogicalName, cancellationToken, lookupTargets);
             if (payload.Count == 0)
             {
                 return "No changes detected; entity not updated.".ToErrorCallToolResponse();
@@ -176,7 +175,7 @@ public static class DataversePlugin
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Name of the dynamics host (eg companyName.crm4.dynamics.com)")] string dynamicsHost,
         [Description("Name of the table to create the entity in")] string tableLogicalName,
-        [Description("Default values for the entity. Format: key is argument name (without braces), value is default value.")] Dictionary<string, string>? replacements = null,
+        [Description("Default values for the entity. Use logical attribute names and GUIDs for lookups, or navigation-property@odata.bind with a /entitySet(GUID) value. Null explicitly clears a nullable field; blank values are omitted.")] Dictionary<string, object?>? replacements = null,
         CancellationToken cancellationToken = default)
           => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
@@ -193,22 +192,15 @@ public static class DataversePlugin
 
         var metadata = await httpClient.GetEntityMetadataAsync(dynamicsHost, tableLogicalName, cancellationToken);
 
-        Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition> properties =
-            metadata.Attributes
-                .ToDictionary(a => a.LogicalName, a => (ElicitRequestParams.PrimitiveSchemaDefinition)
-                new ElicitRequestParams.StringSchema()
-                {
-                    Title = a.LogicalName
-                });
-
         if (metadata.Attributes == null)
         {
-            return "Error".ToErrorCallToolResponse();
+            return "Unable to load table attributes".ToErrorCallToolResponse();
         }
 
-        var fallbackValues = replacements?
-            .ToDictionary(item => item.Key, item => (object?)item.Value)
-            ?? [];
+        var attributes = metadata.Attributes.GetSupportedAttributes().ToArray();
+
+        var (fallbackValues, lookupTargets) = await (replacements ?? [])
+            .NormalizeReplacementsAsync(attributes, httpClient, dynamicsHost, tableLogicalName, cancellationToken);
 
         if (requestContext.Server.ClientCapabilities?.Elicitation == null && fallbackValues.Count == 0)
         {
@@ -216,27 +208,25 @@ public static class DataversePlugin
                 .ToTextCallToolResponse();
         }
 
+        var properties = requestContext.Server.ClientCapabilities?.Elicitation != null
+            ? await attributes.MapMetadataToElicit(dynamicsHost, httpClient, tableLogicalName, cancellationToken, fallbackValues)
+            : [];
+
         var (answers, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams()
         {
             Message = $"Please fill in the details for the {tableLogicalName} item",
             RequestedSchema = new ElicitRequestParams.RequestSchema()
             {
-                Properties = await metadata.Attributes
-                    .GetSupportedAttributes()
-                    .MapMetadataToElicit(dynamicsHost, httpClient, tableLogicalName, cancellationToken),
-                Required = [.. metadata.Attributes
-                        .GetSupportedAttributes()
-                        .Where(a => a.RequiredLevel.Value == "ApplicationRequired")
+                Properties = properties,
+                Required = [.. attributes
+                        .Where(a => a.RequiredLevel?.Value == "ApplicationRequired")
                         .Select(a => a.LogicalName ?? a.SchemaName)]
             },
         }, fallbackValues, cancellationToken);
-        var payload = await answers.MapElicitToPayload(metadata.Attributes, httpClient, dynamicsHost, tableLogicalName, cancellationToken: cancellationToken);
+        var payload = await answers.MapElicitToPayload(attributes, httpClient, dynamicsHost, tableLogicalName, cancellationToken, lookupTargets);
+        if (payload.Count == 0)
+            return "No values supplied; entity not created.".ToErrorCallToolResponse();
         var createUri = $"https://{dynamicsHost}{DataversePluginExtensions.API_URL}{metadata.EntitySetName}";
-
-        Console.WriteLine(JsonSerializer.Serialize(payload, new JsonSerializerOptions
-        {
-            WriteIndented = true
-        }));
 
         using var res = await httpClient.PostAsJsonAsync(createUri, payload, cancellationToken);
 
