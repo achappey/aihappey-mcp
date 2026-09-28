@@ -1,0 +1,18 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://api.sandbase.ai/v1/skills?page={page}&page_size={page_size}",
+            "name": "sandbase-skills-list-paged",
+            "title": "List paged SandBase Skills",
+            "description": "Page >= 1 and page_size <= 1000.",
+            "mimeType": "application/json"
+        },
+        {
+            "uriTemplate": "https://api.sandbase.ai/v1/skills/{skill_id}",
+            "name": "sandbase-skill",
+            "title": "Get SandBase Skill",
+            "description": "Read Skill and source metadata by UUID.",
+            "mimeType": "application/json"
+        }
+    ]
+}

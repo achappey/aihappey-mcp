@@ -24,6 +24,7 @@ using MCPhappey.Tools.Mem0;
 using MCPhappey.Tools.Anthropic;
 using MCPhappey.Tools.Anthropic.Skills;
 using MCPhappey.Tools.Anthropic.Messages;
+using MCPhappey.Tools.SandBase;
 using MCPhappey.Tools.OpenAI.Responses;
 using MCPhappey.Tools.OpenAI.Skills;
 using MCPhappey.Tools.ElevenLabs;
@@ -282,103 +283,6 @@ if (!string.IsNullOrWhiteSpace(appInsightsConnectionString))
 }
 
 
-if (appConfig?.DomainHeaders is { } headers)
-{
-    var match = headers.FirstOrDefault(h =>
-        h.Key.EndsWith(".cognitiveservices.azure.com", StringComparison.OrdinalIgnoreCase));
-
-    if (match.Value?.TryGetValue("Ocp-Apim-Subscription-Key", out var diApiKey) == true &&
-        !string.IsNullOrWhiteSpace(diApiKey))
-    {
-        builder.Services.AddSingleton(new AzureAISettings
-        {
-            Endpoint = match.Key,
-            ApiKey = diApiKey
-        });
-    }
-}
-
-var elevenLabsKey = appConfig?.DomainHeaders?
-    .FirstOrDefault(a => a.Key == "api.elevenlabs.io")
-    .Value
-    .FirstOrDefault(a => a.Key == "xi-api-key").Value;
-
-if (elevenLabsKey != null)
-{
-    builder.Services.AddSingleton(new ElevenLabsSettings()
-    {
-        ApiKey = elevenLabsKey
-    });
-}
-
-var mem0Key = appConfig?.DomainHeaders?
-    .FirstOrDefault(a => a.Key == "api.mem0.ai")
-    .Value
-    .FirstOrDefault(a => a.Key == "Authorization").Value.Split(" ").LastOrDefault();
-
-if (mem0Key != null)
-{
-    builder.Services.AddSingleton(new Mem0Settings()
-    {
-        ApiKey = mem0Key
-    });
-}
-
-var antApiKey = appConfig?.DomainHeaders?
-            .FirstOrDefault(a => a.Key == "api.anthropic.com")
-            .Value
-            .FirstOrDefault(a => a.Key == "x-api-key").Value;
-
-if (antApiKey != null)
-{
-    builder.Services.AddSingleton(new AnthropicSettings()
-    {
-        ApiKey = antApiKey
-    });
-    builder.Services.AddAnthropicMessages();
-}
-
-var apiKey = appConfig?.DomainHeaders?
-            .FirstOrDefault(a => a.Key == Hosts.OpenAI)
-            .Value
-            .FirstOrDefault(a => a.Key == HeaderNames.Authorization).Value.GetBearerToken();
-
-var openAiClient = !string.IsNullOrEmpty(apiKey) ?
-    new OpenAIClient(apiKey) : null;
-
-if (!string.IsNullOrEmpty(apiKey))
-{
-    builder.Services.AddSingleton(new OpenAISettings()
-    {
-        ApiKey = apiKey
-    });
-}
-
-if (
-    openAiClient != null
-    && apiKey != null)
-{
-    builder.Services.AddKernelMemoryWithOptions(memoryBuilder =>
-    {
-        memoryBuilder
-            .WithCustomWebScraper<DownloadService>()
-            .WithSimpleQueuesPipeline()
-            .WithOpenAI(new OpenAIConfig()
-            {
-                APIKey = apiKey,
-                TextModel = "gpt-5.1",
-                TextModelMaxTokenTotal = 65536,
-                EmbeddingDimensions = 3072,
-                EmbeddingModel = "text-embedding-3-large"
-            })
-            .WithDecoders(openAiClient);
-
-    }, new()
-    {
-        AllowMixingVolatileAndPersistentData = true
-    });
-}
-
 if (appConfig?.OAuth != null)
 {
     builder.Services.AddSingleton(appConfig.OAuth);
@@ -412,29 +316,7 @@ if (appConfig?.OAuth != null)
     builder.Services.WithOboScrapers(servers, appConfig.OAuth);
 }
 
-if (openAiClient != null)
-{
-    builder.Services.AddSingleton(openAiClient);
-}
-
-var googleApiKey = appConfig?.DomainQueryStrings?
-            .FirstOrDefault(a => a.Key == "generativelanguage.googleapis.com")
-            .Value
-            .FirstOrDefault(a => a.Key == "key").Value.GetBearerToken();
-
-if (googleApiKey != null)
-{
-    builder.WithGoogleAI(googleApiKey);
-}
-
 builder.Services.WithDefaultScrapers();
-
-if (appConfig?.Simplicate != null)
-{
-    builder.WithSimplicateScraper(appConfig.Simplicate, appConfig.OAuth);
-    servers.ApplySimplicateOrganization(appConfig.Simplicate.Organization);
-}
-
 builder.Services.AddMcpCoreServices(servers);
 
 var app = builder.Build();

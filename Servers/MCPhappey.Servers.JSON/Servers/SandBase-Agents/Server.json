@@ -1,0 +1,15 @@
+{
+    "serverInfo": {
+        "name": "SandBase-Agents",
+        "title": "SandBase Agents",
+        "version": "1.0.0",
+        "websiteUrl": "https://sandbase.ai",
+        "description": "Create, update, archive, and inspect versioned SandBase agents. GET operations use MCP resources."
+    },
+    "plugins": [
+        "MCPhappey.Tools.SandBase.Agents.SandBaseAgents, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

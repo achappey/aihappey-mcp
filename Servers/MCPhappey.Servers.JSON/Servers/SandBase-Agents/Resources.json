@@ -1,0 +1,5 @@
+{
+  "resources": [
+    { "uri": "https://api.sandbase.ai/v1/agents", "name": "sandbase-agents-list", "title": "List SandBase agents", "description": "List agents for the authenticated organization.", "mimeType": "application/json" }
+  ]
+}

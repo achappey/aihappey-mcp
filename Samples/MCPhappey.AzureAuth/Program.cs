@@ -24,6 +24,7 @@ using MCPhappey.Tools.Mem0;
 using MCPhappey.Tools.Anthropic;
 using MCPhappey.Tools.Anthropic.Skills;
 using MCPhappey.Tools.Anthropic.Messages;
+using MCPhappey.Tools.SandBase;
 using MCPhappey.Tools.OpenAI.Responses;
 using MCPhappey.Tools.OpenAI.Skills;
 using MCPhappey.Tools.ElevenLabs;
@@ -333,6 +334,14 @@ if (antApiKey != null)
     builder.Services.AddAnthropicMessages();
 }
 
+var sandBaseKey = appConfig?.DomainHeaders?
+    .FirstOrDefault(a => a.Key == "api.sandbase.ai").Value?
+    .FirstOrDefault(a => a.Key == HeaderNames.Authorization).Value?
+    .GetBearerToken();
+
+if (!string.IsNullOrWhiteSpace(sandBaseKey))
+    builder.Services.AddSingleton(new SandBaseSettings { ApiKey = sandBaseKey });
+    
 var apiKey = appConfig?.DomainHeaders?
             .FirstOrDefault(a => a.Key == Hosts.OpenAI)
             .Value

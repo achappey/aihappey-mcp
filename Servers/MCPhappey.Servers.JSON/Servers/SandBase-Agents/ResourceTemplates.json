@@ -1,0 +1,9 @@
+{
+  "resourceTemplates": [
+    { "uriTemplate": "https://api.sandbase.ai/v1/agents/{agent_id}", "name": "sandbase-agent", "title": "Get SandBase agent", "description": "Read current agent configuration.", "mimeType": "application/json" },
+    { "uriTemplate": "https://api.sandbase.ai/v1/agents/{agent_id}?version={version}", "name": "sandbase-agent-version", "title": "Get SandBase agent historical version", "description": "Read a positive numeric historical version.", "mimeType": "application/json" },
+    { "uriTemplate": "https://api.sandbase.ai/v1/agents/{agent_id}/versions", "name": "sandbase-agent-versions", "title": "List SandBase agent versions", "description": "Newest immutable snapshots first; follow next_page for more.", "mimeType": "application/json" },
+    { "uriTemplate": "https://api.sandbase.ai/v1/agents/{agent_id}/versions?limit={limit}&page={page}", "name": "sandbase-agent-versions-paged", "title": "List SandBase agent versions with cursor", "description": "Use limit from 1 to 100 and an opaque page cursor.", "mimeType": "application/json" },
+    { "uriTemplate": "https://api.sandbase.ai/v1/agents/{agent_id}/versions/{version}", "name": "sandbase-agent-version-detail", "title": "Read immutable SandBase agent version", "description": "Retrieve by version number or version resource ID.", "mimeType": "application/json" }
+  ]
+}

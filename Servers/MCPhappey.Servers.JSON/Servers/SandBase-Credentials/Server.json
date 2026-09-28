@@ -1,0 +1,15 @@
+{
+    "serverInfo": {
+        "name": "SandBase-Credentials",
+        "title": "SandBase Credentials",
+        "version": "1.0.0",
+        "websiteUrl": "https://sandbase.ai",
+        "description": "Inspect masked credential metadata and update non-secret selection status. No plaintext creation or rotation."
+    },
+    "plugins": [
+        "MCPhappey.Tools.SandBase.Credentials.SandBaseCredentials, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+    }
+}

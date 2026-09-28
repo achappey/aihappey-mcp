@@ -1,0 +1,15 @@
+{
+    "serverInfo": {
+        "name": "SandBase-Skills",
+        "title": "SandBase Skills",
+        "version": "1.0.0",
+        "websiteUrl": "https://sandbase.ai",
+        "description": "Upload ZIP bundles from SharePoint/OneDrive; create, update, soft-delete, and inspect reusable Skills."
+    },
+    "plugins": [
+        "MCPhappey.Tools.SandBase.Skills.SandBaseSkills, MCPhappey.Tools"
+    ],
+    "obo": {
+        "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+    }
+}

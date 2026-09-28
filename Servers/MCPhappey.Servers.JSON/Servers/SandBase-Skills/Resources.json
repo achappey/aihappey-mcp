@@ -1,0 +1,5 @@
+{
+  "resources": [
+    { "uri": "https://api.sandbase.ai/v1/skills", "name": "sandbase-skills-list", "title": "List SandBase Skills", "description": "List Skills owned by the authenticated organization.", "mimeType": "application/json" }
+  ]
+}

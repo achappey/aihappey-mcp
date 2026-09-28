@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using MCPhappey.Tools.Google.Interactions;
 using MCPhappey.Tools.Google.Agents;
+using MCPhappey.Tools.SandBase;
 using System.Net.Http.Headers;
 
 namespace MCPhappey.Simplicate.Extensions;
@@ -30,6 +31,7 @@ public static class AspNetCoreExtensions
         builder.Services.AddSingleton<IContentScraper, AnthropicMemoryStoresScraper>();
         builder.Services.AddSingleton<IContentScraper, AnthropicSessionsScraper>();
         builder.Services.AddSingleton<IContentScraper, AnthropicVaultsScraper>();
+        builder.Services.AddSingleton<IContentScraper, SandBaseScraper>();
 
         return builder;
     }

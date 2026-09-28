@@ -1,0 +1,11 @@
+{
+    "resourceTemplates": [
+        {
+            "uriTemplate": "https://api.sandbase.ai/v1/credentials/{credential_id}",
+            "name": "sandbase-credential",
+            "title": "Get SandBase credential metadata",
+            "description": "Read masked metadata by sec_ credential ID; value hints are removed.",
+            "mimeType": "application/json"
+        }
+    ]
+}

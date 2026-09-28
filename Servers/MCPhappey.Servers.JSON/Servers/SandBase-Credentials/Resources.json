@@ -1,0 +1,5 @@
+{
+  "resources": [
+    { "uri": "https://api.sandbase.ai/v1/credentials", "name": "sandbase-credentials-list", "title": "List SandBase credentials", "description": "Read masked credential metadata. Value hints are removed from MCP output.", "mimeType": "application/json" }
+  ]
+}
