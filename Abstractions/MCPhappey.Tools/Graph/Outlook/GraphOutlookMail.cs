@@ -384,6 +384,99 @@ public static partial class GraphOutlookMail
         public string Comment { get; set; } = string.Empty;
     }
 
+    [Description("Create an unsent reply or reply-all draft for an Outlook message in the signed-in user's mailbox.")]
+    [McpServerTool(Title = "Create Outlook reply draft", Name = "graph_outlook_mail_create_reply_draft",
+        UseStructuredContent = true, OutputSchemaType = typeof(Message), Destructive = false, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookMail_CreateReplyDraft(
+        [Description("ID of the message to reply to.")][Required] string messageId,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Reply to the sender or all recipients. Defaults to Reply.")] ReplyTypeEnum replyType = ReplyTypeEnum.Reply,
+        [Description("Optional plain-text comment above the original message. Leave empty to edit the draft later.")] string? comment = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
+            var (input, rejected, _) = await requestContext.Server.TryElicit(
+                new GraphReplyDraftInput { ReplyType = replyType, Comment = comment }, cancellationToken);
+            if (rejected is not null || input is null) return default(Message);
+            if (!Enum.IsDefined(input.ReplyType))
+                throw new ValidationException("Reply type must be Reply or ReplyAll.");
+
+            return input.ReplyType == ReplyTypeEnum.ReplyAll
+                ? await client.Me.Messages[messageId].CreateReplyAll.PostAsync(
+                    new Microsoft.Graph.Beta.Me.Messages.Item.CreateReplyAll.CreateReplyAllPostRequestBody
+                    { Comment = string.IsNullOrWhiteSpace(input.Comment) ? null : input.Comment }, cancellationToken: cancellationToken)
+                : await client.Me.Messages[messageId].CreateReply.PostAsync(
+                    new Microsoft.Graph.Beta.Me.Messages.Item.CreateReply.CreateReplyPostRequestBody
+                    { Comment = string.IsNullOrWhiteSpace(input.Comment) ? null : input.Comment }, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Create an unsent forward draft for an Outlook message in the signed-in user's mailbox.")]
+    [McpServerTool(Title = "Create Outlook forward draft", Name = "graph_outlook_mail_create_forward_draft",
+        UseStructuredContent = true, OutputSchemaType = typeof(Message), Destructive = false, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphOutlookMail_CreateForwardDraft(
+        [Description("ID of the message to forward.")][Required] string messageId,
+        [Description("Comma-separated To recipient e-mail addresses.")][Required] string toRecipients,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional plain-text comment above the forwarded message. Leave empty to edit the draft later.")] string? comment = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
+            var (input, rejected, _) = await requestContext.Server.TryElicit(
+                new GraphForwardDraftInput { ToRecipients = toRecipients, Comment = comment }, cancellationToken);
+            if (rejected is not null || input is null) return default(Message);
+
+            return await client.Me.Messages[messageId].CreateForward.PostAsync(
+                new Microsoft.Graph.Beta.Me.Messages.Item.CreateForward.CreateForwardPostRequestBody
+                {
+                    Message = new Message { ToRecipients = ParseDraftRecipients(input.ToRecipients) },
+                    Comment = string.IsNullOrWhiteSpace(input.Comment) ? null : input.Comment
+                }, cancellationToken: cancellationToken);
+        })));
+
+    internal static List<Recipient> ParseDraftRecipients(string? addresses)
+    {
+        if (string.IsNullOrWhiteSpace(addresses))
+            throw new ValidationException("At least one To recipient is required for a forward draft.");
+
+        var values = addresses.Split(',', StringSplitOptions.TrimEntries);
+        if (values.Any(value => !new EmailAddressAttribute().IsValid(value)))
+            throw new ValidationException("Each To recipient must be a valid e-mail address.");
+
+        return [.. values.Select(value => value.ToRecipient())];
+    }
+
+    [Description("Review the reply draft details before creating it. The draft is not sent.")]
+    public sealed class GraphReplyDraftInput
+    {
+        [JsonPropertyName("replyType")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [Description("Reply or ReplyAll.")]
+        public ReplyTypeEnum ReplyType { get; set; } = ReplyTypeEnum.Reply;
+
+        [JsonPropertyName("comment")]
+        [Description("Optional plain-text comment for the reply draft.")]
+        public string? Comment { get; set; }
+    }
+
+    [Description("Review the forward draft details before creating it. The draft is not sent.")]
+    public sealed class GraphForwardDraftInput
+    {
+        [Required]
+        [JsonPropertyName("toRecipients")]
+        [Description("Comma-separated To recipient e-mail addresses.")]
+        public string ToRecipients { get; set; } = string.Empty;
+
+        [JsonPropertyName("comment")]
+        [Description("Optional plain-text comment for the forward draft.")]
+        public string? Comment { get; set; }
+    }
+
     [Description("Send an e-mail message through Outlook from the current users' mailbox.")]
     [McpServerTool(Title = "Send e-mail via Outlook", Destructive = true)]
     public static async Task<CallToolResult?> GraphOutlookMail_SendMail(

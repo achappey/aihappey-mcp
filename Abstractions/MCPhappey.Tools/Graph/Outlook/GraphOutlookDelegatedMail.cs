@@ -8,7 +8,7 @@ using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.Graph.Outlook;
 
-public static class GraphOutlookDelegatedMail
+public static partial class GraphOutlookDelegatedMail
 {
     [Description("Add a single category to an existing delegated email message (without removing existing ones).")]
     [McpServerTool(
@@ -231,6 +231,65 @@ public static class GraphOutlookDelegatedMail
         return typed.ToJsonContentBlock($"https://graph.microsoft.com/beta/users/{userId}/messages/{messageId}/reply")
              .ToCallToolResult();
     }));
+
+    [Description("Create an unsent reply or reply-all draft for a message in a delegated Outlook mailbox.")]
+    [McpServerTool(Title = "Create delegated Outlook reply draft", Name = "graph_outlook_delegated_mail_create_reply_draft",
+        UseStructuredContent = true, OutputSchemaType = typeof(Message), Destructive = false, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphDelegatedMail_CreateReplyDraft(
+        [Description("Delegated user ID or mailbox address.")][Required] string userId,
+        [Description("ID of the message to reply to.")][Required] string messageId,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Reply to the sender or all recipients. Defaults to Reply.")] GraphOutlookMail.ReplyTypeEnum replyType = GraphOutlookMail.ReplyTypeEnum.Reply,
+        [Description("Optional plain-text comment above the original message. Leave empty to edit the draft later.")] string? comment = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(userId);
+            ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
+            var (input, rejected, _) = await requestContext.Server.TryElicit(
+                new GraphOutlookMail.GraphReplyDraftInput { ReplyType = replyType, Comment = comment }, cancellationToken);
+            if (rejected is not null || input is null) return default(Message);
+            if (!Enum.IsDefined(input.ReplyType))
+                throw new ValidationException("Reply type must be Reply or ReplyAll.");
+
+            return input.ReplyType == GraphOutlookMail.ReplyTypeEnum.ReplyAll
+                ? await client.Users[userId].Messages[messageId].CreateReplyAll.PostAsync(
+                    new Microsoft.Graph.Beta.Users.Item.Messages.Item.CreateReplyAll.CreateReplyAllPostRequestBody
+                    { Comment = string.IsNullOrWhiteSpace(input.Comment) ? null : input.Comment }, cancellationToken: cancellationToken)
+                : await client.Users[userId].Messages[messageId].CreateReply.PostAsync(
+                    new Microsoft.Graph.Beta.Users.Item.Messages.Item.CreateReply.CreateReplyPostRequestBody
+                    { Comment = string.IsNullOrWhiteSpace(input.Comment) ? null : input.Comment }, cancellationToken: cancellationToken);
+        })));
+
+    [Description("Create an unsent forward draft for a message in a delegated Outlook mailbox.")]
+    [McpServerTool(Title = "Create delegated Outlook forward draft", Name = "graph_outlook_delegated_mail_create_forward_draft",
+        UseStructuredContent = true, OutputSchemaType = typeof(Message), Destructive = false, OpenWorld = false)]
+    public static async Task<CallToolResult?> GraphDelegatedMail_CreateForwardDraft(
+        [Description("Delegated user ID or mailbox address.")][Required] string userId,
+        [Description("ID of the message to forward.")][Required] string messageId,
+        [Description("Comma-separated To recipient e-mail addresses.")][Required] string toRecipients,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Optional plain-text comment above the forwarded message. Leave empty to edit the draft later.")] string? comment = null,
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        await requestContext.WithOboGraphClient(async client =>
+        await requestContext.WithStructuredContent(async () =>
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(userId);
+            ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
+            var (input, rejected, _) = await requestContext.Server.TryElicit(
+                new GraphOutlookMail.GraphForwardDraftInput { ToRecipients = toRecipients, Comment = comment }, cancellationToken);
+            if (rejected is not null || input is null) return default(Message);
+
+            return await client.Users[userId].Messages[messageId].CreateForward.PostAsync(
+                new Microsoft.Graph.Beta.Users.Item.Messages.Item.CreateForward.CreateForwardPostRequestBody
+                {
+                    Message = new Message { ToRecipients = GraphOutlookMail.ParseDraftRecipients(input.ToRecipients) },
+                    Comment = string.IsNullOrWhiteSpace(input.Comment) ? null : input.Comment
+                }, cancellationToken: cancellationToken);
+        })));
 
     [Description("Send an e-mail message through a delegated Outlook mailbox.")]
     [McpServerTool(Title = "Send delegated e-mail", Destructive = true)]
