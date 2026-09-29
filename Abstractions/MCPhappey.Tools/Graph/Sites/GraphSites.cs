@@ -49,13 +49,7 @@ public static partial class GraphSites
                         ListId = listId,
                         ContentTypeId = contentTypeId
                     },
-                    cancellationToken);
-
-            if (notAccepted is not null)
-            {
-                throw new Exception(
-                    JsonSerializer.Serialize(notAccepted));
-            }
+                    cancellationToken);       
 
             typed!.Validate();
 
@@ -218,13 +212,7 @@ public static partial class GraphSites
                         SiteId = siteId,
                         ContentTypeId = contentTypeId
                     },
-                    cancellationToken);
-
-            if (notAccepted is not null)
-            {
-                throw new Exception(
-                    JsonSerializer.Serialize(notAccepted));
-            }
+                    cancellationToken);     
 
             typed!.Validate();
 

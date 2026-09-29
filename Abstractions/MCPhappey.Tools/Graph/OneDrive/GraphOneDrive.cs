@@ -61,10 +61,7 @@ public static class GraphOneDrive
                             DestinationFileName = destinationFileName
                         },
                         cancellationToken);
-
-                if (notAccepted is not null)
-                    throw new Exception(JsonSerializer.Serialize(notAccepted));
-
+            
                 typed!.Validate();
 
                 var sourceItem = await graphClient
@@ -294,9 +291,7 @@ public static class GraphOneDrive
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
-                new GraphRenameDriveItem { Name = name }, cancellationToken);
-            if (notAccepted is not null)
-                return default(DriveItem);
+                new GraphRenameDriveItem { Name = name }, cancellationToken);          
 
             return await client.Drives[driveId].Items[itemId].PatchAsync(
                 new DriveItem { Name = typed?.Name }, cancellationToken: cancellationToken);
@@ -318,9 +313,7 @@ public static class GraphOneDrive
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphMoveDriveItem { DestinationFolderId = destinationFolderId }, cancellationToken);
-            if (notAccepted is not null)
-                return default(DriveItem);
-
+         
             return await client.Drives[driveId].Items[itemId].PatchAsync(
                 new DriveItem { ParentReference = new ItemReference { Id = typed?.DestinationFolderId } },
                 cancellationToken: cancellationToken);

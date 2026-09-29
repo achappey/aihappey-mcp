@@ -31,9 +31,6 @@ public static partial class GraphOutlookSettings
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphOutlookCategoryInput { DisplayName = displayName, Color = color }, cancellationToken);
 
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
-
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DisplayName);
             return await client.Me.Outlook.MasterCategories.PostAsync(
                 new OutlookCategory
@@ -66,9 +63,7 @@ public static partial class GraphOutlookSettings
 
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphOutlookCategoryUpdate { DisplayName = displayName, Color = color }, cancellationToken);
-
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+       
             if (typed?.DisplayName is not null)
                 ArgumentException.ThrowIfNullOrWhiteSpace(typed.DisplayName);
 
@@ -137,10 +132,7 @@ public static partial class GraphOutlookSettings
                     MarkAsRead = markAsRead,
                     Delete = delete,
                     StopProcessingRules = stopProcessingRules
-                }, cancellationToken);
-
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+                }, cancellationToken);         
 
             ValidateRule(typed);
             return await client.Me.MailFolders["inbox"].MessageRules.PostAsync(
@@ -197,9 +189,7 @@ public static partial class GraphOutlookSettings
                 StopProcessingRules = stopProcessingRules
             };
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(seed, cancellationToken);
-
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+      
             if (typed?.DisplayName is not null)
                 ArgumentException.ThrowIfNullOrWhiteSpace(typed.DisplayName);
 

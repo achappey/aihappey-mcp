@@ -24,7 +24,7 @@ public static partial class GraphOutlookCalendar
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphCalendarGroupInput { Name = name }, cancellationToken);
-            if (notAccepted is not null) return default(CalendarGroup);
+
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Name);
 
             return await client.Me.CalendarGroups.PostAsync(
@@ -46,7 +46,7 @@ public static partial class GraphOutlookCalendar
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphCalendarGroupInput { Name = name }, cancellationToken);
-            if (notAccepted is not null) return default(CalendarGroup);
+
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Name);
 
             return await client.Me.CalendarGroups[calendarGroupId].PatchAsync(
@@ -86,9 +86,6 @@ public static partial class GraphOutlookCalendar
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphCalendarInput { Name = name, HexColor = hexColor }, cancellationToken);
 
-            if (notAccepted is not null)
-                return default(Calendar);
-
             ValidateCalendarInput(typed);
             return await client.Me.Calendars.PostAsync(
                 new Calendar { Name = typed!.Name.Trim(), HexColor = NormalizeHexColor(typed.HexColor) },
@@ -118,9 +115,7 @@ public static partial class GraphOutlookCalendar
 
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphCalendarUpdate { Name = name, HexColor = hexColor }, cancellationToken);
-
-            if (notAccepted is not null)
-                return default(Calendar);
+       
             if (typed?.Name is not null)
                 ArgumentException.ThrowIfNullOrWhiteSpace(typed.Name);
 
@@ -253,9 +248,6 @@ public static partial class GraphOutlookCalendar
                     Location = location,
                     Attendees = attendees
                 }, cancellationToken);
-
-            if (notAccepted is not null)
-                return default(Event);
 
             var update = new Event
             {

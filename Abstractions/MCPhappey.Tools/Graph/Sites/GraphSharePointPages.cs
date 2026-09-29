@@ -35,9 +35,7 @@ public static class GraphSharePointPages
                     IntroductoryHtml = introductoryHtml,
                     ShowComments = showComments
                 }, cancellationToken);
-            if (notAccepted is not null)
-                return default(BaseSitePage);
-
+       
             ValidateCreate(typed);
             var page = new SitePage
             {
@@ -77,9 +75,7 @@ public static class GraphSharePointPages
                     Name = name,
                     ShowComments = showComments,
                     PromotionKind = promotionKind
-                }, cancellationToken);
-            if (notAccepted is not null)
-                return default(BaseSitePage);
+                }, cancellationToken);         
 
             ValidateUpdate(typed);
             return await client.Sites[siteId].Pages[pageId].PatchAsync(
@@ -108,8 +104,7 @@ public static class GraphSharePointPages
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new TextWebPartInput { InnerHtml = innerHtml }, cancellationToken);
-            if (notAccepted is not null)
-                return default(WebPart);
+       
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.InnerHtml);
 
             return await client.Sites[siteId].Pages[pageId].GraphSitePage.WebParts.PostAsync(
@@ -128,9 +123,7 @@ public static class GraphSharePointPages
         await requestContext.WithOboGraphClient(async client =>
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
-                new PublishPageInput { Name = pageId }, cancellationToken);
-            if (notAccepted is not null)
-                return new CallToolResult { Content = [new TextContentBlock { Text = "Page publication cancelled." }] };
+                new PublishPageInput { Name = pageId }, cancellationToken);         
 
             var request = new Microsoft.Kiota.Abstractions.RequestInformation
             {

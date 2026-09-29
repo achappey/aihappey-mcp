@@ -126,7 +126,7 @@ public static partial class OneDriveAgentPluginEditor
                 Keywords = keywords,
                 ExtensionsJson = extensionsJson
             }, cancellationToken);
-            if (notAccepted is not null) return notAccepted;
+           
             ArgumentNullException.ThrowIfNull(typed);
 
             var manifest = BuildManifest(typed);
@@ -183,7 +183,7 @@ public static partial class OneDriveAgentPluginEditor
                 Keywords = keywords ?? RenderKeywords(current["keywords"] as JsonArray),
                 ExtensionsJson = extensionsJson ?? current["extensions"]?.ToJsonString(JsonOptions)
             }, cancellationToken);
-            if (notAccepted is not null) return notAccepted;
+           
             ArgumentNullException.ThrowIfNull(typed);
             typed.Name = name;
             var manifest = BuildManifest(typed);
@@ -212,7 +212,7 @@ public static partial class OneDriveAgentPluginEditor
                 RelativePath = relativePath ?? string.Empty,
                 Content = content ?? string.Empty
             }, cancellationToken);
-            if (notAccepted is not null) return notAccepted;
+          
             ArgumentNullException.ThrowIfNull(typed);
             var path = RequireEditableFilePath(typed.RelativePath);
             var drive = await graph.GetDefaultDriveAsync(cancellationToken)
@@ -241,7 +241,7 @@ public static partial class OneDriveAgentPluginEditor
                 SourceUrl = sourceUrl ?? string.Empty,
                 RelativePath = relativePath ?? string.Empty
             }, cancellationToken);
-            if (notAccepted is not null) return notAccepted;
+          
             ArgumentNullException.ThrowIfNull(typed);
             var path = RequireEditableFilePath(typed.RelativePath);
             var downloaded = (await services.GetRequiredService<DownloadService>()
@@ -292,7 +292,7 @@ public static partial class OneDriveAgentPluginEditor
                 ServerName = serverName ?? string.Empty,
                 ServerJson = serverJson ?? string.Empty
             }, cancellationToken);
-            if (notAccepted is not null) return notAccepted;
+          
             ArgumentNullException.ThrowIfNull(typed);
             JsonNode? node;
             try { node = JsonNode.Parse(typed.ServerJson); }

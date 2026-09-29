@@ -280,10 +280,7 @@ public static class OneDriveSkillsEditor
                 Content = content ?? string.Empty
             },
             cancellationToken);
-
-        if (notAccepted is not null)
-            return notAccepted;
-
+            
         ArgumentNullException.ThrowIfNull(typed);
 
         var normalizedPath = OneDriveOpenSkills.NormalizeRelativePath(typed.RelativePath);

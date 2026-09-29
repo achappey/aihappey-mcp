@@ -54,9 +54,6 @@ public static class OpenAISkills
                 },
                 cancellationToken);
 
-            if (notAccepted is not null)
-                return notAccepted;
-
             ArgumentNullException.ThrowIfNull(typed);
             ValidateExclusiveUploadSource(typed.FolderUrl, typed.ZipFileUrl);
 
@@ -100,10 +97,7 @@ public static class OpenAISkills
                     DefaultVersion = defaultVersion ?? string.Empty
                 },
                 cancellationToken);
-
-            if (notAccepted is not null)
-                return notAccepted;
-
+         
             ArgumentNullException.ThrowIfNull(typed);
             ArgumentException.ThrowIfNullOrWhiteSpace(typed.DefaultVersion);
 
@@ -178,10 +172,7 @@ public static class OpenAISkills
                     ZipFileUrl = zipFileUrl,
                     Default = makeDefault
                 },
-                cancellationToken);
-
-            if (notAccepted is not null)
-                return notAccepted;
+                cancellationToken);         
 
             ArgumentNullException.ThrowIfNull(typed);
             ArgumentException.ThrowIfNullOrWhiteSpace(typed.SkillId);

@@ -32,7 +32,7 @@ public static partial class GraphWorkbooks
             {
                 Name = name, Reference = reference, Comment = comment
             }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted);
+            
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
             ArgumentException.ThrowIfNullOrWhiteSpace(input.Reference);
 
@@ -60,7 +60,7 @@ public static partial class GraphWorkbooks
         {
             var (input, notAccepted, _) = await requestContext.Server.TryElicit(
                 new RenameWorksheetInput { Name = name }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted);
+            
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
 
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
@@ -106,7 +106,7 @@ public static partial class GraphWorkbooks
         {
             var (input, notAccepted, _) = await requestContext.Server.TryElicit(
                 new UpdateRangeValuesInput { ValuesJson = valuesJson }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted);
+            
             var values = ParseMatrix(input?.ValuesJson);
 
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
@@ -132,7 +132,7 @@ public static partial class GraphWorkbooks
         {
             var (input, notAccepted, _) = await requestContext.Server.TryElicit(
                 new ClearRangeInput { ApplyTo = applyTo }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted);
+            
 
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
             return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook,
@@ -158,7 +158,7 @@ public static partial class GraphWorkbooks
         {
             var (input, notAccepted, _) = await requestContext.Server.TryElicit(
                 new CreateTableInput { Address = address, HasHeaders = hasHeaders }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted);
+            
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Address);
 
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
@@ -183,7 +183,7 @@ public static partial class GraphWorkbooks
         {
             var (input, notAccepted, _) = await requestContext.Server.TryElicit(
                 new RenameTableInput { Name = name }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted);
+            
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
 
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
@@ -229,7 +229,7 @@ public static partial class GraphWorkbooks
         {
             var (input, notAccepted, _) = await requestContext.Server.TryElicit(
                 new UpdateTableRowInput { ValuesJson = valuesJson }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted);
+            
             var row = ParseRow(input?.ValuesJson);
 
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
@@ -277,7 +277,7 @@ public static partial class GraphWorkbooks
             if (formula is null && comment is null) throw new ValidationException("A formula or comment is required.");
             var (input, rejected, _) = await requestContext.Server.TryElicit(
                 new UpdateNamedItemInput { Formula = formula, Comment = comment }, cancellationToken);
-            ThrowIfNotAccepted(rejected);
+            
             var body = new Dictionary<string, object?>();
             if (input?.Formula is not null) body["formula"] = input.Formula;
             if (input?.Comment is not null) body["comment"] = input.Comment;
@@ -317,7 +317,7 @@ public static partial class GraphWorkbooks
         {
             var (input, rejected, _) = await requestContext.Server.TryElicit(
                 new AddTableColumnInput { Name = name, Index = index, ValuesJson = valuesJson }, cancellationToken);
-            ThrowIfNotAccepted(rejected);
+            
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
             var body = new Dictionary<string, object?> { ["name"] = input.Name.Trim() };
             if (input.Index.HasValue) body["index"] = input.Index.Value;
@@ -342,7 +342,7 @@ public static partial class GraphWorkbooks
             if (name is null && valuesJson is null) throw new ValidationException("A name or valuesJson is required.");
             var (input, rejected, _) = await requestContext.Server.TryElicit(
                 new UpdateTableColumnInput { Name = name, ValuesJson = valuesJson }, cancellationToken);
-            ThrowIfNotAccepted(rejected);
+            
             var body = new Dictionary<string, object?>();
             if (input?.Name is not null) { ArgumentException.ThrowIfNullOrWhiteSpace(input.Name); body["name"] = input.Name.Trim(); }
             if (input?.ValuesJson is not null) body["values"] = WrapColumn(ParseRow(input.ValuesJson));
@@ -384,7 +384,7 @@ public static partial class GraphWorkbooks
                 throw new ValidationException("At least one chart field is required.");
             var (input, rejected, _) = await requestContext.Server.TryElicit(new UpdateChartInput
             { Name = name, TitleText = titleText, Left = left, Top = top, Width = width, Height = height }, cancellationToken);
-            ThrowIfNotAccepted(rejected);
+            
             var body = new Dictionary<string, object?>();
             if (input?.Name is not null) body["name"] = input.Name;
             if (input?.TitleText is not null) body["title"] = new { text = input.TitleText, visible = true };
@@ -442,7 +442,7 @@ public static partial class GraphWorkbooks
         {
             var (input, rejected, _) = await requestContext.Server.TryElicit(
                 new RangeShiftInput { Shift = shift }, cancellationToken);
-            ThrowIfNotAccepted(rejected);
+            
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
             return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook, HttpMethod.Post,
                 $"{RangePath(worksheetId, address)}/{action}", new { shift = input!.Shift.ToString() }, cancellationToken);
@@ -541,12 +541,6 @@ public static partial class GraphWorkbooks
             || document.RootElement.EnumerateArray().Any(value => value.ValueKind == JsonValueKind.Array))
             throw new ValidationException("valuesJson must be a one-dimensional JSON array.");
         return document.RootElement.Clone();
-    }
-
-    private static void ThrowIfNotAccepted(object? notAccepted)
-    {
-        if (notAccepted is not null)
-            throw new Exception(JsonSerializer.Serialize(notAccepted));
     }
 
     private sealed record WorkbookReference(string DriveId, string ItemId);

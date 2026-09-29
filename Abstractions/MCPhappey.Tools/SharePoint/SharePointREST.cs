@@ -48,10 +48,7 @@ public static partial class SharePointREST
                         SiteUrl = siteUrl,
                         Title = title
                     },
-                    cancellationToken);
-
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+                    cancellationToken);         
 
             typed!.Validate();
 

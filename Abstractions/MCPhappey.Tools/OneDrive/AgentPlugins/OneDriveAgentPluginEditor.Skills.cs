@@ -30,7 +30,7 @@ public static partial class OneDriveAgentPluginEditor
             {
                 SourceUrl = sourceUrl ?? string.Empty
             }, cancellationToken);
-            if (notAccepted is not null) return notAccepted;
+          
             ArgumentNullException.ThrowIfNull(typed);
             if (!Uri.TryCreate(typed.SourceUrl, UriKind.Absolute, out var sourceUri))
                 throw new ValidationException("sourceUrl must be an absolute URL.");

@@ -87,10 +87,7 @@ public static partial class GraphTeams
                     Visibility = visibility
                 },
                 cancellationToken
-            );
-
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+            );           
 
             if (typed is null)
                 throw new InvalidOperationException("No Team update data was provided.");
@@ -301,10 +298,7 @@ public static partial class GraphTeams
                 TeamId = teamId,
                 UserId = userId
             },
-            cancellationToken);
-
-        if (notAccepted is not null)
-            throw new Exception(JsonSerializer.Serialize(notAccepted));
+            cancellationToken);      
 
         if (typed is null
             || string.IsNullOrWhiteSpace(typed.TeamId)

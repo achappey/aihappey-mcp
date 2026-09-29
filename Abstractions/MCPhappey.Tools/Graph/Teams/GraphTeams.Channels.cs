@@ -33,9 +33,7 @@ public static partial class GraphTeams
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphUpdateTeamChannel { DisplayName = displayName, Description = description },
                 cancellationToken);
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
-
+          
             return await client.Teams[teamId].Channels[channelId].PatchAsync(
                 new Channel { DisplayName = typed?.DisplayName, Description = typed?.Description },
                 cancellationToken: cancellationToken);

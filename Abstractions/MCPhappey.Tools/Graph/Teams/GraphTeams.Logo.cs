@@ -44,13 +44,7 @@ public static partial class GraphTeams
                          TeamId = teamId,
                          LogoUrl = logoUrl
                      },
-                     cancellationToken);
-
-             if (notAccepted is not null)
-             {
-                 throw new Exception(
-                     JsonSerializer.Serialize(notAccepted));
-             }
+                     cancellationToken);          
 
              typed!.Validate();
 

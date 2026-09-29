@@ -27,7 +27,7 @@ public static partial class GraphToDo
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphChecklistItemInput { DisplayName = displayName, IsChecked = isChecked }, cancellationToken);
-            if (notAccepted is not null) return default(ChecklistItem);
+           
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DisplayName);
 
             return await client.Me.Todo.Lists[listId].Tasks[taskId].ChecklistItems.PostAsync(
@@ -56,7 +56,7 @@ public static partial class GraphToDo
 
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphChecklistItemUpdate { DisplayName = displayName, IsChecked = isChecked }, cancellationToken);
-            if (notAccepted is not null) return default(ChecklistItem);
+         
             if (typed?.DisplayName is not null) ArgumentException.ThrowIfNullOrWhiteSpace(typed.DisplayName);
 
             return await client.Me.Todo.Lists[listId].Tasks[taskId].ChecklistItems[checklistItemId].PatchAsync(

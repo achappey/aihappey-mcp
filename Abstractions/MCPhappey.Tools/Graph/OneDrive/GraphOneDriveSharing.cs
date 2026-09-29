@@ -38,10 +38,7 @@ public static class GraphOneDriveSharing
                     ExpirationDateTime = expirationDateTime,
                     Password = password
                 }, cancellationToken);
-
-            if (notAccepted is not null)
-                return default(Permission);
-
+            
             ValidateLink(typed);
             return await client.Drives[driveId].Items[itemId].CreateLink.PostAsync(
                 new CreateLinkPostRequestBody
@@ -83,9 +80,6 @@ public static class GraphOneDriveSharing
                     ExpirationDateTime = expirationDateTime
                 }, cancellationToken);
 
-            if (notAccepted is not null)
-                return default(PermissionCollectionResponse);
-
             ValidateInvitation(typed);
             var recipients = typed!.RecipientEmailsCsv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                 .Select(email => new DriveRecipient { Email = email }).ToList();
@@ -121,9 +115,7 @@ public static class GraphOneDriveSharing
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new UpdatePermissionInput { PermissionId = permissionId, Role = role }, cancellationToken);
-            if (notAccepted is not null)
-                return default(Permission);
-
+        
             ValidateRole(typed?.Role);
             return await client.Drives[driveId].Items[itemId].Permissions[typed!.PermissionId].PatchAsync(
                 new Permission { Roles = [typed.Role.Trim().ToLowerInvariant()] },

@@ -63,13 +63,7 @@ public static partial class SharePointREST
                             PrincipalType = principalType,
                             Principal = principal
                         },
-                        cancellationToken);
-
-                if (notAccepted is not null)
-                {
-                    throw new Exception(
-                        JsonSerializer.Serialize(notAccepted));
-                }
+                        cancellationToken);           
 
                 typed!.Validate();
 
@@ -595,12 +589,6 @@ public static partial class SharePointREST
                         Principal = principal
                     },
                     cancellationToken);
-
-            if (notAccepted is not null)
-            {
-                throw new Exception(
-                    JsonSerializer.Serialize(notAccepted));
-            }
 
             typed!.Validate();
 

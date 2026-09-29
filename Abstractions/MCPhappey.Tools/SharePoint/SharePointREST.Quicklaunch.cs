@@ -63,12 +63,7 @@ public static partial class SharePointREST
                         PreviousLinkName = previousLinkName
                     },
                     cancellationToken);
-
-            if (notAccepted is not null)
-            {
-                throw new Exception(
-                    JsonSerializer.Serialize(notAccepted));
-            }
+            
 
             typed!.Validate();
 

@@ -175,10 +175,7 @@ public static partial class GraphToDo
                     DueDateTime = dueDateTime,
                     Importance = importance,
                     Status = status
-                }, cancellationToken);
-
-            if (notAccepted is not null)
-                return default(TodoTask);
+                }, cancellationToken);          
 
             var update = new TodoTask
             {

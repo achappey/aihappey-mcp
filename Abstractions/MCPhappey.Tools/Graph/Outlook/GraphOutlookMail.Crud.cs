@@ -35,7 +35,7 @@ public static partial class GraphOutlookMail
 
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphMessageStateInput { IsRead = isRead, Importance = importance }, cancellationToken);
-            if (notAccepted is not null) return default(Message);
+           
             if (typed?.IsRead is null && typed?.Importance is null)
                 throw new ValidationException("isRead or importance must be provided.");
 
@@ -60,7 +60,7 @@ public static partial class GraphOutlookMail
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphCopyMessageInput { DestinationFolderId = destinationFolderId }, cancellationToken);
-            if (notAccepted is not null) return default(Message);
+           
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DestinationFolderId);
 
             return await client.Me.Messages[messageId].Copy.PostAsync(new CopyPostRequestBody
@@ -83,7 +83,7 @@ public static partial class GraphOutlookMail
         {
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphForwardMessageInput { Recipients = recipients, Comment = comment }, cancellationToken);
-            if (notAccepted is not null) return null;
+        
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Recipients);
 
             await client.Me.Messages[messageId].Forward.PostAsync(new ForwardPostRequestBody
@@ -119,10 +119,7 @@ public static partial class GraphOutlookMail
                 {
                     DisplayName = displayName,
                     ParentFolderId = parentFolderId
-                }, cancellationToken);
-
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+                }, cancellationToken);          
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DisplayName);
             var folder = new MailFolder { DisplayName = typed.DisplayName.Trim() };
@@ -153,8 +150,7 @@ public static partial class GraphOutlookMail
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
                 new GraphMailFolderInput { DisplayName = displayName }, cancellationToken);
 
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+         
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DisplayName);
             return await client.Me.MailFolders[folderId].PatchAsync(
@@ -242,9 +238,7 @@ public static partial class GraphOutlookMail
                     BodyType = bodyType,
                     Importance = importance
                 }, cancellationToken);
-
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+           
 
             var update = new Message
             {
@@ -320,8 +314,6 @@ public static partial class GraphOutlookMail
                     Subject = current.Subject
                 }, cancellationToken);
 
-            if (notAccepted is not null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
             if (typed?.DraftId != draftId)
                 throw new ValidationException("The confirmed draft ID does not match the requested draft ID.");
 
