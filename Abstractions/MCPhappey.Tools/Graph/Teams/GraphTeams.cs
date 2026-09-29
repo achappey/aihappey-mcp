@@ -35,8 +35,7 @@ public static partial class GraphTeams
                     Visibility = teamVisibilityType ?? TeamVisibilityType.Private
                 },
                 cancellationToken
-            );
-                if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
+            );               
 
                 var newTeam = new Team
                 {

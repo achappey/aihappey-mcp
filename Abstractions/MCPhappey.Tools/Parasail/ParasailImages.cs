@@ -51,7 +51,7 @@ public static class ParasailImages
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateGenerateRequest(typed);

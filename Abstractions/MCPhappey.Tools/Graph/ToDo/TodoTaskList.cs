@@ -38,7 +38,6 @@ public static class TodoTaskList
             },
             cancellationToken);
 
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
         if (typed == null) throw new Exception("Invalid result");
 
         return await client.Me.Todo.Lists.PostAsync(new Microsoft.Graph.Beta.Models.TodoTaskList

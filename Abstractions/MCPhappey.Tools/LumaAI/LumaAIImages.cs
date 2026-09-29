@@ -39,7 +39,7 @@ public static class LumaAIImages
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateGenerateRequest(typed);
@@ -92,7 +92,7 @@ public static class LumaAIImages
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateModifyRequest(typed);

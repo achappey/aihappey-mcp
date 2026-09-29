@@ -477,7 +477,6 @@ public static partial class GraphPlanner
             cancellationToken
         );
 
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
         if (typed == null) throw new Exception("Invalid result");
 
         return await client.Planner.Plans.PostAsync(new PlannerPlan

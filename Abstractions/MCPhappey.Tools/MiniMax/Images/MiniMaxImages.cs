@@ -49,7 +49,7 @@ public static class MiniMaxImages
             },
             cancellationToken);
 
-        if (notAccepted != null) return notAccepted;
+        
         if (typed == null) return "User input missing.".ToErrorCallToolResponse();
 
         if ((typed.Width.HasValue && !typed.Height.HasValue) || (!typed.Width.HasValue && typed.Height.HasValue))
@@ -108,7 +108,7 @@ public static class MiniMaxImages
             },
             cancellationToken);
 
-        if (notAccepted != null) return notAccepted;
+        
         if (typed == null) return "User input missing.".ToErrorCallToolResponse();
 
         var minimax = serviceProvider.GetRequiredService<MiniMaxClient>();

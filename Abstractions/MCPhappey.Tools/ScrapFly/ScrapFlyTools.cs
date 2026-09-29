@@ -276,7 +276,7 @@ public static class ScrapFlyTools
                     },
                     cancellationToken);
 
-                if (notAccepted != null) return notAccepted;
+                
                 if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
                 var payload = new JsonObject

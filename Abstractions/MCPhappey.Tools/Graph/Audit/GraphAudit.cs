@@ -39,8 +39,7 @@ public static class GraphAudit
             },
             cancellationToken
         );
-
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
+       
 
         // Defaults if not provided
         var now = DateTimeOffset.UtcNow;

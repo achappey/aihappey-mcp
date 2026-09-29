@@ -118,7 +118,6 @@ public static partial class GraphOutlookMail
             };
 
             var (typed, notAccepted, _) = await requestContext.Server.TryElicit(confirmation, cancellationToken);
-            if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
             if (typed == null) throw new ValidationException("Move was not confirmed.");
 
             await requestContext.Server.SendProgressNotificationAsync(
@@ -255,8 +254,6 @@ public static partial class GraphOutlookMail
             },
             cancellationToken
         );
-
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
 
         var flag = new FollowupFlag
         {
@@ -507,8 +504,6 @@ public static partial class GraphOutlookMail
             },
             cancellationToken
         );
-
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
 
         var resolvedBody = await BuildBodyWithOptionalSignatureAsync(
             serviceProvider,

@@ -49,7 +49,7 @@ public static class GradiumVoices
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
@@ -122,7 +122,7 @@ public static class GradiumVoices
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             var settings = serviceProvider.GetRequiredService<GradiumSettings>();

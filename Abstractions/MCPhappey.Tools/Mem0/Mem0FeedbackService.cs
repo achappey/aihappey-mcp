@@ -46,7 +46,6 @@ public static class Mem0FeedbackService
               FeedbackReason = feedbackReason
           }, cancellationToken);
 
-          if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
           if (typed == null) throw new Exception("Invalid input");
 
           var body = new

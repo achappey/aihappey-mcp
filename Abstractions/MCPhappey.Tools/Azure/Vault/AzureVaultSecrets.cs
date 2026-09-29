@@ -51,7 +51,7 @@ public static class AzureVaultSecrets
                     },
                     cancellationToken);
 
-                if (notAccepted != null) return notAccepted;
+                
                 if (typed == null) return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
                 vaultUri = typed.VaultUri;
@@ -127,7 +127,7 @@ public static class AzureVaultSecrets
                     },
                     cancellationToken);
 
-                if (notAccepted != null) return notAccepted;
+                
                 if (typed == null) return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
                 vaultUri = typed.VaultUri;

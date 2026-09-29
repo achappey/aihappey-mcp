@@ -108,7 +108,7 @@ public static class MiniMaxSpeech
             },
             cancellationToken);
 
-        if (notAccepted != null) return notAccepted;
+        
         if (typed == null) return "User input missing.".ToErrorCallToolResponse();
 
         var minimax = serviceProvider.GetRequiredService<MiniMaxClient>();
@@ -176,7 +176,7 @@ public static class MiniMaxSpeech
             },
             cancellationToken);
 
-        if (notAccepted != null) return notAccepted;
+        
         if (typed == null) return "User input missing.".ToErrorCallToolResponse();
 
         var minimax = serviceProvider.GetRequiredService<MiniMaxClient>();

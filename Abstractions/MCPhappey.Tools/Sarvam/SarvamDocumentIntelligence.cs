@@ -55,7 +55,7 @@ public static class SarvamDocumentIntelligence
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed.FileUrl);

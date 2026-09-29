@@ -36,9 +36,7 @@ public static class GraphOneNote
             {
                 Title = title,
                 Content = content
-            }, cancellationToken);
-
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
+            }, cancellationToken);        
 
         return await client.Me
             .Onenote
@@ -71,8 +69,6 @@ public static class GraphOneNote
             {
                 DisplayName = displayName
             }, cancellationToken);
-
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
 
         // POST /me/onenote/notebooks/{notebookId}/sections
         var section = new OnenoteSection

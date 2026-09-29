@@ -62,7 +62,7 @@ public static class UnrealSpeechService
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             if (sourceText.Length > 3000)
@@ -147,7 +147,7 @@ public static class UnrealSpeechService
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             if (sourceText.Length > 500000)

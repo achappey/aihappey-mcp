@@ -77,7 +77,7 @@ public static class FireworksTranscriptions
                     },
                     cancellationToken);
 
-                if (notAccepted != null) return notAccepted;
+                
                 if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
                 ValidateTranscriptionRequest(typed);
@@ -140,7 +140,7 @@ public static class FireworksTranscriptions
                     },
                     cancellationToken);
 
-                if (notAccepted != null) return notAccepted;
+                
                 if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
                 ValidateTranslationRequest(typed);

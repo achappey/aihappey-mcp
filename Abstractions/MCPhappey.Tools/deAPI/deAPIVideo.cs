@@ -67,7 +67,7 @@ public static class deAPIVideo
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateTextToVideoRequest(typed);
@@ -203,7 +203,7 @@ public static class deAPIVideo
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateImageToVideoRequest(typed);

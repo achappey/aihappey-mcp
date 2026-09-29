@@ -45,7 +45,7 @@ public static class WebCrawlerAPIFeeds
                 IncludeErrors = includeErrors
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             WebCrawlerAPIHelpers.ValidateRequired(typed.Url, nameof(url));
@@ -141,7 +141,7 @@ public static class WebCrawlerAPIFeeds
                 Action = actionDescription
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             WebCrawlerAPIHelpers.ValidateRequired(typed.FeedId, nameof(feedId));

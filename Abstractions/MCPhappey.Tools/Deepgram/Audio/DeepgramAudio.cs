@@ -57,7 +57,7 @@ public static class DeepgramAudio
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             using var client = clientFactory.CreateClient();

@@ -68,7 +68,7 @@ public static class LumenfallVideo
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateGenerate(typed);
@@ -172,7 +172,7 @@ public static class LumenfallVideo
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             if (string.IsNullOrWhiteSpace(typed.Id))
@@ -219,7 +219,7 @@ public static class LumenfallVideo
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             if (string.IsNullOrWhiteSpace(typed.Id))

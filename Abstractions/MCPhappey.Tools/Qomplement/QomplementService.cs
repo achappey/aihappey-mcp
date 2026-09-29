@@ -151,7 +151,7 @@ public static class QomplementService
                 };
 
                 var (input, notAccepted, _) = await requestContext.Server.TryElicit(typed, cancellationToken);
-                if (notAccepted != null) return notAccepted;
+                
                 if (input == null) throw new ValidationException("No input data provided.");
 
                 ValidateFillPdfInput(input);
@@ -254,7 +254,7 @@ public static class QomplementService
                 };
 
                 var (input, notAccepted, _) = await requestContext.Server.TryElicit(typed, cancellationToken);
-                if (notAccepted != null) return notAccepted;
+                
                 if (input == null) throw new ValidationException("No input data provided.");
 
                 var sourceUrls = ParseUrls(input.SourceFileUrls);

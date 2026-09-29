@@ -804,8 +804,7 @@ public static class SimplicateExtensions
         var (dto, notAccepted, _) = await requestContext.Server.TryElicit(
             seedDto,
             elicitPropertyOverrides,
-            cancellationToken);
-        if (notAccepted != null) return notAccepted;
+            cancellationToken);        
 
         var scraper = serviceProvider.GetServices<IContentScraper>()
                                      .OfType<SimplicateScraper>()
@@ -867,7 +866,7 @@ public static class SimplicateExtensions
             seedDto,
             elicitPropertyOverrides,
             cancellationToken);
-        if (notAccepted != null) return notAccepted;
+        
 
         // Map flat DTO into the correct Simplicate structure
         var mappedObject = mapper(dto!);
@@ -994,7 +993,7 @@ public static class SimplicateExtensions
             incomingDto,
             elicitPropertyOverrides,
             cancellationToken);
-        if (notAccepted != null) return notAccepted;
+        
 
         // 4️⃣ Merge: prefer elicited non-nulls over existing
         foreach (var prop in typeof(TDto).GetProperties())

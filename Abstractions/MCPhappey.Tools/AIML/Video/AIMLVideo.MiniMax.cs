@@ -170,7 +170,7 @@ public static partial class AIMLVideo
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("mp4")
             },
             cancellationToken);
-        if (notAccepted != null) return notAccepted;
+        
         if (typed == null) return "User input missing.".ToErrorCallToolResponse();
 
         // Step 4: Build JSON payload

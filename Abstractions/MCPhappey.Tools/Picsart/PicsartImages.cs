@@ -59,7 +59,7 @@ public static class PicsartImages
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateCommonRequest(typed.Prompt, typed.Width, typed.Height, typed.Count, typed.PollIntervalSeconds, typed.MaxWaitSeconds);
@@ -115,7 +115,7 @@ public static class PicsartImages
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateCommonRequest(typed.Prompt, typed.Width, typed.Height, typed.Count, typed.PollIntervalSeconds, typed.MaxWaitSeconds);
@@ -177,7 +177,7 @@ public static class PicsartImages
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateCommonRequest(typed.Prompt, typed.Width, typed.Height, typed.Count, typed.PollIntervalSeconds, typed.MaxWaitSeconds);
@@ -246,7 +246,7 @@ public static class PicsartImages
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateLogoRequest(typed);

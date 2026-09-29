@@ -34,7 +34,7 @@ public static class CaseDevSuperDoc
                 Filename = filename
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             var normalizedFrom = NormalizeConvertFrom(typed.From);
@@ -97,7 +97,7 @@ public static class CaseDevSuperDoc
                 Filename = filename
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateSingleDocumentSource(typed.FileUrl, typed.DocumentBase64, allowDocumentUrl: true, typed.DocumentUrl);

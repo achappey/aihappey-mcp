@@ -248,7 +248,7 @@ public static partial class SimplicateCRM
         };
 
         var (confirmed, notAccepted, _) = await requestContext.Server.TryElicit(input, cancellationToken);
-        if (notAccepted != null) return notAccepted;
+        
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -316,7 +316,7 @@ public static partial class SimplicateCRM
         };
 
         var (confirmed, notAccepted, _) = await requestContext.Server.TryElicit(input, cancellationToken);
-        if (notAccepted != null) return notAccepted;
+        
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -519,7 +519,7 @@ public static partial class SimplicateCRM
         };
 
         var (confirmed, notAccepted, _) = await requestContext.Server.TryElicit(input, cancellationToken);
-        if (notAccepted != null) return notAccepted;
+        
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -604,7 +604,7 @@ public static partial class SimplicateCRM
         };
 
         var (confirmed, notAccepted, _) = await requestContext.Server.TryElicit(input, cancellationToken);
-        if (notAccepted != null) return notAccepted;
+        
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -690,7 +690,7 @@ public static partial class SimplicateCRM
         };
 
         var (confirmed, notAccepted, _) = await requestContext.Server.TryElicit(input, cancellationToken);
-        if (notAccepted != null) return notAccepted;
+        
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -761,7 +761,7 @@ public static partial class SimplicateCRM
         };
 
         var (confirmed, notAccepted, _) = await requestContext.Server.TryElicit(input, cancellationToken);
-        if (notAccepted != null) return notAccepted;
+        
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 

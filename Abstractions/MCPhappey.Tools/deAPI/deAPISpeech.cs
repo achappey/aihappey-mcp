@@ -61,7 +61,7 @@ public static class deAPISpeech
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             return await ExecuteTtsAndUploadAsync(serviceProvider, requestContext, typed, cancellationToken);
@@ -114,7 +114,7 @@ public static class deAPISpeech
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             var speechRequest = new deAPISpeechRequest

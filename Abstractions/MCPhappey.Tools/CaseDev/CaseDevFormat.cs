@@ -35,7 +35,7 @@ public static class CaseDevFormat
                 Filename = filename
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             var normalizedOutput = NormalizeOutputFormat(typed.OutputFormat);

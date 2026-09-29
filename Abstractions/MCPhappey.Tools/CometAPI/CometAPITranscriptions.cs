@@ -57,7 +57,7 @@ public static class CometAPITranscriptions
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             return await ExecuteAudioFileOperationAsync(
@@ -110,7 +110,7 @@ public static class CometAPITranscriptions
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             return await ExecuteAudioFileOperationAsync(

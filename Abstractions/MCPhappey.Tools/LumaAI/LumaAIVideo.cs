@@ -45,7 +45,7 @@ public static class LumaAIVideo
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateGenerateRequest(typed);
@@ -124,7 +124,7 @@ public static class LumaAIVideo
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateGenerateWithAudioRequest(typed);

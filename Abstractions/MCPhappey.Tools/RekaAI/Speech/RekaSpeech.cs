@@ -60,7 +60,7 @@ public static class RekaSpeech
                     },
                     cancellationToken);
 
-                if (notAccepted != null) return notAccepted;
+                
                 if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
                 var payload = BuildPayload(
@@ -159,7 +159,7 @@ public static class RekaSpeech
                     },
                     cancellationToken);
 
-                if (notAccepted != null) return notAccepted;
+                
                 if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
                 var payload = BuildPayload(

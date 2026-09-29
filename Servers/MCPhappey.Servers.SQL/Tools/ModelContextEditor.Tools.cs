@@ -341,7 +341,7 @@ public static partial class ModelContextEditor
             PluginName = pluginName
         }, cancellationToken);
 
-        if (notAccepted != null) return notAccepted;
+        
         if (typed == null) return "Something went wrong".ToErrorCallToolResponse();
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
 

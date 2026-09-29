@@ -67,7 +67,7 @@ public static class IdeogramImages
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
@@ -127,7 +127,7 @@ public static class IdeogramImages
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             using var form = new MultipartFormDataContent();
@@ -192,7 +192,7 @@ public static class IdeogramImages
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
@@ -276,7 +276,7 @@ public static class IdeogramImages
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
@@ -344,7 +344,7 @@ public static class IdeogramImages
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
@@ -403,7 +403,7 @@ public static class IdeogramImages
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidatePalette(typed.ColorPaletteName, typed.ColorPaletteMembersJson);
@@ -454,7 +454,7 @@ public static class IdeogramImages
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             using var form = new MultipartFormDataContent();
@@ -485,7 +485,7 @@ public static class IdeogramImages
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),
             }, cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             using var form = new MultipartFormDataContent();

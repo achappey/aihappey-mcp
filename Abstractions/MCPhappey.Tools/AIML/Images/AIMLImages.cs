@@ -194,7 +194,7 @@ public static partial class AIMLImages
             },
             cancellationToken);
 
-        if (notAccepted != null) return notAccepted;
+        
         if (typed == null) return "User input missing.".ToErrorCallToolResponse();
 
         // Step 2: Build JSON body

@@ -38,7 +38,6 @@ public static class PlannerTaskList
             },
             cancellationToken);
 
-        if (notAccepted != null) throw new Exception(JsonSerializer.Serialize(notAccepted));
         if (typed == null) throw new Exception("Invalid result");
 
         _ = await client.Groups[groupId]

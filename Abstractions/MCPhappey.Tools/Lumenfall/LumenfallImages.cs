@@ -50,7 +50,7 @@ public static class LumenfallImages
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateGenerate(typed);
@@ -134,7 +134,7 @@ public static class LumenfallImages
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             ValidateEdit(typed);

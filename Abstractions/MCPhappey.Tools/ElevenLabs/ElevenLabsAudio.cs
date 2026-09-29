@@ -48,7 +48,7 @@ public static class ElevenLabsAudio
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             var payload = new
@@ -142,7 +142,7 @@ public static class ElevenLabsAudio
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             using var form = new MultipartFormDataContent

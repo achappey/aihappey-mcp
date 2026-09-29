@@ -48,7 +48,7 @@ public static class SpeechactorsService
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             return await GenerateAndUploadAsync(
@@ -100,7 +100,7 @@ public static class SpeechactorsService
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             return await GenerateAndUploadAsync(

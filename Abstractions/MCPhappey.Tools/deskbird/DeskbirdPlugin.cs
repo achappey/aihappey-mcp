@@ -102,7 +102,7 @@ public static class DeskbirdPlugin
             },
             cancellationToken);
 
-        if (notAccepted != null) return notAccepted;
+        
 
         // If typed is null, fall back to raw dictionary (defensive)
         if (typed is null)

@@ -47,7 +47,7 @@ public static class RunpodSpeechAudio
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             return await GenerateAndUploadSpeechAsync(
@@ -97,7 +97,7 @@ public static class RunpodSpeechAudio
                 },
                 cancellationToken);
 
-            if (notAccepted != null) return notAccepted;
+            
             if (typed == null) return "No input data provided".ToErrorCallToolResponse();
 
             return await GenerateAndUploadSpeechAsync(
