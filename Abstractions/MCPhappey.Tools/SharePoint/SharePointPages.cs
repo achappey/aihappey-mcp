@@ -60,9 +60,6 @@ public static class SharePointPages
                 },
                 cancellationToken);
 
-            if (notAccepted != null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
-
             typed!.Validate();
 
             var tokenService = serviceProvider.GetRequiredService<HeaderProvider>();

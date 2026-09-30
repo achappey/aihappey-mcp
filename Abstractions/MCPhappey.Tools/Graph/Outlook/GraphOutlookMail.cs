@@ -33,14 +33,11 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            // Let AI or user confirm the category name
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphMailSingleCategoryInput { Category = category ?? string.Empty },
-                cancellationToken
-            );
-
-            if (notAccepted != null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+var typed = requestContext.Elicit(
+    new GraphMailSingleCategoryInput
+    {
+        Category = category ?? string.Empty
+    });
 
             if (string.IsNullOrWhiteSpace(typed?.Category))
                 throw new ArgumentException("Category name cannot be empty.", nameof(category));

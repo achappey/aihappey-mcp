@@ -51,9 +51,7 @@ public static partial class SharePointREST
                     Overwrite = overwrite
                 },
                 cancellationToken);
-
-            if (notAccepted != null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+     
 
             typed!.Validate();
 

@@ -56,10 +56,7 @@ public static class SmallestAISpeech
                     Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName()
                 },
                 cancellationToken);
-
-            if (notAccepted != null)
-                return notAccepted;
-
+     
             if (typed == null)
                 return "No input data provided".ToErrorCallToolResponse();
 

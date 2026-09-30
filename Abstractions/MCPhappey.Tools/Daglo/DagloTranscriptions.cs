@@ -63,10 +63,7 @@ public static class DagloTranscriptions
                         MaxWaitSeconds = Math.Max(30, maxWaitSeconds)
                     },
                     cancellationToken);
-
-                if (notAccepted != null)
-                    throw new ValidationException("Transcription request was not accepted.");
-
+               
                 if (typed == null)
                     throw new ValidationException("No transcription input data provided.");
 

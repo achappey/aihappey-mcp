@@ -285,10 +285,7 @@ public static partial class SharePointREST
                   Overwrite = overwrite,
                   Metadata = metadata
               },
-              cancellationToken);
-
-          if (notAccepted != null)
-              throw new Exception(JsonSerializer.Serialize(notAccepted));
+              cancellationToken);       
 
           typed!.Validate();
 
@@ -424,9 +421,7 @@ public static partial class SharePointREST
                       DeleteSourceAfterCopy = deleteSourceAfterCopy
                   },
                   cancellationToken);
-
-              if (notAccepted != null)
-                  throw new Exception(JsonSerializer.Serialize(notAccepted));
+            
 
               typed!.Validate();
 

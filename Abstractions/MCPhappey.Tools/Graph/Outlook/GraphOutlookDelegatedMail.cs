@@ -26,10 +26,11 @@ public static partial class GraphOutlookDelegatedMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphOutlookMail.GraphMailSingleCategoryInput { Category = category ?? string.Empty },
-                cancellationToken
-            );
+            var typed = requestContext.Elicit(
+                new GraphOutlookMail.GraphMailSingleCategoryInput
+                {
+                    Category = category ?? string.Empty
+                });
 
             if (string.IsNullOrWhiteSpace(typed?.Category))
                 throw new ArgumentException("Category name cannot be empty.", nameof(category));
@@ -76,18 +77,16 @@ public static partial class GraphOutlookDelegatedMail
                 requestConfiguration.QueryParameters.Select = GraphOutlookMail.MailMoveMessageSelect;
             }, cancellationToken) ?? throw new ValidationException($"Message '{messageId}' was not found in delegated mailbox '{userId}'.");
 
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphOutlookMail.GraphMailMoveConfirmationInput
-                {
-                    Mailbox = userId,
-                    MessageCount = 1,
-                    DestinationFolderId = destination.Id,
-                    DestinationFolderDisplayName = destination.DisplayName,
-                    Preview = GraphOutlookMail.FormatMovePreview([message])
-                },
-                cancellationToken);
+            var typed = requestContext.Elicit(
+     new GraphOutlookMail.GraphMailMoveConfirmationInput
+     {
+         Mailbox = userId,
+         MessageCount = 1,
+         DestinationFolderId = destination.Id,
+         DestinationFolderDisplayName = destination.DisplayName,
+         Preview = GraphOutlookMail.FormatMovePreview([message])
+     });
 
-            if (notAccepted != null) throw new Exception(System.Text.Json.JsonSerializer.Serialize(notAccepted));
             if (typed == null) throw new ValidationException("Move was not confirmed.");
 
             return await GraphOutlookMail.MoveDelegatedMessagesAsync(
@@ -148,15 +147,13 @@ public static partial class GraphOutlookDelegatedMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.TryElicit(
-            new GraphOutlookMail.GraphFlagMail
-            {
-                FlagStatus = flagStatus ?? GraphOutlookMail.FlagStatusEnum.Flagged,
-                StartDateTime = startDateTime != null ? DateTimeOffset.Parse(startDateTime) : null,
-                DueDateTime = dueDateTime != null ? DateTimeOffset.Parse(dueDateTime) : null,
-            },
-            cancellationToken
-        );
+        var typed = requestContext.Elicit(
+       new GraphOutlookMail.GraphFlagMail
+       {
+           FlagStatus = flagStatus ?? GraphOutlookMail.FlagStatusEnum.Flagged,
+           StartDateTime = startDateTime != null ? DateTimeOffset.Parse(startDateTime) : null,
+           DueDateTime = dueDateTime != null ? DateTimeOffset.Parse(dueDateTime) : null,
+       });
 
         var flag = new FollowupFlag
         {
@@ -204,14 +201,12 @@ public static partial class GraphOutlookDelegatedMail
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
-        var (typed, notAccepted, _) = await requestContext.TryElicit(
-            new GraphOutlookMail.GraphReplyMail
-            {
-                Comment = content ?? string.Empty,
-                ReplyType = replyType ?? GraphOutlookMail.ReplyTypeEnum.Reply,
-            },
-            cancellationToken
-        );
+        var typed = requestContext.Elicit(
+     new GraphOutlookMail.GraphReplyMail
+     {
+         Comment = content ?? string.Empty,
+         ReplyType = replyType ?? GraphOutlookMail.ReplyTypeEnum.Reply,
+     });
 
         if (typed.ReplyType == GraphOutlookMail.ReplyTypeEnum.ReplyAll)
         {
@@ -248,9 +243,13 @@ public static partial class GraphOutlookDelegatedMail
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(userId);
             ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
-            var (input, rejected, _) = await requestContext.TryElicit(
-                new GraphOutlookMail.GraphReplyDraftInput { ReplyType = replyType, Comment = comment }, cancellationToken);
-            if (rejected is not null || input is null) return default(Message);
+            var input = requestContext.Elicit(
+                new GraphOutlookMail.GraphReplyDraftInput
+                {
+                    ReplyType = replyType,
+                    Comment = comment
+                });
+
             if (!Enum.IsDefined(input.ReplyType))
                 throw new ValidationException("Reply type must be Reply or ReplyAll.");
 
@@ -279,9 +278,12 @@ public static partial class GraphOutlookDelegatedMail
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(userId);
             ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
-            var (input, rejected, _) = await requestContext.TryElicit(
-                new GraphOutlookMail.GraphForwardDraftInput { ToRecipients = toRecipients, Comment = comment }, cancellationToken);
-            if (rejected is not null || input is null) return default(Message);
+            var input = requestContext.Elicit(
+      new GraphOutlookMail.GraphForwardDraftInput
+      {
+          ToRecipients = toRecipients,
+          Comment = comment
+      });
 
             return await client.Users[userId].Messages[messageId].CreateForward.PostAsync(
                 new Microsoft.Graph.Beta.Users.Item.Messages.Item.CreateForward.CreateForwardPostRequestBody
@@ -308,18 +310,16 @@ public static partial class GraphOutlookDelegatedMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.TryElicit(
-            new GraphOutlookMail.GraphSendMail
-            {
-                ToRecipients = toRecipients ?? string.Empty,
-                CcRecipients = ccRecipients,
-                Subject = subject,
-                Body = body,
-                BodyType = bodyType ?? BodyType.Text,
-                EmailSignatureUrl = emailSignatureUrl
-            },
-            cancellationToken
-        );
+        var typed = requestContext.Elicit(
+     new GraphOutlookMail.GraphSendMail
+     {
+         ToRecipients = toRecipients ?? string.Empty,
+         CcRecipients = ccRecipients,
+         Subject = subject,
+         Body = body,
+         BodyType = bodyType ?? BodyType.Text,
+         EmailSignatureUrl = emailSignatureUrl
+     });
 
         var resolvedBody = await GraphOutlookMail.BuildBodyWithOptionalSignatureAsync(
             serviceProvider,
@@ -372,18 +372,16 @@ public static partial class GraphOutlookDelegatedMail
         CancellationToken cancellationToken = default) =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.TryElicit(
-            new GraphOutlookMail.GraphCreateMailDraft
-            {
-                ToRecipients = toRecipients ?? string.Empty,
-                CcRecipients = ccRecipients,
-                Subject = subject,
-                Body = body,
-                BodyType = bodyType ?? BodyType.Text,
-                EmailSignatureUrl = emailSignatureUrl
-            },
-            cancellationToken
-        );
+        var typed = requestContext.Elicit(
+     new GraphOutlookMail.GraphCreateMailDraft
+     {
+         ToRecipients = toRecipients ?? string.Empty,
+         CcRecipients = ccRecipients,
+         Subject = subject,
+         Body = body,
+         BodyType = bodyType ?? BodyType.Text,
+         EmailSignatureUrl = emailSignatureUrl
+     });
 
         var resolvedBody = await GraphOutlookMail.BuildBodyWithOptionalSignatureAsync(
             serviceProvider,
@@ -412,7 +410,7 @@ public static partial class GraphOutlookDelegatedMail
         };
 
         var client = await serviceProvider.GetOboGraphClient(requestContext.Server);
-        
+
         return await client.Users[userId].Messages.PostAsync(newMessage, cancellationToken: cancellationToken);
     });
 }

@@ -97,10 +97,7 @@ public static class GraphContacts
                     OtherCountryOrRegion = otherCountryOrRegion,
                 },
                 cancellationToken);
-
-            if (notAccepted != null)
-                return default(Contact);
-
+      
             var contact = ToGraphContact(typed ?? new GraphContactsUpsertContactInput());
             if (!string.IsNullOrWhiteSpace(typed?.ContactFolderId))
             {
@@ -203,10 +200,7 @@ public static class GraphContacts
             var (typed, notAccepted, _) = await requestContext.TryElicit(
                 elicitSeed,
                 cancellationToken);
-
-            if (notAccepted != null)
-                return default(Contact);
-
+        
             var contact = ToGraphContact(typed ?? elicitSeed);
             return await client.Me.Contacts[contactId].PatchAsync(contact, cancellationToken: cancellationToken);
         })));
@@ -248,9 +242,7 @@ public static class GraphContacts
                     ParentFolderId = parentFolderId
                 },
                 cancellationToken);
-
-            if (notAccepted != null)
-                return default(ContactFolder);
+          
 
             var folder = new ContactFolder
             {

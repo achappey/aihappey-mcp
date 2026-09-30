@@ -34,8 +34,7 @@ public static class SweetCLIService
                     },
                     cancellationToken);
 
-                if (notAccepted != null)
-                    return notAccepted;
+          
 
                 if (typed == null)
                     return "Elicitation was not accepted.".ToErrorCallToolResponse();
@@ -88,9 +87,6 @@ public static class SweetCLIService
                         Code = code
                     },
                     cancellationToken);
-
-                if (notAccepted != null)
-                    return notAccepted;
 
                 if (typed == null)
                     return "Elicitation was not accepted.".ToErrorCallToolResponse();

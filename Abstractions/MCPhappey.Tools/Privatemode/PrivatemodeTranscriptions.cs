@@ -51,9 +51,7 @@ public static class PrivatemodeTranscriptions
                         ResponseFormat = NormalizeResponseFormat(responseFormat)
                     },
                     cancellationToken);
-
-                if (notAccepted != null)
-                    return notAccepted;
+              
 
                 if (typed == null)
                     return "No input data provided".ToErrorCallToolResponse();
