@@ -4,12 +4,7 @@
     "title": "Anthropic Skills",
     "version": "1.0.0",
     "websiteUrl": "https://www.anthropic.com/news/skills",
-    "description": "Create reusable AI automations from instructions and examples to run tasks on demand.",
-    "icons": [
-      {
-        "src": "https://upload.wikimedia.org/wikipedia/commons/1/14/Anthropic.png"
-      }
-    ]
+    "description": "Create reusable AI automations from instructions and examples to run tasks on demand."
   },
   "plugins": [
     "MCPhappey.Tools.Anthropic.Skills.AnthropicSkills, MCPhappey.Tools"

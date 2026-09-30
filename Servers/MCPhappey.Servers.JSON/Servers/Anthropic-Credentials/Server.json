@@ -4,12 +4,7 @@
     "title": "Anthropic Credentials",
     "version": "1.0.0",
     "websiteUrl": "https://www.anthropic.com",
-    "description": "Credentials for Anthropic Managed Agents.",
-    "icons": [
-      {
-        "src": "https://upload.wikimedia.org/wikipedia/commons/1/14/Anthropic.png"
-      }
-    ]
+    "description": "Credentials for Anthropic Managed Agents."
   },
   "plugins": [
     "MCPhappey.Tools.Anthropic.Credentials.AnthropicCredentials, MCPhappey.Tools"
