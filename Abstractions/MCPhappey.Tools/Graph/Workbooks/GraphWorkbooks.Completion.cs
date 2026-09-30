@@ -24,7 +24,7 @@ public static partial class GraphWorkbooks
         {
             var (input, rejected, _) = await requestContext.TryElicit(
                 new CreateNamedItemInput { Name = name, Reference = reference, Comment = comment }, cancellationToken);
-            
+
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
             ArgumentException.ThrowIfNullOrWhiteSpace(input.Reference);
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
@@ -49,7 +49,7 @@ public static partial class GraphWorkbooks
             if (visibility is null && position is null) throw new ValidationException("A visibility or position is required.");
             var (input, rejected, _) = await requestContext.TryElicit(
                 new WorksheetPropertiesInput { Visibility = visibility, Position = position }, cancellationToken);
-            
+
             var body = new Dictionary<string, object?>();
             if (input?.Visibility is not null) body["visibility"] = input.Visibility.ToString();
             if (input?.Position is not null) body["position"] = input.Position;
@@ -89,11 +89,16 @@ public static partial class GraphWorkbooks
                 throw new ValidationException("At least one range format property is required.");
             var (input, rejected, _) = await requestContext.TryElicit(new RangeFormatInput
             {
-                FillColor = fillColor, FontColor = fontColor, FontBold = fontBold, FontSize = fontSize,
-                HorizontalAlignment = horizontalAlignment, VerticalAlignment = verticalAlignment,
-                WrapText = wrapText, NumberFormatJson = numberFormatJson
+                FillColor = fillColor,
+                FontColor = fontColor,
+                FontBold = fontBold,
+                FontSize = fontSize,
+                HorizontalAlignment = horizontalAlignment,
+                VerticalAlignment = verticalAlignment,
+                WrapText = wrapText,
+                NumberFormatJson = numberFormatJson
             }, cancellationToken);
-            
+
             var body = new Dictionary<string, object?>();
             if (input?.FillColor is not null) body["fill"] = new { color = input.FillColor };
             var font = new Dictionary<string, object?>();
@@ -121,9 +126,13 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.TryElicit(
-                new TableSortInput { FieldsJson = fieldsJson, MatchCase = matchCase, Method = method }, cancellationToken);
-            
+            var input = requestContext.Elicit(
+                new TableSortInput
+                {
+                    FieldsJson = fieldsJson,
+                    MatchCase = matchCase,
+                    Method = method
+                });
             var fields = ParseArray(input?.FieldsJson);
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
             return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook, HttpMethod.Post,
@@ -154,7 +163,7 @@ public static partial class GraphWorkbooks
         {
             var (input, rejected, _) = await requestContext.TryElicit(
                 new FilterValuesInput { ValuesJson = valuesJson }, cancellationToken);
-            
+
             var values = ParseArray(input?.ValuesJson);
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);
             return await SendWorkbookJsonAsync(serviceProvider, requestContext, workbook, HttpMethod.Post,
@@ -182,7 +191,7 @@ public static partial class GraphWorkbooks
         {
             var (input, rejected, _) = await requestContext.TryElicit(
                 new MatrixInput { Json = json }, cancellationToken);
-            
+
             var matrix = ParseMatrix(input?.Json);
             var body = new Dictionary<string, object?> { [propertyName] = matrix };
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);

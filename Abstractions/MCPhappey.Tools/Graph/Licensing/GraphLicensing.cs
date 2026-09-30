@@ -36,14 +36,12 @@ public static class GraphLicensing
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await requestContext.TryElicit(
-            new GraphLicenseChange
-            {
-                UserId = userId ?? string.Empty,
-                SkuId = skuId ?? string.Empty
-            },
-            cancellationToken
-        );
+        var typed = requestContext.Elicit(
+       new GraphLicenseChange
+       {
+           UserId = userId ?? string.Empty,
+           SkuId = skuId ?? string.Empty
+       });
 
         var requestBody = new Microsoft.Graph.Beta.Users.Item.AssignLicense.AssignLicensePostRequestBody
         {
@@ -75,14 +73,12 @@ public static class GraphLicensing
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await requestContext.TryElicit(
-            new GraphLicenseChange
-            {
-                UserId = userId ?? string.Empty,
-                SkuId = skuId ?? string.Empty
-            },
-            cancellationToken
-        );
+        var typed = requestContext.Elicit(
+     new GraphLicenseChange
+     {
+         UserId = userId ?? string.Empty,
+         SkuId = skuId ?? string.Empty
+     });
 
         var requestBody = new Microsoft.Graph.Beta.Users.Item.AssignLicense.AssignLicensePostRequestBody
         {

@@ -30,15 +30,15 @@ public static class GraphOneDriveSharing
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new CreateSharingLinkInput
-                {
-                    Type = type,
-                    Scope = scope,
-                    ExpirationDateTime = expirationDateTime,
-                    Password = password
-                }, cancellationToken);
-            
+            var typed = requestContext.Elicit(
+    new CreateSharingLinkInput
+    {
+        Type = type,
+        Scope = scope,
+        ExpirationDateTime = expirationDateTime,
+        Password = password
+    });
+
             ValidateLink(typed);
             return await client.Drives[driveId].Items[itemId].CreateLink.PostAsync(
                 new CreateLinkPostRequestBody
@@ -69,16 +69,16 @@ public static class GraphOneDriveSharing
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new InviteRecipientsInput
-                {
-                    RecipientEmailsCsv = recipientEmailsCsv,
-                    Role = role,
-                    SendInvitation = sendInvitation,
-                    Message = message,
-                    RequireSignIn = requireSignIn,
-                    ExpirationDateTime = expirationDateTime
-                }, cancellationToken);
+            var typed = requestContext.Elicit(
+      new InviteRecipientsInput
+      {
+          RecipientEmailsCsv = recipientEmailsCsv,
+          Role = role,
+          SendInvitation = sendInvitation,
+          Message = message,
+          RequireSignIn = requireSignIn,
+          ExpirationDateTime = expirationDateTime
+      });
 
             ValidateInvitation(typed);
             var recipients = typed!.RecipientEmailsCsv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -113,9 +113,13 @@ public static class GraphOneDriveSharing
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new UpdatePermissionInput { PermissionId = permissionId, Role = role }, cancellationToken);
-        
+            var typed = requestContext.Elicit(
+      new UpdatePermissionInput
+      {
+          PermissionId = permissionId,
+          Role = role
+      });
+
             ValidateRole(typed?.Role);
             return await client.Drives[driveId].Items[itemId].Permissions[typed!.PermissionId].PatchAsync(
                 new Permission { Roles = [typed.Role.Trim().ToLowerInvariant()] },
