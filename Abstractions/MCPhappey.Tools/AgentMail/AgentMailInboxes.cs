@@ -24,13 +24,13 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailCreateInboxRequest
+                var typed = requestContext.Elicit(new AgentMailCreateInboxRequest
                 {
                     Username = username,
                     Domain = domain,
                     DisplayName = displayName,
                     ClientId = clientId
-                }, cancellationToken);
+                });
 
                 var client = serviceProvider.GetRequiredService<AgentMailClient>();
                 var response = await client.PostAsync("/v0/inboxes", BuildCreateInboxBody(typed), cancellationToken);
@@ -48,11 +48,11 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailUpdateInboxRequest
+                var typed = requestContext.Elicit(new AgentMailUpdateInboxRequest
                 {
                     InboxId = inboxId,
                     DisplayName = displayName
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.InboxId, nameof(inboxId));
                 AgentMailHelpers.Require(typed.DisplayName, nameof(displayName));
@@ -97,14 +97,14 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailCreatePodInboxRequest
+                var typed = requestContext.Elicit(new AgentMailCreatePodInboxRequest
                 {
                     PodId = podId,
                     Username = username,
                     Domain = domain,
                     DisplayName = displayName,
                     ClientId = clientId
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.PodId, nameof(podId));
                 var client = serviceProvider.GetRequiredService<AgentMailClient>();
@@ -145,13 +145,13 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailUpdateMessageRequest
+                var typed = requestContext.Elicit(new AgentMailUpdateMessageRequest
                 {
                     InboxId = inboxId,
                     MessageId = messageId,
                     AddLabels = addLabels,
                     RemoveLabels = removeLabels
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.InboxId, nameof(inboxId));
                 AgentMailHelpers.Require(typed.MessageId, nameof(messageId));
@@ -203,7 +203,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailReplyMessageRequest
+                var typed = requestContext.Elicit(new AgentMailReplyMessageRequest
                 {
                     InboxId = inboxId,
                     MessageId = messageId,
@@ -217,7 +217,7 @@ public static class AgentMailInboxes
                     Html = html,
                     AttachmentsJson = attachmentsJson,
                     HeadersJson = headersJson
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.InboxId, nameof(inboxId));
                 AgentMailHelpers.Require(typed.MessageId, nameof(messageId));
@@ -246,7 +246,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailReplyAllMessageRequest
+                var typed = requestContext.Elicit(new AgentMailReplyAllMessageRequest
                 {
                     InboxId = inboxId,
                     MessageId = messageId,
@@ -256,7 +256,7 @@ public static class AgentMailInboxes
                     Html = html,
                     AttachmentsJson = attachmentsJson,
                     HeadersJson = headersJson
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.InboxId, nameof(inboxId));
                 AgentMailHelpers.Require(typed.MessageId, nameof(messageId));
@@ -362,13 +362,13 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailSendDraftRequest
+                var typed = requestContext.Elicit(new AgentMailSendDraftRequest
                 {
                     InboxId = inboxId,
                     DraftId = draftId,
                     AddLabels = addLabels,
                     RemoveLabels = removeLabels
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.InboxId, nameof(inboxId));
                 AgentMailHelpers.Require(typed.DraftId, nameof(draftId));
@@ -409,10 +409,10 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailCreateApiKeyRequest
+                var typed = requestContext.Elicit(new AgentMailCreateApiKeyRequest
                 {
                     Name = name
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.Name, nameof(name));
                 var client = serviceProvider.GetRequiredService<AgentMailClient>();
@@ -459,7 +459,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailSendMessageRequest
+                var typed = requestContext.Elicit(new AgentMailSendMessageRequest
                 {
                     InboxId = inboxId,
                     MessageId = messageId,
@@ -473,7 +473,7 @@ public static class AgentMailInboxes
                     Html = html,
                     AttachmentsJson = attachmentsJson,
                     HeadersJson = headersJson
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.InboxId, nameof(inboxId));
                 var body = AgentMailHelpers.BuildSendMessageBody(typed.Labels, typed.ReplyTo, typed.To, typed.Cc, typed.Bcc, typed.Subject, typed.Text, typed.Html, typed.AttachmentsJson, typed.HeadersJson);
@@ -508,7 +508,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailDraftRequest
+                var typed = requestContext.Elicit(new AgentMailDraftRequest
                 {
                     InboxId = inboxId,
                     DraftId = draftId,
@@ -523,7 +523,7 @@ public static class AgentMailInboxes
                     InReplyTo = inReplyTo,
                     SendAt = sendAt,
                     ClientId = clientId
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.InboxId, nameof(inboxId));
                 if (!string.IsNullOrWhiteSpace(draftId)) AgentMailHelpers.Require(typed.DraftId, nameof(draftId));
