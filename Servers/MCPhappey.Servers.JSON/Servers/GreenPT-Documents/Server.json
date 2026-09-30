@@ -3,13 +3,8 @@
         "name": "GreenPT-Documents",
         "title": "GreenPT Documents",
         "version": "1.0.0",
-        "websiteUrl": "https://greenpt.ai",
-        "description": "Convert documents and images into AI-ready markdown, json, html, text, and doctags with OCR and table extraction.",
-        "icons": [
-            {
-                "src": "https://greenpt.ai/content/uploads/2026/01/2993679_brand_brands_logo_logos_opera_icon@2x-800x800.webp"
-            }
-        ]
+        "websiteUrl": "https://greenpt.com",
+        "description": "Convert documents and images into AI-ready markdown, json, html, text, and doctags with OCR and table extraction."
     },
     "plugins": [
         "MCPhappey.Tools.GreenPT.GreenPTDocuments, MCPhappey.Tools"
