@@ -14,10 +14,10 @@
       }
     },
     {
-      "uri": "https://www.zorginzicht.nl/openbare-data/open-data-geestelijke-gezondheidszorg-kwaliteitsstatuut",
-      "name": "open-data-ggz-kwaliteitsstatuut",
-      "title": "Open data GGZ Kwaliteitsstatuut",
-      "description": "Informatie over kwaliteitsstatuten binnen de geestelijke gezondheidszorg.",
+      "uri": "https://www.zorginzicht.nl/algemeen/open-data-geestelijke-gezondheidszorg",
+      "name": "open-data-geestelijke-gezondheidszorg",
+      "title": "Open data Geestelijke gezondheidszorg",
+      "description": "Openbare kwaliteitsgegevens over geestelijke gezondheidszorg, waaronder het Kwaliteitsstatuut en CQi.",
       "mimeType": "text/html",
       "annotations": {
         "audience": [

@@ -61,9 +61,9 @@
       }
     },
     {
-      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}",
+      "uriTemplate": "https://www.zorgkaartnederland.nl/zorginstelling/{organisatieUrlSlug}",
       "name": "organisatie-overzicht",
-      "description": "Algemeent overzicht van een organisatie.",
+      "description": "Algemeen overzicht van een zorgorganisatie.",
       "mimeType": "text/plain",
       "annotations": {
         "audience": [
@@ -72,9 +72,9 @@
       }
     },
     {
-      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}/waardering/pagina{paginaNummer}",
+      "uriTemplate": "https://www.zorgkaartnederland.nl/zorginstelling/{organisatieUrlSlug}/waardering/pagina{paginaNummer}",
       "name": "organisatie-waarderingen",
-      "description": "Haalt waarderingen op van een organisatie.",
+      "description": "Haalt waarderingen op van een zorgorganisatie, per pagina.",
       "mimeType": "text/plain",
       "annotations": {
         "audience": [
@@ -83,9 +83,9 @@
       }
     },
     {
-      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}/wachttijden",
+      "uriTemplate": "https://www.zorgkaartnederland.nl/zorginstelling/{organisatieUrlSlug}/wachttijden",
       "name": "organisatie-wachttijden",
-      "description": "Haalt wachttijden op van een organisatie.",
+      "description": "Haalt wachttijden op van een zorgorganisatie.",
       "mimeType": "text/plain",
       "annotations": {
         "audience": [
@@ -94,9 +94,9 @@
       }
     },
     {
-      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}/specialisten",
+      "uriTemplate": "https://www.zorgkaartnederland.nl/zorginstelling/{organisatieUrlSlug}/specialisten",
       "name": "organisatie-specialisten",
-      "description": "Haalt specialisten op van een organisatie.",
+      "description": "Haalt specialisten op van een zorgorganisatie.",
       "mimeType": "text/plain",
       "annotations": {
         "audience": [
@@ -105,9 +105,9 @@
       }
     },
     {
-      "uriTemplate": "https://www.zorgkaartnederland.nl/{organisatieTypeUrlSlug}/{organisatieUrlSlug}/faciliteiten",
-      "name": "organisatie-faciliteiten",
-      "description": "Haalt faciliteiten op van een organisatie.",
+      "uriTemplate": "https://www.zorgkaartnederland.nl/zorginstelling/{organisatieUrlSlug}/keurmerken",
+      "name": "organisatie-keurmerken",
+      "description": "Haalt kwaliteitskeurmerken en onderscheidingen van een zorgorganisatie op.",
       "mimeType": "text/plain",
       "annotations": {
         "audience": [

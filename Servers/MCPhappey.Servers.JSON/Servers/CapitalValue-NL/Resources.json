@@ -209,36 +209,10 @@
       }
     },
     {
-      "name": "consultancy-kwartaaldata",
-      "title": "Consultancy kwartaaldata",
-      "uri": "https://www.capitalvalue.nl/woningvastgoed/consultancy/kwartaaldata/",
-      "description": "Consultancy: kwartaaldata woningmarkt (productpagina).",
-      "mimeType": "text/html",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
       "name": "consultancy-yieldforecast",
       "title": "Consultancy yield forecast",
       "uri": "https://www.capitalvalue.nl/woningvastgoed/consultancy/yieldforecastwoningmarkt/",
       "description": "Consultancy: yield forecast woningmarkt (productpagina).",
-      "mimeType": "text/html",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
-      "name": "consultancy-waardebepaling",
-      "title": "Consultancy waardebepaling",
-      "uri": "https://www.capitalvalue.nl/woningvastgoed/consultancy/indicatieve-waardebepaling/",
-      "description": "Consultancy: indicatieve waardebepaling (productpagina).",
       "mimeType": "text/html",
       "annotations": {
         "audience": [
