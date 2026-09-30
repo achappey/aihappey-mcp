@@ -24,6 +24,18 @@ public static class StaticContentLoader
                 if (serverObj == null)
                     continue;
 
+                if (serverObj.ServerInfo.Icons?.Any() != true &&
+                    !string.IsNullOrWhiteSpace(serverObj.ServerInfo.WebsiteUrl))
+                {
+                    serverObj.ServerInfo.Icons =
+                    [
+                                        new Icon
+                        {
+                            Source = $"https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url={Uri.EscapeDataString(serverObj.ServerInfo.WebsiteUrl)}&size=128"
+                        }
+                    ];
+                }
+
                 ServerConfig serverConfig = new()
                 {
                     Server = serverObj,
