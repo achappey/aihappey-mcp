@@ -132,6 +132,10 @@ public static partial class ModelContextToolExtensions
                 StructuredContent = resultContent
             };
         }
+        catch (InputRequiredException)
+        {
+            throw;
+        }
         catch (Exception e)
         {
             return e.Message.ToErrorCallToolResponse();
