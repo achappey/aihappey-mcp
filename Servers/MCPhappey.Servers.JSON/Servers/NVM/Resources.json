@@ -167,6 +167,12 @@
           "assistant"
         ]
       }
+    },
+    {
+      "name": "business-marktinformatie",
+      "uri": "https://www.nvm.nl/business/marktinformatie-business/",
+      "description": "Marktinformatie en rapporten van NVM Business.",
+      "mimeType": "text/html"
     }
   ]
 }

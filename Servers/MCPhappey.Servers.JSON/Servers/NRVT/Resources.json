@@ -1,20 +1,16 @@
 {
   "resources": [
     {
-      "uri": "https://nrvt.nl/over-nrvt/downloads",
-      "name": "downloads-overzicht",
-      "title": "Downloads overzicht",
-      "description": "Overzicht van alle downloadcategorieën en documenten.",
-      "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
-    },
-    {
       "uri": "https://nrvt.nl/regelgeving/reglementen-en-praktijkhandreikingen",
       "name": "regelgeving-reglementen-en-praktijkhandreikingen",
       "title": "Reglementen en praktijkhandreikingen",
       "description": "Pagina met reglementen, praktijkhandreikingen, toelichtingen en internationale regelgeving.",
       "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uri": "https://nrvt.nl/regelgeving/model-taxatierapporten-en-bijlagen",
@@ -22,15 +18,11 @@
       "title": "Model taxatierapporten en bijlagen",
       "description": "Model Taxatierapport Woonruimte 2024/2025 en bijlagen.",
       "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
-    },
-    {
-      "uri": "https://nrvt.nl/tucht/reglementen",
-      "name": "tucht-reglementen",
-      "title": "Tuchtreglementen",
-      "description": "Reglement tuchtrechtspraak, Commissie van Beroep en Geschillenbeslechting Validaties.",
-      "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uri": "https://nrvt.nl/over-nrvt/jaarverslag-nrvt",
@@ -38,7 +30,11 @@
       "title": "Jaarverslagen NRVT",
       "description": "Overzicht en toelichting bij NRVT jaarverslagen.",
       "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uri": "https://nrvt.nl/downloads/45",
@@ -46,7 +42,11 @@
       "title": "Jaarverslag 2023 (PDF)",
       "description": "Directe toegang tot het jaarverslag 2023.",
       "mimeType": "application/pdf",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uri": "https://nrvt.nl/over-nrvt/nieuws?pagina=1&limiet=10&q=&filters%5Barticle_type%5D%5B0%5D=publications",
@@ -54,7 +54,11 @@
       "title": "Publicaties (pagina 1)",
       "description": "Nieuws/publicaties met filter article_type=publications.",
       "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uri": "https://nrvt.nl/over-nrvt/nieuws?pagina=1&limiet=10&q=&filters%5Barticle_type%5D%5B0%5D=newsletter",
@@ -62,7 +66,11 @@
       "title": "Nieuwsbrieven (pagina 1)",
       "description": "Nieuwsbrieven met filter article_type=newsletter.",
       "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uri": "https://nrvt.nl/zoeken?q=pdf",
@@ -70,7 +78,11 @@
       "title": "Zoekopdracht: pdf",
       "description": "Voorbeeldzoekopdracht naar 'pdf' op nrvt.nl.",
       "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uri": "https://nrvt.nl/over-nrvt/statuten-en-protocollen",
@@ -78,7 +90,11 @@
       "title": "Statuten en protocollen",
       "description": "Pagina met statuten en protocollen van NRVT.",
       "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
     },
     {
       "uri": "https://nrvt.nl/vind-een-taxateur?type=personen&q=&geo%5Blocatie%5D=&geo%5Bafstand%5D=5",
@@ -86,7 +102,17 @@
       "title": "Voorbeeld: zoek een Register-Taxateur",
       "description": "Voorbeeldquery voor het vinden van een taxateur (personen, 5 km).",
       "mimeType": "text/html",
-      "annotations": { "audience": ["assistant"] }
+      "annotations": {
+        "audience": [
+          "assistant"
+        ]
+      }
+    },
+    {
+      "name": "tucht-reglementen",
+      "uri": "https://www.nrvt.nl/voor-opdrachtgevers/stichting-tuchtrechtspraak-nrvt/reglementen",
+      "description": "Reglement tuchtrechtspraak, Commissie van Beroep en Geschillenbeslechting Validaties.",
+      "mimeType": "text/html"
     }
   ]
 }

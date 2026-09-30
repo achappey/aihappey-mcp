@@ -1,19 +1,6 @@
 {
   "resourceTemplates": [
     {
-      "uriTemplate": "https://www.nvm.nl/zoeken/{?q}",
-      "name": "site-search",
-      "title": "Site search (NVM)",
-      "description": "Doorzoek de volledige NVM-website met een vrije zoekterm.",
-      "mimeType": "text/html",
-      "annotations": {
-        "audience": [
-          "assistant",
-          "user"
-        ]
-      }
-    },
-    {
       "uriTemplate": "https://www.nvm.nl/nieuws/{year}/{slug}/",
       "name": "news-article",
       "title": "Nieuwsartikel (jaar + slug)",
