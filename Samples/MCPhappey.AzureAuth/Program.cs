@@ -45,7 +45,6 @@ using MCPhappey.Tools.QuiverAI;
 using MCPhappey.Tools.Azuce;
 using MCPhappey.Tools.VoyageAI;
 using MCPhappey.Tools.AIML;
-using MCPhappey.Tools.SPAMhunter;
 using MCPhappey.Tools.RelaxAI;
 using MCPhappey.Tools.GreenPT;
 using MCPhappey.Tools.APIpie;
@@ -205,7 +204,6 @@ builder.Services
 .AddVoyageAI(appConfig?.DomainHeaders)
 .AddAIML(appConfig?.DomainHeaders)
 .AddMiniMax(appConfig?.DomainHeaders)
-.AddSPAMhunter(appConfig?.DomainHeaders)
    .AddAgentSandbox(appConfig?.DomainHeaders)
    .AddRelaxAI(appConfig?.DomainHeaders)
    .AddNebius(appConfig?.DomainHeaders)
