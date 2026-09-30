@@ -145,9 +145,6 @@ public sealed class OpenAIMcpTool
     public required string ServerLabel { get; init; }
     public required string Authorization { get; init; }
     
-    [JsonPropertyName("connector_id")]
-    public required string ConnectorId { get; init; }
-
     [JsonPropertyName("require_approval")]
     public string RequireApproval { get; init; } = "never";
 }
