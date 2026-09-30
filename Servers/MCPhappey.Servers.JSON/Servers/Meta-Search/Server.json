@@ -7,8 +7,7 @@
   },
   "plugins": [
     "MCPhappey.Tools.Perplexity.PerplexityPlugin, MCPhappey.Tools",
-    "MCPhappey.Tools.SharePoint.SharePointSearch, MCPhappey.Tools",
-    "MCPhappey.Tools.OpenAI.SharePoint.OpenAISharePoint, MCPhappey.Tools"
+    "MCPhappey.Tools.SharePoint.SharePointSearch, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
