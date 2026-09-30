@@ -60,6 +60,15 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await SetSingletonTool(agentId, "programmatic_tool_calling", enabled, new JsonObject { ["enabled"] = true }, serviceProvider, requestContext, cancellationToken);
 
+    [Description("Enable or disable browser computer use for an OpenAI-hosted agent session.")]
+    [McpServerTool(Title = "Configure OpenAI Agent Computer Use", Name = "openai_agents_computer_use_set", ReadOnly = false, OpenWorld = false, Destructive = false)]
+    public static async Task<CallToolResult?> OpenAIAgents_ComputerUseSet(
+        string agentId, bool enabled,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
+        bool includeScreenshots = false, CancellationToken cancellationToken = default)
+        => await SetSingletonTool(agentId, "computer_use", enabled,
+            new JsonObject { ["include_screenshots"] = includeScreenshots }, serviceProvider, requestContext, cancellationToken);
+
     private static async Task<CallToolResult?> SetSingletonTool(
         string agentId, string type, bool enabled, JsonObject? extra,
         IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
@@ -85,14 +94,14 @@ public static partial class OpenAIAgents
     public static async Task<CallToolResult?> OpenAIAgents_WebSearchSet(
         string agentId,
         IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
-        string? allowedDomains = null, string? contextSize = null, string? mode = null,
+        string? contextSize = null, string? mode = null,
         string? city = null, string? country = null, string? region = null, string? timezone = null,
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentWebSearchRequest
             {
-                AgentId = agentId, AllowedDomains = allowedDomains, ContextSize = contextSize, Mode = mode,
+                AgentId = agentId, ContextSize = contextSize, Mode = mode,
                 City = city, Country = country, Region = region, Timezone = timezone
             }, cancellationToken);
             if (rejected is not null) return rejected;
@@ -104,8 +113,6 @@ public static partial class OpenAIAgents
                 if (input.Country is { Length: > 0 } && input.Country.Length != 2)
                     throw new ValidationException("country must be a two-letter ISO country code.");
                 var tool = new JsonObject { ["type"] = "web_search" };
-                var domains = OpenAIAgentsHttp.ParseDelimited(input.AllowedDomains);
-                if (domains.Count > 0) tool["allowed_domains"] = OpenAIAgentsHttp.ToArray(domains);
                 SetOptionalString(tool, "context_size", input.ContextSize); SetOptionalString(tool, "mode", input.Mode);
                 if (new[] { input.City, input.Country, input.Region, input.Timezone }.Any(x => x is not null))
                 {
@@ -114,8 +121,22 @@ public static partial class OpenAIAgents
                     SetOptionalString(location, "region", input.Region); SetOptionalString(location, "timezone", input.Timezone);
                     tool["location"] = location;
                 }
-                return await MutateToolsAsync(serviceProvider, input.AgentId,
-                    tools => UpsertTool(tools, tool, "web_search"), cancellationToken);
+                return await MutateToolsAsync(serviceProvider, input.AgentId, tools =>
+                {
+                    var existing = FindTool(tools, "web_search");
+                    if (existing is not null)
+                    {
+                        if (tool["context_size"] is null && existing["context_size"] is not null)
+                            tool["context_size"] = existing["context_size"]!.DeepClone();
+                        if (tool["mode"] is null && existing["mode"] is not null)
+                            tool["mode"] = existing["mode"]!.DeepClone();
+                        if (tool["location"] is null && existing["location"] is not null)
+                            tool["location"] = existing["location"]!.DeepClone();
+                        if (existing["allowed_domains"] is not null)
+                            tool["allowed_domains"] = existing["allowed_domains"]!.DeepClone();
+                    }
+                    UpsertTool(tools, tool, "web_search");
+                }, cancellationToken);
             });
         });
 
@@ -125,6 +146,35 @@ public static partial class OpenAIAgents
         string agentId, IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
         => await SetSingletonTool(agentId, "web_search", false, null, serviceProvider, requestContext, cancellationToken);
+
+    [Description("Add one allowed domain to the agent's existing web-search tool.")]
+    [McpServerTool(Title = "Add OpenAI Agent Web Search Domain", Name = "openai_agents_web_search_domain_add", ReadOnly = false, OpenWorld = false, Destructive = false)]
+    public static async Task<CallToolResult?> OpenAIAgents_WebSearchDomainAdd(
+        string agentId, string domain, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default)
+        => await MutateWebDomain(agentId, domain, false, serviceProvider, requestContext, cancellationToken);
+
+    [Description("Remove one allowed domain from the agent's existing web-search tool.")]
+    [McpServerTool(Title = "Remove OpenAI Agent Web Search Domain", Name = "openai_agents_web_search_domain_remove", ReadOnly = false, OpenWorld = false, Destructive = false)]
+    public static async Task<CallToolResult?> OpenAIAgents_WebSearchDomainRemove(
+        string agentId, string domain, IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default)
+        => await MutateWebDomain(agentId, domain, true, serviceProvider, requestContext, cancellationToken);
+
+    private static async Task<CallToolResult?> MutateWebDomain(string agentId, string domain, bool remove,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken)
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+            await requestContext.WithStructuredContent(async () =>
+            {
+                ValidateRequired(agentId, "agentId"); ValidateRequired(domain, "domain");
+                return await MutateToolsAsync(serviceProvider, agentId, tools =>
+                {
+                    var tool = FindTool(tools, "web_search") ?? throw new ValidationException("Configure web search before editing domains.");
+                    var domains = OpenAIAgentsHttp.CloneArray(tool["allowed_domains"]);
+                    if (remove) RemoveArrayItem(domains, domain); else AddArrayItem(domains, domain);
+                    tool["allowed_domains"] = domains.Count == 0 ? null : domains;
+                }, cancellationToken);
+            }));
 
     private static async Task<CallToolResult?> RemoveNamedTool(
         string agentId, string name, string type,

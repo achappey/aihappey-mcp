@@ -22,7 +22,7 @@ public static partial class OpenAIAgents
         public string Name { get; set; } = string.Empty;
     }
 
-    [Description("Create a reusable OpenAI agent. Use the dedicated mutation tools to add metadata, structured text settings, multi-agent configuration, and tools.")]
+    [Description("Create a reusable OpenAI agent. Use dedicated mutation tools for metadata and tool/list entries.")]
     [McpServerTool(Title = "Create OpenAI Agent", Name = "openai_agents_create", ReadOnly = false, OpenWorld = false, Destructive = false)]
     public static async Task<CallToolResult?> OpenAIAgents_Create(
         [Description("OpenAI model name.")] string model,
@@ -30,6 +30,10 @@ public static partial class OpenAIAgents
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional human-readable agent name.")] string? name = null,
         [Description("Optional instructions appended to the agent's default instructions.")] string? instructions = null,
+        bool? multiAgentEnabled = null, int? maxConcurrentSubagents = null,
+        string? reasoningEffort = null, string? reasoningSummary = null,
+        string? serviceTier = null, string? textVerbosity = null,
+        [Description("URL of a JSON Schema file for constrained output; omit for ordinary text.")] string? textSchemaFileUrl = null,
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
@@ -37,7 +41,10 @@ public static partial class OpenAIAgents
             {
                 Model = model,
                 Name = name,
-                Instructions = instructions
+                Instructions = instructions, MultiAgentEnabled = multiAgentEnabled,
+                MaxConcurrentSubagents = maxConcurrentSubagents, ReasoningEffort = reasoningEffort,
+                ReasoningSummary = reasoningSummary, ServiceTier = serviceTier,
+                TextVerbosity = textVerbosity, TextSchemaFileUrl = textSchemaFileUrl
             }, cancellationToken);
             if (rejected is not null) return rejected;
 
@@ -47,6 +54,7 @@ public static partial class OpenAIAgents
                 var body = new JsonObject { ["model"] = input.Model };
                 SetOptionalString(body, "name", input.Name);
                 SetOptionalString(body, "instructions", input.Instructions);
+                await SetAgentConfigurationAsync(body, input, serviceProvider, requestContext.Server, cancellationToken);
                 return await OpenAIAgentsHttp.SendAsync(serviceProvider, HttpMethod.Post, BaseUrl, body, cancellationToken);
             });
         });
@@ -62,6 +70,15 @@ public static partial class OpenAIAgents
         [Description("Replacement instructions. Omit to preserve.")] string? instructions = null,
         [Description("Set true to clear the agent name.")] bool clearName = false,
         [Description("Set true to clear custom instructions.")] bool clearInstructions = false,
+        bool? multiAgentEnabled = null, int? maxConcurrentSubagents = null,
+        string? reasoningEffort = null, string? reasoningSummary = null,
+        string? serviceTier = null, string? textVerbosity = null,
+        string? textSchemaFileUrl = null,
+        [Description("Reset reasoning to model defaults.")] bool clearReasoning = false,
+        [Description("Reset text configuration to defaults.")] bool clearText = false,
+        [Description("Reset service tier to automatic selection.")] bool clearServiceTier = false,
+        [Description("Remove all metadata entries.")] bool clearMetadata = false,
+        [Description("Remove all agent tools.")] bool clearTools = false,
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
@@ -72,7 +89,12 @@ public static partial class OpenAIAgents
                 Name = name,
                 Instructions = instructions,
                 ClearName = clearName,
-                ClearInstructions = clearInstructions
+                ClearInstructions = clearInstructions, MultiAgentEnabled = multiAgentEnabled,
+                MaxConcurrentSubagents = maxConcurrentSubagents, ReasoningEffort = reasoningEffort,
+                ReasoningSummary = reasoningSummary, ServiceTier = serviceTier,
+                TextVerbosity = textVerbosity, TextSchemaFileUrl = textSchemaFileUrl,
+                ClearReasoning = clearReasoning, ClearText = clearText,
+                ClearServiceTier = clearServiceTier, ClearMetadata = clearMetadata, ClearTools = clearTools
             }, cancellationToken);
             if (rejected is not null) return rejected;
 
@@ -88,6 +110,9 @@ public static partial class OpenAIAgents
                 SetOptionalString(body, "model", input.Model);
                 if (input.ClearName) body["name"] = null; else SetOptionalString(body, "name", input.Name);
                 if (input.ClearInstructions) body["instructions"] = null; else SetOptionalString(body, "instructions", input.Instructions);
+                await SetAgentConfigurationAsync(body, input, serviceProvider, requestContext.Server, cancellationToken);
+                if (input.ClearMetadata) body["metadata"] = new JsonObject();
+                if (input.ClearTools) body["tools"] = new JsonArray();
                 EnsureMutation(body);
                 return await UpdateAsync(serviceProvider, input.AgentId, body, cancellationToken);
             });

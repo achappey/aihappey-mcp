@@ -106,7 +106,7 @@ public static partial class OpenAIAgents
             await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(agentId, "agentId");
-                ValidateEnum(serviceTier, "serviceTier", "auto", "default", "flex", "priority", "fast");
+                ValidateEnum(serviceTier, "serviceTier", "auto", "default", "flex", "priority", "fast", "ultrafast");
                 return await UpdateAsync(serviceProvider, agentId, new JsonObject { ["service_tier"] = serviceTier }, cancellationToken);
             }));
 

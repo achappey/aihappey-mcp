@@ -17,6 +17,14 @@ public static partial class OpenAIAgents
 
         [JsonPropertyName("instructions"), Description("Optional custom instructions.")]
         public string? Instructions { get; set; }
+
+        [JsonPropertyName("multiAgentEnabled")] public bool? MultiAgentEnabled { get; set; }
+        [Range(1, int.MaxValue), JsonPropertyName("maxConcurrentSubagents")] public int? MaxConcurrentSubagents { get; set; }
+        [JsonPropertyName("reasoningEffort")] public string? ReasoningEffort { get; set; }
+        [JsonPropertyName("reasoningSummary")] public string? ReasoningSummary { get; set; }
+        [JsonPropertyName("serviceTier")] public string? ServiceTier { get; set; }
+        [JsonPropertyName("textVerbosity")] public string? TextVerbosity { get; set; }
+        [JsonPropertyName("textSchemaFileUrl")] public string? TextSchemaFileUrl { get; set; }
     }
 
     [Description("Confirm the OpenAI agent scalar update.")]
@@ -30,6 +38,12 @@ public static partial class OpenAIAgents
 
         [JsonPropertyName("clearInstructions"), Description("Clear custom instructions.")]
         public bool ClearInstructions { get; set; }
+
+        [JsonPropertyName("clearReasoning")] public bool ClearReasoning { get; set; }
+        [JsonPropertyName("clearText")] public bool ClearText { get; set; }
+        [JsonPropertyName("clearServiceTier")] public bool ClearServiceTier { get; set; }
+        [JsonPropertyName("clearMetadata")] public bool ClearMetadata { get; set; }
+        [JsonPropertyName("clearTools")] public bool ClearTools { get; set; }
     }
 
     [Description("Confirm an OpenAI agent metadata mutation.")]
@@ -85,7 +99,6 @@ public static partial class OpenAIAgents
     public sealed class AgentWebSearchRequest
     {
         [Required, JsonPropertyName("agentId")] public string AgentId { get; set; } = string.Empty;
-        [JsonPropertyName("allowedDomains")] public string? AllowedDomains { get; set; }
         [JsonPropertyName("contextSize")] public string? ContextSize { get; set; }
         [JsonPropertyName("mode")] public string? Mode { get; set; }
         [JsonPropertyName("city")] public string? City { get; set; }
@@ -100,7 +113,6 @@ public static partial class OpenAIAgents
         [Required, JsonPropertyName("agentId")] public string AgentId { get; set; } = string.Empty;
         [Required, JsonPropertyName("serverLabel")] public string ServerLabel { get; set; } = string.Empty;
         [Required, JsonPropertyName("serverUrl")] public string ServerUrl { get; set; } = string.Empty;
-        [JsonPropertyName("allowedTools")] public string? AllowedTools { get; set; }
         [JsonPropertyName("connectionOrigin")] public string? ConnectionOrigin { get; set; }
         [JsonPropertyName("credentialId")] public string? CredentialId { get; set; }
         [JsonPropertyName("required")] public bool Required { get; set; }
@@ -113,9 +125,6 @@ public static partial class OpenAIAgents
         [Required, JsonPropertyName("serverLabel")] public string ServerLabel { get; set; } = string.Empty;
         [Required, JsonPropertyName("command")] public string Command { get; set; } = string.Empty;
         [Required, JsonPropertyName("cwd")] public string Cwd { get; set; } = string.Empty;
-        [JsonPropertyName("args")] public string? Args { get; set; }
-        [JsonPropertyName("envVars")] public string? EnvVars { get; set; }
-        [JsonPropertyName("allowedTools")] public string? AllowedTools { get; set; }
         [JsonPropertyName("required")] public bool Required { get; set; }
     }
 

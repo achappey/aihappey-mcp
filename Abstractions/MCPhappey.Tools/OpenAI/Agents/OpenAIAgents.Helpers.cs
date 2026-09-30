@@ -110,4 +110,70 @@ public static partial class OpenAIAgents
     {
         if (value is not null) body[name] = value;
     }
+
+    private static async Task SetAgentConfigurationAsync(JsonObject body, AgentScalarRequest input,
+        IServiceProvider serviceProvider, McpServer server, CancellationToken cancellationToken)
+    {
+        var update = input as AgentUpdateScalarRequest;
+        if (input.MaxConcurrentSubagents is < 1)
+            throw new ValidationException("maxConcurrentSubagents must be positive.");
+        if (input.MaxConcurrentSubagents is not null && input.MultiAgentEnabled is false)
+            throw new ValidationException("maxConcurrentSubagents requires multiAgentEnabled to be true.");
+        if (input.MaxConcurrentSubagents is not null && input.MultiAgentEnabled is null)
+            throw new ValidationException("Specify multiAgentEnabled when setting maxConcurrentSubagents.");
+        if (input.MultiAgentEnabled is not null)
+        {
+            var multi = new JsonObject { ["enabled"] = input.MultiAgentEnabled.Value };
+            if (input.MaxConcurrentSubagents is not null) multi["max_concurrent_subagents"] = input.MaxConcurrentSubagents;
+            body["multi_agent"] = multi;
+        }
+
+        ValidateEnum(input.ReasoningEffort, "reasoningEffort", "none", "minimal", "low", "medium", "high", "xhigh", "max");
+        ValidateEnum(input.ReasoningSummary, "reasoningSummary", "concise", "detailed", "auto");
+        if (update?.ClearReasoning == true && (input.ReasoningEffort is not null || input.ReasoningSummary is not null))
+            throw new ValidationException("clearReasoning cannot be combined with reasoning settings.");
+        if (update?.ClearReasoning == true) body["reasoning"] = null;
+        else if (input.ReasoningEffort is not null || input.ReasoningSummary is not null)
+        {
+            var reasoning = new JsonObject();
+            SetOptionalString(reasoning, "effort", input.ReasoningEffort);
+            SetOptionalString(reasoning, "summary", input.ReasoningSummary);
+            body["reasoning"] = reasoning;
+        }
+
+        ValidateEnum(input.ServiceTier, "serviceTier", "auto", "default", "flex", "priority", "fast", "ultrafast");
+        if (update?.ClearServiceTier == true && input.ServiceTier is not null)
+            throw new ValidationException("clearServiceTier cannot be combined with serviceTier.");
+        if (update?.ClearServiceTier == true) body["service_tier"] = null;
+        else SetOptionalString(body, "service_tier", input.ServiceTier);
+
+        ValidateEnum(input.TextVerbosity, "textVerbosity", "low", "medium", "high");
+        if (update?.ClearText == true && (input.TextVerbosity is not null || input.TextSchemaFileUrl is not null))
+            throw new ValidationException("clearText cannot be combined with text settings.");
+        if (update?.ClearText == true) body["text"] = null;
+        else if (input.TextVerbosity is not null || input.TextSchemaFileUrl is not null)
+        {
+            var text = new JsonObject();
+            SetOptionalString(text, "verbosity", input.TextVerbosity);
+            if (input.TextSchemaFileUrl is not null)
+                text["format"] = new JsonObject { ["type"] = "json_schema",
+                    ["schema"] = await LoadJsonSchemaAsync(serviceProvider, server, input.TextSchemaFileUrl, cancellationToken) };
+            body["text"] = text;
+        }
+    }
+
+    private static void AddArrayItem(JsonArray items, string value)
+    {
+        ValidateRequired(value, "value");
+        if (!items.Any(item => string.Equals(item?.GetValue<string>(), value, StringComparison.Ordinal)))
+            items.Add(value);
+    }
+
+    private static void RemoveArrayItem(JsonArray items, string value)
+    {
+        ValidateRequired(value, "value");
+        for (var index = items.Count - 1; index >= 0; index--)
+            if (string.Equals(items[index]?.GetValue<string>(), value, StringComparison.Ordinal))
+                items.RemoveAt(index);
+    }
 }

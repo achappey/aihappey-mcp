@@ -15,13 +15,13 @@ public static partial class OpenAIAgents
     public static async Task<CallToolResult?> OpenAIAgents_McpHttpSet(
         string agentId, string serverLabel, string serverUrl,
         IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
-        string? allowedTools = null, string? connectionOrigin = null, string? credentialId = null, bool required = false,
+        string? connectionOrigin = null, string? credentialId = null, bool required = false,
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentHttpMcpRequest
             {
-                AgentId = agentId, ServerLabel = serverLabel, ServerUrl = serverUrl, AllowedTools = allowedTools,
+                AgentId = agentId, ServerLabel = serverLabel, ServerUrl = serverUrl,
                 ConnectionOrigin = connectionOrigin, CredentialId = credentialId, Required = required
             }, cancellationToken);
             if (rejected is not null) return rejected;
@@ -39,8 +39,7 @@ public static partial class OpenAIAgents
                     ["transport"] = new JsonObject { ["type"] = "http", ["server_url"] = input.ServerUrl }
                 };
                 PreserveMcpMaps(existing, tool);
-                var allowed = OpenAIAgentsHttp.ParseDelimited(input.AllowedTools);
-                if (allowed.Count > 0) tool["allowed_tools"] = OpenAIAgentsHttp.ToArray(allowed);
+                if (existing?["allowed_tools"] is not null) tool["allowed_tools"] = existing["allowed_tools"]!.DeepClone();
                 SetOptionalString(tool, "connection_origin", input.ConnectionOrigin);
                 SetOptionalString(tool, "credential_id", input.CredentialId);
                 UpsertTool(tools, tool, "mcp", input.ServerLabel);
@@ -53,14 +52,14 @@ public static partial class OpenAIAgents
     public static async Task<CallToolResult?> OpenAIAgents_McpStdioSet(
         string agentId, string serverLabel, string command, string cwd,
         IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
-        string? args = null, string? envVars = null, string? allowedTools = null, bool required = false,
+        bool required = false,
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentStdioMcpRequest
             {
                 AgentId = agentId, ServerLabel = serverLabel, Command = command, Cwd = cwd,
-                Args = args, EnvVars = envVars, AllowedTools = allowedTools, Required = required
+                Required = required
             }, cancellationToken);
             if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>
@@ -68,12 +67,20 @@ public static partial class OpenAIAgents
                 ValidateRequired(input.AgentId, "agentId"); ValidateRequired(input.ServerLabel, "serverLabel");
                 ValidateRequired(input.Command, "command"); ValidateRequired(input.Cwd, "cwd");
                 var transport = new JsonObject { ["type"] = "stdio", ["command"] = input.Command, ["cwd"] = input.Cwd };
-                var parsedArgs = OpenAIAgentsHttp.ParseDelimited(input.Args); if (parsedArgs.Count > 0) transport["args"] = OpenAIAgentsHttp.ToArray(parsedArgs);
-                var parsedEnv = OpenAIAgentsHttp.ParseDelimited(input.EnvVars); if (parsedEnv.Count > 0) transport["env_vars"] = OpenAIAgentsHttp.ToArray(parsedEnv);
                 var tool = new JsonObject { ["type"] = "mcp", ["server_label"] = input.ServerLabel, ["transport"] = transport, ["required"] = input.Required };
-                var allowed = OpenAIAgentsHttp.ParseDelimited(input.AllowedTools); if (allowed.Count > 0) tool["allowed_tools"] = OpenAIAgentsHttp.ToArray(allowed);
                 return await MutateToolsAsync(serviceProvider, input.AgentId,
-                    tools => UpsertTool(tools, tool, "mcp", input.ServerLabel), cancellationToken);
+                    tools =>
+                    {
+                        var existing = FindTool(tools, "mcp", input.ServerLabel);
+                        if (existing?["allowed_tools"] is not null) tool["allowed_tools"] = existing["allowed_tools"]!.DeepClone();
+                        if (existing?["request_metadata"] is not null) tool["request_metadata"] = existing["request_metadata"]!.DeepClone();
+                        if (existing?["transport"]?["type"]?.GetValue<string>() == "stdio")
+                        {
+                            foreach (var key in new[] { "args", "env_vars" })
+                                if (existing["transport"]?[key] is JsonNode value) transport[key] = value.DeepClone();
+                        }
+                        UpsertTool(tools, tool, "mcp", input.ServerLabel);
+                    }, cancellationToken);
             });
         });
 
@@ -135,6 +142,81 @@ public static partial class OpenAIAgents
         IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
         CancellationToken cancellationToken = default)
         => await RemoveNamedTool(agentId, serverLabel, "mcp", serviceProvider, requestContext, cancellationToken);
+
+    [Description("Add one permitted tool name to an existing agent MCP server.")]
+    [McpServerTool(Title = "Add OpenAI Agent MCP Allowed Tool", Name = "openai_agents_mcp_allowed_tool_add", ReadOnly = false, OpenWorld = false, Destructive = false)]
+    public static async Task<CallToolResult?> OpenAIAgents_McpAllowedToolAdd(string agentId, string serverLabel, string toolName,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default)
+        => await MutateMcpArray(agentId, serverLabel, "allowed_tools", toolName, false, serviceProvider, requestContext, cancellationToken);
+
+    [Description("Remove one permitted tool name from an existing agent MCP server.")]
+    [McpServerTool(Title = "Remove OpenAI Agent MCP Allowed Tool", Name = "openai_agents_mcp_allowed_tool_remove", ReadOnly = false, OpenWorld = false, Destructive = false)]
+    public static async Task<CallToolResult?> OpenAIAgents_McpAllowedToolRemove(string agentId, string serverLabel, string toolName,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default)
+        => await MutateMcpArray(agentId, serverLabel, "allowed_tools", toolName, true, serviceProvider, requestContext, cancellationToken);
+
+    [Description("Append one argument to a stdio MCP server command (order and duplicates are preserved).")]
+    [McpServerTool(Title = "Add OpenAI Agent MCP Stdio Argument", Name = "openai_agents_mcp_stdio_arg_add", ReadOnly = false, OpenWorld = false, Destructive = false)]
+    public static async Task<CallToolResult?> OpenAIAgents_McpStdioArgAdd(string agentId, string serverLabel, string argument,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default)
+        => await MutateMcpArray(agentId, serverLabel, "args", argument, false, serviceProvider, requestContext, cancellationToken);
+
+    [Description("Remove an argument at a zero-based index from a stdio MCP command.")]
+    [McpServerTool(Title = "Remove OpenAI Agent MCP Stdio Argument", Name = "openai_agents_mcp_stdio_arg_remove", ReadOnly = false, OpenWorld = false, Destructive = false)]
+    public static async Task<CallToolResult?> OpenAIAgents_McpStdioArgRemove(string agentId, string serverLabel, int index,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default)
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+            await requestContext.WithStructuredContent(async () => await MutateToolsAsync(serviceProvider, agentId, tools =>
+            {
+                var transport = GetStdioTransport(tools, serverLabel);
+                var args = OpenAIAgentsHttp.CloneArray(transport["args"]);
+                if (index < 0 || index >= args.Count) throw new ValidationException("Argument index is out of range.");
+                args.RemoveAt(index);
+                transport["args"] = args;
+            }, cancellationToken)));
+
+    [Description("Add one inherited environment variable name to a stdio MCP server.")]
+    [McpServerTool(Title = "Add OpenAI Agent MCP Stdio Environment Variable", Name = "openai_agents_mcp_stdio_env_var_add", ReadOnly = false, OpenWorld = false, Destructive = false)]
+    public static async Task<CallToolResult?> OpenAIAgents_McpStdioEnvVarAdd(string agentId, string serverLabel, string variableName,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default)
+        => await MutateMcpArray(agentId, serverLabel, "env_vars", variableName, false, serviceProvider, requestContext, cancellationToken);
+
+    [Description("Remove one inherited environment variable name from a stdio MCP server.")]
+    [McpServerTool(Title = "Remove OpenAI Agent MCP Stdio Environment Variable", Name = "openai_agents_mcp_stdio_env_var_remove", ReadOnly = false, OpenWorld = false, Destructive = false)]
+    public static async Task<CallToolResult?> OpenAIAgents_McpStdioEnvVarRemove(string agentId, string serverLabel, string variableName,
+        IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext, CancellationToken cancellationToken = default)
+        => await MutateMcpArray(agentId, serverLabel, "env_vars", variableName, true, serviceProvider, requestContext, cancellationToken);
+
+    private static JsonObject GetStdioTransport(JsonArray tools, string serverLabel)
+    {
+        var tool = FindTool(tools, "mcp", serverLabel) ?? throw new ValidationException($"MCP server '{serverLabel}' was not found.");
+        var transport = tool["transport"] as JsonObject;
+        if (transport?["type"]?.GetValue<string>() != "stdio")
+            throw new ValidationException("Arguments and environment variables require a stdio MCP transport.");
+        return transport;
+    }
+
+    private static async Task<CallToolResult?> MutateMcpArray(string agentId, string serverLabel, string field,
+        string value, bool remove, IServiceProvider serviceProvider, RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken)
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+            await requestContext.WithStructuredContent(async () =>
+            {
+                ValidateRequired(agentId, "agentId"); ValidateRequired(serverLabel, "serverLabel");
+                ValidateRequired(value, "value");
+                return await MutateToolsAsync(serviceProvider, agentId, tools =>
+                {
+                    var target = field == "allowed_tools"
+                        ? FindTool(tools, "mcp", serverLabel) ?? throw new ValidationException($"MCP server '{serverLabel}' was not found.")
+                        : GetStdioTransport(tools, serverLabel);
+                    var items = OpenAIAgentsHttp.CloneArray(target[field]);
+                    if (remove) RemoveArrayItem(items, value);
+                    else if (field == "args") items.Add(value);
+                    else AddArrayItem(items, value);
+                    // An empty allowlist must remain explicit; omission would grant access to every server tool.
+                    target[field] = items;
+                }, cancellationToken);
+            }));
 
     private static void PreserveMcpMaps(JsonObject? existing, JsonObject replacement)
     {
