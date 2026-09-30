@@ -95,15 +95,14 @@ public static class AIMLAudio
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         // Step 1: Ask user to confirm or fill missing params
-        var (typed, notAccepted, _) = await requestContext.TryElicit(
+        var typed = requestContext.Elicit(
             new AIMLVibeVoiceRequest
             {
                 Script = script,
                 Seed = seed,
                 CfgScale = cfgScale,
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("wav")
-            },
-            cancellationToken);
+            });
 
         // Step 2: Build request payload
         var payload = new
@@ -245,7 +244,7 @@ public static class AIMLAudio
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         // Step 1: Ask user for missing fields if needed
-        var (typed, notAccepted, _) = await requestContext.TryElicit(
+        var typed = requestContext.Elicit(
             new AIMLOpenAITts1HdRequest
             {
                 Text = text,
@@ -254,8 +253,7 @@ public static class AIMLAudio
                 ResponseFormat = responseFormat,
                 Speed = speed,
                 Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(responseFormat.ToString().ToLowerInvariant())
-            },
-            cancellationToken);
+            });
 
         // Step 2: Build JSON payload
         var jsonBody = JsonSerializer.Serialize(new

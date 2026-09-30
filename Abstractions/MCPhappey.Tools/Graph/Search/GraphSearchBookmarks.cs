@@ -32,7 +32,6 @@ public static class GraphSearchBookmarks
                 DisplayName = displayName, WebUrl = webUrl, KeywordsCsv = keywordsCsv,
                 Description = description, CategoriesCsv = categoriesCsv, LanguageTagsCsv = languageTagsCsv
             }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(Bookmark);
 
             Validate(input.DisplayName, input.WebUrl, input.KeywordsCsv);
             return await client.Search.Bookmarks.PostAsync(ToBookmark(input), cancellationToken: cancellationToken);
@@ -65,7 +64,7 @@ public static class GraphSearchBookmarks
                 DisplayName = displayName, WebUrl = webUrl, KeywordsCsv = keywordsCsv,
                 Description = description, CategoriesCsv = categoriesCsv, LanguageTagsCsv = languageTagsCsv
             }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(Bookmark);
+
 
             if (input.DisplayName is not null) ArgumentException.ThrowIfNullOrWhiteSpace(input.DisplayName);
             if (input.WebUrl is not null) ValidateUrl(input.WebUrl);

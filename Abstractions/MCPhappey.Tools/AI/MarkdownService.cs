@@ -396,8 +396,8 @@ public static class MarkdownService
             ? await graph.Drives[driveId].GetAsync(cancellationToken: cancellationToken) ?? throw new Exception($"Drive not found: {driveId}")
             : await graph.GetDefaultDriveAsync(cancellationToken) ?? throw new Exception("Could not resolve default OneDrive.");
 
-        var (typed, notAccepted, _) = await context.TryElicit(
-            new MarkdownCreateInput { Text = file_text }, cancellationToken);
+        var typed = context.Elicit(
+    new MarkdownCreateInput { Text = file_text });
 
         var trimmed = normalized.Trim('/');
         var lastSlash = trimmed.LastIndexOf('/');
@@ -437,9 +437,8 @@ public static class MarkdownService
 
         await graph.EnsureRootFolderExistsAsync(drive.Id!, cancellationToken);
 
-        var (typed, notAccepted, _) = await context.TryElicit(
-            new MarkdownInsertInput { Line = insert_line, Text = insert_text }, cancellationToken);
-
+        var typed = context.Elicit(
+       new MarkdownInsertInput { Line = insert_line, Text = insert_text });
         var trimmed = normalized.Trim('/');
         var lastSlash = trimmed.LastIndexOf('/');
         if (lastSlash > 0)
@@ -489,9 +488,9 @@ public static class MarkdownService
 
         await graph.EnsureRootFolderExistsAsync(drive.Id!, cancellationToken);
 
-        var (typed, notAccepted, _) = await context.TryElicit(
-            new MarkdownReplaceInput { TextToReplace = old_str, NewText = new_str }, cancellationToken);
-
+        var typed = context.Elicit(
+       new MarkdownReplaceInput { TextToReplace = old_str, NewText = new_str });
+       
         var content = await graph.ReadTextFileAsync(drive.Id!, normalized, cancellationToken)
                       ?? throw new Exception("File not found");
 

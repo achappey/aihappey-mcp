@@ -247,8 +247,8 @@ public static partial class SimplicateCRM
             WorkMobile = workMobile
         };
 
-        var (confirmed, notAccepted, _) = await requestContext.TryElicit(input, cancellationToken);
-        
+        var confirmed = requestContext.Elicit(input);
+
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -315,8 +315,8 @@ public static partial class SimplicateCRM
             WorkMobile = workMobile ?? contact.WorkMobile
         };
 
-        var (confirmed, notAccepted, _) = await requestContext.TryElicit(input, cancellationToken);
-        
+        var confirmed = requestContext.Elicit(input);
+
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -518,8 +518,8 @@ public static partial class SimplicateCRM
             Value = value
         };
 
-        var (confirmed, notAccepted, _) = await requestContext.TryElicit(input, cancellationToken);
-        
+        var confirmed = requestContext.Elicit(input);
+
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -603,8 +603,8 @@ public static partial class SimplicateCRM
             Value = existingInterest?.Value ?? value
         };
 
-        var (confirmed, notAccepted, _) = await requestContext.TryElicit(input, cancellationToken);
-        
+        var confirmed = requestContext.Elicit(input);
+
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -689,8 +689,8 @@ public static partial class SimplicateCRM
             WorkMobile = workMobile
         };
 
-        var (confirmed, notAccepted, _) = await requestContext.TryElicit(input, cancellationToken);
-        
+        var confirmed = requestContext.Elicit(input);
+
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 
@@ -760,8 +760,8 @@ public static partial class SimplicateCRM
             WorkMobile = workMobile ?? contact.WorkMobile
         };
 
-        var (confirmed, notAccepted, _) = await requestContext.TryElicit(input, cancellationToken);
-        
+        var confirmed = requestContext.Elicit(input);
+
         if (confirmed == null)
             return "Elicitation was not accepted.".ToErrorCallToolResponse();
 

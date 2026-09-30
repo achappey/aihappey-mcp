@@ -801,10 +801,9 @@ public static class SimplicateExtensions
             elicitPropertyOverridesFactory,
             cancellationToken);
 
-        var (dto, notAccepted, _) = await requestContext.TryElicit(
+        var dto = requestContext.Elicit(
             seedDto,
-            elicitPropertyOverrides,
-            cancellationToken);        
+            elicitPropertyOverrides);
 
         var scraper = serviceProvider.GetServices<IContentScraper>()
                                      .OfType<SimplicateScraper>()
@@ -862,11 +861,10 @@ public static class SimplicateExtensions
             cancellationToken);
 
         // Let Elicit fill the flat DTO
-        var (dto, notAccepted, _) = await requestContext.TryElicit(
+        var dto = requestContext.Elicit(
             seedDto,
-            elicitPropertyOverrides,
-            cancellationToken);
-        
+            elicitPropertyOverrides);
+
 
         // Map flat DTO into the correct Simplicate structure
         var mappedObject = mapper(dto!);
@@ -989,11 +987,10 @@ public static class SimplicateExtensions
             elicitPropertyOverridesFactory,
             cancellationToken);
 
-        var (dto, notAccepted, _) = await requestContext.TryElicit(
+        var dto = requestContext.Elicit(
             incomingDto,
-            elicitPropertyOverrides,
-            cancellationToken);
-        
+            elicitPropertyOverrides);
+
 
         // 4️⃣ Merge: prefer elicited non-nulls over existing
         foreach (var prop in typeof(TDto).GetProperties())
@@ -1048,7 +1045,7 @@ public static class SimplicateExtensions
         // Use your DownloadService to POST (assumes similar signature to ScrapeContentAsync)
         var response = await downloadService.PostContentAsync<T>(
             serviceProvider, baseUrl, json, cancellationToken);
-       
+
         return response.ToJsonContentBlock($"{baseUrl}/{response?.Data.Id}");
     }
 
@@ -1064,11 +1061,11 @@ public static class SimplicateExtensions
         T item,
         CancellationToken cancellationToken = default)
     {
-        var json = JsonSerializer.Serialize(item, jsonOptions);       
+        var json = JsonSerializer.Serialize(item, jsonOptions);
 
         // Use your DownloadService to POST (assumes similar signature to ScrapeContentAsync)
         var response = await downloadService.PutContentAsync<T>(
-            serviceProvider, baseUrl, json, cancellationToken);     
+            serviceProvider, baseUrl, json, cancellationToken);
 
         return response.ToJsonContentBlock($"{baseUrl}/{response?.Data.Id}");
     }
@@ -1084,7 +1081,7 @@ public static class SimplicateExtensions
 
         var scraper = serviceProvider.GetServices<IContentScraper>()
                                      .OfType<SimplicateScraper>()
-                                     .First();     
+                                     .First();
 
         await scraper.DeleteContentAsync(serviceProvider, url, cancellationToken);
         return successText.ToTextCallToolResponse();

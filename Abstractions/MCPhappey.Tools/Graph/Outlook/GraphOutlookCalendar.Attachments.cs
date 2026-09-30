@@ -33,7 +33,7 @@ public static partial class GraphOutlookCalendar
         {
             var (input, notAccepted, _) = await requestContext.TryElicit(
                 new GraphAddEventAttachment { FileUrl = fileUrl, Filename = filename }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(FileAttachment);
+
             ArgumentException.ThrowIfNullOrWhiteSpace(input.FileUrl);
 
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();

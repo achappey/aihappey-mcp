@@ -29,15 +29,13 @@ public static class GraphLists
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent<Microsoft.Graph.Beta.Models.List?>(async () =>
         {
-            var (typed, notAccepted, result) = await requestContext.TryElicit(
-                new GraphNewSharePointList
-                {
-                    Title = listTitle,
-                    Description = description,
-                    Template = template
-                },
-                cancellationToken
-            );
+            var typed = requestContext.Elicit(
+      new GraphNewSharePointList
+      {
+          Title = listTitle,
+          Description = description,
+          Template = template
+      });
 
             return await client.Sites[siteId].Lists.PostAsync(
                 new Microsoft.Graph.Beta.Models.List
@@ -142,7 +140,7 @@ public static class GraphLists
                     ContentTypesEnabled = contentTypesEnabled,
                     Hidden = hidden
                 }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(Microsoft.Graph.Beta.Models.List);
+
             if (input.DisplayName is null && input.Description is null &&
                 input.ContentTypesEnabled is null && input.Hidden is null)
                 throw new ValidationException("At least one Microsoft List field must be supplied.");
@@ -194,7 +192,7 @@ public static class GraphLists
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.TryElicit(
+            var input = requestContext.Elicit(
                 new GraphUpdateSharePointColumn
                 {
                     DisplayName = displayName,
@@ -202,8 +200,8 @@ public static class GraphLists
                     Required = required,
                     Choices = choices,
                     ChoiceSelect = choiceSelect
-                }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(Microsoft.Graph.Beta.Models.ColumnDefinition);
+                });
+
             if (input.DisplayName is null && input.Description is null && input.Required is null &&
                 input.Choices is null && input.ChoiceSelect is null)
                 throw new ValidationException("At least one Microsoft List column field must be supplied.");

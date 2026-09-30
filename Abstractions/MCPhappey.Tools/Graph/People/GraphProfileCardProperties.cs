@@ -29,7 +29,7 @@ public static class GraphProfileCardProperties
             {
                 DirectoryPropertyName = directoryPropertyName, DisplayName = displayName, LanguageTag = languageTag
             }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted, input);
+           
             Validate(input!);
             return await SendJsonAsync(serviceProvider, requestContext, HttpMethod.Post, "admin/people/profileCardProperties",
                 ToBody(input!), cancellationToken);
@@ -53,7 +53,7 @@ public static class GraphProfileCardProperties
             {
                 DisplayName = displayName, LanguageTag = languageTag
             }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted, input);
+            
             ArgumentException.ThrowIfNullOrWhiteSpace(input!.DisplayName);
             ArgumentException.ThrowIfNullOrWhiteSpace(input.LanguageTag);
             return await SendJsonAsync(serviceProvider, requestContext, HttpMethod.Patch,
@@ -125,10 +125,6 @@ public static class GraphProfileCardProperties
         return response;
     }
 
-    private static void ThrowIfNotAccepted<T>(object? notAccepted, T? input) where T : class
-    {
-        if (notAccepted is not null || input is null) throw new OperationCanceledException("The elicitation was not accepted.");
-    }
 
     [Description("Please review the Microsoft 365 profile card property.")]
     public sealed class ProfileCardPropertyInput

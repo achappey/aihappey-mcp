@@ -350,7 +350,7 @@ public static partial class GraphOutlookMail
                     FileUrl = fileUrl,
                     Filename = filename
                 }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(FileAttachment);
+
             ArgumentException.ThrowIfNullOrWhiteSpace(input.FileUrl);
 
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();

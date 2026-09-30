@@ -65,8 +65,6 @@ public static partial class GraphOneNoteCrud
         {
             var (input, notAccepted, _) = await requestContext.TryElicit(
                 new PageContentInput { Action = action, Target = target, Content = content }, cancellationToken);
-            if (notAccepted is not null || input is null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
 
             ArgumentException.ThrowIfNullOrWhiteSpace(input.Action);
             ArgumentException.ThrowIfNullOrWhiteSpace(input.Target);
@@ -101,8 +99,7 @@ public static partial class GraphOneNoteCrud
     {
         var (input, notAccepted, _) = await requestContext.TryElicit(
             new DisplayNameInput { DisplayName = displayName }, cancellationToken);
-        if (notAccepted is not null || input is null)
-            throw new Exception(JsonSerializer.Serialize(notAccepted));
+    
         ArgumentException.ThrowIfNullOrWhiteSpace(input.DisplayName);
         if (input.DisplayName.Trim().Length > 128)
             throw new ValidationException($"The OneNote {entity} display name cannot exceed 128 characters.");

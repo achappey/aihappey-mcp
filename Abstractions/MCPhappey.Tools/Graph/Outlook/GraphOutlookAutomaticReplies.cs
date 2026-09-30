@@ -45,8 +45,7 @@ public static class GraphOutlookAutomaticReplies
                     TimeZone = timeZone
                 }, cancellationToken);
 
-            if (notAccepted is not null || input is null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+
             Validate(input);
 
             var settings = new AutomaticRepliesSetting
@@ -81,8 +80,6 @@ public static class GraphOutlookAutomaticReplies
         {
             var (input, notAccepted, _) = await requestContext.TryElicit(
                 new DisableAutomaticRepliesInput(), cancellationToken);
-            if (notAccepted is not null || input is null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
 
             return await client.Me.MailboxSettings.PatchAsync(
                 new MailboxSettings

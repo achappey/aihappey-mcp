@@ -36,7 +36,7 @@ public static partial class GraphToDo
 
             var (input, notAccepted, _) = await requestContext.TryElicit(
                 new GraphUpdateLinkedResource { WebUrl = webUrl, DisplayName = displayName }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(LinkedResource);
+
             if (input.WebUrl is not null && !input.WebUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 throw new ValidationException("webUrl must be a valid HTTPS URL.");
 

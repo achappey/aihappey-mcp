@@ -34,8 +34,7 @@ public static class GraphOutlookCalendarPermissions
                     DisplayName = displayName,
                     Role = role
                 }, cancellationToken);
-            if (notAccepted is not null || input is null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
+
             ArgumentException.ThrowIfNullOrWhiteSpace(input.EmailAddress);
 
             return await client.Me.Calendars[calendarId].CalendarPermissions.PostAsync(
@@ -66,8 +65,6 @@ public static class GraphOutlookCalendarPermissions
         {
             var (input, notAccepted, _) = await requestContext.TryElicit(
                 new CalendarPermissionRoleInput { Role = role }, cancellationToken);
-            if (notAccepted is not null || input is null)
-                throw new Exception(JsonSerializer.Serialize(notAccepted));
 
             return await client.Me.Calendars[calendarId].CalendarPermissions[permissionId].PatchAsync(
                 new CalendarPermission { Role = input.Role }, cancellationToken: cancellationToken);

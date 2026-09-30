@@ -40,7 +40,6 @@ public static class GraphBookings
                     CustomerPhone = customerPhone, CustomerId = customerId,
                     StaffMemberIdsCsv = staffMemberIdsCsv, ServiceNotes = serviceNotes
                 }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(BookingAppointment);
 
             return await client.Solutions.BookingBusinesses[businessId].Appointments.PostAsync(
                 ToAppointment(input), cancellationToken: cancellationToken);
@@ -76,7 +75,6 @@ public static class GraphBookings
                     CustomerPhone = customerPhone, CustomerId = customerId,
                     StaffMemberIdsCsv = staffMemberIdsCsv, ServiceNotes = serviceNotes
                 }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(BookingAppointment);
 
             return await client.Solutions.BookingBusinesses[businessId].Appointments[appointmentId]
                 .PatchAsync(ToAppointmentPatch(input), cancellationToken: cancellationToken);
@@ -119,7 +117,6 @@ public static class GraphBookings
                 Description = description, Notes = notes, IsHiddenFromCustomers = isHiddenFromCustomers,
                 IsLocationOnline = isLocationOnline, StaffMemberIdsCsv = staffMemberIdsCsv
             }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(BookingService);
 
             return await client.Solutions.BookingBusinesses[businessId].Services.PostAsync(
                 ToService(input), cancellationToken: cancellationToken);
@@ -150,7 +147,6 @@ public static class GraphBookings
                 Description = description, Notes = notes, IsHiddenFromCustomers = isHiddenFromCustomers,
                 IsLocationOnline = isLocationOnline, StaffMemberIdsCsv = staffMemberIdsCsv
             }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(BookingService);
 
             return await client.Solutions.BookingBusinesses[businessId].Services[serviceId]
                 .PatchAsync(ToServicePatch(input), cancellationToken: cancellationToken);
@@ -184,7 +180,6 @@ public static class GraphBookings
         {
             var (input, notAccepted, _) = await requestContext.TryElicit(
                 new CustomerInput { DisplayName = displayName, EmailAddress = emailAddress }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(BookingCustomer);
 
             return await client.Solutions.BookingBusinesses[businessId].Customers.PostAsync(
                 new BookingCustomer { DisplayName = input.DisplayName, EmailAddress = input.EmailAddress },
@@ -207,7 +202,6 @@ public static class GraphBookings
         {
             var (input, notAccepted, _) = await requestContext.TryElicit(
                 new CustomerPatchInput { DisplayName = displayName, EmailAddress = emailAddress }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(BookingCustomer);
 
             return await client.Solutions.BookingBusinesses[businessId].Customers[customerId].PatchAsync(
                 new BookingCustomer { DisplayName = input.DisplayName, EmailAddress = input.EmailAddress },

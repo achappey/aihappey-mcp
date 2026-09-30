@@ -37,7 +37,7 @@ public static partial class AIMLImages
               var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
               // Step 1: Ask user for confirmation / edits
-              var (typed, notAccepted, _) = await requestContext.TryElicit(
+              var typed = requestContext.Elicit(
                   new AIMLNewImagenStandard
                   {
                       Prompt = prompt,
@@ -49,8 +49,7 @@ public static partial class AIMLImages
                       AddWatermark = addWatermark,
                       Seed = seed,
                       Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("png"),
-                  },
-                  cancellationToken);
+                  });
 
               // Step 2: Build payload
               var body = new
@@ -177,7 +176,7 @@ public static partial class AIMLImages
                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
                // Step 1: Ask user for confirmation / edits
-               var (typed, notAccepted, _) = await requestContext.TryElicit(
+               var typed = requestContext.Elicit(
                    new AIMLNewImagenFast
                    {
                        Prompt = prompt,
@@ -189,8 +188,7 @@ public static partial class AIMLImages
                        AddWatermark = addWatermark,
                        Seed = seed,
                        Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("png"),
-                   },
-                   cancellationToken);
+                   });
 
                // Step 2: Build payload
                var body = new
@@ -317,7 +315,7 @@ public static partial class AIMLImages
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
             // Step 1: Ask user for confirmation / edits
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
+            var typed = requestContext.Elicit(
                 new AIMLNewImagenUltra
                 {
                     Prompt = prompt,
@@ -329,8 +327,7 @@ public static partial class AIMLImages
                     AddWatermark = addWatermark,
                     Seed = seed,
                     Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("png"),
-                },
-                cancellationToken);
+                });
 
             // Step 2: Build payload
             var body = new
@@ -449,14 +446,13 @@ public static partial class AIMLImages
            var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
            // Step 1: Ask user for additional image parameters
-           var (typed, notAccepted, _) = await requestContext.TryElicit(
+           var typed = requestContext.Elicit(
                new AIMLNewGeminiFlashImage
                {
                    Prompt = prompt,
                    Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("png"),
                    NumImages = numImages,
-               },
-               cancellationToken);
+               });
 
            // Step 2: Build JSON payload
            var body = new
@@ -571,15 +567,14 @@ public static partial class AIMLImages
               }            
 
               // Step 1: Ask user for additional image parameters
-              var (typed, notAccepted, _) = await requestContext.TryElicit(
+              var typed = requestContext.Elicit(
                   new AIMLNewGeminiFlashImageEdit
                   {
                       Prompt = prompt,
                       AspectRatio = ratio ?? GoogleFlashImageEditAspectRatio.OneOne,
                       Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("png"),
                       NumImages = numImages,
-                  },
-                  cancellationToken);
+                  });
 
               var body = new
               {

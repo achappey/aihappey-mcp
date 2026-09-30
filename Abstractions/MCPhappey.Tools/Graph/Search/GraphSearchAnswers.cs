@@ -28,9 +28,12 @@ public static class GraphSearchAnswers
         {
             var (input, notAccepted, _) = await requestContext.TryElicit(new AcronymInput
             {
-                DisplayName = displayName, StandsFor = standsFor, Description = description, WebUrl = webUrl
+                DisplayName = displayName,
+                StandsFor = standsFor,
+                Description = description,
+                WebUrl = webUrl
             }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted, input);
+
             ValidateAcronym(input!);
             return await SendJsonAsync(serviceProvider, requestContext, HttpMethod.Post, "search/acronyms",
                 new { displayName = input!.DisplayName.Trim(), standsFor = input.StandsFor.Trim(), input.Description, webUrl = NormalizeUrl(input.WebUrl) },
@@ -58,9 +61,12 @@ public static class GraphSearchAnswers
 
             var (input, notAccepted, _) = await requestContext.TryElicit(new AcronymPatchInput
             {
-                DisplayName = displayName, StandsFor = standsFor, Description = description, WebUrl = webUrl
+                DisplayName = displayName,
+                StandsFor = standsFor,
+                Description = description,
+                WebUrl = webUrl
             }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted, input);
+
             if (input!.DisplayName is not null) ArgumentException.ThrowIfNullOrWhiteSpace(input.DisplayName);
             if (input.StandsFor is not null) ArgumentException.ThrowIfNullOrWhiteSpace(input.StandsFor);
             if (input.WebUrl is not null) ValidateUrl(input.WebUrl);
@@ -99,16 +105,21 @@ public static class GraphSearchAnswers
         {
             var (input, notAccepted, _) = await requestContext.TryElicit(new QnaInput
             {
-                DisplayName = displayName, Description = description, KeywordsCsv = keywordsCsv,
-                WebUrl = webUrl, LanguageTagsCsv = languageTagsCsv
+                DisplayName = displayName,
+                Description = description,
+                KeywordsCsv = keywordsCsv,
+                WebUrl = webUrl,
+                LanguageTagsCsv = languageTagsCsv
             }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted, input);
+
             ValidateQna(input!);
             return await SendJsonAsync(serviceProvider, requestContext, HttpMethod.Post, "search/qnas",
                 new
                 {
-                    displayName = input!.DisplayName.Trim(), description = input.Description.Trim(),
-                    keywords = ToKeywords(input.KeywordsCsv), webUrl = NormalizeUrl(input.WebUrl),
+                    displayName = input!.DisplayName.Trim(),
+                    description = input.Description.Trim(),
+                    keywords = ToKeywords(input.KeywordsCsv),
+                    webUrl = NormalizeUrl(input.WebUrl),
                     languageTags = SplitCsv(input.LanguageTagsCsv)
                 }, cancellationToken);
         }));
@@ -135,10 +146,13 @@ public static class GraphSearchAnswers
 
             var (input, notAccepted, _) = await requestContext.TryElicit(new QnaPatchInput
             {
-                DisplayName = displayName, Description = description, KeywordsCsv = keywordsCsv,
-                WebUrl = webUrl, LanguageTagsCsv = languageTagsCsv
+                DisplayName = displayName,
+                Description = description,
+                KeywordsCsv = keywordsCsv,
+                WebUrl = webUrl,
+                LanguageTagsCsv = languageTagsCsv
             }, cancellationToken);
-            ThrowIfNotAccepted(notAccepted, input);
+
             if (input!.DisplayName is not null) ArgumentException.ThrowIfNullOrWhiteSpace(input.DisplayName);
             if (input.Description is not null) ArgumentException.ThrowIfNullOrWhiteSpace(input.Description);
             if (input.KeywordsCsv is not null && SplitCsv(input.KeywordsCsv).Count == 0)
@@ -236,11 +250,6 @@ public static class GraphSearchAnswers
     private static List<string> SplitCsv(string? value) => string.IsNullOrWhiteSpace(value) ? [] :
         value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Distinct().ToList();
     private static object ToKeywords(string value) => new { keywords = SplitCsv(value) };
-
-    private static void ThrowIfNotAccepted<T>(object? notAccepted, T? input) where T : class
-    {
-        if (notAccepted is not null || input is null) throw new OperationCanceledException("The elicitation was not accepted.");
-    }
 
     [Description("Please review the Microsoft Search acronym fields.")]
     public sealed class AcronymInput

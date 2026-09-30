@@ -30,7 +30,7 @@ public static class GraphOnlineMeetings
                 Subject = subject, StartDateTime = startDateTime,
                 EndDateTime = endDateTime, ExternalId = externalId
             }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(OnlineMeeting);
+
             if (input.EndDateTime <= input.StartDateTime)
                 throw new ValidationException("The online meeting end must be later than its start.");
 
@@ -69,7 +69,6 @@ public static class GraphOnlineMeetings
                     StartDateTime = startDateTime,
                     EndDateTime = endDateTime
                 }, cancellationToken);
-            if (notAccepted is not null || input is null) return default(OnlineMeeting);
             if (input.Subject is null && input.StartDateTime is null && input.EndDateTime is null)
                 throw new ValidationException("At least one online meeting field must be supplied.");
 

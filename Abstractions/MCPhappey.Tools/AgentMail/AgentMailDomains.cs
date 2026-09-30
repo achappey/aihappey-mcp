@@ -49,10 +49,10 @@ public static class AgentMailDomains
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailVerifyDomainRequest
+                var typed = requestContext.Elicit(new AgentMailVerifyDomainRequest
                 {
                     DomainId = domainId
-                }, cancellationToken);
+                });
 
                 AgentMailHelpers.Require(typed.DomainId, nameof(domainId));
                 var client = serviceProvider.GetRequiredService<AgentMailClient>();
@@ -103,12 +103,12 @@ public static class AgentMailDomains
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AgentMailCreateDomainRequest
+                var typed = requestContext.Elicit(new AgentMailCreateDomainRequest
                 {
                     PodId = podId,
                     Domain = domain,
                     FeedbackEnabled = feedbackEnabled
-                }, cancellationToken);
+                });
 
                 if (!string.IsNullOrWhiteSpace(podId)) AgentMailHelpers.Require(typed.PodId, nameof(podId));
                 AgentMailHelpers.Require(typed.Domain, nameof(domain));
