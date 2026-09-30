@@ -35,7 +35,8 @@ public static class ElicitExtensions
                 elicitResult: (ElicitResult?)result));
         }
 
-        if (!requestContext.Server.IsMrtrSupported)
+        if (!requestContext.Server.IsMrtrSupported ||
+            requestContext.Server.ClientCapabilities?.Elicitation is null)
         {
             var values = fallbackValues?
                 .Where(item => item.Value is not null)
@@ -82,8 +83,11 @@ public static class ElicitExtensions
                 ?? throw new InvalidOperationException("Elicitation result type cast failed.");
         }
 
-        if (!requestContext.Server.IsMrtrSupported)
+        if (!requestContext.Server.IsMrtrSupported ||
+        requestContext.Server.ClientCapabilities?.Elicitation is null)
+        {
             return fallbackValue;
+        }
 
         var elicitRequest =
             ElicitFormExtensions.CreateElicitRequestParamsForType(

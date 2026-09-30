@@ -48,21 +48,31 @@ public static partial class ModelContextToolExtensions
         var toolName = requestContext.Params?.Name;
         var toolMeta = serverConfig?.Server.Tools?.GetValueOrDefault(toolName ?? "")?.Meta;
 
-        var locale = requestContext.Params?.Meta?
-                .FirstOrDefault(a => a.Key.EndsWith("/locale"));
+        string? localeKey = null;
+        JsonNode? localeValue = null;
 
-        // only add if not already present
-        if (locale.HasValue
-            && !locale.Value.Key.StartsWith("openai/")
-            && locale.Value.Value is JsonNode node
-            && node is not null
+        if (requestContext.Params?.Meta is { } meta)
+        {
+            foreach (var item in meta)
+            {
+                if (item.Key is not null &&
+                    item.Key.EndsWith("/locale", StringComparison.Ordinal))
+                {
+                    localeKey = item.Key;
+                    localeValue = item.Value;
+                    break;
+                }
+            }
+        }
+
+        if (localeKey is not null
+            && !localeKey.StartsWith("openai/", StringComparison.Ordinal)
+            && localeValue is JsonValue jv
+            && jv.TryGetValue<string>(out var str)
             && (toolMeta == null || !toolMeta.ContainsKey("openai/locale")))
         {
             toolMeta ??= [];
-
-            // extract string if it's a value node, otherwise clone node
-            if (node is JsonValue jv && jv.TryGetValue<string>(out var str))
-                toolMeta["openai/locale"] = str;
+            toolMeta["openai/locale"] = str;
         }
 
         // convert base meta to JsonObject
