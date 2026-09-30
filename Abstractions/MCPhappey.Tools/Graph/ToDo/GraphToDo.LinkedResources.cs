@@ -34,7 +34,7 @@ public static partial class GraphToDo
             if (webUrl is null && displayName is null)
                 throw new ValidationException("webUrl or displayName must be provided.");
 
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new GraphUpdateLinkedResource { WebUrl = webUrl, DisplayName = displayName }, cancellationToken);
             if (notAccepted is not null || input is null) return default(LinkedResource);
             if (input.WebUrl is not null && !input.WebUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))

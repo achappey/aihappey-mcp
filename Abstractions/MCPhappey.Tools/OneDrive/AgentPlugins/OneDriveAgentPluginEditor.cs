@@ -112,7 +112,7 @@ public static partial class OneDriveAgentPluginEditor
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         {
-            var (typed, notAccepted, _) = await context.Server.TryElicit(new PluginManifestInput
+            var (typed, notAccepted, _) = await context.TryElicit(new PluginManifestInput
             {
                 Name = name ?? string.Empty,
                 Version = version,
@@ -169,7 +169,7 @@ public static partial class OneDriveAgentPluginEditor
                 ?? throw new InvalidOperationException("Could not resolve default OneDrive.");
             var current = await ReadRequiredManifestAsync(graph, drive.Id!, name, cancellationToken);
             var author = current["author"] as JsonObject;
-            var (typed, notAccepted, _) = await context.Server.TryElicit(new PluginManifestInput
+            var (typed, notAccepted, _) = await context.TryElicit(new PluginManifestInput
             {
                 Name = name,
                 Version = version ?? ReadJsonString(current, "version"),
@@ -207,7 +207,7 @@ public static partial class OneDriveAgentPluginEditor
         await context.WithOboGraphClient(async graph =>
         {
             var name = RequirePluginName(pluginName);
-            var (typed, notAccepted, _) = await context.Server.TryElicit(new PluginTextFileInput
+            var (typed, notAccepted, _) = await context.TryElicit(new PluginTextFileInput
             {
                 RelativePath = relativePath ?? string.Empty,
                 Content = content ?? string.Empty
@@ -236,7 +236,7 @@ public static partial class OneDriveAgentPluginEditor
         await context.WithOboGraphClient(async graph =>
         {
             var name = RequirePluginName(pluginName);
-            var (typed, notAccepted, _) = await context.Server.TryElicit(new PluginFileImportInput
+            var (typed, notAccepted, _) = await context.TryElicit(new PluginFileImportInput
             {
                 SourceUrl = sourceUrl ?? string.Empty,
                 RelativePath = relativePath ?? string.Empty
@@ -287,7 +287,7 @@ public static partial class OneDriveAgentPluginEditor
         await context.WithOboGraphClient(async graph =>
         {
             var name = RequirePluginName(pluginName);
-            var (typed, notAccepted, _) = await context.Server.TryElicit(new PluginMcpServerInput
+            var (typed, notAccepted, _) = await context.TryElicit(new PluginMcpServerInput
             {
                 ServerName = serverName ?? string.Empty,
                 ServerJson = serverJson ?? string.Empty

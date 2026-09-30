@@ -27,7 +27,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMetadataMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMetadataMutationRequest
                 {
                     AgentId = agentId,
                     Key = key,
@@ -71,7 +71,7 @@ public static partial class AnthropicAgents
                 ValidateMetadataKey(key);
 
                 var expected = $"{agentId}:{key}";
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
                 var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
                 var body = CreateVersionedUpdateBody(current);

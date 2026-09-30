@@ -27,7 +27,7 @@ public static class GraphSearchBookmarks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new BookmarkInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new BookmarkInput
             {
                 DisplayName = displayName, WebUrl = webUrl, KeywordsCsv = keywordsCsv,
                 Description = description, CategoriesCsv = categoriesCsv, LanguageTagsCsv = languageTagsCsv
@@ -60,7 +60,7 @@ public static class GraphSearchBookmarks
                 categoriesCsv is null && languageTagsCsv is null)
                 throw new ValidationException("At least one bookmark field must be provided.");
 
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new BookmarkPatchInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new BookmarkPatchInput
             {
                 DisplayName = displayName, WebUrl = webUrl, KeywordsCsv = keywordsCsv,
                 Description = description, CategoriesCsv = categoriesCsv, LanguageTagsCsv = languageTagsCsv

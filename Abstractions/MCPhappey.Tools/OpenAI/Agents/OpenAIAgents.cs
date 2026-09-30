@@ -33,7 +33,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentScalarRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentScalarRequest
             {
                 Model = model,
                 Name = name,
@@ -65,7 +65,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentUpdateScalarRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentUpdateScalarRequest
             {
                 AgentId = agentId,
                 Model = model ?? string.Empty,

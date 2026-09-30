@@ -39,7 +39,7 @@ public static class SiliconFlowVideo
                 Filename = filename
             };
 
-            var (typed, _, _) = await requestContext.Server.TryElicit(request, cancellationToken);
+            var (typed, _, _) = await requestContext.TryElicit(request, cancellationToken);
 
             ValidateImageSize(typed.ImageSize);
 

@@ -36,7 +36,7 @@ public static class RunwareVideo
            await requestContext.WithStructuredContent(async () =>
            {
                // 🧠 1. Elicit structured defaults if not all provided
-               var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+               var (typed, notAccepted, result) = await requestContext.TryElicit(
                    new RunwareNewVideo
                    {
                        Prompt = prompt,

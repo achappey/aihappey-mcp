@@ -41,7 +41,7 @@ public static class SarvamSpeech
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SarvamSpeechTextToSpeechRequest
                 {
                     Text = text,
@@ -113,7 +113,7 @@ public static class SarvamSpeech
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SarvamSpeechFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

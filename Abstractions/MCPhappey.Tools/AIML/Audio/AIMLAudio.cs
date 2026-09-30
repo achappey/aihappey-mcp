@@ -95,7 +95,7 @@ public static class AIMLAudio
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         // Step 1: Ask user to confirm or fill missing params
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLVibeVoiceRequest
             {
                 Script = script,
@@ -245,7 +245,7 @@ public static class AIMLAudio
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         // Step 1: Ask user for missing fields if needed
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLOpenAITts1HdRequest
             {
                 Text = text,

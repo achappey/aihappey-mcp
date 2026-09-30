@@ -30,7 +30,7 @@ public static class WebCrawlerAPIFeeds
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new WebCrawlerAPIFeedCreateInput
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new WebCrawlerAPIFeedCreateInput
             {
                 Url = url,
                 Name = name,
@@ -135,7 +135,7 @@ public static class WebCrawlerAPIFeeds
         bool waitForJob = false)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new WebCrawlerAPIFeedActionInput
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new WebCrawlerAPIFeedActionInput
             {
                 FeedId = feedId,
                 Action = actionDescription

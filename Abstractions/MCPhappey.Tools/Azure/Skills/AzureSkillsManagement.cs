@@ -63,7 +63,7 @@ public static class AzureSkillsManagement
                 var storage = serviceProvider.GetService<AzureSkillsStorageService>()
                     ?? throw new InvalidOperationException("SkillsStorage is not configured.");
 
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new AzureSkillUploadSource
                     {
                         FileUrl = fileUrl,
@@ -99,7 +99,7 @@ public static class AzureSkillsManagement
                 var storage = serviceProvider.GetService<AzureSkillsStorageService>()
                     ?? throw new InvalidOperationException("SkillsStorage is not configured.");
 
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new AzureSkillUploadSource
                     {
                         FileUrl = fileUrl,
@@ -133,7 +133,7 @@ public static class AzureSkillsManagement
                 var storage = serviceProvider.GetService<AzureSkillsStorageService>()
                     ?? throw new InvalidOperationException("SkillsStorage is not configured.");
 
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new AzureSkillDefaultVersionInput
                     {
                         DefaultVersion = defaultVersion ?? string.Empty

@@ -118,7 +118,7 @@ public static class Mem0SharedService
             var appSettings = serviceProvider.GetRequiredService<OAuthSettings>();
             var userId = serviceProvider.GetUserId();
 
-            var (typed, notAccepted, _) = await context.Server.TryElicit(
+            var (typed, notAccepted, _) = await context.TryElicit(
                 new Mem0AddMemory { Role = role, Content = content, Immutable = immutable, Infer = infer },
                 cancellationToken);
 
@@ -161,7 +161,7 @@ public static class Mem0SharedService
             var mem0Settings = serviceProvider.GetRequiredService<Mem0Settings>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
-            var (typed, notAccepted, _) = await context.Server.TryElicit(
+            var (typed, notAccepted, _) = await context.TryElicit(
                 new Mem0UpdateMemory { Text = text }, cancellationToken);
 
             var body = new Dictionary<string, object>

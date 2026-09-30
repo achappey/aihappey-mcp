@@ -31,7 +31,7 @@ public static class GraphOneNote
          await requestContext.WithOboGraphClient(async client =>
          await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new GraphNewOneNotePage()
             {
                 Title = title,
@@ -64,7 +64,7 @@ public static class GraphOneNote
          await requestContext.WithOboGraphClient(async client =>
          await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new GraphNewOneNoteSection()
             {
                 DisplayName = displayName
@@ -100,7 +100,7 @@ public static class GraphOneNote
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
    {
-       var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+       var (typed, notAccepted, _) = await requestContext.TryElicit(
            new GraphCopyNotebook()
            {
                RenameAs = renameAs,
@@ -135,7 +135,7 @@ public static class GraphOneNote
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new GraphNewOneNoteNotebook()
             {
                 DisplayName = displayName

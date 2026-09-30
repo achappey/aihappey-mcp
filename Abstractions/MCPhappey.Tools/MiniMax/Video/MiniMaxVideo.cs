@@ -124,7 +124,7 @@ public static class MiniMaxVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new MiniMaxTextToVideoRequest
             {
                 Prompt = prompt,
@@ -189,7 +189,7 @@ public static class MiniMaxVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new MiniMaxImageToVideoRequest
             {
                 Model = model,
@@ -255,7 +255,7 @@ public static class MiniMaxVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new MiniMaxStartEndToVideoRequest
             {
                 FirstFrameImage = firstFrameImage,

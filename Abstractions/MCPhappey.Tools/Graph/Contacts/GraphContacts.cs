@@ -58,7 +58,7 @@ public static class GraphContacts
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphContactsUpsertContactInput
                 {
                     ContactFolderId = contactFolderId,
@@ -200,7 +200,7 @@ public static class GraphContacts
 
             var elicitSeed = OverlayProvidedFields(existingInput, incoming, requestContext);
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 elicitSeed,
                 cancellationToken);
 
@@ -241,7 +241,7 @@ public static class GraphContacts
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphContactsUpsertFolderInput
                 {
                     DisplayName = displayName,
@@ -301,7 +301,7 @@ public static class GraphContacts
                     : existingInput.DisplayName
             };
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 elicitSeed,
                 cancellationToken);
 

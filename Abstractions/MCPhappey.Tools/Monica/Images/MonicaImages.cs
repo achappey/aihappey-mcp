@@ -41,7 +41,7 @@ public static class MonicaImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new MonicaGenerateImageRequest
                 {
                     Prompt = prompt,
@@ -97,7 +97,7 @@ public static class MonicaImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new MonicaUpscaleRequest
                 {
                     FileUrl = fileUrl,
@@ -142,7 +142,7 @@ public static class MonicaImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new MonicaRemoveBackgroundRequest
                 {
                     FileUrl = fileUrl,

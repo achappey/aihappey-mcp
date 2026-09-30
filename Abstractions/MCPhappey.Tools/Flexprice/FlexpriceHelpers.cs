@@ -38,25 +38,31 @@ internal static class FlexpriceHelpers
         return new FlexpriceClient(http);
     }
 
-    public static async Task ConfirmExactNameAsync<TConfirm>(
-        RequestContext<CallToolRequestParams> requestContext,
-        string expectedName,
-        CancellationToken cancellationToken = default)
-        where TConfirm : class, IHasName, new()
+    public static Task ConfirmExactNameAsync<TConfirm>(
+     RequestContext<CallToolRequestParams> requestContext,
+     string expectedName,
+     CancellationToken cancellationToken = default)
+     where TConfirm : class, IHasName, new()
     {
-        if (requestContext.Server.ClientCapabilities?.Elicitation == null)
-            return;
+        cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await requestContext.Server.GetElicitResponse<TConfirm>(expectedName, cancellationToken);
+        if (!requestContext.Server.IsMrtrSupported)
+            return Task.CompletedTask;
 
-        if (result?.Action != "accept")
-            throw new ValidationException($"Deletion confirmation was not accepted for '{expectedName}'.");
+        var typed = requestContext.Elicit(
+            new TConfirm(),
+            message: expectedName);
 
-        var typed = result.GetTypedResult<TConfirm>()
-            ?? throw new ValidationException("Deletion confirmation could not be parsed.");
+        if (!string.Equals(
+            typed.Name?.Trim(),
+            expectedName.Trim(),
+            StringComparison.OrdinalIgnoreCase))
+        {
+            throw new ValidationException(
+                $"Confirmation does not match '{expectedName}'.");
+        }
 
-        if (!string.Equals(typed.Name?.Trim(), expectedName.Trim(), StringComparison.OrdinalIgnoreCase))
-            throw new ValidationException($"Confirmation does not match '{expectedName}'.");
+        return Task.CompletedTask;
     }
 
     public static string? NullIfWhiteSpace(string? value)

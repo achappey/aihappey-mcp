@@ -41,7 +41,7 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateEnvironmentRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicCreateEnvironmentRequest
                 {
                     Name = name,
                     Description = description
@@ -83,7 +83,7 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateEnvironmentRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicUpdateEnvironmentRequest
                 {
                     EnvironmentId = environmentId,
                     Name = name,
@@ -127,7 +127,7 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveEnvironmentRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicArchiveEnvironmentRequest
                 {
                     EnvironmentId = environmentId
                 }, cancellationToken);
@@ -158,7 +158,7 @@ public static partial class AnthropicEnvironments
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedEnvironmentId = NormalizeEnvironmentId(environmentId);
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext.Server, 
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext, 
                     normalizedEnvironmentId, cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(

@@ -21,7 +21,7 @@ public static class OlostepAnswers
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new OlostepCreateAnswerRequest
                 {
                     Task = task,
@@ -68,7 +68,7 @@ public static class OlostepAnswers
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new OlostepGetAnswerRequest
                 {
                     AnswerId = answer_id

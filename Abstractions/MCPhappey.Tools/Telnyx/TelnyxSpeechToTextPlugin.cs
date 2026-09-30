@@ -43,7 +43,7 @@ public static class TelnyxSpeechToTextPlugin
             var downloads = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
             var audio = downloads.FirstOrDefault() ?? throw new InvalidOperationException("Failed to download audio content.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new TelnyxSpeechToTextInput
                 {
                     FileUrl = fileUrl,

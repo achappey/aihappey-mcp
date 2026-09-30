@@ -34,7 +34,7 @@ public static partial class GraphOutlookMail
         await requestContext.WithStructuredContent(async () =>
         {
             // Let AI or user confirm the category name
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphMailSingleCategoryInput { Category = category ?? string.Empty },
                 cancellationToken
             );
@@ -117,7 +117,7 @@ public static partial class GraphOutlookMail
                 Preview = FormatMovePreview([message])
             };
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(confirmation, cancellationToken);
+            var (typed, notAccepted, _) = await requestContext.TryElicit(confirmation, cancellationToken);
             if (typed == null) throw new ValidationException("Move was not confirmed.");
 
             await requestContext.Server.SendProgressNotificationAsync(
@@ -245,7 +245,7 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphFlagMail
             {
                 FlagStatus = flagStatus ?? FlagStatusEnum.Flagged,
@@ -334,7 +334,7 @@ public static partial class GraphOutlookMail
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphReplyMail
             {
                 Comment = content ?? string.Empty,
@@ -395,7 +395,7 @@ public static partial class GraphOutlookMail
         await requestContext.WithStructuredContent(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphReplyDraftInput { ReplyType = replyType, Comment = comment }, cancellationToken);
             if (rejected is not null || input is null) return default(Message);
             if (!Enum.IsDefined(input.ReplyType))
@@ -424,7 +424,7 @@ public static partial class GraphOutlookMail
         await requestContext.WithStructuredContent(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphForwardDraftInput { ToRecipients = toRecipients, Comment = comment }, cancellationToken);
             if (rejected is not null || input is null) return default(Message);
 
@@ -491,7 +491,7 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphSendMail
             {
                 ToRecipients = toRecipients ?? string.Empty,
@@ -559,7 +559,7 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphCreateMailDraft
             {
                 ToRecipients = toRecipients ?? string.Empty,

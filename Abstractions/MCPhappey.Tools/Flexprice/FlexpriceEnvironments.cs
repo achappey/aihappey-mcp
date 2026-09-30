@@ -24,7 +24,7 @@ public static class FlexpriceEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceEnvironmentResponse>>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new FlexpriceCreateEnvironmentInput
                     {
                         Name = name,
@@ -71,7 +71,7 @@ public static class FlexpriceEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceEnvironmentResponse>>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new FlexpriceUpdateEnvironmentInput
                     {
                         Id = id,

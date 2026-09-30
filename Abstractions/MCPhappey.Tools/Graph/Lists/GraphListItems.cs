@@ -111,7 +111,7 @@ public static class GraphListItems
     }
 
     var (values, _) =
-        await requestContext.Server.TryElicitForm(
+        await requestContext.TryElicitForm(
             new ElicitRequestParams
             {
                 RequestedSchema = request,
@@ -473,7 +473,7 @@ public static class GraphListItems
      }
 
      var (values, _) =
-         await requestContext.Server.TryElicitForm(
+         await requestContext.TryElicitForm(
              new ElicitRequestParams
              {
                  RequestedSchema = request,

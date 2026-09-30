@@ -32,7 +32,7 @@ public static class GoogleNanoBanana
         var items = !string.IsNullOrEmpty(fileUrl) ? await downloader.DownloadContentAsync(serviceProvider,
             requestContext.Server, fileUrl, cancellationToken) : null;
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
                new GoogleNanoBananaNewImage
                {
                    Prompt = prompt,

@@ -43,7 +43,7 @@ public static class MixedbreadFiles
                 var file = downloads.FirstOrDefault()
                     ?? throw new InvalidOperationException("Failed to download file from fileUrl.");
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new MixedbreadFileUploadRequest
                     {
                         FileUrl = fileUrl
@@ -93,7 +93,7 @@ public static class MixedbreadFiles
                 var file = downloads.FirstOrDefault()
                     ?? throw new InvalidOperationException("Failed to download file from fileUrl.");
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new MixedbreadFileUpdateRequest
                     {
                         FileId = fileId,

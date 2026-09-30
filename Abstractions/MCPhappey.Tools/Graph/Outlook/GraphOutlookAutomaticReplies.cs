@@ -33,7 +33,7 @@ public static class GraphOutlookAutomaticReplies
             if (status == AutomaticRepliesStatus.Disabled)
                 throw new ValidationException("Use graph_outlook_automatic_replies_disable to disable automatic replies.");
 
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new AutomaticRepliesInput
                 {
                     Status = status,
@@ -79,7 +79,7 @@ public static class GraphOutlookAutomaticReplies
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new DisableAutomaticRepliesInput(), cancellationToken);
             if (notAccepted is not null || input is null)
                 throw new Exception(JsonSerializer.Serialize(notAccepted));

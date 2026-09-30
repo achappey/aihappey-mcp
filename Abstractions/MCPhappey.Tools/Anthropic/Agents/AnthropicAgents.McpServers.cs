@@ -27,7 +27,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMcpServerMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMcpServerMutationRequest
                 {
                     AgentId = agentId,
                     ServerName = serverName,
@@ -79,7 +79,7 @@ public static partial class AnthropicAgents
             await requestContext.WithStructuredContent(async () =>
             {
                 var expected = $"{agentId}:{serverName}";
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
                 var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
                 var servers = AnthropicManagedAgentsHttp.CloneArray(current["mcp_servers"]);

@@ -49,7 +49,7 @@ public static class CometAPISpeechAudio
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CometAPISpeechTextToSpeechRequest
                 {
                     Input = input,
@@ -100,7 +100,7 @@ public static class CometAPISpeechAudio
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CometAPISpeechFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

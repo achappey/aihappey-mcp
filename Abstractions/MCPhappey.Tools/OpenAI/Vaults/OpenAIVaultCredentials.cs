@@ -18,7 +18,7 @@ public static partial class OpenAIVaults
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new CreateStaticBearerRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new CreateStaticBearerRequest
             { VaultId = vaultId, Name = name, McpServerUrl = mcpServerUrl, Token = token }, cancellationToken);
             if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>
@@ -44,7 +44,7 @@ public static partial class OpenAIVaults
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new CreateOAuthRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new CreateOAuthRequest
             {
                 VaultId = vaultId, Name = name, McpServerUrl = mcpServerUrl, AccessToken = accessToken, ExpiresAt = expiresAt,
                 RefreshToken = refreshToken, ClientId = clientId, TokenEndpoint = tokenEndpoint, TokenEndpointAuth = tokenEndpointAuth,
@@ -91,7 +91,7 @@ public static partial class OpenAIVaults
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new RotateStaticBearerRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new RotateStaticBearerRequest
             { VaultId = vaultId, CredentialId = credentialId, Token = token }, cancellationToken);
             if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>
@@ -113,7 +113,7 @@ public static partial class OpenAIVaults
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new RotateOAuthRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new RotateOAuthRequest
             {
                 VaultId = vaultId, CredentialId = credentialId, AccessToken = accessToken, ExpiresAt = expiresAt,
                 ClearExpiresAt = clearExpiresAt, RefreshToken = refreshToken, Scope = scope, ClearScope = clearScope,

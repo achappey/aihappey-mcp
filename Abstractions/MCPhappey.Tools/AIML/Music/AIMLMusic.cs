@@ -36,7 +36,7 @@ public static class AIMLMusic
          var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
          // Step 1: Ask user for any missing fields
-         var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+         var (typed, notAccepted, _) = await requestContext.TryElicit(
              new AIMLLyria2MusicRequest
              {
                  Prompt = prompt,
@@ -107,7 +107,7 @@ public static class AIMLMusic
        var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
        // Step 1: Ask user for any missing input
-       var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+       var (typed, notAccepted, _) = await requestContext.TryElicit(
            new AIMLElevenLabsMusicRequest
            {
                Prompt = prompt,
@@ -183,7 +183,7 @@ public static class AIMLMusic
         var file = files.FirstOrDefault() ?? throw new Exception("File not found.");
 
         // Step 2: Ask for confirmation via elicitation (optional)
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLMiniMaxUploadRequest
             {
                 FileUrl = fileUrl,
@@ -235,7 +235,7 @@ public static class AIMLMusic
         var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
         // Step 1: Elicit missing params
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLMiniMaxGenerateRequest
             {
                 Lyrics = lyrics,
@@ -343,7 +343,7 @@ public static class AIMLMusic
      var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
      // Step 1: Ask user for missing input
-     var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+     var (typed, notAccepted, _) = await requestContext.TryElicit(
          new AIMLStableAudioRequest
          {
              Prompt = prompt,

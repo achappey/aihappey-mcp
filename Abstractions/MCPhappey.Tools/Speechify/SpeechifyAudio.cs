@@ -39,7 +39,7 @@ public static class SpeechifyAudio
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SpeechifyTtsRequest
                 {
                     Input = input,
@@ -101,7 +101,7 @@ public static class SpeechifyAudio
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SpeechifyFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

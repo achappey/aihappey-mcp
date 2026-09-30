@@ -35,7 +35,7 @@ public static class FireworksImages
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new FireworksFluxSchnellRequest
                     {
                         Prompt = prompt,

@@ -25,7 +25,7 @@ public static class GraphOutlookMailFolders
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new MailFolderInput { DisplayName = displayName, IsHidden = isHidden }, cancellationToken);
             ThrowIfRejected(input, rejected);
             ArgumentException.ThrowIfNullOrWhiteSpace(input!.DisplayName);
@@ -48,7 +48,7 @@ public static class GraphOutlookMailFolders
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new MailFolderPatchInput { DisplayName = displayName }, cancellationToken);
             ThrowIfRejected(input, rejected);
             ArgumentException.ThrowIfNullOrWhiteSpace(input!.DisplayName);

@@ -35,7 +35,7 @@ public static class GradiumSpeech
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GradiumTextToSpeechRequest
                 {
                     Text = text,
@@ -92,7 +92,7 @@ public static class GradiumSpeech
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GradiumFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

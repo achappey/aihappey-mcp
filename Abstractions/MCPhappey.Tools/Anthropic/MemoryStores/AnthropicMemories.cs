@@ -24,7 +24,7 @@ public static partial class AnthropicMemories
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateMemoryRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicCreateMemoryRequest
                 {
                     MemoryStoreId = memoryStoreId,
                     Path = path,
@@ -68,7 +68,7 @@ public static partial class AnthropicMemories
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateMemoryRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicUpdateMemoryRequest
                 {
                     MemoryStoreId = memoryStoreId,
                     MemoryId = memoryId,
@@ -115,7 +115,7 @@ public static partial class AnthropicMemories
                 var normalizedMemoryStoreId = AnthropicMemoryStores.NormalizeMemoryStoreId(memoryStoreId);
                 var normalizedMemoryId = AnthropicMemoryStores.NormalizeId(memoryId, "memoryId");
                 await AnthropicMemoryStores.GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId,  cancellationToken);
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteMemoryItem>(requestContext.Server, $"{normalizedMemoryStoreId}:{normalizedMemoryId}", cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteMemoryItem>(requestContext, $"{normalizedMemoryStoreId}:{normalizedMemoryId}", cancellationToken);
 
                 var url = $"{AnthropicMemoryStores.BaseUrl}/{Uri.EscapeDataString(normalizedMemoryStoreId)}/memories/{Uri.EscapeDataString(normalizedMemoryId)}";
                 if (!string.IsNullOrWhiteSpace(expectedContentSha256))

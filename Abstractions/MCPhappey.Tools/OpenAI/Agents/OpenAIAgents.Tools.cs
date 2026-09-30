@@ -19,7 +19,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentFunctionToolRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentFunctionToolRequest
             { AgentId = agentId, Name = name, Description = description, SchemaFileUrl = schemaFileUrl, DeferLoading = deferLoading }, cancellationToken);
             if (rejected is not null) return rejected;
 
@@ -90,7 +90,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentWebSearchRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentWebSearchRequest
             {
                 AgentId = agentId, AllowedDomains = allowedDomains, ContextSize = contextSize, Mode = mode,
                 City = city, Country = country, Region = region, Timezone = timezone
@@ -132,7 +132,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentToolIdentityRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentToolIdentityRequest
             { AgentId = agentId, Name = name }, cancellationToken);
             if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>

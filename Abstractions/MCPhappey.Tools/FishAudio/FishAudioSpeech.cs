@@ -46,7 +46,7 @@ public static class FishAudioSpeech
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new FishAudioSpeechFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

@@ -92,188 +92,6 @@ public static class ModelContextUtils
 
               return done.ToTextContentBlock().ToCallToolResult();
           });
-    /*
-     [Description("Test Elicit capabilites by requesting a form with a single field")]
-     [McpServerTool(Title = "Elicit single-field form test",
-         ReadOnly = true,
-         Idempotent = true,
-         OpenWorld = false)]
-     public static async Task<CallToolResult?> ModelContextUtils_TestElicit(
-         RequestContext<CallToolRequestParams> requestContext,
-         [Description("Elicit message")]
-         string message,
-         [Description("Field type")]
-         ElicitFieldType fieldType,
-         [Description("Field name")]
-         string fieldName,
-         [Description("Field description")]
-         string description,
-         [Description("Field required")]
-         bool required,
-         [Description("Field value")]
-         string? defaultValue = null,
-         CancellationToken cancellationToken = default) =>
-            await ModelContextToolExtensions.WithExceptionCheck(async () =>
-             await requestContext.WithStructuredContent(async () =>
-     {
-         var propName = string.IsNullOrWhiteSpace(fieldName) ? "value" : fieldName;
-
-         ElicitRequestParams.PrimitiveSchemaDefinition schema = fieldType switch
-         {
-             ElicitFieldType.String => new ElicitRequestParams.StringSchema
-             {
-                 Title = propName,
-                 Description = description,
-                 Default = defaultValue,
-             },
-             ElicitFieldType.Email => new ElicitRequestParams.StringSchema
-             {
-                 Title = propName,
-                 Description = description,
-                 Format = "email"
-             },
-             ElicitFieldType.Date => new ElicitRequestParams.StringSchema
-             {
-                 Title = propName,
-                 Description = description,
-                 Default = defaultValue,
-                 Format = "date"
-             },
-             ElicitFieldType.DateTime => new ElicitRequestParams.StringSchema
-             {
-                 Title = propName,
-                 Description = description,
-                 Default = defaultValue,
-                 Format = "date-time"
-             },
-             ElicitFieldType.Uri => new ElicitRequestParams.StringSchema
-             {
-                 Title = propName,
-                 Description = description,
-                 Default = defaultValue,
-                 Format = "uri"
-             },
-             ElicitFieldType.Number => new ElicitRequestParams.NumberSchema
-             {
-                 Title = propName,
-                 Description = description
-             },
-             ElicitFieldType.Enum => new ElicitRequestParams.TitledSingleSelectEnumSchema
-             {
-                 Title = propName,
-                 Default = defaultValue,
-                 Description = description,
-                 OneOf = [new ElicitRequestParams.EnumSchemaOption() {
-                     Title = "Option 1",
-                     Const = "Option1",
-                 }, new ElicitRequestParams.EnumSchemaOption() {
-                     Title = "Option 2",
-                     Const = "Option2",
-                 }],
-             },
-             ElicitFieldType.Boolean => new ElicitRequestParams.BooleanSchema
-             {
-                 Title = propName,
-                 Description = description
-             },
-             _ => throw new ArgumentOutOfRangeException(nameof(fieldType), fieldType, null)
-         };
-
-         var elicitRequest = new ElicitRequestParams
-         {
-             RequestedSchema = new ElicitRequestParams.RequestSchema
-             {
-                 Properties = new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>
-                 {
-                     [propName] = schema
-                 },
-                 Required = required ? [propName] : []
-             },
-             Message = message
-         };
-
-         return await requestContext.Server.ElicitAsync(elicitRequest, cancellationToken: cancellationToken);
-     }));*/
-
-    /*
-        [Description("Test Elicit enum capabilities with configurable options")]
-        [McpServerTool(
-        Title = "Elicit enum test",
-        ReadOnly = true,
-        Idempotent = true,
-        OpenWorld = false)]
-        public static async Task<CallToolResult?> ModelContextUtils_TestElicitEnum(
-        RequestContext<CallToolRequestParams> requestContext,
-        [Description("Message shown above the enum field")]
-        string message,
-        [Description("Field name")]
-        string fieldName,
-        [Description("Field description")]
-        string description,
-        [Description("Enum options (comma separated, e.g. OptionA,OptionB,OptionC)")]
-        string options,
-        [Description("Is field required")]
-        bool required = true,
-        [Description("Is field multi select")]
-        bool mutliSelect = false,
-        [Description("Default value (must match one of the options)")]
-        string? defaultValue = null,
-        CancellationToken cancellationToken = default)
-        =>
-        await ModelContextToolExtensions.WithExceptionCheck(async () =>
-        await requestContext.WithStructuredContent(async () =>
-        {
-            var propName = string.IsNullOrWhiteSpace(fieldName)
-                ? "selection"
-                : fieldName;
-
-            var optionList = options
-                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                .Select(o => new ElicitRequestParams.EnumSchemaOption
-                {
-                    Title = o,
-                    Const = o
-                })
-                .ToList();
-
-            if (optionList.Count == 0)
-                throw new ArgumentException("At least one enum option must be provided.", nameof(options));
-
-
-            var elicitRequest = new ElicitRequestParams
-            {
-                Message = message,
-                RequestedSchema = new ElicitRequestParams.RequestSchema
-                {
-                    Properties = new Dictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>
-                    {
-                        [propName] = mutliSelect ? new ElicitRequestParams.TitledMultiSelectEnumSchema
-                        {
-                            Title = propName,
-                            Description = description,
-                            Default = string.IsNullOrEmpty(defaultValue)
-                                ? [] : [defaultValue],
-                            Items = new ElicitRequestParams.TitledEnumItemsSchema()
-                            {
-                                AnyOf = optionList
-                            }
-                        } : new ElicitRequestParams.TitledSingleSelectEnumSchema
-                        {
-                            Title = propName,
-                            Description = description,
-                            Default = defaultValue,
-                            OneOf = optionList
-                        }
-                    },
-                    Required = required ? [propName] : []
-                }
-            };
-
-            return await requestContext.Server.ElicitAsync(
-                elicitRequest,
-                cancellationToken: cancellationToken);
-        }));
-    */
 
     [Description("Test Elicit capabilites by requesting a form with a single field")]
     [McpServerTool(Title = "Elicit single-field form test",
@@ -294,7 +112,8 @@ public static class ModelContextUtils
     bool required,
         [Description("Field value")]
     string? defaultValue = null,
-        CancellationToken cancellationToken = default) =>
+        CancellationToken cancellationToken = default)
+        =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             const string inputKey = "elicit";
@@ -429,7 +248,8 @@ public static class ModelContextUtils
     bool mutliSelect = false,
         [Description("Default value (must match one of the options)")]
     string? defaultValue = null,
-        CancellationToken cancellationToken = default) =>
+        CancellationToken cancellationToken = default)
+        =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
             const string inputKey = "elicit_enum";

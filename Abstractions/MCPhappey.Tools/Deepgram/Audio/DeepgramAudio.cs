@@ -42,7 +42,7 @@ public static class DeepgramAudio
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
             // Elicit before TTS call to confirm settings
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new DeepgramTextToSpeechRequest
                 {
                     Text = text,

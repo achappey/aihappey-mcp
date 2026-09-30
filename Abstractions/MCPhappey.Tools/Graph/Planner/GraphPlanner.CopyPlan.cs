@@ -36,7 +36,7 @@ public static partial class GraphPlanner
         _ = await graphClient.Groups[groupId].GetAsync((config) => { }, cancellationToken)
             ?? throw new InvalidOperationException($"Target group '{groupId}' could not be found.");
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit<GraphCopyPlanner>(
+        var (typed, notAccepted, result) = await requestContext.TryElicit<GraphCopyPlanner>(
             new GraphCopyPlanner
             {
                 Title = title

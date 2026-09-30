@@ -72,7 +72,7 @@ public static class DataversePlugin
                 ? await attributes.MapMetadataToElicit(dynamicsHost, httpClient, tableLogicalName, cancellationToken, fallbackValues)
                 : [];
 
-            var (answers, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams
+            var (answers, _) = await requestContext.TryElicitForm(new ElicitRequestParams
             {
                 Message = $"Update values for the {tableLogicalName} item (ID {entityId}). Fields left blank will remain unchanged.",
                 RequestedSchema = new ElicitRequestParams.RequestSchema
@@ -212,7 +212,7 @@ public static class DataversePlugin
             ? await attributes.MapMetadataToElicit(dynamicsHost, httpClient, tableLogicalName, cancellationToken, fallbackValues)
             : [];
 
-        var (answers, _) = await requestContext.Server.TryElicitForm(new ElicitRequestParams()
+        var (answers, _) = await requestContext.TryElicitForm(new ElicitRequestParams()
         {
             Message = $"Please fill in the details for the {tableLogicalName} item",
             RequestedSchema = new ElicitRequestParams.RequestSchema()

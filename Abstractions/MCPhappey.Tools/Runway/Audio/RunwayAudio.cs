@@ -41,7 +41,7 @@ public static class RunwayAudio
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewTextToSpeech
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewTextToSpeech
         {
             PromptText = promptText,
             Model = string.IsNullOrWhiteSpace(model) ? "eleven_multilingual_v2" : model!,
@@ -82,7 +82,7 @@ public static class RunwayAudio
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewVoiceDubbing
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewVoiceDubbing
         {
             TargetLang = targetLang,
             Model = string.IsNullOrWhiteSpace(model) ? "eleven_voice_dubbing" : model!,
@@ -124,7 +124,7 @@ public static class RunwayAudio
       => await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await rc.WithStructuredContent(async () =>
   {
-      var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewVoiceIsolation
+      var (typed, _, _) = await rc.TryElicit(new RunwayNewVoiceIsolation
       {
           Model = string.IsNullOrWhiteSpace(model) ? "eleven_voice_isolation" : model!
       }, ct);
@@ -247,7 +247,7 @@ public static class RunwayAudio
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewSpeechToSpeech
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewSpeechToSpeech
         {
             MediaType = string.IsNullOrWhiteSpace(mediaType) ? "audio" : mediaType!,
             MediaUri = mediaUri,
@@ -334,7 +334,7 @@ public static class RunwayAudio
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewSoundEffect
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewSoundEffect
         {
             PromptText = promptText,
             Model = string.IsNullOrWhiteSpace(model) ? "eleven_text_to_sound_v2" : model!,

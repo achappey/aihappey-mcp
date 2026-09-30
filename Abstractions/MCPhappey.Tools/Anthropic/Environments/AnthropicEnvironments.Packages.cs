@@ -139,7 +139,7 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicEnvironmentPackageMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicEnvironmentPackageMutationRequest
                 {
                     EnvironmentId = environmentId,
                     PackageManager = packageManager,
@@ -184,7 +184,7 @@ public static partial class AnthropicEnvironments
                 var normalizedEnvironmentId = NormalizeEnvironmentId(environmentId);
                 ValidatePackageManager(packageManager);
                 var normalizedPackage = NormalizePackageEntry(package);
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext.Server, $"{normalizedEnvironmentId}:{packageManager}:{normalizedPackage}", cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext, $"{normalizedEnvironmentId}:{packageManager}:{normalizedPackage}", cancellationToken);
 
                 var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, cancellationToken);
                 var packages = EnsurePackagesNode(current);

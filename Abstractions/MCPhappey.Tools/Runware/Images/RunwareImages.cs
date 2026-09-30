@@ -30,7 +30,7 @@ public static class RunwareImages
            await requestContext.WithStructuredContent(async () =>
          {
              // ðŸ§  1. Elicit parameters with defaults
-             var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+             var (typed, notAccepted, result) = await requestContext.TryElicit(
                  new RunwareVectorize
                  {
                      InputImage = inputImage,
@@ -160,7 +160,7 @@ public static class RunwareImages
         await requestContext.WithStructuredContent(async () =>
       {
           // ðŸ§  1. Elicit missing parameters with defaults
-          var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+          var (typed, notAccepted, result) = await requestContext.TryElicit(
               new RunwarePhotoMaker
               {
                   PositivePrompt = positivePrompt,
@@ -304,7 +304,7 @@ public static class RunwareImages
          await requestContext.WithStructuredContent(async () =>
        {
            // ðŸ§  1. Elicit missing parameters with defaults
-           var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+           var (typed, notAccepted, result) = await requestContext.TryElicit(
                new RunwareControlNetPreprocess
                {
                    PreProcessorType = preProcessorType,
@@ -425,7 +425,7 @@ public static class RunwareImages
            //await requestContext.WithStructuredContent(async () =>
                {
                    // ðŸ§  1. Elicit missing parameters with defaults
-                   var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+                   var (typed, notAccepted, result) = await requestContext.TryElicit(
                        new RunwareNewImage
                        {
                            PositivePrompt = prompt,

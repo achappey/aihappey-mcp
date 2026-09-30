@@ -25,7 +25,7 @@ public static partial class GraphToDo
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphChecklistItemInput { DisplayName = displayName, IsChecked = isChecked }, cancellationToken);
            
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DisplayName);
@@ -54,7 +54,7 @@ public static partial class GraphToDo
             if (displayName is null && isChecked is null)
                 throw new ValidationException("displayName or isChecked must be provided.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphChecklistItemUpdate { DisplayName = displayName, IsChecked = isChecked }, cancellationToken);
          
             if (typed?.DisplayName is not null) ArgumentException.ThrowIfNullOrWhiteSpace(typed.DisplayName);

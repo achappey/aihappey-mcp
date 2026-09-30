@@ -30,7 +30,7 @@ public static class RunwayVideo
         CancellationToken ct = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewVideoRequest
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewVideoRequest
         {
             PromptText = promptText ?? "",
             Model = model ?? RunwayTextToVideoModel.Veo31Fast,
@@ -90,7 +90,7 @@ public static class RunwayVideo
         if (promptImages == null || !promptImages.Any())
             throw new ValidationException("At least one prompt image is required.");
 
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewImageToVideo
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewImageToVideo
         {
             PromptText = promptText,
             Model = model ?? RunwayImageToVideoModel.Gen4Turbo,
@@ -171,7 +171,7 @@ public static class RunwayVideo
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewCharacterPerformance
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewCharacterPerformance
         {
             CharacterType = string.IsNullOrWhiteSpace(characterType) ? "image" : characterType!,
             Ratio = string.IsNullOrWhiteSpace(ratio) ? "1280:720" : ratio!,
@@ -298,7 +298,7 @@ public static class RunwayVideo
         CancellationToken ct = default) =>
          await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewVideoToVideo
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewVideoToVideo
         {
             PromptText = promptText,
             Ratio = string.IsNullOrWhiteSpace(ratio) ? "1280:720" : ratio!,

@@ -29,7 +29,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMcpToolMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMcpToolMutationRequest
                 {
                     AgentId = agentId,
                     McpServerName = mcpServerName,
@@ -96,7 +96,7 @@ public static partial class AnthropicAgents
             await requestContext.WithStructuredContent(async () =>
             {
                 var expected = $"{agentId}:{mcpServerName}:{toolName}";
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
                 var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
                 var tools = AnthropicManagedAgentsHttp.CloneArray(current["tools"]);
@@ -134,7 +134,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMcpToolsetDefaultsRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMcpToolsetDefaultsRequest
                 {
                     AgentId = agentId,
                     McpServerName = mcpServerName,
@@ -179,7 +179,7 @@ public static partial class AnthropicAgents
             await requestContext.WithStructuredContent(async () =>
             {
                 var expected = $"{agentId}:{mcpServerName}:mcp_tool_defaults";
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
                 var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
                 var tools = AnthropicManagedAgentsHttp.CloneArray(current["tools"]);

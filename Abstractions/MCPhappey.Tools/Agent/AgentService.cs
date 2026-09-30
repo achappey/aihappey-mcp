@@ -97,7 +97,7 @@ public static class AgentService
                 };
 
                 // Returns ElicitResult; wrapper will serialize it as structured tool output.
-                var (_, elicitResult) = await requestContext.Server.TryElicitForm(
+                var (_, elicitResult) = await requestContext.TryElicitForm(
                     elicitRequest,
                     cancellationToken: cancellationToken);
 

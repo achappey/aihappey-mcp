@@ -99,7 +99,7 @@ public static partial class CanvasService
             : await graph.GetDefaultDriveAsync(cancellationToken) ?? throw new Exception("Could not resolve default OneDrive.");
         //await graph.EnsureRootFolderExistsAsync(drive.Id!, cancellationToken);
 
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
              new CanvasCreateInput { Text = file_text }, cancellationToken);
 
         // Ensure folder structure
@@ -140,7 +140,7 @@ public static partial class CanvasService
             : await graph.GetDefaultDriveAsync(cancellationToken) ?? throw new Exception("Could not resolve default OneDrive.");
         await graph.EnsureRootFolderExistsAsync(drive.Id!, cancellationToken);
 
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
             new CanvasInsertInput { Line = insert_line, Text = insert_text }, cancellationToken);
 
         // Ensure folder structure
@@ -191,7 +191,7 @@ public static partial class CanvasService
             : await graph.GetDefaultDriveAsync(cancellationToken) ?? throw new Exception("Could not resolve default OneDrive.");
         await graph.EnsureRootFolderExistsAsync(drive.Id!, cancellationToken);
 
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
             new CanvasReplaceInput { TextToReplace = old_str, NewText = new_str }, cancellationToken);
 
         var content = await graph.ReadTextFileAsync(drive.Id!, normalized, cancellationToken)

@@ -176,7 +176,7 @@ public static class ParallelService
         // 2) Prompt user if primitives missing
         if (string.IsNullOrWhiteSpace(inputSchema) || enableEvents == null)
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CreateParallelTaskPrompt
                 {
                     InputSchema = inputSchema,
@@ -334,7 +334,7 @@ public static class ParallelService
           // 1) If primitive fields are missing, elicit them
           if (string.IsNullOrWhiteSpace(processor) || string.IsNullOrWhiteSpace(input))
           {
-              var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+              var (typed, notAccepted, _) = await requestContext.TryElicit(
                   new CreateParallelTaskRunPrompt
                   {
                       Processor = processor,

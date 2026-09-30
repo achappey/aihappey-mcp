@@ -160,7 +160,7 @@ public static partial class AIMLVideo
         }
 
         // Step 3: Ask user for missing info
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLMiniMaxHailuo02VideoRequest
             {
                 Prompt = prompt,

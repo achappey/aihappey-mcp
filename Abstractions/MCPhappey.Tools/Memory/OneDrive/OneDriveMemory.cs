@@ -114,7 +114,7 @@ public static class OneDriveMemory
 
         await graph.EnsureRootFolderExistsAsync(drive.Id!, cancellationToken);
 
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
                      new OneDriveCreateMemory { Text = file_text },
                      cancellationToken);
 
@@ -154,7 +154,7 @@ public static class OneDriveMemory
                    ?? throw new Exception("Could not resolve default OneDrive.");
         await graph.EnsureRootFolderExistsAsync(drive.Id!, cancellationToken);
 
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
                           new OneDriveReplaceMemory { TextToReplace = old_str, NewText = new_str },
                           cancellationToken);
 
@@ -198,7 +198,7 @@ public static class OneDriveMemory
                    ?? throw new Exception("Could not resolve default OneDrive.");
         await graph.EnsureRootFolderExistsAsync(drive.Id!, cancellationToken);
 
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
                     new OneDriveInsertMemory { Text = insert_text, Line = insert_line },
                     cancellationToken);
 

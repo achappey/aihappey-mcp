@@ -31,7 +31,7 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new GraphAddEventAttachment { FileUrl = fileUrl, Filename = filename }, cancellationToken);
             if (notAccepted is not null || input is null) return default(FileAttachment);
             ArgumentException.ThrowIfNullOrWhiteSpace(input.FileUrl);

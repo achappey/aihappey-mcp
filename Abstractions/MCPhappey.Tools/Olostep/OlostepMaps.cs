@@ -26,7 +26,7 @@ public static class OlostepMaps
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new OlostepCreateMapRequest
                 {
                     Url = url,
@@ -84,7 +84,7 @@ public static class OlostepMaps
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new OlostepGetMapRequest
                 {
                     MapId = map_id

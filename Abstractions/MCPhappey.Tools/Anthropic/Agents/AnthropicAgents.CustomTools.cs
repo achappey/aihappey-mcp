@@ -28,7 +28,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentCustomToolMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentCustomToolMutationRequest
                 {
                     AgentId = agentId,
                     ToolName = toolName,
@@ -87,7 +87,7 @@ public static partial class AnthropicAgents
             await requestContext.WithStructuredContent(async () =>
             {
                 var expected = $"{agentId}:{toolName}";
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
                 var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
                 var tools = AnthropicManagedAgentsHttp.CloneArray(current["tools"]);

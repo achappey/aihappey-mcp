@@ -32,7 +32,7 @@ public static partial class ModelContextSecurityEditor
         using var graphClient = await serviceProvider.GetOboGraphClient(requestContext.Server);
         var user = await graphClient.Users[ownerUserId].GetAsync();
 
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new McpServerOwner()
+        var (typed, notAccepted, _) = await requestContext.TryElicit(new McpServerOwner()
         {
             UserId = ownerUserId
         }, cancellationToken);
@@ -80,7 +80,7 @@ public static partial class ModelContextSecurityEditor
             throw new Exception($"User {ownerUserId} is not an owner on server {serverName}.");
         }
 
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new McpServerOwner()
+        var (typed, notAccepted, _) = await requestContext.TryElicit(new McpServerOwner()
         {
             UserId = ownerUserId
         }, cancellationToken);
@@ -112,7 +112,7 @@ public static partial class ModelContextSecurityEditor
     {
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new UpdateMcpServerSecurity()
+        var (typed, notAccepted, _) = await requestContext.TryElicit(new UpdateMcpServerSecurity()
         {
             Secured = server.Secured
         }, cancellationToken);
@@ -151,7 +151,7 @@ public static partial class ModelContextSecurityEditor
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
 
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new McpSecurityGroup()
+        var (typed, notAccepted, _) = await requestContext.TryElicit(new McpSecurityGroup()
         {
             GroupId = securityGroupId
         }, cancellationToken);
@@ -186,7 +186,7 @@ public static partial class ModelContextSecurityEditor
     {
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new McpSecurityGroup()
+        var (typed, notAccepted, _) = await requestContext.TryElicit(new McpSecurityGroup()
         {
             GroupId = securityGroupId
         }, cancellationToken);

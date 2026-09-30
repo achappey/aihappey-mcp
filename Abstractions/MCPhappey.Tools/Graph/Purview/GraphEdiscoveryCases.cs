@@ -28,7 +28,7 @@ public static class GraphEdiscoveryCases
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new EdiscoveryCaseInput
+            var (input, rejected, _) = await requestContext.TryElicit(new EdiscoveryCaseInput
             {
                 DisplayName = displayName,
                 Description = description,
@@ -64,7 +64,7 @@ public static class GraphEdiscoveryCases
             if (displayName is null && description is null && externalId is null)
                 throw new ValidationException("At least one case field must be supplied.");
 
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new EdiscoveryCasePatchInput
+            var (input, rejected, _) = await requestContext.TryElicit(new EdiscoveryCasePatchInput
             {
                 DisplayName = displayName,
                 Description = description,

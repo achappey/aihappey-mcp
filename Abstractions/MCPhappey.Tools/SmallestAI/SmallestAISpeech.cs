@@ -41,7 +41,7 @@ public static class SmallestAISpeech
         {
             var resolvedText = await ResolveInputTextAsync(serviceProvider, requestContext, text, fileUrl, cancellationToken);
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SmallestAISpeechRequest
                 {
                     Text = resolvedText,

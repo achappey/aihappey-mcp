@@ -82,7 +82,7 @@ public static partial class HTMLPlugin
                 .ToTextCallToolResponse();
         }
 
-        var (values, _) = await requestContext.Server.TryElicitForm(
+        var (values, _) = await requestContext.TryElicitForm(
             new ElicitRequestParams
             {
                 Message = "Please fill in the values of the HTML template",
@@ -100,7 +100,7 @@ public static partial class HTMLPlugin
                 }
             }, fallbackValues, cancellationToken);
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
               new HtmlNewFile { Name = newFilename },
               cancellationToken);
 

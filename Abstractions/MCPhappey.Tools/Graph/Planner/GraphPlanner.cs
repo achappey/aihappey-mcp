@@ -389,7 +389,7 @@ public static partial class GraphPlanner
     {
         var plan = await client.Planner.Plans[plannerId].GetAsync((config) => { }, cancellationToken);
         var bucket = await client.Planner.Plans[plannerId].Buckets[bucketId].GetAsync((config) => { }, cancellationToken);
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphNewPlannerTask
             {
                 Title = title,
@@ -435,7 +435,7 @@ public static partial class GraphPlanner
         var planner = await client.Planner.Plans[plannerId]
                                .GetAsync(cancellationToken: cancellationToken);
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new GraphNewPlannerBucket()
+        var (typed, notAccepted, result) = await requestContext.TryElicit(new GraphNewPlannerBucket()
         {
             Name = bucketName,
             OrderHint = orderHint
@@ -469,7 +469,7 @@ public static partial class GraphPlanner
         var group = await client.Groups[groupId]
                          .GetAsync(cancellationToken: cancellationToken);
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphNewPlannerPlan
             {
                 Title = planTitle

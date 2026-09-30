@@ -42,7 +42,7 @@ public static class YourVoicSpeech
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new YourVoicSpeechGenerateRequest
                 {
                     Text = text,

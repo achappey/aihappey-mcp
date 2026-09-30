@@ -42,7 +42,7 @@ public static class DeepLGlossaries
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new CreateGlossaryRequest
+            var (typed, _, _) = await requestContext.TryElicit(new CreateGlossaryRequest
             {
                 Name = name,
                 SourceLang = sourceLang,
@@ -120,7 +120,7 @@ public static class DeepLGlossaries
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new PatchGlossaryRequest
+            var (typed, _, _) = await requestContext.TryElicit(new PatchGlossaryRequest
             {
                 GlossaryId = glossaryId,
                 Name = name,
@@ -188,7 +188,7 @@ public static class DeepLGlossaries
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new ReplaceDictionaryRequest
+            var (typed, _, _) = await requestContext.TryElicit(new ReplaceDictionaryRequest
             {
                 GlossaryId = glossaryId,
                 SourceLang = sourceLang,

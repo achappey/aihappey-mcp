@@ -29,7 +29,7 @@ public static class GraphAudit
     {
         var mcpServer = requestContext.Server;
 
-        var (typed, notAccepted, result) = await mcpServer.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphNewAuditLogQuery
             {
                 Filter = filter ?? string.Empty,

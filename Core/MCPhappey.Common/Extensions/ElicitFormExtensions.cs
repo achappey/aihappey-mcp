@@ -303,36 +303,36 @@ public static class ElicitFormExtensions
     }
 
     public static async Task<CallToolResult> ConfirmAndDeleteAsync<TConfirm>(
-        this ModelContextProtocol.Server.RequestContext<CallToolRequestParams> ctx,
-        string expectedName,
-        Func<CancellationToken, Task> deleteAction,
-        string successText,
-        CancellationToken ct = default)
-         where TConfirm : class, IHasName, new()
+    this ModelContextProtocol.Server.RequestContext<CallToolRequestParams> ctx,
+    string expectedName,
+    Func<CancellationToken, Task> deleteAction,
+    string successText,
+    CancellationToken ct = default)
+    where TConfirm : class, IHasName, new()
     {
-        if (ctx.Server.ClientCapabilities?.Elicitation == null)
+        ct.ThrowIfCancellationRequested();
+
+        if (!ctx.Server.IsMrtrSupported)
         {
             await deleteAction(ct);
             return successText.ToTextCallToolResponse();
         }
 
-        var dto = await ctx.Server.GetElicitResponse<TConfirm>(expectedName, ct);
+        var typed = ctx.Elicit(
+            new TConfirm(),
+            message: expectedName);
 
-        if (dto?.Action != "accept")
-            return JsonSerializer.Serialize(
-                            dto,
-                            JsonSerializerOptions.Web)
-                            .ToErrorCallToolResponse();
+        if (!string.Equals(
+            typed.Name?.Trim(),
+            expectedName.Trim(),
+            StringComparison.OrdinalIgnoreCase))
+        {
+            return $"Confirmation does not match name '{expectedName}'"
+                .ToErrorCallToolResponse();
+        }
 
-        // Parsed DTO
-        var typed = dto?.GetTypedResult<TConfirm>() ?? throw new Exception();
-
-        // Name must match exactly (case-insensitive is usually more user-friendly)
-        if (!string.Equals(typed.Name?.Trim(), expectedName.Trim(), StringComparison.OrdinalIgnoreCase))
-            return $"Confirmation does not match name '{expectedName}'".ToErrorCallToolResponse();
-
-        // All good – run the provided delete delegate and send success
         await deleteAction(ct);
+
         return successText.ToTextCallToolResponse();
     }
 

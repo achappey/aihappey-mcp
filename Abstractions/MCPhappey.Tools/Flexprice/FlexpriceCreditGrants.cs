@@ -40,7 +40,7 @@ public static class FlexpriceCreditGrants
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceCreditGrantResponse>>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new FlexpriceCreateCreditGrantInput
                     {
                         Name = name,
@@ -121,7 +121,7 @@ public static class FlexpriceCreditGrants
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceCreditGrantResponse>>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new FlexpriceUpdateCreditGrantInput
                     {
                         Id = id,

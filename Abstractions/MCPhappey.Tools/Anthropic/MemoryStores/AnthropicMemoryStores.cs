@@ -17,7 +17,7 @@ public static partial class AnthropicMemoryStores
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional memory store description.")] string? description = null,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -25,12 +25,11 @@ public static partial class AnthropicMemoryStores
                 var userId = serviceProvider.GetUserId()
                     ?? throw new UnauthorizedAccessException("Current user id is required to create a memory store.");
 
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateMemoryStoreRequest
+                var typed = requestContext.Elicit(new AnthropicCreateMemoryStoreRequest
                 {
                     Name = name,
                     Description = description,
-                   
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.Name))
                     throw new ValidationException("name is required.");
@@ -51,7 +50,7 @@ public static partial class AnthropicMemoryStores
                     HttpMethod.Post,
                     BaseUrl,
                     body,
-                    
+
                     cancellationToken);
             }));
 
@@ -63,21 +62,20 @@ public static partial class AnthropicMemoryStores
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional updated name. Omit to preserve.")] string? name = null,
         [Description("Optional updated description. Provide an empty string to clear.")] string? description = null,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateMemoryStoreRequest
+                var typed = requestContext.Elicit(new AnthropicUpdateMemoryStoreRequest
                 {
                     MemoryStoreId = memoryStoreId,
                     Name = name,
                     Description = description,
-                   
-                }, cancellationToken);
+                });
 
                 var normalizedMemoryStoreId = NormalizeMemoryStoreId(typed.MemoryStoreId);
-                var current = await GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId,  cancellationToken);
+                var current = await GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId, cancellationToken);
                 var metadata = CloneMetadata(current);
 
                 var body = new JsonObject
@@ -100,7 +98,7 @@ public static partial class AnthropicMemoryStores
                     HttpMethod.Post,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedMemoryStoreId)}",
                     body,
-                    
+
                     cancellationToken);
             }));
 
@@ -111,21 +109,21 @@ public static partial class AnthropicMemoryStores
         [Description("User ID of the owner to add.")] string ownerId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicMemoryStoreOwnerRequest
+                var typed = requestContext.Elicit(new AnthropicMemoryStoreOwnerRequest
                 {
                     MemoryStoreId = memoryStoreId,
                     OwnerId = ownerId,
-                   
-                }, cancellationToken);
+
+                });
 
                 var normalizedMemoryStoreId = NormalizeMemoryStoreId(typed.MemoryStoreId);
                 var normalizedOwnerId = NormalizeId(typed.OwnerId, "ownerId");
-                var current = await GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId,  cancellationToken);
+                var current = await GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId, cancellationToken);
                 var owners = GetOwners(current);
 
                 if (!owners.Contains(normalizedOwnerId, StringComparer.OrdinalIgnoreCase))
@@ -144,7 +142,7 @@ public static partial class AnthropicMemoryStores
                     HttpMethod.Post,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedMemoryStoreId)}",
                     body,
-                    
+
                     cancellationToken);
             }));
 
@@ -154,26 +152,26 @@ public static partial class AnthropicMemoryStores
         [Description("Memory store ID to archive.")] string memoryStoreId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveMemoryStoreRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicArchiveMemoryStoreRequest
                 {
                     MemoryStoreId = memoryStoreId,
-                   
+
                 }, cancellationToken);
 
                 var normalizedMemoryStoreId = NormalizeMemoryStoreId(typed.MemoryStoreId);
-                await GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId,  cancellationToken);
+                await GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId, cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
                     serviceProvider,
                     HttpMethod.Post,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedMemoryStoreId)}/archive",
                     null,
-                    
+
                     cancellationToken);
             }));
 
@@ -183,20 +181,20 @@ public static partial class AnthropicMemoryStores
         [Description("Memory store ID to delete.")] string memoryStoreId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
                 var normalizedMemoryStoreId = NormalizeMemoryStoreId(memoryStoreId);
-                await GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId,  cancellationToken);
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteMemoryStoreItem>(requestContext.Server, normalizedMemoryStoreId, cancellationToken);
+                await GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteMemoryStoreItem>(requestContext, normalizedMemoryStoreId, cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
                     serviceProvider,
                     HttpMethod.Delete,
                     $"{BaseUrl}/{Uri.EscapeDataString(normalizedMemoryStoreId)}",
-                    null,                  
+                    null,
                     cancellationToken);
             }));
 }

@@ -47,7 +47,7 @@ public static class InfomaniakImages
             var resolvedProductId = productId ?? settings.DefaultProductId
                 ?? throw new ValidationException("Missing productId. Provide it explicitly or configure x-infomaniak-product-id header.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new InfomaniakImageGenerateRequest
                 {
                     ProductId = resolvedProductId,
@@ -127,7 +127,7 @@ public static class InfomaniakImages
             var resolvedProductId = productId ?? settings.DefaultProductId
                 ?? throw new ValidationException("Missing productId. Provide it explicitly or configure x-infomaniak-product-id header.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new InfomaniakPhotoMakerRequest
                 {
                     ProductId = resolvedProductId,

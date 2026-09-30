@@ -27,7 +27,7 @@ public static class GraphOutlookCalendarPermissions
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new CalendarPermissionInput
                 {
                     EmailAddress = emailAddress,
@@ -64,7 +64,7 @@ public static class GraphOutlookCalendarPermissions
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new CalendarPermissionRoleInput { Role = role }, cancellationToken);
             if (notAccepted is not null || input is null)
                 throw new Exception(JsonSerializer.Serialize(notAccepted));

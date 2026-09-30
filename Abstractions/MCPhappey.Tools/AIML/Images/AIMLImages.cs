@@ -180,7 +180,7 @@ public static partial class AIMLImages
         var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
         // Step 1: Ask user for any missing params
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLNewSeedDreamImage
             {
                 Prompt = prompt,
@@ -281,7 +281,7 @@ public static partial class AIMLImages
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         // Step 1: Ask user for additional image parameters
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLNewRecraftImage
             {
                 Prompt = prompt,
@@ -384,7 +384,7 @@ public static partial class AIMLImages
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         // Step 1: Ask user for any missing fields
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLNewStableDiffusionV35Image
             {
                 Prompt = prompt,
@@ -768,7 +768,7 @@ public static partial class AIMLImages
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         // Step 1: Ask for user confirmation / missing params
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLNewReveCreateImage
             {
                 Prompt = prompt,
@@ -888,7 +888,7 @@ public static partial class AIMLImages
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         // Step 1: Ask for any missing parameters
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLNewReveRemixEditImage
             {
                 Prompt = prompt,
@@ -996,7 +996,7 @@ public static partial class AIMLImages
        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
        // Step 1: Ask for any missing parameters
-       var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+       var (typed, notAccepted, _) = await requestContext.TryElicit(
            new AIMLNewTriPoSR
            {
                ImageUrl = new Uri(imageUrl),

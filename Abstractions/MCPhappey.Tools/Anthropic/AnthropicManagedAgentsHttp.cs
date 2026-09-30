@@ -68,25 +68,31 @@ internal static class AnthropicManagedAgentsHttp
                ?? throw new ValidationException($"Expected a JSON object from '{url}'.");
     }
 
-    internal static async Task ConfirmDeleteAsync<TConfirm>(
-        McpServer server,
-        string expectedName,
-        CancellationToken cancellationToken)
-        where TConfirm : class, IHasName, new()
+    internal static Task ConfirmDeleteAsync<TConfirm>(
+     RequestContext<ModelContextProtocol.Protocol.CallToolRequestParams> requestContext,
+     string expectedName,
+     CancellationToken cancellationToken)
+     where TConfirm : class, IHasName, new()
     {
+        cancellationToken.ThrowIfCancellationRequested();
 
-        if(server.ClientCapabilities?.Elicitation == null) 
-            return;
-        var dto = await server.GetElicitResponse<TConfirm>(expectedName, cancellationToken);
+        if (!requestContext.Server.IsMrtrSupported)
+            return Task.CompletedTask;
 
-        if (dto?.Action != "accept")
-            throw new ValidationException("Delete confirmation was not accepted.");
+        var typed = requestContext.Elicit(
+            new TConfirm(),
+            message: expectedName);
 
-        var typed = dto.GetTypedResult<TConfirm>()
-                    ?? throw new ValidationException("Delete confirmation response could not be parsed.");
+        if (!string.Equals(
+            typed.Name?.Trim(),
+            expectedName.Trim(),
+            StringComparison.OrdinalIgnoreCase))
+        {
+            throw new ValidationException(
+                $"Confirmation does not match name '{expectedName}'.");
+        }
 
-        if (!string.Equals(typed.Name?.Trim(), expectedName.Trim(), StringComparison.OrdinalIgnoreCase))
-            throw new ValidationException($"Confirmation does not match name '{expectedName}'.");
+        return Task.CompletedTask;
     }
 
     internal static JsonArray CloneArray(JsonNode? node)

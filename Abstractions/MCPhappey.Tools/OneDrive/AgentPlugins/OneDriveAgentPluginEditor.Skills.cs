@@ -26,7 +26,7 @@ public static partial class OneDriveAgentPluginEditor
         await context.WithOboGraphClient(async graph =>
         {
             var name = RequirePluginName(pluginName);
-            var (typed, notAccepted, _) = await context.Server.TryElicit(new PluginSkillImportInput
+            var (typed, notAccepted, _) = await context.TryElicit(new PluginSkillImportInput
             {
                 SourceUrl = sourceUrl ?? string.Empty
             }, cancellationToken);

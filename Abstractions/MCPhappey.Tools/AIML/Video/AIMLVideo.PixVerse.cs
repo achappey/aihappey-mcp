@@ -36,7 +36,7 @@ public static partial class AIMLVideo
 
         var aiml = serviceProvider.GetRequiredService<AIMLClient>();
         // Step 1: Ask user for missing input
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLPixVerseVideoRequest
             {
                 Prompt = prompt,

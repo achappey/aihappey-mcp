@@ -46,7 +46,7 @@ public static class IdeogramImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramGenerateRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new IdeogramGenerateRequest
             {
                 Prompt = prompt,
                 Seed = seed,
@@ -114,7 +114,7 @@ public static class IdeogramImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramGenerateTransparentRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new IdeogramGenerateTransparentRequest
             {
                 Prompt = prompt,
                 Seed = seed,
@@ -172,7 +172,7 @@ public static class IdeogramImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramEditRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new IdeogramEditRequest
             {
                 FileUrl = fileUrl,
                 MaskFileUrl = maskFileUrl,
@@ -253,7 +253,7 @@ public static class IdeogramImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramRemixRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new IdeogramRemixRequest
             {
                 FileUrl = fileUrl,
                 Prompt = prompt,
@@ -329,7 +329,7 @@ public static class IdeogramImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramReframeRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new IdeogramReframeRequest
             {
                 FileUrl = fileUrl,
                 Resolution = resolution,
@@ -387,7 +387,7 @@ public static class IdeogramImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramReplaceBackgroundRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new IdeogramReplaceBackgroundRequest
             {
                 FileUrl = fileUrl,
                 Prompt = prompt,
@@ -442,7 +442,7 @@ public static class IdeogramImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramUpscaleRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new IdeogramUpscaleRequest
             {
                 FileUrl = fileUrl,
                 Prompt = prompt,
@@ -478,7 +478,7 @@ public static class IdeogramImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new IdeogramDescribeRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new IdeogramDescribeRequest
             {
                 FileUrl = fileUrl,
                 DescribeModelVersion = describeModelVersion,

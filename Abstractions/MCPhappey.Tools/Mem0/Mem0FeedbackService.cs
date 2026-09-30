@@ -40,7 +40,7 @@ public static class Mem0FeedbackService
           var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
           var userId = serviceProvider.GetUserId();
 
-          var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new Mem0Feedback
+          var (typed, notAccepted, _) = await requestContext.TryElicit(new Mem0Feedback
           {
               Feedback = feedback,
               FeedbackReason = feedbackReason

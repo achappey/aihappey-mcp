@@ -24,7 +24,7 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveEnvironmentRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicArchiveEnvironmentRequest
                 {
                     EnvironmentId = environmentId,
                 }, cancellationToken);
@@ -62,7 +62,7 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicEnvironmentLimitedNetworkingRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicEnvironmentLimitedNetworkingRequest
                 {
                     EnvironmentId = environmentId,
                     AllowMcpServers = allowMcpServers,
@@ -105,7 +105,7 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicEnvironmentAllowedHostMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicEnvironmentAllowedHostMutationRequest
                 {
                     EnvironmentId = environmentId,
                     Host = host
@@ -156,7 +156,7 @@ public static partial class AnthropicEnvironments
             {
                 var normalizedEnvironmentId = NormalizeEnvironmentId(environmentId);
                 var normalizedHost = NormalizeAllowedHost(host);
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext.Server, $"{normalizedEnvironmentId}:{normalizedHost}", cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext, $"{normalizedEnvironmentId}:{normalizedHost}", cancellationToken);
 
                 var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, cancellationToken);
                 var networking = GetExistingLimitedNetworking(current);

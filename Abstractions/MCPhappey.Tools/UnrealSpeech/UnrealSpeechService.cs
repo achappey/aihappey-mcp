@@ -49,7 +49,7 @@ public static class UnrealSpeechService
 
             var sourceText = await ScrapeTextFromFileUrlAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new UnrealSpeechSpeechFileToSpeechRequest
                 {
                     FileUrl = fileUrl,
@@ -132,7 +132,7 @@ public static class UnrealSpeechService
 
             var sourceText = await ScrapeTextFromFileUrlAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new UnrealSpeechSynthesisTasksFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

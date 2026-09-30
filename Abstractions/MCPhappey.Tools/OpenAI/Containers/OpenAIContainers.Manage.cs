@@ -86,7 +86,7 @@ public static partial class OpenAIContainers
                 Name = name
             };
 
-            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(imageInput, cancellationToken);
+            var (typed, notAccepted, result) = await requestContext.TryElicit(imageInput, cancellationToken);
 
             var payload = new Dictionary<string, object?>
             {

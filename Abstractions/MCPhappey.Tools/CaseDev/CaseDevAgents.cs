@@ -30,7 +30,7 @@ public static class CaseDevAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new CaseDevCreateAgentRequest
+                var (typed, notAccepted, _) = await requestContext.TryElicit(new CaseDevCreateAgentRequest
                 {
                     Name = name,
                     Instructions = instructions,
@@ -96,7 +96,7 @@ public static class CaseDevAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new CaseDevUpdateAgentRequest
+                var (typed, notAccepted, _) = await requestContext.TryElicit(new CaseDevUpdateAgentRequest
                 {
                     Id = id,
                     Name = name,

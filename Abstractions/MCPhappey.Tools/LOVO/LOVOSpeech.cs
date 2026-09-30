@@ -37,7 +37,7 @@ public static class LOVOSpeech
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new LOVOTextToSpeechRequest
                 {
                     Text = text,
@@ -90,7 +90,7 @@ public static class LOVOSpeech
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new LOVOFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

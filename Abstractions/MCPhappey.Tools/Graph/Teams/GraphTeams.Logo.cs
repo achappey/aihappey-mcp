@@ -38,7 +38,7 @@ public static partial class GraphTeams
          await requestContext.WithStructuredContent(async () =>
          {
              var (typed, notAccepted, _) =
-                 await requestContext.Server.TryElicit(
+                 await requestContext.TryElicit(
                      new GraphSetTeamPhotoFromUrl
                      {
                          TeamId = teamId,

@@ -22,7 +22,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new CreateNamedItemInput { Name = name, Reference = reference, Comment = comment }, cancellationToken);
             
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
@@ -47,7 +47,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithStructuredContent(async () =>
         {
             if (visibility is null && position is null) throw new ValidationException("A visibility or position is required.");
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new WorksheetPropertiesInput { Visibility = visibility, Position = position }, cancellationToken);
             
             var body = new Dictionary<string, object?>();
@@ -87,7 +87,7 @@ public static partial class GraphWorkbooks
             if (fillColor is null && fontColor is null && fontBold is null && fontSize is null
                 && horizontalAlignment is null && verticalAlignment is null && wrapText is null && numberFormatJson is null)
                 throw new ValidationException("At least one range format property is required.");
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new RangeFormatInput
+            var (input, rejected, _) = await requestContext.TryElicit(new RangeFormatInput
             {
                 FillColor = fillColor, FontColor = fontColor, FontBold = fontBold, FontSize = fontSize,
                 HorizontalAlignment = horizontalAlignment, VerticalAlignment = verticalAlignment,
@@ -121,7 +121,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new TableSortInput { FieldsJson = fieldsJson, MatchCase = matchCase, Method = method }, cancellationToken);
             
             var fields = ParseArray(input?.FieldsJson);
@@ -152,7 +152,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new FilterValuesInput { ValuesJson = valuesJson }, cancellationToken);
             
             var values = ParseArray(input?.ValuesJson);
@@ -180,7 +180,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new MatrixInput { Json = json }, cancellationToken);
             
             var matrix = ParseMatrix(input?.Json);

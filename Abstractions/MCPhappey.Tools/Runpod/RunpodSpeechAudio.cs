@@ -37,7 +37,7 @@ public static class RunpodSpeechAudio
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new RunpodSpeechTextToSpeechRequest
                 {
                     Input = input,
@@ -87,7 +87,7 @@ public static class RunpodSpeechAudio
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new RunpodSpeechFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

@@ -28,7 +28,7 @@ public static class LumaAIImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new LumaAIImageGenerateRequest
                 {
                     Prompt = prompt,
@@ -79,7 +79,7 @@ public static class LumaAIImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new LumaAIImageModifyRequest
                 {
                     FileUrl = fileUrl,

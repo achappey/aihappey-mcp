@@ -45,7 +45,7 @@ public static class deAPISpeech
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(text);
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new deAPISpeechRequest
                 {
                     Text = text,
@@ -98,7 +98,7 @@ public static class deAPISpeech
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new deAPIFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

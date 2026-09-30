@@ -35,7 +35,7 @@ public static class MixedbreadStores
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new MixedbreadStoreCreateRequest
                     {
                         Name = name,
@@ -94,7 +94,7 @@ public static class MixedbreadStores
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(storeIdentifier);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new MixedbreadStoreUpdateRequest
                     {
                         StoreIdentifier = storeIdentifier,

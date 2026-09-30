@@ -33,7 +33,7 @@ public static partial class GraphOutlookMail
             if (isRead is null && importance is null)
                 throw new ValidationException("isRead or importance must be provided.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphMessageStateInput { IsRead = isRead, Importance = importance }, cancellationToken);
            
             if (typed?.IsRead is null && typed?.Importance is null)
@@ -58,7 +58,7 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphCopyMessageInput { DestinationFolderId = destinationFolderId }, cancellationToken);
            
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DestinationFolderId);
@@ -81,7 +81,7 @@ public static partial class GraphOutlookMail
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphForwardMessageInput { Recipients = recipients, Comment = comment }, cancellationToken);
         
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Recipients);
@@ -114,7 +114,7 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphMailFolderInput
                 {
                     DisplayName = displayName,
@@ -147,7 +147,7 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphMailFolderInput { DisplayName = displayName }, cancellationToken);
 
          
@@ -228,7 +228,7 @@ public static partial class GraphOutlookMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphUpdateMailDraft
                 {
                     ToRecipients = toRecipients,
@@ -307,7 +307,7 @@ public static partial class GraphOutlookMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphSendMailDraft
                 {
                     DraftId = draftId,
@@ -344,7 +344,7 @@ public static partial class GraphOutlookMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new GraphAddDraftAttachment
                 {
                     FileUrl = fileUrl,

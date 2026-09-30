@@ -32,7 +32,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentMetadataRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentMetadataRequest
             { AgentId = agentId, Key = key, Value = value }, cancellationToken);
             if (rejected is not null) return rejected;
 
@@ -57,7 +57,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentMultiAgentRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentMultiAgentRequest
             { AgentId = agentId, Enabled = enabled, MaxConcurrentSubagents = maxConcurrentSubagents }, cancellationToken);
             if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>
@@ -80,7 +80,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentReasoningRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentReasoningRequest
             { AgentId = agentId, Effort = effort, Summary = summary }, cancellationToken);
             if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>
@@ -134,7 +134,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentTextRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentTextRequest
             { AgentId = agentId, Verbosity = verbosity, SchemaFileUrl = schemaFileUrl }, cancellationToken);
             if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>

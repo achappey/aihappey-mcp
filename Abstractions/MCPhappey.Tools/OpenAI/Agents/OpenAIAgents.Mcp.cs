@@ -19,7 +19,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentHttpMcpRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentHttpMcpRequest
             {
                 AgentId = agentId, ServerLabel = serverLabel, ServerUrl = serverUrl, AllowedTools = allowedTools,
                 ConnectionOrigin = connectionOrigin, CredentialId = credentialId, Required = required
@@ -57,7 +57,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentStdioMcpRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentStdioMcpRequest
             {
                 AgentId = agentId, ServerLabel = serverLabel, Command = command, Cwd = cwd,
                 Args = args, EnvVars = envVars, AllowedTools = allowedTools, Required = required
@@ -99,7 +99,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new AgentMcpMapEntryRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new AgentMcpMapEntryRequest
             { AgentId = agentId, ServerLabel = serverLabel, Key = key, Value = value }, cancellationToken);
             if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>

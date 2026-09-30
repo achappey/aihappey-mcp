@@ -37,7 +37,7 @@ public static partial class AIMLImages
               var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
               // Step 1: Ask user for confirmation / edits
-              var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+              var (typed, notAccepted, _) = await requestContext.TryElicit(
                   new AIMLNewImagenStandard
                   {
                       Prompt = prompt,
@@ -177,7 +177,7 @@ public static partial class AIMLImages
                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
                // Step 1: Ask user for confirmation / edits
-               var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+               var (typed, notAccepted, _) = await requestContext.TryElicit(
                    new AIMLNewImagenFast
                    {
                        Prompt = prompt,
@@ -317,7 +317,7 @@ public static partial class AIMLImages
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
             // Step 1: Ask user for confirmation / edits
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new AIMLNewImagenUltra
                 {
                     Prompt = prompt,
@@ -449,7 +449,7 @@ public static partial class AIMLImages
            var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
            // Step 1: Ask user for additional image parameters
-           var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+           var (typed, notAccepted, _) = await requestContext.TryElicit(
                new AIMLNewGeminiFlashImage
                {
                    Prompt = prompt,
@@ -571,7 +571,7 @@ public static partial class AIMLImages
               }            
 
               // Step 1: Ask user for additional image parameters
-              var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+              var (typed, notAccepted, _) = await requestContext.TryElicit(
                   new AIMLNewGeminiFlashImageEdit
                   {
                       Prompt = prompt,

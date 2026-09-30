@@ -297,6 +297,10 @@ public static partial class ModelContextToolExtensions
         {
             return await tool.InvokeAsync(request, cancellationToken);
         }
+        catch (InputRequiredException)
+        {
+            throw;
+        }
         catch (Exception e)
         {
             return e.Message.ToErrorCallToolResponse();
@@ -395,6 +399,10 @@ public static partial class ModelContextToolExtensions
         try
         {
             return await client.CallToolAsync(tool?.ProtocolTool.Name!, args, cancellationToken: cancellationToken);
+        }
+        catch (InputRequiredException)
+        {
+            throw;
         }
         catch (Exception e)
         {

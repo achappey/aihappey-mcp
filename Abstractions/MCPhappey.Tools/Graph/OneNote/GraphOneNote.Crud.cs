@@ -63,7 +63,7 @@ public static partial class GraphOneNoteCrud
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new PageContentInput { Action = action, Target = target, Content = content }, cancellationToken);
             if (notAccepted is not null || input is null)
                 throw new Exception(JsonSerializer.Serialize(notAccepted));
@@ -99,7 +99,7 @@ public static partial class GraphOneNoteCrud
         string entity,
         CancellationToken cancellationToken)
     {
-        var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (input, notAccepted, _) = await requestContext.TryElicit(
             new DisplayNameInput { DisplayName = displayName }, cancellationToken);
         if (notAccepted is not null || input is null)
             throw new Exception(JsonSerializer.Serialize(notAccepted));

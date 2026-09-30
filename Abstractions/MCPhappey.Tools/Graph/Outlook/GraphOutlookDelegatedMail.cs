@@ -26,7 +26,7 @@ public static partial class GraphOutlookDelegatedMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphOutlookMail.GraphMailSingleCategoryInput { Category = category ?? string.Empty },
                 cancellationToken
             );
@@ -76,7 +76,7 @@ public static partial class GraphOutlookDelegatedMail
                 requestConfiguration.QueryParameters.Select = GraphOutlookMail.MailMoveMessageSelect;
             }, cancellationToken) ?? throw new ValidationException($"Message '{messageId}' was not found in delegated mailbox '{userId}'.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphOutlookMail.GraphMailMoveConfirmationInput
                 {
                     Mailbox = userId,
@@ -148,7 +148,7 @@ public static partial class GraphOutlookDelegatedMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new GraphOutlookMail.GraphFlagMail
             {
                 FlagStatus = flagStatus ?? GraphOutlookMail.FlagStatusEnum.Flagged,
@@ -204,7 +204,7 @@ public static partial class GraphOutlookDelegatedMail
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new GraphOutlookMail.GraphReplyMail
             {
                 Comment = content ?? string.Empty,
@@ -248,7 +248,7 @@ public static partial class GraphOutlookDelegatedMail
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(userId);
             ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphOutlookMail.GraphReplyDraftInput { ReplyType = replyType, Comment = comment }, cancellationToken);
             if (rejected is not null || input is null) return default(Message);
             if (!Enum.IsDefined(input.ReplyType))
@@ -279,7 +279,7 @@ public static partial class GraphOutlookDelegatedMail
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(userId);
             ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphOutlookMail.GraphForwardDraftInput { ToRecipients = toRecipients, Comment = comment }, cancellationToken);
             if (rejected is not null || input is null) return default(Message);
 
@@ -308,7 +308,7 @@ public static partial class GraphOutlookDelegatedMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new GraphOutlookMail.GraphSendMail
             {
                 ToRecipients = toRecipients ?? string.Empty,
@@ -372,7 +372,7 @@ public static partial class GraphOutlookDelegatedMail
         CancellationToken cancellationToken = default) =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new GraphOutlookMail.GraphCreateMailDraft
             {
                 ToRecipients = toRecipients ?? string.Empty,

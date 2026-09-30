@@ -36,7 +36,7 @@ public static class OlostepCrawls
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new OlostepCreateCrawlRequest
                 {
                     StartUrl = start_url,
@@ -152,7 +152,7 @@ public static class OlostepCrawls
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new OlostepGetCrawlRequest
                 {
                     CrawlId = crawl_id
@@ -194,7 +194,7 @@ public static class OlostepCrawls
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new OlostepGetCrawlPagesRequest
                 {
                     CrawlId = crawl_id,

@@ -41,7 +41,7 @@ public static class PrivatemodeTranscriptions
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(fileUrl);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new PrivatemodeTranscriptionRequest
                     {
                         FileUrl = fileUrl,

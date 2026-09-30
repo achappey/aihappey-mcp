@@ -6,66 +6,136 @@ namespace MCPhappey.Common.Extensions;
 
 public static class ElicitExtensions
 {
-    public static async Task<(Dictionary<string, JsonElement> values, ElicitResult? elicitResult)> TryElicitForm(
-        this McpServer mcpServer,
-        ElicitRequestParams elicitRequest,
-        IReadOnlyDictionary<string, object?>? fallbackValues = null,
-        CancellationToken cancellationToken = default)
+    public static Task<(
+    Dictionary<string, JsonElement> values,
+    ElicitResult? elicitResult)> TryElicitForm(
+    this RequestContext<CallToolRequestParams> requestContext,
+    ElicitRequestParams elicitRequest,
+    IReadOnlyDictionary<string, object?>? fallbackValues = null,
+    CancellationToken cancellationToken = default)
     {
-        if (mcpServer.ClientCapabilities?.Elicitation == null)
+        cancellationToken.ThrowIfCancellationRequested();
+
+        const string inputKey = "elicitForm";
+
+        if (requestContext.Params?.InputResponses?
+            .TryGetValue(inputKey, out var inputResponse) is true)
+        {
+            var result = inputResponse.Deserialize(
+                InputResponse.ElicitResultJsonTypeInfo)
+                ?? throw new InvalidOperationException(
+                    "Invalid elicitation response.");
+
+            if (result.Action != "accept")
+                throw new InvalidOperationException(
+                    $"Elicitation not accepted: {result.Action}");
+
+            return Task.FromResult((
+                values: result.Content?.ToDictionary() ?? [],
+                elicitResult: (ElicitResult?)result));
+        }
+
+        if (!requestContext.Server.IsMrtrSupported)
         {
             var values = fallbackValues?
                 .Where(item => item.Value is not null)
                 .ToDictionary(
                     item => item.Key,
-                    item => JsonSerializer.SerializeToElement(item.Value, JsonSerializerOptions.Web))
+                    item => JsonSerializer.SerializeToElement(
+                        item.Value,
+                        JsonSerializerOptions.Web))
                 ?? [];
 
-            return (values, null);
+            return Task.FromResult((
+                values,
+                (ElicitResult?)null));
         }
 
-        var result = await mcpServer.ElicitAsync(elicitRequest, cancellationToken);
-        if (result?.Action != "accept")
-            throw new Exception($"Elicit not completed: {result?.Action}\n\n{JsonSerializer.Serialize(result, JsonSerializerOptions.Web)}");
-
-        return (result.Content?.ToDictionary() ?? [], result);
+        throw new InputRequiredException(
+            inputRequests: new Dictionary<string, InputRequest>
+            {
+                [inputKey] = InputRequest.ForElicitation(elicitRequest)
+            },
+            requestState: $"elicit:{inputKey}");
     }
 
-    public static async Task<(T typedResult, CallToolResult? notAccepted, ElicitResult? elicitResult)> TryElicit<T>(
-     this McpServer mcpServer,
-     T elicitRequest,
-     CancellationToken cancellationToken = default)
-     where T : class, new()
-        => await mcpServer.TryElicit(elicitRequest, propertyOverrides: null, cancellationToken);
-
-    public static async Task<(T typedResult, CallToolResult? notAccepted, ElicitResult? elicitResult)> TryElicit<T>(
-     this McpServer mcpServer,
-     T elicitRequest,
-     IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>? propertyOverrides,
-     CancellationToken cancellationToken = default)
-     where T : class, new()
+    public static T Elicit<T>(
+        this RequestContext<CallToolRequestParams> requestContext,
+        T fallbackValue,
+        IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>? propertyOverrides = null,
+        string? message = null)
+        where T : class, new()
     {
-        if (mcpServer.ClientCapabilities?.Elicitation == null)
-            return (elicitRequest, null, null);
+        var inputKey = char.ToLowerInvariant(typeof(T).Name[0]) + typeof(T).Name[1..];
 
-        var elicitParams = ElicitFormExtensions.CreateElicitRequestParamsForType(elicitRequest, propertyOverrides);
-        var result = await mcpServer.ElicitAsync(elicitParams, cancellationToken);
-        if (result?.Action != "accept")
-            throw new Exception($"Elicit not completed: {result?.Action}\n\n{JsonSerializer.Serialize(result, JsonSerializerOptions.Web)}");
+        if (requestContext.Params?.InputResponses?
+            .TryGetValue(inputKey, out var inputResponse) is true)
+        {
+            var result = inputResponse.Deserialize(InputResponse.ElicitResultJsonTypeInfo)
+                ?? throw new InvalidOperationException("Invalid elicitation response.");
 
-        T typed = result?.GetTypedResult<T>() ?? throw new Exception("Type cast failed!");
-        return (typed, null, result);
+            if (result.Action != "accept")
+                throw new InvalidOperationException(
+                    $"Elicitation not accepted: {result.Action}");
+
+            return result.GetTypedResult<T>()
+                ?? throw new InvalidOperationException("Elicitation result type cast failed.");
+        }
+
+        if (!requestContext.Server.IsMrtrSupported)
+            return fallbackValue;
+
+        var elicitRequest =
+            ElicitFormExtensions.CreateElicitRequestParamsForType(
+                fallbackValue,
+                propertyOverrides,
+                message);
+
+        throw new InputRequiredException(
+            inputRequests: new Dictionary<string, InputRequest>
+            {
+                [inputKey] = InputRequest.ForElicitation(elicitRequest)
+            },
+            requestState: $"elicit:{inputKey}");
     }
 
-    public static async Task<ElicitResult?> GetElicitResponse<T>(this McpServer mcpServer,
-        string? message = null,
-        CancellationToken cancellationToken = default) where T : new()
+    [Obsolete("Use requestContext.Elicit(...) for new code.")]
+    public static Task<(
+       T typedResult,
+       CallToolResult? notAccepted,
+       ElicitResult? elicitResult)> TryElicit<T>(
+       this RequestContext<CallToolRequestParams> requestContext,
+       T elicitRequest,
+       CancellationToken cancellationToken = default)
+       where T : class, new()
     {
-        if (mcpServer.ClientCapabilities?.Elicitation == null)
-            return null;
-
-        return await mcpServer.ElicitAsync(
-            ElicitFormExtensions.CreateElicitRequestParamsForType<T>(default!, message),
-            cancellationToken: cancellationToken);
+        return requestContext.TryElicit(
+            elicitRequest,
+            propertyOverrides: null,
+            cancellationToken);
     }
+
+    [Obsolete("Use requestContext.Elicit(...) for new code.")]
+    public static Task<(
+        T typedResult,
+        CallToolResult? notAccepted,
+        ElicitResult? elicitResult)> TryElicit<T>(
+        this RequestContext<CallToolRequestParams> requestContext,
+        T elicitRequest,
+        IReadOnlyDictionary<string, ElicitRequestParams.PrimitiveSchemaDefinition>? propertyOverrides,
+        CancellationToken cancellationToken = default)
+        where T : class, new()
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var typed = requestContext.Elicit(
+            elicitRequest,
+            propertyOverrides);
+
+        return Task.FromResult((
+            typedResult: typed,
+            notAccepted: (CallToolResult?)null,
+            elicitResult: (ElicitResult?)null));
+    }
+
 }

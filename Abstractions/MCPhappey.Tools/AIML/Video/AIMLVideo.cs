@@ -36,7 +36,7 @@ public static partial class AIMLVideo
         var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
         // Step 1: Ask user for any missing input
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new AIMLSberVideoRequest
             {
                 Prompt = prompt,
@@ -142,7 +142,7 @@ public static partial class AIMLVideo
      var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
      var aiml = serviceProvider.GetRequiredService<AIMLClient>();
      // Step 1: Ask user for missing inputs
-     var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+     var (typed, notAccepted, _) = await requestContext.TryElicit(
          new AIMLDistillVideoRequest
          {
              Prompt = prompt,
@@ -239,7 +239,7 @@ public static partial class AIMLVideo
       var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
       // Step 1: Ask user for missing inputs
-      var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+      var (typed, notAccepted, _) = await requestContext.TryElicit(
           new AIMLKreaWAN14BVideoRequest
           {
               Prompt = prompt,
@@ -333,7 +333,7 @@ public static partial class AIMLVideo
        var dataUri = file.ToDataUri();
 
        // Step 3: Ask user for any missing input
-       var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+       var (typed, notAccepted, _) = await requestContext.TryElicit(
            new AIMLKreaWAN14BVideoToVideoRequest
            {
                Prompt = prompt,

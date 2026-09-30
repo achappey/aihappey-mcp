@@ -51,7 +51,7 @@ public static class GraphOneDrive
             await requestContext.WithStructuredContent(async () =>
             {
                 var (typed, notAccepted, _) =
-                    await requestContext.Server.TryElicit(
+                    await requestContext.TryElicit(
                         new GraphCopyFile
                         {
                             SourceDriveId = sourceDriveId,
@@ -61,7 +61,7 @@ public static class GraphOneDrive
                             DestinationFileName = destinationFileName
                         },
                         cancellationToken);
-            
+
                 typed!.Validate();
 
                 var sourceItem = await graphClient
@@ -192,14 +192,13 @@ public static class GraphOneDrive
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var typed = requestContext.Elicit(
               new GraphUploadFile
               {
                   Name = filename,
                   Path = path,
                   Content = content
-              },
-              cancellationToken);
+              });
 
         return await client.Drives[driveId]
                 .Items["root"].ItemWithPath($"/{typed?.Path}/{typed?.Name}")
@@ -226,13 +225,12 @@ public static class GraphOneDrive
             await requestContext.WithOboGraphClient(async graphClient =>
             await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var typed = requestContext.Elicit(
         new GraphNewFolder
         {
             Name = name,
             ContentTypeId = contentTypeId,
-        },
-        cancellationToken);
+        });
 
         // Maak de DriveItem voor de folder
         var folderItem = new DriveItem
@@ -290,8 +288,8 @@ public static class GraphOneDrive
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
-                new GraphRenameDriveItem { Name = name }, cancellationToken);          
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
+                new GraphRenameDriveItem { Name = name }, cancellationToken);
 
             return await client.Drives[driveId].Items[itemId].PatchAsync(
                 new DriveItem { Name = typed?.Name }, cancellationToken: cancellationToken);
@@ -311,11 +309,20 @@ public static class GraphOneDrive
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
-                new GraphMoveDriveItem { DestinationFolderId = destinationFolderId }, cancellationToken);
-         
+            var typed = requestContext.Elicit(
+                new GraphMoveDriveItem
+                {
+                    DestinationFolderId = destinationFolderId
+                });
+
             return await client.Drives[driveId].Items[itemId].PatchAsync(
-                new DriveItem { ParentReference = new ItemReference { Id = typed?.DestinationFolderId } },
+                new DriveItem
+                {
+                    ParentReference = new ItemReference
+                    {
+                        Id = typed.DestinationFolderId
+                    }
+                },
                 cancellationToken: cancellationToken);
         })));
 

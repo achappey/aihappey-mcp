@@ -28,7 +28,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentSkillMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentSkillMutationRequest
                 {
                     AgentId = agentId,
                     SkillId = skillId,
@@ -88,7 +88,7 @@ public static partial class AnthropicAgents
                 ValidateSkillType(skillType);
 
                 var expected = $"{agentId}:{skillType}:{skillId}";
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
                 var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
                 var skills = AnthropicManagedAgentsHttp.CloneArray(current["skills"]);

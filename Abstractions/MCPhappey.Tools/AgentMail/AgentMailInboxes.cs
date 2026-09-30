@@ -24,7 +24,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailCreateInboxRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailCreateInboxRequest
                 {
                     Username = username,
                     Domain = domain,
@@ -48,7 +48,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailUpdateInboxRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailUpdateInboxRequest
                 {
                     InboxId = inboxId,
                     DisplayName = displayName
@@ -97,7 +97,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailCreatePodInboxRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailCreatePodInboxRequest
                 {
                     PodId = podId,
                     Username = username,
@@ -145,7 +145,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailUpdateMessageRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailUpdateMessageRequest
                 {
                     InboxId = inboxId,
                     MessageId = messageId,
@@ -203,7 +203,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailReplyMessageRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailReplyMessageRequest
                 {
                     InboxId = inboxId,
                     MessageId = messageId,
@@ -246,7 +246,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailReplyAllMessageRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailReplyAllMessageRequest
                 {
                     InboxId = inboxId,
                     MessageId = messageId,
@@ -362,7 +362,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailSendDraftRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailSendDraftRequest
                 {
                     InboxId = inboxId,
                     DraftId = draftId,
@@ -409,7 +409,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailCreateApiKeyRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailCreateApiKeyRequest
                 {
                     Name = name
                 }, cancellationToken);
@@ -459,7 +459,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailSendMessageRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailSendMessageRequest
                 {
                     InboxId = inboxId,
                     MessageId = messageId,
@@ -508,7 +508,7 @@ public static class AgentMailInboxes
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailDraftRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailDraftRequest
                 {
                     InboxId = inboxId,
                     DraftId = draftId,

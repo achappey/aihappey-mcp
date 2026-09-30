@@ -27,7 +27,7 @@ public static class OpenMemory
         var appSettings = serviceProvider.GetService<OAuthSettings>();
         ArgumentNullException.ThrowIfNull(memory);
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
                 new OpenMemoryNewMemory
                 {
                     Memory = memory,

@@ -38,7 +38,7 @@ public static class VerbatikSpeech
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new VerbatikTextToSpeechRequest
                 {
                     Input = input,
@@ -94,7 +94,7 @@ public static class VerbatikSpeech
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new VerbatikFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

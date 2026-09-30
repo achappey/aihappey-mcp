@@ -25,7 +25,7 @@ public static class GraphOnlineMeetings
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new CreateOnlineMeetingInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new CreateOnlineMeetingInput
             {
                 Subject = subject, StartDateTime = startDateTime,
                 EndDateTime = endDateTime, ExternalId = externalId
@@ -62,7 +62,7 @@ public static class GraphOnlineMeetings
                 .GetAsync(cancellationToken: cancellationToken)
                 ?? throw new ValidationException("Online meeting was not found.");
 
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new UpdateOnlineMeetingInput
                 {
                     Subject = subject,

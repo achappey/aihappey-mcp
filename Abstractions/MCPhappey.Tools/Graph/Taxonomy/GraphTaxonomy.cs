@@ -27,7 +27,7 @@ public static class GraphTaxonomy
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new TermSetInput
+            var (input, rejected, _) = await requestContext.TryElicit(new TermSetInput
             { DisplayName = displayName, LanguageTag = languageTag, Description = description }, cancellationToken);
             if (rejected is not null || input is null) return default(TermSet);
             ValidateNameAndLanguage(input.DisplayName, input.LanguageTag);
@@ -55,7 +55,7 @@ public static class GraphTaxonomy
         await requestContext.WithStructuredContent(async () =>
         {
             if (displayName is null && description is null) throw new ValidationException("A display name or description is required.");
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new TermSetPatchInput
+            var (input, rejected, _) = await requestContext.TryElicit(new TermSetPatchInput
             { DisplayName = displayName, LanguageTag = languageTag, Description = description }, cancellationToken);
             if (rejected is not null || input is null) return default(TermSet);
             if (input.DisplayName is not null) ValidateNameAndLanguage(input.DisplayName, input.LanguageTag);
@@ -94,7 +94,7 @@ public static class GraphTaxonomy
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new TermInput
+            var (input, rejected, _) = await requestContext.TryElicit(new TermInput
             { Label = label, LanguageTag = languageTag, Description = description }, cancellationToken);
             if (rejected is not null || input is null) return default(Term);
             ValidateNameAndLanguage(input.Label, input.LanguageTag);
@@ -119,7 +119,7 @@ public static class GraphTaxonomy
         await requestContext.WithStructuredContent(async () =>
         {
             if (label is null && description is null) throw new ValidationException("A label or description is required.");
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new TermPatchInput
+            var (input, rejected, _) = await requestContext.TryElicit(new TermPatchInput
             { Label = label, LanguageTag = languageTag, Description = description }, cancellationToken);
             if (rejected is not null || input is null) return default(Term);
             ValidateLanguage(input.LanguageTag);

@@ -25,7 +25,7 @@ public static class GraphOutlookMasterCategories
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new MasterCategoryInput { DisplayName = displayName, Color = color }, cancellationToken);
             ThrowIfRejected(input, rejected);
             ArgumentException.ThrowIfNullOrWhiteSpace(input!.DisplayName);
@@ -52,7 +52,7 @@ public static class GraphOutlookMasterCategories
         {
             if (displayName is null && color is null)
                 throw new ValidationException("A displayName or color is required.");
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new MasterCategoryPatchInput { DisplayName = displayName, Color = color }, cancellationToken);
             ThrowIfRejected(input, rejected);
             if (input!.DisplayName is not null) ArgumentException.ThrowIfNullOrWhiteSpace(input.DisplayName);

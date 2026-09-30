@@ -46,7 +46,7 @@ public static class SiliconFlowAudio
             var settings = serviceProvider.GetRequiredService<SiliconFlowSettings>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SiliconFlowCreateSpeechRequest
                 {
                     Input = input,
@@ -151,7 +151,7 @@ public static class SiliconFlowAudio
             var downloads = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
             var audio = downloads.FirstOrDefault() ?? throw new InvalidOperationException("Failed to download audio content from fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SiliconFlowTranscriptionRequest
                 {
                     Model = model,

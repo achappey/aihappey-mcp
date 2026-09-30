@@ -91,7 +91,7 @@ public static class DeskbirdPlugin
             return "Deskbird API key not configured.".ToErrorCallToolResponse();
 
         // --- 1) Elicit using a strongly-typed form --------------------------------------------------
-        var (typed, notAccepted, elicitRaw) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, elicitRaw) = await requestContext.TryElicit(
             new NewDeskbirdBooking
             {
                 UserId = userId,

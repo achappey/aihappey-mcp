@@ -28,7 +28,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new CreateNamedItemInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new CreateNamedItemInput
             {
                 Name = name, Reference = reference, Comment = comment
             }, cancellationToken);
@@ -58,7 +58,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new RenameWorksheetInput { Name = name }, cancellationToken);
             
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
@@ -104,7 +104,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new UpdateRangeValuesInput { ValuesJson = valuesJson }, cancellationToken);
             
             var values = ParseMatrix(input?.ValuesJson);
@@ -130,7 +130,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new ClearRangeInput { ApplyTo = applyTo }, cancellationToken);
             
 
@@ -156,7 +156,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new CreateTableInput { Address = address, HasHeaders = hasHeaders }, cancellationToken);
             
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Address);
@@ -181,7 +181,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new RenameTableInput { Name = name }, cancellationToken);
             
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
@@ -227,7 +227,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new UpdateTableRowInput { ValuesJson = valuesJson }, cancellationToken);
             
             var row = ParseRow(input?.ValuesJson);
@@ -275,7 +275,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithStructuredContent(async () =>
         {
             if (formula is null && comment is null) throw new ValidationException("A formula or comment is required.");
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new UpdateNamedItemInput { Formula = formula, Comment = comment }, cancellationToken);
             
             var body = new Dictionary<string, object?>();
@@ -315,7 +315,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new AddTableColumnInput { Name = name, Index = index, ValuesJson = valuesJson }, cancellationToken);
             
             ArgumentException.ThrowIfNullOrWhiteSpace(input?.Name);
@@ -340,7 +340,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithStructuredContent(async () =>
         {
             if (name is null && valuesJson is null) throw new ValidationException("A name or valuesJson is required.");
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new UpdateTableColumnInput { Name = name, ValuesJson = valuesJson }, cancellationToken);
             
             var body = new Dictionary<string, object?>();
@@ -382,7 +382,7 @@ public static partial class GraphWorkbooks
         {
             if (name is null && titleText is null && left is null && top is null && width is null && height is null)
                 throw new ValidationException("At least one chart field is required.");
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new UpdateChartInput
+            var (input, rejected, _) = await requestContext.TryElicit(new UpdateChartInput
             { Name = name, TitleText = titleText, Left = left, Top = top, Width = width, Height = height }, cancellationToken);
             
             var body = new Dictionary<string, object?>();
@@ -440,7 +440,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new RangeShiftInput { Shift = shift }, cancellationToken);
             
             var workbook = await ResolveWorkbookAsync(client, excelFileUrl, cancellationToken);

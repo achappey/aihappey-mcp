@@ -49,7 +49,7 @@ public static class AudixaAudio
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
             // 1️⃣ Elicit or confirm settings before generation
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new AudixaTTSRequest
                 {
                     Text = text,

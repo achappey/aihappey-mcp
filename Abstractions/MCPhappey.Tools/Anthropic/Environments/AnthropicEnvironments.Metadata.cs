@@ -25,7 +25,7 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicEnvironmentMetadataMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicEnvironmentMetadataMutationRequest
                 {
                     EnvironmentId = environmentId,
                     Key = key,
@@ -71,7 +71,7 @@ public static partial class AnthropicEnvironments
             {
                 var normalizedEnvironmentId = NormalizeEnvironmentId(environmentId);
                 var normalizedKey = NormalizeMetadataKey(key);
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext.Server, $"{normalizedEnvironmentId}:{normalizedKey}", cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteEnvironment>(requestContext, $"{normalizedEnvironmentId}:{normalizedKey}", cancellationToken);
 
                 var body = new JsonObject
                 {

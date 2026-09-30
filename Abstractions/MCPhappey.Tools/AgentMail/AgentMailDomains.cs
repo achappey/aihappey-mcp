@@ -49,7 +49,7 @@ public static class AgentMailDomains
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailVerifyDomainRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailVerifyDomainRequest
                 {
                     DomainId = domainId
                 }, cancellationToken);
@@ -103,7 +103,7 @@ public static class AgentMailDomains
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AgentMailCreateDomainRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AgentMailCreateDomainRequest
                 {
                     PodId = podId,
                     Domain = domain,

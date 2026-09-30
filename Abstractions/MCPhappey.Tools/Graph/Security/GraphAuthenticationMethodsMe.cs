@@ -23,7 +23,7 @@ public static class GraphAuthenticationMethodsMe
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new AddEmailInput
+            var (typed, _, _) = await requestContext.TryElicit(new AddEmailInput
             {
                 EmailAddress = emailAddress
             }, cancellationToken);
@@ -49,7 +49,7 @@ public static class GraphAuthenticationMethodsMe
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new AddPhoneInput
+            var (typed, _, _) = await requestContext.TryElicit(new AddPhoneInput
             {
                 PhoneNumber = phoneNumber,
                 PhoneType = phoneType
@@ -78,7 +78,7 @@ public static class GraphAuthenticationMethodsMe
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new UpdatePhoneInput
+            var (typed, _, _) = await requestContext.TryElicit(new UpdatePhoneInput
             {
                 PhoneMethodId = phoneMethodId,
                 PhoneNumber = phoneNumber,
@@ -110,7 +110,7 @@ public static class GraphAuthenticationMethodsMe
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new AddTapInput
+            var (typed, _, _) = await requestContext.TryElicit(new AddTapInput
             {
                 LifetimeInMinutes = lifetimeInMinutes,
                 IsUsableOnce = isUsableOnce,
@@ -140,7 +140,7 @@ public static class GraphAuthenticationMethodsMe
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new SetPhoneSmsInput
+            var (typed, _, _) = await requestContext.TryElicit(new SetPhoneSmsInput
             {
                 PhoneMethodId = phoneMethodId,
                 EnableSmsSignIn = enableSmsSignIn
@@ -167,7 +167,7 @@ public static class GraphAuthenticationMethodsMe
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new ResetPasswordInput
+            var (typed, _, _) = await requestContext.TryElicit(new ResetPasswordInput
             {
                 PasswordMethodId = passwordMethodId,
                 NewPassword = newPassword
@@ -196,7 +196,7 @@ public static class GraphAuthenticationMethodsMe
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(new DeleteMethodInput
+            var (typed, _, _) = await requestContext.TryElicit(new DeleteMethodInput
             {
                 MethodType = methodType,
                 MethodId = methodId

@@ -27,7 +27,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMultiagentAgentMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMultiagentAgentMutationRequest
                 {
                     AgentId = agentId,
                     RosterAgentId = rosterAgentId,
@@ -80,7 +80,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicAgentMultiagentSelfMutationRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMultiagentSelfMutationRequest
                 {
                     AgentId = agentId,
 
@@ -130,7 +130,7 @@ public static partial class AnthropicAgents
                 ValidateRosterAgent(rosterAgentId, null);
 
                 var expected = $"{agentId}:multiagent:agent:{rosterAgentId}";
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
                 var current = await GetAgentAsync(serviceProvider, agentId, cancellationToken);
                 var multiagent = EnsureMultiagentCoordinator(current);
@@ -165,7 +165,7 @@ public static partial class AnthropicAgents
                     throw new ValidationException("agentId is required.");
 
                 var expected = $"{agentId}:multiagent:self";
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
                 var current = await GetAgentAsync(serviceProvider, agentId, cancellationToken);
                 var multiagent = EnsureMultiagentCoordinator(current);
@@ -200,7 +200,7 @@ public static partial class AnthropicAgents
                     throw new ValidationException("agentId is required.");
 
                 var expected = $"{agentId}:multiagent";
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext.Server, expected, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
                 var current = await GetAgentAsync(serviceProvider, agentId, cancellationToken);
                 if (current["multiagent"] is null)

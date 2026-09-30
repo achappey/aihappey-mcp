@@ -59,7 +59,7 @@ public static class QomplementService
                     MaxWaitSeconds = maxWaitSeconds
                 };
 
-                var (input, notAccepted, _) = await requestContext.Server.TryElicit(typed, cancellationToken);
+                var (input, notAccepted, _) = await requestContext.TryElicit(typed, cancellationToken);
                 if (input == null) throw new ValidationException("No input data provided.");
 
                 var urls = ParseUrls(input.FileUrls);
@@ -150,7 +150,7 @@ public static class QomplementService
                     Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("qomplement-pdf")
                 };
 
-                var (input, notAccepted, _) = await requestContext.Server.TryElicit(typed, cancellationToken);
+                var (input, notAccepted, _) = await requestContext.TryElicit(typed, cancellationToken);
                 
                 if (input == null) throw new ValidationException("No input data provided.");
 
@@ -253,7 +253,7 @@ public static class QomplementService
                     Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName("qomplement-excel")
                 };
 
-                var (input, notAccepted, _) = await requestContext.Server.TryElicit(typed, cancellationToken);
+                var (input, notAccepted, _) = await requestContext.TryElicit(typed, cancellationToken);
                 
                 if (input == null) throw new ValidationException("No input data provided.");
 

@@ -27,7 +27,7 @@ public static partial class GraphTeams
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, result) = await requestContext.TryElicit(
                 new GraphNewTeam
                 {
                     DisplayName = displayName,
@@ -78,7 +78,7 @@ public static partial class GraphTeams
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, result) = await requestContext.TryElicit(
                 new GraphEditTeam
                 {
                     TeamId = teamId,
@@ -292,7 +292,7 @@ public static partial class GraphTeams
         string userId,
         CancellationToken cancellationToken)
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new GraphTeamUserMembership
             {
                 TeamId = teamId,
@@ -362,7 +362,7 @@ public static partial class GraphTeams
       await requestContext.WithOboGraphClient(async client =>
       await requestContext.WithStructuredContent(async () =>
   {
-      var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+      var (typed, notAccepted, result) = await requestContext.TryElicit(
           new GraphCreateCalendarEvent
           {
               Subject = subject ?? string.Empty,

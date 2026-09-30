@@ -46,7 +46,7 @@ public static class OpenAISkills
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new OpenAINewSkill
                 {
                     FolderUrl = folderUrl,
@@ -91,7 +91,7 @@ public static class OpenAISkills
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new OpenAIUpdateSkillDefaultVersion
                 {
                     DefaultVersion = defaultVersion ?? string.Empty
@@ -164,7 +164,7 @@ public static class OpenAISkills
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new OpenAINewSkillVersion
                 {
                     SkillId = skillId,

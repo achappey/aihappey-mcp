@@ -24,7 +24,7 @@ public static partial class GraphTeams
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
                new GraphSetStatusMessage
                {
                    Message = statusMessage,
@@ -79,7 +79,7 @@ public static partial class GraphTeams
     {
         var oauth = serviceProvider.GetService<OAuthSettings>();
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
                new GraphSetPresence
                {
                    Availability = availability,

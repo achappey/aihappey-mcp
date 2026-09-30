@@ -20,7 +20,7 @@ public static partial class AnthropicSessions
             {
                 var normalizedSessionId = NormalizeSessionId(sessionId);
                 await GetOwnerSessionAsync(serviceProvider, normalizedSessionId,  cancellationToken);
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteSessionItem>(requestContext.Server, normalizedSessionId, cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteSessionItem>(requestContext, normalizedSessionId, cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
                     serviceProvider,

@@ -46,7 +46,7 @@ public static partial class AudioPlugin
             var audio = downloads.FirstOrDefault() ?? throw new InvalidOperationException("Failed to download audio.");
 
             // 2) Elicit/confirm parameters
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new MistralAudioTranscription
                 {
                     Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),

@@ -25,7 +25,7 @@ public static class CaseDevFormat
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new CaseDevFormatDocumentRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new CaseDevFormatDocumentRequest
             {
                 Content = content,
                 FileUrl = fileUrl,
@@ -95,7 +95,7 @@ public static class CaseDevFormat
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new CaseDevFormatTemplateCreateRequest
+                var (typed, notAccepted, _) = await requestContext.TryElicit(new CaseDevFormatTemplateCreateRequest
                 {
                     Name = name,
                     Type = type,

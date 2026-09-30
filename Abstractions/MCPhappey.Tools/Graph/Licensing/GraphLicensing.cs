@@ -36,7 +36,7 @@ public static class GraphLicensing
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await requestContext.Server.TryElicit(
+        var (typed, _, _) = await requestContext.TryElicit(
             new GraphLicenseChange
             {
                 UserId = userId ?? string.Empty,
@@ -75,7 +75,7 @@ public static class GraphLicensing
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await requestContext.Server.TryElicit(
+        var (typed, _, _) = await requestContext.TryElicit(
             new GraphLicenseChange
             {
                 UserId = userId ?? string.Empty,

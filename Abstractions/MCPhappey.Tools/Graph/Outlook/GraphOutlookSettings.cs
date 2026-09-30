@@ -28,7 +28,7 @@ public static partial class GraphOutlookSettings
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphOutlookCategoryInput { DisplayName = displayName, Color = color }, cancellationToken);
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DisplayName);
@@ -61,7 +61,7 @@ public static partial class GraphOutlookSettings
             if (displayName is null && color is null)
                 throw new ValidationException("A display name or color must be provided.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphOutlookCategoryUpdate { DisplayName = displayName, Color = color }, cancellationToken);
        
             if (typed?.DisplayName is not null)
@@ -118,7 +118,7 @@ public static partial class GraphOutlookSettings
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphOutlookInboxRuleInput
                 {
                     DisplayName = displayName,
@@ -188,7 +188,7 @@ public static partial class GraphOutlookSettings
                 Delete = delete,
                 StopProcessingRules = stopProcessingRules
             };
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(seed, cancellationToken);
+            var (typed, notAccepted, _) = await requestContext.TryElicit(seed, cancellationToken);
       
             if (typed?.DisplayName is not null)
                 ArgumentException.ThrowIfNullOrWhiteSpace(typed.DisplayName);

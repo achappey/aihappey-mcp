@@ -44,7 +44,7 @@ public static class CometAPITranscriptions
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CometAPITranscriptionFromFileUrlRequest
                 {
                     FileUrl = fileUrl,
@@ -98,7 +98,7 @@ public static class CometAPITranscriptions
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CometAPITranslationFromFileUrlRequest
                 {
                     FileUrl = fileUrl,

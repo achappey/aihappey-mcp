@@ -36,7 +36,7 @@ public static class MixedbreadParsing
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(fileId);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new MixedbreadParsingCreateRequest
                     {
                         FileId = fileId,
@@ -85,7 +85,7 @@ public static class MixedbreadParsing
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(jobId);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new MixedbreadParsingCancelRequest
                     {
                         JobId = jobId

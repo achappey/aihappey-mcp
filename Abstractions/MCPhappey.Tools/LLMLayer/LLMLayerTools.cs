@@ -26,7 +26,7 @@ public static class LLMLayerTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new LLMLayerWebSearchRequest
                 {
                     Query = query,
@@ -85,7 +85,7 @@ public static class LLMLayerTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new LLMLayerScrapeRequest
                 {
                     Url = url,
@@ -146,7 +146,7 @@ public static class LLMLayerTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new LLMLayerMapRequest
                 {
                     Url = url,
@@ -203,7 +203,7 @@ public static class LLMLayerTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new LLMLayerYouTubeTranscriptRequest
                 {
                     Url = url,
@@ -259,7 +259,7 @@ public static class LLMLayerTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new LLMLayerCrawlStreamRequest
                 {
                     Url = url,

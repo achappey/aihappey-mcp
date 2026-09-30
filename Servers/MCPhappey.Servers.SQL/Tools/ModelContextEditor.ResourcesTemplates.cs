@@ -46,7 +46,7 @@ public static partial class ModelContextEditor
         {
             var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
             var server = await serviceProvider.GetServer(serverName, cancellationToken);
-            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new AddMcpResourceTemplate()
+            var (typed, notAccepted, result) = await requestContext.TryElicit(new AddMcpResourceTemplate()
             {
                 UriTemplate = uriTemplate,
                 Title = title,
@@ -101,7 +101,7 @@ public static partial class ModelContextEditor
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
         var resource = server.ResourceTemplates.FirstOrDefault(a => a.Name == resourceTemplateName) ?? throw new ArgumentNullException();
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new UpdateMcpResourceTemplate()
+        var (typed, notAccepted, result) = await requestContext.TryElicit(new UpdateMcpResourceTemplate()
         {
             Description = newDescription ?? resource.Description,
             Title = newTitle ?? resource.Title,

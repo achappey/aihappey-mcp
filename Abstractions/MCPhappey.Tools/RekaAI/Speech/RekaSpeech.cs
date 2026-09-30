@@ -48,7 +48,7 @@ public static class RekaSpeech
 
                 _ = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new RekaTranscribeInput
                     {
                         FileUrl = fileUrl,
@@ -147,7 +147,7 @@ public static class RekaSpeech
 
                 _ = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new RekaTranslateSpeechInput
                     {
                         FileUrl = fileUrl,

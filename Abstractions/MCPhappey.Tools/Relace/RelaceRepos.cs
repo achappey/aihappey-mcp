@@ -42,7 +42,7 @@ public static class RelaceRepos
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new RelaceCreateRepoInput
                     {
                         Name = name,
@@ -102,7 +102,7 @@ public static class RelaceRepos
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new RelaceUpdateRepoInput
                     {
                         RepoId = repoId,
@@ -157,7 +157,7 @@ public static class RelaceRepos
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new RelaceUploadFileInput
                     {
                         RepoId = repoId,
@@ -298,7 +298,7 @@ public static class RelaceRepos
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<RelaceToolResult>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new RelaceCreateRepoTokenInput
                     {
                         Name = name,
@@ -608,24 +608,30 @@ public static class RelaceRepos
 
         throw new ValidationException("filePath is required when the source file does not expose a filename.");
     }
-
-    private static async Task ConfirmExactValueAsync(
+    private static Task ConfirmExactValueAsync(
         RequestContext<CallToolRequestParams> requestContext,
         string expectedValue,
         CancellationToken cancellationToken)
     {
-        if (requestContext.Server.ClientCapabilities?.Elicitation == null)
-            return;
+        cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await requestContext.Server.GetElicitResponse<RelaceDeleteConfirmation>(expectedValue, cancellationToken);
-        if (result?.Action != "accept")
-            throw new ValidationException($"Deletion confirmation was not accepted for '{expectedValue}'.");
+        if (!requestContext.Server.IsMrtrSupported)
+            return Task.CompletedTask;
 
-        var typed = result.GetTypedResult<RelaceDeleteConfirmation>()
-            ?? throw new ValidationException("Deletion confirmation could not be parsed.");
+        var typed = requestContext.Elicit(
+            new RelaceDeleteConfirmation(),
+            message: expectedValue);
 
-        if (!string.Equals(typed.Name?.Trim(), expectedValue.Trim(), StringComparison.OrdinalIgnoreCase))
-            throw new ValidationException($"Confirmation does not match '{expectedValue}'.");
+        if (!string.Equals(
+            typed.Name?.Trim(),
+            expectedValue.Trim(),
+            StringComparison.OrdinalIgnoreCase))
+        {
+            throw new ValidationException(
+                $"Confirmation does not match '{expectedValue}'.");
+        }
+
+        return Task.CompletedTask;
     }
 
     private static RelaceToolResult CreateToolResult(

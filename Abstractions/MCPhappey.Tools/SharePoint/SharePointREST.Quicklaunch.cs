@@ -54,7 +54,7 @@ public static partial class SharePointREST
         await requestContext.WithStructuredContent<object>(async () =>
         {
             var (typed, notAccepted, _) =
-                await requestContext.Server.TryElicit(
+                await requestContext.TryElicit(
                     new SharePointAddQuickLaunchLinkInput
                     {
                         SiteUrl = siteUrl,

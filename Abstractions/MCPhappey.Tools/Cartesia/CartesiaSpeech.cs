@@ -43,7 +43,7 @@ public static class CartesiaSpeech
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CartesiaSpeechRequest
                 {
                     Transcript = transcript,
@@ -107,7 +107,7 @@ public static class CartesiaSpeech
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CartesiaSpeechFileRequest
                 {
                     FileUrl = fileUrl,

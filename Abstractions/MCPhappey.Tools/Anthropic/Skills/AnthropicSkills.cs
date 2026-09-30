@@ -141,7 +141,7 @@ public static class AnthropicSkills
         httpClient.DefaultRequestHeaders.Add("anthropic-version", "2023-06-01");
         var antClient = new AnthropicClient(antSettings.ApiKey, httpClient);
 
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new AnthropicNewSkill
+        var (typed, notAccepted, _) = await requestContext.TryElicit(new AnthropicNewSkill
         {
             DisplayTitle = displayTitle,
         }, cancellationToken);
@@ -179,7 +179,7 @@ public static class AnthropicSkills
 
         var antClient = new AnthropicClient(antSettings.ApiKey, httpClient);
 
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new AnthropicNewSkillVersion
+        var (typed, notAccepted, _) = await requestContext.TryElicit(new AnthropicNewSkillVersion
         {
             SkillId = skillId,
         }, cancellationToken);

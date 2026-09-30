@@ -20,7 +20,7 @@ public static class GraphUserManagement
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new GraphAddUserToGroup()
             {
                 UserId = userId ?? string.Empty,
@@ -74,7 +74,7 @@ public static class GraphUserManagement
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphNewUser
             {
                 GivenName = givenName ?? string.Empty,
@@ -204,7 +204,7 @@ public static class GraphUserManagement
     {
         var newUser = await client.Users[userId].GetAsync(cancellationToken: cancellationToken);
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphUpdateUser
             {
                 GivenName = givenName ?? newUser?.GivenName ?? string.Empty,

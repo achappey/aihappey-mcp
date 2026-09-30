@@ -58,7 +58,7 @@ public static partial class GraphWorkbooks
         await requestContext.WithStructuredContent(async () =>
     {
         var mcpServer = requestContext.Server;
-        var (typed, notAccepted, result) = await mcpServer.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphAddChartRequest
             {
                 Type = type ?? default,

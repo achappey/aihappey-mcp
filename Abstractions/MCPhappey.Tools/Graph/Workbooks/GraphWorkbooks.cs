@@ -32,7 +32,7 @@ public static partial class GraphWorkbooks
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphAddWorksheet
             {
                 Name = worksheetName,
@@ -97,7 +97,7 @@ public static partial class GraphWorkbooks
         var fallbackValues = defaultValues
             .ToDictionary(pair => pair.Key, pair => (object?)pair.Value, StringComparer.OrdinalIgnoreCase);
 
-        var (values, _) = await requestContext.Server.TryElicitForm(
+        var (values, _) = await requestContext.TryElicitForm(
             new ElicitRequestParams
             {
                 Message = "Please fill in the values of the Excel table",

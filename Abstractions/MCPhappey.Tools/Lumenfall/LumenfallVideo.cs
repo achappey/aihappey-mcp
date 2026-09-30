@@ -44,7 +44,7 @@ public static class LumenfallVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new LumenfallVideoGenerateRequest
                 {
                     Model = model,
@@ -164,7 +164,7 @@ public static class LumenfallVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new LumenfallVideoGetRequest
                 {
                     Id = id,
@@ -212,7 +212,7 @@ public static class LumenfallVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new LumenfallVideoCancelRequest
                 {
                     Id = id

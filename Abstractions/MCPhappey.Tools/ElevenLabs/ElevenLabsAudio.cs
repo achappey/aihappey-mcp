@@ -37,7 +37,7 @@ public static class ElevenLabsAudio
             var settings = serviceProvider.GetRequiredService<ElevenLabsSettings>();
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new ElevenLabsTTSRequest
                 {
                     Input = input,
@@ -133,7 +133,7 @@ public static class ElevenLabsAudio
             var downloads = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, audioUrl, cancellationToken);
             var audio = downloads.FirstOrDefault() ?? throw new InvalidOperationException("Failed to download audio content.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new ElevenLabsSTTRequest
                 {
                     Filename = filename?.ToOutputFileName() ?? requestContext.ToOutputFileName(),

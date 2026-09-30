@@ -26,7 +26,7 @@ public static class GraphSearchAnswers
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new AcronymInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new AcronymInput
             {
                 DisplayName = displayName, StandsFor = standsFor, Description = description, WebUrl = webUrl
             }, cancellationToken);
@@ -56,7 +56,7 @@ public static class GraphSearchAnswers
             if (displayName is null && standsFor is null && description is null && webUrl is null)
                 throw new ValidationException("At least one acronym field must be provided.");
 
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new AcronymPatchInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new AcronymPatchInput
             {
                 DisplayName = displayName, StandsFor = standsFor, Description = description, WebUrl = webUrl
             }, cancellationToken);
@@ -97,7 +97,7 @@ public static class GraphSearchAnswers
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new QnaInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new QnaInput
             {
                 DisplayName = displayName, Description = description, KeywordsCsv = keywordsCsv,
                 WebUrl = webUrl, LanguageTagsCsv = languageTagsCsv
@@ -133,7 +133,7 @@ public static class GraphSearchAnswers
             if (displayName is null && description is null && keywordsCsv is null && webUrl is null && languageTagsCsv is null)
                 throw new ValidationException("At least one Q&A field must be provided.");
 
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new QnaPatchInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new QnaPatchInput
             {
                 DisplayName = displayName, Description = description, KeywordsCsv = keywordsCsv,
                 WebUrl = webUrl, LanguageTagsCsv = languageTagsCsv

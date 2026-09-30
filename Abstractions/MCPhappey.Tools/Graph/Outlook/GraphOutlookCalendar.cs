@@ -22,7 +22,7 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphCalendarGroupInput { Name = name }, cancellationToken);
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Name);
@@ -44,7 +44,7 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphCalendarGroupInput { Name = name }, cancellationToken);
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Name);
@@ -83,7 +83,7 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphCalendarInput { Name = name, HexColor = hexColor }, cancellationToken);
 
             ValidateCalendarInput(typed);
@@ -113,7 +113,7 @@ public static partial class GraphOutlookCalendar
             if (name is null && hexColor is null)
                 throw new ValidationException("A calendar name or hexadecimal color must be provided.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphCalendarUpdate { Name = name, HexColor = hexColor }, cancellationToken);
        
             if (typed?.Name is not null)
@@ -163,7 +163,7 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphCreateCalendarEvent
             {
                 Subject = subject ?? string.Empty,
@@ -236,7 +236,7 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphUpdateCalendarEvent
                 {
                     Subject = subject,

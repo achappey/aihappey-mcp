@@ -48,7 +48,7 @@ public static class deAPIVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new deAPITextToVideoRequest
                 {
                     Prompt = prompt,
@@ -183,7 +183,7 @@ public static class deAPIVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new deAPIImageToVideoRequest
                 {
                     Prompt = prompt,

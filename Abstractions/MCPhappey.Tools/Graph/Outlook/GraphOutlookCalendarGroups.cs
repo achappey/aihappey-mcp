@@ -23,7 +23,7 @@ public static class GraphOutlookCalendarGroups
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new CalendarGroupInput { Name = name }, cancellationToken);
             if (input is null || rejected is not null) throw new Exception(JsonSerializer.Serialize(rejected));
             ArgumentException.ThrowIfNullOrWhiteSpace(input.Name);

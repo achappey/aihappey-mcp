@@ -39,7 +39,7 @@ public static class DeepLDocuments
         if (string.IsNullOrWhiteSpace(fileUrl))
             throw new ArgumentNullException(nameof(fileUrl));
 
-        var (typed, _, _) = await requestContext.Server.TryElicit(new DeepLTranslateDocumentRequest
+        var (typed, _, _) = await requestContext.TryElicit(new DeepLTranslateDocumentRequest
         {
             TargetLang = targetLang,
             SourceLang = sourceLang,

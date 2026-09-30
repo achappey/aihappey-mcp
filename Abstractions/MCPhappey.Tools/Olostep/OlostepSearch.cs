@@ -20,7 +20,7 @@ public static class OlostepSearch
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new OlostepCreateSearchRequest
                 {
                     Query = query
@@ -63,7 +63,7 @@ public static class OlostepSearch
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, _, _) = await requestContext.Server.TryElicit(
+            var (typed, _, _) = await requestContext.TryElicit(
                 new OlostepGetSearchRequest
                 {
                     SearchId = search_id

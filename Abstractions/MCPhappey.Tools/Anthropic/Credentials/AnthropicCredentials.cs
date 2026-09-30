@@ -24,7 +24,7 @@ public static partial class AnthropicCredentials
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateCredentialRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicCreateCredentialRequest
                 {
                     VaultId = vaultId,
                     AuthJson = authJson,
@@ -80,7 +80,7 @@ public static partial class AnthropicCredentials
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateCredentialRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicUpdateCredentialRequest
                 {
                     VaultId = vaultId,
                     CredentialId = credentialId,
@@ -141,7 +141,7 @@ public static partial class AnthropicCredentials
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveCredentialRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicArchiveCredentialRequest
                 {
                     VaultId = vaultId,
                     CredentialId = credentialId,
@@ -176,7 +176,7 @@ public static partial class AnthropicCredentials
                 var normalizedVaultId = AnthropicVaults.NormalizeVaultId(vaultId);
                 var normalizedCredentialId = AnthropicVaults.NormalizeId(credentialId, "credentialId");
                 await AnthropicVaults.GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
-                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteCredentialItem>(requestContext.Server, $"{normalizedVaultId}:{normalizedCredentialId}", cancellationToken);
+                await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteCredentialItem>(requestContext, $"{normalizedVaultId}:{normalizedCredentialId}", cancellationToken);
 
                 return await AnthropicManagedAgentsHttp.SendAsync(
                     serviceProvider,

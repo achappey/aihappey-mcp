@@ -40,7 +40,7 @@ public static class MixedbreadStoreFiles
                 ArgumentException.ThrowIfNullOrWhiteSpace(storeIdentifier);
                 ArgumentException.ThrowIfNullOrWhiteSpace(fileId);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new MixedbreadStoreFileAddRequest
                     {
                         StoreIdentifier = storeIdentifier,

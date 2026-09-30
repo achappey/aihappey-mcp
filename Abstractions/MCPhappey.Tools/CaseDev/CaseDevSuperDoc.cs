@@ -25,7 +25,7 @@ public static class CaseDevSuperDoc
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new CaseDevSuperDocConvertRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new CaseDevSuperDocConvertRequest
             {
                 FileUrl = fileUrl,
                 FileBase64 = fileBase64,
@@ -87,7 +87,7 @@ public static class CaseDevSuperDoc
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new CaseDevSuperDocAnnotateRequest
+            var (typed, notAccepted, _) = await requestContext.TryElicit(new CaseDevSuperDocAnnotateRequest
             {
                 FieldsJson = fieldsJson,
                 FileUrl = fileUrl,

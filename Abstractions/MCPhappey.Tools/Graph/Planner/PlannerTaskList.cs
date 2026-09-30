@@ -31,7 +31,7 @@ public static class PlannerTaskList
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new PlannerTodosNewList
             {
                 Title = listTitle

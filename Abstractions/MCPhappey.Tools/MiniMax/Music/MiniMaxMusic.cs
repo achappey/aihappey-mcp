@@ -36,7 +36,7 @@ public static class MiniMaxMusic
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new MiniMaxLyricsGenerateRequest
             {
                 Mode = mode,
@@ -100,7 +100,7 @@ public static class MiniMaxMusic
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new MiniMaxMusicGenerateRequest
             {
                 Model = model,

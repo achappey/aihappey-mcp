@@ -44,7 +44,7 @@ public static class RunwayImages
         CancellationToken ct = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewTextToImage
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewTextToImage
         {
             PromptText = promptText,
             Model = model ?? RunwayImageModel.Gen4ImageTurbo,
@@ -94,7 +94,7 @@ public static class RunwayImages
         if (promptImages == null || !promptImages.Any())
             throw new ValidationException("At least one prompt image is required.");
 
-        var (typed, _, _) = await rc.Server.TryElicit(new RunwayNewImageToImage
+        var (typed, _, _) = await rc.TryElicit(new RunwayNewImageToImage
         {
             PromptText = promptText,
             Model = model ?? RunwayImageModel.Gen4ImageTurbo,

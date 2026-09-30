@@ -30,7 +30,7 @@ public static class RecraftTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftGenerateInput
+        var (typed, _, _) = await requestContext.TryElicit(new RecraftGenerateInput
         {
             Prompt = prompt,
             Model = model ?? RecraftModel.recraftv3,
@@ -78,7 +78,7 @@ public static class RecraftTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftImageToImageInput
+        var (typed, _, _) = await requestContext.TryElicit(new RecraftImageToImageInput
         {
             Prompt = prompt,
             Strength = strength,
@@ -130,7 +130,7 @@ public static class RecraftTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftPromptImageInput
+        var (typed, _, _) = await requestContext.TryElicit(new RecraftPromptImageInput
         {
             Prompt = prompt,
             Model = model ?? RecraftModel.recraftv3,
@@ -184,7 +184,7 @@ public static class RecraftTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftPromptImageInput
+        var (typed, _, _) = await requestContext.TryElicit(new RecraftPromptImageInput
         {
             Prompt = prompt,
             Model = model ?? RecraftModel.recraftv3,
@@ -234,7 +234,7 @@ public static class RecraftTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftPromptImageInput
+        var (typed, _, _) = await requestContext.TryElicit(new RecraftPromptImageInput
         {
             Prompt = prompt,
             Model = model ?? RecraftModel.recraftv3,
@@ -405,7 +405,7 @@ public static class RecraftTools
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await requestContext.Server.TryElicit(new RecraftVariateInput
+        var (typed, _, _) = await requestContext.TryElicit(new RecraftVariateInput
         {
             Size = size,
             N = n,

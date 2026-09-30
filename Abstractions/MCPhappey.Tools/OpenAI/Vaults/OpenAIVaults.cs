@@ -22,7 +22,7 @@ public static partial class OpenAIVaults
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new CreateVaultRequest
+            var (input, rejected, _) = await requestContext.TryElicit(new CreateVaultRequest
             { Name = name, MetadataFileUrl = metadataFileUrl }, cancellationToken);
             if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>

@@ -32,7 +32,7 @@ public static class GraphRetentionLabels
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new RetentionLabelInput
+            var (input, rejected, _) = await requestContext.TryElicit(new RetentionLabelInput
             {
                 DisplayName = displayName,
                 DescriptionForUsers = descriptionForUsers,
@@ -67,7 +67,7 @@ public static class GraphRetentionLabels
             if (descriptionForUsers is null && descriptionForAdmins is null)
                 throw new ValidationException("At least one retention-label description must be supplied.");
 
-            var (input, rejected, _) = await requestContext.Server.TryElicit(new RetentionLabelPatchInput
+            var (input, rejected, _) = await requestContext.TryElicit(new RetentionLabelPatchInput
             {
                 DescriptionForUsers = descriptionForUsers,
                 DescriptionForAdmins = descriptionForAdmins

@@ -70,7 +70,7 @@ public static partial class LibrariesPlugin
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CreateLibrary
                 {
                     Name = name,

@@ -35,7 +35,7 @@ public static class SpeechactorsService
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SpeechactorsTextToSpeechRequest
                 {
                     Text = text,
@@ -87,7 +87,7 @@ public static class SpeechactorsService
 
             var text = await ResolveTextFromFileUrlAsync(serviceProvider, requestContext, fileUrl, cancellationToken);
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SpeechactorsFileUrlToSpeechRequest
                 {
                     FileUrl = fileUrl,

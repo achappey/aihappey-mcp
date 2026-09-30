@@ -41,7 +41,7 @@ public static partial class GraphSites
             await requestContext.WithStructuredContent<object>(async () =>
             {
                 var (typed, notAccepted, _) =
-                    await requestContext.Server.TryElicit(
+                    await requestContext.TryElicit(
                         new GraphSetListContentTypesEnabledInput
                         {
                             SiteId = siteId,
@@ -157,7 +157,7 @@ public static partial class GraphSites
         await requestContext.WithStructuredContent<object>(async () =>
         {
             var (typed, notAccepted, _) =
-                await requestContext.Server.TryElicit(
+                await requestContext.TryElicit(
                     new GraphSetDefaultListContentTypeInput
                     {
                         SiteId = siteId,
@@ -249,7 +249,7 @@ public static partial class GraphSites
             await requestContext.WithStructuredContent<object>(async () =>
             {
                 var (typed, notAccepted, _) =
-                    await requestContext.Server.TryElicit(
+                    await requestContext.TryElicit(
                         new GraphRemoveListContentTypeInput
                         {
                             SiteId = siteId,

@@ -42,7 +42,7 @@ public static partial class GraphSites
         await requestContext.WithStructuredContent<object>(async () =>
         {
             var (typed, notAccepted, _) =
-                await requestContext.Server.TryElicit(
+                await requestContext.TryElicit(
                     new GraphAddSiteContentTypeToListInput
                     {
                         SiteId = siteId,
@@ -206,7 +206,7 @@ public static partial class GraphSites
         await requestContext.WithStructuredContent<object>(async () =>
         {
             var (typed, notAccepted, _) =
-                await requestContext.Server.TryElicit(
+                await requestContext.TryElicit(
                     new GraphAddHubContentTypeToSiteInput
                     {
                         SiteId = siteId,

@@ -214,7 +214,7 @@ public static class OneDriveSkillsEditor
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
             new OneDriveSkillCreateInput
             {
                 Name = name ?? string.Empty,
@@ -273,7 +273,7 @@ public static class OneDriveSkillsEditor
         await context.WithOboGraphClient(async graph =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
             new OneDriveSkillFileUpsertInput
             {
                 RelativePath = relativePath ?? string.Empty,
@@ -338,7 +338,7 @@ public static class OneDriveSkillsEditor
                        ?? throw new ValidationException($"Skill '{normalizedName}' is missing SKILL.md.");
 
         var parsed = SkillDocumentParser.Parse(existing, normalizedName);
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
             new OneDriveSkillManifestInput
             {
                 Name = normalizedName,
@@ -387,7 +387,7 @@ public static class OneDriveSkillsEditor
         await context.WithStructuredContent(async () =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
-        var (typed, notAccepted, _) = await context.Server.TryElicit(
+        var (typed, notAccepted, _) = await context.TryElicit(
             new OneDriveSkillImportInput
             {
                 FileUrl = fileUrl ?? string.Empty,

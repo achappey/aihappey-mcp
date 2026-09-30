@@ -32,7 +32,7 @@ public static class GraphBookings
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new AppointmentInput
                 {
                     ServiceId = serviceId, Start = start, End = end, TimeZone = timeZone,
@@ -68,7 +68,7 @@ public static class GraphBookings
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new AppointmentPatchInput
                 {
                     ServiceId = serviceId, Start = start, End = end, TimeZone = timeZone,
@@ -113,7 +113,7 @@ public static class GraphBookings
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new ServiceInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new ServiceInput
             {
                 DisplayName = displayName, DefaultDurationMinutes = defaultDurationMinutes,
                 Description = description, Notes = notes, IsHiddenFromCustomers = isHiddenFromCustomers,
@@ -144,7 +144,7 @@ public static class GraphBookings
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new ServicePatchInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new ServicePatchInput
             {
                 DisplayName = displayName, DefaultDurationMinutes = defaultDurationMinutes,
                 Description = description, Notes = notes, IsHiddenFromCustomers = isHiddenFromCustomers,
@@ -182,7 +182,7 @@ public static class GraphBookings
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new CustomerInput { DisplayName = displayName, EmailAddress = emailAddress }, cancellationToken);
             if (notAccepted is not null || input is null) return default(BookingCustomer);
 
@@ -205,7 +205,7 @@ public static class GraphBookings
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new CustomerPatchInput { DisplayName = displayName, EmailAddress = emailAddress }, cancellationToken);
             if (notAccepted is not null || input is null) return default(BookingCustomer);
 

@@ -35,7 +35,7 @@ public static class GroqAudio
             var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
             // 1️⃣ Elicit or confirm model input
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GroqAudioTextToSpeech
                 {
                     Input = input,
@@ -113,7 +113,7 @@ public static class GroqAudio
                var clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
                // 1️⃣ Elicit or confirm model input
-               var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+               var (typed, notAccepted, _) = await requestContext.TryElicit(
                    new GroqAudioTextToSpeechArabic
                    {
                        Input = input,

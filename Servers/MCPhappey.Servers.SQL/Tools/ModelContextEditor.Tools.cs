@@ -31,7 +31,7 @@ public static partial class ModelContextEditor
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new McpServerPlugin()
+        var (typed, notAccepted, result) = await requestContext.TryElicit(new McpServerPlugin()
         {
             PluginName = pluginName
         }, cancellationToken);
@@ -73,7 +73,7 @@ public static partial class ModelContextEditor
       await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(new McpServerToolTemplate()
+        var (typed, notAccepted, _) = await requestContext.TryElicit(new McpServerToolTemplate()
         {
             ToolName = toolName,
             OutputTemplate = outputTemplate
@@ -336,7 +336,7 @@ public static partial class ModelContextEditor
             return $"Plugin {pluginName} is not a plugin on server {serverName}.".ToErrorCallToolResponse();
         }
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new McpServerPlugin()
+        var (typed, notAccepted, result) = await requestContext.TryElicit(new McpServerPlugin()
         {
             PluginName = pluginName
         }, cancellationToken);

@@ -18,7 +18,7 @@ public static class GraphDevices
           await requestContext.WithOboGraphClient(async client =>
           await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, result) = await requestContext.TryElicit(
                 new GraphRetireDevice
                 {
                     DeviceId = deviceId,

@@ -36,7 +36,7 @@ public static class GradiumVoices
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GradiumCreateVoiceRequest
                 {
                     FileUrl = fileUrl,
@@ -110,7 +110,7 @@ public static class GradiumVoices
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(voice_uid);
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GradiumUpdateVoiceRequest
                 {
                     VoiceUid = voice_uid,

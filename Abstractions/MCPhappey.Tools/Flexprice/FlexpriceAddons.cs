@@ -28,7 +28,7 @@ public static class FlexpriceAddons
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceAddonResponse>>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new FlexpriceCreateAddonInput
                     {
                         Name = name,
@@ -91,7 +91,7 @@ public static class FlexpriceAddons
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceListAddonsResponse>>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new FlexpriceQueryAddonsInput
                     {
                         AddonIdsCsv = addonIdsCsv,
@@ -160,7 +160,7 @@ public static class FlexpriceAddons
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent<FlexpriceToolResult<FlexpriceAddonResponse>>(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new FlexpriceUpdateAddonInput
                     {
                         Id = id,

@@ -38,7 +38,7 @@ public static class ImageRouterImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new ImageRouterImageGenerateRequest
                 {
                     Model = model,

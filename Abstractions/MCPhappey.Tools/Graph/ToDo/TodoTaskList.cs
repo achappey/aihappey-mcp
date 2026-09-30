@@ -31,7 +31,7 @@ public static class TodoTaskList
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, _) = await requestContext.TryElicit(
             new TodoTaskListNewList
             {
                 Title = listTitle

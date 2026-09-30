@@ -41,7 +41,7 @@ public static partial class ModelContextEditor
     {
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new AddMcpPrompt()
+        var (typed, notAccepted, result) = await requestContext.TryElicit(new AddMcpPrompt()
         {
             Name = promptName.Slugify().ToLowerInvariant(),
             Prompt = prompt,
@@ -88,7 +88,7 @@ public static partial class ModelContextEditor
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
         var prompt = server.Prompts.FirstOrDefault(a => a.Name == promptName) ?? throw new ArgumentNullException();
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new UpdateMcpPrompt()
+        var (typed, notAccepted, result) = await requestContext.TryElicit(new UpdateMcpPrompt()
         {
             Prompt = newPrompt ?? prompt.PromptTemplate,
             Description = newDescription ?? prompt.Description,
@@ -161,7 +161,7 @@ public static partial class ModelContextEditor
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
         var prompt = server.Prompts.FirstOrDefault(a => a.Name == promptName) ?? throw new ArgumentNullException(nameof(promptName));
         var promptArgument = prompt.Arguments.FirstOrDefault(a => a.Name == promptArgumentName) ?? throw new ArgumentNullException(nameof(promptArgumentName));
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new UpdateMcpPromptArgument()
+        var (typed, notAccepted, result) = await requestContext.TryElicit(new UpdateMcpPromptArgument()
         {
             Required = required ?? promptArgument.Required,
             Description = newDescription ?? promptArgument.Description

@@ -33,7 +33,7 @@ public static class ReplicateService
     {
         var replicate = sp.GetRequiredService<ReplicateClient>();
 
-        var (typed, _, _) = await rc.Server.TryElicit(new ReplicatePredictionRequest
+        var (typed, _, _) = await rc.TryElicit(new ReplicatePredictionRequest
         {
             Version = version,
             CancelAfter = cancelAfter,

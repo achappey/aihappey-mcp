@@ -42,7 +42,7 @@ public static partial class SharePointREST
         await requestContext.WithStructuredContent(async () =>
         {
             var (typed, notAccepted, _) =
-                await requestContext.Server.TryElicit(
+                await requestContext.TryElicit(
                     new SharePointRenameSiteInput
                     {
                         SiteUrl = siteUrl,
@@ -274,7 +274,7 @@ public static partial class SharePointREST
       => await ModelContextToolExtensions.WithExceptionCheck(async () =>
       await requestContext.WithStructuredContent(async () =>
       {
-          var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+          var (typed, notAccepted, _) = await requestContext.TryElicit(
               new SharePointCopyTemplateFileToDocumentLibraryInput
               {
                   SourceSiteUrl = sourceSiteUrl,
@@ -412,7 +412,7 @@ public static partial class SharePointREST
                       "Invalid OneDrive sourceSiteUrl. For files under /personal/..., sourceSiteUrl must include the full personal site path, e.g. https://tenant-my.sharepoint.com/personal/user_domain_com. Do not use the tenant root.");
               }
 
-              var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+              var (typed, notAccepted, _) = await requestContext.TryElicit(
                   new SharePointCopyFileToListItemAttachmentInput
                   {
                       SourceSiteUrl = sourceSiteUrl,

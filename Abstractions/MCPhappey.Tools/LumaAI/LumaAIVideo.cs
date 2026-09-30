@@ -31,7 +31,7 @@ public static class LumaAIVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new LumaAIVideoGenerateRequest
                 {
                     Prompt = prompt,
@@ -108,7 +108,7 @@ public static class LumaAIVideo
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new LumaAIVideoGenerateWithAudioRequest
                 {
                     Prompt = prompt,

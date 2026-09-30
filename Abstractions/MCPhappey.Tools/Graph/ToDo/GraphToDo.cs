@@ -32,7 +32,7 @@ public static partial class GraphToDo
             if (string.IsNullOrWhiteSpace(webUrl) || !webUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 throw new ArgumentException("webUrl must be a valid HTTPS URL.", nameof(webUrl));
 
-            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, result) = await requestContext.TryElicit(
                     new GraphNewLinkedResource
                     {
                         Url = webUrl
@@ -72,7 +72,7 @@ public static partial class GraphToDo
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphNewTodoTask
             {
                 Title = title ?? string.Empty,
@@ -132,7 +132,7 @@ public static partial class GraphToDo
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphNewTodoTaskList
             {
                 DisplayName = displayName ?? string.Empty,
@@ -166,7 +166,7 @@ public static partial class GraphToDo
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphUpdateTodoTask
                 {
                     Title = title,
@@ -225,7 +225,7 @@ public static partial class GraphToDo
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphNewTodoTaskList { DisplayName = displayName }, cancellationToken);         
 
             return await client.Me.Todo.Lists[listId].PatchAsync(

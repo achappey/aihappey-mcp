@@ -36,7 +36,7 @@ public static class RunwareAudio
                await requestContext.WithStructuredContent(async () =>
                {
                    // 🧠 1. Elicit structured inputs when missing
-                   var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+                   var (typed, notAccepted, result) = await requestContext.TryElicit(
                        new RunwareNewAudio
                        {
                            PositivePrompt = prompt,

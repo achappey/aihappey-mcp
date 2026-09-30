@@ -801,7 +801,7 @@ public static class SimplicateExtensions
             elicitPropertyOverridesFactory,
             cancellationToken);
 
-        var (dto, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (dto, notAccepted, _) = await requestContext.TryElicit(
             seedDto,
             elicitPropertyOverrides,
             cancellationToken);        
@@ -862,7 +862,7 @@ public static class SimplicateExtensions
             cancellationToken);
 
         // Let Elicit fill the flat DTO
-        var (dto, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (dto, notAccepted, _) = await requestContext.TryElicit(
             seedDto,
             elicitPropertyOverrides,
             cancellationToken);
@@ -989,7 +989,7 @@ public static class SimplicateExtensions
             elicitPropertyOverridesFactory,
             cancellationToken);
 
-        var (dto, notAccepted, _) = await requestContext.Server.TryElicit(
+        var (dto, notAccepted, _) = await requestContext.TryElicit(
             incomingDto,
             elicitPropertyOverrides,
             cancellationToken);

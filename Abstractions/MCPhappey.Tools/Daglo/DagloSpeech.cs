@@ -27,7 +27,7 @@ public static class DagloSpeech
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new DagloSpeechTextToSpeechRequest
                 {
                     Text = text,
@@ -69,7 +69,7 @@ public static class DagloSpeech
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new ValidationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new DagloSpeechFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

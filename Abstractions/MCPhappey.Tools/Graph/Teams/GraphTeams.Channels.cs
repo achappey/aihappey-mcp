@@ -30,7 +30,7 @@ public static partial class GraphTeams
             if (displayName is null && description is null)
                 throw new ValidationException("A display name or description must be provided.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new GraphUpdateTeamChannel { DisplayName = displayName, Description = description },
                 cancellationToken);
           
@@ -74,7 +74,7 @@ public static partial class GraphTeams
         var teams = await client.Teams[teamId]
                            .GetAsync(cancellationToken: cancellationToken);
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphNewTeamChannel
             {
                 DisplayName = displayName,
@@ -112,7 +112,7 @@ public static partial class GraphTeams
             await requestContext.WithStructuredContent(async () =>
     {
         // Vul defaults uit de parameters direct in
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+        var (typed, notAccepted, result) = await requestContext.TryElicit(
             new GraphNewChannelMessage
             {
                 Subject = subject,

@@ -42,7 +42,7 @@ public static class NoizAISpeech
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new NoizAITextToSpeechRequest
                 {
                     Text = text,
@@ -106,7 +106,7 @@ public static class NoizAISpeech
             if (string.IsNullOrWhiteSpace(sourceText))
                 throw new InvalidOperationException("No readable text content found in fileUrl.");
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new NoizAIFileToSpeechRequest
                 {
                     FileUrl = fileUrl,

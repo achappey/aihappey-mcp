@@ -144,7 +144,7 @@ public static partial class ModelContextEditor
             }
         }
 
-        var (typedResult, notAccepted, result) = await requestContext.Server.TryElicit(new CloneMcpServer
+        var (typedResult, notAccepted, result) = await requestContext.TryElicit(new CloneMcpServer
         {
             Name = newServerName ?? string.Empty,
         }, cancellationToken);
@@ -358,7 +358,7 @@ public static partial class ModelContextEditor
         var serverExists = await serviceProvider.ServerExists(serverName, cancellationToken);
         if (serverExists) throw new Exception("Servername already in use");
 
-        var (typedResult, notAccepted, result) = await requestContext.Server.TryElicit(new NewMcpServer()
+        var (typedResult, notAccepted, result) = await requestContext.TryElicit(new NewMcpServer()
         {
             Name = serverName,
             WebsiteUrl = string.IsNullOrEmpty(websiteUrl) ? null : new Uri(websiteUrl),
@@ -425,7 +425,7 @@ public static partial class ModelContextEditor
             ? websiteUrl
             : server.WebsiteUrl;
 
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(new UpdateMcpServer()
+        var (typed, notAccepted, result) = await requestContext.TryElicit(new UpdateMcpServer()
         {
             Name = serverName,
             WebsiteUrl = string.IsNullOrEmpty(finalUrl) ? null : new Uri(finalUrl),

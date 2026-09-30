@@ -46,7 +46,7 @@ public static partial class GraphOutlookDelegatedMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphOutlookMail.GraphUpdateMailDraft
                 {
                     ToRecipients = toRecipients,
@@ -100,7 +100,7 @@ public static partial class GraphOutlookDelegatedMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphDelegatedSendDraftInput { Mailbox = userId, DraftId = draftId, Subject = current.Subject },
                 cancellationToken);
             if (rejected is not null || input is null) return null;
@@ -163,7 +163,7 @@ public static partial class GraphOutlookDelegatedMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (input, rejected, _) = await requestContext.Server.TryElicit(
+            var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphOutlookMail.GraphAddDraftAttachment { FileUrl = fileUrl, Filename = filename }, cancellationToken);
             if (rejected is not null || input is null) return default(FileAttachment);
             ArgumentException.ThrowIfNullOrWhiteSpace(input.FileUrl);

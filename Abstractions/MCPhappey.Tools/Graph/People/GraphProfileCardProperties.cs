@@ -25,7 +25,7 @@ public static class GraphProfileCardProperties
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new ProfileCardPropertyInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new ProfileCardPropertyInput
             {
                 DirectoryPropertyName = directoryPropertyName, DisplayName = displayName, LanguageTag = languageTag
             }, cancellationToken);
@@ -49,7 +49,7 @@ public static class GraphProfileCardProperties
         await requestContext.WithStructuredContent(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(propertyId);
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(new ProfileCardAnnotationInput
+            var (input, notAccepted, _) = await requestContext.TryElicit(new ProfileCardAnnotationInput
             {
                 DisplayName = displayName, LanguageTag = languageTag
             }, cancellationToken);

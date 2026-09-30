@@ -37,7 +37,7 @@ public static class AzureVaultSecrets
                 ArgumentException.ThrowIfNullOrWhiteSpace(secretName);
                 ArgumentException.ThrowIfNullOrWhiteSpace(secretValue);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new AzureVaultSetSecretInput
                     {
                         VaultUri = vaultUri,
@@ -113,7 +113,7 @@ public static class AzureVaultSecrets
                 ArgumentException.ThrowIfNullOrWhiteSpace(secretName);
                 ArgumentException.ThrowIfNullOrWhiteSpace(secretVersion);
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new AzureVaultUpdateSecretVersionInput
                     {
                         VaultUri = vaultUri,

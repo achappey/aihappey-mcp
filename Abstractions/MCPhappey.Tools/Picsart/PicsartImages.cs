@@ -45,7 +45,7 @@ public static class PicsartImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new PicsartText2ImageRequest
                 {
                     Prompt = prompt,
@@ -101,7 +101,7 @@ public static class PicsartImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new PicsartText2StickerRequest
                 {
                     Prompt = prompt,
@@ -160,7 +160,7 @@ public static class PicsartImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new PicsartText2StickerLaserRequest
                 {
                     Prompt = prompt,
@@ -230,7 +230,7 @@ public static class PicsartImages
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new PicsartLogoRequest
                 {
                     BrandName = brandName,

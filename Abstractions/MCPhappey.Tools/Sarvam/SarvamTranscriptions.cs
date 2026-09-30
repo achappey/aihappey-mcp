@@ -43,7 +43,7 @@ public static class SarvamTranscriptions
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SarvamSpeechToTextRequest
                 {
                     FileUrl = fileUrl,
@@ -87,7 +87,7 @@ public static class SarvamTranscriptions
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SarvamSpeechToTextTranslateRequest
                 {
                     FileUrl = fileUrl,

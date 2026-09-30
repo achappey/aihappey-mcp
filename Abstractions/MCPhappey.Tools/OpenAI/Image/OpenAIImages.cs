@@ -15,11 +15,12 @@ namespace MCPhappey.Tools.OpenAI.Image;
 public static class OpenAIImages
 {
     [Description("Create an image with OpenAI image generator")]
-    [McpServerTool(Title = "Generate image with OpenAI",
-        ReadOnly = false,
-        Idempotent = false,
-        OpenWorld = true,
-        Destructive = false)]
+    [McpServerTool(
+     Title = "Generate image with OpenAI",
+     ReadOnly = false,
+     Idempotent = false,
+     OpenWorld = true,
+     Destructive = false)]
     public static async Task<CallToolResult?> OpenAIImages_CreateImage(
      [Description("The image prompt.")] string prompt,
      IServiceProvider serviceProvider,
@@ -32,119 +33,135 @@ public static class OpenAIImages
      [Description("Content moderation level: auto (default) or low.")] ImageModerationLevel? moderation = ImageModerationLevel.auto,
      CancellationToken cancellationToken = default) =>
          await ModelContextToolExtensions.WithExceptionCheck(async () =>
-    {
-        var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
-        var imageInput = new OpenAINewImage
-        {
-            Prompt = prompt,
-            Model = model,
-            Filename = filename ?? requestContext.ToOutputFileName("png"),
-            Size = size ?? ImageSize.square,
-            Quality = quality ?? ImageQuality.auto,
-            Background = background ?? ImageBackground.auto,
-            Moderation = moderation ?? ImageModerationLevel.auto
-        };
+         {
+             var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
 
-        var (typed, _, _) = await requestContext.Server.TryElicit(imageInput, cancellationToken);
+             var imageInput = new OpenAINewImage
+             {
+                 Prompt = prompt,
+                 Model = model,
+                 Filename = filename ?? requestContext.ToOutputFileName("png"),
+                 Size = size ?? ImageSize.square,
+                 Quality = quality ?? ImageQuality.auto,
+                 Background = background ?? ImageBackground.auto,
+                 Moderation = moderation ?? ImageModerationLevel.auto
+             };
 
-        var sizeValue = typed.Size switch
-        {
-            ImageSize.square => GeneratedImageSize.W1024xH1024,
-            ImageSize.landscape => new GeneratedImageSize(1536, 1024),
-            ImageSize.portrait => new GeneratedImageSize(1024, 1536),
-            _ => GeneratedImageSize.Auto
-        };
+             var typed = requestContext.Elicit(imageInput);
 
-        var finalQuality = typed.Quality?.ToString();
-        var generatedQuality = string.IsNullOrEmpty(finalQuality)
-            ? GeneratedImageQuality.Auto : new GeneratedImageQuality(finalQuality);
+             var sizeValue = typed.Size switch
+             {
+                 ImageSize.square => GeneratedImageSize.W1024xH1024,
+                 ImageSize.landscape => new GeneratedImageSize(1536, 1024),
+                 ImageSize.portrait => new GeneratedImageSize(1024, 1536),
+                 _ => GeneratedImageSize.Auto
+             };
 
-        var resultImage = await openAiClient
-            .GetImageClient(typed.Model.GetEnumMemberValue())
-            .GenerateImageAsync(typed.Prompt, new()
-            {
-                Quality = generatedQuality,
-                Size = sizeValue,
-                Background = typed.Background?.ToString(),
-                ModerationLevel = typed.Moderation?.ToString()
-            }, cancellationToken);
+             var finalQuality = typed.Quality?.ToString();
+             var generatedQuality = string.IsNullOrEmpty(finalQuality)
+                 ? GeneratedImageQuality.Auto
+                 : new GeneratedImageQuality(finalQuality);
 
-        var uploaded = await requestContext.Server.Upload(
-            serviceProvider,
-            $"{typed.Filename}.png",
-            resultImage.Value.ImageBytes,
-            cancellationToken);
+             var resultImage = await openAiClient
+                 .GetImageClient(typed.Model.GetEnumMemberValue())
+                 .GenerateImageAsync(
+                     typed.Prompt,
+                     new()
+                     {
+                         Quality = generatedQuality,
+                         Size = sizeValue,
+                         Background = typed.Background?.ToString(),
+                         ModerationLevel = typed.Moderation?.ToString()
+                     },
+                     cancellationToken);
 
-        return uploaded?.ToResourceLinkCallToolResponse();
-    });
+             var uploaded = await requestContext.Server.Upload(
+                 serviceProvider,
+                 $"{typed.Filename}.png",
+                 resultImage.Value.ImageBytes,
+                 cancellationToken);
+
+             return uploaded?.ToResourceLinkCallToolResponse();
+         });
 
     [Description("Create an image edit with OpenAI image generator")]
-    [McpServerTool(Title = "Generate an image edit with OpenAI",
+    [McpServerTool(
+        Title = "Generate an image edit with OpenAI",
         ReadOnly = false,
         Idempotent = false,
         OpenWorld = true,
         Destructive = false)]
     public static async Task<CallToolResult?> OpenAIImages_CreateImageEdit(
-     [Description("The image prompt.")] string prompt,
-     [Description("File url of the image that should be used for the edit. This tool can also access secured SharePoint and OneDrive links.")] string fileUrl,
-     IServiceProvider serviceProvider,
-     RequestContext<CallToolRequestParams> requestContext,
-     [Description("Image generation model to use.")] Model model = Model.gpt_image_1_5,
-     [Description("New image file name, without extension. Defaults to autogenerated filename.")] string? filename = null,
-     [Description("Size of the image (auto, 1024x1024, 1536x1024 or 1024x1536). Defaults to auto.")] ImageSize? size = ImageSize.auto,
-     [Description("Background setting: auto (default), transparent, or opaque.")] ImageBackground? background = ImageBackground.auto,
-     [Description("Image quality: auto (default), high, medium or low.")] ImageQuality? quality = ImageQuality.auto,
-     CancellationToken cancellationToken = default) =>
-         await ModelContextToolExtensions.WithExceptionCheck(async () =>
-    {
-        var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-
-        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-        var image = files.FirstOrDefault();
-
-        var imageInput = new OpenAINewImageEdit
-        {
-            Prompt = prompt,
-            Model = model,
-            Background = background ?? ImageBackground.auto,
-            Quality = quality ?? ImageQuality.auto,
-            Filename = filename ?? requestContext.ToOutputFileName("png"),
-            Size = size ?? ImageSize.square,
-        };
-
-        var (typed, notAccepted, result) = await requestContext.Server.TryElicit(imageInput, cancellationToken);
-        if (typed == null) return "Error".ToErrorCallToolResponse();
-
-        var sizeValue = typed.Size switch
-        {
-            ImageSize.square => GeneratedImageSize.W1024xH1024,
-            ImageSize.landscape => new GeneratedImageSize(1536, 1024),
-            ImageSize.portrait => new GeneratedImageSize(1024, 1536),
-            _ => GeneratedImageSize.Auto
-        };
-
-        var finalQuality = typed.Quality?.ToString();
-        var generatedQuality = string.IsNullOrEmpty(finalQuality)
-            ? GeneratedImageQuality.Auto : new GeneratedImageQuality(finalQuality);
-
-        var resultImage = await openAiClient
-           .GetImageClient(typed.Model.GetEnumMemberValue())
-            .GenerateImageEditAsync(image?.Contents.ToStream(), image?.Filename, typed.Prompt, new()
+        [Description("The image prompt.")] string prompt,
+        [Description("File url of the image that should be used for the edit. This tool can also access secured SharePoint and OneDrive links.")] string fileUrl,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Image generation model to use.")] Model model = Model.gpt_image_1_5,
+        [Description("New image file name, without extension. Defaults to autogenerated filename.")] string? filename = null,
+        [Description("Size of the image (auto, 1024x1024, 1536x1024 or 1024x1536). Defaults to auto.")] ImageSize? size = ImageSize.auto,
+        [Description("Background setting: auto (default), transparent, or opaque.")] ImageBackground? background = ImageBackground.auto,
+        [Description("Image quality: auto (default), high, medium or low.")] ImageQuality? quality = ImageQuality.auto,
+        CancellationToken cancellationToken = default) =>
+            await ModelContextToolExtensions.WithExceptionCheck(async () =>
             {
-                Size = sizeValue,
-                Background = typed.Background?.ToString(),
-                Quality = generatedQuality,
-            }, cancellationToken);
+                var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
+                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
-        var uploaded = await requestContext.Server.Upload(
-            serviceProvider,
-            $"{typed.Filename}.png",
-            resultImage.Value.ImageBytes,
-            cancellationToken);
+                var files = await downloadService.DownloadContentAsync(
+                    serviceProvider,
+                    requestContext.Server,
+                    fileUrl,
+                    cancellationToken);
 
-        return uploaded?.ToResourceLinkCallToolResponse();
-    });
+                var image = files.FirstOrDefault();
+
+                var imageInput = new OpenAINewImageEdit
+                {
+                    Prompt = prompt,
+                    Model = model,
+                    Background = background ?? ImageBackground.auto,
+                    Quality = quality ?? ImageQuality.auto,
+                    Filename = filename ?? requestContext.ToOutputFileName("png"),
+                    Size = size ?? ImageSize.square,
+                };
+
+                var typed = requestContext.Elicit(imageInput);
+
+                var sizeValue = typed.Size switch
+                {
+                    ImageSize.square => GeneratedImageSize.W1024xH1024,
+                    ImageSize.landscape => new GeneratedImageSize(1536, 1024),
+                    ImageSize.portrait => new GeneratedImageSize(1024, 1536),
+                    _ => GeneratedImageSize.Auto
+                };
+
+                var finalQuality = typed.Quality?.ToString();
+                var generatedQuality = string.IsNullOrEmpty(finalQuality)
+                    ? GeneratedImageQuality.Auto
+                    : new GeneratedImageQuality(finalQuality);
+
+                var resultImage = await openAiClient
+                    .GetImageClient(typed.Model.GetEnumMemberValue())
+                    .GenerateImageEditAsync(
+                        image?.Contents.ToStream(),
+                        image?.Filename,
+                        typed.Prompt,
+                        new()
+                        {
+                            Size = sizeValue,
+                            Background = typed.Background?.ToString(),
+                            Quality = generatedQuality,
+                        },
+                        cancellationToken);
+
+                var uploaded = await requestContext.Server.Upload(
+                    serviceProvider,
+                    $"{typed.Filename}.png",
+                    resultImage.Value.ImageBytes,
+                    cancellationToken);
+
+                return uploaded?.ToResourceLinkCallToolResponse();
+            });
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ImageBackground

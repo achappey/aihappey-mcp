@@ -49,7 +49,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicCreateAgentRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicCreateAgentRequest
                 {
                     Name = name,
                     ModelId = modelId,
@@ -106,7 +106,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicUpdateAgentRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicUpdateAgentRequest
                 {
                     AgentId = agentId,
                     Version = version,
@@ -166,7 +166,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.Server.TryElicit(new AnthropicArchiveAgentRequest
+                var (typed, _, _) = await requestContext.TryElicit(new AnthropicArchiveAgentRequest
                 {
                     AgentId = agentId,
                 }, cancellationToken);

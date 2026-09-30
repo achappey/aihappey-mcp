@@ -111,7 +111,7 @@ public static class RekaVision
             {
                 EnsurePublicUrl(videoUrl, "videoUrl");
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new RekaVisionUploadVideoInput
                     {
                         VideoUrl = videoUrl,
@@ -230,7 +230,7 @@ public static class RekaVision
             {
                 EnsurePublicUrl(imageUrl, "imageUrl");
 
-                var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+                var (typed, notAccepted, _) = await requestContext.TryElicit(
                     new RekaVisionUploadImageInput
                     {
                         ImageUrl = imageUrl,

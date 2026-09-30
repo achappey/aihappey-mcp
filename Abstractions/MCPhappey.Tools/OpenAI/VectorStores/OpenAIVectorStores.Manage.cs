@@ -47,7 +47,7 @@ public static partial class OpenAIVectorStores
                     Description = description ?? currentDescription
                 };
 
-                var (typed, notAccepted, result) = await requestContext.Server.TryElicit(input, cancellationToken);
+                var (typed, notAccepted, result) = await requestContext.TryElicit(input, cancellationToken);
 
                 // Build update options; preserve existing metadata (Owners/Visibility/etc.)
                 var newMetadata = new Dictionary<string, string>(current.Metadata);
@@ -100,7 +100,7 @@ public static partial class OpenAIVectorStores
                     UserId = ownerId
                 };
 
-                var (typed, notAccepted, result) = await requestContext.Server.TryElicit(input, cancellationToken);
+                var (typed, notAccepted, result) = await requestContext.TryElicit(input, cancellationToken);
 
                 // Build update options; preserve existing metadata (Owners/Visibility/etc.)
                 var updateOptions = new VectorStoreModificationOptions
@@ -147,7 +147,7 @@ public static partial class OpenAIVectorStores
                 Name = name
             };
 
-            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(imageInput, cancellationToken);
+            var (typed, notAccepted, result) = await requestContext.TryElicit(imageInput, cancellationToken);
 
             var options = new OAIV.VectorStoreCreationOptions()
             {

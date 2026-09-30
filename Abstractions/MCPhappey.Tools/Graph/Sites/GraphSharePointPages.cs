@@ -27,7 +27,7 @@ public static class GraphSharePointPages
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CreatePageInput
                 {
                     Title = title,
@@ -68,7 +68,7 @@ public static class GraphSharePointPages
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new UpdatePageInput
                 {
                     Title = title,
@@ -102,7 +102,7 @@ public static class GraphSharePointPages
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new TextWebPartInput { InnerHtml = innerHtml }, cancellationToken);
        
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.InnerHtml);
@@ -122,7 +122,7 @@ public static class GraphSharePointPages
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new PublishPageInput { Name = pageId }, cancellationToken);         
 
             var request = new Microsoft.Kiota.Abstractions.RequestInformation

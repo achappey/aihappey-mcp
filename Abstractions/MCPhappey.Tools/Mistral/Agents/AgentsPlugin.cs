@@ -113,7 +113,7 @@ public static partial class AgentsPlugin
         {
             var mistral = serviceProvider.GetRequiredService<MistralClient>();
 
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new CreateAgentInput
                 {
                     Name = name,

@@ -64,7 +64,7 @@ public static class InfomaniakTranscriptions
                 var downloads = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
                 var media = downloads.FirstOrDefault() ?? throw new InvalidOperationException("Failed to download media content from fileUrl.");
 
-                var (typed, _, _) = await requestContext.Server.TryElicit(
+                var (typed, _, _) = await requestContext.TryElicit(
                     new InfomaniakTranscriptionRequest
                     {
                         ProductId = resolvedProductId,

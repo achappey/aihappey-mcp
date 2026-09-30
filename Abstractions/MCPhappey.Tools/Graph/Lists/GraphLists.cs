@@ -29,7 +29,7 @@ public static class GraphLists
             await requestContext.WithOboGraphClient(async client =>
             await requestContext.WithStructuredContent<Microsoft.Graph.Beta.Models.List?>(async () =>
         {
-            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, result) = await requestContext.TryElicit(
                 new GraphNewSharePointList
                 {
                     Title = listTitle,
@@ -87,7 +87,7 @@ public static class GraphLists
                 .Lists[listId]
                 .GetAsync(cancellationToken: cancellationToken);
 
-            var (typed, notAccepted, result) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, result) = await requestContext.TryElicit(
                     new GraphNewSharePointColumn
                     {
                         DisplayName = columnDisplayName,
@@ -134,7 +134,7 @@ public static class GraphLists
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new GraphUpdateSharePointList
                 {
                     DisplayName = displayName,
@@ -194,7 +194,7 @@ public static class GraphLists
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (input, notAccepted, _) = await requestContext.TryElicit(
                 new GraphUpdateSharePointColumn
                 {
                     DisplayName = displayName,

@@ -45,7 +45,7 @@ public static class SarvamDocumentIntelligence
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.Server.TryElicit(
+            var (typed, notAccepted, _) = await requestContext.TryElicit(
                 new SarvamDocumentIntelligenceRequest
                 {
                     FileUrl = fileUrl,
