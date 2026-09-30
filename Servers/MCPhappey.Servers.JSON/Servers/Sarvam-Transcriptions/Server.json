@@ -4,12 +4,7 @@
     "title": "Sarvam Transcriptions",
     "version": "1.0.0",
     "websiteUrl": "https://www.sarvam.ai",
-    "description": "Create speech-to-text transcriptions from files with Sarvam and return structured transcription output.",
-    "icons": [
-      {
-        "src": "https://www.peakxv.com/wp-content/uploads/sites/2/2024/02/sarvam.ai-idJ9Sr0Dj7.jpeg"
-      }
-    ]
+    "description": "Create speech-to-text transcriptions from files with Sarvam and return structured transcription output."
   },
   "plugins": [
     "MCPhappey.Tools.Sarvam.SarvamTranscriptions, MCPhappey.Tools"
