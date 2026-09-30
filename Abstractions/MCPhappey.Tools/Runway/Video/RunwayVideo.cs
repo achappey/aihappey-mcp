@@ -30,14 +30,14 @@ public static class RunwayVideo
         CancellationToken ct = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await rc.TryElicit(new RunwayNewVideoRequest
+        var typed = rc.Elicit(new RunwayNewVideoRequest
         {
             PromptText = promptText ?? "",
             Model = model ?? RunwayTextToVideoModel.Veo31Fast,
             Ratio = string.IsNullOrWhiteSpace(ratio) ? "1280:720" : ratio!,
             Duration = duration,
             Seed = seed
-        }, ct);
+        });
 
         if (!typed.Duration.HasValue)
             typed.Duration = typed.Model == RunwayTextToVideoModel.Veo3 ? 8 : 6;
@@ -90,14 +90,14 @@ public static class RunwayVideo
         if (promptImages == null || !promptImages.Any())
             throw new ValidationException("At least one prompt image is required.");
 
-        var (typed, _, _) = await rc.TryElicit(new RunwayNewImageToVideo
+        var typed = rc.Elicit(new RunwayNewImageToVideo
         {
             PromptText = promptText,
             Model = model ?? RunwayImageToVideoModel.Gen4Turbo,
             Ratio = ratio ?? RunwayImageToVideoRatio.Ratio1280x720,
             Duration = duration ?? 6,
             Seed = seed
-        }, ct);
+        });
 
         if (typed.Duration < 2 || typed.Duration > 10)
             throw new ValidationException("Duration must be between 2 and 10 seconds depending on model.");
@@ -171,7 +171,7 @@ public static class RunwayVideo
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await rc.WithStructuredContent(async () =>
     {
-        var (typed, _, _) = await rc.TryElicit(new RunwayNewCharacterPerformance
+        var typed = rc.Elicit(new RunwayNewCharacterPerformance
         {
             CharacterType = string.IsNullOrWhiteSpace(characterType) ? "image" : characterType!,
             Ratio = string.IsNullOrWhiteSpace(ratio) ? "1280:720" : ratio!,
@@ -179,7 +179,7 @@ public static class RunwayVideo
             BodyControl = bodyControl ?? true,
             PublicFigureThreshold = string.IsNullOrWhiteSpace(publicFigureThreshold) ? "auto" : publicFigureThreshold!,
             Seed = seed
-        }, ct);
+        });
 
         ValidateCharacterPerformance(typed);
 
@@ -298,13 +298,13 @@ public static class RunwayVideo
         CancellationToken ct = default) =>
          await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
-        var (typed, _, _) = await rc.TryElicit(new RunwayNewVideoToVideo
+        var typed = rc.Elicit(new RunwayNewVideoToVideo
         {
             PromptText = promptText,
             Ratio = string.IsNullOrWhiteSpace(ratio) ? "1280:720" : ratio!,
             Seed = seed,
             PublicFigureThreshold = string.IsNullOrWhiteSpace(publicFigureThreshold) ? "auto" : publicFigureThreshold!,
-        }, ct);
+        });
 
         ValidateVideoToVideo(typed);
 

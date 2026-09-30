@@ -112,7 +112,7 @@ public static partial class OneDriveAgentPluginEditor
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithOboGraphClient(async graph =>
         {
-            var (typed, notAccepted, _) = await context.TryElicit(new PluginManifestInput
+            var typed = context.Elicit(new PluginManifestInput
             {
                 Name = name ?? string.Empty,
                 Version = version,
@@ -125,8 +125,8 @@ public static partial class OneDriveAgentPluginEditor
                 License = license,
                 Keywords = keywords,
                 ExtensionsJson = extensionsJson
-            }, cancellationToken);
-           
+            });
+
             ArgumentNullException.ThrowIfNull(typed);
 
             var manifest = BuildManifest(typed);
@@ -169,7 +169,7 @@ public static partial class OneDriveAgentPluginEditor
                 ?? throw new InvalidOperationException("Could not resolve default OneDrive.");
             var current = await ReadRequiredManifestAsync(graph, drive.Id!, name, cancellationToken);
             var author = current["author"] as JsonObject;
-            var (typed, notAccepted, _) = await context.TryElicit(new PluginManifestInput
+            var typed = context.Elicit(new PluginManifestInput
             {
                 Name = name,
                 Version = version ?? ReadJsonString(current, "version"),
@@ -182,8 +182,8 @@ public static partial class OneDriveAgentPluginEditor
                 License = license ?? ReadJsonString(current, "license"),
                 Keywords = keywords ?? RenderKeywords(current["keywords"] as JsonArray),
                 ExtensionsJson = extensionsJson ?? current["extensions"]?.ToJsonString(JsonOptions)
-            }, cancellationToken);
-           
+            });
+
             ArgumentNullException.ThrowIfNull(typed);
             typed.Name = name;
             var manifest = BuildManifest(typed);
@@ -207,12 +207,12 @@ public static partial class OneDriveAgentPluginEditor
         await context.WithOboGraphClient(async graph =>
         {
             var name = RequirePluginName(pluginName);
-            var (typed, notAccepted, _) = await context.TryElicit(new PluginTextFileInput
+            var typed = context.Elicit(new PluginTextFileInput
             {
                 RelativePath = relativePath ?? string.Empty,
                 Content = content ?? string.Empty
-            }, cancellationToken);
-          
+            });
+
             ArgumentNullException.ThrowIfNull(typed);
             var path = RequireEditableFilePath(typed.RelativePath);
             var drive = await graph.GetDefaultDriveAsync(cancellationToken)
@@ -236,12 +236,12 @@ public static partial class OneDriveAgentPluginEditor
         await context.WithOboGraphClient(async graph =>
         {
             var name = RequirePluginName(pluginName);
-            var (typed, notAccepted, _) = await context.TryElicit(new PluginFileImportInput
+            var typed = context.Elicit(new PluginFileImportInput
             {
                 SourceUrl = sourceUrl ?? string.Empty,
                 RelativePath = relativePath ?? string.Empty
-            }, cancellationToken);
-          
+            });
+
             ArgumentNullException.ThrowIfNull(typed);
             var path = RequireEditableFilePath(typed.RelativePath);
             var downloaded = (await services.GetRequiredService<DownloadService>()
@@ -287,12 +287,12 @@ public static partial class OneDriveAgentPluginEditor
         await context.WithOboGraphClient(async graph =>
         {
             var name = RequirePluginName(pluginName);
-            var (typed, notAccepted, _) = await context.TryElicit(new PluginMcpServerInput
+            var typed = context.Elicit(new PluginMcpServerInput
             {
                 ServerName = serverName ?? string.Empty,
                 ServerJson = serverJson ?? string.Empty
-            }, cancellationToken);
-          
+            });
+
             ArgumentNullException.ThrowIfNull(typed);
             JsonNode? node;
             try { node = JsonNode.Parse(typed.ServerJson); }

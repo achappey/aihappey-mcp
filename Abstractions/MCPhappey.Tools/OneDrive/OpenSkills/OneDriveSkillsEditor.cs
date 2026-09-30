@@ -214,7 +214,7 @@ public static class OneDriveSkillsEditor
         await context.WithOboGraphClient(async graph =>
         await context.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, _) = await context.TryElicit(
+        var typed = context.Elicit(
             new OneDriveSkillCreateInput
             {
                 Name = name ?? string.Empty,
@@ -224,8 +224,7 @@ public static class OneDriveSkillsEditor
                 Compatibility = compatibility,
                 AllowedTools = allowedTools,
                 Metadata = metadata
-            },
-            cancellationToken);
+            });
 
         ArgumentNullException.ThrowIfNull(typed);
 
@@ -273,14 +272,13 @@ public static class OneDriveSkillsEditor
         await context.WithOboGraphClient(async graph =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
-        var (typed, notAccepted, _) = await context.TryElicit(
+        var typed = context.Elicit(
             new OneDriveSkillFileUpsertInput
             {
                 RelativePath = relativePath ?? string.Empty,
                 Content = content ?? string.Empty
-            },
-            cancellationToken);
-            
+            });
+
         ArgumentNullException.ThrowIfNull(typed);
 
         var normalizedPath = OneDriveOpenSkills.NormalizeRelativePath(typed.RelativePath);
@@ -338,7 +336,7 @@ public static class OneDriveSkillsEditor
                        ?? throw new ValidationException($"Skill '{normalizedName}' is missing SKILL.md.");
 
         var parsed = SkillDocumentParser.Parse(existing, normalizedName);
-        var (typed, notAccepted, _) = await context.TryElicit(
+        var typed = context.Elicit(
             new OneDriveSkillManifestInput
             {
                 Name = normalizedName,
@@ -348,8 +346,7 @@ public static class OneDriveSkillsEditor
                 Compatibility = compatibility ?? parsed.Compatibility,
                 AllowedTools = allowedTools ?? parsed.AllowedTools,
                 Metadata = metadata ?? SkillDocumentParser.RenderMetadataLines(parsed.Metadata)
-            },
-            cancellationToken);
+            });
 
         ArgumentNullException.ThrowIfNull(typed);
         typed.Name = normalizedName;
@@ -387,13 +384,12 @@ public static class OneDriveSkillsEditor
         await context.WithStructuredContent(async () =>
     {
         var normalizedName = OneDriveOpenSkills.NormalizeSkillName(skillName);
-        var (typed, notAccepted, _) = await context.TryElicit(
+        var typed = context.Elicit(
             new OneDriveSkillImportInput
             {
                 FileUrl = fileUrl ?? string.Empty,
                 RelativePath = relativePath ?? string.Empty
-            },
-            cancellationToken);
+            });
 
         ArgumentNullException.ThrowIfNull(typed);
 
