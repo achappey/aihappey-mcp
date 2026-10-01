@@ -14,6 +14,9 @@ public class ServerConfig
     [JsonPropertyName("resources")]
     public ListResourcesResult? ResourceList { get; set; }
 
+    [JsonPropertyName("skills")]
+    public SkillSources? SkillSources { get; set; }
+
     [JsonPropertyName("resourceTemplates")]
     public ListResourceTemplatesResult? ResourceTemplateList { get; set; }
 
