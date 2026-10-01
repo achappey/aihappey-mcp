@@ -15,6 +15,9 @@ public class SqlServerDataProvider(Repositories.ServerRepository serverRepositor
         return new ServerConfig()
         {
             Server = server.ToMcpServer(defaultIcons),
+            SkillSources = new SkillSources { Skills = [.. server.Resources
+                .Where(r => r.MimeType == SkillSource.MediaType)
+                .Select(r => new SkillSource { Uri = r.Uri, MimeType = r.MimeType })] },
             SourceType = ServerSourceType.Dynamic
         };
     }
@@ -26,6 +29,9 @@ public class SqlServerDataProvider(Repositories.ServerRepository serverRepositor
         return servers.Select(a => new ServerConfig()
         {
             Server = a.ToMcpServer(defaultIcons),
+            SkillSources = new SkillSources { Skills = [.. a.Resources
+                .Where(r => r.MimeType == SkillSource.MediaType)
+                .Select(r => new SkillSource { Uri = r.Uri, MimeType = r.MimeType })] },
             SourceType = ServerSourceType.Dynamic
         });
     }

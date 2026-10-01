@@ -48,7 +48,7 @@ public static partial class ModelContextEditor
         {
             var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
             var server = await serviceProvider.GetServer(serverName, cancellationToken);
-            var (typed, notAccepted, result) = await requestContext.TryElicit(new AddMcpResource()
+            var typed = requestContext.Elicit(new AddMcpResource()
             {
                 Uri = uri,
                 Name = name.Slugify().ToLowerInvariant(),
@@ -58,7 +58,7 @@ public static partial class ModelContextEditor
                 AssistantAudience = assistantAudience,
                 UserAudience = userAudience,
                 Description = description
-            }, cancellationToken);
+            });
 
             var item = await serverRepository.AddServerResource(server.Id, typed.Uri,
                 typed.Name.Slugify().ToLowerInvariant(),
@@ -104,7 +104,7 @@ public static partial class ModelContextEditor
             var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
             var server = await serviceProvider.GetServer(serverName, cancellationToken);
             var resource = server.Resources.FirstOrDefault(a => a.Name == resourceName) ?? throw new ArgumentNullException();
-            var (typed, notAccepted, result) = await requestContext.TryElicit(new UpdateMcpResource()
+            var typed = requestContext.Elicit(new UpdateMcpResource()
             {
                 Description = newDescription ?? resource.Description,
                 Title = newTitle ?? resource.Title,
@@ -114,7 +114,7 @@ public static partial class ModelContextEditor
                 AssistantAudience = assistantAudience ?? resource.AssistantAudience,
                 UserAudience = userAudience ?? resource.UserAudience,
                 Priority = (priority ?? resource.Priority).GetPriority(1),
-            }, cancellationToken);
+            });
 
             if (!string.IsNullOrEmpty(typed?.Uri))
             {
