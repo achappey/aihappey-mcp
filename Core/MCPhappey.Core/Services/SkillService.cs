@@ -4,7 +4,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
-using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -78,9 +77,11 @@ public sealed class SkillService(SkillSourceResolver resolver)
             throw new McpProtocolException("Invalid skills cursor.", McpErrorCode.InvalidParams);
         var result = new JsonObject
         {
-            ["resultType"] = "complete", ["skills"] = new JsonArray(skills.Skip(offset).Take(50)
+            ["resultType"] = "complete",
+            ["skills"] = new JsonArray(skills.Skip(offset).Take(50)
                 .Select(s => (JsonNode?)s.Entry.DeepClone()).ToArray()),
-            ["ttlMs"] = TtlMs, ["cacheScope"] = "private"
+            ["ttlMs"] = TtlMs,
+            ["cacheScope"] = "private"
         };
         if (offset + 50 < skills.Count) result["nextCursor"] = (offset + 50).ToString();
         return result;
@@ -91,8 +92,13 @@ public sealed class SkillService(SkillSourceResolver resolver)
         if (!ValidUri(uri)) throw new McpProtocolException("Invalid skill URI.", McpErrorCode.InvalidParams);
         var skill = (await ResolveAsync(services, server, ct)).FirstOrDefault(s => s.Entry["uri"]!.GetValue<string>() == uri);
         if (skill == null) throw new McpProtocolException("Unknown skill URI.", McpErrorCode.InvalidParams);
-        return new JsonObject { ["resultType"] = "complete", ["skill"] = skill.Entry.DeepClone(),
-            ["ttlMs"] = TtlMs, ["cacheScope"] = "private" };
+        return new JsonObject
+        {
+            ["resultType"] = "complete",
+            ["skill"] = skill.Entry.DeepClone(),
+            ["ttlMs"] = TtlMs,
+            ["cacheScope"] = "private"
+        };
     }
 
     public async Task<ReadResourceResult> ReadAsync(IServiceProvider services, McpServer server, string uri, CancellationToken ct)
@@ -110,8 +116,12 @@ public sealed class SkillService(SkillSourceResolver resolver)
         }
         catch (DecoderFallbackException)
         {
-            content = new BlobResourceContents { Uri = uri, MimeType = file.MimeType,
-                Blob = file.Bytes };
+            content = new BlobResourceContents
+            {
+                Uri = uri,
+                MimeType = file.MimeType,
+                Blob = file.Bytes
+            };
         }
         return new ReadResourceResult { Contents = [content], TimeToLive = TimeSpan.FromMilliseconds(TtlMs), CacheScope = CacheScope.Private };
     }
@@ -122,11 +132,19 @@ public sealed class SkillService(SkillSourceResolver resolver)
 
     private static string Mime(string name) => Path.GetExtension(name).ToLowerInvariant() switch
     {
-        ".md" => "text/markdown", ".txt" => "text/plain", ".json" => "application/json",
-        ".yaml" or ".yml" => "application/yaml", ".py" => "text/x-python",
-        ".js" => "text/javascript", ".html" => "text/html", ".css" => "text/css",
-        ".svg" => "image/svg+xml", ".png" => "image/png", ".jpg" or ".jpeg" => "image/jpeg",
-        ".pdf" => "application/pdf", _ => "application/octet-stream"
+        ".md" => "text/markdown",
+        ".txt" => "text/plain",
+        ".json" => "application/json",
+        ".yaml" or ".yml" => "application/yaml",
+        ".py" => "text/x-python",
+        ".js" => "text/javascript",
+        ".html" => "text/html",
+        ".css" => "text/css",
+        ".svg" => "image/svg+xml",
+        ".png" => "image/png",
+        ".jpg" or ".jpeg" => "image/jpeg",
+        ".pdf" => "application/pdf",
+        _ => "application/octet-stream"
     };
 
     internal static JsonObject ParseFrontmatter(byte[] bytes)
