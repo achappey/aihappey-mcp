@@ -59,7 +59,15 @@ public static class StaticContentLoader
                 // Check for Tools.json, Prompts.json, Resources.json in the same subDir
                 var promptsFile = Path.Combine(subDir, "Prompts.json");
                 var resourcesFile = Path.Combine(subDir, "Resources.json");
+                var skillsFile = Path.Combine(subDir, "Skills.json");
                 var resourceTemplatesFile = Path.Combine(subDir, "ResourceTemplates.json");
+
+                if (File.Exists(skillsFile))
+                {
+                    serverConfig.SkillSources = JsonSerializer.Deserialize<SkillSources>(File.ReadAllText(skillsFile));
+                    if (serverConfig.SkillSources?.Skills.Any(s => s.MimeType == SkillSource.MediaType) == true)
+                        serverObj.Capabilities.Resources = new();
+                }
 
                 if (File.Exists(promptsFile))
                 {
