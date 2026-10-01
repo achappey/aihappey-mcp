@@ -144,10 +144,10 @@ public static partial class ModelContextEditor
             }
         }
 
-        var (typedResult, notAccepted, result) = await requestContext.TryElicit(new CloneMcpServer
+        var typedResult = requestContext.Elicit(new CloneMcpServer
         {
             Name = newServerName ?? string.Empty,
-        }, cancellationToken);
+        });
 
         if (typedResult == null) throw new Exception("Something went wrong");
 
@@ -354,11 +354,11 @@ public static partial class ModelContextEditor
         var userId = serviceProvider.GetUserId();
         if (userId == null) throw new Exception("No user found");
 
-       
+
         var serverExists = await serviceProvider.ServerExists(serverName, cancellationToken);
         if (serverExists) throw new Exception("Servername already in use");
 
-        var (typedResult, notAccepted, result) = await requestContext.TryElicit(new NewMcpServer()
+        var typedResult = requestContext.Elicit(new NewMcpServer()
         {
             Name = serverName,
             WebsiteUrl = string.IsNullOrEmpty(websiteUrl) ? null : new Uri(websiteUrl),
@@ -367,9 +367,9 @@ public static partial class ModelContextEditor
             Description = serverDescription,
             Instructions = instructions,
             Secured = true,
-        }, cancellationToken);
+        });
 
-      
+
         var server = await serverRepository.CreateServer(new SQL.Models.Server()
         {
             Name = typedResult.Name.Slugify(),
@@ -384,7 +384,7 @@ public static partial class ModelContextEditor
                     }]
         }, cancellationToken);
 
-       
+
         return new
         {
             server.Name,
@@ -425,7 +425,7 @@ public static partial class ModelContextEditor
             ? websiteUrl
             : server.WebsiteUrl;
 
-        var (typed, notAccepted, result) = await requestContext.TryElicit(new UpdateMcpServer()
+        var typed = requestContext.Elicit(new UpdateMcpServer()
         {
             Name = serverName,
             WebsiteUrl = string.IsNullOrEmpty(finalUrl) ? null : new Uri(finalUrl),
@@ -433,7 +433,7 @@ public static partial class ModelContextEditor
             Description = serverDescription ?? server.Description,
             Instructions = instructions ?? server.Instructions,
             Hidden = hidden ?? server.Hidden
-        }, cancellationToken);
+        });
 
         if (!string.IsNullOrEmpty(typed.Name))
         {

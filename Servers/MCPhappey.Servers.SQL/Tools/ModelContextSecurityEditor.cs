@@ -32,10 +32,10 @@ public static partial class ModelContextSecurityEditor
         using var graphClient = await serviceProvider.GetOboGraphClient(requestContext.Server);
         var user = await graphClient.Users[ownerUserId].GetAsync();
 
-        var (typed, notAccepted, _) = await requestContext.TryElicit(new McpServerOwner()
+        var typed= requestContext.Elicit(new McpServerOwner()
         {
             UserId = ownerUserId
-        }, cancellationToken);
+        });
 
         if (server.Owners.Any(a => a.Id == typed.UserId) == true)
         {
@@ -80,10 +80,10 @@ public static partial class ModelContextSecurityEditor
             throw new Exception($"User {ownerUserId} is not an owner on server {serverName}.");
         }
 
-        var (typed, notAccepted, _) = await requestContext.TryElicit(new McpServerOwner()
+        var typed = requestContext.Elicit(new McpServerOwner()
         {
             UserId = ownerUserId
-        }, cancellationToken);
+        });
 
         if (!typed.UserId.Equals(ownerUserId, StringComparison.OrdinalIgnoreCase))
         {
@@ -112,10 +112,10 @@ public static partial class ModelContextSecurityEditor
     {
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
-        var (typed, notAccepted, _) = await requestContext.TryElicit(new UpdateMcpServerSecurity()
+        var typed = requestContext.Elicit(new UpdateMcpServerSecurity()
         {
             Secured = server.Secured
-        }, cancellationToken);
+        });
 
         if (typed.Secured.HasValue)
         {
@@ -151,10 +151,10 @@ public static partial class ModelContextSecurityEditor
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
 
-        var (typed, notAccepted, _) = await requestContext.TryElicit(new McpSecurityGroup()
+        var typed = requestContext.Elicit(new McpSecurityGroup()
         {
             GroupId = securityGroupId
-        }, cancellationToken);
+        });
 
         if (server.Groups.Any(g => g.Id == typed.GroupId))
             throw new Exception($"Group {typed.GroupId} already assigned.");
@@ -186,10 +186,10 @@ public static partial class ModelContextSecurityEditor
     {
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
-        var (typed, notAccepted, _) = await requestContext.TryElicit(new McpSecurityGroup()
+        var typed = requestContext.Elicit(new McpSecurityGroup()
         {
             GroupId = securityGroupId
-        }, cancellationToken);
+        });
 
         if (!server.Groups.Any(g => g.Id == typed.GroupId))
             throw new Exception($"Group {typed.GroupId} not assigned.");

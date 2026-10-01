@@ -46,7 +46,7 @@ public static partial class ModelContextEditor
         {
             var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
             var server = await serviceProvider.GetServer(serverName, cancellationToken);
-            var (typed, notAccepted, result) = await requestContext.TryElicit(new AddMcpResourceTemplate()
+            var typed = requestContext.Elicit(new AddMcpResourceTemplate()
             {
                 UriTemplate = uriTemplate,
                 Title = title,
@@ -55,7 +55,7 @@ public static partial class ModelContextEditor
                 UserAudience = userAudience,
                 Priority = priority,
                 Description = description
-            }, cancellationToken);
+            });
 
             var usedArguments = typed.UriTemplate.ExtractPromptArguments();
 
@@ -101,7 +101,7 @@ public static partial class ModelContextEditor
         var serverRepository = serviceProvider.GetRequiredService<ServerRepository>();
         var server = await serviceProvider.GetServer(serverName, cancellationToken);
         var resource = server.ResourceTemplates.FirstOrDefault(a => a.Name == resourceTemplateName) ?? throw new ArgumentNullException();
-        var (typed, notAccepted, result) = await requestContext.TryElicit(new UpdateMcpResourceTemplate()
+        var typed = requestContext.Elicit(new UpdateMcpResourceTemplate()
         {
             Description = newDescription ?? resource.Description,
             Title = newTitle ?? resource.Title,
@@ -110,7 +110,7 @@ public static partial class ModelContextEditor
             UserAudience = userAudience ?? resource.UserAudience,
             Priority = priority ?? resource.Priority,
             UriTemplate = newUriTemplate ?? resource.TemplateUri
-        }, cancellationToken);
+        });
 
         if (!string.IsNullOrEmpty(typed.UriTemplate))
         {
