@@ -1,0 +1,9 @@
+{
+  "serverInfo": {
+    "name": "GitHub-LifeKit",
+    "title": "GitHub LifeKit",
+    "version": "1.0.0",
+    "description": "A collection of useful everyday Agent Skills sourced from GitHub for brainstorming, writing, learning, travel planning, and other common tasks."
+  },
+  "instructions": "Use the available skills when they match the user's task. Load skill instructions and supporting resources only when needed."
+}

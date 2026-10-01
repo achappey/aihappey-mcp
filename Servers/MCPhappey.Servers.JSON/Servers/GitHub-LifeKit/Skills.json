@@ -1,0 +1,16 @@
+{
+  "skills": [
+    {
+      "uri": "https://github.com/mohitagw15856/pm-claude-skills/tree/main/skills/brainstorming",
+      "mimeType": "application/vnd.agent-skill"
+    },
+    {
+      "uri": "https://github.com/richtabor/agent-skills/tree/main/skills/red-pen",
+      "mimeType": "application/vnd.agent-skill"
+    },
+    {
+      "uri": "https://github.com/trpc-group/trpc-agent-python/tree/main/examples/claude_agent_with_skills/.claude/skills/traver_helper",
+      "mimeType": "application/vnd.agent-skill"
+    }
+  ]
+}
