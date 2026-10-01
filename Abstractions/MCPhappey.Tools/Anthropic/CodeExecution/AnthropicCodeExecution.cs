@@ -22,16 +22,14 @@ public static class AnthropicCodeExecution
           RequestContext<CallToolRequestParams> requestContext,
           [Description("Optional file URLs to download and attach before running the prompt.")]
         string[]? fileUrls = null,
-          [Description("Target model (e.g. claude-haiku-4-5-20251001 or claude-sonnet-4-5-20250929).")]
-        string model = "claude-haiku-4-5-20251001",
+          [Description("Target model (e.g. claude-sonnet-5-5 or claude-opus-5-5).")]
+        string model = "claude-sonnet-5-5",
           [Description("Max tokens.")]
-        int maxTokens = 16384,
+        int maxTokens = 64000,
           [Description("Optional skills to use. Valid options are: pptx, xlsx, pdf, docx or custom skill ids")]
         string[]? skills = null,
           [Description("Optional container id.")]
         string? containerId = null,
-          [Description("Thinking budget.")]
-        int? thinkingBudget = 2048,
           CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
@@ -47,7 +45,7 @@ public static class AnthropicCodeExecution
                 var data = await downloader.ScrapeContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
                 attachedLinks.AddRange(data);
             }
-         
+
         }
 
         var messageContent = new JsonArray();
@@ -69,19 +67,14 @@ public static class AnthropicCodeExecution
             },
             ["tools"] = new JsonArray
             {
-                new JsonObject { ["type"] = "code_execution_20250825", ["name"] = "code_execution" }
+                new JsonObject { ["type"] = "code_execution_20260521", ["name"] = "code_execution" }
             }
         };
 
-        // thinking (optioneel)
-        if (thinkingBudget.HasValue)
+        request["thinking"] = new JsonObject
         {
-            request["thinking"] = new JsonObject
-            {
-                ["type"] = "enabled",
-                ["budget_tokens"] = thinkingBudget.Value
-            };
-        }
+            ["type"] = "adaptive"
+        };
 
         // container + skills (optioneel)
         if (skills?.Any() == true)
