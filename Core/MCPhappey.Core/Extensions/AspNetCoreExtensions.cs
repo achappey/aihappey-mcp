@@ -22,6 +22,7 @@ public static class AspNetCoreExtensions
         services.AddScoped<PromptService>();
         services.AddScoped<ResourceService>();
         services.AddScoped<SkillService>();
+        services.AddSingleton<SkillSnapshotCache>();
         services.AddSingleton<SkillSourceResolver>();
         services.AddSingleton<CompletionService>();
         services.AddSingleton<CpuUsageTracker>();

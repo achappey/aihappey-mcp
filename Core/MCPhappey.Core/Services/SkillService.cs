@@ -11,7 +11,7 @@ using YamlDotNet.Serialization;
 
 namespace MCPhappey.Core.Services;
 
-public sealed class SkillService(SkillSourceResolver resolver)
+public sealed class SkillService(SkillSourceResolver resolver, SkillSnapshotCache snapshots)
 {
     private const int TtlMs = 300_000;
     private static readonly UTF8Encoding Utf8 = new(false, true);
@@ -25,10 +25,16 @@ public sealed class SkillService(SkillSourceResolver resolver)
         CancellationToken ct)
     {
         var config = services.GetServerConfig(server) ?? throw new InvalidOperationException("Unknown server.");
-        return await ResolveAsync(services, config, server, ct);
+        return await snapshots.GetAsync(config, services,
+            token => ResolveUncachedAsync(services, config, server, token), ct);
     }
 
-    private async Task<IReadOnlyList<SkillSnapshot>> ResolveAsync(IServiceProvider services, ServerConfig config,
+    private Task<IReadOnlyList<SkillSnapshot>> ResolveAsync(IServiceProvider services, ServerConfig config,
+        CancellationToken ct)
+        => snapshots.GetAsync(config, services,
+            token => ResolveUncachedAsync(services, config, null, token), ct);
+
+    private async Task<IReadOnlyList<SkillSnapshot>> ResolveUncachedAsync(IServiceProvider services, ServerConfig config,
         McpServer? server, CancellationToken ct)
     {
         var result = new Dictionary<string, SkillSnapshot>(StringComparer.Ordinal);
@@ -98,7 +104,7 @@ public sealed class SkillService(SkillSourceResolver resolver)
 
     private async Task<JsonObject> ListCoreAsync(IServiceProvider services, ServerConfig config, string? cursor, CancellationToken ct)
     {
-        var skills = await ResolveAsync(services, config, null, ct);
+        var skills = await ResolveAsync(services, config, ct);
         var offset = 0;
         if (cursor != null && (!int.TryParse(cursor, out offset) || offset < 0 || offset > skills.Count))
             throw new McpProtocolException("Invalid skills cursor.", McpErrorCode.InvalidParams);
@@ -130,7 +136,7 @@ public sealed class SkillService(SkillSourceResolver resolver)
     public async Task<JsonObject> GetAsync(IServiceProvider services, ServerConfig config, string? uri, CancellationToken ct)
     {
         if (!ValidUri(uri)) throw new McpProtocolException("Invalid skill URI.", McpErrorCode.InvalidParams);
-        var skill = (await ResolveAsync(services, config, null, ct)).FirstOrDefault(s => s.Entry["uri"]!.GetValue<string>() == uri);
+        var skill = (await ResolveAsync(services, config, ct)).FirstOrDefault(s => s.Entry["uri"]!.GetValue<string>() == uri);
         if (skill == null) throw new McpProtocolException("Unknown skill URI.", McpErrorCode.InvalidParams);
         return new JsonObject { ["resultType"] = "complete", ["skill"] = skill.Entry.DeepClone(),
             ["ttlMs"] = TtlMs, ["cacheScope"] = "private" };
