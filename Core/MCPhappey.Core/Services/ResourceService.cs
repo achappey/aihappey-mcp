@@ -41,6 +41,10 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
     {
         var serverConfig = serviceProvider.GetServerConfig(mcpServer);
 
+        if (uri.StartsWith("skill://", StringComparison.OrdinalIgnoreCase))
+            return await serviceProvider.GetRequiredService<SkillService>()
+                .ReadAsync(serviceProvider, mcpServer, uri, cancellationToken);
+
         if (uri.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
         {
             var resources = await GetServerResources(serverConfig!, cancellationToken);

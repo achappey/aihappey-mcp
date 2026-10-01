@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
-    <NoWarn>KMEXP00;SKEXP0050;SKEXP0001</NoWarn>
+    <NoWarn>KMEXP00;SKEXP0050;SKEXP0001;MCPEXP002</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +24,7 @@
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.80.1-preview" />
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.80.1-alpha" />
     <PackageReference Include="ModelContextProtocol.Extensions.Tasks" Version="2.2.0" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
 	</ItemGroup>
 
 </Project>

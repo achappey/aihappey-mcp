@@ -3,6 +3,7 @@ using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Protocol;
+using ModelContextProtocol;
 
 namespace MCPhappey.Core.Extensions;
 
@@ -106,6 +107,12 @@ public static partial class ModelContextResourceExtensions
         }
         catch (Exception e)
         {
+
+            if (request.Params?.Uri?.StartsWith("skill://", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                if (e is McpProtocolException) throw;
+                throw new McpProtocolException("Unable to read skill resource.", McpErrorCode.InternalError);
+            }
 
             return new ReadResourceResult
             {

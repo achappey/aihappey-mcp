@@ -4,12 +4,13 @@ using MCPhappey.Core.Services.Tasks;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
+using System.Text.Json.Nodes;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
 namespace MCPhappey.Core.Extensions;
 
-#pragma warning disable MCPEXP001
+#pragma warning disable MCPEXP001, MCPEXP002
 public static class ModelContextProtocolExtensions
 {
     public static IMcpServerBuilder WithConfigureSessionOptions(this IMcpServerBuilder mcpBuilder,
@@ -89,8 +90,8 @@ public static class ModelContextProtocolExtensions
                                  ?? new();
                  }
 
-                 if (server.Server.Capabilities.Resources != null)
-                 {
+                  if (server.Server.Capabilities.Resources != null)
+                  {
                      opts.Handlers.ListResourcesHandler = async (request, cancellationToken) =>
                          (await server.ToListResourcesResult(request, headers, cancellationToken))?.WithIcons(finalIcons)
                              ?? new();
@@ -102,7 +103,40 @@ public static class ModelContextProtocolExtensions
                      opts.Handlers.ReadResourceHandler = async (request, cancellationToken) =>
                          await request.ToReadResourceResult(headers, cancellationToken)
                              ?? new();
-                 }
+                  }
+
+                  if (SkillService.Enabled(server))
+                  {
+                      opts.Capabilities ??= new ServerCapabilities();
+                      opts.Capabilities.Resources ??= new ResourcesCapability();
+                      opts.Capabilities.Extensions ??= new Dictionary<string, object>();
+                      opts.Capabilities.Extensions["io.modelcontextprotocol/skills"] = new JsonObject();
+                      opts.RequestHandlers ??= [];
+                      opts.RequestHandlers.Add(new McpServerRequestHandler
+                      {
+                          Method = "skills/list",
+                          Handler = async (request, token) =>
+                          {
+                              var services = ctx.RequestServices;
+                              services.WithHeaders(headers);
+                              var cursor = request.Params?["cursor"]?.GetValue<string>();
+                              return await services.GetRequiredService<SkillService>().ListAsync(services,
+                                  services.GetRequiredService<McpServer>(), cursor, token);
+                          }
+                      });
+                      opts.RequestHandlers.Add(new McpServerRequestHandler
+                      {
+                          Method = "skills/get",
+                          Handler = async (request, token) =>
+                          {
+                              var services = ctx.RequestServices;
+                              services.WithHeaders(headers);
+                              var uri = request.Params?["uri"]?.GetValue<string>();
+                              return await services.GetRequiredService<SkillService>().GetAsync(services,
+                                  services.GetRequiredService<McpServer>(), uri, token);
+                          }
+                      });
+                  }
 
                  opts.ServerInfo = server.Server.ToServerInfo();
                  opts.ServerInstructions = server.Server.Instructions;
@@ -160,5 +194,5 @@ public static class ModelContextProtocolExtensions
         });*/
     }
 }
-#pragma warning restore MCPEXP001
+#pragma warning restore MCPEXP001, MCPEXP002
 
