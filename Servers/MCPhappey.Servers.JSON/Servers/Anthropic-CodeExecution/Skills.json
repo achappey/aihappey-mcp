@@ -1,0 +1,8 @@
+{
+    "skills": [
+        {
+            "uri": "https://github.com/anthropics/skills/tree/main/skills/xlsx",
+            "mimeType": "application/vnd.agent-skill"
+        }
+    ]
+}
