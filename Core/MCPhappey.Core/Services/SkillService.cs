@@ -25,6 +25,12 @@ public sealed class SkillService(SkillSourceResolver resolver)
         CancellationToken ct)
     {
         var config = services.GetServerConfig(server) ?? throw new InvalidOperationException("Unknown server.");
+        return await ResolveAsync(services, config, server, ct);
+    }
+
+    private async Task<IReadOnlyList<SkillSnapshot>> ResolveAsync(IServiceProvider services, ServerConfig config,
+        McpServer? server, CancellationToken ct)
+    {
         var result = new Dictionary<string, SkillSnapshot>(StringComparer.Ordinal);
         foreach (var source in config.SkillSources?.Skills.Where(s => s.MimeType == SkillSource.MediaType) ?? [])
         {
@@ -87,6 +93,26 @@ public sealed class SkillService(SkillSourceResolver resolver)
         return result;
     }
 
+    public Task<JsonObject> ListAsync(IServiceProvider services, ServerConfig config, string? cursor, CancellationToken ct)
+        => ListCoreAsync(services, config, cursor, ct);
+
+    private async Task<JsonObject> ListCoreAsync(IServiceProvider services, ServerConfig config, string? cursor, CancellationToken ct)
+    {
+        var skills = await ResolveAsync(services, config, null, ct);
+        var offset = 0;
+        if (cursor != null && (!int.TryParse(cursor, out offset) || offset < 0 || offset > skills.Count))
+            throw new McpProtocolException("Invalid skills cursor.", McpErrorCode.InvalidParams);
+        var result = new JsonObject
+        {
+            ["resultType"] = "complete",
+            ["skills"] = new JsonArray(skills.Skip(offset).Take(50).Select(s => (JsonNode?)s.Entry.DeepClone()).ToArray()),
+            ["ttlMs"] = TtlMs,
+            ["cacheScope"] = "private"
+        };
+        if (offset + 50 < skills.Count) result["nextCursor"] = (offset + 50).ToString();
+        return result;
+    }
+
     public async Task<JsonObject> GetAsync(IServiceProvider services, McpServer server, string? uri, CancellationToken ct)
     {
         if (!ValidUri(uri)) throw new McpProtocolException("Invalid skill URI.", McpErrorCode.InvalidParams);
@@ -99,6 +125,15 @@ public sealed class SkillService(SkillSourceResolver resolver)
             ["ttlMs"] = TtlMs,
             ["cacheScope"] = "private"
         };
+    }
+
+    public async Task<JsonObject> GetAsync(IServiceProvider services, ServerConfig config, string? uri, CancellationToken ct)
+    {
+        if (!ValidUri(uri)) throw new McpProtocolException("Invalid skill URI.", McpErrorCode.InvalidParams);
+        var skill = (await ResolveAsync(services, config, null, ct)).FirstOrDefault(s => s.Entry["uri"]!.GetValue<string>() == uri);
+        if (skill == null) throw new McpProtocolException("Unknown skill URI.", McpErrorCode.InvalidParams);
+        return new JsonObject { ["resultType"] = "complete", ["skill"] = skill.Entry.DeepClone(),
+            ["ttlMs"] = TtlMs, ["cacheScope"] = "private" };
     }
 
     public async Task<ReadResourceResult> ReadAsync(IServiceProvider services, McpServer server, string uri, CancellationToken ct)

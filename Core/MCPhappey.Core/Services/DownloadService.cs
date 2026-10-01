@@ -65,23 +65,24 @@ public partial class DownloadService(WebScraper webScraper,
         ModelContextProtocol.Server.McpServer mcpServer,
         string url,
         CancellationToken cancellationToken = default)
-    {
-        Uri uri = new(url);
-        var serverConfig = serviceProvider.GetServerConfig(mcpServer)
-            ?? throw new Exception();
+        => await DownloadContentAsync(serviceProvider,
+            serviceProvider.GetServerConfig(mcpServer) ?? throw new InvalidOperationException("Unknown server."),
+            mcpServer, url, cancellationToken);
 
+    public async Task<IEnumerable<FileItem>> DownloadContentAsync(IServiceProvider serviceProvider,
+        ServerConfig serverConfig,
+        ModelContextProtocol.Server.McpServer? mcpServer,
+        string url,
+        CancellationToken cancellationToken = default)
+    {
         var supportedScrapers = scrapers
             .Where(a => a.SupportsHost(serverConfig, url));
 
         IEnumerable<FileItem>? fileContent = null;
 
-        var domain = new Uri(url).Host; // e.g., "example.com"
-        var markdown = $"GET [{domain}]({url})";
-
-     
         foreach (var decoder in supportedScrapers)
         {
-            fileContent = await decoder.GetContentAsync(mcpServer, serviceProvider, url, cancellationToken);
+            fileContent = await decoder.GetContentAsync(mcpServer!, serviceProvider, url, cancellationToken);
 
             if (fileContent != null)
             {

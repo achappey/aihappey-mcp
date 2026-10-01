@@ -13,7 +13,7 @@ public sealed class SkillSourceResolver(DownloadService downloader, IEnumerable<
     private const int MaxBytes = 16 * 1024 * 1024;
     private const int MaxFiles = 512;
 
-    public async Task<IReadOnlyDictionary<string, byte[]>> ResolveAsync(IServiceProvider services, McpServer server,
+    public async Task<IReadOnlyDictionary<string, byte[]>> ResolveAsync(IServiceProvider services, McpServer? server,
         ServerConfig config, string source, CancellationToken ct)
     {
         if (!Uri.TryCreate(source, UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps)
@@ -26,7 +26,7 @@ public sealed class SkillSourceResolver(DownloadService downloader, IEnumerable<
         if (uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase) && uri.AbsolutePath.Contains("/tree/", StringComparison.Ordinal))
             return await ResolveGitHubAsync(source, uri, ct);
 
-        var downloaded = (await downloader.DownloadContentAsync(services, server, source, ct)).ToList();
+        var downloaded = (await downloader.DownloadContentAsync(services, config, server, source, ct)).ToList();
         if (downloaded.Count != 1 || downloaded[0].Contents.Length > MaxBytes * 4L)
             throw new InvalidOperationException("Skill source must resolve to one bounded ZIP file.");
         return ReadZip(downloaded[0].Contents.ToArray());

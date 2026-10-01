@@ -7,6 +7,6 @@ public interface IContentDirectoryScraper
 {
     bool SupportsDirectory(ServerConfig serverConfig, string url);
 
-    Task<IReadOnlyDictionary<string, byte[]>> GetDirectoryAsync(McpServer server,
+    Task<IReadOnlyDictionary<string, byte[]>> GetDirectoryAsync(McpServer? server,
         IServiceProvider services, string url, CancellationToken cancellationToken);
 }

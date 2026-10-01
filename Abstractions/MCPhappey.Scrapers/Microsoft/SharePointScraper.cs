@@ -14,7 +14,7 @@ public class SharePointScraper(IHttpClientFactory httpClientFactory, ServerConfi
     public bool SupportsDirectory(ServerConfig currentConfig, string url)
         => SupportsHost(currentConfig, url);
 
-    public async Task<IReadOnlyDictionary<string, byte[]>> GetDirectoryAsync(McpServer mcpServer,
+    public async Task<IReadOnlyDictionary<string, byte[]>> GetDirectoryAsync(McpServer? mcpServer,
         IServiceProvider serviceProvider, string url, CancellationToken cancellationToken)
     {
         var bearer = serviceProvider.GetService<HeaderProvider>()?.Bearer;

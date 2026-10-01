@@ -121,7 +121,7 @@ public static class ModelContextProtocolExtensions
                               services.WithHeaders(headers);
                               var cursor = request.Params?["cursor"]?.GetValue<string>();
                               return await services.GetRequiredService<SkillService>().ListAsync(services,
-                                  services.GetRequiredService<McpServer>(), cursor, token);
+                                  server, cursor, token);
                           }
                       });
                       opts.RequestHandlers.Add(new McpServerRequestHandler
@@ -133,7 +133,7 @@ public static class ModelContextProtocolExtensions
                               services.WithHeaders(headers);
                               var uri = request.Params?["uri"]?.GetValue<string>();
                               return await services.GetRequiredService<SkillService>().GetAsync(services,
-                                  services.GetRequiredService<McpServer>(), uri, token);
+                                  server, uri, token);
                           }
                       });
                   }
