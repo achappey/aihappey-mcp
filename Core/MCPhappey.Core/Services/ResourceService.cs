@@ -37,13 +37,15 @@ public class ResourceService(DownloadService downloadService, IServerDataProvide
         string uri,
         string? cursor = null,
         int? limit = 100,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        ServerConfig? sessionConfig = null)
     {
-        var serverConfig = serviceProvider.GetServerConfig(mcpServer);
+        var serverConfig = sessionConfig ?? serviceProvider.GetServerConfig(mcpServer);
 
         if (uri.StartsWith("skill://", StringComparison.OrdinalIgnoreCase))
             return await serviceProvider.GetRequiredService<SkillService>()
-                .ReadAsync(serviceProvider, mcpServer, uri, cancellationToken);
+                .ReadAsync(serviceProvider, serverConfig
+                    ?? throw new InvalidOperationException("Unknown server."), uri, cancellationToken);
 
         if (uri.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
         {

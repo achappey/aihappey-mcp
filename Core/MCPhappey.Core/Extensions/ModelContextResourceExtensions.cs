@@ -58,7 +58,8 @@ public static partial class ModelContextResourceExtensions
     public static async Task<ReadResourceResult?> ToReadResourceResult(
         this ModelContextProtocol.Server.RequestContext<ReadResourceRequestParams> request,
         Dictionary<string, string>? headers = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        ServerConfig? sessionConfig = null)
     {
 
 
@@ -99,7 +100,8 @@ public static partial class ModelContextResourceExtensions
                 request.Params?.Uri!,
                 cursor: cursor,
                 limit: limit,
-                cancellationToken: cancellationToken);
+                cancellationToken: cancellationToken,
+                sessionConfig: sessionConfig);
 
             var endTime = DateTime.UtcNow;
 

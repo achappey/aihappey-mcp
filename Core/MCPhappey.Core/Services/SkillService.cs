@@ -144,8 +144,14 @@ public sealed class SkillService(SkillSourceResolver resolver, SkillSnapshotCach
 
     public async Task<ReadResourceResult> ReadAsync(IServiceProvider services, McpServer server, string uri, CancellationToken ct)
     {
+        var config = services.GetServerConfig(server) ?? throw new InvalidOperationException("Unknown server.");
+        return await ReadAsync(services, config, uri, ct);
+    }
+
+    public async Task<ReadResourceResult> ReadAsync(IServiceProvider services, ServerConfig config, string uri, CancellationToken ct)
+    {
         if (!ValidUri(uri)) throw new McpProtocolException("Invalid skill resource URI.", McpErrorCode.InvalidParams);
-        var file = (await ResolveAsync(services, server, ct)).SelectMany(s => s.Files.Values)
+        var file = (await ResolveAsync(services, config, ct)).SelectMany(s => s.Files.Values)
             .FirstOrDefault(f => f.Uri == uri);
         if (file == null) throw new McpProtocolException("Unknown skill file.", McpErrorCode.InvalidParams);
         ResourceContents content;

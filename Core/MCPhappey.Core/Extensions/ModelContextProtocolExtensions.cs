@@ -100,9 +100,9 @@ public static class ModelContextProtocolExtensions
                          (await server.ToListResourceTemplatesResult(request, headers, cancellationToken))?.WithIcons(finalIcons)
                              ?? new();
 
-                     opts.Handlers.ReadResourceHandler = async (request, cancellationToken) =>
-                         await request.ToReadResourceResult(headers, cancellationToken)
-                             ?? new();
+                      opts.Handlers.ReadResourceHandler = async (request, cancellationToken) =>
+                          await request.ToReadResourceResult(headers, cancellationToken, server)
+                              ?? new();
                   }
 
                   if (SkillService.Enabled(server))
