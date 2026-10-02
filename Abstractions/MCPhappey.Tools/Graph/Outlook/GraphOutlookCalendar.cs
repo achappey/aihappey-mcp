@@ -22,8 +22,8 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphCalendarGroupInput { Name = name }, cancellationToken);
+            var typed = requestContext.Elicit(
+                new GraphCalendarGroupInput { Name = name });
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Name);
 
@@ -44,8 +44,8 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphCalendarGroupInput { Name = name }, cancellationToken);
+            var typed = requestContext.Elicit(
+                new GraphCalendarGroupInput { Name = name });
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Name);
 
@@ -83,8 +83,8 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphCalendarInput { Name = name, HexColor = hexColor }, cancellationToken);
+            var typed = requestContext.Elicit(
+                new GraphCalendarInput { Name = name, HexColor = hexColor });
 
             ValidateCalendarInput(typed);
             return await client.Me.Calendars.PostAsync(
@@ -113,9 +113,9 @@ public static partial class GraphOutlookCalendar
             if (name is null && hexColor is null)
                 throw new ValidationException("A calendar name or hexadecimal color must be provided.");
 
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphCalendarUpdate { Name = name, HexColor = hexColor }, cancellationToken);
-       
+            var typed = requestContext.Elicit(
+                new GraphCalendarUpdate { Name = name, HexColor = hexColor });
+
             if (typed?.Name is not null)
                 ArgumentException.ThrowIfNullOrWhiteSpace(typed.Name);
 
@@ -163,7 +163,7 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.TryElicit(
+        var typed = requestContext.Elicit(
             new GraphCreateCalendarEvent
             {
                 Subject = subject ?? string.Empty,
@@ -174,40 +174,59 @@ public static partial class GraphOutlookCalendar
                 TimeZone = timeZone,
                 Location = location,
                 Attendees = attendees
-            },
-            cancellationToken
+            }
+
         );
 
         var newEvent = new Event
         {
             Subject = typed.Subject,
-            Body = new ItemBody
-            {
-                ContentType = typed.BodyType ?? BodyType.Text,
-                Content = typed.Body
-            },
             Start = new DateTimeTimeZone
             {
                 DateTime = typed.StartDateTime,
-                TimeZone = typed.TimeZone ?? "UTC"
+                TimeZone = string.IsNullOrWhiteSpace(typed.TimeZone)
+             ? "UTC"
+             : typed.TimeZone
             },
             End = new DateTimeTimeZone
             {
                 DateTime = typed.EndDateTime,
-                TimeZone = typed.TimeZone ?? "UTC"
-            },
-            Location = new Location
+                TimeZone = string.IsNullOrWhiteSpace(typed.TimeZone)
+             ? "UTC"
+             : typed.TimeZone
+            }
+        };
+
+        if (!string.IsNullOrWhiteSpace(typed.Body))
+        {
+            newEvent.Body = new ItemBody
+            {
+                ContentType = typed.BodyType ?? BodyType.Text,
+                Content = typed.Body
+            };
+        }
+
+        if (!string.IsNullOrWhiteSpace(typed.Location))
+        {
+            newEvent.Location = new Location
             {
                 DisplayName = typed.Location
-            },
-            Attendees = string.IsNullOrWhiteSpace(typed.Attendees) ? null :
-                [.. typed.Attendees.Split(',')
-                    .Select(a => new Attendee
-                    {
-                        EmailAddress = a.ToEmailAddress(),
-                        Type = AttendeeType.Required
-                    })]
-        };
+            };
+        }
+
+        if (!string.IsNullOrWhiteSpace(typed.Attendees))
+        {
+            newEvent.Attendees =
+            [
+                .. typed.Attendees
+            .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(a => new Attendee
+            {
+                EmailAddress = a.ToEmailAddress(),
+                Type = AttendeeType.Required
+            })
+            ];
+        }
 
         return await client.Me.Events.PostAsync(newEvent, cancellationToken: cancellationToken);
     }));
@@ -236,7 +255,7 @@ public static partial class GraphOutlookCalendar
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
+            var typed = requestContext.Elicit(
                 new GraphUpdateCalendarEvent
                 {
                     Subject = subject,
@@ -247,25 +266,60 @@ public static partial class GraphOutlookCalendar
                     TimeZone = timeZone,
                     Location = location,
                     Attendees = attendees
-                }, cancellationToken);
+                });
 
             var update = new Event
             {
-                Subject = typed?.Subject,
-                Body = typed?.Body is not null || typed?.BodyType is not null
-                    ? new ItemBody { Content = typed?.Body, ContentType = typed?.BodyType }
-                    : null,
-                Start = typed?.StartDateTime is not null
-                    ? new DateTimeTimeZone { DateTime = typed.StartDateTime, TimeZone = typed.TimeZone ?? "UTC" }
-                    : null,
-                End = typed?.EndDateTime is not null
-                    ? new DateTimeTimeZone { DateTime = typed.EndDateTime, TimeZone = typed.TimeZone ?? "UTC" }
-                    : null,
-                Location = typed?.Location is not null ? new Location { DisplayName = typed.Location } : null,
-                Attendees = typed?.Attendees is not null
-                    ? [.. typed.Attendees.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                        .Select(address => new Attendee { EmailAddress = address.ToEmailAddress(), Type = AttendeeType.Required })]
-                    : null
+                Subject = string.IsNullOrWhiteSpace(typed?.Subject)
+          ? null
+          : typed.Subject,
+
+                Body = string.IsNullOrWhiteSpace(typed?.Body)
+          ? null
+          : new ItemBody
+          {
+              Content = typed.Body,
+              ContentType = typed.BodyType ?? BodyType.Text
+          },
+
+                Start = string.IsNullOrWhiteSpace(typed?.StartDateTime)
+          ? null
+          : new DateTimeTimeZone
+          {
+              DateTime = typed.StartDateTime,
+              TimeZone = string.IsNullOrWhiteSpace(typed.TimeZone)
+                  ? "UTC"
+                  : typed.TimeZone
+          },
+
+                End = string.IsNullOrWhiteSpace(typed?.EndDateTime)
+          ? null
+          : new DateTimeTimeZone
+          {
+              DateTime = typed.EndDateTime,
+              TimeZone = string.IsNullOrWhiteSpace(typed.TimeZone)
+                  ? "UTC"
+                  : typed.TimeZone
+          },
+
+                Location = string.IsNullOrWhiteSpace(typed?.Location)
+          ? null
+          : new Location
+          {
+              DisplayName = typed.Location
+          },
+
+                Attendees = string.IsNullOrWhiteSpace(typed?.Attendees)
+          ? null
+          : [
+              .. typed.Attendees
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(address => new Attendee
+                {
+                    EmailAddress = address.ToEmailAddress(),
+                    Type = AttendeeType.Required
+                })
+          ]
             };
 
             return await client.Me.Events[eventId].PatchAsync(update, cancellationToken: cancellationToken);
