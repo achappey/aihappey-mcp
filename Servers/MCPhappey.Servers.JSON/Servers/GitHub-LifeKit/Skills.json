@@ -3,10 +3,6 @@
     {
       "uri": "https://github.com/mohitagw15856/pm-claude-skills/tree/main/skills/brainstorming",
       "mimeType": "application/vnd.agent-skill"
-    },
-    {
-      "uri": "https://github.com/richtabor/agent-skills/tree/main/skills/red-pen",
-      "mimeType": "application/vnd.agent-skill"
     }
   ]
 }
