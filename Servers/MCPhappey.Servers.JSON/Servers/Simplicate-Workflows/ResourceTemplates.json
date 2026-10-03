@@ -1,0 +1,60 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/workflows/workflow?offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "workflows-list",
+      "title": "Workflows",
+      "description": "Haal workflows op met paginering en sortering. Zonder limit is de standaard 5. Laat ongebruikte queryparameters weg. Bevat de huidige taak, beschikbare acties, gekoppelde items, bijlagen en opmerkingen.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/workflows/workflow/{workflowId}",
+      "name": "workflow-details",
+      "title": "Workflow details",
+      "description": "Haal één workflow op met de volledige workflow-ID uit de API. Lees actions[].id voor het uitvoeren van een actie; dit is geen taak-ID.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/workflows/defaultworkflow",
+      "name": "workflow-templates",
+      "title": "Workflow sjablonen",
+      "description": "Haal beschikbare workflow-sjablonen op via het lookup-endpoint waarnaar de aanmaak-API verwijst. Gebruik de geretourneerde ID als defaultworkflow_id. Het sjabloon bepaalt onder andere of bijlagen zijn toegestaan en wie de eerste taak ontvangt.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/workflows/defaulttask?offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "workflow-default-tasks",
+      "title": "Workflow standaardtaken",
+      "description": "Haal standaardtaken op met paginering en sortering. Bevat instellingen voor ontvangers, overdracht, e-mail en terugsturen naar de afzender. Laat ongebruikte queryparameters weg; standaard limit is 5.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/workflows/defaultaction?offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "workflow-default-actions",
+      "title": "Workflow standaardacties",
+      "description": "Haal standaardacties op met paginering en sortering. Bij het uitvoeren van een actie zijn alleen de acties uit actions[] van de huidige workflow geldig. Laat ongebruikte queryparameters weg; standaard limit is 5.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/workflows/defaultaction/{actionId}",
+      "name": "workflow-default-action-details",
+      "title": "Workflow standaardactie details",
+      "description": "Haal één standaardactie op met de volledige actie-ID uit de API. Bevat de reactievereiste, huidige taak en vervolgtaak.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/workflows/defaultworkflowgroup?offset={offset}&limit={limit}&sort={sortColumn}",
+      "name": "workflow-template-groups",
+      "title": "Workflow sjabloongroepen",
+      "description": "Haal workflow-sjabloongroepen op met naam en blokkeerstatus. Ondersteunt paginering en sortering. Laat ongebruikte queryparameters weg; standaard limit is 5.",
+      "mimeType": "application/json",
+      "annotations": { "audience": ["assistant"] }
+    }
+  ]
+}

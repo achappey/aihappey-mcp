@@ -1,0 +1,25 @@
+{
+  "serverInfo": {
+    "name": "Simplicate-Workflows",
+    "title": "Simplicate Workflows",
+    "version": "1.0.0",
+    "description": "Simplicate workflows: workflows, taken, acties en sjablonen raadplegen; workflows aanmaken, wijzigen, doorzetten, overdragen en verwijderen.",
+    "icons": [
+      {
+        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWGdg3hr4xyPCkWxFycuGyjETGKRBbXFlqTw&s"
+      }
+    ]
+  },
+  "instructions": "Read workflows and their lookup tables through resources/resource templates, not tools. Use the configured Simplicate organization and complete IDs returned by the API; never supply display names or add an assumed ID prefix. Lists default to only 5 results; paginate with limit and offset. Read /workflows/defaultworkflow before creating a workflow. The destination employee must be an active, unblocked user; a fixed first-task destination configured on the template takes precedence. Read the current workflow before executing an action: use actions[].id (a defaultaction ID), NOT a task ID. Supply a reaction when is_response_required is true. The optional next employee is subject to the destination task's settings. Transfer only when current_task.can_be_transferred allows it. Deadlines use yyyy-MM-dd, must not be before today, and deadline_step must not exceed deadline_workflow. Omitted update fields are preserved. Tools use primitive inputs and review/confirmation forms when supported; otherwise they execute directly. Attachment/comment mutations, bulk collection editing, template/task/action configuration mutations, and document uploads are not supported. Attachments and comments can still be read from workflow resources.",
+  "headers": {
+    "Authentication-Key": "Simplicate Api Key",
+    "Authentication-Secret": "Simplicate Api Secret"
+  },
+  "plugins": [
+    "MCPhappey.Simplicate.Workflows.SimplicateWorkflows, MCPhappey.Simplicate",
+    "MCPhappey.Simplicate.SimplicateCurrentUser, MCPhappey.Simplicate"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read"
+  }
+}
