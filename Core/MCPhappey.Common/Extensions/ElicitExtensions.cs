@@ -35,10 +35,7 @@ public static class ElicitExtensions
                 elicitResult: (ElicitResult?)result));
         }
 
-        var clientCapabilities = GetClientCapabilities(requestContext);
-
-        if (!requestContext.Server.IsMrtrSupported ||
-            clientCapabilities?.Elicitation?.Form is null)
+        if (!requestContext.SupportsFormElicitation())
         {
             var values = fallbackValues?
                 .Where(item => item.Value is not null)
@@ -61,6 +58,11 @@ public static class ElicitExtensions
             },
             requestState: $"elicit:{inputKey}");
     }
+
+    public static bool SupportsFormElicitation(
+        this RequestContext<CallToolRequestParams> requestContext)
+        => requestContext.Server.IsMrtrSupported &&
+            GetClientCapabilities(requestContext)?.Elicitation?.Form is not null;
 
     private static ClientCapabilities? GetClientCapabilities(
     this RequestContext<CallToolRequestParams> requestContext)
@@ -99,10 +101,7 @@ public static class ElicitExtensions
                 ?? throw new InvalidOperationException("Elicitation result type cast failed.");
         }
 
-        var clientCapabilities = GetClientCapabilities(requestContext);
-
-        if (!requestContext.Server.IsMrtrSupported ||
-            clientCapabilities?.Elicitation?.Form is null)
+        if (!requestContext.SupportsFormElicitation())
         {
             return fallbackValue;
         }

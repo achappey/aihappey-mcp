@@ -315,8 +315,7 @@ public static class ElicitFormExtensions
     {
         ct.ThrowIfCancellationRequested();
 
-        if (!ctx.Server.IsMrtrSupported
-            || ctx.Server.ClientCapabilities?.Elicitation is null)
+        if (!ctx.SupportsFormElicitation())
         {
             await deleteAction(ct);
             return successText.ToTextCallToolResponse();
