@@ -318,7 +318,7 @@ public static partial class GraphOutlookDelegatedMail
          Subject = subject,
          Body = body,
          BodyType = bodyType ?? BodyType.Text,
-         EmailSignatureUrl = emailSignatureUrl
+         EmailSignatureUrl = emailSignatureUrl is null ? null : new Uri(emailSignatureUrl)
      });
 
         var resolvedBody = await GraphOutlookMail.BuildBodyWithOptionalSignatureAsync(
@@ -380,7 +380,7 @@ public static partial class GraphOutlookDelegatedMail
          Subject = subject,
          Body = body,
          BodyType = bodyType ?? BodyType.Text,
-         EmailSignatureUrl = emailSignatureUrl
+         EmailSignatureUrl = emailSignatureUrl is null ? null : new Uri(emailSignatureUrl)
      });
 
         var resolvedBody = await GraphOutlookMail.BuildBodyWithOptionalSignatureAsync(
