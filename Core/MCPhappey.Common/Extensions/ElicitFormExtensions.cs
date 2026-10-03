@@ -195,7 +195,10 @@ public static class ElicitFormExtensions
             {
                 Title = title,
                 Description = desc,
-                Default = defaultValue,
+                // The protocol schema uses double?, while DTO defaults can be decimal.
+                Default = defaultValue is null
+                    ? (double?)null
+                    : Convert.ToDouble((object)defaultValue, System.Globalization.CultureInfo.InvariantCulture),
                 Minimum = prop.GetRange().min,
                 Maximum = prop.GetRange().max
             },
