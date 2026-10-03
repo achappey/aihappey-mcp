@@ -33,7 +33,7 @@ public static class GraphOutlookAutomaticReplies
             if (status == AutomaticRepliesStatus.Disabled)
                 throw new ValidationException("Use graph_outlook_automatic_replies_disable to disable automatic replies.");
 
-            var (input, notAccepted, _) = await requestContext.TryElicit(
+            var input = requestContext.Elicit(
                 new AutomaticRepliesInput
                 {
                     Status = status,
@@ -43,7 +43,7 @@ public static class GraphOutlookAutomaticReplies
                     ScheduledStartDateTime = scheduledStartDateTime,
                     ScheduledEndDateTime = scheduledEndDateTime,
                     TimeZone = timeZone
-                }, cancellationToken);
+                });
 
 
             Validate(input);
@@ -78,8 +78,8 @@ public static class GraphOutlookAutomaticReplies
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, notAccepted, _) = await requestContext.TryElicit(
-                new DisableAutomaticRepliesInput(), cancellationToken);
+            var input = requestContext.Elicit(
+                new DisableAutomaticRepliesInput());
 
             return await client.Me.MailboxSettings.PatchAsync(
                 new MailboxSettings
