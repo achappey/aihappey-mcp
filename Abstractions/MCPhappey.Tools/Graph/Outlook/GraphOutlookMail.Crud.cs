@@ -33,9 +33,9 @@ public static partial class GraphOutlookMail
             if (isRead is null && importance is null)
                 throw new ValidationException("isRead or importance must be provided.");
 
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphMessageStateInput { IsRead = isRead, Importance = importance }, cancellationToken);
-           
+            var typed = requestContext.Elicit(
+                new GraphMessageStateInput { IsRead = isRead, Importance = importance });
+
             if (typed?.IsRead is null && typed?.Importance is null)
                 throw new ValidationException("isRead or importance must be provided.");
 
@@ -58,9 +58,9 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphCopyMessageInput { DestinationFolderId = destinationFolderId }, cancellationToken);
-           
+            var typed = requestContext.Elicit(
+                new GraphCopyMessageInput { DestinationFolderId = destinationFolderId });
+
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DestinationFolderId);
 
             return await client.Me.Messages[messageId].Copy.PostAsync(new CopyPostRequestBody
@@ -81,9 +81,9 @@ public static partial class GraphOutlookMail
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async client =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphForwardMessageInput { Recipients = recipients, Comment = comment }, cancellationToken);
-        
+            var typed = requestContext.Elicit(
+                new GraphForwardMessageInput { Recipients = recipients, Comment = comment });
+
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.Recipients);
 
             await client.Me.Messages[messageId].Forward.PostAsync(new ForwardPostRequestBody
@@ -114,12 +114,12 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
+            var typed = requestContext.Elicit(
                 new GraphMailFolderInput
                 {
                     DisplayName = displayName,
                     ParentFolderId = parentFolderId
-                }, cancellationToken);          
+                });
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DisplayName);
             var folder = new MailFolder { DisplayName = typed.DisplayName.Trim() };
@@ -147,10 +147,10 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
-                new GraphMailFolderInput { DisplayName = displayName }, cancellationToken);
+            var typed = requestContext.Elicit(
+                new GraphMailFolderInput { DisplayName = displayName });
 
-         
+
 
             ArgumentException.ThrowIfNullOrWhiteSpace(typed?.DisplayName);
             return await client.Me.MailFolders[folderId].PatchAsync(
@@ -228,7 +228,7 @@ public static partial class GraphOutlookMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
+            var typed = requestContext.Elicit(
                 new GraphUpdateMailDraft
                 {
                     ToRecipients = toRecipients,
@@ -237,8 +237,8 @@ public static partial class GraphOutlookMail
                     Body = body,
                     BodyType = bodyType,
                     Importance = importance
-                }, cancellationToken);
-           
+                });
+
 
             var update = new Message
             {
@@ -307,12 +307,12 @@ public static partial class GraphOutlookMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
+            var typed = requestContext.Elicit(
                 new GraphSendMailDraft
                 {
                     DraftId = draftId,
                     Subject = current.Subject
-                }, cancellationToken);
+                });
 
             if (typed?.DraftId != draftId)
                 throw new ValidationException("The confirmed draft ID does not match the requested draft ID.");
@@ -344,12 +344,12 @@ public static partial class GraphOutlookMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (input, notAccepted, _) = await requestContext.TryElicit(
+            var input = requestContext.Elicit(
                 new GraphAddDraftAttachment
                 {
                     FileUrl = fileUrl,
                     Filename = filename
-                }, cancellationToken);
+                });
 
             ArgumentException.ThrowIfNullOrWhiteSpace(input.FileUrl);
 

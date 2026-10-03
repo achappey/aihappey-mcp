@@ -25,9 +25,9 @@ public static class GraphOutlookMasterCategories
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.TryElicit(
-                new MasterCategoryInput { DisplayName = displayName, Color = color }, cancellationToken);
-            ThrowIfRejected(input, rejected);
+            var input = requestContext.Elicit(
+                new MasterCategoryInput { DisplayName = displayName, Color = color });
+           
             ArgumentException.ThrowIfNullOrWhiteSpace(input!.DisplayName);
             return await client.Me.Outlook.MasterCategories.PostAsync(new OutlookCategory
             {
@@ -52,9 +52,9 @@ public static class GraphOutlookMasterCategories
         {
             if (displayName is null && color is null)
                 throw new ValidationException("A displayName or color is required.");
-            var (input, rejected, _) = await requestContext.TryElicit(
-                new MasterCategoryPatchInput { DisplayName = displayName, Color = color }, cancellationToken);
-            ThrowIfRejected(input, rejected);
+            var input = requestContext.Elicit(
+                new MasterCategoryPatchInput { DisplayName = displayName, Color = color });
+           
             if (input!.DisplayName is not null) ArgumentException.ThrowIfNullOrWhiteSpace(input.DisplayName);
             return await client.Me.Outlook.MasterCategories[categoryId].PatchAsync(new OutlookCategory
             {
@@ -75,11 +75,6 @@ public static class GraphOutlookMasterCategories
         await requestContext.ConfirmAndDeleteAsync<DeleteMasterCategoryInput>(categoryId,
             async _ => await client.Me.Outlook.MasterCategories[categoryId].DeleteAsync(cancellationToken: cancellationToken),
             "Outlook master category deleted.", cancellationToken)));
-
-    private static void ThrowIfRejected(object? input, object? rejected)
-    {
-        if (input is null || rejected is not null) throw new Exception(JsonSerializer.Serialize(rejected));
-    }
 
     [Description("Review the Outlook master category fields.")]
     public sealed class MasterCategoryInput

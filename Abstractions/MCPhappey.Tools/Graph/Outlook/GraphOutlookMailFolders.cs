@@ -25,9 +25,9 @@ public static class GraphOutlookMailFolders
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-            var (input, rejected, _) = await requestContext.TryElicit(
-                new MailFolderInput { DisplayName = displayName, IsHidden = isHidden }, cancellationToken);
-            ThrowIfRejected(input, rejected);
+            var input = requestContext.Elicit(
+                new MailFolderInput { DisplayName = displayName, IsHidden = isHidden });
+
             ArgumentException.ThrowIfNullOrWhiteSpace(input!.DisplayName);
             var folder = new MailFolder { DisplayName = input.DisplayName.Trim(), IsHidden = input.IsHidden };
             return string.IsNullOrWhiteSpace(parentFolderId)
@@ -50,7 +50,7 @@ public static class GraphOutlookMailFolders
         {
             var (input, rejected, _) = await requestContext.TryElicit(
                 new MailFolderPatchInput { DisplayName = displayName }, cancellationToken);
-            ThrowIfRejected(input, rejected);
+
             ArgumentException.ThrowIfNullOrWhiteSpace(input!.DisplayName);
             return await client.Me.MailFolders[folderId].PatchAsync(
                 new MailFolder { DisplayName = input.DisplayName.Trim() }, cancellationToken: cancellationToken);
@@ -68,11 +68,6 @@ public static class GraphOutlookMailFolders
         await requestContext.ConfirmAndDeleteAsync<DeleteMailFolderInput>(folderId,
             async _ => await client.Me.MailFolders[folderId].DeleteAsync(cancellationToken: cancellationToken),
             "Outlook mail folder deleted.", cancellationToken)));
-
-    private static void ThrowIfRejected(object? input, object? rejected)
-    {
-        if (input is null || rejected is not null) throw new Exception(JsonSerializer.Serialize(rejected));
-    }
 
     [Description("Review the new Outlook mail folder.")]
     public sealed class MailFolderInput

@@ -46,7 +46,7 @@ public static partial class GraphOutlookDelegatedMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (input, rejected, _) = await requestContext.TryElicit(
+            var input = requestContext.Elicit(
                 new GraphOutlookMail.GraphUpdateMailDraft
                 {
                     ToRecipients = toRecipients,
@@ -55,7 +55,7 @@ public static partial class GraphOutlookDelegatedMail
                     Body = body,
                     BodyType = bodyType,
                     Importance = importance
-                }, cancellationToken);
+                });
 
             if (input.ToRecipients is null && input.CcRecipients is null && input.Subject is null &&
                 input.Body is null && input.BodyType is null && input.Importance is null)
@@ -100,9 +100,9 @@ public static partial class GraphOutlookDelegatedMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (input, rejected, _) = await requestContext.TryElicit(
-                new GraphDelegatedSendDraftInput { Mailbox = userId, DraftId = draftId, Subject = current.Subject },
-                cancellationToken);
+            var input = requestContext.Elicit(
+                new GraphDelegatedSendDraftInput { Mailbox = userId, DraftId = draftId, Subject = current.Subject }
+                );
 
             if (input.Mailbox != userId || input.DraftId != draftId)
                 throw new ValidationException("The confirmed mailbox and draft ID must match the requested draft.");
@@ -163,8 +163,8 @@ public static partial class GraphOutlookDelegatedMail
             if (current.IsDraft != true)
                 throw new ValidationException($"Message '{draftId}' is not a draft.");
 
-            var (input, rejected, _) = await requestContext.TryElicit(
-                new GraphOutlookMail.GraphAddDraftAttachment { FileUrl = fileUrl, Filename = filename }, cancellationToken);
+            var input = requestContext.Elicit(
+                new GraphOutlookMail.GraphAddDraftAttachment { FileUrl = fileUrl, Filename = filename });
 
             ArgumentException.ThrowIfNullOrWhiteSpace(input.FileUrl);
 
