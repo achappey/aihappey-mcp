@@ -157,7 +157,6 @@ public static partial class SimplicateSales
         dto.StatusId = Text(existing["status"], "id");
         dto.ReasonId = Text(existing["reason"], "id");
         dto.LostToCompetitorId = Text(existing["lost_to_competitor"], "id");
-        dto.DivergentPaymentTermId = Text(existing["divergent_payment_term"], "id");
         if (existing["teams"] is JsonArray teams)
             dto.TeamIds = string.Join(",", teams.Select(team => Text(team, "id")).Where(id => id is not null));
         if (existing["contact"] is JsonObject contact)
@@ -205,8 +204,6 @@ public static partial class SimplicateSales
              ("invoice_recipient_organization_id", "organization_id"), ("invoice_recipient_person_id", "person_id"),
              ("invoice_recipient_contact_id", "contact_id")],
             ["is_separate_invoice_recipient", "organization_id", "person_id", "contact_id"]);
-        if (dto.DivergentPaymentTermId == "null")
-            body["divergent_payment_term_id"] = null; // JsonObject keeps explicit JSON null despite ignore-null serializer options.
         body.Remove("team_ids");
         if (dto.TeamIds is not null)
         {
@@ -259,7 +256,6 @@ public static partial class SimplicateSales
         foreach (var property in typeof(T).GetProperties().Where(property => property.Name.EndsWith("Id", StringComparison.Ordinal)))
         {
             var value = property.GetValue(dto) as string;
-            if (property.Name == nameof(SimplicateNewSales.DivergentPaymentTermId) && value == "null") continue;
             ValidateReference(value, property.Name);
         }
     }

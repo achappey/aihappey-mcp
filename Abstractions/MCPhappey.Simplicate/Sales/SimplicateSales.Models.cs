@@ -42,8 +42,6 @@ public static partial class SimplicateSales
         public string? ReasonId { get; set; }
         [JsonPropertyName("lost_to_competitor_id"), Description("Competitor organization ID.")]
         public string? LostToCompetitorId { get; set; }
-        [JsonPropertyName("divergent_payment_term_id"), Description("Payment-term ID. The literal 'null' explicitly clears it; omission preserves it.")]
-        public string? DivergentPaymentTermId { get; set; }
         [JsonPropertyName("team_ids"), Description("Comma-separated team IDs. Empty explicitly removes all existing teams; omission preserves them.")]
         public string? TeamIds { get; set; }
         [JsonPropertyName("contact_is_active"), Description("Whether the sales contact is active.")]

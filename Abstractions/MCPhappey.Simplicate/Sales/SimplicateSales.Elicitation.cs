@@ -68,12 +68,11 @@ public static partial class SimplicateSales
             ("progress_id", "Sales progress", "/sales/salesprogress", "label", dto.ProgressId),
             ("source_id", "Sales source", "/sales/salessource", "name", dto.SourceId),
             ("status_id", "Sales status", "/sales/salesstatus", "label", dto.StatusId),
-            ("reason_id", "Sales reason", "/sales/salesreason", "name", dto.ReasonId),
-            ("divergent_payment_term_id", "Divergent payment term", "/invoices/paymentterm", "name", dto.DivergentPaymentTermId)
+            ("reason_id", "Sales reason", "/sales/salesreason", "name", dto.ReasonId)
         })
         {
             var items = await ReadLookupAsync(services, context, endpoint, "sort=" + label, ct);
-            overrides[key] = LookupSchema(title, value, items, item => Text(item, label), key == "divergent_payment_term_id");
+            overrides[key] = LookupSchema(title, value, items, item => Text(item, label));
         }
 
         var employeeOverrides = await services.BuildSimplicateEmployeeElicitOverridesAsync<SimplicateNewSales>(context,
@@ -117,10 +116,9 @@ public static partial class SimplicateSales
     }
 
     internal static ElicitRequestParams.PrimitiveSchemaDefinition LookupSchema(string title, string? current,
-        IEnumerable<JsonObject> items, Func<JsonObject, string?> label, bool allowClear = false)
+        IEnumerable<JsonObject> items, Func<JsonObject, string?> label)
     {
         var options = LookupOptions(items, label).ToList();
-        if (allowClear) options.Insert(0, new() { Const = "null", Title = "No divergent payment term (clear override)" });
         if (current is not null && options.All(option => option.Const != current))
             options.Add(new() { Const = current, Title = $"Current value ({current})" });
         return options.Count == 0
@@ -193,7 +191,16 @@ public static partial class SimplicateSales
         return Text(definition, "value_type") switch
         {
             "Integer" or "Decimal" => new ElicitRequestParams.NumberSchema
-            { Title = title, Description = Text(definition, "value_type"), Default = defaultValue is string ? null : (dynamic?)defaultValue },
+            {
+                Title = title,
+                Description = Text(definition, "value_type"),
+                Default = defaultValue switch
+                {
+                    long integer => (double)integer,
+                    decimal number => (double)number,
+                    _ => (double?)null
+                }
+            },
             "Text" => new ElicitRequestParams.StringSchema { Title = title, Default = value },
             "Date" => new ElicitRequestParams.StringSchema { Title = title, Description = "yyyy-MM-dd", Default = value },
             "Time" => new ElicitRequestParams.StringSchema { Title = title, Description = "HH:mm or HH:mm:ss", Default = value },
