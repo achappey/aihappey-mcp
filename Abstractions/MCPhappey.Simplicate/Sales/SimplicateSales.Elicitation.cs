@@ -142,6 +142,42 @@ public static partial class SimplicateSales
 
     private const string CustomFieldPrefix = "custom_field:";
 
+    // The initial form has already supplied the type/option schema. On save, map the
+    // submitted primitives without re-downloading definitions or validating lookup IDs.
+    // Simplicate is authoritative for field names, options and reference validity.
+    internal static void ApplySubmittedCustomFields(JsonObject body, Dictionary<string, JsonElement> answers,
+        JsonObject? existing)
+    {
+        var submitted = answers.Where(answer => answer.Key.StartsWith(CustomFieldPrefix, StringComparison.Ordinal)
+            && answer.Value.ValueKind != JsonValueKind.Null).ToArray();
+        if (submitted.Length == 0) return;
+        if (existing is not null && existing["custom_fields"] is not JsonArray)
+            throw new ValidationException("Cannot safely edit custom fields: the existing collection is unavailable.");
+        var values = new Dictionary<string, JsonObject>(StringComparer.Ordinal);
+        foreach (var old in (existing?["custom_fields"] as JsonArray)?.OfType<JsonObject>() ?? [])
+            if (Text(old, "name") is string name)
+                values[name] = new JsonObject { ["name"] = name, ["value"] = old["value"]?.DeepClone() };
+        var changed = false;
+        foreach (var (key, answer) in submitted)
+        {
+            var name = key[CustomFieldPrefix.Length..];
+            if (string.IsNullOrWhiteSpace(name)) throw new ValidationException("Custom field name is required.");
+            var value = answer.ValueKind switch
+            {
+                JsonValueKind.String => answer.GetString()!,
+                JsonValueKind.Number => answer.GetRawText(),
+                JsonValueKind.True => "true",
+                JsonValueKind.False => "false",
+                _ => throw new ValidationException("Custom field values must be primitives, not objects or arrays.")
+            };
+            // Clearing semantics remain undocumented: empty answers preserve old values.
+            if (value.Length == 0) continue;
+            values[name] = new JsonObject { ["name"] = name, ["value"] = value };
+            changed = true;
+        }
+        if (changed) body["custom_fields"] = new JsonArray([.. values.Values.Select(field => (JsonNode)field)]);
+    }
+
     internal static void AddCustomFieldSchemas(ElicitRequestParams request, Dictionary<string, object?> defaults,
         IEnumerable<JsonObject> definitions, JsonObject? existing)
     {

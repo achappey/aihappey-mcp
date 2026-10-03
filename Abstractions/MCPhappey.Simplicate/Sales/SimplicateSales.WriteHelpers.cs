@@ -36,6 +36,10 @@ public static partial class SimplicateSales
     {
         ct.ThrowIfCancellationRequested();
         ValidateSales(incoming, requireSubject: salesId is null);
+        Dictionary<string, JsonElement>? answers = null;
+        var resumed = context.Params?.InputResponses?.ContainsKey("elicitForm") == true;
+        if (resumed)
+            (answers, _) = await context.TryElicitForm(new ElicitRequestParams { Message = "Review sales details." }, cancellationToken: ct);
         var path = "/sales/sales";
         JsonObject? existing = null;
         if (salesId is not null)
@@ -46,18 +50,19 @@ public static partial class SimplicateSales
         }
 
         var dto = incoming;
-        Dictionary<string, JsonElement>? answers = null;
-        List<JsonObject> customFields = [];
-        if (CanElicit(context))
+        if (resumed || CanElicit(context))
         {
             dto = MergeSeed(MapSalesReadToForm(existing), incoming);
-            var overrides = await BuildSalesOverridesAsync(services, context, dto, ct);
-            var request = ElicitFormExtensions.CreateElicitRequestParamsForType(dto, overrides);
-            var defaults = FormDefaults(dto);
-            customFields = await ReadLookupAsync(services, context, "/sales/salescustomfields", "", ct);
-            AddCustomFieldSchemas(request, defaults, customFields, existing);
-            (answers, _) = await context.TryElicitForm(request, defaults, ct);
-            dto = MergeSeed(dto, answers.MapToObject<SimplicateNewSales>());
+            if (!resumed)
+            {
+                var overrides = await BuildSalesOverridesAsync(services, context, dto, ct);
+                var request = ElicitFormExtensions.CreateElicitRequestParamsForType(dto, overrides);
+                var defaults = FormDefaults(dto);
+                var customFields = await ReadLookupAsync(services, context, "/sales/salescustomfields", "", ct);
+                AddCustomFieldSchemas(request, defaults, customFields, existing);
+                (answers, _) = await context.TryElicitForm(request, defaults, ct);
+            }
+            dto = MergeSeed(dto, answers!.MapToObject<SimplicateNewSales>());
             if (answers.TryGetValue("team_ids", out var teams) && teams.ValueKind == JsonValueKind.Array)
                 dto.TeamIds = string.Join(",", teams.EnumerateArray().Select(team => team.GetString()));
         }
@@ -66,13 +71,7 @@ public static partial class SimplicateSales
         var body = MapSalesWriteBody(dto, existing);
         if (answers is not null)
         {
-            ApplyCustomFieldAnswers(body, answers, customFields, existing);
-            await ValidateContactsAsync(services, context, dto, ct);
-        }
-        else if (incoming.ContactId is not null || incoming.InvoiceRecipientContactId is not null)
-        {
-            // Validation is not name-to-ID resolution; only fetch exact supplied IDs.
-            await ValidateContactsAsync(services, context, MergeSeed(MapSalesReadToForm(existing), incoming), ct);
+            ApplySubmittedCustomFields(body, answers, existing);
         }
         return await SendWriteAsync(services, context, path, body, salesId is not null, ct);
     }
@@ -83,6 +82,10 @@ public static partial class SimplicateSales
     {
         ct.ThrowIfCancellationRequested();
         ValidateService(incoming, serviceId is null);
+        var inputKey = char.ToLowerInvariant(nameof(SimplicateSalesServiceWrite)[0]) + nameof(SimplicateSalesServiceWrite)[1..];
+        var resumed = context.Params?.InputResponses?.ContainsKey(inputKey) == true;
+        // Elicit consumes and checks a resumed response before any HTTP read or lookup download.
+        var submitted = resumed ? context.Elicit(incoming) : null;
         var path = "/sales/service";
         var dto = incoming;
         if (serviceId is not null)
@@ -90,10 +93,12 @@ public static partial class SimplicateSales
             ValidateReference(serviceId, nameof(serviceId));
             path += "/" + Uri.EscapeDataString(serviceId);
             var existing = await ReadExistingAsync(services, context, path, ct);
-            if (CanElicit(context))
+            if (resumed || CanElicit(context))
                 dto = MergeSeed(existing.Deserialize<SimplicateSalesServiceWrite>(WriteOptions)!, incoming);
         }
-        if (CanElicit(context))
+        if (resumed)
+            dto = MergeSeed(dto, submitted!);
+        else if (CanElicit(context))
         {
             var overrides = await BuildServiceOverridesAsync(services, context, dto, ct);
             var elicited = context.Elicit(dto, overrides);
@@ -290,20 +295,4 @@ public static partial class SimplicateSales
             throw new ValidationException("Invalid subscription cycle.");
     }
 
-    private static async Task ValidateContactsAsync(IServiceProvider services,
-        RequestContext<CallToolRequestParams> context, SimplicateNewSales dto, CancellationToken ct)
-    {
-        foreach (var (id, organization, person) in new[]
-        {
-            (dto.ContactId, dto.OrganizationId, dto.PersonId),
-            (dto.InvoiceRecipientContactId, dto.InvoiceRecipientOrganizationId, dto.InvoiceRecipientPersonId)
-        })
-        {
-            if (id is null) continue;
-            var contact = await ReadExistingAsync(services, context, "/crm/contactperson/" + Uri.EscapeDataString(id), ct);
-            if (organization is not null && Text(contact["organization"], "id") != organization
-                || person is not null && (Text(contact, "person_id") ?? Text(contact["person"], "id")) != person)
-                throw new ValidationException("The supplied contact ID does not belong to the selected organization/person.");
-        }
-    }
 }
