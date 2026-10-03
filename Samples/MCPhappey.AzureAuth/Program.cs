@@ -466,8 +466,7 @@ builder.Services.AddCors(options =>
         policy
             .AllowAnyOrigin()
             .AllowAnyHeader()
-            .AllowAnyMethod()
-            .WithExposedHeaders("Mcp-Session-Id");
+            .AllowAnyMethod();
     });
 });
 
