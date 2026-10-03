@@ -33,11 +33,11 @@ public static partial class GraphOutlookMail
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
         {
-var typed = requestContext.Elicit(
-    new GraphMailSingleCategoryInput
-    {
-        Category = category ?? string.Empty
-    });
+            var typed = requestContext.Elicit(
+                new GraphMailSingleCategoryInput
+                {
+                    Category = category ?? string.Empty
+                });
 
             if (string.IsNullOrWhiteSpace(typed?.Category))
                 throw new ArgumentException("Category name cannot be empty.", nameof(category));
@@ -394,7 +394,7 @@ var typed = requestContext.Elicit(
             ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
             var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphReplyDraftInput { ReplyType = replyType, Comment = comment }, cancellationToken);
-            if (rejected is not null || input is null) return default(Message);
+
             if (!Enum.IsDefined(input.ReplyType))
                 throw new ValidationException("Reply type must be Reply or ReplyAll.");
 
@@ -421,9 +421,8 @@ var typed = requestContext.Elicit(
         await requestContext.WithStructuredContent(async () =>
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
-            var (input, rejected, _) = await requestContext.TryElicit(
-                new GraphForwardDraftInput { ToRecipients = toRecipients, Comment = comment }, cancellationToken);
-            if (rejected is not null || input is null) return default(Message);
+            var input = requestContext.Elicit(
+                new GraphForwardDraftInput { ToRecipients = toRecipients, Comment = comment });
 
             return await client.Me.Messages[messageId].CreateForward.PostAsync(
                 new Microsoft.Graph.Beta.Me.Messages.Item.CreateForward.CreateForwardPostRequestBody
@@ -488,7 +487,7 @@ var typed = requestContext.Elicit(
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.TryElicit(
+        var typed = requestContext.Elicit(
             new GraphSendMail
             {
                 ToRecipients = toRecipients ?? string.Empty,
@@ -497,9 +496,10 @@ var typed = requestContext.Elicit(
                 Body = body,
                 Importance = importance,
                 BodyType = bodyType ?? BodyType.Text,
-                EmailSignatureUrl = emailSignatureUrl
-            },
-            cancellationToken
+                EmailSignatureUrl = emailSignatureUrl is null ?
+                    null : new Uri(emailSignatureUrl)
+            }
+
         );
 
         var resolvedBody = await BuildBodyWithOptionalSignatureAsync(
@@ -556,7 +556,7 @@ var typed = requestContext.Elicit(
         await requestContext.WithOboGraphClient(async client =>
         await requestContext.WithStructuredContent(async () =>
     {
-        var (typed, notAccepted, result) = await requestContext.TryElicit(
+        var typed = requestContext.Elicit(
             new GraphCreateMailDraft
             {
                 ToRecipients = toRecipients ?? string.Empty,
@@ -564,10 +564,9 @@ var typed = requestContext.Elicit(
                 Subject = subject,
                 Body = body,
                 BodyType = bodyType ?? BodyType.Text,
-                EmailSignatureUrl = emailSignatureUrl
-            },
-            cancellationToken
-        );
+                EmailSignatureUrl = emailSignatureUrl is null ?
+                    null : new Uri(emailSignatureUrl)
+            });
 
         var resolvedBody = await BuildBodyWithOptionalSignatureAsync(
             serviceProvider,
@@ -603,10 +602,10 @@ var typed = requestContext.Elicit(
         RequestContext<CallToolRequestParams> requestContext,
         string? body,
         BodyType? bodyType,
-        string? emailSignatureUrl,
+        Uri? emailSignatureUrl,
         CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(emailSignatureUrl))
+        if (emailSignatureUrl is null)
             return body;
 
         if ((bodyType ?? BodyType.Text) == BodyType.Text)
@@ -616,7 +615,7 @@ var typed = requestContext.Elicit(
         var signatureFiles = await downloadService.DownloadContentAsync(
             serviceProvider,
             requestContext.Server,
-            emailSignatureUrl,
+            emailSignatureUrl.ToString(),
             cancellationToken);
 
         var signatureFile = signatureFiles.FirstOrDefault()
@@ -1108,6 +1107,7 @@ var typed = requestContext.Elicit(
 
         [JsonPropertyName("body")]
         [Required]
+        [MaxLength(int.MaxValue)]
         [Description("Body of the draft e-mail message.")]
         public string? Body { get; set; }
 
@@ -1118,7 +1118,7 @@ var typed = requestContext.Elicit(
 
         [JsonPropertyName("emailSignatureUrl")]
         [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the body.")]
-        public string? EmailSignatureUrl { get; set; }
+        public Uri? EmailSignatureUrl { get; set; }
     }
 
 
@@ -1156,6 +1156,6 @@ var typed = requestContext.Elicit(
 
         [JsonPropertyName("emailSignatureUrl")]
         [Description("Optional URL to an HTML file containing the user's e-mail signature. Supports protected SharePoint/OneDrive links and will be appended to the body.")]
-        public string? EmailSignatureUrl { get; set; }
+        public Uri? EmailSignatureUrl { get; set; }
     }
 }

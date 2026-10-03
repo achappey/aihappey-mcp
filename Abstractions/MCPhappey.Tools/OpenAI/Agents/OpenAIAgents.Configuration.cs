@@ -34,7 +34,6 @@ public static partial class OpenAIAgents
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentMetadataRequest
             { AgentId = agentId, Key = key, Value = value }, cancellationToken);
-            if (rejected is not null) return rejected;
 
             return await requestContext.WithStructuredContent(async () =>
             {
@@ -59,7 +58,7 @@ public static partial class OpenAIAgents
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentMultiAgentRequest
             { AgentId = agentId, Enabled = enabled, MaxConcurrentSubagents = maxConcurrentSubagents }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(input.AgentId, "agentId");
@@ -82,7 +81,7 @@ public static partial class OpenAIAgents
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentReasoningRequest
             { AgentId = agentId, Effort = effort, Summary = summary }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(input.AgentId, "agentId");
@@ -136,7 +135,7 @@ public static partial class OpenAIAgents
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentTextRequest
             { AgentId = agentId, Verbosity = verbosity, SchemaFileUrl = schemaFileUrl }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(input.AgentId, "agentId");

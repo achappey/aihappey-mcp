@@ -34,7 +34,7 @@ public static class GraphEdiscoveryCases
                 Description = description,
                 ExternalId = externalId
             }, cancellationToken);
-            ThrowIfRejected(rejected);
+
             ValidateDisplayName(input?.DisplayName);
 
             return await SendJsonAsync(serviceProvider, requestContext, HttpMethod.Post, CasesUrl,
@@ -70,7 +70,7 @@ public static class GraphEdiscoveryCases
                 Description = description,
                 ExternalId = externalId
             }, cancellationToken);
-            ThrowIfRejected(rejected);
+
             if (input?.DisplayName is not null) ValidateDisplayName(input.DisplayName);
 
             var fields = new Dictionary<string, object?>();
@@ -134,11 +134,6 @@ public static class GraphEdiscoveryCases
     }
 
     private static void ValidateDisplayName(string? value) => ArgumentException.ThrowIfNullOrWhiteSpace(value);
-
-    private static void ThrowIfRejected(object? rejected)
-    {
-        if (rejected is not null) throw new Exception(JsonSerializer.Serialize(rejected));
-    }
 
     [Description("Please review the new Microsoft Purview eDiscovery case.")]
     public sealed class EdiscoveryCaseInput

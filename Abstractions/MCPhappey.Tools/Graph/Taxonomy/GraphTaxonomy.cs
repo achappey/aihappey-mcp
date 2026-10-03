@@ -29,7 +29,7 @@ public static class GraphTaxonomy
         {
             var (input, rejected, _) = await requestContext.TryElicit(new TermSetInput
             { DisplayName = displayName, LanguageTag = languageTag, Description = description }, cancellationToken);
-            if (rejected is not null || input is null) return default(TermSet);
+
             ValidateNameAndLanguage(input.DisplayName, input.LanguageTag);
 
             return await client.TermStore.Groups[groupId].Sets.PostAsync(new TermSet
@@ -57,7 +57,7 @@ public static class GraphTaxonomy
             if (displayName is null && description is null) throw new ValidationException("A display name or description is required.");
             var (input, rejected, _) = await requestContext.TryElicit(new TermSetPatchInput
             { DisplayName = displayName, LanguageTag = languageTag, Description = description }, cancellationToken);
-            if (rejected is not null || input is null) return default(TermSet);
+
             if (input.DisplayName is not null) ValidateNameAndLanguage(input.DisplayName, input.LanguageTag);
 
             return await client.TermStore.Sets[setId].PatchAsync(new TermSet
@@ -96,7 +96,7 @@ public static class GraphTaxonomy
         {
             var (input, rejected, _) = await requestContext.TryElicit(new TermInput
             { Label = label, LanguageTag = languageTag, Description = description }, cancellationToken);
-            if (rejected is not null || input is null) return default(Term);
+
             ValidateNameAndLanguage(input.Label, input.LanguageTag);
 
             return await client.TermStore.Sets[setId].Terms.PostAsync(ToTerm(input), cancellationToken: cancellationToken);
@@ -121,7 +121,7 @@ public static class GraphTaxonomy
             if (label is null && description is null) throw new ValidationException("A label or description is required.");
             var (input, rejected, _) = await requestContext.TryElicit(new TermPatchInput
             { Label = label, LanguageTag = languageTag, Description = description }, cancellationToken);
-            if (rejected is not null || input is null) return default(Term);
+
             ValidateLanguage(input.LanguageTag);
             if (input.Label is not null) ArgumentException.ThrowIfNullOrWhiteSpace(input.Label);
 

@@ -24,7 +24,7 @@ public static partial class OpenAIAgents
                 AgentId = agentId, ServerLabel = serverLabel, ServerUrl = serverUrl,
                 ConnectionOrigin = connectionOrigin, CredentialId = credentialId, Required = required
             }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(input.AgentId, "agentId"); ValidateRequired(input.ServerLabel, "serverLabel");
@@ -61,7 +61,7 @@ public static partial class OpenAIAgents
                 AgentId = agentId, ServerLabel = serverLabel, Command = command, Cwd = cwd,
                 Required = required
             }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(input.AgentId, "agentId"); ValidateRequired(input.ServerLabel, "serverLabel");
@@ -108,7 +108,6 @@ public static partial class OpenAIAgents
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentMcpMapEntryRequest
             { AgentId = agentId, ServerLabel = serverLabel, Key = key, Value = value }, cancellationToken);
-            if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(input.AgentId, "agentId"); ValidateRequired(input.ServerLabel, "serverLabel"); ValidateRequired(input.Key, "key");

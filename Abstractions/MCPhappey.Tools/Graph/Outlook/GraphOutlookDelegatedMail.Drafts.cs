@@ -56,7 +56,7 @@ public static partial class GraphOutlookDelegatedMail
                     BodyType = bodyType,
                     Importance = importance
                 }, cancellationToken);
-            if (rejected is not null || input is null) return default(Message);
+
             if (input.ToRecipients is null && input.CcRecipients is null && input.Subject is null &&
                 input.Body is null && input.BodyType is null && input.Importance is null)
                 throw new ValidationException("At least one draft property must be provided.");
@@ -103,7 +103,7 @@ public static partial class GraphOutlookDelegatedMail
             var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphDelegatedSendDraftInput { Mailbox = userId, DraftId = draftId, Subject = current.Subject },
                 cancellationToken);
-            if (rejected is not null || input is null) return null;
+
             if (input.Mailbox != userId || input.DraftId != draftId)
                 throw new ValidationException("The confirmed mailbox and draft ID must match the requested draft.");
 
@@ -165,7 +165,7 @@ public static partial class GraphOutlookDelegatedMail
 
             var (input, rejected, _) = await requestContext.TryElicit(
                 new GraphOutlookMail.GraphAddDraftAttachment { FileUrl = fileUrl, Filename = filename }, cancellationToken);
-            if (rejected is not null || input is null) return default(FileAttachment);
+
             ArgumentException.ThrowIfNullOrWhiteSpace(input.FileUrl);
 
             var downloadService = serviceProvider.GetRequiredService<DownloadService>();

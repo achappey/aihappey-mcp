@@ -20,7 +20,7 @@ public static partial class OpenAIVaults
         {
             var (input, rejected, _) = await requestContext.TryElicit(new CreateStaticBearerRequest
             { VaultId = vaultId, Name = name, McpServerUrl = mcpServerUrl, Token = token }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 Required(input.VaultId, "vaultId"); Required(input.Name, "name"); Required(input.Token, "token");
@@ -50,7 +50,6 @@ public static partial class OpenAIVaults
                 RefreshToken = refreshToken, ClientId = clientId, TokenEndpoint = tokenEndpoint, TokenEndpointAuth = tokenEndpointAuth,
                 ClientSecret = clientSecret, Resource = resource, Scope = scope
             }, cancellationToken);
-            if (rejected is not null) return rejected;
             return await requestContext.WithStructuredContent(async () =>
             {
                 Required(input.VaultId, "vaultId"); Required(input.Name, "name"); Required(input.AccessToken, "accessToken");
@@ -93,7 +92,7 @@ public static partial class OpenAIVaults
         {
             var (input, rejected, _) = await requestContext.TryElicit(new RotateStaticBearerRequest
             { VaultId = vaultId, CredentialId = credentialId, Token = token }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 Required(input.VaultId, "vaultId"); Required(input.CredentialId, "credentialId"); Required(input.Token, "token");
@@ -119,7 +118,7 @@ public static partial class OpenAIVaults
                 ClearExpiresAt = clearExpiresAt, RefreshToken = refreshToken, Scope = scope, ClearScope = clearScope,
                 TokenEndpointAuth = tokenEndpointAuth, ClientSecret = clientSecret
             }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 Required(input.VaultId, "vaultId"); Required(input.CredentialId, "credentialId");

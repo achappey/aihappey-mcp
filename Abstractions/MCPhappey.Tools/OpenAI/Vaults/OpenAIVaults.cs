@@ -24,7 +24,7 @@ public static partial class OpenAIVaults
         {
             var (input, rejected, _) = await requestContext.TryElicit(new CreateVaultRequest
             { Name = name, MetadataFileUrl = metadataFileUrl }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 if (input.Name is not null && string.IsNullOrWhiteSpace(input.Name))

@@ -21,7 +21,7 @@ public static partial class OpenAIAgents
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentFunctionToolRequest
             { AgentId = agentId, Name = name, Description = description, SchemaFileUrl = schemaFileUrl, DeferLoading = deferLoading }, cancellationToken);
-            if (rejected is not null) return rejected;
+
 
             return await requestContext.WithStructuredContent(async () =>
             {
@@ -104,7 +104,7 @@ public static partial class OpenAIAgents
                 AgentId = agentId, ContextSize = contextSize, Mode = mode,
                 City = city, Country = country, Region = region, Timezone = timezone
             }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(input.AgentId, "agentId");
@@ -184,7 +184,7 @@ public static partial class OpenAIAgents
         {
             var (input, rejected, _) = await requestContext.TryElicit(new AgentToolIdentityRequest
             { AgentId = agentId, Name = name }, cancellationToken);
-            if (rejected is not null) return rejected;
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(input.AgentId, "agentId"); ValidateRequired(input.Name, "name");

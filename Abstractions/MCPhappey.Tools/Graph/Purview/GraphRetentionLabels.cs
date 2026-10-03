@@ -43,7 +43,7 @@ public static class GraphRetentionLabels
                 RetentionDurationDays = retentionDurationDays,
                 IsInUse = isInUse
             }, cancellationToken);
-            ThrowIfRejected(rejected);
+
             Validate(input);
 
             return await SendJsonAsync(serviceProvider, requestContext, HttpMethod.Post, LabelsUrl,
@@ -71,8 +71,7 @@ public static class GraphRetentionLabels
             {
                 DescriptionForUsers = descriptionForUsers,
                 DescriptionForAdmins = descriptionForAdmins
-            }, cancellationToken);
-            ThrowIfRejected(rejected);
+            }, cancellationToken);            
 
             var fields = new Dictionary<string, object?>();
             if (input?.DescriptionForUsers is not null) fields["descriptionForUsers"] = input.DescriptionForUsers;
@@ -154,11 +153,6 @@ public static class GraphRetentionLabels
         var error = await response.Content.ReadAsStringAsync(cancellationToken);
         throw new HttpRequestException(
             $"Microsoft Graph retention-label request failed ({(int)response.StatusCode} {response.StatusCode}): {error}");
-    }
-
-    private static void ThrowIfRejected(object? rejected)
-    {
-        if (rejected is not null) throw new Exception(JsonSerializer.Serialize(rejected));
     }
 
     [Description("Please review the Microsoft Purview retention-label settings.")]

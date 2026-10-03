@@ -46,7 +46,7 @@ public static partial class OpenAIAgents
                 ReasoningSummary = reasoningSummary, ServiceTier = serviceTier,
                 TextVerbosity = textVerbosity, TextSchemaFileUrl = textSchemaFileUrl
             }, cancellationToken);
-            if (rejected is not null) return rejected;
+
 
             return await requestContext.WithStructuredContent(async () =>
             {
@@ -96,7 +96,6 @@ public static partial class OpenAIAgents
                 ClearReasoning = clearReasoning, ClearText = clearText,
                 ClearServiceTier = clearServiceTier, ClearMetadata = clearMetadata, ClearTools = clearTools
             }, cancellationToken);
-            if (rejected is not null) return rejected;
 
             return await requestContext.WithStructuredContent(async () =>
             {
