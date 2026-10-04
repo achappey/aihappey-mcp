@@ -90,14 +90,47 @@ public class SimplicateHourTotals
 
 public class SimplicateHourItem
 {
+    [JsonPropertyName("id"), Description("Hour registration record ID.")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("source"), Description("Source of the hour registration.")]
+    public string? Source { get; set; }
+
+    [JsonPropertyName("note"), Description("Hour registration note.")]
+    public string? Note { get; set; }
+
     [JsonPropertyName("employee")]
     public SimplicateEmployee? Employee { get; set; }
+
+    [JsonPropertyName("employee_id"), Description("Employee ID.")]
+    public string? EmployeeId { get; set; }
 
     [JsonPropertyName("project")]
     public SimplicateProject? Project { get; set; }
 
+    [JsonPropertyName("project_id"), Description("Project ID.")]
+    public string? ProjectId { get; set; }
+
+    [JsonPropertyName("projectservice"), Description("Related project service.")]
+    public SimplicateHourProjectService? ProjectService { get; set; }
+
+    [JsonPropertyName("projectservice_id"), Description("Project service ID.")]
+    public string? ProjectServiceId { get; set; }
+
     [JsonPropertyName("type")]
     public SimplicateHourType? Type { get; set; }
+
+    [JsonPropertyName("type_id"), Description("Hour type ID.")]
+    public string? TypeId { get; set; }
+
+    [JsonPropertyName("approvalstatus"), Description("Related approval status.")]
+    public SimplicateHourApprovalReference? ApprovalStatus { get; set; }
+
+    [JsonPropertyName("approvalstatus_id"), Description("Approval status ID.")]
+    public string? ApprovalStatusId { get; set; }
+
+    [JsonPropertyName("assignment_id"), Description("Project assignment ID.")]
+    public string? AssignmentId { get; set; }
 
     [JsonPropertyName("tariff")]
     public decimal Tariff { get; set; }
@@ -105,11 +138,44 @@ public class SimplicateHourItem
     [JsonPropertyName("hours")]
     public double Hours { get; set; }
 
+    [JsonPropertyName("duration_in_minutes"), Description("Registration duration in minutes.")]
+    public int? DurationInMinutes { get; set; }
+
     [JsonPropertyName("start_date")]
     public string? StartDate { get; set; }
 
     [JsonPropertyName("end_date")]
     public string? EndDate { get; set; }
+
+    [JsonPropertyName("is_time_defined"), Description("Whether start and end times are explicitly defined.")]
+    public bool? IsTimeDefined { get; set; }
+
+    [JsonPropertyName("is_recurring"), Description("Whether the registration recurs.")]
+    public bool? IsRecurring { get; set; }
+
+    [JsonPropertyName("is_external"), Description("Whether the registration originates externally.")]
+    public bool? IsExternal { get; set; }
+
+    [JsonPropertyName("billable"), Description("Whether the registered hours are billable.")]
+    public bool? Billable { get; set; }
+
+    [JsonPropertyName("should_sync_to_cronofy"), Description("Whether the registration should synchronize to Cronofy.")]
+    public bool? ShouldSyncToCronofy { get; set; }
+
+    [JsonPropertyName("external_url"), Description("Related external item URL.")]
+    public string? ExternalUrl { get; set; }
+
+    [JsonPropertyName("external_item_id"), Description("Arbitrary external item UID, not a Simplicate record ID.")]
+    public string? ExternalItemId { get; set; }
+
+    [JsonPropertyName("location"), Description("Registration location.")]
+    public string? Location { get; set; }
+
+    [JsonPropertyName("address_id"), Description("Address ID.")]
+    public string? AddressId { get; set; }
+
+    [JsonPropertyName("recurrence_id"), Description("Recurrence ID.")]
+    public string? RecurrenceId { get; set; }
 
     [JsonIgnore] // Don't serialize calculated property by default
     public decimal Amount
@@ -132,18 +198,36 @@ public class SimplicateHourItem
 
 public class SimplicateEmployee
 {
+    [JsonPropertyName("id"), Description("Employee ID.")]
+    public string? Id { get; set; }
+
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 }
 
 public class SimplicateProject
 {
+    [JsonPropertyName("id"), Description("Project ID.")]
+    public string? Id { get; set; }
+
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
 }
 
+public class SimplicateHourProjectService
+{
+    [JsonPropertyName("id"), Description("Project service ID.")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("name"), Description("Project service name.")]
+    public string? Name { get; set; }
+}
+
 public class SimplicateHourType
 {
+    [JsonPropertyName("id"), Description("Hour type ID.")]
+    public string? Id { get; set; }
+
     [JsonPropertyName("label")]
     public string Label { get; set; } = string.Empty;
 }

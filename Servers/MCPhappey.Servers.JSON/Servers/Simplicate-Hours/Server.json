@@ -3,14 +3,14 @@
     "name": "Simplicate-Hours",
     "title": "Simplicate Uren",
     "version": "1.0.0",
-    "description": "Simplicate uren: registraties en rapportages per maand, project of medewerker.",
+    "description": "Simplicate uren: registraties beheren, uren indienen, verlof en afwezigheid, urentypes en timesheetregels.",
     "icons": [
       {
         "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWGdg3hr4xyPCkWxFycuGyjETGKRBbXFlqTw&s"
       }
     ]
   },
-  "instructions": "Use the select parameter as a comma separated string to only include fields in the response you're interested in. If it's a nested property in the response, you may end the property name with a . (period) to include all its children.",
+  "instructions": "Use the select parameter as a comma separated string to only include fields in the response you're interested in. If it's a nested property in the response, you may end the property name with a . (period) to include all its children. Mutation tools require exact full Simplicate IDs, not display names; use lookup resources to find IDs. Form-capable clients receive lookup-backed forms only before saving; other clients submit primitive tool values directly. Omitted update fields are preserved, including nested address and recurrence siblings; explicit false and zero values are retained. Address, recurrence and external-item values use flattened primitive tool inputs and are mapped into API objects. Set clearAddress=true without address fields to explicitly clear the nested address. The submit and submission tools target distinct documented endpoints; do not invoke both for the same request unless explicitly intended. Timesheet row item type IDs for costs and mileage must be provided explicitly. Deletion requires exact-ID confirmation when forms are supported.",
   "headers": {
     "Authentication-Key": "Simplicate Api Key",
     "Authentication-Secret": "Simplicate Api Secret"

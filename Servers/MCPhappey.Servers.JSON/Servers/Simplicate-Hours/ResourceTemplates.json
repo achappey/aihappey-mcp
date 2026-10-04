@@ -1,6 +1,55 @@
 {
   "resourceTemplates": [
     {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hours/hours/{hourRegistrationId}",
+      "name": "hour-registration-details",
+      "title": "Hour registration details",
+      "description": "Read an hour registration by its exact full Simplicate ID before updating or deleting it.",
+      "mimeType": "application/json"
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/employee?q[name]=*{nameFilter}*&limit={limit}&offset={offset}",
+      "name": "hours-employees",
+      "title": "Employees for hours registration",
+      "description": "Find employee IDs by name.",
+      "mimeType": "application/json"
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/project?q[name]=*{nameFilter}*&limit={limit}&offset={offset}",
+      "name": "hours-projects",
+      "title": "Projects for hours registration",
+      "description": "Find project IDs by name.",
+      "mimeType": "application/json"
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/projects/service?q[project_id]={projectId}&q[name]=*{nameFilter}*&limit={limit}&offset={offset}",
+      "name": "hours-project-services",
+      "title": "Project services for hours registration",
+      "description": "Find project service IDs within an exact full project ID.",
+      "mimeType": "application/json"
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/absencetype?limit={limit}&offset={offset}",
+      "name": "hours-absence-types",
+      "title": "Absence types",
+      "description": "Read absence type IDs and labels for hours absence mutations.",
+      "mimeType": "application/json"
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/hrm/leavetype?limit={limit}&offset={offset}",
+      "name": "hours-leave-types",
+      "title": "Leave types",
+      "description": "Read leave type IDs and labels for hours leave mutations.",
+      "mimeType": "application/json"
+    },
+    {
+      "uriTemplate": "https://{organization}.simplicate.app/api/v2/invoices/vatclass?limit={limit}&offset={offset}&sort={sortColumn}",
+      "name": "hours-vat-classes",
+      "title": "VAT classes for hour types",
+      "description": "Read VAT class IDs, codes, labels and percentages.",
+      "mimeType": "application/json"
+    },
+    {
       "uriTemplate": "https://{organization}.simplicate.app/api/v2/hours/hourstype?q[label]=*{hourTypeName}*",
       "name": "uren-types",
       "title": "Uren types",

@@ -13,65 +13,6 @@ namespace MCPhappey.Simplicate.Hours;
 
 public static partial class SimplicateHours
 {
-    [Description("Create a new hour registration in Simplicate")]
-    [McpServerTool(Title = "Create hour registration", OpenWorld = false)]
-    public static async Task<CallToolResult?> SimplicateHours_CreateHourRegistration(
-     [Description("The number of hours.")] double hours,
-     [Description("The id of the employee.")] string employeeId,
-     [Description("The id of the project.")] string projectId,
-     [Description("The id of the project service.")] string projectServiceId,
-     [Description("The id of the hour type.")] string hourTypeId,
-     [Description("The start date of the hour registration.")] DateTime startDate,
-     IServiceProvider serviceProvider,
-     RequestContext<CallToolRequestParams> requestContext,
-     CancellationToken cancellationToken = default)
-    {
-        var simplicateOptions = serviceProvider.GetRequiredService<SimplicateOptions>();
-
-        if (employeeId.StartsWith("employee:") == false)
-        {
-            return $"Invalid employee id. Expected format: 'employee:[unique_id]'. Use resource https://{simplicateOptions.Organization}.simplicate.app/api/v2/hrm/employee?q[name]=*[nameFilter]* to search by name.".ToErrorCallToolResponse();
-        }
-
-        if (projectId.StartsWith("project:") == false)
-        {
-            return $"Invalid project id. Expected format: 'project:[unique_id]'. Use resource https://{simplicateOptions.Organization}.simplicate.app/api/v2/projects/project?q[name]=*[nameFilter]* to search by name.".ToErrorCallToolResponse();
-        }
-
-        if (projectServiceId.StartsWith("service:") == false)
-        {
-            return $"Invalid projectServiceId id. Expected format: 'service:[unique_id]'. Use resource https://{simplicateOptions.Organization}.simplicate.app/api/v2/projects/service?q[name]=*[nameFilter]* to search by name.".ToErrorCallToolResponse();
-        }
-
-        if (hourTypeId.StartsWith("hourstype:") == false)
-        {
-            return $"Invalid hourTypeId id. Expected format: 'hourstype:[unique_id]'. Use resource https://{simplicateOptions.Organization}.simplicate.app/api/v2/hours/hourstype?q[label]=*[nameFilter]* to search by name.".ToErrorCallToolResponse();
-        }
-
-        // Simplicate Hours endpoint
-        string baseUrl = simplicateOptions.GetApiUrl("/hours/hours");
-
-        var dto = new SimplicateNewHour
-        {
-            Hours = hours,
-            StartDate = startDate,
-            EmployeeId = employeeId,
-            ProjectId = projectId,
-            TypeId = hourTypeId,
-            ProjectServiceId = projectServiceId,
-        };
-
-        // Optionally let user confirm/fill fields in Elicit if you want:
-        var dtoItem = requestContext.Elicit(dto);
-
-        return (await serviceProvider.PostSimplicateItemAsync(
-            baseUrl,
-            dtoItem!,
-            requestContext: requestContext,
-            cancellationToken: cancellationToken
-        ))?.ToCallToolResult();
-    }
-
     [Description("Get registered hours in Simplicate optionally filtered by date range, project, or employee.")]
     [McpServerTool(Title = "Get Simplicate hours",
            Name = "simplicate_hours_get_hours",
