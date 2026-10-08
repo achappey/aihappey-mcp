@@ -24,6 +24,10 @@ public static class GoogleNanoBanana
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional image url for image edits. Supports protected links like SharePoint and OneDrive links")]
         string? fileUrl = null,
+        [Description("Optional image aspect ratio, such as 1:1 for square, 16:9 for landscape, 9:16 for portrait, 4:3 for standard landscape, or 3:2 for photos. Defaults to the model's aspect ratio.")]
+        string? aspectRatio = null,
+        [Description("Optional image resolution: 1K (default), 2K, or 4K. Use 0.5K for 512px where supported. Gemini 3.1 Flash Lite Image supports only 1K. Values are case-sensitive.")]
+        string? imageSize = null,
         CancellationToken cancellationToken = default) =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
@@ -32,11 +36,13 @@ public static class GoogleNanoBanana
         var items = !string.IsNullOrEmpty(fileUrl) ? await downloader.DownloadContentAsync(serviceProvider,
             requestContext.Server, fileUrl, cancellationToken) : null;
 
-        var typed= requestContext.Elicit(
+        var typed = requestContext.Elicit(
                new GoogleNanoBananaNewImage
                {
                    Prompt = prompt,
                    Model = model,
+                   AspectRatio = aspectRatio,
+                   ImageSize = imageSize
                });
 
         var input = new JsonArray();
@@ -44,13 +50,27 @@ public static class GoogleNanoBanana
             input.Add(GoogleInteractionInput.Bytes("image", item.Contents, item.MimeType));
         input.Add(GoogleInteractionInput.Text(typed.Prompt));
 
-        var interaction = await interactions.CreateInteractionAsync(new GoogleInteractionRequest
+        var responseFormat = new JsonObject
         {
-            Model = typed.Model,
-            Input = input,
-            SystemInstruction = "Create a single image according to the prompt.",
-            ResponseFormat = new JsonObject { ["type"] = "image", ["mime_type"] = "image/jpeg" }
-        }, cancellationToken);
+            ["type"] = "image",
+            ["mime_type"] = "image/jpeg"
+        };
+
+        if (!string.IsNullOrWhiteSpace(typed.AspectRatio))
+            responseFormat["aspect_ratio"] = typed.AspectRatio;
+
+        if (!string.IsNullOrWhiteSpace(typed.ImageSize))
+            responseFormat["image_size"] = typed.ImageSize;
+
+        var interaction = await interactions.CreateInteractionAsync(
+            new GoogleInteractionRequest
+            {
+                Model = typed.Model,
+                Input = input,
+                SystemInstruction = "Create a single image according to the prompt.",
+                ResponseFormat = responseFormat
+            },
+            cancellationToken);
 
         return await interaction.ToToolResultAsync(requestContext, serviceProvider, cancellationToken);
     });
@@ -68,6 +88,14 @@ public static class GoogleNanoBanana
         [Required]
         [Description("The image model. gemini-nano-banana-2.1 or gemini-3.1-flash-lite-image.")]
         public string Model { get; set; } = "gemini-nano-banana-2.1";
+
+        [JsonPropertyName("aspect_ratio")]
+        [Description("Optional aspect ratio. Common values: 1:1 (square), 16:9 (landscape), 9:16 (portrait), 4:3 or 3:2. Leave empty for model default.")]
+        public string? AspectRatio { get; set; }
+
+        [JsonPropertyName("image_size")]
+        [Description("Optional resolution: 1K, 2K, 4K or 0.5K where supported. Flash Lite supports only 1K. Values are case-sensitive.")]
+        public string? ImageSize { get; set; }
     }
 
 }
