@@ -18,7 +18,7 @@ public static class GoogleNanoBanana
     public static async Task<CallToolResult?> GoogleNanoBanana_CreateImage(
         [Description("Image prompt (only English)")]
         string prompt,
-        [Description("Image model (gemini-2.5-flash-image, gemini-3-pro-image, gemini-3.1-flash-image or gemini-3.1-flash-lite-image)")]
+        [Description("Image model (gemini-nano-banana-2.1 or gemini-3.1-flash-lite-image)")]
         string model,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
@@ -32,13 +32,12 @@ public static class GoogleNanoBanana
         var items = !string.IsNullOrEmpty(fileUrl) ? await downloader.DownloadContentAsync(serviceProvider,
             requestContext.Server, fileUrl, cancellationToken) : null;
 
-        var (typed, notAccepted, result) = await requestContext.TryElicit(
+        var typed= requestContext.Elicit(
                new GoogleNanoBananaNewImage
                {
                    Prompt = prompt,
                    Model = model,
-               },
-               cancellationToken);
+               });
 
         var input = new JsonArray();
         foreach (var item in items ?? [])
@@ -50,8 +49,7 @@ public static class GoogleNanoBanana
             Model = typed.Model,
             Input = input,
             SystemInstruction = "Create a single image according to the prompt.",
-            ResponseFormat = new JsonObject { ["type"] = "image", ["mime_type"] = "image/png" },
-            GenerationConfig = new JsonObject { ["max_output_tokens"] = 4096 }
+            ResponseFormat = new JsonObject { ["type"] = "image", ["mime_type"] = "image/jpeg" }
         }, cancellationToken);
 
         return await interaction.ToToolResultAsync(requestContext, serviceProvider, cancellationToken);
@@ -68,8 +66,8 @@ public static class GoogleNanoBanana
 
         [JsonPropertyName("model")]
         [Required]
-        [Description("The image model. gemini-2.5-flash-image, gemini-3-pro-image, gemini-3.1-flash-image or gemini-3.1-flash-lite-image.")]
-        public string Model { get; set; } = "gemini-3-pro";
+        [Description("The image model. gemini-nano-banana-2.1 or gemini-3.1-flash-lite-image.")]
+        public string Model { get; set; } = "gemini-nano-banana-2.1";
     }
 
 }
