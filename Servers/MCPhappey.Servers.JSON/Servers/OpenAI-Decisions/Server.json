@@ -1,0 +1,26 @@
+{
+  "serverInfo": {
+    "name": "OpenAI-Decisions",
+    "title": "OpenAI Decisions",
+    "version": "1.0.0",
+    "websiteUrl": "https://www.openai.com",
+    "description": "Evaluate text, documents, and images with typed condition probabilities, fixed choices, and rubric scores using OpenAI Decisions.",
+    "icons": [
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/dark/openai.png",
+        "theme": "dark"
+      },
+      {
+        "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/1.74.0/files/light/openai.png",
+        "theme": "light"
+      }
+    ]
+  },
+  "instructions": "Use Decisions for typed classifications and rubric scores, not free-form answers or field extraction. Supply inputText and/or documentUrls/imageUrls as evidence. Documents use the existing RAG/resource text extraction pipeline. Images are downloaded and sent natively as inline base64; at most 128 images are supported. SharePoint and OneDrive links use the existing authenticated downloads and require a delegated Microsoft token and consent. Predicate evaluates a condition; choice selects one of 2–255 distinct string values; score evaluates ordered labels with indices starting at zero. Optional description arrays must align with the values/labels arrays. For batches, boolean/mixed-type choices, or complex official definitions, use questions_url with a JSON file containing a single object with a nonempty questions array. Only that array is imported; the file's input, model, and other settings are ignored. Independent questions share the supplied evidence and preserve order. Use separate requests when a question depends on an earlier answer. The entire raw response, including refusal answers, probabilities, confidence, model, and usage, is returned as structured content. Calibrate thresholds for your application; probability/confidence are not guarantees. The current default model is gpt-6-luna.",
+  "plugins": [
+    "MCPhappey.Tools.OpenAI.Decisions.OpenAIDecisions, MCPhappey.Tools"
+  ],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.Read.All https://graph.microsoft.com/Files.Read.All"
+  }
+}

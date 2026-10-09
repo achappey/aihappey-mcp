@@ -26,6 +26,7 @@ using MCPhappey.Tools.Anthropic.Skills;
 using MCPhappey.Tools.Anthropic.Messages;
 using MCPhappey.Tools.SandBase;
 using MCPhappey.Tools.OpenAI.Responses;
+using MCPhappey.Tools.OpenAI.Decisions;
 using MCPhappey.Tools.OpenAI.Skills;
 using MCPhappey.Tools.ElevenLabs;
 using MCPhappey.Tools.Runway;
@@ -179,6 +180,7 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 builder.Services
 .AddAzureSkills(appConfig?.SkillsStorage)
 .AddOpenAIResponses(appConfig?.DomainHeaders)
+.AddOpenAIDecisions(appConfig?.DomainHeaders)
 .AddMistral(appConfig?.DomainHeaders)
 .AddSyntheticSearch(appConfig?.DomainHeaders)
 .AddPerplexity(appConfig?.DomainHeaders)
