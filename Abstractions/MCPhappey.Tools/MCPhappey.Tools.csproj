@@ -25,7 +25,7 @@
     <PackageReference Include="GTranslate" Version="2.4.0" />
     <PackageReference Include="HtmlAgilityPack.CssSelectors.NetCore" Version="1.2.1" />
     <PackageReference Include="Humanizer" Version="3.0.10" />
-    <PackageReference Include="libphonenumber-csharp" Version="9.0.40" />
+    <PackageReference Include="libphonenumber-csharp" Version="9.0.41" />
     <PackageReference Include="Markdig" Version="1.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="10.0.12" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.52.0" />
