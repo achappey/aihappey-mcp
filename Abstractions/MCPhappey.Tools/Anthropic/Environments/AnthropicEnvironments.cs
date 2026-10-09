@@ -41,11 +41,11 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicCreateEnvironmentRequest
+                var typed = requestContext.Elicit(new AnthropicCreateEnvironmentRequest
                 {
                     Name = name,
                     Description = description
-                }, cancellationToken);
+                });
 
                 var normalizedName = NormalizeEnvironmentName(typed.Name);
                 ValidateEnvironmentDescription(typed.Description);
@@ -83,12 +83,12 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicUpdateEnvironmentRequest
+                var typed = requestContext.Elicit(new AnthropicUpdateEnvironmentRequest
                 {
                     EnvironmentId = environmentId,
                     Name = name,
                     Description = description
-                }, cancellationToken);
+                });
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
                 string? normalizedName = null;
@@ -127,10 +127,10 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicArchiveEnvironmentRequest
+                var typed = requestContext.Elicit(new AnthropicArchiveEnvironmentRequest
                 {
                     EnvironmentId = environmentId
-                }, cancellationToken);
+                });
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
 

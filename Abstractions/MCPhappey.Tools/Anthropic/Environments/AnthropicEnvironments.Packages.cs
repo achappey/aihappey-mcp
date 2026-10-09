@@ -139,12 +139,12 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicEnvironmentPackageMutationRequest
+                var typed = requestContext.Elicit(new AnthropicEnvironmentPackageMutationRequest
                 {
                     EnvironmentId = environmentId,
                     PackageManager = packageManager,
                     Package = package
-                }, cancellationToken);
+                });
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
                 ValidatePackageManager(typed.PackageManager);

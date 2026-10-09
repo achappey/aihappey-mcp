@@ -23,19 +23,19 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional enabled flag override.")] bool? enabled = null,
         [Description("Optional permission policy. Allowed values: always_allow or always_ask.")] string? permissionPolicy = null,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentBuiltinToolMutationRequest
+                var typed = requestContext.Elicit(new AnthropicAgentBuiltinToolMutationRequest
                 {
                     AgentId = agentId,
                     ToolName = toolName,
                     Enabled = enabled,
                     PermissionPolicy = permissionPolicy,
-                   
-                }, cancellationToken);
+
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
                     throw new ValidationException("agentId is required.");
@@ -44,7 +44,7 @@ public static partial class AnthropicAgents
                 if (!string.IsNullOrWhiteSpace(typed.PermissionPolicy))
                     AnthropicManagedAgentsHttp.ValidatePermissionPolicy(typed.PermissionPolicy);
 
-                var current = await GetAgentAsync(serviceProvider, typed.AgentId,  cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, typed.AgentId, cancellationToken);
                 var tools = AnthropicManagedAgentsHttp.CloneArray(current["tools"]);
                 var toolset = EnsureAgentToolset(tools);
                 var configs = EnsureConfigsArray(toolset);
@@ -67,7 +67,7 @@ public static partial class AnthropicAgents
                 var body = CreateVersionedUpdateBody(current);
                 body["tools"] = tools;
 
-                return await UpdateAgentAsync(serviceProvider, typed.AgentId,  body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, typed.AgentId, body, cancellationToken);
             }));
 
     [Description("Remove a built-in agent tool configuration from an Anthropic Managed Agent after explicit typed confirmation.")]
@@ -82,7 +82,7 @@ public static partial class AnthropicAgents
         [Description("Built-in tool name to remove.")] string toolName,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -92,7 +92,7 @@ public static partial class AnthropicAgents
                 var expected = $"{agentId}:{toolName}";
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
-                var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, agentId, cancellationToken);
                 var tools = AnthropicManagedAgentsHttp.CloneArray(current["tools"]);
                 var toolset = FindAgentToolset(tools)
                               ?? throw new ValidationException($"Agent '{agentId}' does not contain an {AgentToolsetType} toolset.");
@@ -106,7 +106,7 @@ public static partial class AnthropicAgents
                 var body = CreateVersionedUpdateBody(current);
                 body["tools"] = tools;
 
-                return await UpdateAgentAsync(serviceProvider, agentId,  body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, agentId, body, cancellationToken);
             }));
 
     [Description("Set the default built-in tool behavior for an Anthropic Managed Agent using normal form fields instead of raw JSON.")]
@@ -122,23 +122,23 @@ public static partial class AnthropicAgents
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Optional default enabled flag for built-in tools.")] bool? enabled = null,
         [Description("Optional default permission policy. Allowed values: always_allow or always_ask.")] string? permissionPolicy = null,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentBuiltinToolsetDefaultsRequest
+                var typed = requestContext.Elicit(new AnthropicAgentBuiltinToolsetDefaultsRequest
                 {
                     AgentId = agentId,
                     Enabled = enabled,
                     PermissionPolicy = permissionPolicy,
-                   
-                }, cancellationToken);
+
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
                     throw new ValidationException("agentId is required.");
 
-                var current = await GetAgentAsync(serviceProvider, typed.AgentId,  cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, typed.AgentId, cancellationToken);
                 var tools = AnthropicManagedAgentsHttp.CloneArray(current["tools"]);
                 var toolset = EnsureAgentToolset(tools);
 
@@ -147,7 +147,7 @@ public static partial class AnthropicAgents
                 var body = CreateVersionedUpdateBody(current);
                 body["tools"] = tools;
 
-                return await UpdateAgentAsync(serviceProvider, typed.AgentId,  body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, typed.AgentId, body, cancellationToken);
             }));
 
     [Description("Clear the default built-in tool behavior from an Anthropic Managed Agent after explicit typed confirmation.")]
@@ -161,7 +161,7 @@ public static partial class AnthropicAgents
         [Description("Agent ID.")] string agentId,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        
+
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
@@ -169,7 +169,7 @@ public static partial class AnthropicAgents
                 var expected = $"{agentId}:builtin_tool_defaults";
                 await AnthropicManagedAgentsHttp.ConfirmDeleteAsync<AnthropicDeleteAgentItem>(requestContext, expected, cancellationToken);
 
-                var current = await GetAgentAsync(serviceProvider, agentId,  cancellationToken);
+                var current = await GetAgentAsync(serviceProvider, agentId, cancellationToken);
                 var tools = AnthropicManagedAgentsHttp.CloneArray(current["tools"]);
                 var toolset = FindAgentToolset(tools)
                               ?? throw new ValidationException($"Agent '{agentId}' does not contain an {AgentToolsetType} toolset.");
@@ -182,6 +182,6 @@ public static partial class AnthropicAgents
                 var body = CreateVersionedUpdateBody(current);
                 body["tools"] = tools;
 
-                return await UpdateAgentAsync(serviceProvider, agentId,  body, cancellationToken);
+                return await UpdateAgentAsync(serviceProvider, agentId, body, cancellationToken);
             }));
 }

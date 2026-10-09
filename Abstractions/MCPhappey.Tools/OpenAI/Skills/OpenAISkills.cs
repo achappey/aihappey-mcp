@@ -46,13 +46,12 @@ public static class OpenAISkills
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
+            var typed = requestContext.Elicit(
                 new OpenAINewSkill
                 {
                     FolderUrl = folderUrl,
                     ZipFileUrl = zipFileUrl
-                },
-                cancellationToken);
+                });
 
             ArgumentNullException.ThrowIfNull(typed);
             ValidateExclusiveUploadSource(typed.FolderUrl, typed.ZipFileUrl);
@@ -91,13 +90,12 @@ public static class OpenAISkills
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
 
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
+            var typed = requestContext.Elicit(
                 new OpenAIUpdateSkillDefaultVersion
                 {
                     DefaultVersion = defaultVersion ?? string.Empty
-                },
-                cancellationToken);
-         
+                });
+
             ArgumentNullException.ThrowIfNull(typed);
             ArgumentException.ThrowIfNullOrWhiteSpace(typed.DefaultVersion);
 
@@ -164,15 +162,14 @@ public static class OpenAISkills
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(skillId);
 
-            var (typed, notAccepted, _) = await requestContext.TryElicit(
+            var typed = requestContext.Elicit(
                 new OpenAINewSkillVersion
                 {
                     SkillId = skillId,
                     FolderUrl = folderUrl,
                     ZipFileUrl = zipFileUrl,
                     Default = makeDefault
-                },
-                cancellationToken);         
+                });
 
             ArgumentNullException.ThrowIfNull(typed);
             ArgumentException.ThrowIfNullOrWhiteSpace(typed.SkillId);

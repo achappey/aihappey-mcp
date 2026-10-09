@@ -24,10 +24,10 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicArchiveEnvironmentRequest
+                var typed = requestContext.Elicit(new AnthropicArchiveEnvironmentRequest
                 {
                     EnvironmentId = environmentId,
-                }, cancellationToken);
+                });
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
                 var config = CreateConfigPatch();
@@ -62,12 +62,12 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicEnvironmentLimitedNetworkingRequest
+                var typed = requestContext.Elicit(new AnthropicEnvironmentLimitedNetworkingRequest
                 {
                     EnvironmentId = environmentId,
                     AllowMcpServers = allowMcpServers,
                     AllowPackageManagers = allowPackageManagers
-                }, cancellationToken);
+                });
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
                 var current = await GetEnvironmentAsync(serviceProvider, normalizedEnvironmentId, cancellationToken);
@@ -105,11 +105,11 @@ public static partial class AnthropicEnvironments
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicEnvironmentAllowedHostMutationRequest
+                var typed = requestContext.Elicit(new AnthropicEnvironmentAllowedHostMutationRequest
                 {
                     EnvironmentId = environmentId,
                     Host = host
-                }, cancellationToken);
+                });
 
                 var normalizedEnvironmentId = NormalizeEnvironmentId(typed.EnvironmentId);
                 var normalizedHost = NormalizeAllowedHost(typed.Host);

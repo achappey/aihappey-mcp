@@ -19,12 +19,12 @@ public static partial class AnthropicMemoryVersions
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicRedactMemoryVersionRequest
+                var typed = requestContext.Elicit(new AnthropicRedactMemoryVersionRequest
                 {
                     MemoryStoreId = memoryStoreId,
                     MemoryVersionId = memoryVersionId,
                    
-                }, cancellationToken);
+                });
 
                 var normalizedMemoryStoreId = AnthropicMemoryStores.NormalizeMemoryStoreId(typed.MemoryStoreId);
                 var normalizedMemoryVersionId = AnthropicMemoryStores.NormalizeId(typed.MemoryVersionId, "memoryVersionId");

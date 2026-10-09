@@ -29,7 +29,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMcpToolMutationRequest
+                var typed = requestContext.Elicit(new AnthropicAgentMcpToolMutationRequest
                 {
                     AgentId = agentId,
                     McpServerName = mcpServerName,
@@ -37,7 +37,7 @@ public static partial class AnthropicAgents
                     Enabled = enabled,
                     PermissionPolicy = permissionPolicy,
                    
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
                     throw new ValidationException("agentId is required.");
@@ -134,14 +134,14 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMcpToolsetDefaultsRequest
+                var typed = requestContext.Elicit(new AnthropicAgentMcpToolsetDefaultsRequest
                 {
                     AgentId = agentId,
                     McpServerName = mcpServerName,
                     Enabled = enabled,
                     PermissionPolicy = permissionPolicy,
                    
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
                     throw new ValidationException("agentId is required.");

@@ -28,14 +28,14 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentCustomToolMutationRequest
+                var typed = requestContext.Elicit(new AnthropicAgentCustomToolMutationRequest
                 {
                     AgentId = agentId,
                     ToolName = toolName,
                     Description = description,
                     FileUrl = fileUrl,
               
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
                     throw new ValidationException("agentId is required.");

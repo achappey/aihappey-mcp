@@ -19,11 +19,15 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.TryElicit(new AgentHttpMcpRequest
+            var input = requestContext.Elicit(new AgentHttpMcpRequest
             {
-                AgentId = agentId, ServerLabel = serverLabel, ServerUrl = serverUrl,
-                ConnectionOrigin = connectionOrigin, CredentialId = credentialId, Required = required
-            }, cancellationToken);
+                AgentId = agentId,
+                ServerLabel = serverLabel,
+                ServerUrl = serverUrl,
+                ConnectionOrigin = connectionOrigin,
+                CredentialId = credentialId,
+                Required = required
+            });
 
             return await requestContext.WithStructuredContent(async () =>
             {
@@ -35,7 +39,9 @@ public static partial class OpenAIAgents
                 var existing = FindTool(tools, "mcp", input.ServerLabel);
                 var tool = new JsonObject
                 {
-                    ["type"] = "mcp", ["server_label"] = input.ServerLabel, ["required"] = input.Required,
+                    ["type"] = "mcp",
+                    ["server_label"] = input.ServerLabel,
+                    ["required"] = input.Required,
                     ["transport"] = new JsonObject { ["type"] = "http", ["server_url"] = input.ServerUrl }
                 };
                 PreserveMcpMaps(existing, tool);
@@ -56,11 +62,14 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.TryElicit(new AgentStdioMcpRequest
+            var input = requestContext.Elicit(new AgentStdioMcpRequest
             {
-                AgentId = agentId, ServerLabel = serverLabel, Command = command, Cwd = cwd,
+                AgentId = agentId,
+                ServerLabel = serverLabel,
+                Command = command,
+                Cwd = cwd,
                 Required = required
-            }, cancellationToken);
+            });
 
             return await requestContext.WithStructuredContent(async () =>
             {
@@ -106,8 +115,9 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.TryElicit(new AgentMcpMapEntryRequest
-            { AgentId = agentId, ServerLabel = serverLabel, Key = key, Value = value }, cancellationToken);
+            var input = requestContext.Elicit(new AgentMcpMapEntryRequest
+            { AgentId = agentId, ServerLabel = serverLabel, Key = key, Value = value });
+
             return await requestContext.WithStructuredContent(async () =>
             {
                 ValidateRequired(input.AgentId, "agentId"); ValidateRequired(input.ServerLabel, "serverLabel"); ValidateRequired(input.Key, "key");

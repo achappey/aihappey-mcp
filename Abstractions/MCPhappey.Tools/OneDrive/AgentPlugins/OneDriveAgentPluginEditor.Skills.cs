@@ -26,11 +26,11 @@ public static partial class OneDriveAgentPluginEditor
         await context.WithOboGraphClient(async graph =>
         {
             var name = RequirePluginName(pluginName);
-            var (typed, notAccepted, _) = await context.TryElicit(new PluginSkillImportInput
+            var typed = context.Elicit(new PluginSkillImportInput
             {
                 SourceUrl = sourceUrl ?? string.Empty
-            }, cancellationToken);
-          
+            });
+
             ArgumentNullException.ThrowIfNull(typed);
             if (!Uri.TryCreate(typed.SourceUrl, UriKind.Absolute, out var sourceUri))
                 throw new ValidationException("sourceUrl must be an absolute URL.");

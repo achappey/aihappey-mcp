@@ -25,12 +25,12 @@ public static partial class AnthropicVaults
                 var userId = serviceProvider.GetUserId()
                     ?? throw new UnauthorizedAccessException("Current user id is required to create a vault.");
 
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicCreateVaultRequest
+                var typed = requestContext.Elicit(new AnthropicCreateVaultRequest
                 {
                     DisplayName = displayName,
                     MetadataJson = metadataJson,
                    
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.DisplayName))
                     throw new ValidationException("displayName is required.");
@@ -66,13 +66,13 @@ public static partial class AnthropicVaults
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicUpdateVaultRequest
+                var typed= requestContext.Elicit(new AnthropicUpdateVaultRequest
                 {
                     VaultId = vaultId,
                     DisplayName = displayName,
                     MetadataPatchJson = metadataPatchJson,
                    
-                }, cancellationToken);
+                });
 
                 var normalizedVaultId = NormalizeVaultId(typed.VaultId);
                 var current = await GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);
@@ -116,12 +116,12 @@ public static partial class AnthropicVaults
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicVaultOwnerRequest
+                var typed = requestContext.Elicit(new AnthropicVaultOwnerRequest
                 {
                     VaultId = vaultId,
                     OwnerId = ownerId,
                    
-                }, cancellationToken);
+                });
 
                 var normalizedVaultId = NormalizeVaultId(typed.VaultId);
                 var normalizedOwnerId = NormalizeId(typed.OwnerId, "ownerId");
@@ -159,11 +159,11 @@ public static partial class AnthropicVaults
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicArchiveVaultRequest
+                var typed = requestContext.Elicit(new AnthropicArchiveVaultRequest
                 {
                     VaultId = vaultId,
                    
-                }, cancellationToken);
+                });
 
                 var normalizedVaultId = NormalizeVaultId(typed.VaultId);
                 await GetOwnerVaultAsync(serviceProvider, normalizedVaultId,  cancellationToken);

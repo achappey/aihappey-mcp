@@ -24,14 +24,14 @@ public static partial class AnthropicMemories
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicCreateMemoryRequest
+                var typed =  requestContext.Elicit(new AnthropicCreateMemoryRequest
                 {
                     MemoryStoreId = memoryStoreId,
                     Path = path,
                     Content = content,
                     View = view,
                    
-                }, cancellationToken);
+                });
 
                 var normalizedMemoryStoreId = AnthropicMemoryStores.NormalizeMemoryStoreId(typed.MemoryStoreId);
                 await AnthropicMemoryStores.GetOwnerMemoryStoreAsync(serviceProvider, normalizedMemoryStoreId,  cancellationToken);

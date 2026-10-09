@@ -27,13 +27,13 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMultiagentAgentMutationRequest
+                var typed = requestContext.Elicit(new AnthropicAgentMultiagentAgentMutationRequest
                 {
                     AgentId = agentId,
                     RosterAgentId = rosterAgentId,
                     RosterAgentVersion = rosterAgentVersion,
 
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
                     throw new ValidationException("agentId is required.");
@@ -80,11 +80,11 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicAgentMultiagentSelfMutationRequest
+                var typed = requestContext.Elicit(new AnthropicAgentMultiagentSelfMutationRequest
                 {
                     AgentId = agentId,
 
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
                     throw new ValidationException("agentId is required.");

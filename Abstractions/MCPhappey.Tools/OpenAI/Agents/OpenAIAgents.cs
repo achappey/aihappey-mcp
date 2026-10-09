@@ -37,7 +37,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.TryElicit(new AgentScalarRequest
+            var input = requestContext.Elicit(new AgentScalarRequest
             {
                 Model = model,
                 Name = name,
@@ -45,7 +45,7 @@ public static partial class OpenAIAgents
                 MaxConcurrentSubagents = maxConcurrentSubagents, ReasoningEffort = reasoningEffort,
                 ReasoningSummary = reasoningSummary, ServiceTier = serviceTier,
                 TextVerbosity = textVerbosity, TextSchemaFileUrl = textSchemaFileUrl
-            }, cancellationToken);
+            });
 
 
             return await requestContext.WithStructuredContent(async () =>
@@ -82,7 +82,7 @@ public static partial class OpenAIAgents
         CancellationToken cancellationToken = default)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         {
-            var (input, rejected, _) = await requestContext.TryElicit(new AgentUpdateScalarRequest
+            var input = requestContext.Elicit(new AgentUpdateScalarRequest
             {
                 AgentId = agentId,
                 Model = model ?? string.Empty,
@@ -95,7 +95,7 @@ public static partial class OpenAIAgents
                 TextVerbosity = textVerbosity, TextSchemaFileUrl = textSchemaFileUrl,
                 ClearReasoning = clearReasoning, ClearText = clearText,
                 ClearServiceTier = clearServiceTier, ClearMetadata = clearMetadata, ClearTools = clearTools
-            }, cancellationToken);
+            });
 
             return await requestContext.WithStructuredContent(async () =>
             {

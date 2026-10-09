@@ -49,7 +49,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicCreateAgentRequest
+                var typed = requestContext.Elicit(new AnthropicCreateAgentRequest
                 {
                     Name = name,
                     ModelId = modelId,
@@ -57,7 +57,7 @@ public static partial class AnthropicAgents
                     ModelSpeed = modelSpeed,
                     ModelEffort = modelEffort,
                     System = system
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.Name))
                     throw new ValidationException("name is required.");
@@ -106,7 +106,7 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicUpdateAgentRequest
+                var typed = requestContext.Elicit(new AnthropicUpdateAgentRequest
                 {
                     AgentId = agentId,
                     Version = version,
@@ -116,7 +116,7 @@ public static partial class AnthropicAgents
                     ModelSpeed = modelSpeed,
                     ModelEffort = modelEffort,
                     System = system
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
                     throw new ValidationException("agentId is required.");
@@ -166,10 +166,10 @@ public static partial class AnthropicAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithStructuredContent(async () =>
             {
-                var (typed, _, _) = await requestContext.TryElicit(new AnthropicArchiveAgentRequest
+                var typed = requestContext.Elicit(new AnthropicArchiveAgentRequest
                 {
                     AgentId = agentId,
-                }, cancellationToken);
+                });
 
                 if (string.IsNullOrWhiteSpace(typed.AgentId))
                     throw new ValidationException("agentId is required.");
