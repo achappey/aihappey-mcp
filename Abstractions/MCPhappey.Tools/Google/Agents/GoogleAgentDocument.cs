@@ -8,7 +8,7 @@ internal static class GoogleAgentDocument
 {
     internal const string SupportedBaseAgent = "antigravity-preview-09-2026";
     private static readonly HashSet<string> SupportedModels =
-        ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite"];
+        ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"];
     private static readonly string[] ReservedPrefixes =
         ["antigravity-", "veo-", "omni-", "lyria-", "imagen-", "gemma-", "gemini-", "google-", "youtube-", "android-", "chrome-", "pixel-", "waze-", "fitbit-", "nest-", "kaggle-"];
     private static readonly HashSet<string> AgentFields =
