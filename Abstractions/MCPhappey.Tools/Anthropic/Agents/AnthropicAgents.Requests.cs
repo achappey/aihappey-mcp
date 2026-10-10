@@ -330,4 +330,53 @@ public static partial class AnthropicAgents
         [Description("Coordinator agent ID to mutate.")]
         public string AgentId { get; set; } = string.Empty;
     }
+
+    [Description("Please confirm the Anthropic agent workflow configuration request.")]
+    public sealed class AnthropicAgentConfigureWorkflowsRequest
+    {
+        [JsonPropertyName("agentId")]
+        [Required]
+        [Description("Agent ID to configure.")]
+        public string AgentId { get; set; } = string.Empty;
+
+        [JsonPropertyName("workflowsEnabled")]
+        [Description("Optional workflow enabled flag. Omit to preserve the stored setting or use the native default when missing.")]
+        public bool? WorkflowsEnabled { get; set; }
+
+        [JsonPropertyName("inlineAgentsEnabled")]
+        [Description("Optional workflow inline-agent enabled flag. Disabling requires at least one predefined workflow agent and enabled workflows.")]
+        public bool? InlineAgentsEnabled { get; set; }
+
+        [JsonPropertyName("subagentsEnabled")]
+        [Description("Optional subagent delegation enabled flag. Set false for workflows-only mode; omit to preserve the stored setting.")]
+        public bool? SubagentsEnabled { get; set; }
+    }
+
+    [Description("Please confirm the Anthropic agent workflow predefined-agent mutation request.")]
+    public sealed class AnthropicAgentUpdateWorkflowAgentsRequest
+    {
+        [JsonPropertyName("agentId")]
+        [Required]
+        [Description("Agent ID whose workflow list is being updated.")]
+        public string AgentId { get; set; } = string.Empty;
+
+        [JsonPropertyName("operation")]
+        [Required]
+        [Description("List operation: add (adds or replaces a reference) or remove.")]
+        public string Operation { get; set; } = string.Empty;
+
+        [JsonPropertyName("referenceType")]
+        [Required]
+        [Description("Reference type: agent or self.")]
+        public string ReferenceType { get; set; } = string.Empty;
+
+        [JsonPropertyName("predefinedAgentId")]
+        [Description("Predefined agent ID. Required for agent references; omit for self.")]
+        public string? PredefinedAgentId { get; set; }
+
+        [JsonPropertyName("predefinedAgentVersion")]
+        [Range(1, int.MaxValue)]
+        [Description("Optional version pin for an agent reference when adding. Omit for self and removal.")]
+        public int? PredefinedAgentVersion { get; set; }
+    }
 }
