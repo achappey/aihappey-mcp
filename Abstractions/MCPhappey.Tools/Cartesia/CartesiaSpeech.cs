@@ -26,7 +26,7 @@ public static class CartesiaSpeech
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Text transcript to synthesize.")] string transcript,
         [Description("Voice ID to use.")] string voiceId,
-        [Description("Model ID. Default: sonic-2.")] string modelId = "sonic-2",
+        [Description("Model ID. Default: sonic-3.6.")] string modelId = "sonic-3.6",
         [Description("Output container: wav, mp3, or raw. Default: wav.")] string container = "wav",
         [Description("Sample rate in Hz. Default: 24000.")] int sampleRate = 24000,
         [Description("Raw encoding (only used when container=raw or wav). Default: pcm_s16le.")] string encoding = "pcm_s16le",
@@ -48,7 +48,7 @@ public static class CartesiaSpeech
                 {
                     Transcript = transcript,
                     VoiceId = voiceId,
-                    ModelId = string.IsNullOrWhiteSpace(modelId) ? "sonic-2" : modelId.Trim(),
+                    ModelId = string.IsNullOrWhiteSpace(modelId) ? "sonic-3.6" : modelId.Trim(),
                     Container = NormalizeContainer(container),
                     SampleRate = NormalizeSampleRate(sampleRate),
                     Encoding = NormalizeEncoding(encoding),
@@ -78,7 +78,7 @@ public static class CartesiaSpeech
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Source file URL (SharePoint, OneDrive, HTTP) to extract text from.")] string fileUrl,
         [Description("Voice ID to use.")] string voiceId,
-        [Description("Model ID. Default: sonic-2.")] string modelId = "sonic-2",
+        [Description("Model ID. Default: sonic-3.6.")] string modelId = "sonic-3.6",
         [Description("Output container: wav, mp3, or raw. Default: wav.")] string container = "wav",
         [Description("Sample rate in Hz. Default: 24000.")] int sampleRate = 24000,
         [Description("Raw encoding (only used when container=raw or wav). Default: pcm_s16le.")] string encoding = "pcm_s16le",
@@ -109,7 +109,7 @@ public static class CartesiaSpeech
                 {
                     FileUrl = fileUrl,
                     VoiceId = voiceId,
-                    ModelId = string.IsNullOrWhiteSpace(modelId) ? "sonic-2" : modelId.Trim(),
+                    ModelId = string.IsNullOrWhiteSpace(modelId) ? "sonic-3.6" : modelId.Trim(),
                     Container = NormalizeContainer(container),
                     SampleRate = NormalizeSampleRate(sampleRate),
                     Encoding = NormalizeEncoding(encoding),
@@ -284,7 +284,7 @@ public static class CartesiaSpeech
 
         [JsonPropertyName("modelId")]
         [Required]
-        public string ModelId { get; set; } = "sonic-2";
+        public string ModelId { get; set; } = "sonic-3.6";
 
         [JsonPropertyName("container")]
         [Required]
@@ -329,7 +329,7 @@ public static class CartesiaSpeech
 
         [JsonPropertyName("modelId")]
         [Required]
-        public string ModelId { get; set; } = "sonic-2";
+        public string ModelId { get; set; } = "sonic-3.6";
 
         [JsonPropertyName("container")]
         [Required]
