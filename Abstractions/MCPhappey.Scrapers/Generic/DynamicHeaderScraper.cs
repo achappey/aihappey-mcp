@@ -17,7 +17,12 @@ public class DynamicHeaderScraper(IHttpClientFactory httpClientFactory) : IConte
         var tokenService = serviceProvider.GetService<HeaderProvider>();
         var httpClient = httpClientFactory.CreateClient();
 
-        foreach (var item in tokenService?.Headers ?? [])
+        // This scraper's configured service requires only its own bearer token.
+        // Do not copy other provider credentials from a session into a resource request.
+        if (!SupportedHosts.Contains(new Uri(url).Host))
+            throw new ArgumentException("Unsupported dynamic-header resource host.", nameof(url));
+        foreach (var item in (tokenService?.Headers ?? [])
+            .Where(item => item.Key.Equals("Authorization", StringComparison.OrdinalIgnoreCase)))
         {
             httpClient.DefaultRequestHeaders.Add(item.Key, [item.Value]);
         }

@@ -102,7 +102,6 @@ using MCPhappey.Tools.Loreto;
 using MCPhappey.Tools.AgentMail;
 using MCPhappey.Tools.WebCrawlerAPI;
 using MCPhappey.Tools.AgentSandbox;
-using Azure.Monitor.OpenTelemetry.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration.Get<Config>();
@@ -257,19 +256,6 @@ builder.Services
 .AddScrappey(appConfig?.DomainHeaders, appConfig?.DomainQueryStrings)
 .AddRijkswaterstaat()
 .AddEuropeanUnionVies();
-
-var appInsightsConnectionString =
-    builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"];
-
-if (!string.IsNullOrWhiteSpace(appInsightsConnectionString))
-{
-    builder.Services.AddOpenTelemetry()
-        .UseAzureMonitor(options =>
-        {
-            options.ConnectionString = appInsightsConnectionString;
-        });
-}
-
 
 if (appConfig?.OAuth != null)
 {
