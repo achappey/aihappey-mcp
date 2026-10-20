@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CsvHelper;
-using CsvHelper.Configuration;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Extensions;
@@ -170,21 +169,22 @@ public static partial class GraphWorkbooks
             .First();
 
         // Configure CsvHelper
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        var options = new CsvReaderOptions
         {
-            Delimiter = detectedDelimiter.ToString(),
+            Separator = detectedDelimiter,
+            FormatProvider = CultureInfo.InvariantCulture,
             Encoding = Encoding.UTF8,
-            HasHeaderRecord = true,
-            BadDataFound = null, // Ignore bad data
-            IgnoreBlankLines = true
+            HasHeader = true,
+            MalformedData = CsvMalformedDataHandling.Recover,
+            MissingField = CsvMissingFieldHandling.Throw,
+            SkipEmptyLines = true
         };
 
-        using var csv = new CsvReader(reader, config);
+        using var csv = CsvReader.Create(reader, options);
 
         // Lees de headers
-        csv.Read();
         csv.ReadHeader();
-        var headers = csv.HeaderRecord!;
+        var headers = csv.Headers.ToArray();
         int columnCount = headers.Length;
 
         // Data rows
@@ -193,7 +193,7 @@ public static partial class GraphWorkbooks
         {
             var row = new object[columnCount];
             for (int i = 0; i < columnCount; i++)
-                row[i] = (csv.GetField(i) ?? string.Empty).Trim();
+                row[i] = csv.GetString(i).Trim();
             dataRows.Add(row);
         }
 

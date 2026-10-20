@@ -1,7 +1,5 @@
 using CsvHelper;
-using System.Linq.Dynamic.Core;
 using System.Globalization;
-using CsvHelper.Configuration;
 
 namespace MCPhappey.Tools.DataAnalysis;
 
@@ -23,23 +21,27 @@ public static partial class DataAnalysisCsvExtensions
         csvStream.Seek(0, SeekOrigin.Begin);
         reader.DiscardBufferedData();
 
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        var options = new CsvReaderOptions
         {
-            Delimiter = delimiter,
-            HasHeaderRecord = true,
-            IgnoreBlankLines = true,
-            MissingFieldFound = null,
-            BadDataFound = null,
-            TrimOptions = TrimOptions.Trim,
-            DetectColumnCountChanges = false
+            Separator = delimiter[0],
+            FormatProvider = CultureInfo.InvariantCulture,
+            HasHeader = true,
+            SkipEmptyLines = true,
+            MissingField = CsvMissingFieldHandling.ReturnEmpty,
+            MalformedData = CsvMalformedDataHandling.Recover,
+            TrimWhitespace = true,
+            FieldCountMismatch = CsvFieldCountHandling.Allow
         };
 
-        using var csv = new CsvReader(reader, config);
+        using var csv = CsvReader.Create(reader, options);
         var records = new List<IDictionary<string, object?>>();
 
-        await foreach (IDictionary<string, object?> record in csv.GetRecordsAsync<dynamic>(cancellationToken))
+        await foreach (var record in csv.GetRecordsAsync<CsvDynamicRecord>(cancellationToken))
         {
-            records.Add(record);
+            records.Add(record.Names
+                .Select((name, index) => new KeyValuePair<string, object?>(
+                    name, index < record.FieldCount ? record[index] : null))
+                .ToDictionary());
         }
 
         return records;
