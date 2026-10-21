@@ -63,12 +63,12 @@ public static class LumaAIImages
                 cancellationToken);
         });
 
-    [Description("Modify an image with Luma AI from a single fileUrl, always confirm via elicitation, upload output to SharePoint/OneDrive, delete remote generation, and return only resource link blocks.")]
+    [Description("Modify an image with Luma AI from a single HTTP or HTTPS image URL accessible to LumaAI. The input URL is passed directly to the provider; output is uploaded to SharePoint/OneDrive, remote generation is deleted, and only resource link blocks are returned.")]
     [McpServerTool(Title = "LumaAI image modify", Name = "lumaai_images_modify", Destructive = false, OpenWorld = true)]
     public static async Task<CallToolResult?> LumaAI_Images_Modify(
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Single input image URL (SharePoint/OneDrive/public HTTP).")]
+        [Description("Absolute HTTP or HTTPS image URL accessible to LumaAI. The URL is passed directly to the provider and is not downloaded by this server.")]
         string fileUrl,
         [Description("Prompt describing the requested image modification.")] string prompt,
         [Description("Model: photon-1 or photon-flash-1.")] string model = "photon-1",
@@ -97,11 +97,7 @@ public static class LumaAIImages
 
             ValidateModifyRequest(typed);
 
-            var sourceImageUrl = await GetLumaAccessibleUrlFromFileUrlAsync(
-                serviceProvider,
-                requestContext,
-                typed.FileUrl,
-                cancellationToken);
+            var sourceImageUrl = GetLumaAccessibleUrlFromFileUrl(typed.FileUrl);
 
             var createBody = new JsonObject
             {
@@ -209,30 +205,15 @@ public static class LumaAIImages
         throw new TimeoutException($"LumaAI generation {generationId} did not complete within {maxWaitSeconds} seconds.");
     }
 
-    private static async Task<string> GetLumaAccessibleUrlFromFileUrlAsync(
-        IServiceProvider serviceProvider,
-        RequestContext<CallToolRequestParams> requestContext,
-        string fileUrl,
-        CancellationToken cancellationToken)
+    internal static string GetLumaAccessibleUrlFromFileUrl(string fileUrl)
     {
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, fileUrl, cancellationToken);
-        var file = files.FirstOrDefault() ?? throw new InvalidOperationException("Failed to download file content from fileUrl.");
+        if (!Uri.TryCreate(fileUrl, UriKind.Absolute, out var uri)
+            || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+        {
+            throw new ValidationException("fileUrl must be an absolute HTTP or HTTPS URL accessible to LumaAI.");
+        }
 
-        var sourceFilename = string.IsNullOrWhiteSpace(file.Filename)
-            ? $"luma-source{GetImageExtension(null, file.MimeType)}"
-            : file.Filename;
-
-        var uploaded = await requestContext.Server.Upload(
-            serviceProvider,
-            sourceFilename,
-            BinaryData.FromBytes(file.Contents.ToArray()),
-            cancellationToken);
-
-        if (uploaded == null || string.IsNullOrWhiteSpace(uploaded.Uri))
-            throw new Exception("Failed to upload source file for LumaAI processing.");
-
-        return uploaded.Uri;
+        return fileUrl;
     }
 
     private static async Task<List<ResourceLinkBlock>> DownloadUploadFromUrlsAsync(
@@ -384,7 +365,7 @@ public sealed class LumaAIImageModifyRequest
 {
     [JsonPropertyName("fileUrl")]
     [Required]
-    [Description("Single input image URL (SharePoint/OneDrive/public HTTP).")]
+    [Description("Absolute HTTP or HTTPS image URL accessible to LumaAI. The URL is passed directly to the provider and is not downloaded by this server.")]
     public string FileUrl { get; set; } = default!;
 
     [JsonPropertyName("prompt")]
@@ -416,4 +397,3 @@ public sealed class LumaAIImageModifyRequest
     [Description("Output filename without extension.")]
     public string? Filename { get; set; }
 }
-
