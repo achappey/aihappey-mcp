@@ -11,6 +11,7 @@ public sealed class LumaAIUrlHandlingTests
     public void Input_url_is_passed_through_unchanged(string url)
     {
         Assert.Equal(url, LumaAIImages.GetLumaAccessibleUrlFromFileUrl(url));
+        Assert.Equal(url, LumaAIVideo.GetLumaAccessibleUrlFromFileUrl(url));
     }
 
     [Theory]
@@ -20,5 +21,23 @@ public sealed class LumaAIUrlHandlingTests
     public void Rejects_non_http_input_urls(string url)
     {
         Assert.Throws<ValidationException>(() => LumaAIImages.GetLumaAccessibleUrlFromFileUrl(url));
+        Assert.Throws<ValidationException>(() => LumaAIVideo.GetLumaAccessibleUrlFromFileUrl(url));
+    }
+
+    [Fact]
+    public void Video_keyframe_payload_uses_input_urls_without_downloading_them()
+    {
+        const string firstUrl = "https://images.example.test/frame0.png?token=opaque";
+        const string secondUrl = "https://images.example.test/frame1.png";
+        var request = new LumaAIVideoBaseRequest
+        {
+            Prompt = "A moving scene",
+            FileUrl = $"{firstUrl}, {secondUrl}"
+        };
+
+        var body = LumaAIVideo.BuildCreateVideoBody(request);
+
+        Assert.Equal(firstUrl, body["keyframes"]?["frame0"]?["url"]?.GetValue<string>());
+        Assert.Equal(secondUrl, body["keyframes"]?["frame1"]?["url"]?.GetValue<string>());
     }
 }
