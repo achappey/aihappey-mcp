@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using MCPhappey.Auth.Models;
 using MCPhappey.Common.Extensions;
@@ -68,9 +67,8 @@ public static class AspNetCoreWebAppExtensions
             }
 
             var baseUrl = $"{context.Request.Scheme}://{context.Request.Host}";
-            var jwt = new JwtSecurityToken(token);
-            var principal = await validator.ValidateAsync(token!, baseUrl,
-                           string.Join(", ", jwt.Audiences), oAuthSettings);
+            var expectedAudience = $"{baseUrl}/{matchedServer.Server.ServerInfo.Name.ToLowerInvariant()}";
+            var principal = await validator.ValidateAsync(token!, baseUrl, expectedAudience, oAuthSettings);
 
             var roleClaims =
                 principal?.FindAll("roles").Select(c => c.Value)
