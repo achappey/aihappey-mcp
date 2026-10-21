@@ -1,5 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using MCPhappey.Auth.Cache;
 using MCPhappey.Auth.Models;
@@ -151,6 +153,31 @@ public static class TokenController
             });
         }
 
+        if (grantType == "client_credentials")
+        {
+            var clientId = form["client_id"].ToString();
+            var clientSecret = form["client_secret"].ToString();
+
+            if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret) ||
+                oauth.ConfidentialClients == null ||
+                !oauth.ConfidentialClients.TryGetValue(clientId, out var conf) ||
+                !IsClientSecretValid(clientSecret, conf.ClientSecrets))
+            {
+                return Results.BadRequest("Invalid client credentials");
+            }
+
+            return Results.Json(new
+            {
+                access_token = CreateJwt($"{ctx.Request.Scheme}://{ctx.Request.Host}", clientId,
+                    resource,
+                    oauth.Scopes.Split(" ") ?? [], signingCredentials,
+                    additionalClaims: new Dictionary<string, object>()),
+                token_type = "Bearer",
+                resource,
+                expires_in = 3600
+            });
+        }
+
         if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(codeVerifier))
         {
             return Results.BadRequest("Missing required parameters.");
@@ -161,33 +188,6 @@ public static class TokenController
         if (string.IsNullOrEmpty(redirectUri))
         {
             return Results.BadRequest("Unknown or expired code");
-        }
-
-
-        if (grantType == "client_credentials")
-        {
-            var clientId = form["client_id"].ToString();
-            var clientSecret = form["client_secret"].ToString();
-            var scope = form["scope"].ToString();
-
-            if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
-                return Results.BadRequest("Missing client_id or client_secret");
-
-            // ✅ Look up client in your confidential clients registry
-            if (!oauth.ConfidentialClients?.TryGetValue(clientId, out var conf) == true)
-                return Results.BadRequest("Unknown confidential client");
-
-            return Results.Json(new
-            {
-                access_token = CreateJwt($"{ctx.Request.Scheme}://{ctx.Request.Host}", clientId,
-                  //oauth.Audience,
-                  resource,
-                   oauth.Scopes.Split(" ") ?? [], signingCredentials,
-                additionalClaims: new Dictionary<string, object>()),
-                token_type = "Bearer",
-                resource,
-                expires_in = 3600
-            });
         }
 
         // Must match redirect_uri used during /authorize
@@ -240,5 +240,13 @@ public static class TokenController
             token_type = "Bearer",
             expires_in = 3600
         });
+    }
+
+    private static bool IsClientSecretValid(string clientSecret, IEnumerable<string> configuredSecrets)
+    {
+        var suppliedBytes = Encoding.UTF8.GetBytes(clientSecret);
+        return configuredSecrets.Any(secret =>
+            !string.IsNullOrEmpty(secret) &&
+            CryptographicOperations.FixedTimeEquals(suppliedBytes, Encoding.UTF8.GetBytes(secret)));
     }
 }
