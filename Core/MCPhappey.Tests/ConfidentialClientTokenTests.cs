@@ -5,6 +5,7 @@ using MCPhappey.Auth.Cache;
 using MCPhappey.Auth.Controllers;
 using MCPhappey.Auth.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MCPhappey.Tests;
@@ -60,6 +61,11 @@ public sealed class ConfidentialClientTokenTests
         context.Request.Body = new MemoryStream(bodyBytes);
         context.Request.ContentLength = bodyBytes.Length;
         context.Response.Body = new MemoryStream();
+        using var services = new ServiceCollection()
+            .AddLogging()
+            .ConfigureHttpJsonOptions(_ => { })
+            .BuildServiceProvider();
+        context.RequestServices = services;
 
         var settings = new OAuthSettings
         {
