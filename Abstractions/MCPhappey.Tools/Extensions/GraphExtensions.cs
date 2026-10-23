@@ -86,6 +86,45 @@ public static class GraphExtensions
         return uploaded;
     }
 
+    public static async Task<(DriveItem Item, BinaryData Contents)> DownloadOfficeDocumentAsync(
+        this GraphServiceClient graphClient,
+        string shareUrl,
+        CancellationToken cancellationToken = default)
+    {
+        var item = await graphClient.GetDriveItem(shareUrl, cancellationToken)
+            ?? throw new IOException($"Could not resolve share URL '{shareUrl}'.");
+        ValidateOfficeWriteTarget(item);
+
+        using var stream = await graphClient.Drives[item.ParentReference!.DriveId].Items[item.Id]
+            .Content.GetAsync(cancellationToken: cancellationToken)
+            ?? throw new IOException("Office document download returned no content.");
+        return (item, await BinaryData.FromStreamAsync(stream, cancellationToken));
+    }
+
+    public static async Task<DriveItem?> UploadOfficeDocumentAsync(
+        this GraphServiceClient graphClient,
+        DriveItem originalItem,
+        BinaryData content,
+        CancellationToken cancellationToken = default)
+    {
+        ValidateOfficeWriteTarget(originalItem);
+        using var stream = content.ToStream();
+        // Use the original identity and version, never a freshly resolved URL/version.
+        // Graph lock and precondition errors propagate; retrying would overwrite another editor.
+        return await graphClient.Drives[originalItem.ParentReference!.DriveId].Items[originalItem.Id]
+            .Content.PutAsync(stream, request =>
+                request.Headers.Add("If-Match", originalItem.ETag!),
+                cancellationToken: cancellationToken);
+    }
+
+    private static void ValidateOfficeWriteTarget(DriveItem item)
+    {
+        if (string.IsNullOrWhiteSpace(item.Id) ||
+            string.IsNullOrWhiteSpace(item.ParentReference?.DriveId) ||
+            string.IsNullOrWhiteSpace(item.ETag))
+            throw new IOException("Office editing requires a drive item identity and ETag for a safe conditional write.");
+    }
+
     internal static async Task<CallToolResult> WithOboGraphClient(this RequestContext<CallToolRequestParams> requestContext,
        Func<GraphServiceClient, Task<CallToolResult>> func)
     {

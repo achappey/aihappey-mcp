@@ -104,6 +104,13 @@ public static class PowerPointPlugin
     }
 
 
+    /// <summary>
+    /// Legacy mode rebuilds paragraphs. Preserve mode retains direct XML formatting and leaves
+    /// unspecified properties inherited from paragraph defaults, list styles, layout/master and theme.
+    /// Replacement uses existing paragraph positions and run lengths, with overflow in the final run;
+    /// added paragraphs inherit the final paragraph and run properties. Targeted edits replace only
+    /// the selected paragraph/run/range, irrespective of replace; formatOnly never changes text.
+    /// </summary>
     [Description("Add or replace text or markdown content on a PowerPoint slide (.pptx)")]
     [McpServerTool(
     Name = "openxml_powerpoint_add_content",
@@ -118,15 +125,19 @@ public static class PowerPointPlugin
     IServiceProvider serviceProvider,
     RequestContext<CallToolRequestParams> requestContext,
     [Description("Optional shape index (omit for auto title/body detection)")] int? shapeIndex = null,
-    CancellationToken cancellationToken = default)
+    CancellationToken cancellationToken = default,
+    [Description("default retains legacy text rebuilding. preserve keeps body/paragraph/run properties. Replacement distributes text by existing run lengths (overflow in last run); new paragraphs inherit the last paragraph and last run properties. Unspecified formatting remains inherited from the layout/master/theme.")] string formattingMode = "default",
+    [Description("Optional replaceContent (forces replacement regardless of replace) or formatOnly (ignores content and replace); requires preserve mode. Omit to use replace for whole-shape replace versus append.")] string? operation = null,
+    [Description("Optional zero-based paragraph index within the selected shape; requires preserve mode. Targeted edits replace the selection regardless of replace.")] int? paragraphIndex = null,
+    [Description("Optional zero-based regular run index within paragraphIndex; requires paragraphIndex.")] int? runIndex = null,
+    [Description("Optional zero-based UTF-16 character offset in paragraphIndex, or in runIndex when supplied. Requires length. Ranges cannot cross paragraphs, fields, or breaks.")] int? start = null,
+    [Description("Optional UTF-16 character count paired with start; zero inserts content. Surrogate pairs cannot be split.")] int? length = null,
+    [Description("Optional typed formatting patch for preserve mode. Null fields leave existing/inherited formatting unchanged; false explicitly disables a flag.")] PowerPointFormattingPatch? formatting = null)
     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
     await requestContext.WithOboGraphClient(async graphClient =>
 {
-    var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-    var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
-    var file = GetRequiredDownloadedFile(files, url, "PowerPoint");
-
-    var buffer = file.Contents.ToArray();
+    var snapshot = await graphClient.DownloadOfficeDocumentAsync(url, cancellationToken);
+    var buffer = snapshot.Contents.ToArray();
     using var ms = new MemoryStream();
     ms.Write(buffer, 0, buffer.Length);   // copy data
     ms.Position = 0;
@@ -157,7 +168,23 @@ public static class PowerPointPlugin
         if (shape == null)
             throw new InvalidOperationException("No valid text shape found on slide.");
 
-        SetShapeText(shape, lines, bullets: normalized == "text/markdown", replace);
+        if (formattingMode == "default")
+        {
+            if (operation != null || paragraphIndex != null || runIndex != null ||
+                start != null || length != null || formatting != null)
+                throw new ArgumentException("Targeting, operation, and formatting require formattingMode='preserve'.");
+            SetShapeText(shape, lines, bullets: normalized == "text/markdown", replace);
+        }
+        else if (formattingMode == "preserve")
+        {
+            var preservedContent = normalized == "text/markdown"
+                ? string.Join("\n", lines)
+                : content.Replace("\r\n", "\n").Replace('\r', '\n');
+            PowerPointTextEditor.Edit(shape, preservedContent, replace, operation,
+                paragraphIndex, runIndex, start, length, formatting, normalized == "text/markdown");
+        }
+        else
+            throw new ArgumentException("formattingMode must be 'default' or 'preserve'.");
 
         slide.Save();
         presPart.Presentation?.Save();
@@ -166,7 +193,7 @@ public static class PowerPointPlugin
     ms.Flush();
     ms.Position = 0;
 
-    var updated = await graphClient.UploadBinaryDataAsync(url,
+    var updated = await graphClient.UploadOfficeDocumentAsync(snapshot.Item,
         new BinaryData(ms.ToArray()), cancellationToken) ?? throw new IOException($"PowerPoint update failed for {url}.");
     return updated.ToResourceLinkBlock(updated.Name ?? Path.GetFileName(url)).ToCallToolResult();
 }));
@@ -196,16 +223,21 @@ public static class PowerPointPlugin
                 var presPart = doc.PresentationPart ?? throw new InvalidDataException("Missing PresentationPart");
                 var slidePart = GetSlidePartByIndex(presPart, slideIndex);
                 var shapes = slidePart.Slide?.Descendants<P.Shape>()
-                    .Select((shape, i) => new
-                    {
-                        shapeIndex = i,
-                        placeholderType = shape.NonVisualShapeProperties?
-                            .ApplicationNonVisualDrawingProperties?
-                            .GetFirstChild<P.PlaceholderShape>()?.Type?.Value.ToString() ?? "None",
-                        text = shape.TextBody?.InnerText?.Trim() ?? string.Empty
-                    }).ToList() ?? [];
-
-                return new { shapes = shapes ?? [] };
+                    .Select((shape, i) => PowerPointTextEditor.Inspect(shape, i)).ToList() ?? [];
+                var layout = slidePart.SlideLayoutPart;
+                var master = layout?.SlideMasterPart;
+                return new
+                {
+                    shapes,
+                    formattingNote = "Properties are explicit, not computed. Missing values inherit from paragraph defaults, list style, placeholder layout/master, and theme. Offsets are UTF-16, paragraph-local; breaks count as one character.",
+                    defaultTextStyleXml = presPart.Presentation?.DefaultTextStyle?.OuterXml,
+                    slideColorMapOverrideXml = slidePart.Slide?.ColorMapOverride?.OuterXml,
+                    layoutXml = layout?.SlideLayout?.OuterXml,
+                    masterTextStylesXml = master?.SlideMaster?.TextStyles?.OuterXml,
+                    masterColorMapXml = master?.SlideMaster?.ColorMap?.OuterXml,
+                    masterShapesXml = master?.SlideMaster?.CommonSlideData?.ShapeTree?.OuterXml,
+                    themeXml = master?.ThemePart?.Theme?.OuterXml
+                };
             }
         })));
 
@@ -346,13 +378,10 @@ public static class PowerPointPlugin
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graphClient =>
     {
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-        var fileItems = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
-        var fileItem = GetRequiredDownloadedFile(fileItems, url, "PowerPoint");
+        var snapshot = await graphClient.DownloadOfficeDocumentAsync(url, cancellationToken);
+        var newBinary = AddBlankSlide(snapshot.Contents);
 
-        var newBinary = AddBlankSlide(fileItem.Contents);
-
-        var uploaded = await graphClient.UploadBinaryDataAsync(url,
+        var uploaded = await graphClient.UploadOfficeDocumentAsync(snapshot.Item,
             newBinary, cancellationToken) ?? throw new IOException($"PowerPoint update failed for {url}.");
 
         return uploaded.ToResourceLinkBlock(uploaded.Name ?? Path.GetFileName(url)).ToCallToolResult();
@@ -391,12 +420,9 @@ public static class PowerPointPlugin
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graphClient =>
     {
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-        var fileItems = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
-        var fileItem = GetRequiredDownloadedFile(fileItems, url, "PowerPoint");
-
-        var newBinary = RemoveSlideByIndex(fileItem.Contents, slideIndex);
-        var uploaded = await graphClient.UploadBinaryDataAsync(url,
+        var snapshot = await graphClient.DownloadOfficeDocumentAsync(url, cancellationToken);
+        var newBinary = RemoveSlideByIndex(snapshot.Contents, slideIndex);
+        var uploaded = await graphClient.UploadOfficeDocumentAsync(snapshot.Item,
             newBinary, cancellationToken) ?? throw new IOException($"PowerPoint update failed for {url}.");
 
         return uploaded.ToResourceLinkBlock(uploaded.Name ?? Path.GetFileName(url)).ToCallToolResult();
@@ -415,12 +441,9 @@ public static class PowerPointPlugin
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async graphClient =>
     {
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-        var fileItems = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
-        var fileItem = GetRequiredDownloadedFile(fileItems, url, "PowerPoint");
-
-        var newBinary = ReorderSlides(fileItem.Contents, fromIndex, toIndex);
-        var uploaded = await graphClient.UploadBinaryDataAsync(url, newBinary, cancellationToken)
+        var snapshot = await graphClient.DownloadOfficeDocumentAsync(url, cancellationToken);
+        var newBinary = ReorderSlides(snapshot.Contents, fromIndex, toIndex);
+        var uploaded = await graphClient.UploadOfficeDocumentAsync(snapshot.Item, newBinary, cancellationToken)
          ?? throw new IOException($"PowerPoint update failed for {url}.");
 
         return uploaded.ToResourceLinkBlock(uploaded.Name ?? Path.GetFileName(url)).ToCallToolResult();

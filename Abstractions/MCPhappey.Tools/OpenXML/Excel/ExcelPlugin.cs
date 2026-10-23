@@ -54,11 +54,8 @@ public static class ExcelPlugin
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
-        var download = serviceProvider.GetRequiredService<DownloadService>();
-        var files = await download.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
-        var file = files.FirstOrDefault() ?? throw new FileNotFoundException($"No workbook found at {url}");
-
-        using var ms = new MemoryStream(file.Contents.ToArray());
+        var snapshot = await graphClient.DownloadOfficeDocumentAsync(url, cancellationToken);
+        using var ms = ExcelCellEditor.OpenEditableStream(snapshot.Contents.ToArray());
         using (var doc = SpreadsheetDocument.Open(ms, true))
         {
             var wb = doc.WorkbookPart ?? throw new InvalidDataException("Missing WorkbookPart");
@@ -80,71 +77,68 @@ public static class ExcelPlugin
             workbook.Save();
         }
 
-        var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken)
+        var updated = await graphClient.UploadOfficeDocumentAsync(snapshot.Item, new BinaryData(ms.ToArray()), cancellationToken)
             ?? throw new IOException($"OpenXML Excel failed to update workbook at {url}.");
 
         return updated.ToResourceLinkBlock(updated.Name ?? sheetName).ToCallToolResult();
     }));
 
-    [Description("Set a single cell value by A1 address. Types: string | number | bool | date (stored as text).")]
+    [Description("Set cell values/formulas or patch formatting over an A1 range (maximum 10000 cells). formatOnly preserves all values and formulas. Omitted formatting properties are preserved. Content replacement in shared/array/data-table formula regions or cells referenced by a calculation chain is rejected.")]
     [McpServerTool(Name = "openxml_excel_set_cell", ReadOnly = false, OpenWorld = false, Idempotent = false, Destructive = true)]
     public static async Task<CallToolResult?> OpenXMLExcel_SetCell(
         [Description("Target workbook URL (.xlsx)")] string url,
         [Description("Sheet selector: name OR zero-based index as string (e.g., '0', 'Sheet1')")] string sheet,
-        [Description("Cell address in A1 notation (e.g., B2)")] string address,
+        [Description("A1 cell or rectangular range (e.g., B2:D4)")] string address,
         [Description("Value to write")] string value,
-        [Description("Value type: string | number | bool | date")] string type,
+        [Description("Value type: string | number | bool | date | formula")] string type,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        [Description("setValue (default) or formatOnly; formatOnly ignores value/type")] string operation = "setValue",
+        [Description("Optional typed formatting patch; unspecified fields remain unchanged")] ExcelFormattingPatch? formatting = null)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
             await requestContext.WithOboGraphClient(async (graphClient) =>
     {
-        var download = serviceProvider.GetRequiredService<DownloadService>();
-        var files = await download.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
-        var file = files.FirstOrDefault() ?? throw new FileNotFoundException($"No workbook found at {url}");
-
-        using var ms = new MemoryStream(file.Contents.ToArray());
+        var snapshot = await graphClient.DownloadOfficeDocumentAsync(url, cancellationToken);
+        using var ms = ExcelCellEditor.OpenEditableStream(snapshot.Contents.ToArray());
         using (var doc = SpreadsheetDocument.Open(ms, true))
         {
             var wb = doc.WorkbookPart ?? throw new InvalidDataException("Missing WorkbookPart");
             var workbook = wb.Workbook ??= new Workbook();
             var (wsp, _sheet) = GetWorksheetPartByNameOrIndex(wb, sheet);
-            var cell = InsertCellInWorksheet(wsp, address);
-
-            switch ((type ?? "string").Trim().ToLowerInvariant())
-            {
-                case "number":
-                    cell.CellValue = new CellValue(value);
-                    cell.DataType = CellValues.Number;
-                    break;
-                case "bool":
-                case "boolean":
-                    cell.CellValue = new CellValue((value?.Trim().ToLowerInvariant()) switch
-                    {
-                        "true" or "1" or "yes" => "1",
-                        _ => "0"
-                    });
-                    cell.DataType = CellValues.Boolean;
-                    break;
-                case "date":
-                    // store as text (basic, no styles)
-                    SetSharedString(wb, cell, value);
-                    break;
-                default:
-                    SetSharedString(wb, cell, value);
-                    break;
-            }
+            ExcelCellEditor.Edit(wb, wsp, address, value, type, operation, formatting);
 
             wsp.Worksheet?.Save();
             workbook.Save();
         }
 
-        var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken)
+        var updated = await graphClient.UploadOfficeDocumentAsync(snapshot.Item, new BinaryData(ms.ToArray()), cancellationToken)
             ?? throw new IOException($"OpenXML Excel failed to update workbook at {url}.");
 
         return updated.ToResourceLinkBlock(updated.Name ?? Path.GetFileName(url)).ToCallToolResult();
     }));
+
+    [Description("Inspect cells in an A1 range, including values, formulas, raw/direct/inherited formatting and workbook style/theme resources. Does not evaluate formulas or conditional formatting. Maximum 10000 cells.")]
+    [McpServerTool(Name = "openxml_excel_get_cells", ReadOnly = true, OpenWorld = false, Idempotent = true, Destructive = false)]
+    public static async Task<CallToolResult?> OpenXMLExcel_GetCells(
+        [Description("Source workbook URL (.xlsx)")] string url,
+        [Description("Sheet name or zero-based index")] string sheet,
+        [Description("A1 cell or rectangular range; maximum 10000 cells")] string address,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default)
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+    {
+        ExcelCellEditor.ParseRange(address);
+        var download = serviceProvider.GetRequiredService<DownloadService>();
+        var files = await download.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
+        var file = files.FirstOrDefault() ?? throw new FileNotFoundException($"No workbook found at {url}");
+        using var ms = new MemoryStream(file.Contents.ToArray());
+        using var doc = SpreadsheetDocument.Open(ms, false);
+        var wb = doc.WorkbookPart ?? throw new InvalidDataException("Missing WorkbookPart");
+        var (wsp, _) = GetWorksheetPartByNameOrIndex(wb, sheet);
+        return ExcelCellEditor.Inspect(wb, wsp, address).ToJsonContentBlock(url).ToCallToolResult();
+    });
 
     [Description("Import CSV rows into a worksheet. If clearBefore=true, the sheet is emptied first; otherwise rows are appended.")]
     [McpServerTool(Name = "openxml_excel_import_csv", ReadOnly = false, OpenWorld = false, Idempotent = false, Destructive = true)]
@@ -161,9 +155,7 @@ public static class ExcelPlugin
     {
         var download = serviceProvider.GetRequiredService<DownloadService>();
 
-        // download workbook
-        var wbFiles = await download.DownloadContentAsync(serviceProvider, requestContext.Server, url, cancellationToken);
-        var wbFile = wbFiles.FirstOrDefault() ?? throw new FileNotFoundException($"No workbook found at {url}");
+        var snapshot = await graphClient.DownloadOfficeDocumentAsync(url, cancellationToken);
 
         // download CSV
         var csvFiles = await download.DownloadContentAsync(serviceProvider, requestContext.Server, csvUrl, cancellationToken);
@@ -171,7 +163,7 @@ public static class ExcelPlugin
         var csvText = Encoding.UTF8.GetString(csvFile.Contents.ToArray());
         var rows = ParseCsv(csvText);
 
-        using var ms = new MemoryStream(wbFile.Contents.ToArray());
+        using var ms = ExcelCellEditor.OpenEditableStream(snapshot.Contents.ToArray());
         using (var doc = SpreadsheetDocument.Open(ms, true))
         {
             var wb = doc.WorkbookPart ?? throw new InvalidDataException("Missing WorkbookPart");
@@ -215,7 +207,7 @@ public static class ExcelPlugin
             workbook.Save();
         }
 
-        var updated = await graphClient.UploadBinaryDataAsync(url, new BinaryData(ms.ToArray()), cancellationToken)
+        var updated = await graphClient.UploadOfficeDocumentAsync(snapshot.Item, new BinaryData(ms.ToArray()), cancellationToken)
             ?? throw new IOException($"OpenXML Excel failed to update workbook at {url}.");
 
         return updated.ToResourceLinkBlock(updated.Name ?? Path.GetFileName(url)).ToCallToolResult();
@@ -292,15 +284,16 @@ public static class ExcelPlugin
             sheet = sheets.Elements<Sheet>().FirstOrDefault(s => string.Equals(s.Name?.Value, selector, StringComparison.OrdinalIgnoreCase));
         }
 
-        sheet ??= sheets.Elements<Sheet>().FirstOrDefault() ?? throw new InvalidDataException("No worksheet found");
+        if (sheet == null) throw new ArgumentException($"Worksheet '{selector}' was not found.", nameof(selector));
         var relationshipId = sheet.Id?.Value ?? throw new InvalidDataException($"Worksheet '{sheet.Name?.Value ?? "unknown"}' is missing a relationship id.");
         var wsp = wb.GetPartById(relationshipId) as WorksheetPart
             ?? throw new InvalidDataException($"Worksheet '{sheet.Name?.Value ?? relationshipId}' could not be resolved.");
         return (wsp, sheet);
     }
 
-    private static Cell InsertCellInWorksheet(WorksheetPart worksheetPart, string addressName)
+    internal static Cell InsertCellInWorksheet(WorksheetPart worksheetPart, string addressName)
     {
+        addressName = addressName.Replace("$", "").ToUpperInvariant();
         var worksheet = worksheetPart.Worksheet ??= new Worksheet(new SheetData());
         var sheetData = worksheet.GetFirstChild<SheetData>() ?? worksheet.AppendChild(new SheetData());
 
@@ -345,7 +338,8 @@ public static class ExcelPlugin
 
     private static (string col, uint row) SplitAddress(string a1)
     {
-        if (string.IsNullOrWhiteSpace(a1)) throw new ArgumentException("Invalid address", nameof(a1));
+        ExcelCellEditor.ParseRange(a1);
+        if (a1.Contains(':')) throw new ArgumentException("Expected a single cell address.", nameof(a1));
         var col = new string([.. a1.TakeWhile(char.IsLetter)]).ToUpperInvariant();
         var rowStr = new string([.. a1.SkipWhile(char.IsLetter)]);
         if (string.IsNullOrEmpty(col) || !uint.TryParse(rowStr, out uint r))
@@ -353,7 +347,7 @@ public static class ExcelPlugin
         return (col, r);
     }
 
-    private static void SetSharedString(WorkbookPart wb, Cell cell, string? value)
+    internal static void SetSharedString(WorkbookPart wb, Cell cell, string? value)
     {
         var sst = GetOrCreateSharedStringTable(wb);
         var idx = InsertSharedStringItem(sst, value ?? string.Empty);
@@ -377,7 +371,7 @@ public static class ExcelPlugin
             i++;
         }
 
-        sst.AppendChild(new SharedStringItem(new Text(text)));
+        sst.AppendChild(new SharedStringItem(new Text(text) { Space = SpaceProcessingModeValues.Preserve }));
         sst.Save();
         return i;
     }
