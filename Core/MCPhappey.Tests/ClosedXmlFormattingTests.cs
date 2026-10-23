@@ -140,6 +140,46 @@ public sealed class ClosedXmlFormattingTests
     }
 
     [Theory]
+    [InlineData("A10001", "value")]
+    [InlineData("A10001", "formula")]
+    [InlineData("A10001", "formatOnly")]
+    [InlineData("XFD1048576", "value")]
+    [InlineData("XFD1048576", "formula")]
+    [InlineData("XFD1048576", "formatOnly")]
+    public void Oversized_ranges_are_rejected_before_editing_or_inspection(string endpoint, string operation)
+    {
+        using var workbook = new XLWorkbook();
+        var sheet = workbook.AddWorksheet("Sheet1");
+        sheet.Cell("A1").Value = "original";
+        sheet.Cell("A2").FormulaA1 = "1+2";
+        sheet.Cell("A1").Style.Font.Italic = true;
+
+        Assert.Throws<ArgumentException>(() => ClosedXMLPlugin.EditCells(sheet, "A1", "replacement",
+            operation, endpoint, new() { Font = new() { Bold = true } }, "2+3"));
+        Assert.Throws<ArgumentException>(() => ClosedXMLPlugin.InspectCells(sheet, "A1", endpoint));
+
+        Assert.Equal("original", sheet.Cell("A1").GetString());
+        Assert.Equal("1+2", sheet.Cell("A2").FormulaA1);
+        Assert.True(sheet.Cell("A1").Style.Font.Italic);
+        Assert.False(sheet.Cell("A1").Style.Font.Bold);
+        Assert.Equal(2, sheet.CellsUsed().Count());
+    }
+
+    [Fact]
+    public void Exactly_ten_thousand_cells_can_be_edited_and_inspected()
+    {
+        using var workbook = new XLWorkbook();
+        var sheet = workbook.AddWorksheet("Sheet1");
+
+        ClosedXMLPlugin.EditCells(sheet, "A1", "boundary", endCellAddress: "CV100");
+        var inspection = JsonSerializer.SerializeToElement(ClosedXMLPlugin.InspectCells(sheet, "A1", "CV100"));
+
+        Assert.Equal(10_000, sheet.CellsUsed().Count());
+        Assert.Equal("boundary", sheet.Cell("CV100").GetString());
+        Assert.Equal(10_000, inspection.GetProperty("cells").GetArrayLength());
+    }
+
+    [Theory]
     [InlineData("unknown", null)]
     [InlineData("formula", null)]
     [InlineData("formula", " ")]

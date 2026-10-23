@@ -89,7 +89,7 @@ public static class ClosedXMLPlugin
         return uploaded.ToResourceLinkBlock(uploaded.Name ?? newSheetName).ToCallToolResult();
     }));
 
-    [Description("Update cell values or formulas, or patch formatting without changing content. An optional endpoint selects a rectangular range.")]
+    [Description("Update cell values or formulas, or patch formatting without changing content. An optional endpoint selects a rectangular range of at most 10,000 cells.")]
     [McpServerTool(Name = "closedxml_set_cell", ReadOnly = false)]
     public static async Task<CallToolResult?> ClosedXML_SetCellValue(
         [Description("File url")] string fileUrl,
@@ -100,7 +100,7 @@ public static class ClosedXMLPlugin
         IServiceProvider serviceProvider,
         CancellationToken cancellationToken = default,
         [Description("value (default), formula, or formatOnly. formatOnly ignores value and formula.")] string operation = "value",
-        [Description("Optional last cell of a rectangular range, e.g. C5.")] string? endCellAddress = null,
+        [Description("Optional last cell of a rectangular range, e.g. C5. Maximum 10,000 cells.")] string? endCellAddress = null,
         [Description("Partial formatting patch; omitted properties keep their current settings.")] ClosedXmlFormattingPatch? formatting = null,
         [Description("Formula in A1 notation, required for the formula operation.")] string? formula = null)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
@@ -122,7 +122,7 @@ public static class ClosedXMLPlugin
         return uploaded.ToResourceLinkBlock(uploaded.Name ?? Path.GetFileName(fileUrl)).ToCallToolResult();
     }));
 
-    [Description("Inspect cell values, formulas, formatting, dimensions, merges, and conditional rule summaries for a cell or rectangular range.")]
+    [Description("Inspect cell values, formulas, formatting, dimensions, merges, and conditional rule summaries for a cell or rectangular range of at most 10,000 cells.")]
     [McpServerTool(Name = "closedxml_get_cell", ReadOnly = true)]
     public static async Task<CallToolResult?> ClosedXML_GetCellValue(
         [Description("File url")] string fileUrl,
@@ -131,7 +131,7 @@ public static class ClosedXMLPlugin
         RequestContext<CallToolRequestParams> requestContext,
         IServiceProvider serviceProvider,
         CancellationToken cancellationToken = default,
-        [Description("Optional last cell of a rectangular range, e.g. C5.")] string? endCellAddress = null)
+        [Description("Optional last cell of a rectangular range, e.g. C5. Maximum 10,000 cells.")] string? endCellAddress = null)
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
            await requestContext.WithStructuredContent(async () =>
     {
@@ -264,7 +264,7 @@ public static class ClosedXMLPlugin
         if (operation == "formula" && string.IsNullOrWhiteSpace(formula))
             throw new ArgumentException("A nonempty formula is required for the formula operation.", nameof(formula));
 
-        var range = sheet.Range(cellAddress, endCellAddress ?? cellAddress);
+        var range = GetBoundedRange(sheet, cellAddress, endCellAddress);
         foreach (var cell in range.Cells())
         {
             if (operation == "value")
@@ -284,7 +284,7 @@ public static class ClosedXMLPlugin
 
     internal static object InspectCells(IXLWorksheet sheet, string cellAddress, string? endCellAddress = null)
     {
-        var range = sheet.Range(cellAddress, endCellAddress ?? cellAddress);
+        var range = GetBoundedRange(sheet, cellAddress, endCellAddress);
         var first = range.FirstCell();
         return new
         {
@@ -323,6 +323,14 @@ public static class ClosedXMLPlugin
                     stopIfTrue = rule.StopIfTrue
                 }).ToArray()
         };
+    }
+
+    private static IXLRange GetBoundedRange(IXLWorksheet sheet, string cellAddress, string? endCellAddress)
+    {
+        var range = sheet.Range(cellAddress, endCellAddress ?? cellAddress);
+        if ((long)range.RowCount() * range.ColumnCount() > 10_000)
+            throw new ArgumentException("The selected range must contain at most 10,000 cells.", nameof(endCellAddress));
+        return range;
     }
 
     private static object DescribeStyle(IXLStyle style) => new

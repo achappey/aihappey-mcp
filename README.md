@@ -97,7 +97,8 @@ arguments remain available.
   for explicit formula updates), `endCellAddress` for a rectangular range, and a
   typed `formatting` patch. `closedxml_get_cell` accepts the same range endpoint
   and adds values, formulas, formatting, dimensions and rule summaries while
-  retaining the original `callValuye` response field.
+  retaining the original `callValuye` response field. Both operations limit ranges
+  to 10,000 cells.
 
 Only supplied formatting properties are changed; null leaves existing direct or
 inherited properties alone, and `false` explicitly disables a boolean property.
@@ -118,7 +119,8 @@ Use explicit ranges for precise formatting boundaries. `copyFromTarget` and HTML
 embedded in Markdown are not rich-text editing APIs.
 OpenXML Excel rejects content replacements inside shared, array or data-table
 formula regions rather than breaking formulas in unselected cells; formatting-only
-edits remain supported there.
+edits remain supported there. Content replacement also rejects targets referenced
+by an existing calculation chain rather than leaving stale chain entries.
 
 PowerPoint's Markdown support is limited to simple bullet-line parsing; it does
 not interpret inline HTML as run formatting. Preserved plain text is literal.

@@ -345,6 +345,42 @@ public class OpenXmlExcelTests
     }
 
     [Fact]
+    public void ExplicitFontNameDisablesThemeSchemeWithoutChangingSharedOrUnrelatedFonts()
+    {
+        using var stream = Fixture();
+        using (var doc = SpreadsheetDocument.Open(stream, true))
+        {
+            var wb = doc.WorkbookPart!;
+            var ws = wb.WorksheetParts.Single();
+            var sharedFont = wb.WorkbookStylesPart!.Stylesheet!.Fonts!.Elements<Font>().ElementAt(1);
+            sharedFont.FontScheme = new FontScheme { Val = FontSchemeValues.Minor };
+            ExcelCellEditor.Edit(wb, ws, "A1", "", "ignored", "formatOnly", new() { Font = new() { Name = "Arial" } });
+            ExcelCellEditor.Edit(wb, ws, "B1", "", "ignored", "formatOnly", new() { Font = new() { Bold = true } });
+        }
+        using (var doc = SpreadsheetDocument.Open(stream, false))
+        {
+            var wb = doc.WorkbookPart!;
+            var ws = wb.WorksheetParts.Single();
+            var styles = wb.WorkbookStylesPart!.Stylesheet!;
+            Font FontFor(string address)
+            {
+                var cell = Cells(ws).Single(c => c.CellReference!.Value == address);
+                var xf = styles.CellFormats!.Elements<CellFormat>().ElementAt((int)cell.StyleIndex!.Value);
+                return styles.Fonts!.Elements<Font>().ElementAt((int)xf.FontId!.Value);
+            }
+            Assert.Equal("Arial", FontFor("A1").FontName!.Val!.Value);
+            Assert.Equal(FontSchemeValues.None, FontFor("A1").FontScheme!.Val!.Value);
+            Assert.Equal(FontSchemeValues.Minor, FontFor("B1").FontScheme!.Val!.Value);
+            Assert.True(FontFor("B1").Bold!.Val!.Value);
+            Assert.Equal(FontSchemeValues.Minor, FontFor("E1").FontScheme!.Val!.Value);
+            Assert.Equal("Consolas", FontFor("E1").FontName!.Val!.Value);
+            Assert.Null(FontFor("E1").Bold);
+            Assert.Equal(1U, Cells(ws).Single(c => c.CellReference!.Value == "E1").StyleIndex!.Value);
+            AssertValid(doc);
+        }
+    }
+
+    [Fact]
     public void EditingUnstyledWorkbookUsesExpandableStreamAndProducesValidStyles()
     {
         byte[] bytes;

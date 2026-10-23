@@ -287,7 +287,11 @@ internal static class ExcelCellEditor
         if (patch.Font is { } fp)
         {
             var font = (Font?)At<Font>(styles.Fonts, resolved.FontId?.Value ?? 0)?.CloneNode(true) ?? new Font();
-            if (fp.Name != null) Replace(font, new FontName { Val = fp.Name });
+            if (fp.Name != null)
+            {
+                Replace(font, new FontName { Val = fp.Name });
+                Replace(font, new FontScheme { Val = FontSchemeValues.None });
+            }
             if (fp.Size != null)
             {
                 if (fp.Size <= 0 || fp.Size > 409 || !double.IsFinite(fp.Size.Value)) throw new ArgumentException("Font size must be in (0, 409].");
