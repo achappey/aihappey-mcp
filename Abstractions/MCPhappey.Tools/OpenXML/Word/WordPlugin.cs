@@ -21,97 +21,38 @@ namespace MCPhappey.Tools.OpenXML.Word;
 
 public static class WordPlugin
 {
-    [Description("Replace specific text in a Word document with tracked changes (shows insert/delete in Word)")]
+    [Description("Replace text with tracked changes, preserving formatting, or patch direct run formatting without changing text. Complex paragraphs are rejected.")]
     [McpServerTool(Name = "openxml_word_replace_text_with_track_changes", ReadOnly = false, OpenWorld = false, Idempotent = false, Destructive = true)]
     public static async Task<CallToolResult?> OpenXMLWord_ReplaceTextWithTrackChanges(
     [Description("Target Word document URL (.docx)")] string documentUrl,
-    [Description("Original text to search for (case-insensitive)"), MinLength(50)] string originalText,
+    [Description("Original text to search for (case-insensitive); ignored for explicit ranges or whole-paragraph formatting")] string originalText,
     [Description("Replacement text to insert")] string replacementText,
     IServiceProvider serviceProvider,
     RequestContext<CallToolRequestParams> requestContext,
-    CancellationToken cancellationToken = default)
+    CancellationToken cancellationToken = default,
+    [Description("replaceContent (tracked) or formatOnly (no revisions)")] string operation = "replaceContent",
+    [Description("preserve retains direct formatting; default clears selected direct run properties before applying patches")] string formattingMode = "preserve",
+    [Description("Zero-based body paragraph index, including table paragraphs")] int? paragraphIndex = null,
+    [Description("Zero-based UTF-16 offset; requires paragraphIndex and length")] int? start = null,
+    [Description("Positive UTF-16 selection length; requires start")] int? length = null,
+    WordFormattingPatch? formatting = null)
     => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
         {
-            if (string.IsNullOrWhiteSpace(originalText))
-                throw new ArgumentException("Original text cannot be empty.", nameof(originalText));
-
-            var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-
             // 1️⃣ Download the existing document
-            var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, documentUrl, cancellationToken);
-            var file = files.FirstOrDefault() ?? throw new FileNotFoundException($"No document found at {documentUrl}");
+            var snapshot = await graphClient.DownloadOfficeDocumentAsync(documentUrl, cancellationToken);
 
             using var input = new MemoryStream();
-            await file.Contents.ToStream().CopyToAsync(input, cancellationToken);
+            await snapshot.Contents.ToStream().CopyToAsync(input, cancellationToken);
             input.Position = 0;
 
             // 2️⃣ Modify in memory with tracked changes
             using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(input, true))
             {
                 var mainPart = wordDoc.MainDocumentPart ?? throw new InvalidOperationException("Missing MainDocumentPart");
-                NormalizeRevisionIds(mainPart.Document);
-
-                // Ensure track revisions is enabled
-                var settingsPart = mainPart.DocumentSettingsPart ?? mainPart.AddNewPart<DocumentSettingsPart>();
-                settingsPart.Settings ??= new Settings();
-
-                if (!settingsPart.Settings.Elements<TrackRevisions>().Any())
-                    settingsPart.Settings.AppendChild(new TrackRevisions());
-
-                // Search each paragraph
-                var paragraphs = mainPart.Document?.Body?.Descendants<Paragraph>() ?? Enumerable.Empty<Paragraph>();
-
-                var nextRevisionId = GetNextRevisionId(mainPart.Document);
-
-                foreach (var paragraph in paragraphs)
-                {
-                    var text = paragraph.InnerText;
-                    if (string.IsNullOrWhiteSpace(text))
-                        continue;
-
-                    int matchIndex = text.IndexOf(originalText, StringComparison.OrdinalIgnoreCase);
-                    if (matchIndex < 0)
-                        continue;
-
-                    // Wipe and rebuild paragraph runs
-                    paragraph.RemoveAllChildren<Run>();
-
-                    // Text before match
-                    if (matchIndex > 0)
-                    {
-                        var before = text[..matchIndex];
-                        paragraph.AppendChild(new Run(new Text(before) { Space = SpaceProcessingModeValues.Preserve }));
-                    }
-
-                    // Deleted run (original)
-                    var deletedRun = new DeletedRun()
-                    {
-                        Author = requestContext.Server.ServerOptions.ServerInfo?.Title,
-                        Date = DateTime.Now,
-                        Id = (nextRevisionId++).ToString()
-                    };
-                    deletedRun.AppendChild(new Run(new Text(originalText) { Space = SpaceProcessingModeValues.Preserve }));
-                    paragraph.AppendChild(deletedRun);
-
-                    // Inserted run (replacement)
-                    var insertedRun = new InsertedRun()
-                    {
-                        Author = requestContext.Server.ServerOptions.ServerInfo?.Title,
-                        Date = DateTime.Now,
-                        Id = (nextRevisionId++).ToString()
-                    };
-                    insertedRun.AppendChild(new Run(new Text(replacementText) { Space = SpaceProcessingModeValues.Preserve }));
-                    paragraph.AppendChild(insertedRun);
-
-                    // Remaining text after match
-                    int afterStart = matchIndex + originalText.Length;
-                    if (afterStart < text.Length)
-                    {
-                        var after = text[afterStart..];
-                        paragraph.AppendChild(new Run(new Text(after) { Space = SpaceProcessingModeValues.Preserve }));
-                    }
-                }
+                WordTextEditor.Edit(mainPart, originalText, replacementText, operation, formattingMode,
+                    paragraphIndex, start, length, formatting,
+                    requestContext.Server.ServerOptions.ServerInfo?.Title ?? "MCP");
 
                 mainPart.Document?.Save();
             }
@@ -120,11 +61,38 @@ public static class WordPlugin
             input.Flush();
             input.Position = 0;
 
-            var updated = await graphClient.UploadBinaryDataAsync(documentUrl,
+            var updated = await graphClient.UploadOfficeDocumentAsync(snapshot.Item,
                 new BinaryData(input.ToArray()), cancellationToken) ?? throw new FileNotFoundException($"No content found");
 
             return updated.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
         }));
+
+    [Description("Inspect body paragraphs and UTF-16 run boundaries, direct formatting/style references and raw supporting XML without resolving effective styles.")]
+    [McpServerTool(Name = "openxml_word_get_paragraphs", ReadOnly = true, OpenWorld = false)]
+    public static async Task<CallToolResult?> OpenXMLWord_GetParagraphs(
+        string documentUrl,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        CancellationToken cancellationToken = default,
+        int startIndex = 0,
+        int count = 100,
+        bool includeSupportingXml = false)
+        => await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        {
+            var downloadService = serviceProvider.GetRequiredService<DownloadService>();
+            var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, documentUrl, cancellationToken);
+            var file = files.FirstOrDefault() ?? throw new FileNotFoundException($"No document found at {documentUrl}");
+            using var stream = new MemoryStream(file.Contents.ToArray());
+            using var document = WordprocessingDocument.Open(stream, false);
+            return new CallToolResult
+            {
+                Content = [new TextContentBlock
+                {
+                    Text = System.Text.Json.JsonSerializer.Serialize(
+                        WordTextEditor.Inspect(document.MainDocumentPart!, startIndex, count, includeSupportingXml))
+                }]
+            };
+        });
 
 
     // 1) CREATE NEW DOCX FROM INPUT FILE (auto-detect MIME)
@@ -254,11 +222,10 @@ public static class WordPlugin
         var downloadService = serviceProvider.GetRequiredService<DownloadService>();
 
         // Download target docx
-        var tFiles = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, targetUrl, cancellationToken);
-        var tFile = tFiles.FirstOrDefault() ?? throw new FileNotFoundException($"No Word document found at {targetUrl}");
+        var snapshot = await graphClient.DownloadOfficeDocumentAsync(targetUrl, cancellationToken);
 
         using var docStream = new MemoryStream();
-        await tFile.Contents.ToStream().CopyToAsync(docStream, cancellationToken);
+        await snapshot.Contents.ToStream().CopyToAsync(docStream, cancellationToken);
         docStream.Position = 0;
 
         // Download input file
@@ -290,7 +257,7 @@ public static class WordPlugin
         docStream.Flush();
         docStream.Position = 0;
 
-        var updated = await graphClient.UploadBinaryDataAsync(targetUrl,
+        var updated = await graphClient.UploadOfficeDocumentAsync(snapshot.Item,
             new BinaryData(docStream.ToArray()), cancellationToken) ?? throw new FileNotFoundException($"No content found");
         return updated.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
     }));
@@ -1012,15 +979,13 @@ public static class WordPlugin
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext.WithOboGraphClient(async (graphClient) =>
     {
-        var downloadService = serviceProvider.GetRequiredService<DownloadService>();
         var normalized = NormalizeContentType(contentType);
 
         // 1️⃣ Download existing Word document
-        var files = await downloadService.DownloadContentAsync(serviceProvider, requestContext.Server, targetUrl, cancellationToken);
-        var file = files.FirstOrDefault() ?? throw new FileNotFoundException($"No Word document found at {targetUrl}");
+        var snapshot = await graphClient.DownloadOfficeDocumentAsync(targetUrl, cancellationToken);
 
         using var docStream = new MemoryStream();
-        await file.Contents.ToStream().CopyToAsync(docStream, cancellationToken);
+        await snapshot.Contents.ToStream().CopyToAsync(docStream, cancellationToken);
         docStream.Position = 0;
 
         // 2️⃣ Convert incoming content to HTML if needed
@@ -1058,7 +1023,7 @@ public static class WordPlugin
         docStream.Flush();
         docStream.Position = 0;
 
-        var updated = await graphClient.UploadBinaryDataAsync(targetUrl,
+        var updated = await graphClient.UploadOfficeDocumentAsync(snapshot.Item,
             new BinaryData(docStream.ToArray()), cancellationToken) ?? throw new FileNotFoundException($"No content found");
         return updated.ToResourceLinkBlock(updated?.Name!).ToCallToolResult();
     }));
