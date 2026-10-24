@@ -51,6 +51,19 @@
         ],
         "priority": 0.7
       }
+    },
+    {
+      "uri": "https://github.com/achappey/aihappey-windows",
+      "name": "aihappey-windows",
+      "title": "aihappey Windows",
+      "description": "Native Windows AI client built with WinUI 3. Multi-provider chat, agents, MCP tools, resources and prompts, Skills and human-in-the-loop workflows.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.7
+      }
     }
   ]
 }

@@ -51,6 +51,19 @@
           "user"
         ]
       }
+    },
+    {
+      "uriTemplate": "https://api.github.com/repos/achappey/aihappey-windows/commits?per_page={perPage}",
+      "name": "aihappey-windows-commits",
+      "title": "aihappey Windows",
+      "description": "Recent commit history of aihappey windows app.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
     }
   ]
 }
