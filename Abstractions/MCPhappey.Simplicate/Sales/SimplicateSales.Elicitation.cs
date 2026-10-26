@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using MCPhappey.Core.Services;
@@ -24,7 +23,7 @@ public static partial class SimplicateSales
             ct.ThrowIfCancellationRequested();
             var page = await download.GetSimplicatePageAsync<JsonObject>(services, context.Server,
                 $"{url}?{query}&limit=100&offset={offset}&metadata=count", ct);
-            if (page?.Data is null)
+            if (page?.Data is null || page.Errors?.Any() == true)
                 throw new InvalidOperationException($"Cannot read Simplicate lookup {endpoint}.");
             var batch = page.Data.ToList();
             items.AddRange(batch);
@@ -180,137 +179,9 @@ public static partial class SimplicateSales
 
     internal static void AddCustomFieldSchemas(ElicitRequestParams request, Dictionary<string, object?> defaults,
         IEnumerable<JsonObject> definitions, JsonObject? existing)
-    {
-        foreach (var definition in definitions)
-        {
-            var name = Text(definition, "name");
-            if (string.IsNullOrWhiteSpace(name)) continue;
-            var key = CustomFieldPrefix + name;
-            var old = (existing?["custom_fields"] as JsonArray)?.OfType<JsonObject>()
-                .FirstOrDefault(field => Text(field, "name") == name);
-            var value = Text(old, "value");
-            var schema = CustomFieldSchema(definition, value);
-            if (schema is null) continue;
-            request.RequestedSchema.Properties[key] = schema;
-            if (definition["mandatory"]?.GetValue<bool>() == true)
-                request.RequestedSchema.Required.Add(key);
-            defaults[key] = CustomDefault(definition, value);
-        }
-    }
-
-    private static object? CustomDefault(JsonObject definition, string? value)
-    {
-        if (value is null) return null;
-        if (Text(definition, "render_type") == "dropdown") return value;
-        return Text(definition, "value_type") switch
-        {
-            "Integer" when long.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var integer) => integer,
-            "Decimal" when decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out var number) => number,
-            _ => value
-        };
-    }
-
-    private static ElicitRequestParams.PrimitiveSchemaDefinition? CustomFieldSchema(JsonObject definition, string? value)
-    {
-        var title = Text(definition, "label") ?? Text(definition, "name")!;
-        var render = Text(definition, "render_type");
-        if (render == "dropdown")
-        {
-            var options = (definition["options"] as JsonArray)?.OfType<JsonObject>().ToList() ?? [];
-            // An empty option list cannot be safely represented as a free-text reference.
-            if (options.Count == 0 || options.Any(option => Text(option, "id") is null)) return null;
-            return LookupSchema(title, value, options, option => Text(option, "label"));
-        }
-        // Do not guess encodings for checkbox, multi-select, relation, or other undocumented controls.
-        if (render is not (null or "text" or "textarea" or "number" or "date" or "time" or "datetime")) return null;
-        var defaultValue = CustomDefault(definition, value);
-        return Text(definition, "value_type") switch
-        {
-            "Integer" or "Decimal" => new ElicitRequestParams.NumberSchema
-            {
-                Title = title,
-                Description = Text(definition, "value_type"),
-                Default = defaultValue switch
-                {
-                    long integer => (double)integer,
-                    decimal number => (double)number,
-                    _ => (double?)null
-                }
-            },
-            "Text" => new ElicitRequestParams.StringSchema { Title = title, Default = value },
-            "Date" => new ElicitRequestParams.StringSchema { Title = title, Description = "yyyy-MM-dd", Default = value },
-            "Time" => new ElicitRequestParams.StringSchema { Title = title, Description = "HH:mm or HH:mm:ss", Default = value },
-            "DateTime" => new ElicitRequestParams.StringSchema { Title = title, Description = "yyyy-MM-dd HH:mm:ss", Default = value },
-            _ => null
-        };
-    }
+        => SimplicateCustomFields.AddSchemas(request, defaults, definitions, existing);
 
     internal static void ApplyCustomFieldAnswers(JsonObject body, Dictionary<string, JsonElement> answers,
         IEnumerable<JsonObject> definitions, JsonObject? existing)
-    {
-        var values = new Dictionary<string, JsonObject>(StringComparer.Ordinal);
-        foreach (var old in (existing?["custom_fields"] as JsonArray)?.OfType<JsonObject>() ?? [])
-            if (Text(old, "name") is string name)
-                values[name] = new JsonObject { ["name"] = name, ["value"] = old["value"]?.DeepClone() };
-        var changed = false;
-        foreach (var definition in definitions)
-        {
-            var name = Text(definition, "name");
-            if (name is null || CustomFieldSchema(definition, Text(values.GetValueOrDefault(name), "value")) is null) continue;
-            var key = CustomFieldPrefix + name;
-            if (!answers.TryGetValue(key, out var answer) || answer.ValueKind == JsonValueKind.Null)
-            {
-                if (definition["mandatory"]?.GetValue<bool>() == true
-                    && string.IsNullOrWhiteSpace(Text(values.GetValueOrDefault(name), "value")))
-                    throw new ValidationException($"Custom field '{Text(definition, "label") ?? name}' is required.");
-                continue;
-            }
-            var value = ValidateCustomFieldAnswer(definition, answer);
-            if (definition["mandatory"]?.GetValue<bool>() == true && string.IsNullOrWhiteSpace(value))
-                throw new ValidationException($"Custom field '{name}' is required.");
-            // Clearing semantics are not documented. Empty answers preserve, rather than delete, existing values.
-            if (value.Length == 0) continue;
-            values[name] = new JsonObject { ["name"] = name, ["value"] = value };
-            changed = true;
-        }
-        if (changed) body["custom_fields"] = new JsonArray([.. values.Values.Select(field => (JsonNode)field)]);
-    }
-
-    private static string ValidateCustomFieldAnswer(JsonObject definition, JsonElement answer)
-    {
-        var name = Text(definition, "name");
-        if (Text(definition, "render_type") == "dropdown")
-        {
-            var value = answer.ValueKind == JsonValueKind.String ? answer.GetString()! : "";
-            var options = (definition["options"] as JsonArray)?.OfType<JsonObject>() ?? [];
-            if (!options.Any(option => Text(option, "id") == value))
-                throw new ValidationException($"Custom field '{name}' requires a documented option ID.");
-            return value;
-        }
-        if (Text(definition, "value_type") == "Integer")
-        {
-            if (answer.ValueKind != JsonValueKind.Number || !answer.TryGetInt64(out var integer))
-                throw new ValidationException($"Custom field '{name}' must be an integer.");
-            return integer.ToString(CultureInfo.InvariantCulture);
-        }
-        if (Text(definition, "value_type") == "Decimal")
-        {
-            if (answer.ValueKind != JsonValueKind.Number || !answer.TryGetDecimal(out var number))
-                throw new ValidationException($"Custom field '{name}' must be a decimal.");
-            return number.ToString(CultureInfo.InvariantCulture);
-        }
-        if (answer.ValueKind != JsonValueKind.String) throw new ValidationException($"Custom field '{name}' must be text.");
-        var text = answer.GetString()!;
-        if (text.Length == 0) return text;
-        var formats = Text(definition, "value_type") switch
-        {
-            "Date" => new[] { "yyyy-MM-dd" },
-            "Time" => ["HH:mm", "HH:mm:ss"],
-            "DateTime" => ["yyyy-MM-dd HH:mm:ss"],
-            _ => null
-        };
-        if (formats is not null && !DateTime.TryParseExact(text, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
-            throw new ValidationException($"Invalid date/time format for custom field '{name}'.");
-        return text;
-    }
+        => SimplicateCustomFields.ApplyAnswers(body, answers, definitions, existing);
 }

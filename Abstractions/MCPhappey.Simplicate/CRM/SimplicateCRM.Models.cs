@@ -26,6 +26,7 @@ public static partial class SimplicateCRM
         public string? FamilyName { get; set; }
 
         [JsonPropertyName("note")]
+        [MaxLength(int.MaxValue)]
         [Description("A note or comment about the person.")]
         public string? Note { get; set; }
 
@@ -92,6 +93,7 @@ public static partial class SimplicateCRM
         public string? FullName { get; set; }
 
         [JsonPropertyName("note")]
+        [MaxLength(int.MaxValue)]
         [Description("A note or comment about the person.")]
         public string? Note { get; set; }
 
@@ -283,6 +285,7 @@ public static partial class SimplicateCRM
         public string? Name { get; set; }
 
         [JsonPropertyName("note")]
+        [MaxLength(int.MaxValue)]
         [Description("A note or description about the organization.")]
         public string? Note { get; set; }
 
@@ -395,6 +398,7 @@ public static partial class SimplicateCRM
         public string? VatNumber { get; set; }
 
         [JsonPropertyName("note")]
+        [MaxLength(int.MaxValue)]
         [Description("Notes")]
         public string? Note { get; set; }
 

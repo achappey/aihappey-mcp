@@ -12,6 +12,7 @@
     <Using Include="Xunit" />
     <ProjectReference Include="../../Abstractions/MCPhappey.Auth/MCPhappey.Auth.csproj" />
     <ProjectReference Include="../../Abstractions/MCPhappey.Scrapers/MCPhappey.Scrapers.csproj" />
+    <ProjectReference Include="../../Abstractions/MCPhappey.Simplicate/MCPhappey.Simplicate.csproj" />
     <ProjectReference Include="../../Abstractions/MCPhappey.Tools/MCPhappey.Tools.csproj" />
     <ProjectReference Include="../../Servers/MCPhappey.Servers.JSON/MCPhappey.Servers.JSON.csproj" />
     <ProjectReference Include="../MCPhappey.Core/MCPhappey.Core.csproj" />

@@ -13,6 +13,7 @@ public static partial class SimplicateSales
         [JsonPropertyName("subject"), Required, Description("The sales subject.")]
         public string? Subject { get; set; }
         [JsonPropertyName("note"), Description("A note about the sales.")]
+        [MaxLength(int.MaxValue)]
         public string? Note { get; set; }
         [JsonPropertyName("organization_id"), Description("Customer organization ID.")]
         public string? OrganizationId { get; set; }

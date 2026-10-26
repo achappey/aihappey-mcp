@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace MCPhappey.Simplicate;
@@ -9,6 +10,10 @@ public class SimplicateData<T>
 
     [JsonPropertyName("metadata")]
     public SimplicateMetadata? Metadata { get; set; }
+
+    [JsonPropertyName("errors")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IEnumerable<JsonElement>? Errors { get; set; }
 }
 
 public class SimplicateMetadata

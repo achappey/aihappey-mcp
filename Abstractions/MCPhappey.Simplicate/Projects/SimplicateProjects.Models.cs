@@ -29,6 +29,7 @@ public static partial class SimplicateProjects
         [JsonPropertyName("project_number"), Description("Project number, not the record ID.")]
         public string? ProjectNumber { get; set; }
         [JsonPropertyName("note"), Description("Project note.")]
+        [MaxLength(int.MaxValue)]
         public string? Note { get; set; }
         [JsonPropertyName("start_date"), Description("Start date, yyyy-MM-dd.")]
         public string? StartDate { get; set; }

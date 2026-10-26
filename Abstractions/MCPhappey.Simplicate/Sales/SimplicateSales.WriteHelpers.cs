@@ -37,6 +37,7 @@ public static partial class SimplicateSales
         ct.ThrowIfCancellationRequested();
         ValidateSales(incoming, requireSubject: salesId is null);
         Dictionary<string, JsonElement>? answers = null;
+        List<JsonObject>? customFields = null;
         var resumed = context.Params?.InputResponses?.ContainsKey("elicitForm") == true;
         if (resumed)
             (answers, _) = await context.TryElicitForm(new ElicitRequestParams { Message = "Review sales details." }, cancellationToken: ct);
@@ -53,16 +54,19 @@ public static partial class SimplicateSales
         if (resumed || CanElicit(context))
         {
             dto = MergeSeed(MapSalesReadToForm(existing), incoming);
+            // A resumed form is untrusted input. Re-read tenant definitions for authoritative
+            // validation even though its schema was already sent on the initial invocation.
+            customFields = await ReadLookupAsync(services, context, "/sales/salescustomfields", "", ct);
             if (!resumed)
             {
                 var overrides = await BuildSalesOverridesAsync(services, context, dto, ct);
                 var request = ElicitFormExtensions.CreateElicitRequestParamsForType(dto, overrides);
                 var defaults = FormDefaults(dto);
-                var customFields = await ReadLookupAsync(services, context, "/sales/salescustomfields", "", ct);
                 AddCustomFieldSchemas(request, defaults, customFields, existing);
                 (answers, _) = await context.TryElicitForm(request, defaults, ct);
             }
-            dto = MergeSeed(dto, answers!.MapToObject<SimplicateNewSales>());
+            if (answers is null) throw new InvalidOperationException("The Sales form response is unavailable.");
+            dto = MergeSeed(dto, answers.MapToObject<SimplicateNewSales>());
             if (answers.TryGetValue("team_ids", out var teams) && teams.ValueKind == JsonValueKind.Array)
                 dto.TeamIds = string.Join(",", teams.EnumerateArray().Select(team => team.GetString()));
         }
@@ -71,7 +75,7 @@ public static partial class SimplicateSales
         var body = MapSalesWriteBody(dto, existing);
         if (answers is not null)
         {
-            ApplySubmittedCustomFields(body, answers, existing);
+            ApplyCustomFieldAnswers(body, answers, customFields!, existing);
         }
         return await SendWriteAsync(services, context, path, body, salesId is not null, ct);
     }

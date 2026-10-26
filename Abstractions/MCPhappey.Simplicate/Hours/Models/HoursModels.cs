@@ -97,6 +97,7 @@ public class SimplicateHourItem
     public string? Source { get; set; }
 
     [JsonPropertyName("note"), Description("Hour registration note.")]
+    [MaxLength(int.MaxValue)]
     public string? Note { get; set; }
 
     [JsonPropertyName("employee")]
