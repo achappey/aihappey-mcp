@@ -1150,6 +1150,7 @@ public static partial class GraphOutlookMail
 
         [JsonPropertyName("body")]
         [Required]
+        [MaxLength(int.MaxValue)]
         [Description("Body of the e-mail message.")]
         public string? Body { get; set; }
 
