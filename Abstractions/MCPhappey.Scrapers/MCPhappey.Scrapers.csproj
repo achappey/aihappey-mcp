@@ -13,7 +13,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Graph.Beta" Version="6.9.0-preview" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="11.0.0-rc.2.26504.105" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="11.0.0-rc.3.26522.148" />
 	</ItemGroup>
 
 </Project>

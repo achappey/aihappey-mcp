@@ -16,7 +16,7 @@
   </ItemGroup>  
 
 	<ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.8.6-beta.868" />
+    <PackageReference Include="AngleSharp" Version="1.8.6" />
     <PackageReference Include="Anthropic.SDK" Version="5.10.0" />
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="CoordinateSharp" Version="3.5.1.1" />
@@ -28,11 +28,11 @@
     <PackageReference Include="Humanizer" Version="3.0.10" />
     <PackageReference Include="libphonenumber-csharp" Version="9.0.41" />
     <PackageReference Include="Markdig" Version="1.5.0" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="11.0.0-rc.2.26504.105" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="11.0.0-rc.3.26522.148" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.53.0" />
     <PackageReference Include="Microsoft.PowerBI.Api" Version="4.22.0" />
-    <PackageReference Include="NAudio" Version="3.3.0" />
-    <PackageReference Include="System.Memory.Data" Version="11.0.0-rc.2.26504.105" />
+    <PackageReference Include="NAudio" Version="3.4.0-preview.1" />
+    <PackageReference Include="System.Memory.Data" Version="11.0.0-rc.3.26522.148" />
     <PackageReference Include="NAudio.Lame" Version="2.1.0" />
     <PackageReference Include="NetBarcode" Version="2.0.0-beta.1" />
     <PackageReference Include="NJsonSchema" Version="11.6.1" />
@@ -45,7 +45,7 @@
     <PackageReference Include="Raffinert.FuzzySharp" Version="6.0.1" />
     <PackageReference Include="RESTCountries.NET" Version="3.6.1" />
     <PackageReference Include="SharpGLTF.Core" Version="1.0.7" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="11.0.0-rc.2.26504.105" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="11.0.0-rc.3.26522.148" />
     <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.7" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.4" />
     <PackageReference Include="UnitsNet" Version="6.0.0-pre103" />

@@ -29,6 +29,6 @@
     <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.81.0-alpha" />
 		<PackageReference Include="ModelContextProtocol.AspNetCore" Version="2.3.0" />		
 		<PackageReference Include="ModelContextProtocol" Version="2.3.0" />		
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="11.0.0-rc.2.26504.105" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="11.0.0-rc.3.26522.148" />
 	</ItemGroup>
 </Project>

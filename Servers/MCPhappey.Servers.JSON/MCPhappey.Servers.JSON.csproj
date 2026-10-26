@@ -32,7 +32,7 @@
 
 
   <ItemGroup>
-  <PackageReference Include="System.Security.Cryptography.Xml" Version="11.0.0-rc.2.26504.105" />
+  <PackageReference Include="System.Security.Cryptography.Xml" Version="11.0.0-rc.3.26522.148" />
     <ProjectReference Include="..\..\Core\MCPhappey.Common\MCPhappey.Common.csproj" PrivateAssets="All" />
   </ItemGroup>  
 
