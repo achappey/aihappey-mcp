@@ -14,12 +14,7 @@ public sealed class OpenAIDecisionsInputBuilder(
         string? inputText, string[]? documentUrls, string[]? imageUrls,
         string imageDetail = "auto", CancellationToken cancellationToken = default)
     {
-        ValidateUrls(documentUrls);
-        ValidateUrls(imageUrls);
-        if (imageUrls is { Length: > MaximumImages })
-            throw new ArgumentException($"At most {MaximumImages} images can be supplied.");
-        if (imageDetail is not ("auto" or "low" or "high" or "original"))
-            throw new ArgumentException("imageDetail must be auto, low, high, or original.");
+        ValidateInputs(documentUrls, imageUrls, imageDetail);
 
         var texts = new List<string>();
         if (!string.IsNullOrWhiteSpace(inputText))
@@ -79,7 +74,17 @@ public sealed class OpenAIDecisionsInputBuilder(
         return OpenAIDecisionsQuestions.FromDocument(files[0].Contents.ToString());
     }
 
-    private static void ValidateUrls(string[]? urls)
+    internal static void ValidateInputs(string[]? documentUrls, string[]? imageUrls, string imageDetail)
+    {
+        ValidateUrls(documentUrls);
+        ValidateUrls(imageUrls);
+        if (imageUrls is { Length: > MaximumImages })
+            throw new ArgumentException($"At most {MaximumImages} images can be supplied.");
+        if (imageDetail is not ("auto" or "low" or "high" or "original"))
+            throw new ArgumentException("imageDetail must be auto, low, high, or original.");
+    }
+
+    internal static void ValidateUrls(string[]? urls)
     {
         foreach (var url in urls ?? [])
             ValidateUrl(url);
