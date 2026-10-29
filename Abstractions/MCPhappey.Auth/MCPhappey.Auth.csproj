@@ -13,7 +13,7 @@
   </ItemGroup>  
 
 	<ItemGroup>
-	<PackageReference Include="Microsoft.Identity.Client" Version="4.91.1" />
+	<PackageReference Include="Microsoft.Identity.Client" Version="4.92.0" />
 	<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.23.0" />
 	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
   <PackageReference Include="Microsoft.IdentityModel.LoggingExtensions" Version="8.23.0" />
