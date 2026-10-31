@@ -74,7 +74,6 @@ using MCPhappey.Tools.CometAPI;
 using MCPhappey.Tools.Mixedbread;
 using MCPhappey.Tools.StepFun;
 using MCPhappey.Tools.Kugu;
-using MCPhappey.Tools.Infomaniak;
 using MCPhappey.Tools.Daglo;
 using MCPhappey.Tools.Parasail;
 using MCPhappey.Tools.Monica;
@@ -244,7 +243,6 @@ builder.Services
 .AddNoizAI(appConfig?.DomainHeaders)
 .AddKugu(appConfig?.DomainHeaders)
 .AddMorpheus(appConfig?.DomainHeaders)
-.AddInfomaniak(appConfig?.DomainHeaders)
 .AddDaglo(appConfig?.DomainHeaders)
 .AddDumplingAI(appConfig?.DomainHeaders)
 .AddMonica(appConfig?.DomainHeaders)

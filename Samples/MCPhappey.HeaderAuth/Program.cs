@@ -56,12 +56,10 @@ using MCPhappey.Tools.Speechify;
 using MCPhappey.Tools.Speechactors;
 using MCPhappey.Tools.Verbatik;
 using MCPhappey.Tools.deAPI;
-using MCPhappey.Tools.ImageRouter;
 using MCPhappey.Tools.CometAPI;
 using MCPhappey.Tools.Mixedbread;
 using MCPhappey.Tools.StepFun;
 using MCPhappey.Tools.Kugu;
-using MCPhappey.Tools.Infomaniak;
 using MCPhappey.Tools.Daglo;
 using MCPhappey.Tools.Parasail;
 using MCPhappey.Tools.Monica;
@@ -215,7 +213,6 @@ builder.Services
 .AddVerbatik(appConfig?.DomainHeaders)
 .AddUnrealSpeech(appConfig?.DomainHeaders)
 .AddDeAPI(appConfig?.DomainHeaders)
-.AddImageRouter(appConfig?.DomainHeaders)
 .AddParasail(appConfig?.DomainHeaders)
    .AddCometAPI(appConfig?.DomainHeaders)
    .AddMixedbread(appConfig?.DomainHeaders)
@@ -224,7 +221,6 @@ builder.Services
 .AddGradium(appConfig?.DomainHeaders)
 .AddKugu(appConfig?.DomainHeaders)
 .AddMorpheus(appConfig?.DomainHeaders)
-.AddInfomaniak(appConfig?.DomainHeaders)
 .AddDaglo(appConfig?.DomainHeaders)
 .AddDumplingAI(appConfig?.DomainHeaders)
 .AddMonica(appConfig?.DomainHeaders)
