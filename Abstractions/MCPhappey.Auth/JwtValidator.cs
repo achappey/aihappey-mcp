@@ -21,95 +21,41 @@ public class JwtValidator(IHttpClientFactory httpClientFactory) : IJwtValidator
       string audience,
       OAuthSettings oAuthSettings)
     {
-        using var client = httpClientFactory.CreateClient();
-        var handler = new JwtSecurityTokenHandler();
-
-        // STEP 0: Decode token header/payload without validation to check issuer.
-        JwtSecurityToken? jwt = handler.ReadJwtToken(token);
-        string? tokenIssuer = jwt?.Issuer;
-
-        // STEP 1: Pick correct JWKS endpoint based on issuer.
-        string jwksUrl;
-        if (tokenIssuer != null &&
-            (tokenIssuer.StartsWith("https://sts.windows.net/") ||
-             tokenIssuer.StartsWith("https://login.microsoftonline.com/")))
-        {
-            // Azure AD token
-            jwksUrl = $"https://login.microsoftonline.com/{oAuthSettings.TenantId}/discovery/v2.0/keys";
-        }
-        else
-        {
-            // Your own tokens
-            jwksUrl = $"{issuer}/.well-known/jwks.json";
-        }
-
-        var keys = await JwksCache.GetAsync(jwksUrl, httpClientFactory);
-        if (keys == null || keys.Count == 0) return null;
-
-        // STEP 2: Build validation parameters
-        var outerValidationParameters = new TokenValidationParameters
-        {
-            ValidIssuers =
-            [
-            issuer, // your own issuer
-            $"https://sts.windows.net/{oAuthSettings.TenantId}/",
-            $"https://login.microsoftonline.com/{oAuthSettings.TenantId}/v2.0"
-        ],
-            IssuerSigningKeys = keys,
-            ValidateIssuer = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ClockSkew = TimeSpan.FromMinutes(1),
-            ValidateAudience = true,
-            AudienceValidator = (tokenAudiences, _, _) =>
-                tokenAudiences.Contains(audience, StringComparer.OrdinalIgnoreCase)
-        };
-
         try
         {
-            var outerResult = await handler.ValidateTokenAsync(token, outerValidationParameters);
-
-            if (!outerResult.IsValid)
+            var handler = new JwtSecurityTokenHandler { MapInboundClaims = false };
+            if (!handler.CanReadToken(token))
+                return null;
+            // Unvalidated contents may only select between fixed, trusted issuers/key endpoints.
+            var tokenIssuer = handler.ReadJwtToken(token).Issuer;
+            var azureIssuers = new[] { $"https://sts.windows.net/{oAuthSettings.TenantId}/",
+                $"https://login.microsoftonline.com/{oAuthSettings.TenantId}/v2.0" };
+            var azure = azureIssuers.Contains(tokenIssuer, StringComparer.Ordinal);
+            if (!azure && !string.Equals(tokenIssuer, issuer, StringComparison.Ordinal))
+                return null;
+            var keys = await JwksCache.GetAsync(azure
+                ? $"https://login.microsoftonline.com/{oAuthSettings.TenantId}/discovery/v2.0/keys"
+                : $"{issuer}/.well-known/jwks.json", httpClientFactory);
+            if (keys is null || keys.Count == 0)
+                return null;
+            var result = await handler.ValidateTokenAsync(token, new TokenValidationParameters
             {
-
-            }
-
-            var outerIdentity = outerResult.ClaimsIdentity;
-            var principal = new ClaimsPrincipal(outerIdentity);
-
-            // STEP 2: Check if token has embedded Azure token in `act` claim
-            var actToken = outerIdentity.FindFirst("act")?.Value;
-
-            if (!string.IsNullOrEmpty(actToken))
-            {
-                var innerJwt = handler.ReadJwtToken(actToken);
-                var innerIssuer = innerJwt.Issuer;
-
-                var innerKeys = await JwksCache.GetAsync($"https://login.microsoftonline.com/{oAuthSettings.TenantId}/discovery/v2.0/keys", httpClientFactory);
-                if (innerKeys == null || innerKeys.Count == 0) return null;
-
-                var innerValidation = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuers =
-                    [
-                        $"https://sts.windows.net/{oAuthSettings.TenantId}/",
-                        $"https://login.microsoftonline.com/{oAuthSettings.TenantId}/v2.0"
-                    ],
-                    IssuerSigningKeys = innerKeys,
-                    ValidateLifetime = true,
-                    ValidateAudience = false,
-                };
-
-                var innerResult = await handler.ValidateTokenAsync(actToken, innerValidation);
-                var innerIdentity = innerResult.ClaimsIdentity;
-
-                outerIdentity.AddClaims(innerIdentity.Claims
-                    .Where(c => !outerIdentity.HasClaim(c.Type, c.Value))); // avoid duplicates
-            }
-
-            return principal;
-
+                ValidIssuers = azure ? azureIssuers : [issuer],
+                ValidAudiences = azure ? [oAuthSettings.Audience, .. oAuthSettings.AdditionalAudiences]
+                    : [audience, oAuthSettings.Audience, .. oAuthSettings.AdditionalAudiences],
+                IssuerSigningKeys = keys,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                RequireSignedTokens = true,
+                ValidAlgorithms = [SecurityAlgorithms.RsaSha256, SecurityAlgorithms.RsaSha384, SecurityAlgorithms.RsaSha512],
+                ClockSkew = TimeSpan.FromMinutes(1)
+            });
+            // act/obo are assertions for downstream exchange, not sources of authorization claims.
+            // Authorize only the validated subject's claims. Existing minting already copies subject roles/groups.
+            return result.IsValid && result.ClaimsIdentity is { IsAuthenticated: true } identity
+                ? new ClaimsPrincipal(identity) : null;
         }
         catch
         {

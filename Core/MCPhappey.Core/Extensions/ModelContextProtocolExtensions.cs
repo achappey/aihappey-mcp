@@ -1,4 +1,5 @@
 using MCPhappey.Common.Models;
+using MCPhappey.Auth;
 using MCPhappey.Core.Services;
 using MCPhappey.Core.Services.Tasks;
 using Microsoft.Extensions.AI;
@@ -38,9 +39,9 @@ public static class ModelContextProtocolExtensions
                      }
                  }
 
-                 var headers = ctx.Request.Headers.Where(a => server.Server.Headers?.ContainsKey(a.Key) == true ||
-                    (server.Server.OBO?.Count > 0 && a.Key == "Authorization"))
-                        .ToDictionary(h => h.Key, h => h.Value.ToString());
+                 var headers = ctx.Items[typeof(ServerRequestAccess)] is ServerRequestAccess access
+                     ? new Dictionary<string, string>(access.Headers, StringComparer.OrdinalIgnoreCase)
+                     : new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
                  ConfigureTaskRuntime(server, opts, headers, ctx.RequestServices);
 

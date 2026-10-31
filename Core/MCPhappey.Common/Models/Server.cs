@@ -117,7 +117,8 @@ public class Server
 
     [JsonPropertyName("headers")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, string>? Headers { get; set; }
+    [JsonConverter(typeof(ServerHeadersJsonConverter))]
+    public List<ServerHeader>? Headers { get; set; }
 
     [JsonPropertyName("obo")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

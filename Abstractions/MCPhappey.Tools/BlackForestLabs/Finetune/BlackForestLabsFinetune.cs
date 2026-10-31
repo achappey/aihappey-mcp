@@ -77,14 +77,7 @@ public static class BlackForestLabsFinetune
             return http;
         }
 
-        var serverConfig = serviceProvider.GetServerConfig(requestContext.Server);
-        var configuredHeaders = serverConfig?.Server?.Headers;
-        if (configuredHeaders != null && configuredHeaders.TryGetValue("x-key", out var configuredKey))
-        {
-            http.DefaultRequestHeaders.TryAddWithoutValidation("x-key", configuredKey);
-        }
-
-        return http;
+        throw new UnauthorizedAccessException("A caller-supplied x-key header is required; header input metadata is not a runtime credential.");
     }
 
     private static void ValidateRequired(string? value, string name)

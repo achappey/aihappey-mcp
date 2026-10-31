@@ -11,7 +11,20 @@
       }
     ]
   },
-  "headers": {
-    "Authorization": "Bearer [Declaree_API_key]"
-  }
+  "headers": [
+    {
+      "name": "Authorization",
+      "value": "Bearer {declaree_api_key}",
+      "description": "Declaree API key for expense management",
+      "isRequired": true,
+      "variables": {
+        "declaree_api_key": {
+          "description": "Your Declaree API key",
+          "isRequired": true,
+          "isSecret": true,
+          "placeholder": "Enter your Declaree API key"
+        }
+      }
+    }
+  ]
 }

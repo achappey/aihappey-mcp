@@ -111,7 +111,8 @@ public static class TokenController
                 IssuerSigningKeys = outerKeys,
                 //   ValidIssuers = $"https://login.microsoftonline.com/{oauth.TenantId}/v2.0",
                 ValidateIssuerSigningKey = true,
-                ValidateAudience = false,          // you may want to lock this down
+                ValidateAudience = true,
+                ValidAudiences = new[] { oauth.Audience }.Concat(oauth.AdditionalAudiences),
                 ValidateLifetime = true
             };
 

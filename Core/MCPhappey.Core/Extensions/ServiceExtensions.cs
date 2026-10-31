@@ -2,6 +2,8 @@ using MCPhappey.Common.Models;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocol.Server;
 using MCPhappey.Common;
+using MCPhappey.Auth;
+using Microsoft.AspNetCore.Http;
 
 namespace MCPhappey.Core.Extensions;
 
@@ -14,7 +16,9 @@ public static class ServiceExtensions
 
         if (provider != null)
         {
-            provider!.Headers = headers;
+            var context = serviceProvider!.GetService<IHttpContextAccessor>()?.HttpContext;
+            provider.Headers = context?.Items[typeof(ServerRequestAccess)] is ServerRequestAccess access
+                ? new Dictionary<string, string>(access.Headers, StringComparer.OrdinalIgnoreCase) : headers;
         }
     }
 

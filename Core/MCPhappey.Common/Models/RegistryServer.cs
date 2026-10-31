@@ -61,6 +61,7 @@ public class Repository
 public class ServerRemote
 {
     [JsonPropertyName("headers")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<ServerHeader>? Headers { get; set; } = null!;
 
     [JsonPropertyName("type")]
@@ -70,22 +71,50 @@ public class ServerRemote
     public string Url { get; set; } = null!;
 }
 
-public class ServerHeader
+public class ServerInput
+{
+    [JsonPropertyName("choices")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IEnumerable<string>? Choices { get; set; }
+
+    [JsonPropertyName("default")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Default { get; set; }
+
+    [JsonPropertyName("description")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Description { get; set; }
+
+    [JsonPropertyName("placeholder")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Placeholder { get; set; }
+
+    [JsonPropertyName("value")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Value { get; set; }
+
+    [JsonPropertyName("isSecret")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? IsSecret { get; set; }
+
+    [JsonPropertyName("isRequired")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? IsRequired { get; set; }
+
+    [JsonPropertyName("format")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Format { get; set; }
+}
+
+public class ServerHeader : ServerInput
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = default!;
 
-    [JsonPropertyName("value")]
-    public string? Value { get; set; }
+    [JsonPropertyName("variables")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, ServerInput>? Variables { get; set; }
 
-    [JsonPropertyName("isSecret")]
-    public bool? IsSecret { get; set; }
-
-    [JsonPropertyName("isRequired")]
-    public bool? IsRequired { get; set; }
-
-    [JsonPropertyName("format")]
-    public string? Format { get; set; }
 }
 
 

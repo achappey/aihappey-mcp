@@ -20,5 +20,21 @@
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
-  }
+  },
+  "headers": [
+    {
+      "name": "Authorization",
+      "value": "Bearer {openai_api_key}",
+      "description": "OpenAI API key for image generation",
+      "isRequired": true,
+      "variables": {
+        "openai_api_key": {
+          "description": "Your OpenAI API key",
+          "isRequired": true,
+          "isSecret": true,
+          "placeholder": "Enter your OpenAI API key"
+        }
+      }
+    }
+  ]
 }

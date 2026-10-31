@@ -23,6 +23,8 @@ public static class GraphClientExtensions
     public static async Task<GraphServiceClient> GetOboGraphClient(this IServiceProvider serviceProvider,
       McpServer mcpServer)
     {
+        if (serviceProvider.GetEffectiveAccessMode(mcpServer) != MCPhappey.Auth.ServerAccessMode.Delegated)
+            throw new UnauthorizedAccessException("Delegated Graph access is not active for this request.");
         var httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
         var tokenService = serviceProvider.GetService<HeaderProvider>();
         var oAuthSettings = serviceProvider.GetService<OAuthSettings>();

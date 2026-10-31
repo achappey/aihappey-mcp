@@ -1,4 +1,5 @@
 using MCPhappey.Common.Models;
+using MCPhappey.Auth;
 using Microsoft.AspNetCore.Http;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
@@ -7,14 +8,15 @@ namespace MCPhappey.Core.Extensions;
 
 public static partial class ModelContextServerExtensions
 {
-    public static GradioPlugin ToGradio(this ServerConfig server, HttpContext httpContext)
+    public static GradioPlugin ToGradio(this ServerConfig server, HttpContext httpContext, ServerAccessPolicy? accessPolicy = null)
      => new()
      {
          Id = server.Server.ServerInfo.Name,
          Title = server.Server.ServerInfo.Title ?? server.Server.ServerInfo.Name,
          Transport = new()
          {
-             Url = server.Server.GetUrl(httpContext)
+              Url = server.Server.GetUrl(httpContext),
+              Headers = (accessPolicy ?? new()).GetClientHeaders(server.Server)
          }
      };
 
@@ -31,37 +33,40 @@ public static partial class ModelContextServerExtensions
 
     public static MCPServerRegistry ToMcpServerRegistry(this IEnumerable<ServerConfig> servers, string baseUrl,
         IReadOnlyList<Microsoft.Graph.Beta.Models.User> users,
-        bool sse = false)
+        bool sse = false, ServerAccessPolicy? accessPolicy = null)
         => new()
         {
             Servers = servers
-                .WithoutHiddenServers()
+                 .WithoutHiddenServers()
+                 .Where(server => (accessPolicy ?? new()).GetMode(server.Server) != ServerAccessMode.Unavailable)
                 .OrderBy(a => a.Server.ServerInfo.Name)
-                .Select(a => a.ToMCPServerRegistryItem(baseUrl, users)),
+                 .Select(a => a.ToMCPServerRegistryItem(baseUrl, users, accessPolicy)),
             Metadata = new()
             {
-                Count = servers.Count()
+                Count = servers.WithoutHiddenServers().Count(server => (accessPolicy ?? new()).GetMode(server.Server) != ServerAccessMode.Unavailable)
             }
         };
 
-    public static MCPServerList ToMcpServerList(this IEnumerable<ServerConfig> servers, string baseUrl, bool sse = false)
+    public static MCPServerList ToMcpServerList(this IEnumerable<ServerConfig> servers, string baseUrl, bool sse = false, ServerAccessPolicy? accessPolicy = null)
         => new()
         {
             Servers = servers
                 .WithoutHiddenServers()
+                .Where(server => (accessPolicy ?? new()).GetMode(server.Server) != ServerAccessMode.Unavailable)
                 .OrderBy(a => a.Server.ServerInfo.Name)
-                .ToDictionary(a => a.Server.ServerInfo.Name, a => sse ? a.ToSseMcpServer(baseUrl)
-                        : a.ToMcpServer(baseUrl))
+                .ToDictionary(a => a.Server.ServerInfo.Name, a => sse ? a.ToSseMcpServer(baseUrl, accessPolicy)
+                        : a.ToMcpServer(baseUrl, accessPolicy))
         };
 
 
-    public static MCPServerSettingsList ToMcpServerSettingsList(this IEnumerable<ServerConfig> servers, string baseUrl)
+    public static MCPServerSettingsList ToMcpServerSettingsList(this IEnumerable<ServerConfig> servers, string baseUrl, ServerAccessPolicy? accessPolicy = null)
      => new()
      {
          McpServers = servers
                 .WithoutHiddenServers()
+                .Where(server => (accessPolicy ?? new()).GetMode(server.Server) != ServerAccessMode.Unavailable)
                 .OrderBy(a => a.Server.ServerInfo.Name)
-                .ToDictionary(a => a.Server.ServerInfo.Name, a => a.ToMcpServerSettings(baseUrl))
+                .ToDictionary(a => a.Server.ServerInfo.Name, a => a.ToMcpServerSettings(baseUrl, accessPolicy))
      };
 
     public static string WithoutScheme(this string url)
@@ -70,19 +75,30 @@ public static partial class ModelContextServerExtensions
     public static string ReverseDns(this string url)
           => string.Join(".", new Uri(url).Host.Split('.').Reverse());
 
-    public static MCPServerRegistryItem ToMCPServerRegistryItem(this ServerConfig server, string baseUrl, IReadOnlyList<Microsoft.Graph.Beta.Models.User> users)
+    public static MCPServerRegistryItem ToMCPServerRegistryItem(this ServerConfig server, string baseUrl, IReadOnlyList<Microsoft.Graph.Beta.Models.User> users, ServerAccessPolicy? accessPolicy = null)
                => new()
                {
-                   Server = server.ToRegistryServer(baseUrl),
-                   Meta = server.ToMCPServerRegistryItemMeta(baseUrl, users)
+                   Server = server.ToRegistryServer(baseUrl, accessPolicy),
+                   Meta = server.ToMCPServerRegistryItemMeta(baseUrl, users, accessPolicy)
                };
     public static Dictionary<string, Dictionary<string, object>>? ToMCPServerRegistryItemMeta(
         this ServerConfig server,
         string baseUrl,
-        IReadOnlyList<Microsoft.Graph.Beta.Models.User> users)
+        IReadOnlyList<Microsoft.Graph.Beta.Models.User> users, ServerAccessPolicy? accessPolicy = null)
     {
+        var metadata = new Dictionary<string, Dictionary<string, object>>();
+        if (accessPolicy?.GetMode(server.Server) == ServerAccessMode.Delegated)
+            metadata["io.aihappey/auth"] = new()
+            {
+                ["type"] = "oauth2",
+                ["provider"] = "microsoft-entra-id",
+                ["resourceMetadataUrl"] = $"{baseUrl}/.well-known/oauth-protected-resource/{server.Server.ServerInfo.Name.ToLowerInvariant()}",
+                ["tenantId"] = accessPolicy.OAuth!.TenantId,
+                ["clientId"] = accessPolicy.OAuth.ClientId,
+                ["audience"] = accessPolicy.OAuth.Audience
+            };
         if (server.SourceType == ServerSourceType.Static)
-            return null;
+            return metadata.Count > 0 ? metadata : null;
 
         var block = new Dictionary<string, object>
         {
@@ -119,14 +135,12 @@ public static partial class ModelContextServerExtensions
         // -------------------------
         // Wrap final metadata
         // -------------------------
-        return new Dictionary<string, Dictionary<string, object>>
-        {
-            [$"{baseUrl.ReverseDns()}/registry"] = block
-        };
+        metadata[$"{baseUrl.ReverseDns()}/registry"] = block;
+        return metadata;
     }
 
 
-    public static RegistryServer ToRegistryServer(this ServerConfig server, string baseUrl)
+    public static RegistryServer ToRegistryServer(this ServerConfig server, string baseUrl, ServerAccessPolicy? accessPolicy = null)
             => new()
             {
                 Description = server.Server.ServerInfo.Description,
@@ -151,30 +165,32 @@ public static partial class ModelContextServerExtensions
                 },
                 Remotes = [new ServerRemote() {
                     Url =  $"{baseUrl}/{server.Server.ServerInfo.Name.ToLowerInvariant()}",
+                    Headers = (accessPolicy ?? new()).GetPublicHeaders(server.Server)
                 }]
             };
 
-    public static MCPServer ToMcpServer(this ServerConfig server, string baseUrl)
+    public static MCPServer ToMcpServer(this ServerConfig server, string baseUrl, ServerAccessPolicy? accessPolicy = null)
         => new()
         {
             Type = "http",
             Url = $"{baseUrl}/{server.Server.ServerInfo.Name.ToLowerInvariant()}",
-            Headers = server.Server.Headers
+            Headers = (accessPolicy ?? new()).GetClientHeaders(server.Server)
         };
 
-    public static MCPServer ToSseMcpServer(this ServerConfig server, string baseUrl)
+    public static MCPServer ToSseMcpServer(this ServerConfig server, string baseUrl, ServerAccessPolicy? accessPolicy = null)
         => new()
         {
             Type = "sse",
             Url = $"{baseUrl}/{server.Server.ServerInfo.Name.ToLowerInvariant()}/sse",
-            Headers = server.Server.Headers
+            Headers = (accessPolicy ?? new()).GetClientHeaders(server.Server)
         };
 
-    public static MCPServerSettings ToMcpServerSettings(this ServerConfig server, string baseUrl)
+    public static MCPServerSettings ToMcpServerSettings(this ServerConfig server, string baseUrl, ServerAccessPolicy? accessPolicy = null)
             => new()
             {
                 TransportType = "http",
-                Url = $"{baseUrl}/{server.Server.ServerInfo.Name.ToLowerInvariant()}"
+                Url = $"{baseUrl}/{server.Server.ServerInfo.Name.ToLowerInvariant()}",
+                Headers = (accessPolicy ?? new()).GetClientHeaders(server.Server)
             };
 
     public static Implementation ToServerInfo(this Server server)

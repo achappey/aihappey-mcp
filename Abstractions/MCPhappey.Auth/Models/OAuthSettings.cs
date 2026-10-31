@@ -7,6 +7,7 @@ public class OAuthSettings
     public string ClientSecret { get; set; } = default!;
     public string Audience { get; set; } = default!;
     public string Scopes { get; set; } = default!;
+    public List<string> AdditionalAudiences { get; set; } = [];
     public IDictionary<string, ConfidentialClientSettings>? ConfidentialClients { get; set; }
 }
 

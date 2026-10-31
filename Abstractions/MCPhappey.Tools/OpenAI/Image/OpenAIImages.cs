@@ -34,7 +34,7 @@ public static class OpenAIImages
      CancellationToken cancellationToken = default) =>
          await ModelContextToolExtensions.WithExceptionCheck(async () =>
          {
-             var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
+             var openAiClient = OpenAIImageClientResolver.Resolve(serviceProvider, requestContext.Server);
 
              var imageInput = new OpenAINewImage
              {
@@ -75,13 +75,9 @@ public static class OpenAIImages
                      },
                      cancellationToken);
 
-             var uploaded = await requestContext.Server.Upload(
-                 serviceProvider,
-                 $"{typed.Filename}.png",
-                 resultImage.Value.ImageBytes,
+             return await requestContext.Server.ToImageCallToolResult(serviceProvider,
+                 [new ImageOutput($"{Path.GetFileNameWithoutExtension(typed.Filename)}.png", resultImage.Value.ImageBytes, "image/png")],
                  cancellationToken);
-
-             return uploaded?.ToResourceLinkCallToolResponse();
          });
 
     [Description("Create an image edit with OpenAI image generator")]
@@ -93,7 +89,7 @@ public static class OpenAIImages
         Destructive = false)]
     public static async Task<CallToolResult?> OpenAIImages_CreateImageEdit(
         [Description("The image prompt.")] string prompt,
-        [Description("File url of the image that should be used for the edit. This tool can also access secured SharePoint and OneDrive links.")] string fileUrl,
+        [Description("Public HTTPS image URL to edit. Secured SharePoint and OneDrive links require configured delegated authentication.")] string fileUrl,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
         [Description("Image generation model to use.")] Model model = Model.gpt_image_1_5,
@@ -104,16 +100,8 @@ public static class OpenAIImages
         CancellationToken cancellationToken = default) =>
             await ModelContextToolExtensions.WithExceptionCheck(async () =>
             {
-                var openAiClient = serviceProvider.GetRequiredService<OpenAIClient>();
-                var downloadService = serviceProvider.GetRequiredService<DownloadService>();
-
-                var files = await downloadService.DownloadContentAsync(
-                    serviceProvider,
-                    requestContext.Server,
-                    fileUrl,
-                    cancellationToken);
-
-                var image = files.FirstOrDefault();
+                var openAiClient = OpenAIImageClientResolver.Resolve(serviceProvider, requestContext.Server);
+                var image = await serviceProvider.GetImageInputAsync(requestContext.Server, fileUrl, cancellationToken);
 
                 var imageInput = new OpenAINewImageEdit
                 {
@@ -140,11 +128,12 @@ public static class OpenAIImages
                     ? GeneratedImageQuality.Auto
                     : new GeneratedImageQuality(finalQuality);
 
+                using var imageStream = image.Contents.ToStream();
                 var resultImage = await openAiClient
                     .GetImageClient(typed.Model.GetEnumMemberValue())
                     .GenerateImageEditAsync(
-                        image?.Contents.ToStream(),
-                        image?.Filename,
+                        imageStream,
+                        image.Filename,
                         typed.Prompt,
                         new()
                         {
@@ -154,13 +143,9 @@ public static class OpenAIImages
                         },
                         cancellationToken);
 
-                var uploaded = await requestContext.Server.Upload(
-                    serviceProvider,
-                    $"{typed.Filename}.png",
-                    resultImage.Value.ImageBytes,
+                return await requestContext.Server.ToImageCallToolResult(serviceProvider,
+                    [new ImageOutput($"{Path.GetFileNameWithoutExtension(typed.Filename)}.png", resultImage.Value.ImageBytes, "image/png")],
                     cancellationToken);
-
-                return uploaded?.ToResourceLinkCallToolResponse();
             });
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

@@ -30,8 +30,7 @@ public static class ServerExtensions
     public static bool IsAuthorized(this ServerConfig serverConfig, Dictionary<string, string> headers, IEnumerable<string> userRoles)
     {
         // Header check
-        bool headersOk = serverConfig.Server.Headers?.Any() != true ||
-                         serverConfig.Server.Headers.All(a => headers.ContainsKey(a.Key));
+        bool headersOk = new ServerAccessPolicy().HasRequiredHeaders(serverConfig.Server, headers);
 
         // Role check
         var requiredRoles = serverConfig.Server.Roles?.ToList() ?? [];

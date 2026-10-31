@@ -20,7 +20,17 @@ public static class StaticContentLoader
             {
                 var jsonContent = File.ReadAllText(file);
 
-                var serverObj = JsonSerializer.Deserialize<Server>(jsonContent);
+                Server? serverObj;
+                try
+                {
+                    serverObj = JsonSerializer.Deserialize<Server>(jsonContent);
+                }
+                catch (JsonException)
+                {
+                    // Do not discard invalid header requirements and accidentally publish an anonymous server.
+                    Console.Error.WriteLine($"Skipping invalid server definition '{file}'. Check the JSON and registry-style headers array.");
+                    continue;
+                }
                 if (serverObj == null)
                     continue;
 

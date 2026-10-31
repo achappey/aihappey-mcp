@@ -11,13 +11,26 @@
       }
     ]
   },
-  "headers": {
-    "Authorization": "Bearer [Nebius_API_key]"
-  },
   "plugins": [
     "MCPhappey.Tools.Nebius.NebiusImages, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read  https://graph.microsoft.com/Sites.ReadWrite.All"
-  }
+  },
+  "headers": [
+    {
+      "name": "Authorization",
+      "value": "Bearer {nebius_api_key}",
+      "description": "Nebius API key for image generation",
+      "isRequired": true,
+      "variables": {
+        "nebius_api_key": {
+          "description": "Your Nebius API key",
+          "isRequired": true,
+          "isSecret": true,
+          "placeholder": "Enter your Nebius API key"
+        }
+      }
+    }
+  ]
 }

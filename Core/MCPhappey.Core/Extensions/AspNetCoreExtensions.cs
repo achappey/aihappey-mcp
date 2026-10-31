@@ -1,4 +1,6 @@
 using MCPhappey.Common;
+using MCPhappey.Auth;
+using MCPhappey.Auth.Models;
 using MCPhappey.Common.Models;
 using MCPhappey.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,9 +17,12 @@ public static class AspNetCoreExtensions
         List<ServerConfig> servers)
     {
         services.AddHttpContextAccessor();
+        services.TryAddSingleton(sp => new ServerAccessPolicy(sp.GetService<OAuthSettings>()));
+        services.TryAddSingleton<IJwtValidator, JwtValidator>();
 
         services.AddSingleton<TransformService>();
         services.AddSingleton<DownloadService>();
+        services.AddSingleton<PublicImageDownloader>();
         services.TryAddSingleton<IMcpExtensionHeaderResolver, DefaultMcpExtensionHeaderResolver>();
         services.AddScoped<PromptService>();
         services.AddScoped<ResourceService>();
