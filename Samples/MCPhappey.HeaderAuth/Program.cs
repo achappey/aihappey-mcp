@@ -72,7 +72,6 @@ using MCPhappey.Tools.Morpheus;
 using MCPhappey.Tools.Pinecone;
 using MCPhappey.Tools.SambaNova;
 using MCPhappey.Tools.Fireworks;
-using MCPhappey.Tools.Nebius;
 using MCPhappey.Tools.Supadata;
 using MCPhappey.Tools.LumaAI;
 using MCPhappey.Tools.Lumenfall;
@@ -189,7 +188,6 @@ builder.Services
 .AddMiniMax(appConfig?.DomainHeaders)
    .AddAgentSandbox(appConfig?.DomainHeaders)
    .AddRelaxAI(appConfig?.DomainHeaders)
-   .AddNebius(appConfig?.DomainHeaders)
    .AddLumaAI(appConfig?.DomainHeaders)
    .AddLumenfall(appConfig?.DomainHeaders)
    .AddFireworks(appConfig?.DomainHeaders)

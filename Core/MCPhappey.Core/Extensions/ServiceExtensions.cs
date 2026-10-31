@@ -25,6 +25,10 @@ public static class ServiceExtensions
     public static ServerConfig? GetServerConfig(this IServiceProvider serviceProvider,
            McpServer mcpServer)
     {
+        var context = serviceProvider.GetService<IHttpContextAccessor>()?.HttpContext;
+        if (context?.Items[typeof(ServerRequestAccess)] is ServerRequestAccess access
+            && access.Config.Server.ServerInfo.Name.Equals(mcpServer.ServerOptions.ServerInfo?.Name, StringComparison.OrdinalIgnoreCase))
+            return access.Config;
         var configs = serviceProvider.GetRequiredService<IReadOnlyList<ServerConfig>>();
         return configs.GetServerConfig(mcpServer);
     }

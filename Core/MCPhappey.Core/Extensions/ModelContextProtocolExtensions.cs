@@ -23,9 +23,10 @@ public static class ModelContextProtocolExtensions
                  var serverIcons = ctx.RequestServices.GetService<List<ServerIcon>>();
                  var completionService = ctx.RequestServices.GetRequiredService<CompletionService>();
                  var serverName = ctx.Request.Path.Value!.GetServerNameFromUrl();
-                 var server = servers.First(a => a.Server.ServerInfo?.Name.Equals(serverName, StringComparison.OrdinalIgnoreCase) == true);
+                 var requestAccess = ctx.Items[typeof(ServerRequestAccess)] as ServerRequestAccess;
+                 var server = requestAccess?.Config ?? servers.First(a => a.Server.ServerInfo?.Name.Equals(serverName, StringComparison.OrdinalIgnoreCase) == true);
 
-                 if (server.SourceType == ServerSourceType.Dynamic)
+                 if (server.SourceType == ServerSourceType.Dynamic && requestAccess is null)
                  {
                      var dataService = ctx.RequestServices.GetService<IServerDataProvider>();
                      if (dataService != null)

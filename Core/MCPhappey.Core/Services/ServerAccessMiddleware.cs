@@ -1,7 +1,5 @@
 using System.Net.Http.Headers;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using MCPhappey.Auth;
 using MCPhappey.Auth.Extensions;
 using MCPhappey.Common.Models;
@@ -83,17 +81,7 @@ public sealed class ServerAccessMiddleware(RequestDelegate next, ServerAccessPol
         }
         else if (mode == ServerAccessMode.Headers)
         {
-            try
-            {
-                if (!policy.HasRequiredHeaders(server, incoming))
-                    throw new UnauthorizedAccessException();
-                var identityMaterial = string.Join('\n', (server.Headers ?? []).OrderBy(header => header.Name, StringComparer.OrdinalIgnoreCase)
-                        .Select(header => incoming.GetValueOrDefault(header.Name, "")));
-                // Bind MCP sessions to a credential identity, without retaining the raw key as a claim.
-                var identity = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(server.ServerInfo.Name + "\n" + identityMaterial)));
-                context.User = new ClaimsPrincipal(new ClaimsIdentity([new Claim(ClaimTypes.NameIdentifier, identity)], "McpProviderCredential"));
-            }
-            catch (UnauthorizedAccessException)
+            if (!policy.HasRequiredHeaders(server, incoming))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 await context.Response.WriteAsync("Missing or invalid provider credential headers.");
