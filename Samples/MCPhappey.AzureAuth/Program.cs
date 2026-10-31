@@ -19,7 +19,6 @@ using MCPhappey.Tools.Azure;
 using MCPhappey.Tools.Azure.DocumentIntelligence;
 using MCPhappey.Tools.Imagga;
 using MCPhappey.Tools.AsyncAI;
-using MCPhappey.Tools.DumplingAI;
 using MCPhappey.Tools.Mem0;
 using MCPhappey.Tools.Anthropic;
 using MCPhappey.Tools.Anthropic.Skills;
@@ -74,7 +73,6 @@ using MCPhappey.Tools.CometAPI;
 using MCPhappey.Tools.Mixedbread;
 using MCPhappey.Tools.StepFun;
 using MCPhappey.Tools.Kugu;
-using MCPhappey.Tools.Daglo;
 using MCPhappey.Tools.Parasail;
 using MCPhappey.Tools.Monica;
 using MCPhappey.Tools.Ideogram;
@@ -108,7 +106,6 @@ using MCPhappey.Tools.Rime;
 using MCPhappey.Tools.Valyu;
 using MCPhappey.Tools.Kirha;
 using MCPhappey.Tools.MemU;
-using MCPhappey.Tools.Relace;
 using MCPhappey.Tools.Privatemode;
 using MCPhappey.Tools.BlinkUtilities;
 using MCPhappey.Tools.SyntheticSearch;
@@ -223,7 +220,6 @@ builder.Services
 .AddScaleway(appConfig?.DomainHeaders)
 .AddSiliconFlow(appConfig?.DomainHeaders)
 .AddDeepL(appConfig?.DomainHeaders)
-.AddRelace(appConfig?.DomainHeaders)
 .AddRekaAI(appConfig?.DomainHeaders)
 .AddRecraft(appConfig?.DomainHeaders)
 .AddUpstage(appConfig?.DomainHeaders)
@@ -243,8 +239,6 @@ builder.Services
 .AddNoizAI(appConfig?.DomainHeaders)
 .AddKugu(appConfig?.DomainHeaders)
 .AddMorpheus(appConfig?.DomainHeaders)
-.AddDaglo(appConfig?.DomainHeaders)
-.AddDumplingAI(appConfig?.DomainHeaders)
 .AddMonica(appConfig?.DomainHeaders)
 .AddIdeogram(appConfig?.DomainHeaders)
 .AddPicsart(appConfig?.DomainHeaders)

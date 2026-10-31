@@ -13,7 +13,7 @@ using MCPhappey.Tools.AzureMaps;
 using MCPhappey.Tools.Azure;
 using MCPhappey.Tools.Imagga;
 using MCPhappey.Tools.AsyncAI;
-using MCPhappey.Tools.DumplingAI;
+
 using MCPhappey.Tools.Anthropic;
 using MCPhappey.Tools.OpenAI.Responses;
 using MCPhappey.Tools.OpenAI.Decisions;
@@ -60,7 +60,6 @@ using MCPhappey.Tools.CometAPI;
 using MCPhappey.Tools.Mixedbread;
 using MCPhappey.Tools.StepFun;
 using MCPhappey.Tools.Kugu;
-using MCPhappey.Tools.Daglo;
 using MCPhappey.Tools.Parasail;
 using MCPhappey.Tools.Monica;
 using MCPhappey.Tools.Ideogram;
@@ -221,8 +220,6 @@ builder.Services
 .AddGradium(appConfig?.DomainHeaders)
 .AddKugu(appConfig?.DomainHeaders)
 .AddMorpheus(appConfig?.DomainHeaders)
-.AddDaglo(appConfig?.DomainHeaders)
-.AddDumplingAI(appConfig?.DomainHeaders)
 .AddMonica(appConfig?.DomainHeaders)
 .AddIdeogram(appConfig?.DomainHeaders)
 .AddPicsart(appConfig?.DomainHeaders)
