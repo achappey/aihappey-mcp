@@ -36,7 +36,6 @@ using MCPhappey.Tools.VoyageAI;
 using MCPhappey.Tools.AIML;
 using MCPhappey.Tools.RelaxAI;
 using MCPhappey.Tools.GreenPT;
-using MCPhappey.Tools.APIpie;
 using MCPhappey.Tools.Audixa;
 using MCPhappey.Tools.Deepgram;
 using MCPhappey.Tools.Gladia;
@@ -193,7 +192,6 @@ builder.Services
    .AddFireworks(appConfig?.DomainHeaders)
 .AddGreenPT(appConfig?.DomainHeaders)
 .AddLoreto(appConfig?.DomainHeaders)
-.AddAPIpie(appConfig?.DomainHeaders)
 .AddAudixa(appConfig?.DomainHeaders)
 .AddDeepgram(appConfig?.DomainHeaders)
 .AddGladia(appConfig?.DomainHeaders)
