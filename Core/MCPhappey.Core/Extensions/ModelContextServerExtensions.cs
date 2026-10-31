@@ -87,18 +87,8 @@ public static partial class ModelContextServerExtensions
         IReadOnlyList<Microsoft.Graph.Beta.Models.User> users, ServerAccessPolicy? accessPolicy = null)
     {
         var metadata = new Dictionary<string, Dictionary<string, object>>();
-        if (accessPolicy?.GetMode(server.Server) == ServerAccessMode.Delegated)
-            metadata["io.aihappey/auth"] = new()
-            {
-                ["type"] = "oauth2",
-                ["provider"] = "microsoft-entra-id",
-                ["resourceMetadataUrl"] = $"{baseUrl}/.well-known/oauth-protected-resource/{server.Server.ServerInfo.Name.ToLowerInvariant()}",
-                ["tenantId"] = accessPolicy.OAuth!.TenantId,
-                ["clientId"] = accessPolicy.OAuth.ClientId,
-                ["audience"] = accessPolicy.OAuth.Audience
-            };
         if (server.SourceType == ServerSourceType.Static)
-            return metadata.Count > 0 ? metadata : null;
+            return null;
 
         var block = new Dictionary<string, object>
         {
@@ -141,7 +131,13 @@ public static partial class ModelContextServerExtensions
 
 
     public static RegistryServer ToRegistryServer(this ServerConfig server, string baseUrl, ServerAccessPolicy? accessPolicy = null)
-            => new()
+    {
+        var remote = new ServerRemote
+        {
+            Url = $"{baseUrl}/{server.Server.ServerInfo.Name.ToLowerInvariant()}",
+            Headers = (accessPolicy ?? new()).GetPublicHeaders(server.Server)
+        };
+        return new()
             {
                 Description = server.Server.ServerInfo.Description,
                 Version = server.Server.ServerInfo.Version,
@@ -163,11 +159,24 @@ public static partial class ModelContextServerExtensions
                         $"/tree/main/Servers/MCPhappey.Servers.JSON/Servers/{server.Server.ServerInfo.Name}" :
                         "/tree/main/Servers/MCPhappey.Servers.SQL"
                 },
-                Remotes = [new ServerRemote() {
-                    Url =  $"{baseUrl}/{server.Server.ServerInfo.Name.ToLowerInvariant()}",
-                    Headers = (accessPolicy ?? new()).GetPublicHeaders(server.Server)
-                }]
+                Remotes = [remote],
+                Meta = accessPolicy?.GetMode(server.Server) == ServerAccessMode.Delegated ? new()
+                {
+                    ["io.modelcontextprotocol.registry/publisher-provided"] = new()
+                    {
+                        [$"{remote.Url.ReverseDns()}/auth"] = new Dictionary<string, object>
+                        {
+                            ["type"] = "oauth2",
+                            ["provider"] = "microsoft-entra-id",
+                            ["resourceMetadataUrl"] = $"{baseUrl}/.well-known/oauth-protected-resource/{server.Server.ServerInfo.Name.ToLowerInvariant()}",
+                            ["tenantId"] = accessPolicy.OAuth!.TenantId,
+                            ["clientId"] = accessPolicy.OAuth.ClientId,
+                            ["audience"] = accessPolicy.OAuth.Audience
+                        }
+                    }
+                } : null
             };
+    }
 
     public static MCPServer ToMcpServer(this ServerConfig server, string baseUrl, ServerAccessPolicy? accessPolicy = null)
         => new()

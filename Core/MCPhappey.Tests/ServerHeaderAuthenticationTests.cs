@@ -102,19 +102,111 @@ public sealed class ServerHeaderAuthenticationTests
         var config = ImageServer();
         config.Server.Headers![0].Variables!["openai_api_key"].Value = "caller-secret";
         config.Server.Headers[0].Variables!["openai_api_key"].Default = "default-secret";
+        config.Server.Headers.Add(new() { Name = "X-Api-Key", IsSecret = true, Value = "literal-secret", Default = "literal-default" });
+        var original = JsonSerializer.Serialize(config.Server);
         var direct = config.ToMCPServerRegistryItem("https://mcp.test", [], new ServerAccessPolicy());
         var delegated = config.ToMCPServerRegistryItem("https://mcp.test", [], new ServerAccessPolicy(OAuth()));
         var directJson = JsonSerializer.Serialize(direct);
         var delegatedJson = JsonSerializer.Serialize(delegated);
         Assert.Contains("openai_api_key", directJson);
-        Assert.DoesNotContain("caller-secret", directJson);
-        Assert.DoesNotContain("default-secret", directJson);
+        foreach (var json in new[] { directJson, delegatedJson })
+            foreach (var secret in new[] { "caller-secret", "default-secret", "literal-secret", "literal-default", "operator-secret" })
+                Assert.DoesNotContain(secret, json);
         Assert.DoesNotContain("openai_api_key", delegatedJson);
-        Assert.DoesNotContain("operator-secret", delegatedJson);
-        Assert.Contains("io.aihappey/auth", delegatedJson);
+        Assert.True(JsonSerializer.SerializeToElement(delegated).GetProperty("server").GetProperty("_meta")
+            .GetProperty("io.modelcontextprotocol.registry/publisher-provided").TryGetProperty("test.mcp/auth", out _));
         Assert.Contains("access_token", delegatedJson);
-        Assert.Equal("caller-secret", config.Server.Headers[0].Variables!["openai_api_key"].Value);
+        Assert.Equal(original, JsonSerializer.Serialize(config.Server));
         Assert.Contains("access_token", config.ToMcpServer("https://mcp.test", new ServerAccessPolicy(OAuth())).Headers!["Authorization"]);
+    }
+
+    [Theory]
+    [InlineData("https://mcp.test", "test.mcp/auth")]
+    [InlineData("https://api.widgets.example", "example.widgets.api/auth")]
+    [InlineData("http://edge.tools.example:8080/published", "example.tools.edge/auth")]
+    [InlineData("https://custom-registry.internal:9443", "internal.custom-registry/auth")]
+    [InlineData("https://mcp.test:8443", "test.mcp/auth")]
+    [InlineData("http://localhost", "localhost/auth")]
+    [InlineData("http://localhost:5050", "localhost/auth")]
+    public void Registry_OAuth_hint_is_only_in_the_official_server_container_under_the_remote_hostname(string baseUrl, string authNamespace)
+    {
+        var oauth = OAuth();
+        var item = ImageServer().ToMCPServerRegistryItem(baseUrl, [], new ServerAccessPolicy(oauth));
+        var root = JsonSerializer.SerializeToElement(item);
+        Assert.Null(item.Meta);
+        Assert.Equal(JsonValueKind.Null, root.GetProperty("_meta").ValueKind);
+        var server = root.GetProperty("server");
+        var remote = Assert.Single(server.GetProperty("remotes").EnumerateArray());
+        Assert.Equal($"{baseUrl}/images", remote.GetProperty("url").GetString());
+        var container = Assert.Single(server.GetProperty("_meta").EnumerateObject());
+        Assert.Equal("io.modelcontextprotocol.registry/publisher-provided", container.Name);
+        var publisher = Assert.Single(container.Value.EnumerateObject());
+        Assert.Equal(authNamespace, publisher.Name);
+        var hint = publisher.Value;
+        Assert.Equal(6, hint.EnumerateObject().Count());
+        Assert.Equal("oauth2", hint.GetProperty("type").GetString());
+        Assert.Equal("microsoft-entra-id", hint.GetProperty("provider").GetString());
+        Assert.Equal($"{baseUrl}/.well-known/oauth-protected-resource/images", hint.GetProperty("resourceMetadataUrl").GetString());
+        Assert.Equal(oauth.TenantId, hint.GetProperty("tenantId").GetString());
+        Assert.Equal(oauth.ClientId, hint.GetProperty("clientId").GetString());
+        Assert.Equal(oauth.Audience, hint.GetProperty("audience").GetString());
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void Registry_entry_metadata_is_preserved_independently_of_server_OAuth_hints(bool oauthConfigured)
+    {
+        var config = new ServerConfig { Server = ImageServer().Server, SourceType = ServerSourceType.Dynamic };
+        config.Server.Owners = ["owner", "unknown"];
+        var policy = new ServerAccessPolicy(oauthConfigured ? OAuth() : null);
+        var item = config.ToMCPServerRegistryItem("https://registry.widgets.example", [new() { Id = "owner", DisplayName = "Owner", Mail = "owner@example.test" }], policy);
+        var root = JsonSerializer.SerializeToElement(item);
+        var entry = Assert.Single(root.GetProperty("_meta").EnumerateObject());
+        Assert.Equal("example.widgets.registry/registry", entry.Name);
+        Assert.Equal(3, entry.Value.EnumerateObject().Count());
+        Assert.Equal("active", entry.Value.GetProperty("status").GetString());
+        Assert.True(entry.Value.GetProperty("isLatest").GetBoolean());
+        var author = Assert.Single(entry.Value.GetProperty("authors").EnumerateArray());
+        Assert.Equal(2, author.EnumerateObject().Count());
+        Assert.Equal("Owner", author.GetProperty("name").GetString());
+        Assert.Equal("owner@example.test", author.GetProperty("email").GetString());
+        Assert.Equal(oauthConfigured, root.GetProperty("server").TryGetProperty("_meta", out _));
+    }
+
+    [Theory]
+    [InlineData(true, true, true, false, ServerAccessMode.Delegated)]
+    [InlineData(true, true, false, false, ServerAccessMode.Delegated)]
+    [InlineData(false, true, true, false, ServerAccessMode.Headers)]
+    [InlineData(true, false, true, false, ServerAccessMode.Headers)]
+    [InlineData(true, false, false, false, ServerAccessMode.Public)]
+    [InlineData(false, false, false, false, ServerAccessMode.Public)]
+    [InlineData(false, true, false, false, ServerAccessMode.Unavailable)]
+    [InlineData(true, false, true, true, ServerAccessMode.Delegated)]
+    [InlineData(false, false, true, true, ServerAccessMode.Unavailable)]
+    public void Registry_hints_follow_existing_policy_without_changing_access_or_configuration(
+        bool oauthConfigured, bool hasObo, bool hasHeaders, bool restricted, ServerAccessMode expected)
+    {
+        var config = ImageServer();
+        if (!hasObo) config.Server.OBO = null;
+        if (!hasHeaders) config.Server.Headers = null;
+        if (restricted) config.Server.Roles = ["required"];
+        var original = JsonSerializer.Serialize(config.Server);
+        var policy = new ServerAccessPolicy(oauthConfigured ? OAuth() : null);
+        var server = config.ToRegistryServer("https://arbitrary.publisher.test:8443", policy);
+        Assert.Equal(expected == ServerAccessMode.Delegated, server.Meta is not null);
+        Assert.Equal(JsonSerializer.Serialize(policy.GetPublicHeaders(config.Server)),
+            JsonSerializer.Serialize(Assert.Single(server.Remotes!).Headers));
+        var registry = new[] { config }.ToMcpServerRegistry("https://arbitrary.publisher.test:8443", [], accessPolicy: policy);
+        Assert.Equal(expected == ServerAccessMode.Unavailable ? 0 : 1, registry.Metadata.Count);
+        Assert.Equal(registry.Metadata.Count, registry.Servers.Count());
+        var headers = new Dictionary<string, string> { ["Authorization"] = "Bearer caller-key" };
+        if (expected == ServerAccessMode.Headers)
+            Assert.Equal("caller-key", policy.GetCredential(config.Server, headers, "openai_api_key"));
+        else
+            Assert.Throws<UnauthorizedAccessException>(() => policy.GetCredential(config.Server, headers, "openai_api_key"));
+        Assert.Equal(expected, policy.GetMode(config.Server));
+        Assert.Equal(original, JsonSerializer.Serialize(config.Server));
     }
 
     [Theory]

@@ -36,9 +36,9 @@ public class RegistryServer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<ServerIcon>? Icons { get; set; }
 
-  //  [JsonPropertyName("_meta")]
-   // [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-   // public Dictionary<string, Dictionary<string, object>>? Meta { get; set; }
+    [JsonPropertyName("_meta")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, Dictionary<string, object>>? Meta { get; set; }
 }
 
 public class Repository
