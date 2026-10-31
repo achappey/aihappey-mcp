@@ -9,7 +9,8 @@ namespace MCPhappey.Core.Services;
 
 public partial class DownloadService(WebScraper webScraper,
     TransformService transformService,
-    IEnumerable<IContentScraper> scrapers) : IWebScraper
+    IEnumerable<IContentScraper> scrapers,
+    IEnumerable<IRequestContentDownloader>? requestDownloaders = null) : IWebScraper
 {
     public async Task<WebScraperResult> GetContentAsync(string url, CancellationToken cancellationToken = default)
         => await webScraper.GetContentAsync(url, cancellationToken);
@@ -22,6 +23,11 @@ public partial class DownloadService(WebScraper webScraper,
         Uri uri = new(url);
         var serverConfig = serviceProvider.GetServerConfig(mcpServer)
             ?? throw new Exception();
+
+        var requestContent = await DownloadForRequestAsync(serviceProvider, serverConfig, url, cancellationToken);
+        if (requestContent is not null)
+            return await Task.WhenAll(requestContent.Select(file => transformService.DecodeAsync(url,
+                file.Contents, file.MimeType, file.Filename, cancellationToken: cancellationToken)));
 
         var supportedScrapers = scrapers
             .Where(a => a.SupportsHost(serverConfig, url));
@@ -75,6 +81,10 @@ public partial class DownloadService(WebScraper webScraper,
         string url,
         CancellationToken cancellationToken = default)
     {
+        var requestContent = await DownloadForRequestAsync(serviceProvider, serverConfig, url, cancellationToken);
+        if (requestContent is not null)
+            return requestContent;
+
         var supportedScrapers = scrapers
             .Where(a => a.SupportsHost(serverConfig, url));
 
@@ -103,6 +113,15 @@ public partial class DownloadService(WebScraper webScraper,
             Contents = defaultScraper?.Content!,
             Uri = url,
         }];
+    }
+
+    private async Task<IEnumerable<FileItem>?> DownloadForRequestAsync(IServiceProvider services,
+        ServerConfig config, string url, CancellationToken cancellationToken)
+    {
+        foreach (var downloader in requestDownloaders ?? [])
+            if (downloader.Supports(config))
+                return await downloader.DownloadAsync(services, config, url, cancellationToken);
+        return null;
     }
 
     [GeneratedRegex(@"^[^.]+\.crm\d+\.dynamics\.com$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "nl-NL")]

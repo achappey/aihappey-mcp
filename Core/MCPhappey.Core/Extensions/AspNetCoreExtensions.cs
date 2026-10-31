@@ -23,6 +23,7 @@ public static class AspNetCoreExtensions
         services.AddSingleton<TransformService>();
         services.AddSingleton<DownloadService>();
         services.AddSingleton<PublicImageDownloader>();
+        services.AddSingleton<PublicFileDownloader>();
         services.TryAddSingleton<IMcpExtensionHeaderResolver, DefaultMcpExtensionHeaderResolver>();
         services.AddScoped<PromptService>();
         services.AddScoped<ResourceService>();

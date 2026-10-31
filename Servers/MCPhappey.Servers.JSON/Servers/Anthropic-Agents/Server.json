@@ -11,5 +11,21 @@
     ],
     "obo": {
         "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
-    }
+    },
+    "headers": [
+        {
+            "name": "x-api-key",
+            "value": "{anthropic_api_key}",
+            "description": "Anthropic API key for agent management",
+            "isRequired": true,
+            "variables": {
+                "anthropic_api_key": {
+                    "description": "Your Anthropic API key",
+                    "isRequired": true,
+                    "isSecret": true,
+                    "placeholder": "Enter your Anthropic API key"
+                }
+            }
+        }
+    ]
 }

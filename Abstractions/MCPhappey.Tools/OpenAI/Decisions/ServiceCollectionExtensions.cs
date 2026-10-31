@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using MCPhappey.Auth.Extensions;
+using MCPhappey.Tools;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 
@@ -11,6 +12,7 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         Dictionary<string, Dictionary<string, string>>? headers)
     {
+        services.AddDualModeAgentAccess();
         var apiKey = headers?
             .FirstOrDefault(host => host.Key.Equals("api.openai.com", StringComparison.OrdinalIgnoreCase))
             .Value?

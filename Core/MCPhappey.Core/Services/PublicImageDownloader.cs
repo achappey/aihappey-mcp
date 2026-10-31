@@ -105,7 +105,7 @@ public sealed class PublicImageDownloader
             throw new InvalidOperationException("The returned data does not match its image content type.");
     }
 
-    private static async ValueTask<Stream> ConnectPublicAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
+    internal static async ValueTask<Stream> ConnectPublicAsync(SocketsHttpConnectionContext context, CancellationToken cancellationToken)
     {
         var addresses = await Dns.GetHostAddressesAsync(context.DnsEndPoint.Host, cancellationToken);
         if (addresses.Length == 0 || addresses.Any(address => !IsPublicAddress(address)))

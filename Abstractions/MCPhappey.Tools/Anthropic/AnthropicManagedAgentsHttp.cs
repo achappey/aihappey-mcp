@@ -38,6 +38,10 @@ internal static class AnthropicManagedAgentsHttp
         JsonNode? body,
         CancellationToken cancellationToken)
     {
+        var config = AgentProviderHttp.GetRequestConfig(serviceProvider, "Anthropic-Agents");
+        if (config is not null)
+            return await AgentProviderHttp.SendAsync(serviceProvider, config, method, url, body, cancellationToken);
+
         var httpClient = CreateHttpClient(serviceProvider);
 
         using var request = new HttpRequestMessage(method, url);

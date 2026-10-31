@@ -33,6 +33,10 @@ internal static class OpenAIAgentsHttp
         JsonNode? body,
         CancellationToken cancellationToken)
     {
+        var config = AgentProviderHttp.GetRequestConfig(serviceProvider, "OpenAI-Agents");
+        if (config is not null)
+            return await AgentProviderHttp.SendAsync(serviceProvider, config, method, url, body, cancellationToken);
+
         var client = CreateHttpClient(serviceProvider);
         using var request = new HttpRequestMessage(method, url);
         if (body is not null)

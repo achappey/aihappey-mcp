@@ -1,4 +1,5 @@
 using MCPhappey.Common;
+using MCPhappey.Tools;
 using MCPhappey.Tools.GitHub.RestCountries;
 using MCPhappey.Tools.Graph;
 using MCPhappey.Tools.OpenAI;
@@ -22,6 +23,7 @@ public static class AspNetCoreExtensions
     public static WebApplicationBuilder WithCompletion(
         this WebApplicationBuilder builder)
     {
+        builder.Services.AddDualModeAgentAccess();
         builder.Services.AddSingleton<IAutoCompletion, GraphCompletion>();
         builder.Services.AddSingleton<IAutoCompletion, CountryCompletion>();
         builder.Services.AddSingleton<IAutoCompletion, OpenAICompletion>();

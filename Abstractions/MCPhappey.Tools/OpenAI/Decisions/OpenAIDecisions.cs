@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Text.Json.Nodes;
 using MCPhappey.Common;
+using MCPhappey.Auth;
 using MCPhappey.Common.Extensions;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
@@ -101,20 +102,29 @@ public static class OpenAIDecisions
         JsonArray questions, string? inputText, string[]? documentUrls, string[]? imageUrls,
         string imageDetail, string? safetyIdentifier, CancellationToken cancellationToken)
     {
-        var client = serviceProvider.GetService<OpenAIDecisionsClient>()
-            ?? throw new InvalidOperationException("OpenAI Decisions is not configured. Configure the api.openai.com Authorization domain header and register AddOpenAIDecisions.");
+        var accessMode = serviceProvider.GetEffectiveAccessMode(requestContext.Server);
+        if (accessMode == ServerAccessMode.Headers)
+            serviceProvider.GetProviderCredential(requestContext.Server, "openai_api_key");
+        else if (accessMode != ServerAccessMode.Delegated)
+            throw new UnauthorizedAccessException("OpenAI Decisions requires provider headers or delegated authentication.");
+        var delegatedClient = accessMode == ServerAccessMode.Delegated
+            ? serviceProvider.GetService<OpenAIDecisionsClient>()
+                ?? throw new InvalidOperationException("OpenAI Decisions is not configured. Configure the api.openai.com Authorization domain header and register AddOpenAIDecisions.")
+            : null;
         async Task<OpenAIDecisionsDocuments> DiscoverAsync(string[] urls, CancellationToken ct)
         {
             if (!urls.Any(OpenAIDecisionsDocumentDiscovery.RequiresGraph))
                 return new([], []);
-            if (string.IsNullOrWhiteSpace(serviceProvider.GetService<HeaderProvider>()?.Bearer))
+            if (accessMode != ServerAccessMode.Delegated)
                 throw new UnauthorizedAccessException("SharePoint document and folder discovery requires delegated authorization.");
             using var graph = await serviceProvider.GetOboGraphClient(requestContext.Server);
             return await new OpenAIDecisionsDocumentDiscovery(graph).DiscoverAsync(urls, ct);
         }
 
         var executor = new OpenAIDecisionsExecutor(
-            CreateInputBuilder(serviceProvider, requestContext), DiscoverAsync, client.CreateAsync,
+            CreateInputBuilder(serviceProvider, requestContext), DiscoverAsync,
+            (request, ct) => delegatedClient is not null ? delegatedClient.CreateAsync(request, ct)
+                : OpenAIDecisionsClientResolver.CreateAsync(serviceProvider, requestContext.Server, request, ct),
             async (progress, ct) =>
             {
                 await requestContext.Server.SendProgressNotificationAsync(requestContext,

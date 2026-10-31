@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace MCPhappey.Tools.OpenAI.Decisions;
@@ -8,12 +9,30 @@ public sealed class OpenAIDecisionsClient(HttpClient httpClient)
 {
     public const string DefaultModel = "gpt-6-luna";
 
-    public async Task<JsonElement> CreateAsync(OpenAIDecisionsRequest request, CancellationToken cancellationToken = default)
+    public Task<JsonElement> CreateAsync(OpenAIDecisionsRequest request, CancellationToken cancellationToken = default)
+        => CreateCoreAsync(request, null, cancellationToken);
+
+    public Task<JsonElement> CreateWithApiKeyAsync(OpenAIDecisionsRequest request, string apiKey,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
+        return CreateCoreAsync(request, apiKey, cancellationToken);
+    }
+
+    private async Task<JsonElement> CreateCoreAsync(OpenAIDecisionsRequest request, string? apiKey,
+        CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
         OpenAIDecisionsQuestions.Validate(request.Questions);
 
-        using var response = await httpClient.PostAsJsonAsync("decisions", request, JsonSerializerOptions.Web, cancellationToken);
+        using var message = new HttpRequestMessage(HttpMethod.Post,
+            apiKey is null ? "decisions" : "https://api.openai.com/v1/decisions")
+        {
+            Content = JsonContent.Create(request, options: JsonSerializerOptions.Web)
+        };
+        if (apiKey is not null)
+            message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+        using var response = await httpClient.SendAsync(message, cancellationToken);
         var payload = await response.Content.ReadAsStringAsync(cancellationToken);
         if (!response.IsSuccessStatusCode)
             throw new HttpRequestException(
