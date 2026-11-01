@@ -67,7 +67,6 @@ using MCPhappey.Tools.Speechify;
 using MCPhappey.Tools.Speechactors;
 using MCPhappey.Tools.Verbatik;
 using MCPhappey.Tools.deAPI;
-using MCPhappey.Tools.ImageRouter;
 using MCPhappey.Tools.Runpod;
 using MCPhappey.Tools.CometAPI;
 using MCPhappey.Tools.Mixedbread;
@@ -230,7 +229,6 @@ builder.Services
 .AddVerbatik(appConfig?.DomainHeaders)
 .AddUnrealSpeech(appConfig?.DomainHeaders)
 .AddDeAPI(appConfig?.DomainHeaders)
-.AddImageRouter(appConfig?.DomainHeaders)
 .AddParasail(appConfig?.DomainHeaders)
 .AddRunpod(appConfig?.DomainHeaders)
    .AddCometAPI(appConfig?.DomainHeaders)
