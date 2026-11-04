@@ -64,6 +64,97 @@
         ],
         "priority": 0.7
       }
+    },
+    {
+      "uri": "https://github.com/achappey/aihappey-providers",
+      "name": "aihappey-providers",
+      "title": "aihappey Providers",
+      "description": "Reusable .NET AI provider implementations and shared metadata for 600+ providers. Supports native APIs, model catalogs, pricing, inference, streaming, tool calling, speech, images and video.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/aihappey-chat/main/README.md",
+      "name": "aihappey-chat",
+      "title": "aihappey Chat UI",
+      "description": "Browser-based multi-provider AI chat client supporting streaming, agents, MCP tools, resources, prompts, Skills, Plugins, model switching and rich interactive responses.",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/aihappey-ai/main/README.md",
+      "name": "aihappey-ai",
+      "title": "aihappey AI Gateway",
+      "description": "Stateless multi-provider .NET AI gateway exposing normalized APIs for chat, responses, messages, models, tools, agents, MCP, images, audio, video, embeddings and reranking.",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/aihappey-mcp/main/README.md",
+      "name": "aihappey-mcp",
+      "title": "aihappey MCP Backend",
+      "description": "Model Context Protocol backend hosting AI and business integrations with tools, resources, prompts, server discovery, authentication and reusable integration infrastructure.",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.8
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/aihappey-agents/main/README.md",
+      "name": "aihappey-agents",
+      "title": "aihappey Agent Runtime",
+      "description": "Multi-agent runtime built on Microsoft Agent Framework with YAML and JSON agents, MCP, Skills, Plugins, sequential, concurrent, handoff, group chat, Magentic and Decisions workflows.",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.8
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/aihappey-windows/main/README.md",
+      "name": "aihappey-windows",
+      "title": "aihappey Native Windows Client",
+      "description": "Native WinUI 3 AI application supporting multi-provider chat, agents, local and remote runtimes, MCP, Skills, native tools, human-in-the-loop approvals, BYOK and Entra authentication.",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.8
+      }
+    },
+    {
+      "uri": "https://raw.githubusercontent.com/achappey/aihappey-providers/main/README.md",
+      "name": "aihappey-providers",
+      "title": "aihappey Provider Implementations",
+      "description": "Reusable .NET AI provider implementations and shared JSON metadata for 600+ providers, covering native APIs, model catalogs, pricing, inference, streaming, tools, speech, images and video.",
+      "mimeType": "text/markdown",
+      "annotations": {
+        "audience": [
+          "assistant"
+        ],
+        "priority": 0.9
+      }
     }
   ]
 }
