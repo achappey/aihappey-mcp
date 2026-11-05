@@ -191,9 +191,6 @@ public static class OpenAIImages
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Model
     {
-        [EnumMember(Value = "chatgpt-image-latest")]
-        [Display(Name = "chatgpt-image-latest")]
-        chatgpt_image_latest,
 
         [EnumMember(Value = "gpt-image-2.6-sunburst")]
         [Display(Name = "gpt-image-2.6-sunburst")]
