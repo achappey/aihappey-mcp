@@ -1,10 +1,9 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using MCPhappey.Core.Extensions;
-using MCPhappey.Tools.Extensions;
+using MCPhappey.Core.Services;
 using MCPhappey.Tools.Google.Interactions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Graph.Beta;
 using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 
@@ -43,7 +42,7 @@ public static partial class GoogleAudio
                             ["voice"] = Enum.GetName(voice) ?? TtsVoiceOption.Kore.ToString()
                         })
                 }
-            }, cancellationToken);
+            }, cancellationToken, requestContext.Server);
 
             var audioPart = GoogleInteractionResponse.GetMedia(item, "audio").FirstOrDefault();
             if (audioPart is null)
@@ -51,67 +50,20 @@ public static partial class GoogleAudio
 
             using var pcmStream = new MemoryStream(audioPart.Data);
             using var mp3Stream = pcmStream.ConvertL16PcmStreamToMp3(24000, 1);
+            var audioBytes = mp3Stream.ToArray();
+            if (GoogleProviderAccess.IsHeaderMode(serviceProvider, requestContext.Server)
+                && audioBytes.Length > ImageOutputService.MaxInlineBytes)
+                throw new InvalidOperationException("Generated speech exceeds the 10 MiB inline MCP output limit. Request shorter speech.");
 
             AudioContentBlock audio = new()
             {
-                Data = mp3Stream.ToArray(),
+                Data = audioBytes,
                 MimeType = "audio/mp3"
             };
 
             return audio.ToCallToolResult();
 
         });
-
-    [Description("Generate multi speaker audio from the input prompt")]
-    [McpServerTool(Title = "Generate multi speaker audio from input prompt",
-        Destructive = false)]
-    public static async Task<CallToolResult?> GoogleAudio_CreateMultiSpeakerSpeech(
-           [Description("The input prompt to generate the audio")]
-           [MaxLength(1024)]
-                string prompt,
-           [Description("Name of speaker one")]
-                string nameSpeakerOne,
-           [Description("Name of speaker two")]
-                string nameSpeakerTwo,
-           [Description("File name of the resulting mp3 file without extension")]
-                string filename,
-           IServiceProvider serviceProvider,
-             RequestContext<CallToolRequestParams> requestContext,
-           [Description("Voice speaker one")]
-                TtsVoiceOption voiceSpeakerOne = TtsVoiceOption.Kore,
-           [Description("Voice speaker two")]
-                TtsVoiceOption voiceSpeakerTwo = TtsVoiceOption.Sulafat,
-           CancellationToken cancellationToken = default) =>
-        await ModelContextToolExtensions.WithExceptionCheck(async () =>
-        await requestContext.WithOboGraphClient(async client =>
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
-        var audio = await GenerateMultiSpeakerAudioAsync(
-            prompt,
-            nameSpeakerOne,
-            nameSpeakerTwo,
-            voiceSpeakerOne,
-            voiceSpeakerTwo,
-            "gemini-3.1-flash-tts-preview",
-            serviceProvider,
-            cancellationToken
-        );
-
-        var outputName = $"{filename}.mp3";
-        using var uploadStream = new MemoryStream(audio.Data.ToArray());
-
-        var myDrive = await client.Me.Drive.GetAsync(cancellationToken: cancellationToken)
-            ?? throw new InvalidOperationException("Unable to resolve the current user's drive.");
-        if (string.IsNullOrWhiteSpace(myDrive.Id))
-            throw new InvalidOperationException("Unable to resolve the current user's drive id.");
-
-        var uploadedItem = await client.Drives[myDrive.Id].Root.ItemWithPath($"/{outputName}")
-            .Content.PutAsync(uploadStream, cancellationToken: cancellationToken)
-            ?? throw new IOException("Google Audio upload failed.");
-
-        return (uploadedItem.WebUrl ?? throw new InvalidOperationException("Uploaded audio item did not expose a WebUrl."))
-            .ToTextCallToolResponse();
-    }));
 
 }
 

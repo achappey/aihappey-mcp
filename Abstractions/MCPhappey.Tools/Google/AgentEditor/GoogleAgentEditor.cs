@@ -155,7 +155,7 @@ public static partial class GoogleAgentEditor
             var drive = await graph.GetDefaultDriveAsync(cancellationToken)
                 ?? throw new InvalidOperationException("Could not resolve default OneDrive.");
             var document = await ReadRequiredAsync(graph, drive.Id!, draftName, cancellationToken);
-            return await GoogleAgents.CreateValidatedAsync(services,
+            return await GoogleAgents.CreateValidatedAsync(services, context.Server,
                 GoogleAgentDocument.ForDeployment(document, RequireDraftName(draftName)), cancellationToken);
         })));
 

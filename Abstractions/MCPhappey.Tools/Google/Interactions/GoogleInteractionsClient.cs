@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using ModelContextProtocol.Server;
 
 namespace MCPhappey.Tools.Google.Interactions;
 
@@ -8,7 +9,7 @@ namespace MCPhappey.Tools.Google.Interactions;
 /// Minimal non-streaming client for Google's Interactions API. The raw JSON
 /// contract is intentional so this repository remains independent of AIHappey.
 /// </summary>
-public sealed class GoogleInteractionsClient(HttpClient httpClient)
+public sealed class GoogleInteractionsClient(HttpClient httpClient, IServiceProvider services)
 {
     public const string DefaultModel = "gemini-flash-latest";
     public const string ApiRevision = "2026-05-20";
@@ -20,15 +21,17 @@ public sealed class GoogleInteractionsClient(HttpClient httpClient)
 
     public async Task<JsonObject> CreateInteractionAsync(
         GoogleInteractionRequest request,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        McpServer? server = null)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        using var message = new HttpRequestMessage(HttpMethod.Post, "v1beta/interactions")
+        using var message = new HttpRequestMessage(HttpMethod.Post, GoogleProviderAccess.BaseUrl + "v1beta/interactions")
         {
             Content = JsonContent.Create(request, options: JsonOptions)
         };
         message.Headers.TryAddWithoutValidation("Api-Revision", ApiRevision);
+        message.Headers.Add(GoogleProviderAccess.ApiKeyHeader, GoogleProviderAccess.GetApiKey(services, server));
 
         using var response = await httpClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
         var payload = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -46,9 +49,10 @@ public sealed class GoogleInteractionsClient(HttpClient httpClient)
 
     public async Task<string> CreateTextInteractionAsync(
         GoogleInteractionRequest request,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        McpServer? server = null)
     {
-        var interaction = await CreateInteractionAsync(request, cancellationToken);
+        var interaction = await CreateInteractionAsync(request, cancellationToken, server);
         return GoogleInteractionResponse.GetText(interaction)
             ?? throw new InvalidOperationException("Google Interactions API returned no text output.");
     }

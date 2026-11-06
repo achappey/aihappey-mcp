@@ -16,7 +16,7 @@ public static partial class GoogleAudio
         ReadOnly = true
     )]
     public static async Task<CallToolResult> GoogleAudio_CreatePodcastScript(
-        [Description("The url of the input file")]
+        [Description("Public HTTPS URL of the input file. Protected SharePoint and OneDrive files require delegated authentication.")]
         string inputFileUrl,
         [Description("The input prompt to guide the creation of the podcast")]
         string prompt,
@@ -48,7 +48,7 @@ public static partial class GoogleAudio
             Model = GoogleInteractionsClient.DefaultModel,
             Input = string.Join("\n\n", outlinePrompt.Messages.Select(message => message.Content.ToString()))
                 is var text ? GoogleInteractionInput.Text(text) : throw new InvalidOperationException()
-        }, cancellationToken);
+        }, cancellationToken, requestContext.Server);
 
         var scriptPromptArgs = new Dictionary<string, JsonElement>
         {
@@ -64,7 +64,7 @@ public static partial class GoogleAudio
         {
             Model = GoogleInteractionsClient.DefaultModel,
             Input = GoogleInteractionInput.Text(string.Join("\n\n", scriptPrompt.Messages.Select(message => message.Content.ToString())))
-        }, cancellationToken);
+        }, cancellationToken, requestContext.Server);
 
         return scriptResultValue.ToTextCallToolResponse();
     }

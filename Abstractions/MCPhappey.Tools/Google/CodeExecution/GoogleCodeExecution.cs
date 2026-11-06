@@ -18,7 +18,7 @@ public static class GoogleCodeExecution
             string prompt,
           IServiceProvider serviceProvider,
           RequestContext<CallToolRequestParams> requestContext,
-          [Description("Optional file URLs to download and attach before running the prompt.")]
+          [Description("Optional public HTTPS file URLs to attach. Protected SharePoint and OneDrive files require delegated authentication.")]
         string[]? fileUrls = null,
           [Description("Target model (e.g. gemini-flash-latest, gemini-3.6-flash or gemini-3.1-pro-preview).")]
         string model = "gemini-flash-latest",
@@ -58,7 +58,7 @@ public static class GoogleCodeExecution
                 ["max_output_tokens"] = 8192,
                 ["thinking_level"] = "high"
             }
-        }, cancellationToken);
+        }, cancellationToken, requestContext.Server);
 
         return await response.ToToolResultAsync(requestContext, serviceProvider, cancellationToken);
     }

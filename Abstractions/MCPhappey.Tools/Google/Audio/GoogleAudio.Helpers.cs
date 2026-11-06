@@ -1,9 +1,4 @@
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.KernelMemory.Pipeline;
-using ModelContextProtocol.Protocol;
-using MCPhappey.Tools.Google.Interactions;
-using System.Text.Json.Nodes;
 using NAudio.Lame;
 using NAudio.Wave;
 
@@ -31,53 +26,6 @@ public static partial class GoogleAudio
         }
         mp3Stream.Position = 0;
         return mp3Stream;
-    }
-
-    private static async Task<AudioContentBlock> GenerateMultiSpeakerAudioAsync(
-        string prompt,
-        string nameSpeakerOne,
-        string nameSpeakerTwo,
-        TtsVoiceOption voiceSpeakerOne,
-        TtsVoiceOption voiceSpeakerTwo,
-        string ttsModel,
-        IServiceProvider serviceProvider,
-        CancellationToken cancellationToken = default)
-    {
-        var interactions = serviceProvider.GetRequiredService<GoogleInteractionsClient>();
-
-        var item = await interactions.CreateInteractionAsync(new GoogleInteractionRequest
-        {
-            Model = ttsModel,
-            Input = GoogleInteractionInput.Text(prompt),
-            ResponseModalities = ["audio"],
-            GenerationConfig = new JsonObject
-            {
-                ["speech_config"] = new JsonArray(
-                    new JsonObject
-                    {
-                        ["speaker"] = nameSpeakerOne,
-                        ["voice"] = Enum.GetName(voiceSpeakerOne) ?? TtsVoiceOption.Kore.ToString()
-                    },
-                    new JsonObject
-                    {
-                        ["speaker"] = nameSpeakerTwo,
-                        ["voice"] = Enum.GetName(voiceSpeakerTwo) ?? TtsVoiceOption.Sulafat.ToString()
-                    })
-            }
-        }, cancellationToken);
-
-        var audioPart = GoogleInteractionResponse.GetMedia(item, "audio").FirstOrDefault();
-        if (audioPart is null)
-            throw new Exception("No audio data returned.");
-
-        using var pcmStream = new MemoryStream(audioPart.Data);
-        using var mp3Stream = pcmStream.ConvertL16PcmStreamToMp3(24000, 1);
-
-        return new AudioContentBlock
-        {
-            Data = mp3Stream.ToArray(),
-            MimeType = MimeTypes.AudioMP3
-        };
     }
 
     public enum TtsVoiceOption

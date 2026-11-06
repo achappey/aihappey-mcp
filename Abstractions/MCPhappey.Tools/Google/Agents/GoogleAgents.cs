@@ -51,7 +51,7 @@ public static class GoogleAgents
             }
             if (urlContext) tools.Add(new JsonObject { ["type"] = "url_context" });
             if (tools.Count > 0) body["tools"] = tools;
-            return await CreateValidatedAsync(services, body, cancellationToken);
+            return await CreateValidatedAsync(services, context.Server, body, cancellationToken);
         }));
 
     [Description("Create a Google Agent with one remote-environment source. Use Google Agent Editor for multiple sources, environment variables, and network rules.")]
@@ -83,7 +83,7 @@ public static class GoogleAgents
                 ["type"] = "remote",
                 ["sources"] = new JsonArray(sourceNode)
             };
-            return await CreateValidatedAsync(services, body, cancellationToken);
+            return await CreateValidatedAsync(services, context.Server, body, cancellationToken);
         }));
 
     [Description("Create a Google Agent forked from an existing environment ID.")]
@@ -105,10 +105,10 @@ public static class GoogleAgents
             Required(environmentId, "environmentId");
             var body = BuildScalars(id, description, systemInstruction, baseAgent, model, maxTotalTokens);
             body["base_environment"] = environmentId;
-            return await CreateValidatedAsync(services, body, cancellationToken);
+            return await CreateValidatedAsync(services, context.Server, body, cancellationToken);
         }));
 
-    [Description("Create a Google Agent from a complete JSON payload stored in a SharePoint or OneDrive file.")]
+    [Description("Create a Google Agent from a complete JSON payload at a public HTTPS URL. Protected SharePoint and OneDrive files require delegated authentication.")]
     [McpServerTool(Title = "Create Google Agent From JSON File", Name = "google_agents_create_from_file", ReadOnly = false, OpenWorld = true, Destructive = false)]
     public static async Task<CallToolResult?> CreateFromFile(
         string payloadFileUrl,
@@ -118,12 +118,11 @@ public static class GoogleAgents
         => await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await context.WithStructuredContent(async () =>
         {
-            EnsureMicrosoftFileUrl(payloadFileUrl);
             var file = (await services.GetRequiredService<DownloadService>()
                 .DownloadContentAsync(services, context.Server, payloadFileUrl, cancellationToken)).FirstOrDefault()
                 ?? throw new ValidationException("The Google Agent JSON file could not be downloaded.");
             var body = GoogleAgentDocument.Parse(file.Contents.ToString(), "payload file");
-            return await CreateValidatedAsync(services, body, cancellationToken);
+            return await CreateValidatedAsync(services, context.Server, body, cancellationToken);
         }));
 
     [Description("Permanently delete a Google Agent after explicit typed confirmation.")]
@@ -138,18 +137,19 @@ public static class GoogleAgents
             Required(agentId, "agentId");
             return await context.ConfirmAndDeleteAsync<DeleteAgentConfirmation>(
                 agentId,
-                async ct => _ = await services.GetRequiredService<GoogleAgentsClient>().DeleteAsync(agentId, ct),
+                async ct => _ = await services.GetRequiredService<GoogleAgentsClient>().DeleteAsync(agentId, ct, context.Server),
                 $"Google agent '{agentId}' deleted successfully.",
                 cancellationToken);
         });
 
     internal static async Task<JsonNode> CreateValidatedAsync(
         IServiceProvider services,
+        McpServer server,
         JsonObject body,
         CancellationToken cancellationToken)
     {
         GoogleAgentDocument.EnsureValid(body);
-        return await services.GetRequiredService<GoogleAgentsClient>().CreateAsync(body, cancellationToken);
+        return await services.GetRequiredService<GoogleAgentsClient>().CreateAsync(body, cancellationToken, server);
     }
 
     private static JsonObject BuildScalars(
@@ -175,13 +175,14 @@ public static class GoogleAgents
         return body;
     }
 
+    // The OBO-only editor still restricts schema files to Microsoft storage.
     internal static void EnsureMicrosoftFileUrl(string value)
     {
         if (!Uri.TryCreate(value, UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps
             || !(uri.Host.EndsWith(".sharepoint.com", StringComparison.OrdinalIgnoreCase)
                 || uri.Host.Equals("1drv.ms", StringComparison.OrdinalIgnoreCase)
                 || uri.Host.Equals("onedrive.live.com", StringComparison.OrdinalIgnoreCase)))
-            throw new ValidationException("payloadFileUrl must be an HTTPS SharePoint or OneDrive URL.");
+            throw new ValidationException("The file URL must be an HTTPS SharePoint or OneDrive URL.");
     }
 
     internal static void Required(string? value, string name)

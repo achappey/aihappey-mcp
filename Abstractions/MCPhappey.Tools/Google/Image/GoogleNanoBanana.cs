@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using MCPhappey.Common.Models;
 using MCPhappey.Core.Extensions;
 using MCPhappey.Core.Services;
 using MCPhappey.Tools.Google.Interactions;
@@ -22,7 +23,7 @@ public static class GoogleNanoBanana
         string model,
         IServiceProvider serviceProvider,
         RequestContext<CallToolRequestParams> requestContext,
-        [Description("Optional image url for image edits. Supports protected links like SharePoint and OneDrive links")]
+        [Description("Optional public HTTPS image URL for edits. Protected SharePoint and OneDrive links require delegated authentication.")]
         string? fileUrl = null,
         [Description("Optional image aspect ratio, such as 1:1 for square, 16:9 for landscape, 9:16 for portrait, 4:3 for standard landscape, or 3:2 for photos. Defaults to the model's aspect ratio.")]
         string? aspectRatio = null,
@@ -32,9 +33,12 @@ public static class GoogleNanoBanana
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
     {
         var interactions = serviceProvider.GetRequiredService<GoogleInteractionsClient>();
-        var downloader = serviceProvider.GetRequiredService<DownloadService>();
-        var items = !string.IsNullOrEmpty(fileUrl) ? await downloader.DownloadContentAsync(serviceProvider,
-            requestContext.Server, fileUrl, cancellationToken) : null;
+        IEnumerable<FileItem>? items = null;
+        if (!string.IsNullOrWhiteSpace(fileUrl))
+            items = GoogleProviderAccess.IsDualModeServer(serviceProvider.GetServerConfig(requestContext.Server)!)
+                ? [await serviceProvider.GetImageInputAsync(requestContext.Server, fileUrl, cancellationToken)]
+                : await serviceProvider.GetRequiredService<DownloadService>().DownloadContentAsync(serviceProvider,
+                    requestContext.Server, fileUrl, cancellationToken);
 
         var typed = requestContext.Elicit(
                new GoogleNanoBananaNewImage
@@ -70,7 +74,7 @@ public static class GoogleNanoBanana
                 SystemInstruction = "Create a single image according to the prompt.",
                 ResponseFormat = responseFormat
             },
-            cancellationToken);
+            cancellationToken, requestContext.Server);
 
         return await interaction.ToToolResultAsync(requestContext, serviceProvider, cancellationToken);
     });
