@@ -51,13 +51,10 @@ using MCPhappey.Tools.Scrappey;
 using MCPhappey.Tools.Scaleway;
 using MCPhappey.Tools.SiliconFlow;
 using MCPhappey.Tools.Upstage;
-using MCPhappey.Tools.MiniMax;
 using MCPhappey.Tools.Speechify;
 using MCPhappey.Tools.Speechactors;
 using MCPhappey.Tools.Verbatik;
 using MCPhappey.Tools.deAPI;
-using MCPhappey.Tools.CometAPI;
-using MCPhappey.Tools.Mixedbread;
 using MCPhappey.Tools.StepFun;
 using MCPhappey.Tools.Kugu;
 using MCPhappey.Tools.Parasail;
@@ -181,7 +178,6 @@ builder.Services
 .AddQuiverAI(appConfig?.DomainHeaders)
 .AddVoyageAI(appConfig?.DomainHeaders)
 .AddAIML(appConfig?.DomainHeaders)
-.AddMiniMax(appConfig?.DomainHeaders)
    .AddAgentSandbox(appConfig?.DomainHeaders)
    .AddRelaxAI(appConfig?.DomainHeaders)
    .AddLumaAI(appConfig?.DomainHeaders)
@@ -213,8 +209,6 @@ builder.Services
 .AddUnrealSpeech(appConfig?.DomainHeaders)
 .AddDeAPI(appConfig?.DomainHeaders)
 .AddParasail(appConfig?.DomainHeaders)
-   .AddCometAPI(appConfig?.DomainHeaders)
-   .AddMixedbread(appConfig?.DomainHeaders)
 .AddStepFun(appConfig?.DomainHeaders)
 .AddNoizAI(appConfig?.DomainHeaders)
 .AddGradium(appConfig?.DomainHeaders)
