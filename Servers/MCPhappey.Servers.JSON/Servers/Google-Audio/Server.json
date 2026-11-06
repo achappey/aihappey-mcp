@@ -10,11 +10,27 @@
       }
     ]
   },
-  "instructions": "Do not include more than 4 speaker turns in a single TTS tool call. Creating Audio Speech, especially multi speaker TTS, can be slow. ",
+  "instructions": "Generate single-speaker speech as inline audio, or create a text-only podcast script from a document. Audio generation can be slow. Public HTTPS input files work with a Google API key; protected SharePoint and OneDrive files require delegated authentication.",
   "plugins": [
     "MCPhappey.Tools.Google.Audio.GoogleAudio, MCPhappey.Tools"
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
-  }
+  },
+  "headers": [
+    {
+      "name": "x-goog-api-key",
+      "value": "{google_api_key}",
+      "description": "Google API key for speech and podcast-script generation",
+      "isRequired": true,
+      "variables": {
+        "google_api_key": {
+          "description": "Your Google Gemini API key",
+          "isRequired": true,
+          "isSecret": true,
+          "placeholder": "Enter your Google Gemini API key"
+        }
+      }
+    }
+  ]
 }

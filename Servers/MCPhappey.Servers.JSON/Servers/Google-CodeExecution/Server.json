@@ -15,5 +15,21 @@
   ],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
-  }
+  },
+  "headers": [
+    {
+      "name": "x-goog-api-key",
+      "value": "{google_api_key}",
+      "description": "Google API key for code execution",
+      "isRequired": true,
+      "variables": {
+        "google_api_key": {
+          "description": "Your Google Gemini API key",
+          "isRequired": true,
+          "isSecret": true,
+          "placeholder": "Enter your Google Gemini API key"
+        }
+      }
+    }
+  ]
 }
