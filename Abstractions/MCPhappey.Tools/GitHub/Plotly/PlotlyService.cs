@@ -30,8 +30,7 @@ public static class PlotlyService
         string? seriesName = "Series",
 
         RequestContext<CallToolRequestParams>? requestContext = null,
-        IServiceProvider? serviceProvider = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken _ = default)
         =>
         await ModelContextToolExtensions.WithExceptionCheck(async () =>
         await requestContext!.WithStructuredContent(async () =>
