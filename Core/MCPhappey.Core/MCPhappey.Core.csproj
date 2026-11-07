@@ -20,10 +20,10 @@
     <PackageReference Include="Microsoft.Graph.Beta" Version="6.9.0-preview" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="11.0.0-rc.3.26522.148" />
     <PackageReference Include="Microsoft.KernelMemory.Core" Version="0.98.250508.3" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.81.0" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.81.0-preview" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.81.0-alpha" />
-    <PackageReference Include="ModelContextProtocol.Extensions.Tasks" Version="2.3.1" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.82.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.82.0-preview" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.82.0-alpha" />
+    <PackageReference Include="ModelContextProtocol.Extensions.Tasks" Version="2.4.0" />
     <PackageReference Include="YamlDotNet" Version="18.1.0" />
 	</ItemGroup>
 
