@@ -26,7 +26,8 @@ internal static class GoogleProviderAccess
         (name.Equals("Google-Agents", StringComparison.OrdinalIgnoreCase)
         || name.Equals("Google-Audio", StringComparison.OrdinalIgnoreCase)
         || name.Equals("Google-CodeExecution", StringComparison.OrdinalIgnoreCase)
-        || name.Equals("Google-NanoBanana", StringComparison.OrdinalIgnoreCase));
+        || name.Equals("Google-Images", StringComparison.OrdinalIgnoreCase)
+        || name.Equals("Google-Videos", StringComparison.OrdinalIgnoreCase));
 
     private static bool IsGoogleServer(string? name) => IsDualModeServer(name)
         || string.Equals(name, "Google-AgentEditor", StringComparison.OrdinalIgnoreCase);

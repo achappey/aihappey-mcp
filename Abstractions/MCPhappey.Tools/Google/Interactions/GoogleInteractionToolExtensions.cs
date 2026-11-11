@@ -12,15 +12,17 @@ internal static class GoogleInteractionToolExtensions
         this JsonObject interaction,
         RequestContext<CallToolRequestParams> requestContext,
         IServiceProvider serviceProvider,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        string? requiredMediaType = null)
         => await CreateResultAsync(interaction, GoogleProviderAccess.IsHeaderMode(serviceProvider, requestContext.Server),
             (media, ct) => requestContext.Server.Upload(serviceProvider,
                 requestContext.ToOutputFileName(media.MimeType.ResolveExtensionFromMime()),
-                BinaryData.FromBytes(media.Data), ct), cancellationToken);
+                BinaryData.FromBytes(media.Data), ct), cancellationToken, requiredMediaType);
 
     internal static async Task<CallToolResult> CreateResultAsync(JsonObject interaction, bool headerMode,
         Func<GoogleInteractionMedia, CancellationToken, Task<ResourceLinkBlock?>> upload,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        string? requiredMediaType = null)
     {
         var content = new List<ContentBlock>();
         var text = GoogleInteractionResponse.GetText(interaction);
@@ -28,9 +30,8 @@ internal static class GoogleInteractionToolExtensions
             content.Add(new TextContentBlock { Text = text });
 
         var mediaItems = GoogleInteractionResponse.GetMedia(interaction, "image", "audio", "video", "document");
-        if (headerMode && mediaItems.Sum(media => (long)media.Data.Length) > ImageOutputService.MaxInlineBytes)
-            throw new InvalidOperationException("Google media exceeds the 10 MiB inline MCP output limit. Request a smaller output.");
-
+        if (requiredMediaType is not null && !mediaItems.Any(media => media.Type.Equals(requiredMediaType, StringComparison.OrdinalIgnoreCase)))
+            throw new InvalidOperationException($"Google returned no generated inline {requiredMediaType}. Provider inline-media, model, or regional restrictions may apply. No file-upload or stored-interaction fallback is used. " + text);
         var images = mediaItems.Where(media => media.Type.Equals("image", StringComparison.OrdinalIgnoreCase)).ToList();
         if (images.Count > 0)
         {
@@ -49,7 +50,10 @@ internal static class GoogleInteractionToolExtensions
             }
             else if (headerMode)
             {
-                content.Add(media.Data.ToBlobContent($"urn:google-output:{Guid.NewGuid():N}", media.MimeType));
+                content.Add(new EmbeddedResourceBlock
+                {
+                    Resource = BlobResourceContents.FromBytes(media.Data, uri: $"urn:google-output:{Guid.NewGuid():N}", mimeType: media.MimeType)
+                });
             }
             else
             {
@@ -59,7 +63,7 @@ internal static class GoogleInteractionToolExtensions
         }
 
         if (content.Count == 0)
-            content.Add(new TextContentBlock { Text = interaction.ToJsonString() });
+            throw new InvalidOperationException("Google returned no usable inline model output. Stored interactions and file-upload fallbacks are not supported by these tools.");
 
         return content.ToCallToolResponse();
     }

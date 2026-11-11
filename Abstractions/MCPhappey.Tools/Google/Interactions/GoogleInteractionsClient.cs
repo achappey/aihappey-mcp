@@ -16,6 +16,7 @@ public sealed class GoogleInteractionsClient(HttpClient httpClient, IServiceProv
 
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
     {
+        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
         DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
     };
 
@@ -25,6 +26,10 @@ public sealed class GoogleInteractionsClient(HttpClient httpClient, IServiceProv
         McpServer? server = null)
     {
         ArgumentNullException.ThrowIfNull(request);
+        var config = GoogleProviderAccess.GetConfig(services, server);
+        if (config?.Server.ServerInfo.Name is "Google-Images" or "Google-Videos"
+            && (request.Store || request.Stream || request.Background))
+            throw new ArgumentException("Google media tools require synchronous, non-streaming interactions with storage disabled.");
 
         using var message = new HttpRequestMessage(HttpMethod.Post, GoogleProviderAccess.BaseUrl + "v1beta/interactions")
         {
@@ -43,8 +48,11 @@ public sealed class GoogleInteractionsClient(HttpClient httpClient, IServiceProv
                 response.StatusCode);
         }
 
-        return JsonNode.Parse(payload)?.AsObject()
+        var interaction = JsonNode.Parse(payload)?.AsObject()
             ?? throw new InvalidOperationException("Google Interactions API returned an invalid JSON object.");
+        if (interaction["status"]?.GetValue<string>() is { } status && status != "completed")
+            throw new InvalidOperationException($"Google interaction ended with status '{status}'. Stateless media calls do not resume stored interactions.");
+        return interaction;
     }
 
     public async Task<string> CreateTextInteractionAsync(
@@ -84,19 +92,28 @@ public sealed class GoogleInteractionRequest
     public JsonObject? GenerationConfig { get; init; }
     public bool Store { get; init; } = false;
     public bool Stream { get; init; } = false;
+    public bool Background { get; init; } = false;
 }
 
 public static class GoogleInteractionInput
 {
     public static JsonObject Text(string text) => new() { ["type"] = "text", ["text"] = text };
 
-    public static JsonObject Media(string type, string? data, string? uri, string? mimeType) => new()
+    public static JsonObject Media(string type, string? data, string? uri, string? mimeType)
     {
-        ["type"] = type,
-        ["data"] = data,
-        ["uri"] = uri,
-        ["mime_type"] = mimeType
-    };
+        var hasData = !string.IsNullOrWhiteSpace(data);
+        var hasUri = !string.IsNullOrWhiteSpace(uri);
+        if (hasData == hasUri)
+            throw new ArgumentException("Google media requires exactly one source: inline data or a URI.");
+
+        // JsonObject null properties are still written even when the serializer is
+        // configured to ignore null POCO properties. Google counts those as supplied.
+        var media = new JsonObject { ["type"] = type };
+        if (hasData) media["data"] = data;
+        else media["uri"] = uri;
+        if (!string.IsNullOrWhiteSpace(mimeType)) media["mime_type"] = mimeType;
+        return media;
+    }
 
     public static JsonObject Bytes(string type, BinaryData data, string mimeType) =>
         Media(type, Convert.ToBase64String(data.ToArray()), null, mimeType);
@@ -108,7 +125,7 @@ public static class GoogleInteractionResponse
 {
     public static string? GetText(JsonObject interaction)
     {
-        var text = Descendants(interaction)
+        var text = ModelOutput(interaction)
             .OfType<JsonObject>()
             .Where(item => item["type"]?.GetValue<string>() == "text")
             .Select(item => item["text"]?.GetValue<string>())
@@ -123,7 +140,7 @@ public static class GoogleInteractionResponse
         var types = acceptedTypes.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var result = new List<GoogleInteractionMedia>();
 
-        foreach (var item in Descendants(interaction).OfType<JsonObject>())
+        foreach (var item in ModelOutput(interaction))
         {
             var type = item["type"]?.GetValue<string>();
             if (string.IsNullOrWhiteSpace(type) || !types.Contains(type))
@@ -146,28 +163,26 @@ public static class GoogleInteractionResponse
             }
             catch (FormatException)
             {
-                // Ignore malformed media while retaining any valid output parts.
+                throw new InvalidOperationException("Google returned malformed inline media.");
             }
         }
 
         return result;
     }
 
-    private static IEnumerable<JsonNode> Descendants(JsonNode node)
+    private static IEnumerable<JsonObject> ModelOutput(JsonObject interaction)
     {
-        yield return node;
-        if (node is JsonObject obj)
+        // Never traverse user_input, thoughts, tool arguments, or arbitrary metadata.
+        if (interaction["steps"] is JsonArray steps)
         {
-            foreach (var child in obj.Select(property => property.Value).Where(value => value is not null))
-                foreach (var descendant in Descendants(child!))
-                    yield return descendant;
+            foreach (var step in steps.OfType<JsonObject>())
+                if (step["type"]?.GetValue<string>() == "model_output" && step["content"] is JsonArray content)
+                    foreach (var block in content.OfType<JsonObject>())
+                        yield return block;
         }
-        else if (node is JsonArray array)
-        {
-            foreach (var child in array.Where(value => value is not null))
-                foreach (var descendant in Descendants(child!))
-                    yield return descendant;
-        }
+        else if (interaction["outputs"] is JsonArray outputs)
+            foreach (var block in outputs.OfType<JsonObject>())
+                yield return block;
     }
 
     private static string DefaultMimeType(string type) => type.ToLowerInvariant() switch

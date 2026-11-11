@@ -9,6 +9,14 @@ namespace MCPhappey.Tools.Google;
 
 public static class ServiceCollectionExtensions
 {
+    public static IServiceCollection AddGoogleAIFromHeaders(this IServiceCollection services,
+        Dictionary<string, Dictionary<string, string>>? headers)
+    {
+        var key = headers?.FirstOrDefault(host => host.Key.Equals(GoogleProviderAccess.ApiHost, StringComparison.OrdinalIgnoreCase))
+            .Value?.FirstOrDefault(header => header.Key.Equals(GoogleProviderAccess.ApiKeyHeader, StringComparison.OrdinalIgnoreCase)).Value;
+        return services.AddGoogleAI(key);
+    }
+
     public static IServiceCollection AddGoogleAI(this IServiceCollection services, string? apiKey = null)
     {
         if (!string.IsNullOrWhiteSpace(apiKey))
@@ -29,6 +37,7 @@ public static class ServiceCollectionExtensions
     private static void ConfigureClient(HttpClient client)
     {
         client.BaseAddress = new Uri(GoogleProviderAccess.BaseUrl);
+        client.Timeout = TimeSpan.FromMinutes(15);
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 

@@ -51,10 +51,6 @@ public static partial class GoogleAudio
             using var pcmStream = new MemoryStream(audioPart.Data);
             using var mp3Stream = pcmStream.ConvertL16PcmStreamToMp3(24000, 1);
             var audioBytes = mp3Stream.ToArray();
-            if (GoogleProviderAccess.IsHeaderMode(serviceProvider, requestContext.Server)
-                && audioBytes.Length > ImageOutputService.MaxInlineBytes)
-                throw new InvalidOperationException("Generated speech exceeds the 10 MiB inline MCP output limit. Request shorter speech.");
-
             AudioContentBlock audio = new()
             {
                 Data = audioBytes,

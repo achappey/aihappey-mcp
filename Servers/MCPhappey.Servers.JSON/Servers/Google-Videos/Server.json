@@ -1,18 +1,14 @@
 {
   "serverInfo": {
-    "name": "Google-NanoBanana",
-    "title": "Google Nano Banana",
+    "name": "Google-Videos",
+    "title": "Google Videos",
     "version": "1.0.0",
-    "description": "Edit and generate images with Google’s Nano Banana: merge, transform and keep characters consistent.",
+    "description": "Generate with optional first/last frames, edit, and ask video questions with stateless inline media.",
     "icons": [
-      {
-        "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Google-gemini-icon.svg/250px-Google-gemini-icon.svg.png"
-      }
+      { "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Google-gemini-icon.svg/250px-Google-gemini-icon.svg.png" }
     ]
   },
-  "plugins": [
-    "MCPhappey.Tools.Google.Image.GoogleNanoBanana, MCPhappey.Tools"
-  ],
+  "plugins": ["MCPhappey.Tools.Google.Video.GoogleVideos, MCPhappey.Tools"],
   "obo": {
     "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
   },
@@ -20,7 +16,7 @@
     {
       "name": "x-goog-api-key",
       "value": "{google_api_key}",
-      "description": "Google API key for image generation and editing",
+      "description": "Google API key for video generation and understanding",
       "isRequired": true,
       "variables": {
         "google_api_key": {
