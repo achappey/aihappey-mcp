@@ -27,7 +27,8 @@ public sealed class GoogleDualModeTests
     [InlineData("Google-Agents")]
     [InlineData("Google-Audio")]
     [InlineData("Google-CodeExecution")]
-    [InlineData("Google-NanoBanana")]
+    [InlineData("Google-Images")]
+    [InlineData("Google-Videos")]
     public void Registry_definitions_select_the_deployment_mode_without_mutating_metadata(string name)
     {
         var config = Definition(name);
@@ -59,8 +60,10 @@ public sealed class GoogleDualModeTests
     [InlineData("Google-Audio", true)]
     [InlineData("Google-CodeExecution", false)]
     [InlineData("Google-CodeExecution", true)]
-    [InlineData("Google-NanoBanana", false)]
-    [InlineData("Google-NanoBanana", true)]
+    [InlineData("Google-Images", false)]
+    [InlineData("Google-Videos", false)]
+    [InlineData("Google-Images", true)]
+    [InlineData("Google-Videos", true)]
     public async Task Reused_clients_resolve_credentials_per_request_and_preserve_provider_contracts(string name, bool delegated)
     {
         var config = Definition(name);
@@ -123,7 +126,8 @@ public sealed class GoogleDualModeTests
     [InlineData("Google-Agents")]
     [InlineData("Google-Audio")]
     [InlineData("Google-CodeExecution")]
-    [InlineData("Google-NanoBanana")]
+    [InlineData("Google-Images")]
+    [InlineData("Google-Videos")]
     public async Task Header_mode_does_not_fall_back_to_operator_credentials(string name)
     {
         var config = Definition(name);
@@ -144,7 +148,8 @@ public sealed class GoogleDualModeTests
     [InlineData("Google-Agents")]
     [InlineData("Google-Audio")]
     [InlineData("Google-CodeExecution")]
-    [InlineData("Google-NanoBanana")]
+    [InlineData("Google-Images")]
+    [InlineData("Google-Videos")]
     public void Delegated_mode_requires_validated_identity_and_configured_credentials(string name)
     {
         var config = Definition(name);
@@ -194,7 +199,8 @@ public sealed class GoogleDualModeTests
     [InlineData("Google-Agents")]
     [InlineData("Google-Audio")]
     [InlineData("Google-CodeExecution")]
-    [InlineData("Google-NanoBanana")]
+    [InlineData("Google-Images")]
+    [InlineData("Google-Videos")]
     [InlineData("Google-AgentEditor")]
     public void Missing_request_access_state_cannot_turn_target_requests_into_operator_access(string name)
     {
@@ -270,7 +276,8 @@ public sealed class GoogleDualModeTests
     [InlineData("Google-Agents")]
     [InlineData("Google-Audio")]
     [InlineData("Google-CodeExecution")]
-    [InlineData("Google-NanoBanana")]
+    [InlineData("Google-Images")]
+    [InlineData("Google-Videos")]
     public async Task Header_file_inputs_reject_protected_and_private_urls_before_operator_scrapers(string name)
     {
         var config = Definition(name);
@@ -291,7 +298,8 @@ public sealed class GoogleDualModeTests
     [InlineData("Google-Agents")]
     [InlineData("Google-Audio")]
     [InlineData("Google-CodeExecution")]
-    [InlineData("Google-NanoBanana")]
+    [InlineData("Google-Images")]
+    [InlineData("Google-Videos")]
     public async Task Delegated_file_inputs_keep_the_existing_download_pipeline(string name)
     {
         var config = Definition(name);
@@ -310,7 +318,7 @@ public sealed class GoogleDualModeTests
         var document = Assert.IsType<EmbeddedResourceBlock>(result.Content[3]);
         var blob = Assert.IsType<BlobResourceContents>(document.Resource);
         Assert.Equal("application/pdf", blob.MimeType);
-        Assert.Equal(new byte[] { 1, 2, 3 }, blob.Blob.ToArray());
+        Assert.Equal(new byte[] { 1, 2, 3 }, blob.DecodedData.ToArray());
     }
 
     [Fact]
@@ -330,15 +338,16 @@ public sealed class GoogleDualModeTests
     }
 
     [Fact]
-    public async Task Inline_google_media_has_an_aggregate_size_limit()
+    public async Task Inline_google_media_has_no_application_size_cap()
     {
         var response = new JsonObject { ["outputs"] = new JsonArray(new JsonObject
         {
             ["type"] = "document", ["mime_type"] = "application/pdf",
-            ["data"] = Convert.ToBase64String(new byte[ImageOutputService.MaxInlineBytes + 1])
+            ["data"] = Convert.ToBase64String(new byte[10 * 1024 * 1024 + 1])
         }) };
-        await Assert.ThrowsAsync<InvalidOperationException>(() => GoogleInteractionToolExtensions.CreateResultAsync(response, true,
-            (_, _) => throw new InvalidOperationException("OBO must not be invoked.")));
+        var result = await GoogleInteractionToolExtensions.CreateResultAsync(response, true,
+            (_, _) => throw new InvalidOperationException("OBO must not be invoked."));
+        Assert.IsType<EmbeddedResourceBlock>(Assert.Single(result.Content));
     }
 
     [Fact]
@@ -424,7 +433,8 @@ public sealed class GoogleDualModeTests
     [InlineData("Google-Agents")]
     [InlineData("Google-Audio")]
     [InlineData("Google-CodeExecution")]
-    [InlineData("Google-NanoBanana")]
+    [InlineData("Google-Images")]
+    [InlineData("Google-Videos")]
     public async Task Delegated_transport_rejects_api_keys_as_identity_tokens(string name)
     {
         var config = Definition(name);

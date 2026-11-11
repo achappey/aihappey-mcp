@@ -8,7 +8,8 @@ public sealed class PublicFileDownloader
 {
     public const int MaxFileBytes = 32 * 1024 * 1024;
 
-    public async Task<FileItem> DownloadAsync(string url, CancellationToken cancellationToken = default)
+    public async Task<FileItem> DownloadAsync(string url, CancellationToken cancellationToken = default,
+        int? maxBytes = MaxFileBytes)
     {
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeout.CancelAfter(TimeSpan.FromSeconds(60));
@@ -34,7 +35,7 @@ public sealed class PublicFileDownloader
                 continue;
             }
             response.EnsureSuccessStatusCode();
-            if (response.Content.Headers.ContentLength > MaxFileBytes)
+            if (maxBytes is { } limit && response.Content.Headers.ContentLength > limit)
                 throw new InvalidOperationException("The input file exceeds the 32 MiB download limit.");
             using var input = await response.Content.ReadAsStreamAsync(timeout.Token);
             using var output = new MemoryStream();
@@ -42,7 +43,7 @@ public sealed class PublicFileDownloader
             int count;
             while ((count = await input.ReadAsync(buffer, timeout.Token)) > 0)
             {
-                if (output.Length + count > MaxFileBytes)
+                if (maxBytes is { } maximum && output.Length + count > maximum)
                     throw new InvalidOperationException("The input file exceeds the 32 MiB download limit.");
                 await output.WriteAsync(buffer.AsMemory(0, count), timeout.Token);
             }

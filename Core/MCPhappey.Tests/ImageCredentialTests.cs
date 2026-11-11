@@ -108,10 +108,17 @@ public sealed class ImageCredentialTests
     }
 
     [Fact]
-    public async Task Inline_output_is_bounded()
-        => await Assert.ThrowsAsync<InvalidOperationException>(() => ImageOutputService.CreateAsync(
-            [new("large.png", BinaryData.FromBytes(new byte[ImageOutputService.MaxInlineBytes + 1]), "image/png")], false,
-            (_, _) => throw new InvalidOperationException()));
+    public async Task Inline_output_does_not_have_an_application_size_cap()
+    {
+        var bytes = new byte[10 * 1024 * 1024 + 1];
+        var result = await ImageOutputService.CreateAsync(
+            [new("large.png", BinaryData.FromBytes(bytes), "image/png")], false,
+            (_, _) => throw new InvalidOperationException("Header output must not upload."));
+        var image = Assert.IsType<ImageContentBlock>(Assert.Single(result.Content));
+        Assert.Equal(bytes, image.DecodedData.ToArray());
+        using var json = JsonDocument.Parse(JsonSerializer.Serialize(result));
+        Assert.Equal(Convert.ToBase64String(bytes), json.RootElement.GetProperty("content")[0].GetProperty("data").GetString());
+    }
 
     [Theory]
     [InlineData("https://127.0.0.1/image.png")]

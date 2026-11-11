@@ -1,4 +1,6 @@
 using Microsoft.Net.Http.Headers;
+using MCPhappey.Tools.BlackForestLabs;
+using MCPhappey.Tools.Google;
 using MCPhappey.Core.Extensions;
 using MCPhappey.WebApi;
 using MCPhappey.Servers.JSON;
@@ -159,6 +161,8 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 builder.Services
 .AddAzureSkills(appConfig?.SkillsStorage)
 .AddOpenAIResponses(appConfig?.DomainHeaders)
+.AddBlackForestLabs(appConfig?.DomainHeaders)
+.AddGoogleAIFromHeaders(appConfig?.DomainHeaders)
 .AddOpenAIDecisions(appConfig?.DomainHeaders)
 .AddMistral(appConfig?.DomainHeaders)
 .AddSyntheticSearch(appConfig?.DomainHeaders)

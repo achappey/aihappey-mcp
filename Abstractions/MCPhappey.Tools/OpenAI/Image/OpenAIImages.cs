@@ -9,14 +9,44 @@ using ModelContextProtocol.Protocol;
 using ModelContextProtocol.Server;
 using OpenAI;
 using OpenAI.Images;
+using OpenAI.Chat;
 
 namespace MCPhappey.Tools.OpenAI.Image;
 
 public static class OpenAIImages
 {
+    [Description("Answer a question about supplied image URLs using an OpenAI vision model. Every call includes all images and the question; no conversation history or stored output is used.")]
+    [McpServerTool(Title = "OpenAI Images: ask about images", ReadOnly = true, Destructive = false, OpenWorld = true)]
+    public static async Task<CallToolResult?> OpenAIImages_AskImages(
+        [Description("Question about the supplied images.")] string question,
+        [Description("Image URLs in order. Public HTTPS URLs or protected Microsoft links in delegated mode.")] string[] imageUrls,
+        IServiceProvider serviceProvider,
+        RequestContext<CallToolRequestParams> requestContext,
+        [Description("Vision-capable chat model, not an image-generation model.")] string model = "gpt-4.1",
+        CancellationToken cancellationToken = default) =>
+        await ModelContextToolExtensions.WithExceptionCheck(async () =>
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(question);
+            ArgumentException.ThrowIfNullOrWhiteSpace(model);
+            ArgumentNullException.ThrowIfNull(imageUrls);
+            if (imageUrls.Length == 0) throw new ArgumentException("At least one image URL is required.");
+            var client = OpenAIImageClientResolver.Resolve(serviceProvider, requestContext.Server);
+            var parts = new List<ChatMessageContentPart> { ChatMessageContentPart.CreateTextPart(question) };
+            foreach (var url in imageUrls)
+            {
+                var image = await serviceProvider.GetMediaInputAsync(requestContext.Server, url, "image", cancellationToken);
+                parts.Add(ChatMessageContentPart.CreateImagePart(image.Contents, image.MimeType));
+            }
+            var response = await client.GetChatClient(model).CompleteChatAsync(
+                [new UserChatMessage(parts)], new ChatCompletionOptions { StoredOutputEnabled = false }, cancellationToken);
+            var text = string.Join("\n\n", response.Value.Content.Select(part => part.Text).Where(text => !string.IsNullOrWhiteSpace(text)));
+            if (string.IsNullOrWhiteSpace(text)) throw new InvalidOperationException("OpenAI returned no image-question answer.");
+            return new CallToolResult { Content = [new TextContentBlock { Text = text }] };
+        });
+
     [Description("Create an image with OpenAI image generator")]
     [McpServerTool(
-     Title = "Generate image with OpenAI",
+     Title = "OpenAI Images: generate image",
      ReadOnly = false,
      Idempotent = false,
      OpenWorld = true,
@@ -82,7 +112,7 @@ public static class OpenAIImages
 
     [Description("Create an image edit with OpenAI image generator")]
     [McpServerTool(
-        Title = "Generate an image edit with OpenAI",
+        Title = "OpenAI Images: edit image",
         ReadOnly = false,
         Idempotent = false,
         OpenWorld = true,

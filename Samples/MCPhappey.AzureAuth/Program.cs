@@ -1,4 +1,6 @@
 using OpenAI;
+using MCPhappey.Tools.BlackForestLabs;
+using MCPhappey.Tools.Google;
 using Microsoft.Net.Http.Headers;
 using Microsoft.KernelMemory;
 using MCPhappey.Core.Extensions;
@@ -175,6 +177,8 @@ AnthropicHeaders.EnsureManagedAgentsHeaders(appConfig?.DomainHeaders);
 builder.Services
 .AddAzureSkills(appConfig?.SkillsStorage)
 .AddOpenAIResponses(appConfig?.DomainHeaders)
+.AddBlackForestLabs(appConfig?.DomainHeaders)
+.AddGoogleAIFromHeaders(appConfig?.DomainHeaders)
 .AddOpenAIDecisions(appConfig?.DomainHeaders)
 .AddMistral(appConfig?.DomainHeaders)
 .AddSyntheticSearch(appConfig?.DomainHeaders)
@@ -485,7 +489,11 @@ if (openAiClient != null)
     builder.Services.AddSingleton(openAiClient);
 }
 
-var googleApiKey = appConfig?.DomainQueryStrings?
+var googleApiKey = appConfig?.DomainHeaders?
+            .FirstOrDefault(host => host.Key.Equals("generativelanguage.googleapis.com", StringComparison.OrdinalIgnoreCase))
+            .Value?
+            .FirstOrDefault(header => header.Key.Equals("x-goog-api-key", StringComparison.OrdinalIgnoreCase)).Value
+            ?? appConfig?.DomainQueryStrings?
             .FirstOrDefault(a => a.Key == "generativelanguage.googleapis.com")
             .Value
             .FirstOrDefault(a => a.Key == "key").Value.GetBearerToken();
