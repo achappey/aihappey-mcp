@@ -1,0 +1,31 @@
+{
+  "serverInfo": {
+    "name": "BlackForestLabs-Videos",
+    "title": "Black Forest Labs Videos",
+    "version": "1.0.0",
+    "description": "Generate and continue videos, or enhance explicit draft artifacts, with native BFL FLUX 3 Video.",
+    "icons": [
+      { "src": "https://registry.npmmirror.com/@lobehub/icons-static-png/latest/files/light/flux.png" }
+    ]
+  },
+  "plugins": ["MCPhappey.Tools.BlackForestLabs.Video.BlackForestLabsVideos, MCPhappey.Tools"],
+  "obo": {
+    "graph.microsoft.com": "https://graph.microsoft.com/User.Read https://graph.microsoft.com/Sites.ReadWrite.All"
+  },
+  "headers": [
+    {
+      "name": "x-key",
+      "value": "{bfl_api_key}",
+      "description": "Native Black Forest Labs API key for FLUX 3 video generation",
+      "isRequired": true,
+      "variables": {
+        "bfl_api_key": {
+          "description": "Your Black Forest Labs API key",
+          "isRequired": true,
+          "isSecret": true,
+          "placeholder": "Enter your Black Forest Labs API key"
+        }
+      }
+    }
+  ]
+}
