@@ -1,0 +1,108 @@
+{
+  "resources": [
+    {
+      "uri": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen",
+      "name": "plannen",
+      "title": "Meerdere plannen opvragen",
+      "description": "Meerdere plannen opvragen. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. status: Filteren op status van een plan. Use comma-separated values. beleidsmatigVerantwoordelijkeOverheid.code: Filteren op de code van een beleidsmatig verantwoordelijke overheid. Pattern: [0-9]{4}. beleidsmatigVerantwoordelijkeOverheid.naam: Filteren op de naam van een beleidsmatig verantwoordelijke overheid. beleidsmatigVerantwoordelijkeOverheid.type: Filteren op het type beleidsmatig verantwoordelijke overheid. Use comma-separated values. publicerendBevoegdGezag.code: Filteren op de code van het publicerend bevoegd gezag. Pattern: [0-9]{4}. publicerendBevoegdGezag.naam: Filteren op de naam van het publicerend bevoegd gezag. publicerendBevoegdGezag.type: Filteren op het type van het publicerend bevoegd gezag. Use comma-separated values. dossier.id: Filteren op basis van de identificatiecode van het dossier Pattern: [A-Za-z0-9.]*. planType: Filteren op type plan Use comma-separated values. planFilter: Filteren op (een deel van) de plannaam of het planId Pattern: ^NL\\.IMRO\\..+$. overgangsrecht: Wegfilteren van plantypes op basis van de bijbehorende eindgeldigheidsdatum regelStatus: Verzamelfilter voor de selectie van plannen 'in ontwikkeling' of plannen die in werking ('geldend') zijn. Onder plannen in ontwikkeling vallen ontwerp, vastgestelde plannen die ter inzage liggen, en plannen die wegens een lopende beroepsprocedure niet in werking zijn. Onder plannen die niet 'geldend' en ook niet 'in ontwikkeling' zijn vallen voorontwerp, concept, vervallen, niet in werking, historisch, verwijderd, en plannen met een status die niet in overeenstemming zijn met de dossierstatus. Use comma-separated values. regelBinding: Verzamelfilter voor de selectie van plantypen op basis van het bindend karakter van de regels die in het plan zijn opgenomen. Burgerbindend zijn de direct werkende regels waaraan een ieder zich dient te houden bij het ontplooien van een initiatief. Instructieregels zijn van toepassing op het bevoegde gezag dat de burgerbindende regels opstelt. Beleid kent geen bindende regels. Hieronder vallen de visies van gemeente, provincie en rijk. Use comma-separated values. planstatusdatumNa: Filteren op plannen met planstatusdatum na de opgegeven waarde planstatusdatumVoor: Filteren op plannen met planstatusdatum voor de opgegeven waarde beschikbaarOp: Historische informatie van het plan bekijken. Historische velden zijn dossier.status, regelStatus, verwijderdOp en isHistorisch. Van de overige velden wordt de meest recente waarde getoond. isTamPlan: Filter voor TAM plannen. TAM plannen zijn Omgevingsdocumenten als Tijdelijk Alternatieve Maatregel opgesteld zijn op basis van het IMRO model. Deze plannen worden gepubliceerd via Ruimtelijkeplannen.nl. Het met IMRO opgestelde omgevingsdocument moet uiteindelijk omgezet worden naar STOP/TPOD. Een TAM plan is in juridische zin een Omgevingsdocument en valt daarmee rechtsreeks binnen de kaders van de Omgevingswet. Choices: true, false. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/info",
+      "name": "info",
+      "title": "Applicatie-eigenschappen van de Ruimtelijke Plannen API",
+      "description": "Applicatie-eigenschappen van de Ruimtelijke Plannen API. Deprecated upstream; prefer /app-info or /app-health.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/app-info",
+      "name": "app-info",
+      "title": "Vraag actuele applicatie-eigenschappen op",
+      "description": "Vraag actuele applicatie-eigenschappen op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/health",
+      "name": "health",
+      "title": "Health status van de Ruimtelijke Plannen API",
+      "description": "Health status van de Ruimtelijke Plannen API. Deprecated upstream; prefer /app-info or /app-health.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/app-health",
+      "name": "app-health",
+      "title": "Health status van de Ruimtelijke Plannen API",
+      "description": "Health status van de Ruimtelijke Plannen API.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/openapi.json",
+      "name": "openapi.json",
+      "title": "Deze API-specificatie in JSON-formaat.",
+      "description": "Deze API-specificatie in JSON-formaat.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/openapi.yaml",
+      "name": "openapi.yaml",
+      "title": "Deze API-specificatie in YAML-formaat.",
+      "description": "Deze API-specificatie in YAML-formaat.",
+      "mimeType": "application/yaml",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/",
+      "name": "api-root",
+      "title": "getRoot",
+      "description": "getRoot. Redirects to the API specification. Only redirects within this production API are followed.",
+      "mimeType": "application/yaml",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,485 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen{?page,pageSize,status,beleidsmatigVerantwoordelijkeOverheid.code,beleidsmatigVerantwoordelijkeOverheid.naam,beleidsmatigVerantwoordelijkeOverheid.type,publicerendBevoegdGezag.code,publicerendBevoegdGezag.naam,publicerendBevoegdGezag.type,dossier.id,planType,planFilter,overgangsrecht,regelStatus,regelBinding,planstatusdatumNa,planstatusdatumVoor,beschikbaarOp,isTamPlan,expand*}",
+      "name": "plannen",
+      "title": "Meerdere plannen opvragen",
+      "description": "Meerdere plannen opvragen. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. status: Filteren op status van een plan. Use comma-separated values. beleidsmatigVerantwoordelijkeOverheid.code: Filteren op de code van een beleidsmatig verantwoordelijke overheid. Pattern: [0-9]{4}. beleidsmatigVerantwoordelijkeOverheid.naam: Filteren op de naam van een beleidsmatig verantwoordelijke overheid. beleidsmatigVerantwoordelijkeOverheid.type: Filteren op het type beleidsmatig verantwoordelijke overheid. Use comma-separated values. publicerendBevoegdGezag.code: Filteren op de code van het publicerend bevoegd gezag. Pattern: [0-9]{4}. publicerendBevoegdGezag.naam: Filteren op de naam van het publicerend bevoegd gezag. publicerendBevoegdGezag.type: Filteren op het type van het publicerend bevoegd gezag. Use comma-separated values. dossier.id: Filteren op basis van de identificatiecode van het dossier Pattern: [A-Za-z0-9.]*. planType: Filteren op type plan Use comma-separated values. planFilter: Filteren op (een deel van) de plannaam of het planId Pattern: ^NL\\.IMRO\\..+$. overgangsrecht: Wegfilteren van plantypes op basis van de bijbehorende eindgeldigheidsdatum regelStatus: Verzamelfilter voor de selectie van plannen 'in ontwikkeling' of plannen die in werking ('geldend') zijn. Onder plannen in ontwikkeling vallen ontwerp, vastgestelde plannen die ter inzage liggen, en plannen die wegens een lopende beroepsprocedure niet in werking zijn. Onder plannen die niet 'geldend' en ook niet 'in ontwikkeling' zijn vallen voorontwerp, concept, vervallen, niet in werking, historisch, verwijderd, en plannen met een status die niet in overeenstemming zijn met de dossierstatus. Use comma-separated values. regelBinding: Verzamelfilter voor de selectie van plantypen op basis van het bindend karakter van de regels die in het plan zijn opgenomen. Burgerbindend zijn de direct werkende regels waaraan een ieder zich dient te houden bij het ontplooien van een initiatief. Instructieregels zijn van toepassing op het bevoegde gezag dat de burgerbindende regels opstelt. Beleid kent geen bindende regels. Hieronder vallen de visies van gemeente, provincie en rijk. Use comma-separated values. planstatusdatumNa: Filteren op plannen met planstatusdatum na de opgegeven waarde planstatusdatumVoor: Filteren op plannen met planstatusdatum voor de opgegeven waarde beschikbaarOp: Historische informatie van het plan bekijken. Historische velden zijn dossier.status, regelStatus, verwijderdOp en isHistorisch. Van de overige velden wordt de meest recente waarde getoond. isTamPlan: Filter voor TAM plannen. TAM plannen zijn Omgevingsdocumenten als Tijdelijk Alternatieve Maatregel opgesteld zijn op basis van het IMRO model. Deze plannen worden gepubliceerd via Ruimtelijkeplannen.nl. Het met IMRO opgestelde omgevingsdocument moet uiteindelijk omgezet worden naar STOP/TPOD. Een TAM plan is in juridische zin een Omgevingsdocument en valt daarmee rechtsreeks binnen de kaders van de Omgevingswet. Choices: true, false. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/_suggesties{?zoekTerm}",
+      "name": "plannen--suggesties",
+      "title": "Plannamen en plan ID's zoeken op basis van een zoekterm.",
+      "description": "Plannamen en plan ID's zoeken op basis van een zoekterm. zoekTerm: Deel van een plannaam of plan ID Required. Pattern: .{3,}.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/_plansuggesties{?zoekTerm}",
+      "name": "plannen--plansuggesties",
+      "title": "Plan informatie zoeken op basis van een zoekterm die matcht met plannaam en plan ID's.",
+      "description": "Plan informatie zoeken op basis van een zoekterm die matcht met plannaam en plan ID's. zoekTerm: Deel van een plannaam of plan ID Required. Pattern: .{3,}.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/planobjecten",
+      "name": "plannen-planId-planobjecten",
+      "title": "Planobjecten teruggeven op basis van een planId",
+      "description": "Planobjecten teruggeven op basis van een planId. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}{?beschikbaarOp,expand*}",
+      "name": "plannen-planId",
+      "title": "Een enkel plan opvragen",
+      "description": "Een enkel plan opvragen. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. beschikbaarOp: Historische informatie van het plan bekijken. Historische velden zijn dossier.status, regelStatus, verwijderdOp en isHistorisch. Van de overige velden wordt de meest recente waarde getoond. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/cartografiesummaries{?page,pageSize}",
+      "name": "plannen-planId-cartografiesummaries",
+      "title": "Een lijst van cartografie summaries ophalen van een plan",
+      "description": "Een lijst van cartografie summaries ophalen van een plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. pageSize: Aantal resultaten per pagina Default: 50. Choices: 10, 20, 50, 100.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/cartografiesummaries/{id}",
+      "name": "plannen-planId-cartografiesummaries-id",
+      "title": "Een enkele cartografie summary ophalen van een plan",
+      "description": "Een enkele cartografie summary ophalen van een plan. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. id: NEN3610ID: Identificatiecode Required.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/teksten{?ouderId,planobjectId,niveau,page,pageSize,expand*}",
+      "name": "plannen-planId-teksten",
+      "title": "Teksten opvragen behorende bij een specifiek plan.",
+      "description": "Teksten opvragen behorende bij een specifiek plan. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. ouderId: Filteren op teksten (op 1 of meerdere niveaus) onder een specifieke ouder planobjectId: Filteren op teksten van een specifiek planobject niveau: Filteren op startniveau van teksten; 1 = Onderdelen, 2 = Hoofdstukken, 3 = Artikelen, 4 = Leden page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 50. Choices: 10, 20, 50, 100. expand:  Repeat the parameter for multiple values.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/teksten/{id}{?expand*}",
+      "name": "plannen-planId-teksten-id",
+      "title": "Een enkele tekst opvragen.",
+      "description": "Een enkele tekst opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/bestemmingsvlakken{?page,pageSize,bestemmingshoofdgroep,expand*}",
+      "name": "plannen-planId-bestemmingsvlakken",
+      "title": "Bestemmingsvlakken opvragen behorende bij een specifiek plan",
+      "description": "Bestemmingsvlakken opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. bestemmingshoofdgroep: Functie van het bestemmingsvlak. Use comma-separated values. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/bestemmingsvlakken/{id}{?expand*}",
+      "name": "plannen-planId-bestemmingsvlakken-id",
+      "title": "Een enkel bestemmingsvlak opvragen",
+      "description": "Een enkel bestemmingsvlak opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/bouwvlakken{?page,pageSize,expand*}",
+      "name": "plannen-planId-bouwvlakken",
+      "title": "Bouwvlakken opvragen behorende bij een specifiek plan",
+      "description": "Bouwvlakken opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/bouwvlakken/{id}{?expand*}",
+      "name": "plannen-planId-bouwvlakken-id",
+      "title": "Een enkel bouwvlak opvragen",
+      "description": "Een enkel bouwvlak opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/functieaanduidingen{?page,pageSize,expand*}",
+      "name": "plannen-planId-functieaanduidingen",
+      "title": "Functieaanduidingen opvragen behorende bij een specifiek plan",
+      "description": "Functieaanduidingen opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/functieaanduidingen/{id}{?expand*}",
+      "name": "plannen-planId-functieaanduidingen-id",
+      "title": "Een enkele functieaanduiding opvragen",
+      "description": "Een enkele functieaanduiding opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/bouwaanduidingen{?page,pageSize,expand*}",
+      "name": "plannen-planId-bouwaanduidingen",
+      "title": "Bouwaanduidingen opvragen behorende bij een specifiek plan",
+      "description": "Bouwaanduidingen opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/bouwaanduidingen/{id}{?expand*}",
+      "name": "plannen-planId-bouwaanduidingen-id",
+      "title": "Een enkele bouwaanduiding opvragen",
+      "description": "Een enkele bouwaanduiding opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/lettertekenaanduidingen{?page,pageSize,expand*}",
+      "name": "plannen-planId-lettertekenaanduidingen",
+      "title": "Lettertekenaanduidingen opvragen behorende bij een specifiek plan",
+      "description": "Lettertekenaanduidingen opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/lettertekenaanduidingen/{id}{?expand*}",
+      "name": "plannen-planId-lettertekenaanduidingen-id",
+      "title": "Een enkele lettertekenaanduiding opvragen",
+      "description": "Een enkele lettertekenaanduiding opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/maatvoeringen{?page,pageSize,expand*}",
+      "name": "plannen-planId-maatvoeringen",
+      "title": "Maatvoeringen opvragen behorende bij een specifiek plan",
+      "description": "Maatvoeringen opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/maatvoeringen/{id}{?expand*}",
+      "name": "plannen-planId-maatvoeringen-id",
+      "title": "Een enkele maatvoering opvragen",
+      "description": "Een enkele maatvoering opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/figuren{?page,pageSize,expand*}",
+      "name": "plannen-planId-figuren",
+      "title": "Figuren opvragen behorende bij een specifiek plan",
+      "description": "Figuren opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/figuren/{id}{?expand*}",
+      "name": "plannen-planId-figuren-id",
+      "title": "Een enkel figuur opvragen",
+      "description": "Een enkel figuur opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/gebiedsaanduidingen{?page,pageSize,expand*}",
+      "name": "plannen-planId-gebiedsaanduidingen",
+      "title": "Gebiedsaanduidingen opvragen behorende bij een specifiek plan",
+      "description": "Gebiedsaanduidingen opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/gebiedsaanduidingen/{id}{?expand*}",
+      "name": "plannen-planId-gebiedsaanduidingen-id",
+      "title": "Een enkele gebiedsaanduiding opvragen",
+      "description": "Een enkele gebiedsaanduiding opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/structuurvisiegebieden{?page,pageSize,expand*}",
+      "name": "plannen-planId-structuurvisiegebieden",
+      "title": "Structuurvisiegebieden opvragen behorende bij een specifiek plan",
+      "description": "Structuurvisiegebieden opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/structuurvisiegebieden/{id}{?expand*}",
+      "name": "plannen-planId-structuurvisiegebieden-id",
+      "title": "Een enkel structuurvisiegebied opvragen",
+      "description": "Een enkel structuurvisiegebied opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/structuurvisiecomplexen{?page,pageSize,expand*}",
+      "name": "plannen-planId-structuurvisiecomplexen",
+      "title": "Structuurvisiecomplexen opvragen behorende bij een specifiek plan",
+      "description": "Structuurvisiecomplexen opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/structuurvisiecomplexen/{id}{?expand*}",
+      "name": "plannen-planId-structuurvisiecomplexen-id",
+      "title": "Een enkel structuurvisiecomplex opvragen",
+      "description": "Een enkel structuurvisiecomplex opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/structuurvisieverklaringen{?page,pageSize,expand*}",
+      "name": "plannen-planId-structuurvisieverklaringen",
+      "title": "Structuurvisieverklaringen opvragen behorende bij een specifiek plan",
+      "description": "Structuurvisieverklaringen opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/structuurvisieverklaringen/{id}{?expand*}",
+      "name": "plannen-planId-structuurvisieverklaringen-id",
+      "title": "Een enkele structuurvisieverklaring opvragen",
+      "description": "Een enkele structuurvisieverklaring opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/besluitvlakken{?page,pageSize,expand*}",
+      "name": "plannen-planId-besluitvlakken",
+      "title": "Besluitvlakken opvragen behorende bij een specifiek plan",
+      "description": "Besluitvlakken opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/besluitvlakken/{id}{?expand*}",
+      "name": "plannen-planId-besluitvlakken-id",
+      "title": "Een enkel besluitvlak opvragen",
+      "description": "Een enkel besluitvlak opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/besluitsubvlakken{?page,pageSize,expand*}",
+      "name": "plannen-planId-besluitsubvlakken",
+      "title": "Besluitsubvlakken opvragen behorende bij een specifiek plan",
+      "description": "Besluitsubvlakken opvragen behorende bij een specifiek plan. page: Paginanummer voor paginering. Deze is gelimiteerd zodat het totaal aantal op te vragen resultaten niet hoger is dan 12000. Gebruik het `_links.next.href` object om te navigeren. Default: 0. Minimum: 0. pageSize: Aantal resultaten per pagina Default: 10. Choices: 10, 20, 50, 100. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/besluitsubvlakken/{id}{?expand*}",
+      "name": "plannen-planId-besluitsubvlakken-id",
+      "title": "Een enkel besluitsubvlak opvragen",
+      "description": "Een enkel besluitsubvlak opvragen. id: NEN3610ID: Identificatiecode Required. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. expand:  Repeat the parameter for multiple values. Response CRS defaults to epsg:4258 (ETRS89 longitude,latitude); set the optional Accept-Crs connection header to epsg:28992 for RD New metres.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/bekendmakingen",
+      "name": "plannen-planId-bekendmakingen",
+      "title": "Bekendmakingen van een plan opvragen.",
+      "description": "Bekendmakingen van een plan opvragen. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://ruimte.omgevingswet.overheid.nl/ruimtelijke-plannen/api/opvragen/v4/plannen/{planId}/gerelateerde-plannen{?relatieType,beschikbaarOp,sort}",
+      "name": "plannen-planId-gerelateerde-plannen",
+      "title": "Gerelateerde plannen van een plan opvragen per relatie type.",
+      "description": "Gerelateerde plannen van een plan opvragen per relatie type. planId: NEN3610ID: Identificatiecode van een plan Required. Pattern: ^NL\\.IMRO\\..+$. relatieType: Type van de relatie waarop gefilterd wordt Choices: vervangt, muteert, tenGevolgeVan, gebruiktInformatieUit, gedeeltelijkeHerzieningVan, uitTeWerkenIn, uitgewerktIn. beschikbaarOp: Historische informatie van het plan bekijken. Historische velden zijn dossier.status, regelStatus, verwijderdOp en isHistorisch. Van de overige velden wordt de meest recente waarde getoond. sort:  Choices: datum, naam, identificatie.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

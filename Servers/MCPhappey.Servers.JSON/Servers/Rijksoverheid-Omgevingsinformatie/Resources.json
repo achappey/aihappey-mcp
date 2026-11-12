@@ -1,0 +1,69 @@
+{
+  "resources": [
+    {
+      "uri": "https://service.omgevingswet.overheid.nl/publiek/omgevingsinformatie/api/ontsluiten/v2/crss",
+      "name": "crss",
+      "title": "Vraag een lijst op van door de API ondersteunde coördinaatreferentiesystemen (CRS).",
+      "description": "Vraag een lijst op van door de API ondersteunde coördinaatreferentiesystemen (CRS).",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://service.omgevingswet.overheid.nl/publiek/omgevingsinformatie/api/ontsluiten/v2/openapi.json",
+      "name": "openapi.json",
+      "title": "Deze API-specificatie in JSON-formaat.",
+      "description": "Deze API-specificatie in JSON-formaat.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://service.omgevingswet.overheid.nl/publiek/omgevingsinformatie/api/ontsluiten/v2/openapi.yaml",
+      "name": "openapi.yaml",
+      "title": "Deze API-specificatie in YAML-formaat.",
+      "description": "Deze API-specificatie in YAML-formaat.",
+      "mimeType": "application/yaml",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://service.omgevingswet.overheid.nl/publiek/omgevingsinformatie/api/ontsluiten/v2/app-health",
+      "name": "app-health",
+      "title": "Vraag de actuele applicatiestatus op.",
+      "description": "Vraag de actuele applicatiestatus op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uri": "https://service.omgevingswet.overheid.nl/publiek/omgevingsinformatie/api/ontsluiten/v2/app-info",
+      "name": "app-info",
+      "title": "Vraag actuele applicatie-eigenschappen op.",
+      "description": "Vraag actuele applicatie-eigenschappen op.",
+      "mimeType": "application/json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}

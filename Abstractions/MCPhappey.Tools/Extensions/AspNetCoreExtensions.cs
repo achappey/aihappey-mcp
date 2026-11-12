@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MCPhappey.Tools.Google;
 using MCPhappey.Tools.BlackForestLabs;
 using MCPhappey.Tools.SandBase;
+using MCPhappey.Tools.Rijksoverheid;
 
 namespace MCPhappey.Simplicate.Extensions;
 
@@ -25,6 +26,7 @@ public static class AspNetCoreExtensions
         builder.Services.AddDualModeAgentAccess();
         builder.Services.AddGoogleAI();
         builder.Services.AddBlackForestLabs();
+        builder.Services.AddOmgevingswet();
         builder.Services.AddSingleton<IAutoCompletion, GraphCompletion>();
         builder.Services.AddSingleton<IAutoCompletion, CountryCompletion>();
         builder.Services.AddSingleton<IAutoCompletion, OpenAICompletion>();

@@ -1,0 +1,43 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "https://service.omgevingswet.overheid.nl/publiek/omgevingsinformatie/api/ontsluiten/v2/documenten/_suggereer{?_find,geldigOp,inclusiefToekomstigGeldig,synchroniseerMetTileset,beschikbaarOp,limit}",
+      "name": "documenten--suggereer",
+      "title": "Vraag suggesties op bij het zoeken naar documenten.",
+      "description": "Vraag suggesties op bij het zoeken naar documenten. _find: Zoekterm (al dan niet gedeeltelijk of met typefouten). Required. geldigOp: Datum om resultaten te filteren langs de geldigheid-tijdsas. Wanneer deze parameter niet opgegeven wordt, dan wordt 'vandaag' gebruikt. inclusiefToekomstigGeldig: Lever ook documenten uit die nog niet geldig zijn, maar al wel bekend. Default: false. synchroniseerMetTileset: Voer voor IMOW documenten een tijdreis uit langs de beschikbaarheids-as naar het moment dat de huidige tileset aangevraagd werd. Hiermee garandeer je dat de data die je opvraagt correspondeert met het kaartbeeld dat in de huidige tileset weergegeven wordt. Er kan een tijdreis uitgevoerd worden naar het moment van aanvragen van een van beide tilesets: - Actueel: tijdreis naar het aanvraagmoment van de tileset bij de actueel geldige gegevens; - Volledig: tijdreis naar het aanvraagmoment van de tileset bij alle gegevens, ook historische en niet meer geldige gegevens. Combineren van deze parameter met een expliciete tijdreis langs de beschikbaarOp tijdsas is niet mogelijk. Wanneer beide parameters meegegeven worden, dan krijgt de expliciete beschikbaarOp-parameter voorrang boven deze parameter. Choices: Actueel, Volledig. beschikbaarOp: Datumtijd (inclusief tijdzone) om resultaten te filteren langs de beschikbaar-tijdsas. Wanneer deze parameter niet opgegeven wordt, dan wordt 'nu' gebruikt (de huidige datumtijd in tijdzone Midden-Europese Tijd/Midden-Europese Zomertijd). limit: Maximaal aantal resultaten. Default: 10. Minimum: 1.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://service.omgevingswet.overheid.nl/publiek/omgevingsinformatie/api/ontsluiten/v2/documenten/{uriIdentificatie}{?geldigOp,beschikbaarOp,synchroniseerMetTileset}",
+      "name": "documenten-uriIdentificatie",
+      "title": "Vraag informatie op over een document, op basis van een identificatie.",
+      "description": "Vraag informatie op over een document, op basis van een identificatie. uriIdentificatie: URI-veilige identificatie, waarbij `/` is vervangen door `_`. Required. geldigOp: Datum om resultaten te filteren langs de geldigheid-tijdsas. Wanneer deze parameter niet opgegeven wordt, dan wordt 'vandaag' gebruikt. beschikbaarOp: Datumtijd (inclusief tijdzone) om resultaten te filteren langs de beschikbaar-tijdsas. Wanneer deze parameter niet opgegeven wordt, dan wordt 'nu' gebruikt (de huidige datumtijd in tijdzone Midden-Europese Tijd/Midden-Europese Zomertijd). synchroniseerMetTileset: Voer voor IMOW documenten een tijdreis uit langs de beschikbaarheids-as naar het moment dat de huidige tileset aangevraagd werd. Hiermee garandeer je dat de data die je opvraagt correspondeert met het kaartbeeld dat in de huidige tileset weergegeven wordt. Er kan een tijdreis uitgevoerd worden naar het moment van aanvragen van een van beide tilesets: - Actueel: tijdreis naar het aanvraagmoment van de tileset bij de actueel geldige gegevens; - Volledig: tijdreis naar het aanvraagmoment van de tileset bij alle gegevens, ook historische en niet meer geldige gegevens. Combineren van deze parameter met een expliciete tijdreis langs de beschikbaarOp tijdsas is niet mogelijk. Wanneer beide parameters meegegeven worden, dan krijgt de expliciete beschikbaarOp-parameter voorrang boven deze parameter. Choices: Actueel, Volledig.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    },
+    {
+      "uriTemplate": "https://service.omgevingswet.overheid.nl/publiek/omgevingsinformatie/api/ontsluiten/v2/omgevingsdocumentversies/{expressionId}",
+      "name": "omgevingsdocumentversies-expressionId",
+      "title": "Vraag informatie op over een specifieke versie van een omgevingsdocument, op basis van een expressionId.",
+      "description": "Vraag informatie op over een specifieke versie van een omgevingsdocument, op basis van een expressionId. expressionId: Een ge-escapete versie van expressionId. De escaping gebeurt met de volgende regex: `[^\\w]+` wordt vervangen door `_`. Hierbij zijn alle non-alfanumerieke tekens (waaronder `/`, `@`, `-` en `;`) vervangen voor `_`. Required.",
+      "mimeType": "application/hal+json",
+      "annotations": {
+        "audience": [
+          "assistant",
+          "user"
+        ]
+      }
+    }
+  ]
+}
