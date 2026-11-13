@@ -40,7 +40,7 @@
     <PackageReference Include="OpenAI" Version="2.15.0" />
     <PackageReference Include="Plotly.NET" Version="6.0.0" />
     <PackageReference Include="Plotly.NET.CSharp" Version="0.14.0" />
-    <PackageReference Include="QuestPDF" Version="2026.9.1" />
+    <PackageReference Include="QuestPDF" Version="2026.9.2" />
     <PackageReference Include="QuestPDF.Markdown" Version="1.53.0" />
     <PackageReference Include="Raffinert.FuzzySharp" Version="6.0.1" />
     <PackageReference Include="RESTCountries.NET" Version="3.6.1" />
